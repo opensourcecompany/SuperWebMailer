@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title></title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+        <table style="width: 100%">
+          <tr>
+            <td style="width: 95%;" nowrap="nowrap">
+              <LABEL:PAGETOPIC></LABEL:PAGETOPIC><br /><br />
+            </td>
+            <td style="width: 5%;vertical-align:top" nowrap="nowrap">
+              <input type="hidden" name="HelpTopic" id="HelpTopic" />
+              <a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)"><img src="images/help_icon.gif" width="16" height="16" alt="Hilfe" style="text-align: left;" /></a>&nbsp;<a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)">Hilfe</a>&nbsp;
+            </td>
+          </tr>
+        </table>
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+
+   <div class="container">
+      <SHOWHIDE:ERRORTOPIC>
+        <div class="errortopic">
+        <LABEL:ERRORMESSAGETEXT></LABEL:ERRORMESSAGETEXT>
+        </div>
+      </SHOWHIDE:ERRORTOPIC>
+
+      <form id="FunctionListsForm" name="FunctionListsForm" method="post" action="./browsefunctionparams.php">
+      <input type="hidden" name="OneParamId" id="OneParamId" value="" />
+      <input type="hidden" name="OneParamAction" id="OneParamAction" value="" />
+
+      <input type="hidden" name="OneFunctionId" id="OneFunctionId" />
+      <input type="hidden" id="_FORMNAME" name="_FORMNAME" />
+      <input type="hidden" id="_FORMFIELD" name="_FORMFIELD" />
+      <input type="hidden" name="_IsFCKEditor" />
+
+      <script language="javascript" type="text/javascript">
+      <!--
+    
+        function SetListId(ASender, AFormID) {
+          var AForm = document.getElementById(AFormID);
+          var OneParamAction = document.getElementById('OneParamAction');
+          var OneParamId= document.getElementById('OneParamId');
+          OneParamAction .value = ASender.name;
+          OneParamId.value = ASender.value;
+          return true;
+        }
+
+      //-->
+      </script>
+
+      <table class="FixedTable">
+        <tbody>
+          <tr>
+            <td class="LabelColumn">Name der Funktion
+            </td>
+            <td style="width: 70%">
+               <input type="text" id="Name" name="Name" maxlength="128" size="50" />
+            </td>
+          </tr>
+          <tr>
+           <td colspan="2">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="LabelColumn">&nbsp;</td>
+            <td style="width: 70%">
+              <ISNOT:NEWFUNCTION>
+              <span style="float: right; margin-right: 0pt"><a class="Backlink" href="./browsefunctionparams.php" name="NewParam" id="NewParam" onclick="this.href=this.href + '?OneFunctionId=' + document.getElementById('OneFunctionId').value + '&_FORMNAME=' + document.getElementById('_FORMNAME').value + '&_FORMFIELD='  + document.getElementById('_FORMFIELD').value + '&Action=new' ">Neue Bedingung erstellen</a></span>
+              </ISNOT:NEWFUNCTION>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <ISNOT:NEWFUNCTION>
+
+      <table id="TableFunctionsLists" name="TableFunctionsLists" class="FixedTable">
+      	<thead>
+      		<tr>
+      			<td class="NoWrap" width="90%">Bedingung</td>
+      			<td class="NoWrap" width="1%">&nbsp;</td>
+      			<td class="NoWrap" width="min-width:10%">Aktionen</td>
+      		</tr>
+      	</thead>
+      	<tbody>
+        <LIST:ENTRY>
+      		<tr>
+      			<td><LIST:CONDITION></LIST:CONDITION></td>
+      			<td>&nbsp;</td>
+      			<td>
+      			    <input type="image" src="images/edit.gif" width="16" height="16" name="EditFunctionParamsProperties" onclick="SetListId(this, 'FunctionListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'&Auml;ndert die Bedingung');return false" />&nbsp;
+             <CAN:DELETE>
+             <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteParamOfFunction" onclick="SetListId(this, 'FunctionListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht die Bedingung dauerhaft.');return false" />&nbsp;
+             </CAN:DELETE>
+    		    </td>
+      		</tr>
+        </LIST:ENTRY>
+      	</tbody>
+      	</table>
+      </ISNOT:NEWFUNCTION>
+
+      <input type="submit" name="BackBtn" value="Zur&uuml;ck zur &Uuml;bersicht" class="FormButton" />&nbsp;&nbsp;
+      <input type="submit" id="CreateFunction" name="CreateFunction" value="Funktion anlegen" class="FormButton" />
+
+
+      </form>      
+
+      <ISNOT:NEWFUNCTION>
+      <script type="text/javascript">
+      <!--
+        addTableRolloverEffect('TableFunctionsLists','tableRollOverEffect','tableRowClickEffect');
+        AddTableDblClickEvent('TableFunctionsLists');
+        ShowItem("CreateFunction", document.getElementById("OneFunctionId").value == "");
+        DisableItem("Name", document.getElementById("OneFunctionId").value == "");
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+      </ISNOT:NEWFUNCTION>
+   </div>
+
+
+</div>
+
+
+</body>
+
+</html>
+

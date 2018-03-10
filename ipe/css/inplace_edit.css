@@ -1,0 +1,89 @@
+.ipe_item {
+	cursor: pointer;
+	display:block;
+	border:0px;
+	margin:0;
+	min-height: 24px;
+	margin-bottom:1px;
+}
+
+.ipe_item img {
+	min-height:16px;
+ min-width:14px;
+	background-image:url(noimage.gif);
+	background-repeat:no-repeat;
+	background-position:50% 50%;
+}
+
+.ipe_hover {
+	outline:1px dashed #ff0000;
+}
+
+.ipe_toolbar {
+ position:relative;
+	display:inline;
+	z-index:10000;
+	margin:2px 2px -26px 0;
+	float:right;
+	max-height:24px;
+	overflow:hidden;
+	cursor: default;
+}
+
+.ipe_edit {
+	cursor:pointer;
+	float:left;
+}
+
+.ipe_cssedit {
+	cursor:pointer;
+	float:left;
+}
+
+.ipe_delete {
+	cursor:pointer;
+	float:left;
+}
+
+.ipe_targetgroups {
+	cursor:pointer;
+	float:left;
+}
+
+.ipe_move {
+	cursor: move;
+	float:left;
+}
+
+.ipe_repeater_toolbar {
+	margin-top:3px;
+	float:left;
+	padding:0;
+	clear:both;
+	max-height:28px;
+}
+
+.ipe_addrepeater_item, .ipe_newrepeater_item {
+ float:left;
+}
+
+.ipe_repeater{
+	width:100%;
+	min-height:50px;
+ display: inline-block;
+}
+
+.ipe_repeater_item{
+  min-height: 24px;
+}
+
+.ipe_repeater_item_hover{
+	outline:1px dashed #F00;
+}
+
+.show_repeaterborder{
+	border: 1px dashed #6600FF;
+	margin:-1px;
+	min-height: 100px;
+}
+

@@ -1,0 +1,85 @@
+CREATE TABLE IF NOT EXISTS `TABLE_ML_RM_REFERENCE` (
+  `Member_id` int(11) NOT NULL,
+  `LastSending` datetime NOT NULL,
+  `LastRSSFeedChecking` datetime NOT NULL,
+  `RSS_GUIDs` longtext NOT NULL,
+  `New_RSS_Entries` longtext NOT NULL,
+  PRIMARY KEY ( `Member_id` ),
+  KEY ( `LastSending` ),
+  KEY ( `LastRSSFeedChecking` )
+);
+
+CREATE TABLE IF NOT EXISTS `TABLE_RMLINKS` (
+  `id` int(11) NOT NULL auto_increment,
+  `IsActive` tinyint(1) NOT NULL default '1',
+  `Link` varchar(255) default NULL,
+  `Description` varchar(255) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `Link` (`Link`)
+);
+
+CREATE TABLE IF NOT EXISTS `TABLE_RMTRACKINGOPENINGS` (
+  `SendStat_id` int(11) NOT NULL,
+  `Clicks` int(11) default '1',
+  `ADateTime` datetime default NULL,
+  `IP` varchar(64) default NULL,
+  `Country` varchar(128) default 'UNKNOWN_COUNTRY',
+  KEY `SendStat_id` (`SendStat_id`),
+  KEY `IP` (`IP`),
+  KEY `Country` (`Country`)
+);
+
+CREATE TABLE IF NOT EXISTS `TABLE_RMTRACKINGOPENINGSBYRECIPIENT` (
+  `SendStat_id` int(11) NOT NULL,
+  `Clicks` int(11) default '1',
+  `ADateTime` datetime default NULL,
+  `Member_id` int(11) NOT NULL,
+  KEY `SendStat_id` (`SendStat_id`),
+  KEY `Member_id` (`Member_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `TABLE_RMTRACKINGLINKS` (
+  `SendStat_id` int(11) NOT NULL,
+  `Links_id` int(11) NOT NULL,
+  `Clicks` int(11) default '1',
+  `ADateTime` datetime default NULL,
+  `IP` varchar(64) default NULL,
+  `Country` varchar(128) default 'UNKNOWN_COUNTRY',
+  KEY `Links_id` (`Links_id`),
+  KEY `SendStat_id` (`SendStat_id`),
+  KEY `IP` (`IP`),
+  KEY `Country` (`Country`)
+);
+
+CREATE TABLE IF NOT EXISTS `TABLE_RMTRACKINGLINKSBYRECIPIENT` (
+  `SendStat_id` int(11) NOT NULL,
+  `Links_id` int(11) NOT NULL,
+  `Clicks` int(11) default '1',
+  `ADateTime` datetime default NULL,
+  `Member_id` int(11) NOT NULL,
+  KEY `Links_id` (`Links_id`),
+  KEY `SendStat_id` (`SendStat_id`),
+  KEY `Member_id` (`Member_id`)
+);
+
+CREATE TABLE IF NOT EXISTS `TABLE_RMTRACKINGUSERAGENTS` (
+  `SendStat_id` int(11) NOT NULL,
+  `Clicks` int(11) default '1',
+  `UserAgent` varchar(255) default NULL,
+  `ADateTime` datetime default NULL,
+  `IP` varchar(64) default NULL,
+  KEY `SendStat_id` (`SendStat_id`),
+  KEY `UserAgent` (`UserAgent`),
+  KEY `IP` (`IP`)
+);
+
+CREATE TABLE IF NOT EXISTS `TABLE_RMTRACKINGOSS` (
+  `SendStat_id` int(11) NOT NULL,
+  `Clicks` int(11) default '1',
+  `OS` varchar(255) default NULL,
+  `ADateTime` datetime default NULL,
+  `IP` varchar(64) default NULL,
+  KEY `SendStat_id` (`SendStat_id`),
+  KEY `OS` (`OS`),
+  KEY `IP` (`IP`)
+);

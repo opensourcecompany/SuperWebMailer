@@ -1,0 +1,138 @@
+<div class="spacerborder">
+
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function SetListId(ASender, AFormID) {
+      var AForm = document.getElementById(AFormID);
+      var OneProcessLogAction = document.getElementById('OneProcessLogAction');
+      var OneProcessLogId = document.getElementById('OneProcessLogId');
+      OneProcessLogAction.value = ASender.name;
+      OneProcessLogId.value = ASender.value;
+      return true;
+    }
+
+  //-->
+  </script>
+
+  <form name="ProcessLogForm" id="ProcessLogForm" method="post" action="./stat_processlog.php">
+
+  <input type="hidden" name="OneProcessLogAction" id="OneProcessLogAction" value="" />
+  <input type="hidden" name="OneProcessLogId" id="OneProcessLogId" value="" />
+
+  <script language="javascript" type="text/javascript" src="js/dhtmlgoodies_calendar.js" /></script>
+ 	<link type="text/css" rel="stylesheet" href="css/dhtmlgoodies_calendar.css" media="screen" />
+  <script language="JavaScript">
+  <!--
+    ChangeLanguageCode("de");
+    // german ever dd.mm.yyyy, others must be ever yyyy-mm-dd the php script doesn't support other formats
+  //-->
+  </script>
+
+
+  <!-- dummy for FF, GC, Opera //-->
+  <div style="height:0px; width:0px; position:absolute; overflow:hidden">
+      <input type="submit" />
+  </div>
+
+  <fieldset>
+  <legend>Anzeige</legend>
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+          <tr>
+            <td colspan="2">Zeige die Aktivit&auml;ten vom<br />
+            <input type="text" name="startdate" id="startdate" maxlength="10" size="10" readonly />
+            <input type="image" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum w&auml;hlen" onclick="displayCalendar(document.getElementById('startdate'),'dd.mm.yyyy',this); return false;" />
+            &nbsp;bis&nbsp;<input type="text" name="enddate" id="enddate" maxlength="10" size="10" />
+            <input type="image" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum w&auml;hlen" onclick="displayCalendar(document.getElementById('enddate'),'dd.mm.yyyy',this); return false;" />
+            <br /><br />
+            Zeige&nbsp;<select name="ShowTasks" size="1">
+                       <option value="ALL">Alle Aufgaben</option>
+                       <option value="EXECUTED">Erfolgreich ausgef&uuml;hrte Aufgaben</option>
+                       <option value="FAILED">Fehlgeschlagene Aufgaben</option>
+                       <option value="NOT_EXECUTED">Nicht ausgef&uuml;hrte Aufgaben</option>
+                       <option value="EXECUTING">Gerade ausgef&uuml;hrte oder nicht abgeschlossene Aufgaben</option>
+                       </select>
+            <br /><br />
+            Maximal&nbsp;<input type="text" name="ItemsPerPage" size="4" maxlength="4" style="text-align: right;" />&nbsp;Aktionen pro Seite
+            <br /><br />
+            <input type="submit" name="StatRefresh" value="Aktualisieren" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </fieldset>
+
+  <table id="TableProcessLogLists" name="TableProcessLogLists" class="FixedTable" style="width: 99% !important; margin-left: 5px">
+  	<thead>
+  		<tr>
+  			<td class="NoWrap" width="40%">Aktion</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="20%">Start</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="20%">Ende</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="20%">Ergebnis</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td><LIST:PROCESSNAME></LIST:PROCESSNAME></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:START></LIST:START></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:END></LIST:END></td>
+  			<td>&nbsp;</td>
+  			<td><a href="#" onclick="ShowModalDialog('./stat_processlog.php?Result_id=', 720, 480); return false;">Details&nbsp;anschauen</a></td>
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+  </table>
+
+  <table class="FixedTable" style="width: 99% !important; margin-left: 5px">
+  	<thead>
+  	</thead>
+  	<tbody>
+  	</tbody>
+  	<tfoot>
+
+  		<tr>
+  		  <td colspan="7">
+    		  <table border="0" cellpadding="0" cellspacing="0" style="width:100%">
+    		  <tr>
+    		  <td style="width:100%; white-space:nowrap;">
+        		  &nbsp;
+    		  </td>
+     			<td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'ProcessLogForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'ProcessLogForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'ProcessLogForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'ProcessLogForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  Seite:&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.ProcessLogForm.submit()">
+                <OPTION:PAGES>
+                <option>1</option>
+                </OPTION:PAGES>
+         			  </select>
+        </td>
+       	</tr>
+       	</table>
+  			</td>
+  		</tr>
+
+  	</tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableProcessLogLists','tableRollOverEffect','tableRowClickEffect');
+  AddTableDblClickEvent('TableProcessLogLists');
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

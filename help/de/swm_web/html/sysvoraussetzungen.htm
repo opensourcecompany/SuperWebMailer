@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Systemvoraussetzungen,Betriebssystem,PHP Script Voraussetzungen,MySQL,PHP und MySQL,Webserver,CronJobs,Kyrillisch,POP3,IMAP,Newsletter-Anmeldung,Newsletter-Abmeldung,hard bounces,soft bounces,bouncemanagement Systemvoraussetzungen zur Nutzung der webbasierten PHP Newsletter
+Software SuperWebMailer</title>
+<link type="text/css" rel="stylesheet" href="../CSS/layout.css">
+<meta name="MS-HKWD" content="Systemvoraussetzungen">
+<meta name="MS-HKWD" content="Betriebssystem">
+<meta name="MS-HKWD" content="PHP Script Voraussetzungen">
+<meta name="MS-HKWD" content="MySQL">
+<meta name="MS-HKWD" content="PHP und MySQL">
+<meta name="MS-HKWD" content="Webserver">
+<meta name="MS-HKWD" content="CronJobs">
+<meta name="MS-HKWD" content="Kyrillisch">
+<meta name="MS-HKWD" content="POP3">
+<meta name="MS-HKWD" content="IMAP">
+<meta name="MS-HKWD" content="Newsletter-Anmeldung">
+<meta name="MS-HKWD" content="Newsletter-Abmeldung">
+<meta name="MS-HKWD" content="hard bounces">
+<meta name="MS-HKWD" content="soft bounces">
+<meta name="MS-HKWD" content="bouncemanagement">
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,Systemvoraussetzungen,Betriebssystem,PHP Script Voraussetzungen,MySQL,PHP und MySQL,Webserver,CronJobs,Kyrillisch,POP3,IMAP,Newsletter-Anmeldung,Newsletter-Abmeldung,hard bounces,soft bounces,bouncemanagement"><meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Systemvoraussetzungen,Betriebssystem,PHP Script Voraussetzungen,MySQL,PHP und MySQL,Webserver,CronJobs,Kyrillisch,POP3,IMAP,Newsletter-Anmeldung,Newsletter-Abmeldung,hard bounces,soft bounces,bouncemanagement Systemvoraussetzungen zur Nutzung der webbasierten PHP Newsletter
+Software SuperWebMailer Systemvoraussetzungen,Betriebssystem,PHP Script Voraussetzungen,MySQL,PHP und MySQL,Webserver,CronJobs,Kyrillisch,POP3,IMAP,Newsletter-Anmeldung,Newsletter-Abmeldung,hard bounces,soft bounces,bouncemanagement"><meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script LANGUAGE="JavaScript" SRC="jscript.js"></script>
+<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/sysvoraussetzungen.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+
+<h1>Systemvoraussetzungen zur <strong>Ausführung des webbasierten PHP
+Newsletter Software Scripts SuperWebMailer</strong></h1>
+<p>&nbsp;</p>
+<p>Zur Ausführung der webbasierten PHP Newsletter Software SuperWebMailer
+müssen folgende Voraussetzungen erfüllt sein:<br />
+</p>
+<ul>
+  <li>Eigene Webpräsenz, eigener Server oder virtueller Server mit mindestens
+    16 MByte freien Speicherplatz.</li>
+  <li>Betriebssystem Linux oder Windows Server</li>
+  <li>PHP 4.1 oder neuer (neuer ist empfohlen), PHP muss auf die MySQL-Datenbank
+    zugreifen können</li>
+  <li>Zur Nutzung des Captcha um das Anmeldeformular und Abmeldeformular vor
+    Spambots zu schützen muss PHP mit der GD-Bibliothek (GDlib) kompiliert
+    wurden sein.</li>
+  <li>Zur Nutzung der Zeichencodierungen iso-8859-2 bis iso-8859-10, KOI8-x,
+    windows-1250- windows-1258 muss die iconv-Bibliothek in PHP kompiliert
+    wurden sein. Die Zeichencodierungen iso-8859-1 (meist in Deutschland
+    verwendet) und Unicode/UTF-8 werden ohne die Bibliothek nativ unterstützt.</li>
+  <li>MySQL Server 3.23 oder neuer, MySQL Server 4.1 oder neuer wegen der
+    UTF-8-Unterstützung empfohlen</li>
+  <li>Apache Webserver 1.2 oder neuer mit korrekten PHP-Script-Handling, Windows
+    Server (IIS) werden nicht komplett unterstützt,</li>
+  <li>Zur Speicherung der (Newsletter-) Empfänger muss genügend Platz für die
+    MySQL-Datenbank vorhanden sein. Der benötigte Speicherplatz hängt von den
+    gespeicherten Daten pro Empfänger ab, die Empfängerzahl selbst ist nicht
+    limitiert.</li>
+  <li>Möglichkeit zur Ausführung von CronJobs/Geplanten Aufgaben (unter Linux),
+    unter Windows Aufgabenplanung um in regelmäßigen Abständen
+    <ul>
+      <li>unbestätigte Newsletter-Anmeldungen und Newsletter-Abmeldungen zu
+        löschen,</li>
+      <li>ein oder mehrere definierte POP/IMAP Postfächer auf Hardbounces zu
+        prüfen,</li>
+      <li>Autoresponder auszuführen,</li>
+      <li>Follow-Up-Responder (Folge E-Mails versenden) auszuführen,</li>
+      <li>Geburtstags-Responder auszuführen,</li>
+      <li>E-Mailings/Newsletter im Hintergrund oder zu einem bestimmten
+        Zeitpunkt zu versenden und</li>
+      <li>Protokolle und Tracking-Daten regelmäßig zu löschen.</li>
+    </ul>
+    Das CronJob-Script kann ebenfalls über einen externen CronJob-Dienst oder
+    über ein JavaScript auf der Webseite aufgerufen werden.</li>
+  <li>Der PHP Safe mode kann für die Webpräsenz aktiviert sein. Es kann jedoch
+    zu Problemen beim Upload von Bildern kommen, die mit der E-Mail versandt
+    werden sollen. Der PHP safe mode sollte daher möglichst deaktiviert sein.</li>
+  <li>Für den Versand von E-Mails muss ein MTA (Mail Transfer Agent)
+    installiert sein, dies ist in der Regel auf jedem Webserver der Fall. Für
+    den Versand von E-Mails über einen SMTP-Server bzw. direkter Versand der
+    E-Mails an den Server des Empfängers (SMTP MX) muss der Zugriff auf den
+    Zielserver über Port 25 und DNS-Auflösung (Umwandlung Name in IP-Adresse)
+    möglich sein.</li>
+  <li>Für den Abruf von E-Mails zur Bestimmung der Hardbounces muss das Script
+    über Port 110 (POP3) oder Port 143 (IMAP) auf einen Posteingangsserver
+    zugreifen können.</li>
+  <li>Als Browser ist Internet Explorer 7.0 oder neuer, Firefox 2.x oder neuer,
+    Safari 3.x oder neuer jeweils mit installierten Flash-Plugin und aktivierten
+    JavaScript empfehlenswert.<br />
+    Mit anderen Browsern wurde SuperWebMailer nicht getestet, Sie können die <a href="http://www.superwebmailer.de/newsletter-software-php-script/" target="_blank">Demo-Version
+    der PHP Newsletter Software</a> SuperWebMailer mit Ihrem Browser testen.<br />
+    &nbsp;</li>
+</ul>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

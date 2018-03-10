@@ -1,0 +1,323 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link type="text/css" rel="stylesheet" href="../CSS/layout.css">
+<meta name="MS-HKWD" content="API zur Manipulation der Daten verwenden">
+<meta name="MS-HKWD" content="JSON API">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - API zur Manipulation der Daten verwenden, JSON API zur Manipulation der Daten verwenden</title>
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,API zur Manipulation der Daten verwenden,JSON">
+<meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - API zur Manipulation der Daten verwenden,JSON zur Manipulation der Daten verwenden API zur Manipulation der Daten verwenden,JSON">
+<meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script LANGUAGE="JavaScript" SRC="jscript.js"></script>
+<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/json_api.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+
+<body>
+
+<h1>API (JSON) zur Manipulation der Daten verwenden</h1>
+<p>Die auf JavaScript Object Notation (JSON) basierte API kann genutzt werden,
+um Daten zwischen verschiedenen Anwendungen auszutauschen. Es sollte, die auf
+JSON basierte API, nur verwendet werden, wenn der Aufruf der API per SOAP nicht
+möglich ist. Die auf JSON basierte API wird intern auf die SOAP API umgeleitet,
+entsprechend wird mehr Serverzeit für die Umwandlung der Aufrufe benötigt.</p>
+<p><b>Siehe dazu auch</b><br>
+<a href="soap_api.htm">API (SOAP Webservice) zur Manipulation der Daten
+verwenden</a></p>
+<p>&nbsp;</p>
+<p><b>Voraussetzung für den Einsatz der API</b></p>
+<ul>
+  <li>Die API kann nur mit PHP 5 oder neuer verwendet werden, PHP 4 wird nicht
+    unterstützt.</li>
+  <li>Nur UTF-8 codierte Daten dürfen verwendet werden, eine Umwandlung von
+    nicht UTF-8 codierten Daten führt zu Fehlern bzw. zu leeren
+    Rückgabewerten.</li>
+</ul>
+<p>&nbsp;</p>
+<p><b>Aufruf der API mit JSON<br>
+</b>Die API rufen Sie über http://&lt;ihre
+_domain&gt;/&lt;installations_verzeichnis&gt;/api/api_json.php im eigenen Script
+auf. Im Browser kann dieses Script nicht direkt aufgerufen werden, es wird eine
+Fehlermeldung zurückgegeben, denn alle Parameter müssen per <b>HTTP POST</b>
+übergeben werden.</p>
+<p>&nbsp;</p>
+<p><b>Authentifizierung<br>
+</b>Für die Authentifizierung wird ein API Key benötigt, diesen finden Sie
+unter Menü Benutzer - Eigenes Konto ändern.<br>
+<b>Hinweis:</b> Nur die Nutzertypen SuperAdmin und Admin verfügen über einen
+API Key, normale Nutzer dürfen nicht per API zugreifen.<br>
+</p>
+<p>Die Authentifizierung erfolgt über einen Header-Eintrag beim HTTP-Aufruf des
+Scripts api_json.php, der Name des Header lautet <b>APIToken</b>. Nur durch
+korrekte Übergabe des API Key bei jedem Aufruf wird ein Zugriff auf die
+gespeicherten Daten erlaubt.</p>
+<p>Der API Key selbst erlaubt nur den Zugriff auf die Daten des SuperAdmin oder
+Admins selbst, nicht auf andere Admin-Nutzer.</p>
+<p>&nbsp;</p>
+<p><b>Zeichen-Codierung der Daten<br>
+</b>Alle Daten werden UTF-8 codiert zurückgegeben bzw. müssen mit der
+Codierung UTF-8 übergeben werden, ansonsten kann es zur unvollständigen
+Übertragung der Daten kommen bzw. die Aufrufe scheitern komplett.</p>
+<p>&nbsp;</p>
+<p><strong>Header Access-Control-Allow-Origin für die Aufrufe<br></strong>Für 
+Cross-Domain-Aufrufe wird der Header-Eintrag Access-Control-Allow-Origin mit dem 
+Wildcard-Zeichen * verwendet. In der Datei userdefined.inc.php kann bei der 
+Konstante JS_Access_Control_Allow_Origin ein 
+http://-Aufruf angegeben werden, welcher nur den Zugriff über die jeweilige 
+Domain erlaubt.</p>
+<p><strong>Siehe dazu auch</strong><br>
+<a href="https://de.wikipedia.org/wiki/Cross-Origin_Resource_Sharing" target="_blank">
+Cross-Origin Resource Sharing</a></p>
+<p>&nbsp;</p>
+<p><b>Name und Parameter der Funktionen</b></p>
+<p>Rufen Sie die SOAP API über http://&lt;ihre
+_domain&gt;/&lt;installations_verzeichnis&gt;/api/api.php direkt im Browser auf,
+es werden dabei alle Funktionen, Parameter und die Beschreibung der Funktionen
+dargestellt. Für den JSON-Aufruf <b>ersetzen Sie den Punkt zwischen Klassenname
+und Funktionsname durch 2 Unterstriche __</b>. z.B. api_Common.api_testAPI
+ändern in api_Common__api_testAPI.</p>
+<p>Die Parameter müssen beim JSON-Aufruf in gleiche Reihenfolge und Schreibung
+übergeben werden, wie diese angezeigt werden. z.B.</p>
+<p>api_Recipients.api_createRecipient</p>
+<p>=&gt; ändern in api_Recipients__api_createRecipient</p>
+<p>angezeigte Input Parameter</p>
+<p>&nbsp;&nbsp;&nbsp; apiMailingListId: xsd:int<br>
+&nbsp;&nbsp;&nbsp;&nbsp;apiData: xsd:Array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;apiarrayGroupsIds: xsd:Array<br>
+&nbsp;&nbsp;&nbsp;&nbsp;apiUseDoubleOptIn: xsd:boolean</p>
+<p>=&gt; Übergabe als</p>
+<p>array(&quot;apiMailingListId&quot; =&gt; &lt;id der Liste&gt;,
+&quot;apiData&quot; =&gt; array(), &quot;apiarrayGroupsIds&quot; =&gt; array(),
+&quot;apiUseDoubleOptIn&quot; =&gt; false)</p>
+<p>&nbsp;</p>
+<p><b>Datentypen<br>
+</b>Folgende Datentypen werden verwendet:</p>
+<div align="left">
+  <table border="0" width="800">
+    <tr>
+      <td width="50%"><b>XML Schema Datentyp</b></td>
+      <td width="50%"><b>Datentyp in PHP und anderen Programmiersprachen</b></td>
+    </tr>
+    <tr>
+      <td width="50%">xsd:string</td>
+      <td width="50%">string</td>
+    </tr>
+    <tr>
+      <td width="50%">xsd:int</td>
+      <td width="50%">integer</td>
+    </tr>
+    <tr>
+      <td width="50%">xsd:float</td>
+      <td width="50%">float</td>
+    </tr>
+    <tr>
+      <td width="50%">xsd:boolean</td>
+      <td width="50%">boolean</td>
+    </tr>
+    <tr>
+      <td width="50%">xsd:double</td>
+      <td width="50%">double</td>
+    </tr>
+    <tr>
+      <td width="50%">xsd:Array</td>
+      <td width="50%">array</td>
+    </tr>
+    <tr>
+      <td width="50%">xsd:datetime</td>
+      <td width="50%">datetime</td>
+    </tr>
+  </table>
+</div>
+<p>&nbsp;</p>
+<p><b>Definierte Klassen</b></p>
+<table border="0" width="800">
+  <tr>
+    <td width="50%"><b>Klassenname</b></td>
+    <td width="50%"><b>Beschreibung</b></td>
+  </tr>
+  <tr>
+    <td width="50%">api_Common</td>
+    <td width="50%">Enthält grundlegende Funktionen, die teilweise nur als
+      Nutzer SuperAdmin aufgerufen werden können.</td>
+  </tr>
+  <tr>
+    <td width="50%">api_Mailinglists</td>
+    <td width="50%">Enthält Funktionen zur Manipulation von Empfängerlisten.</td>
+  </tr>
+  <tr>
+    <td width="50%">api_Recipients</td>
+    <td width="50%">Funktionen zur Manipulation der Empfänger in den
+      Empfängerlisten.</td>
+  </tr>
+  <tr>
+    <td width="50%">api_Users</td>
+    <td width="50%">Enthält Funktionen zum Anlegen und Entfernen von Nutzern.</td>
+  </tr>
+  <tr>
+    <td width="50%">api_DistributionLists</td>
+    <td width="50%">Enthält Funktionen für die Verteilerlisten.
+      <p>&nbsp;</p>
+      <p>Nur nutzbar mit SuperMailingList Professional, SuperWebMailer
+      Professional und SuperWebMailer Enterprise.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2">Nur SuperWebMailer</td>
+  </tr>
+  <tr>
+    <td width="50%">api_Campaigns</td>
+    <td width="50%">Enthält Funktionen für das Erstellen, Ändern und Abrufen
+      von Statistiken für E-Mailings.
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="50%">api_FUResponders</td>
+    <td width="50%">Enthält Funktionen für das Erstellen, Ändern und Abrufen
+      von Statistiken für Folow-Up-Auto-Responder.
+      <p>Nicht in SuperWebMailer Basic nutzbar.</p>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Beispiel für eine JSON-Aufruf zur Bestimmung der API Version in PHP</b></p>
+<p>Im api-Verzeichnis finden Sie die Datei <b>json_sample.php</b> diese zeigt
+den Aufruf verschiedener Funktionen.</p>
+<p>Einfaches Beispiel in PHP zur Bestimmung der API Version</p>
+<blockquote>
+  <font face="Courier New">
+  <pre>&lt;?php
+
+   # show all errors in browser
+   error_reporting( E_ALL &amp; ~ ( E_DEPRECATED | E_STRICT ) );
+   ini_set(&quot;display_errors&quot;, 1);
+
+   $APIToken = &quot;123456789&quot;;
+   $host = &quot;localhost&quot;;
+   $path_api_json_php = &quot;/newsletter/api/api_json.php&quot;;
+   $port = 80; // 443 for https
+
+
+   // XML SOAP request: api_Common.api_getAPIVersion =&gt; api_Common__api_getAPIVersion
+   $data = array(&quot;api_Common__api_getAPIVersion&quot; =&gt; json_encode(array()));
+
+
+   $ret = sampleDoHTTPPOSTRequest($host, $path_api_json_php, $data, $port, array(&quot;APIToken&quot; =&gt; $APIToken));
+
+   if( $ret !== false){
+     if(isValidJson($ret)) {
+       $j = json_decode($ret, true);
+       if(!is_array($j))
+         print $j;
+         else {
+           if(isset($j[&quot;error_code&quot;])) { // is an error?
+             print &quot;An error:\r\n&quot;;
+             print_r($j);
+           }
+           else
+            print_r($j); // no error
+         }
+       }
+       else
+         print_r($ret);
+   } else {
+     print &quot;Request failed / Aufruf gescheitert!&quot;;
+   }
+
+   /* other helper functions see json_sample.php */
+
+?&gt;
+  </pre>
+  </font>
+</blockquote>
+<p><b>Beispiel für JSON-Aufruf zur Bestimmung API Version mit JavaScript und
+JQuery</b></p>
+<p>Im api-Verzeichnis finden Sie die Datei <b>json_javascript_sample.html</b>
+diese zeigt den Aufruf verschiedener Funktionen.</p>
+<blockquote>
+  <pre>
+&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;&lt;/title&gt;
+&lt;meta name=&quot;generator&quot; content=&quot;Edit4Win&quot;&gt;
+
+&lt;script src=&quot;http://code.jquery.com/jquery-1.12.0.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script language=&quot;JavaScript&quot;&gt;
+&lt;!--
+   var APIToken = &quot;123456789&quot;;
+   var host = &quot;http://localhost&quot;;
+   var path_api_json_php = &quot;/newsletter/api/api_json.php&quot;;
+
+
+   function TestRequest(){
+
+      var data = {api_Common__api_getAPIVersion: JSON.stringify( {} ) };
+
+      // SAMPLE 2 var data = {api_Common__api_getRecipientsFieldnames: JSON.stringify( {apiLanguageCode: &quot;de&quot;} ) };
+
+      // JQuery decoded values itself when content-type is application/json
+      $.ajax({
+        url: host + path_api_json_php,
+        cache: false,
+        type: &quot;post&quot;,
+        headers: {&quot;APIToken&quot;: APIToken},
+        data: data,
+        success: function(data) {
+          if(data.error == null) { // check for errors
+              if(typeof data !== &quot;object&quot;)
+                alert(&quot;Success return value: &quot; + data)
+                else{
+                 // for SAMPLE 2 api_Common__api_getRecipientsFieldnames
+                 var s = &quot;&quot;;
+                 for (var key in data) {
+                   s = s + &quot;\r\n&quot; + data[key].fieldname;
+                 }
+                 alert(&quot;Success return value: &quot; + s);
+                }
+            }
+            else
+            alert(&quot;Failed:&quot; + data.error + &quot; &quot; + data.error_code)
+        },
+        error: function(data) {
+          alert(&quot;Failed: &quot; + data.status + &quot; &quot; + data.statusText);
+        }
+      });
+
+   }
+
+
+//--&gt;
+&lt;/script&gt;
+
+
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;input type=&quot;button&quot; name=&quot;test&quot; value=&quot;Test&quot; onclick=&quot;TestRequest()&quot;&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+
+  </pre>
+</blockquote>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><b>Siehe dazu auch</b><br>
+<a href="soap_api.htm">API (SOAP Webservice) zur Manipulation der Daten
+verwenden</a></p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

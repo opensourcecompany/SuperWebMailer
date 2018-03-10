@@ -1,0 +1,119 @@
+<div class="spacerborder">
+
+  <form name="CronForm" id="CronForm" method="post" action="./settings_cron.php">
+
+  <table id="TableCronLists" name="TableCronLists" class="FixedTable">
+  	<thead>
+  		<tr>
+  			<td class="NoWrap" width="40%">CronJob-Typ</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="20%">Ausf&uuml;hrungsintervall</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="20%">Zuletzt ausgef&uuml;hrt</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td><LIST:JOBNAME></LIST:JOBNAME></td>
+  			<td>&nbsp;</td>
+  			<td>
+        <LIST:JOBINTERVAL>
+          <input type="text" name="JobWorkingInterval" size="3" maxlength="3" style="text-align: right" />&nbsp;
+          <select name="JobWorkingIntervalType" size="1">
+          <option value="Minute">Minute(n)</option>
+          <option value="Hour">Stunde(n)</option>
+          <option value="Day">Tag(e)</option>
+          <option value="Month">Monat(e)</option>
+          </select>
+        </LIST:JOBINTERVAL>
+     </td>
+  			<td>&nbsp;</td>
+  			<td><LIST:LASTEXECUTION></LIST:LASTEXECUTION></td>
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+  	<tfoot>
+
+  		<tr>
+  		  <td colspan="5">
+    		  <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+    		  <tr>
+    		  <td style="width:100%; white-space:nowrap;">
+       			  <a href="./crons.php?language=" target="_blank">Etwaige Aufgaben jetzt manuell ausf&uuml;hren</a>
+    		  </td>
+     			<td style="text-align:right; width:1%; white-space:nowrap; ">
+          &nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+          &nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+          <input type="submit" name="SaveBtn" value="&Auml;nderungen speichern" class="FormButton">
+        </td>
+       	</tr>
+       	</table>
+  			</td>
+  		</tr>
+
+  	</tfoot>
+  </table>
+  </form>
+
+		<br />
+		<br />
+
+		<fieldset>
+  <legend>Wie CronJobs ausf&uuml;hren?</legend>
+  <table class="FormTable">
+    <tbody>
+      <tr>
+        <td>
+          <br />
+										<p>Es stehen diese 4 Varianten zur Verf&uuml;gung:</p>
+          <br />
+          <blockquote style="margin-left: 8px">
+          <p>1. CronJob-Eintrag (unter Windows Aufgabenplanung) auf dem Server erstellen</p>
+										<p>Erstellen Sie einen neuen CrobJob-Eintrag (unter Windows Aufgabenplanung) mit Aufruf des Scripts <br /><br /><pre><crons_php></pre><br /><br />
+          Der Aufruf sollte einmal pro Minute aber sp&auml;testens einmal pro Stunde durchgef&uuml;hrt werden, so dass die oben aufgef&uuml;hrten Ausf&uuml;hrungsintervalle eingehalten werden k&ouml;nnen.
+          <br />
+          <a href="images/plesk_task.png" target="_blank">Beispiel f&uuml;r eine geplante Aufgabe/CronJob in Plesk&trade; mit Ausf&uuml;hrung einmal pro Minute</a>
+          </p>
+          <br /><br />
+										<p>2. Verwendung eines externen CronJob-Diensts</p>
+										<p>Sie k&ouml;nnen einen externen CronJob-Dienst verwenden, welches das Script<br /><br /><pre><crons_php></pre><br /> in regelm&auml;&szlig;igen Abst&auml;nden aufruft.</p>
+          <br /><br />
+										<p>3. Einf&uuml;gen des Scriptaufrufs in die eigene Webseite</p>
+										<p>F&uuml;gen Sie den folgenden JavaScript-Code in Ihre Webseite (z.B. Startseite der Webpr&auml;senz) ein. Jedesmal wenn ein Besucher die Webseite aufruft wird das CronJob-Script ausgef&uuml;hrt.</p>
+
+
+										<textarea cols="90" rows="11" style="background-color:#CCCCCC; font-family:'Courier New', Courier; padding: 4px;" readonly="readonly">
+&lt;script type=&quot;text/javascript&quot; language=&quot;javascript&quot;&gt;
+&lt;!--
+ var date = new Date();
+ var URL = '<crons_php>';
+ var RandomString = date.getTime();
+ document.write('&lt;img src=&quot;' + URL + '?' + RandomString+ '&quot; width=&quot;1&quot; height=&quot;1&quot; border=&quot;0&quot; alt=&quot;&quot;&gt;');
+//--&gt;
+&lt;/script&gt;
+          </textarea>
+          <br /><br />
+										<p>4. Manuelles Ausf&uuml;hren des CronJob-Scripts (nicht empfohlen)</p>
+										<p>Klicken Sie auf &quot;CronJobs jetzt manuell ausf&uuml;hren&quot; um das CronJob-Script manuell auszuf&uuml;hren.</p>
+          </blockquote>
+        </td>
+      </tr>
+      <tr>
+      <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+      </tr>
+    </tbody>
+  </table>
+  </fieldset>
+
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableCronLists','tableRollOverEffect','tableRowClickEffect');
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

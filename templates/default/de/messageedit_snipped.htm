@@ -1,0 +1,213 @@
+      <style type="text/css">
+      <!--
+        input[type=text], textarea {width: 80%;}
+        textarea { word-break: break-all; -ms-word-break: break-all;}
+        @media all and (-ms-high-contrast:none) {
+           *::-ms-backdrop, textarea { white-space: pre; }
+        }
+      -->
+      </style>
+      <div class="spacerborder">
+      <span class="Backlink"><a href="./browsemessages.php">Zur&uuml;ck</a></span><br />
+      <br />
+      <form method="post" action="./messageedit.php" id="MessagesEditForm" name="MessagesEditForm">
+      <input type="hidden" name="MessageId">
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie den Meldungstexten eine eindeutige Bezeichnung.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Allgemein</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="MessageDescriptionColumn">Bezeichnung der Meldungstexte
+                </td>
+                <td class="MessageValueColumn" style="white-space: nowrap;"><input type="text" id="Name" name="Name" maxlength="128" size="50" /></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend>Allgemeine Meldungstexte</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="MessageDescriptionColumn">Format der E-Mail-Adresse nicht korrekt</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="EMailFormatErrorText" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'EMailFormatErrorText'); return false;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Pflichtfelder nicht ausgef&uuml;llt</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="RequiredFieldsErrorText" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'RequiredFieldsErrorText'); return false;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Text wenn ein Fehler auftritt</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="ErrorText" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'ErrorText'); return false;" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br />
+      </fieldset>
+
+      <fieldset>
+      <legend>Texte bei Anmeldung</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="MessageDescriptionColumn">Text der nach erfolgreicher Anmeldung ausgegeben werden soll</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="SubscribeOKText" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'SubscribeOKText'); return false;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Text nach Anmeldung, zuk&uuml;nftiger Abonnent muss jedoch noch den Best&auml;tigungslink anklicken</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="SubscribeTextConfirmationRequired" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'SubscribeTextConfirmationRequired'); return false;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Text nach dem der Best&auml;tigungslink angeklickt worden ist, der Abonnent ist damit aktiv</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="SubscribeTextOnConfirmationSucc" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'SubscribeTextOnConfirmationSucc'); return false;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Text nach dem der Best&auml;tigungslink angeklickt worden ist, jedoch ein Fehler auftrat, da der Empf&auml;nger bereits wieder gel&ouml;scht worden ist</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="SubscribeTextOnConfirmationFailure" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'SubscribeTextOnConfirmationFailure'); return false;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Text nach dem der Best&auml;tigungslink ein weiteres Mal angeklickt worden ist, der Empf&auml;nger also schon best&auml;tigt ist</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="SubscribeTextOnConfirmationAgain" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'SubscribeTextOnConfirmationAgain'); return false;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Text wenn sich die E-Mail-Adresse bereits in der Empf&auml;ngerliste befindet</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="EMailAddressAlwaysInList" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'EMailAddressAlwaysInList'); return false;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Text wenn sich die E-Mail-Adresse in der Blacklist befindet</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="EMailAddressBlacklisted" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'EMailAddressBlacklisted'); return false;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Text wenn die Captcha-Zeichenkette nicht oder nicht korrekt eingegegeben worden ist</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="CaptchaStringIncorrect" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'CaptchaStringIncorrect'); return false;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Text wenn die Gruppe, falls als Pflichtfeld definiert, nicht gew&auml;hlt worden ist.</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="GroupsAsMandatoryFieldError" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'GroupsAsMandatoryFieldError'); return false;" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br />
+      </fieldset>
+      <fieldset>
+      <legend>Texte bei Abmeldung</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="MessageDescriptionColumn">Text der nach erfolgreicher Abmeldung ausgegeben werden soll</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="UnsubscribeOKText" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'UnsubscribeOKText'); return false;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Text nach Abmeldung, Abonnent muss jedoch noch den Best&auml;tigungslink anklicken um sich endg&uuml;ltig abzumelden</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="UnsubscribeTextConfirmationRequired" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'UnsubscribeTextConfirmationRequired'); return false;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Text nach dem der Best&auml;tigungslink angeklickt worden ist, der Abonnent damit endg&uuml;ltig gel&ouml;scht worden ist</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="UnsubscribeTextOnConfirmationSucc" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'UnsubscribeTextOnConfirmationSucc'); return false;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Text nach dem der Best&auml;tigungslink angeklickt worden ist, jedoch ein Fehler auftrat, also der Empf&auml;nger schon gel&ouml;scht worden ist</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="UnsubscribeTextOnConfirmationFailure" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'UnsubscribeTextOnConfirmationFailure'); return false;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Text wenn sich die E-Mail-Adresse nicht in der Empf&auml;ngerliste befindet</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="EMailAddressNotInList" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'EMailAddressNotInList'); return false;" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br />
+      </fieldset>
+      <fieldset>
+      <legend>Texte f&uuml;r fehlende Pflichtfelder</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <TABLE:ROW>
+              <tr>
+                <td class="MessageDescriptionColumn">Angabe im Feld FIELDDESCRIPTION fehlt</td>
+                <td class="MessageValueColumn" style="white-space: nowrap;">
+                  <textarea name="FIELDNAME" rows="3" cols="68"></textarea>
+                  &nbsp;<input type="button" value="HTML-Editor" onclick="OpenEditor('MessagesEditForm', 'FIELDNAME'); return false;" />
+                </td>
+              </tr>
+              </TABLE:ROW>
+            </tbody>
+          </table>
+          <br />
+      </fieldset>
+      <br />
+
+      <script type="text/javascript">
+      
+
+       //AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+       /////////////////////////////////////////////////////////////////////
+      	
+
+      	</script>
+
+     <input type="submit" name="SubmitBtn" value="&Auml;nderungen speichern" class="FormButton" />
+
+      </form>
+      </div>
+

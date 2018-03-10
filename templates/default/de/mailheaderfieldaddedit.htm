@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title>E-Mail-Header-Feld bearbeiten</title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+      E-Mail-Header-Feld bearbeiten
+
+      <span style="float: right">
+              <input type="hidden" name="HelpTopic" id="HelpTopic" value="mtaedit" />
+              <a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)"><img src="images/help_icon.gif" width="16" height="16" alt="Hilfe" style="text-align: left;" /></a>&nbsp;<a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)">Hilfe</a>&nbsp;      </span>
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+   
+   <div class="container">
+
+        <div class="errortopic" id="errortopic" style="display: none">
+        <span id="ERRORMESSAGETEXT"></span>
+        </div>
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        SourceDocument = parent.document;
+        SourceForm = parent.document.forms['FORMNAME'];
+        SourceElement = parent.document.getElementById("FORM1FIELD");
+
+      //-->
+      </script>
+
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+       <tbody>
+        <tr>
+         <td>
+          <form id="frmUpload" name="frmUpload" method="post" action="">
+            <input type="hidden" name="EditValue" id="EditValue" />
+            <br />
+
+            Bezeichnung des E-Mail-Header-Felds:<br />
+            <input type="text" name="headername" id="headername" size="60" onchange="EnableDisableSaveBtn(); return true;" onkeyup="EnableDisableSaveBtn(); return true;" />
+            <br /><br />
+            Inhalt des E-Mail-Header-Felds<br />
+      						<input type="text" name="headervalue" id="headervalue" size="60" onchange="EnableDisableSaveBtn(); return true;" onkeyup="EnableDisableSaveBtn(); return true;" />&nbsp;<select size="1" name="fieldname" id="fieldname" onchange="InsertFieldValue('fieldname', 'headervalue')">
+               <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+               <fieldnames></fieldnames>
+             </select>
+      						<br />
+      						<br />
+            <input type="button" id="SaveBtn" name="SaveBtn" value="Speichern" class="FormButton" disabled="disabled" style="margin-left:0px;" onclick="if(SaveIt()) parent.closeDialog();" />
+      						<br />
+      						<br />
+      						<br />
+          </form>
+         </td>
+        </tr>
+        <tr>
+         <td>
+           <hr noshade="noshade" style="width: 100%; border:dotted #BABABA 1px; " />
+           <input type="button" name="CloseBtn" value="Schlie&szlig;en" class="FormButton" onclick="parent.closeDialog();" style="margin-left: 0px" />
+           <br />
+         </td>
+        </tr>
+       </tbody>
+      </table>
+
+   </div>
+</div>
+
+<script language="JavaScript">
+<!--
+   function EnableDisableSaveBtn(){
+     document.getElementById('SaveBtn').disabled=document.getElementById('headername').value==''||document.getElementById('headervalue').value=='';
+   }
+   document.getElementById('headername').focus();
+   EnableDisableSaveBtn();
+
+
+   function SaveIt(){
+     if(!SourceDocument || !SourceForm || !SourceElement)
+       return false;
+
+     var NotAllowedHeaderFieldNames = new Array (
+                              'Message-Id', 'X-Mailer', 'X-Mailer-Version', 'X-Sender', 'Status', 'X-MimeOLE', 'Sender',
+                              'Return-Path', 'Received', 'X-ClientAddr', 'DomainKey-Signature', 'From', 'To', 'Cc', 'BCc',
+                              'References', 'Subject', 'Date', 'MIME-Version', 'Content-Type', 'Content-Transfer-Encoding',
+                              'X-Priority', 'X-MSMail-Priority', 'content-class', 'X-MS-Has-Attach', 'X-MS-TNEF-Correlator',
+                              'Thread-Topic', 'Thread-Index', 'X-OriginalArrivalTime', 'X-MIME-Autoconverted', 'X-MSMail-Priority',
+                              'Priority', 'X-Originating-IP', 'X-Originating-Email', 'Importance', 'In-Reply-To',
+                              'Reply-To', 'X-ID', 'X-TOI-MSGID', 'X-Spam-Checker-Version', 'X-Spam-Level',
+                              'X-Spam-Status', 'X-UIDL', 'UIDL', 'SuperMailer', 'SuperWebMailer', 'List-Id', 'X-Loop', 'List-Unsubscribe'
+                              );
+
+     var newHeaderName = document.getElementById('headername').value.trim();
+     var newHeaderValue = document.getElementById('headervalue').value.trim();
+     var oldHeader = document.getElementById('EditValue').value.trim();
+     var oldHeaderName = "";
+     var oldHeaderValue = "";
+     if(oldHeader != ""){
+       oldHeaderName = oldHeader.substr(oldHeader, 0, oldHeader.indexOf(":"));
+       oldHeaderValue = oldHeader.substr(oldHeader, oldHeader.indexOf(":") + 1);
+     }
+
+     // simple check no RFC check
+     newHeaderName = newHeaderName.replace(/\\/g, "/");
+     newHeaderName = newHeaderName.replace(/ /g, "");
+     newHeaderName = newHeaderName.replace(/\"/g, "");
+     newHeaderName = newHeaderName.replace(/\'/g, "");
+     newHeaderName = newHeaderName.replace(/\>/g, "");
+     newHeaderName = newHeaderName.replace(/\</g, "");
+     newHeaderName = newHeaderName.replace(/\:/g, "");
+     if(newHeaderName == "") return false;
+
+     newHeaderValue = newHeaderValue.replace(/\\/g, "/");
+     newHeaderValue = newHeaderValue.replace(/\>/g, "");
+     newHeaderValue = newHeaderValue.replace(/\</g, "");
+     if(newHeaderValue == "") return false;
+
+     for(var i=0; i<NotAllowedHeaderFieldNames.length; i++){
+       if(NotAllowedHeaderFieldNames[i].toLowerCase() == newHeaderName.toLowerCase()){
+         MessageBox(document.getElementsByTagName('title')[0].innerText||document.getElementsByTagName('title')[0].textContent, "Diese E-Mail-Header-Feld-Bezeichnung ist reserviert und kann damit nicht verwendet werden.", messageTypeError, 300, 120);
+         return false;
+       }
+     }
+
+     // IE problem 'new Option' must be in opener window context
+     newHeader = newHeaderName + ":" + newHeaderValue;
+     var ret = parent.AddEditMailHeaderField(newHeader, oldHeader);
+     if(ret == 1000){
+       MessageBox(document.getElementsByTagName('title')[0].innerText||document.getElementsByTagName('title')[0].textContent, "Es existiert bereits ein Header-Eintrag mit dieser Bezeichnung!", messageTypeError, 300, 120);
+       return false;
+     }
+
+     return ret;
+
+   }
+
+//-->
+</script>
+
+
+</body>
+
+</html>

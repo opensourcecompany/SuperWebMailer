@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title>Personalisierter Anhang</title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+      Personalisierten Anhang bearbeiten
+
+      <span style="float: right">
+              <input type="hidden" name="HelpTopic" id="HelpTopic" value="persattachments" />
+              <a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)"><img src="images/help_icon.gif" width="16" height="16" alt="Hilfe" style="text-align: left;" /></a>&nbsp;<a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)">Hilfe</a>&nbsp;      </span>
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+   
+   <div class="container">
+
+        <div class="errortopic" id="errortopic" style="display: none">
+        <span id="ERRORMESSAGETEXT"></span>
+        </div>
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        SourceDocument = parent.document;
+        SourceForm = parent.document.forms['FORMNAME'];
+        SourceElement = parent.document.getElementById("FORM1FIELD");
+
+      //-->
+      </script>
+
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+       <tbody>
+        <tr>
+         <td>
+          <form id="frmUpload" name="frmUpload" method="post" action="">
+            <input type="hidden" name="EditValue" id="EditValue" />
+            Verwenden Sie personalisierte Anh&auml;nge nur wenn pro Empf&auml;nger ein anderer Anhang versendet werden soll. Statische Anh&auml;nge sollten immer
+            als normaler Anhang angef&uuml;gt werden, dies verringert die Serverlast.
+            <br /><br />
+            Beachten Sie die <a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)">Hilfe</a> zum Thema personalisierte Anh&auml;nge.
+            <br />
+            <br />
+            Absolutes Verzeichnis f&uuml;r Anh&auml;nge: <b><attachmentsfilepath></attachmentsfilepath></b>
+            <br />
+            <br />
+            <br />
+            Bildung des Dateinamens f&uuml;r den personalisierten Anhang (mit Dateierweiterung)<br />
+      						<input type="text" name="attachmentrule" id="attachmentrule" size="60" onchange="document.getElementById('SaveBtn').disabled=this.value==''; return true;" onkeyup="document.getElementById('SaveBtn').disabled=this.value==''; return true;" />&nbsp;<select size="1" name="fieldname" id="fieldname" onchange="InsertFieldValue('fieldname', 'attachmentrule')">
+               <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+               <fieldnames></fieldnames>
+             </select>
+      						<br />
+      						<br />
+            Optional, anzuzeigender Dateiname des Anhangs in der E-Mail (mit Dateierweiterung)<br />
+             <input type="text" name="visibleattachmentname" id="visibleattachmentname" size="60" />&nbsp;<select size="1" name="fieldname_1" id="fieldname_1" onchange="InsertFieldValue('fieldname_1', 'visibleattachmentname')">
+               <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+               <fieldnames></fieldnames>
+             </select>
+      						<br />
+      						<br />
+            <input type="button" id="SaveBtn" name="SaveBtn" value="Speichern" class="FormButton" disabled="disabled" style="margin-left:0px;" onclick="if(SaveIt()) parent.closeDialog();" />
+      						<br />
+      						<br />
+      						<br />
+          </form>
+         </td>
+        </tr>
+        <tr>
+         <td>
+           <hr noshade="noshade" style="width: 100%; border:dotted #BABABA 1px; " />
+           <input type="button" name="CloseBtn" value="Schlie&szlig;en" class="FormButton" onclick="parent.closeDialog();" style="margin-left: 0px" />
+           <br />
+         </td>
+        </tr>
+       </tbody>
+      </table>
+
+   </div>
+</div>
+
+<script language="JavaScript">
+<!--
+   document.getElementById('SaveBtn').disabled=document.getElementById('attachmentrule').value=='';
+   document.getElementById('attachmentrule').focus();
+
+   function html_entity_decode( string ) {
+       var ret, tarea = document.createElement('textarea');
+       tarea.innerHTML = string;
+       ret = tarea.value;
+       return ret;
+   }
+
+
+   function SaveIt(){
+     if(!SourceDocument || !SourceForm || !SourceElement)
+       return false;
+
+
+     var newFileName = document.getElementById('attachmentrule').value.trim();
+     var oldFileName = document.getElementById('EditValue').value.trim();
+     var visibleattachmentname = document.getElementById('visibleattachmentname').value.trim();
+     newFileName = newFileName.replace(/\\/g, "/");
+     //newFileName = newFileName.replace(/\*/g, "");
+     newFileName = newFileName.replace(/\?/g, "");
+     newFileName = newFileName.replace(/\"/g, "");
+     newFileName = newFileName.replace(/\'/g, "");
+     if(newFileName == "") return false;
+
+     if(newFileName.indexOf(".") < 0 && newFileName.indexOf("*") < 0)
+      alert(html_entity_decode("Pr&uuml;fen Sie die Bildung des Dateinamens des Anhangs, es sollte immer die Dateierweiterung angegeben werden."));
+
+     if(newFileName.indexOf("*") > -1 && newFileName.indexOf(".") > -1 ) {
+      alert(html_entity_decode("Pr&uuml;fen Sie die Bildung des Dateinamens des Anhangs, bei Verwendung des Wildcard-Zeichens '*' d&uuml;rfen keine Punkte verwendet werden."));
+      return false;
+     }
+
+     if(newFileName.indexOf("/") == 0)
+        newFileName = newFileName.substr(1);
+
+     visibleattachmentname = visibleattachmentname.replace(/\\/g, "/");
+     visibleattachmentname = visibleattachmentname.replace(/\*/g, "");
+     visibleattachmentname = visibleattachmentname.replace(/\?/g, "");
+     visibleattachmentname = visibleattachmentname.replace(/\"/g, "");
+     visibleattachmentname = visibleattachmentname.replace(/\'/g, "");
+     if(newFileName.indexOf("*") > -1 && visibleattachmentname != ""){
+        visibleattachmentname = "";
+        alert(html_entity_decode("Bei Verwendung des Wildcard-Zeichens '*' kann kein anzuzeigender Dateiname vergeben werden."));
+     }
+     if(visibleattachmentname !== ""){
+       newFileName = newFileName + '; ' +visibleattachmentname;
+       if(visibleattachmentname.indexOf(".") < 0)
+        alert(html_entity_decode("Pr&uuml;fen Sie den anzuzeigenden Dateinamen des Anhangs, es sollte immer die Dateierweiterung angegeben werden."));
+     }
+
+     // IE problem 'new Option' must be in opener window context
+
+     var ret = parent.AddEditPersAttachment(newFileName, oldFileName);
+     if(ret == 1000){
+       MessageBox(document.getElementsByTagName('title')[0].innerText||document.getElementsByTagName('title')[0].textContent, "Es existiert bereits ein personalisierter Anhang mit diesem Namen!", messageTypeError, 300, 120);
+       return false;
+     }
+
+     return ret;
+
+   }
+
+//-->
+</script>
+
+
+</body>
+
+</html>

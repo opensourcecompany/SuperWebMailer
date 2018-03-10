@@ -1,0 +1,152 @@
+      <script type="text/javascript" src="js/jquery-latest.min.js"></script>
+      <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./campaigncreate.php" onsubmit="CheckAndRemoveCriticalChars('CampaignEditForm')">
+      <span class="Backlink"><br /><a href="./browsecampaigns.php" onclick="document.CampaignEditForm.action='./browsecampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <br />
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie Ihrem E-Mailing einen eindeutigen Namen z.B. Kunden-Newsletter. Optional k&ouml;nnen Sie eine Beschreibung angeben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Allgemein</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn">Name des E-Mailings
+                </td>
+                <td><input type="text" id="Name" name="Name" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="LabelColumn" valign="top">Beschreibung (optional)
+                </td>
+                <td><textarea id="Description" name="Description" rows="3" cols="50"></textarea></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die Empf&auml;ngerliste, an welche die E-Mails versendet werden soll.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                  </SHOWHIDE:TOOLTIPS>Empf&auml;ngerliste f&uuml;r den Versand der E-Mails/Newsletter</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+
+              <tr>
+                <td class="LabelColumn">Empf&auml;ngerliste
+                </td>
+                <td><select name="maillists_id" size="1">
+                    <SHOW:MailingLists>
+                    </SHOW:MailingLists>
+                    </select>
+                    <br /><br />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend>Optionen zum Text der E-Mail</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+               <td class="LabelColumn" id="MailFormatLabel" name="MailFormatLabel">
+                 Format der E-Mail
+               </td>
+               <td>
+                 <select id="MailFormat" name="MailFormat" size="1" onchange="load_templates(); ">
+                  <option value="PlainText">Reine Text-E-Mail</option>
+                  <option value="HTML">Reine HTML-E-Mail (nicht empfohlen)</option>
+                  <option value="Multipart">HTML- und Text-E-Mail (multipart E-Mail, empfohlen)</option>
+                 </select>
+               </td>
+              </tr>
+
+              <tr>
+                <td class="LabelColumn">Codierung</td>
+                <td valign="top">
+                <select name="MailEncoding" size="1">
+                <option value="iso-8859-1">Normal/Europa (iso-8859-1)</option>
+                <option value="utf-8">UTF-8</option>
+                <MAILENCODINGS></MAILENCODINGS>
+                </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="LabelColumn">Bearbeitung der E-Mail</td>
+                <td valign="top">
+                <select name="MailEditType" id="MailEditType" size="1" onchange="load_templates();">
+                  <option value="Editor">Editor verwenden</option>
+                  <option value="Wizard">Assistenten verwenden</option>
+                  <option value="PlainSource">Reiner Quelltext</option>
+                </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="LabelColumn">E-Mail-Vorlage</td>
+                <td>
+
+                  <select name="NewsletterTemplate" size="1" id="NewsletterTemplate">
+                    <option value="none">Keine Vorlage laden</option>
+                  </select>
+                  <span id="Loading" style="visibility:hidden; display: none"><img src="images/loading.gif" height="16" width="16" /></span>
+
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+     <input type="submit" name="CampaignCreateBtn" value="Neues E-Mailing anlegen" class="FormButton" />
+
+      </form>      
+
+      <script language="JavaScript">
+      <!--
+        function load_templates(){
+         if($('#MailFormat').val() == 'PlainText') {
+            document.getElementById('MailEditType').selectedIndex = 0;
+            DisableItem('MailEditType', false);
+         } else {
+             DisableItem('MailEditType', true);
+           }
+         var date = new Date();
+         var nocache = date.getTime() / 1000;
+         $("#Loading").show();
+         $.ajaxSetup({ cache: false });
+         var type = "";
+         if($("#MailFormat").val() == "PlainText")
+            type = "PlainText";
+            else
+            type = "HTML";
+         if(!document.getElementById('MailEditType').disabled && $("#MailEditType").val() == "Wizard")
+            type += "&EditType=Wizard";
+
+         var option1 = $('#NewsletterTemplate').html();
+         option1 = option1.substr(0, option1.toLowerCase().indexOf("</option>") + "</option>".length);
+
+
+        	jQuery.get('ajax_getemailtemplates.php' + "?nocache=" + nocache + "&type=" + type, "", function(data){
+            $("#NewsletterTemplate").html( option1 + data );
+        	});
+
+         $("#Loading").hide();
+        }
+
+       	$(document).ready(function(){
+       	  load_templates();
+       	});
+
+      //-->
+      </script>
+      <noscript></noscript>
+
+

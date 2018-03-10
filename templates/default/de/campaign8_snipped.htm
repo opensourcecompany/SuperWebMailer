@@ -1,0 +1,415 @@
+      <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./campaignedit.php">
+      <span class="Backlink"><br /><a href="./browsecampaigns.php" onclick="document.CampaignEditForm.action='./browsecampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="CampaignListId" id="CampaignListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel" value="8" />
+      <input type="hidden" name="MailingListId" id="MailingListId" />
+      <input type="hidden" name="FormId" id="FormId" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.CampaignEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.CampaignEditForm.submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.CampaignEditForm.submit(); return false;">Regeln</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.CampaignEditForm.submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.CampaignEditForm.submit(); return false;">Versand</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';document.CampaignEditForm.submit(); return false;">E-Mail-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='7';document.CampaignEditForm.submit(); return false;">Tracking</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';document.CampaignEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <fieldset>
+      <legend>Zusammenfassung der E-Mailing-Einstellungen</legend>
+      <br />
+          <table name="TableCampaignSettings" id="TableCampaignSettings" class="FixedTable" style="border: 0px">
+            <tbody>
+              <tr>
+                <td class="CampaignStatColumn">Name des E-Mailings
+                </td>
+                <td class="CampaignStatValueColumn"><Name></Name></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Beschreibung
+                </td>
+                <td class="CampaignStatValueColumn"><Description></Description></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Zuletzt versendet
+                </td>
+                <td class="CampaignStatValueColumn"><LastSent></LastSent></td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">&nbsp;
+                </td>
+                <td class="CampaignStatValueColumn">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">Empf&auml;ngerliste
+                </td>
+                <td class="CampaignStatValueColumn"><MailingListName></MailingListName></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Gruppen der Empf&auml;ngerliste
+                </td>
+                <td class="CampaignStatValueColumn"><MailingListGroupNames></MailingListGroupNames></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Auszuschlie&szlig;ende Gruppen der Empf&auml;ngerliste
+                </td>
+                <td class="CampaignStatValueColumn"><MailingListNoGroupNames></MailingListNoGroupNames></td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">&nbsp;
+                </td>
+                <td class="CampaignStatValueColumn">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">Regeln f&uuml;r den E-Mail-Versand definiert
+                </td>
+                <td class="CampaignStatValueColumn"><RulesDefined></RulesDefined></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl E-Mail-Empf&auml;nger ca.
+                </td>
+                <td class="CampaignStatValueColumn"><RECIPIENTSCOUNT></RECIPIENTSCOUNT></td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">&nbsp;
+                </td>
+                <td class="CampaignStatValueColumn">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">Statusreport an Ihre E-Mail-Adresse [EMAILADDRESS] senden
+                </td>
+                <td class="CampaignStatValueColumn"><SendReportToYourSelf></SendReportToYourSelf></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Statusreport an den Administrator der Empf&auml;ngerliste senden
+                </td>
+                <td class="CampaignStatValueColumn"><SendReportToListAdmin></SendReportToListAdmin></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Statusreport an alle zugewiesenen Nutzer der Empf&auml;ngerliste senden
+                </td>
+                <td class="CampaignStatValueColumn"><SendReportToMailingListUsers></SendReportToMailingListUsers></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Statusreport an angegebene E-Mail-Adresse senden
+                </td>
+                <td class="CampaignStatValueColumn"><SendReportToEMailAddress></SendReportToEMailAddress></td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">&nbsp;
+                </td>
+                <td class="CampaignStatValueColumn">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">Versand des E-Mailings
+                </td>
+                <td class="CampaignStatValueColumn">
+                    <SendSchedulerSaveOnly>E-Mailing nur speichern</SendSchedulerSaveOnly>
+                    <SendSchedulerSendManually>E-Mailing nach dem Klick auf &quot;Fertig stellen&quot; live im Browser versenden</SendSchedulerSendManually>
+                    <SendSchedulerSendImmediately>E-Mailing nach dem Klick auf &quot;Fertig stellen&quot; sofort versenden</SendSchedulerSendImmediately>
+                    <SendSchedulerSendInFutureOnce>E-Mailing zu einem sp&auml;teren Zeitpunkt am [SENDDATETIME] versenden</SendSchedulerSendInFutureOnce>
+                    <SendSchedulerSendInFutureMultiple>E-Mailing laut definierten Zeitplan mehrfach versenden</SendSchedulerSendInFutureMultiple>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="CampaignStatColumn">&nbsp;
+                </td>
+                <td class="CampaignStatValueColumn">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">Absender E-Mail-Adresse
+                </td>
+                <td class="CampaignStatValueColumn"><SenderFromAddress></SenderFromAddress></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Angezeigter Absender-Name
+                </td>
+                <td class="CampaignStatValueColumn"><SenderFromName></SenderFromName></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Antwort-E-Mail-Adresse (Reply-to)
+                </td>
+                <td class="CampaignStatValueColumn"><ReplyToEMailAddress></ReplyToEMailAddress></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">E-Mail-Adresse f&uuml;r die Return-Path-Angabe
+                </td>
+                <td class="CampaignStatValueColumn"><ReturnPathEMailAddress></ReturnPathEMailAddress></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Versand des E-Mailings &uuml;ber
+                </td>
+                <td class="CampaignStatValueColumn"><MTAs></MTAs></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl E-Mails, die bei einer E-Mailing-Pr&uuml;fung vorbereitet bzw. live versendet werden sollen
+                </td>
+                <td class="CampaignStatValueColumn"><MaxEMailsToProcess></MaxEMailsToProcess></td>
+              </tr>
+              <!--
+              <tr>
+                <td class="CampaignStatColumn">Twitter Tweat posten
+                </td>
+                <td class="CampaignStatValueColumn"><TwitterUpdate></TwitterUpdate></td>
+              </tr>
+              //-->
+
+              <tr>
+                <td class="CampaignStatColumn">&nbsp;
+                </td>
+                <td class="CampaignStatValueColumn">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">Format der E-Mail
+                </td>
+                <td class="CampaignStatValueColumn"><MailFormat></MailFormat></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Codierung der E-Mail
+                </td>
+                <td class="CampaignStatValueColumn"><MailEncoding></MailEncoding></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Priorit&auml;t der E-Mail
+                </td>
+                <td class="CampaignStatValueColumn"><MailPriority></MailPriority></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Betreff der E-Mail
+                </td>
+                <td class="CampaignStatValueColumn"><MailSubject></MailSubject></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Pre-Header der E-Mail
+                </td>
+                <td class="CampaignStatValueColumn"><MailPreHeaderText></MailPreHeaderText></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">E-Mail-Texte
+                </td>
+                <td class="CampaignStatValueColumn"><MailTextsDefined></MailTextsDefined></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anh&auml;nge
+                </td>
+                <td class="CampaignStatValueColumn"><Attachments></Attachments></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Personalisierte Anh&auml;nge
+                </td>
+                <td class="CampaignStatValueColumn"><PersAttachments></PersAttachments></td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">&nbsp;
+                </td>
+                <td class="CampaignStatValueColumn">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">Anonymes Tracking - Anzahl E-Mail-&Ouml;ffnungen
+                </td>
+                <td class="CampaignStatValueColumn"><TrackEMailOpenings></TrackEMailOpenings></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anonymes Tracking - Klicks auf Links
+                </td>
+                <td class="CampaignStatValueColumn"><TrackLinks></TrackLinks></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Personalisiertes Tracking - Anzahl E-Mail-&Ouml;ffnungen
+                </td>
+                <td class="CampaignStatValueColumn"><TrackEMailOpeningsByRecipient></TrackEMailOpeningsByRecipient></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Personalisiertes Tracking - Klicks auf Links
+                </td>
+                <td class="CampaignStatValueColumn"><TrackLinksByRecipient></TrackLinksByRecipient></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl Links, die f&uuml;r das Tracking aktiviert sind
+                </td>
+                <td class="CampaignStatValueColumn"><TrackLinksCount></TrackLinksCount></td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">&nbsp;
+                </td>
+                <td class="CampaignStatValueColumn">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">Anpassung der Links f&uuml;r Google Analytics
+                </td>
+                <td class="CampaignStatValueColumn"><GoogleAnalyticsActive></GoogleAnalyticsActive></td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend>Optionen f&uuml;r das E-Mailing</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="CampaignStatColumn">
+                  <input type="button" name="SerialMailPreviewBtn" value="Serien-E-Mail-Vorschau &ouml;ffnen" class="FormButton" style="width: 290px" onclick="DoShowSerialMailPreviewDialog(); return false;" />
+                  <br />
+                  <br />
+                </td>
+                <td class="CampaignStatColumn">
+                  <input type="button" name="BandwidthBtn" value="Anfallende Traffic sch&auml;tzen" class="FormButton" style="width: 290px" onclick="DoShowBandwidthDialog(); return false;" />
+                  <br />
+                  <br />
+                </td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">
+                  <input type="button" name="SpamTestBtn" value="Spam-Test durchf&uuml;hren" class="FormButton" style="width: 290px" onclick="DoShowSpamTestDialog(); return false;" />
+                  <br />
+                </td>
+                <td class="CampaignStatColumn">
+                  <input type="button" name="SendTestEMailBtn" value="Test-E-Mail versenden" class="FormButton" style="width: 290px" onclick="DoShowTestMailDialog(); return false;" />
+                  <br />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <if:AlwaysSent>
+        <p><img src="images/icon_warning.gif" align="left" width="24" height="24" alt="" /><span id="SendWarning">Hinweis: Das E-Mailing wurde zuletzt am <LastSent></LastSent> Uhr versendet.
+           <if:SendImmediately>Durch einen Klick auf &quot;Fertig stellen&quot; wird das E-Mailing nochmals versendet.</if:SendImmediately>
+           <if:SendManually>Durch einen Klick auf &quot;Fertig stellen&quot; kann das E-Mailing nochmals versendet werden.</if:SendManually>
+           </span>
+
+           <script language="JavaScript">
+           <!--
+             var atext = document.getElementById("SendWarning").innerText;
+             if(!atext)
+               atext = document.getElementById("SendWarning").textContent;
+             MessageBox("Warnung", atext, messageTypeWarning, 350, 160, "", true);
+           //-->
+           </script>
+
+
+        </p><br />
+      </if:AlwaysSent>
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+
+      <if:CanApplyNow>
+      <input type="submit" name="NextBtn" value="Fertig stellen" class="FormButton" />
+      </if:CanApplyNow>
+
+      <script type="text/javascript">
+      <!--
+        addTableRolloverEffect('TableCampaignSettings','tableRollOverEffect','tableRowClickEffect');
+
+
+        function DoShowSerialMailPreviewDialog() {
+          MailingListId = document.getElementById("MailingListId").value;
+          FormId = document.getElementById("FormId").value;
+          CampaignListId = document.getElementById("CampaignListId").value;
+
+          if(CampaignListId == 0 || CampaignListId == "") {
+            return false;
+          }
+          if(FormId == 0 || FormId == "") {
+            return false;
+          }
+          if(MailingListId == 0 || MailingListId == "") {
+            return false;
+          }
+
+
+          SerialMailPreviewOpenResponder(MailingListId, FormId, "Campaign", CampaignListId, "");
+        }
+
+
+        function DoShowBandwidthDialog() {
+          MailingListId = document.getElementById("MailingListId").value;
+          FormId = document.getElementById("FormId").value;
+          CampaignListId = document.getElementById("CampaignListId").value;
+
+          if(CampaignListId == 0 || CampaignListId == "") {
+            return false;
+          }
+          if(FormId == 0 || FormId == "") {
+            return false;
+          }
+          if(MailingListId == 0 || MailingListId == "") {
+            return false;
+          }
+
+          ResponderPreviewOpenResponder(MailingListId, FormId, "Campaign", CampaignListId, "", "GetBandwidth");
+        }
+
+        function DoShowSpamTestDialog() {
+          MailingListId = document.getElementById("MailingListId").value;
+          FormId = document.getElementById("FormId").value;
+          CampaignListId = document.getElementById("CampaignListId").value;
+
+          if(CampaignListId == 0 || CampaignListId == "") {
+            return false;
+          }
+          if(FormId == 0 || FormId == "") {
+            return false;
+          }
+          if(MailingListId == 0 || MailingListId == "") {
+            return false;
+          }
+
+          ResponderPreviewOpenResponder(MailingListId, FormId, "Campaign", CampaignListId, "", "SpamTest");
+        }
+
+        function DoShowTestMailDialog() {
+          MailingListId = document.getElementById("MailingListId").value;
+          FormId = document.getElementById("FormId").value;
+          CampaignListId = document.getElementById("CampaignListId").value;
+
+          if(CampaignListId == 0 || CampaignListId == "") {
+            return false;
+          }
+          if(FormId == 0 || FormId == "") {
+            return false;
+          }
+          if(MailingListId == 0 || MailingListId == "") {
+            return false;
+          }
+
+          ResponderPreviewOpenResponder(MailingListId, FormId, "Campaign", CampaignListId, "", "TestMail");
+        }
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+      //-->
+      </script>
+
+      </form>

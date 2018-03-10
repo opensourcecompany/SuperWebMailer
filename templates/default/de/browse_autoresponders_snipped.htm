@@ -1,0 +1,125 @@
+<div class="spacerborder">
+  <form name="AutorespondersListsForm" id="AutorespondersListsForm" method="post" action="./browseautoresponders.php">
+  <input type="hidden" name="OneAutoresponderListAction" id="OneAutoresponderListAction" value="" />
+  <input type="hidden" name="OneAutoresponderListId" id="OneAutoresponderListId" value="" />
+
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function SetListId(ASender, AFormID) {
+      var AForm = document.getElementById(AFormID);
+      var OneAutoresponderListAction = document.getElementById('OneAutoresponderListAction');
+      var OneAutoresponderListId = document.getElementById('OneAutoresponderListId');
+      OneAutoresponderListAction.value = ASender.name;
+      OneAutoresponderListId.value = ASender.value;
+      return true;
+    }
+
+    function ConfirmDeleteEvent(value) {
+      if(value)
+        document.getElementById('AutorespondersListsForm').submit();
+        else {
+          document.getElementById('OneAutoresponderListAction').value = "";
+          document.getElementById('OneAutoresponderListId').value = "";
+        }
+    }
+
+    function ConfirmListAction() {
+      return true;
+    }
+
+  //-->
+  </script>
+
+  <table class="FixedTable">
+    <tbody>
+      <tr>
+        <td>
+         <span style="float: right; margin-right: 0pt"><a class="Backlink" href="./autoresponderedit.php" name="NewAutoresponder" id="NewAutoresponder">Neuen Autoresponder anlegen</a></span>
+        </td>
+      </tr>
+      <tr>
+      <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table id="TableAutorespondersLists" name="TableAutorespondersLists" class="FixedTable">
+  	<thead>
+  		<tr>
+  			<td class="NoWrapAlignCenter" width="5%">ID</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="60%">Bezeichnung</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="12%">Aktiv</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="25%">Aktionen</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td class="NoWrapAlignRight"><LIST:ID></LIST:ID></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:NAME></LIST:NAME></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:ACTIVE></LIST:ACTIVE></td>
+  			<td>&nbsp;</td>
+  			<td>
+  			    <input type="image" src="images/edit.gif" width="16" height="16" name="EditAutoresponderProperties" onclick="SetListId(this, 'AutorespondersListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'&Auml;ndern des Autoresponders');return false" />&nbsp;
+         <CAN:DELETE>
+  			    <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteAutoresponder" onclick="SetListId(this, 'AutorespondersListsForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich den Autoresponder dauerhaft l&ouml;schen?', 3, 320, 130, 'ConfirmDeleteEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht den Autoresponder dauerhaft.');return false" />
+         </CAN:DELETE>
+  			    <input type="image" src="images/sentmails16.gif" width="16" height="16" name="AutorespondersSendLog" onclick="SetListId(this, 'AutorespondersListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Versandprotokoll des Autoresponders');return false" />&nbsp;
+		    </td>
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+  </table>
+
+  <table class="FixedTable">
+  	<thead>
+  	</thead>
+  	<tbody>
+  	</tbody>
+  	<tfoot>
+
+  		<tr>
+  		  <td colspan="7">
+    		  <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+    		  <tr>
+    		  <td style="width:100%; white-space:nowrap;">
+        		  &nbsp;
+    		  </td>
+     			<td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'AutorespondersListsForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'AutorespondersListsForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'AutorespondersListsForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'AutorespondersListsForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  Seite:&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.AutorespondersListsForm.submit()">
+                <OPTION:PAGES>
+                <option>1</option>
+                </OPTION:PAGES>
+         			  </select>
+        </td>
+       	</tr>
+       	</table>
+  			</td>
+  		</tr>
+
+  	</tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableAutorespondersLists','tableRollOverEffect','tableRowClickEffect');
+  AddTableDblClickEvent('TableAutorespondersLists');
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

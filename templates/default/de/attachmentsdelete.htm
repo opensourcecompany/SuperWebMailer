@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title>Anh&auml;nge l&ouml;schen</title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+
+
+		<script type="text/javascript">
+// Automatically detect the correct document.domain (#1919).
+(function()
+{
+	var d = document.domain ;
+
+	while ( true )
+	{
+		// Test if we can access a parent property.
+		try
+		{
+			var test = parent.document.domain ;
+			break ;
+		}
+		catch( e ) {}
+
+		// Remove a domain part: www.mytest.example.com => mytest.example.com => example.com ...
+		d = d.replace( /.*?(?:\.|$)/, '' ) ;
+
+		if ( d.length == 0 )
+			break ;		// It was not able to detect the domain.
+
+		try
+		{
+			document.domain = d ;
+		}
+		catch (e)
+		{
+			break ;
+		}
+	}
+})() ;
+
+
+  function RemoveFiles(files)
+  {
+  	var sUploaderUrl = (document.getElementById('cmbRemoverUrl').value);
+
+  	var date = new Date()
+   var frmUpload = document.forms['frmDelete'];
+
+  	frmUpload.action = sUploaderUrl + '?time=' + date.getTime();
+  	if (document.getElementById('cmbType').value) {
+  		frmUpload.action = frmUpload.action + '&Type='+document.getElementById('cmbType').value;
+  	}
+  	if (document.getElementById('CurrentFolder').value) {
+  		frmUpload.action = frmUpload.action + '&CurrentFolder=' + (document.getElementById('CurrentFolder').value);
+  	}
+
+   frmUpload.action = frmUpload.action  + '&files=' + (files);
+  	frmUpload.submit() ;
+  }
+
+  function OnRemoveCompleted( errorNumber, files, errorMessage )
+  {
+   document.getElementById('RemovedFiles').value = files;
+   if(errorNumber != 0)
+     document.getElementById('ERRORMESSAGETEXT').innerHTML = errorMessage;
+
+  	if(document.getElementById('ERRORMESSAGETEXT').innerHTML != "")
+  	  document.getElementById('errortopic').style.display = "";
+  	  else
+  	  document.getElementById('errortopic').style.display = "none";
+
+   RemoveFromFileList(errorNumber == 0);
+  }
+
+
+  function RemoveFromFileList(DoClose) {
+    files = document.getElementById('files').value;
+    RemovedFiles = document.getElementById('RemovedFiles').value;
+    while (files != "" && files.indexOf(";") > 0){
+      filename = files.substr(0, files.indexOf(";"));
+      files = files.substr(files.indexOf(";") + 1);
+      
+      if(RemovedFiles.indexOf(filename) == -1) continue; // not removed
+
+
+      RemoveFromScrollbox(Source1Element, filename, parentDIVNode1);
+      if(Source1Element != Source2Element)
+        RemoveFromScrollbox(Source2Element, filename, parentDIVNode2);
+    }
+    if(files != "") {
+      filename = files;
+      if(RemovedFiles.indexOf(filename) != -1) {
+        RemoveFromScrollbox(Source1Element, filename, parentDIVNode1);
+        if(Source1Element != Source2Element)
+           RemoveFromScrollbox(Source2Element, filename, parentDIVNode2);
+      }
+    }
+    
+    document.getElementById('CloseBtn').disabled = false;
+    if(DoClose) {
+      parent.closeDialog();
+    }
+  }
+
+
+ function RemoveFromScrollbox(element, filename, parentDIVNode) {
+   for(i=0; i<element.length; i++) {
+     try {
+       if(element[i].value == filename) {
+          parentSPANNode = element[i].parentNode;
+          while(parentSPANNode != null && parentSPANNode.tagName != "SPAN")
+             parentSPANNode = parentSPANNode.parentNode;
+          if(parentSPANNode == null) // no SPAN?
+             break;
+
+          parentDIVNode.removeChild(parentSPANNode);
+          break;
+       }
+     } catch(e) {}
+   }
+ }
+
+  function RemoveFromSelect(selectList, value) {
+     if(selectList == null) return false;
+     var selectOptions = selectList.getElementsByTagName('option');
+     for (var i = 0; i < selectOptions.length; i++) {
+        var opt = selectOptions[i];
+        if (opt.value == value) {
+           selectList.removeChild(opt);
+           break; // only one
+         }
+     }
+ }
+
+
+		</script>
+
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+      Anh&auml;nge l&ouml;schen
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+   
+   <div class="container">
+
+        <div class="errortopic" id="errortopic" style="display: none">
+        <span id="ERRORMESSAGETEXT"></span>
+        </div>
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        SourceDocument = parent.document;
+        SourceForm = parent.document.forms['FORMNAME'];
+        Source1Element = parent.document.getElementsByName("FORM1FIELD");
+        Source2Element = parent.document.getElementsByName("FORM2FIELD");
+
+        var myBasePath='';
+
+        if(Source1Element.length > 0) {
+          parentDIVNode1 = Source1Element[0].parentNode;
+          while(parentDIVNode1.tagName != "DIV")
+             parentDIVNode1 = parentDIVNode1.parentNode;
+        }
+
+        if(Source2Element.length > 0) {
+          parentDIVNode2 = Source2Element[0].parentNode;
+          while(parentDIVNode2.tagName != "DIV")
+             parentDIVNode2 = parentDIVNode2.parentNode;
+        }
+
+      //-->
+      </script>
+
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+       <tbody>
+        <tr>
+         <td>
+          <form id="frmDelete" name="frmDelete" method="post" target="UploadWindow"  action="">
+            <input type="hidden" name="cmbRemoverUrl" id="cmbRemoverUrl" />
+            <input type="hidden" name="cmbType" id="cmbType" value="File" />
+            <input type="hidden" name="CurrentFolder" id="CurrentFolder" />
+            <input type="hidden" name="files" id="files" />
+            <input type="hidden" name="RemovedFiles" id="RemovedFiles" />
+            <br />
+            M&ouml;chten Sie diese Datei(en) wirklich l&ouml;schen?<br /><br />
+            <SHOW:FILENAME></SHOW:FILENAME>
+      						<br />
+      						<br />
+
+      						<input type="button" id="RemoveFilesBtn" value="Datei(en) vom Server endg&uuml;ltig l&ouml;schen" onclick="document.getElementById('CloseBtn').disabled = true; document.getElementById('RemoveFilesBtn').disabled = true; RemoveFiles(document.getElementById('files').value); return false;" style="margin-left: 0px" />
+      						<br />
+      						<br />
+       						<strong>WICHTIG:</strong> Pr&uuml;fen Sie nach dem L&ouml;schen der Datei(en) ob etwaige definierte E-Mails diese Datei(en) als Anhang enthalten.
+             Sollten diese enthalten sein, dann wird bei Nichtvorhandensein einer Datei die E-Mail ohne Warnmeldung nicht versendet.
+      						<br />
+
+
+      						<script language="JavaScript">
+      						<!--
+      						  if(document.getElementById("files").value == "")
+      						    document.getElementById("RemoveFilesBtn").style.display = 'none';
+            //-->
+            </script>
+            <noscript></noscript>
+      						<br />
+          </form>
+         </td>
+        </tr>
+        <tr>
+         <td>
+           <hr noshade="noshade" style="width: 100%; border:dotted #BABABA 1px; " />
+           <input type="button" name="CloseBtn" id="CloseBtn" value="Schlie&szlig;en" class="FormButton" onclick="parent.closeDialog();" style="margin-left: 0px" />
+           <br />
+         </td>
+        </tr>
+        <tr>
+          <td>
+           <iframe name="UploadWindow" width="0" height="0" border="0" style="border-style: none;" src="javascript:void(0)"></iframe>
+          </td>
+        </tr>
+       </tbody>
+      </table>
+
+   </div>
+</div>
+
+</body>
+
+</html>

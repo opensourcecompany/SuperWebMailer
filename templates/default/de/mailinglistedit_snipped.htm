@@ -1,0 +1,841 @@
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var TabListArray = Array();
+
+        function ConfirmEditFormsEvent(value) {
+         if(value)
+           window.location.href="./browseforms.php?MailingListId=" + document.getElementById("MailingListId").value;
+        }
+
+        function ConfirmEditMTAsEvent(value) {
+         if(value)
+           window.location.href="./browsemtas.php";
+        }
+
+        function ConfirmEditInboxesEvent(value) {
+         if(value)
+           window.location.href="./browseinboxes.php";
+        }
+
+        /* from page http://blog.pothoven.net/2006/10/move-options-up-and-down-select-lists.html */
+        function moveOptionsUp(selectId) {
+           var selectList = document.getElementById(selectId);
+           var selectOptions = selectList.getElementsByTagName('option');
+           for (var i = 1; i < selectOptions.length; i++) {
+              var opt = selectOptions[i];
+              if (opt.selected) {
+                 selectList.removeChild(opt);
+                 selectList.insertBefore(opt, selectOptions[i - 1]);
+                 break; // only one
+               }
+           }
+        }
+
+        function moveOptionsDown(selectId) {
+          var selectList = document.getElementById(selectId);
+          var selectOptions = selectList.getElementsByTagName('option');
+          for (var i = selectOptions.length - 2; i >= 0; i--) {
+             var opt = selectOptions[i];
+             if (opt.selected) {
+               var nextOpt = selectOptions[i + 1];
+               opt = selectList.removeChild(opt);
+               nextOpt = selectList.replaceChild(opt, nextOpt);
+               selectList.insertBefore(nextOpt, opt);
+               break; // only one
+             }
+          }
+        }
+        //
+
+        function MoveMTA(direction) {
+          select = document.getElementById("mtas[]");
+          index = select.selectedIndex;
+          if(direction == "Up" && index < 0) return;
+          if(direction == "Down" && index > select.options.length) return;
+          if(direction == "Up")
+             moveOptionsUp("mtas[]");
+          if(direction == "Down")
+             moveOptionsDown("mtas[]");
+        }
+
+      //-->
+      </script>
+      <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+      <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
+      <div class="spacerborder">
+        <form method="post" id="MailingListEditForm" name="MailingListEditForm" action="./mailinglistedit.php" onsubmit="CheckAndRemoveCriticalChars('MailingListEditForm'); SelectAllGroups();">
+          <input type="hidden" name="MailingListId" id="MailingListId" />
+          <input type="hidden" name="RemovedGroups" id="RemovedGroups" />
+          <input type="hidden" name="RenamedGroups" id="RenamedGroups" />
+          <input type="hidden" name="PageSelected" />
+          <input type="hidden" name="EditPage" value="1" />
+          <span class="Backlink"><a href="./browsemailinglists.php" onclick="document.MailingListEditForm.action='./browsemailinglists.php';document.MailingListEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+          <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+
+                  <!-- ##### TabView - START -->
+                  <div id="dhtmlgoodies_tabView">
+
+                    <!-- ####### TAB START --> 
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Allgemein');
+                    //-->  
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie Ihrer Empf&auml;ngerliste einen eindeutigen Namen z.B. Technik. Optional k&ouml;nnen Sie eine Beschreibung angeben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Allgemein</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Name der Empf&auml;ngerliste
+                                </td>
+                                <td><input type="text" id="Name" name="Name" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Beschreibung (optional)
+                                </td>
+                                <td><textarea id="Description" name="Description" rows="3" cols="50"></textarea></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Externe An-/Abmeldungen
+                                </td>
+                                <td>
+                                  <select name="SubscriptionUnsubscription" size="1">
+                                      <option value="Allowed">erlaubt</option>
+                                      <option value="SubscribeOnly">nur Anmeldungen und &Auml;nderungen erlaubt</option>
+                                      <option value="UnsubscribeOnly">nur Abmeldungen erlaubt</option>
+                                      <option value="Denied">nicht erlaubt</option>
+                                  </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Jeder Empf&auml;ngerliste kann ein oder mehrere Posteingangsservers f&uuml;r den Abruf von Hard Bounce-E-Mails zugewiesen werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Posteingangsserver/Postf&auml;cher der Empf&auml;ngerliste f&uuml;r den Abruf der Hard Bounce-E-Mails</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Posteingangsserver/Postf&auml;cher
+                                <br /><a href="./browseinboxes.php" onclick="MessageBox('Best&auml;tigung', 'Alle ver&auml;nderten Einstellungen auf diesen Seite(n) gehen verloren.<br /><br />M&ouml;chten Sie jetzt wirklich neue Posteingangsserver definieren?', 3, 320, 160, 'ConfirmEditInboxesEvent'); return false;">(Neue Postf&auml;cher definieren)</a>
+                                </td>
+                                <td>
+
+                                 <div class="scrollbox" style="width: 310px; height: 100px" name="InboxesScrollbox" id="InboxesScrollbox">
+                                   <SHOW:INBOXES>
+                                     <span class="scrollboxSpan"><input type="checkbox" name="inboxes[]" value="<InboxId></InboxId>" id="InboxId" />&nbsp;<label for="InboxId"><InboxName></InboxName></label><br /></span>
+                                   </SHOW:INBOXES>
+                                 </div>
+
+                                </td>
+                              </tr>
+
+                              <tr>
+                               <td class="MessageDescriptionColumn" valign="top">
+                               &nbsp;
+                               </td>
+                               <td>
+                               &nbsp;
+                               </td>
+                              </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Externes Script beim Erkennen von Hard Bounces per http(s):// aufrufen
+                                <SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Es kann ein externes eigenes Script angegeben werden, welches bei der Erkennung einer Bounce-E-Mail aufgerufen wird. Durch das eigene Script kann in einer externen Datenbank der jeweilige Empf&auml;nger deaktiviert oder gel&ouml;scht werden.<br /><br />Dem Script werden per HTTP GET die Parameter EMail=(e-mail-adresse); BounceType=(PermanentlyBounced|TemporarilyBounced) und BounceCount=(anzahl bounces) &uuml;bergeben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS></td>
+                                <td><input type="text" id="ExternalBounceScript" name="ExternalBounceScript" maxlength="255" size="50" /></td>
+                              </tr>
+                              
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Jede Empf&auml;ngerliste muss ein Standard An-/Abmeldeformular besitzen, damit eine Abmeldung &uuml;ber den Abmeldelink im Newsletter m&ouml;glich ist.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>An-/Abmeldeformular der Empf&auml;ngerliste</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Standard An-/Abmeldeformular
+                                <br /><a href="./browseforms.php" onclick="MessageBox('Best&auml;tigung', 'Alle ver&auml;nderten Einstellungen auf diesen Seite(n) gehen verloren.<br /><br />M&ouml;chten Sie jetzt wirklich neue An-/Abmeldeformulare definieren?', 3, 320, 160, 'ConfirmEditFormsEvent'); return false;">(Neue An-/Abmeldeformulare definieren)</a>
+                                </td>
+                                <td>
+                                  <select name="forms_id">
+                                     <SHOW:FORMS>
+                                     </SHOW:FORMS>
+                                  </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+
+                      <fieldset>
+                      <legend>Informationen</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Interner Tabellenname
+                                </td>
+                                <td><SHOW:INTERNALTABLENAME></SHOW:INTERNALTABLENAME><input type="hidden" name="MaillistTableName" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Erstellungsdatum
+                                </td>
+                                <td><SHOW:CREATEDATE></SHOW:CREATEDATE><input type="hidden" name="CREATEDATE" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Ersteller/Besitzer
+                                </td>
+                                <td><SHOW:OWNER></SHOW:OWNER><input type="hidden" name="OWNER" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Anzahl Empf&auml;nger
+                                </td>
+                                <td><SHOW:RECIPIENTCOUNT></SHOW:RECIPIENTCOUNT><input type="hidden" name="RECIPIENTCOUNT" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">
+                                 Verwendung der Empf&auml;ngerliste
+                                </td>
+                                <td>
+                                 <select size="3" style="width: 95%;">
+                                  <SHOW:MAILINGLISTREFERENCES></SHOW:MAILINGLISTREFERENCES>
+                                 </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">
+                                 Doppelte Empf&auml;nger
+                                </td>
+                                <td>
+                                 <input type="checkbox" name="NoDupsChkBox" id="NoDupsChkBox" value="1" onclick=" if( !document.getElementById('NoDupsChkBox').checked ) alert('Doppelte Empf&auml;nger sollten nicht zugelassen werden, da bei einer Abmeldung vom Newsletter mit der eindeutigen ID die mehrfachen Eintr&auml;ge nicht aus der Datenbank entfernt werden. Sie versenden damit unerlaubt E-Mails (Spam) an die mehrfachen Empf&auml;nger.')" />&nbsp;<label for="NoDupsChkBox">Doppelte Empf&auml;nger in der Empf&auml;ngerliste nicht zulassen.</label>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+                  	
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Empf&auml;ngergruppen');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Sie k&ouml;nnen optional mehrere Gruppen pro Empf&auml;ngerliste erstellen und die Empf&auml;nger den Gruppen zuordnen. Durch das L&ouml;schen von Gruppen werden die Empf&auml;nger nicht gel&ouml;scht, sondern die Gruppenzuordnung entfernt.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Emf&auml;ngergruppen</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td>
+                                   <select size="20" id="Groups[]" name="Groups[]" multiple="multiple" style="min-width: 800px; max-height: 350px;" onchange="document.getElementById('EditGroupBtn').disabled = this.value == '';document.getElementById('RemoveGroupsBtn').disabled = this.value == ''">
+                                   <SHOW:GROUPS>
+                                   </SHOW:GROUPS>
+                                   </select><br /><br />
+                                   <input type="button" value="Neue Empf&auml;ngergruppe" onclick="AddGroup(); return false;" />
+                                   <input type="button" id="EditGroupBtn" value="Empf&auml;ngergruppe umbenennen" onclick="EditGroup(); return false;" />
+                                   <input type="button" id="RemoveGroupsBtn" value="Empf&auml;ngergruppe l&ouml;schen" onclick="RemoveGroups(); return false;" />
+                                   <br />
+                                </td>
+                              </tr>
+                              <IS:SWM>
+                              <tr>
+                                <td>
+                                  <br />
+                                  <br />
+
+                                  <b>Hinweis:</b> Die Verwendung von Empf&auml;ngergruppen bei h&ouml;heren Empf&auml;ngerzahlen ist nicht empfehlenswert, da die
+                                  Serverbelastung beim Versand des Newsletters an ein oder mehrere Empf&auml;ngergruppen sehr hoch ist.
+                                </td>
+                              </tr>
+                              </IS:SWM>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                   <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Anmeldung');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Es ist empfehlenswert jede Anmeldung &uuml;ber das Doube-Opt-In Verfahren best&auml;tigen zu lassen, um eine rechtlich einwandfreie Empf&auml;ngerliste zu erhalten. Die Best&auml;tigungs-E-Mail sollte dabei im Text-Format erstellt werden, um die Erkennung als Spam-E-Mail zuvermeiden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Einstellungen f&uuml;r die Anmeldung (Opt-In)</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="LabelColumn">Art der Anmeldung
+                                </td>
+                                <td><select id="SubscriptionType" name="SubscriptionType" onchange="DisableControlsArray(document.getElementById('SubscriptionType').selectedIndex == 1, Array(document.getElementById('SubscriptionExpirationDays')), Array(document.getElementById('SubscriptionExpirationDaysLabel'), document.getElementById('SubscriptionExpirationDaysLabel1') ) ); ">
+                                    <option value="SingleOptIn">Einfache Anmeldung ohne Best&auml;tigungs-E-Mail (Single Opt-In)</option>
+                                    <option value="DoubleOptIn">Anmeldung mit Best&auml;tigung (Double Opt-In, Klick auf Link in Best&auml;tigungs-E-Mail notwendig)</option>
+                                  </select></td>
+                              </tr>
+                              <tr>
+                                <td class="LabelColumn">&nbsp;
+                                </td>
+                                <td>
+                                   <table class="InnerTable" cellspacing="0" cellpadding="0" border="0">
+                                     <tbody>
+                                      <tr>
+                                       <td class="LabelColumn" name="SubscriptionExpirationDaysLabel" id="SubscriptionExpirationDaysLabel">
+                                         Ablaufzeitpunkt
+                                       </td>
+                                       <td>
+                                        <span name="SubscriptionExpirationDaysLabel1" id="SubscriptionExpirationDaysLabel1">
+                                        Nach&nbsp;<input type="text" name="SubscriptionExpirationDays" id="SubscriptionExpirationDays" size="3" style="text-align: right;" />&nbsp;Tagen ohne Klick auf Best&auml;tigungslink Eintrag l&ouml;schen.
+                                        </span>
+                                      </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td colspan="2">&nbsp;
+                                </td>
+                              </tr>
+
+                              <tr><td colspan="2">&nbsp;</td></tr>
+                              <tr>
+                                <td class="LabelColumn">Bei Anmeldung...
+                                </td>
+                                <td>
+                                   <table class="InnerTable" cellspacing="0" cellpadding="0" border="0">
+                                     <tbody>
+                                      <tr>
+                                       <td colspan="2">
+                                         <input type="checkbox" name="OnSubscribeAlsoAddToMailListChkBox" id="OnSubscribeAlsoAddToMailListChkBox" onclick="DisableControl( document.getElementById('OnSubscribeAlsoAddToMailListChkBox').checked, document.getElementById('OnSubscribeAlsoAddToMailList'), null)" /><label for="OnSubscribeAlsoAddToMailListChkBox">&nbsp;Empf&auml;nger ebenfalls in Liste&nbsp;</label>
+                                         <select size="1" name="OnSubscribeAlsoAddToMailList" id="OnSubscribeAlsoAddToMailList">
+                                           <SHOW:MailingLists>
+                                           </SHOW:MailingLists>
+                                         </select><label for="OnSubscribeAlsoAddToMailListChkBox">&nbsp;hinzuf&uuml;gen.</label>
+                                       </td>
+                                      </tr>
+                                      <tr>
+                                       <td colspan="2">
+                                         <input type="checkbox" name="OnSubscribeAlsoRemoveFromMailListChkBox" id="OnSubscribeAlsoRemoveFromMailListChkBox" onclick="DisableControl( document.getElementById('OnSubscribeAlsoRemoveFromMailListChkBox').checked, document.getElementById('OnSubscribeAlsoRemoveFromMailList'), null)" /><label for="OnSubscribeAlsoRemoveFromMailListChkBox">&nbsp;Empf&auml;nger aus Liste&nbsp;</label>
+                                         <select size="1" name="OnSubscribeAlsoRemoveFromMailList" id="OnSubscribeAlsoRemoveFromMailList">
+                                           <SHOW:MailingLists>
+                                           </SHOW:MailingLists>
+                                         </select><label for="OnSubscribeAlsoRemoveFromMailListChkBox">&nbsp;entfernen.</label>
+                                       </td>
+                                      </tr>
+                                      <tr>
+                                       <td colspan="2">
+                                         <input type="checkbox" name="SendEMailToAdminOnOptIn" id="SendEMailToAdminOnOptIn" /><label for="SendEMailToAdminOnOptIn">&nbsp;E-Mail bei Anmeldung an den Administrator der Liste senden</label>
+                                       </td>
+                                      </tr>
+                                      <tr>
+                                       <td colspan="2">
+                                         <input type="checkbox" name="SendEMailToEMailAddressOnOptIn" id="SendEMailToEMailAddressOnOptIn" onclick="DisableControl( document.getElementById('SendEMailToEMailAddressOnOptIn').checked, document.getElementById('EMailAddressOnOptInEMailAddress'), null); if(document.getElementById('SendEMailToEMailAddressOnOptIn').checked) document.getElementById('EMailAddressOnOptInEMailAddress').focus();" /><label for="SendEMailToEMailAddressOnOptIn">&nbsp;E-Mail bei Anmeldung an folgende E-Mail-Adresse senden&nbsp;</label>
+                                         <input type="text" name="EMailAddressOnOptInEMailAddress" id="EMailAddressOnOptInEMailAddress" size="30" maxlength="255" />
+                                       </td>
+                                      </tr>
+                                      
+                                      <tr>
+                                        <td colspan="2">&nbsp;Externes Script per http(s):// aufrufen&nbsp;
+                                         <SHOWHIDE:TOOLTIPS>
+                                          <img onmouseover="showTooltip(event, 'Es kann ein externes eigenes Script angegeben werden, welches bei Anmeldung zur Empf&auml;ngerliste aufgerufen wird. Durch das eigene Script kann in einer externen Datenbank der jeweilige Empf&auml;nger hinzugef&uuml;gt werden.<br /><br />Dem Script werden per HTTP GET die Parameter EMail=(e-mail-adresse) und Type=subscribe, keine weiteren Angaben, &uuml;bergeben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                          &nbsp;
+                                          </SHOWHIDE:TOOLTIPS>
+                                          <input type="text" id="ExternalSubscriptionScript" name="ExternalSubscriptionScript" maxlength="255" size="52" />
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+
+
+                              <tr>
+                                <td colspan="2">&nbsp;
+                                </td>
+                              </tr>
+
+                              <tr><td colspan="2">&nbsp;</td></tr>
+                              <tr>
+                                <td class="LabelColumn">Bei &Auml;nderung...
+                                </td>
+                                <td>
+                                   <table class="InnerTable" cellspacing="0" cellpadding="0" border="0">
+                                     <tbody>
+                                      <tr>
+                                        <td colspan="2">&nbsp;Externes Script per http(s):// aufrufen&nbsp;
+                                         <SHOWHIDE:TOOLTIPS>
+                                          <img onmouseover="showTooltip(event, 'Es kann ein externes eigenes Script angegeben werden, welches bei &Auml;nderung der Daten im &Auml;ndern-Formular aufgerufen wird. Durch das eigene Script kann in einer externen Datenbank der jeweilige Empf&auml;nger ge&auml;ndert werden.<br /><br />Dem Script werden per HTTP GET die Parameter EMail=(e-mail-adresse); NewEMail=(e-mail-adresse) und Type=edit, keine weiteren Angaben, &uuml;bergeben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                          &nbsp;
+                                          </SHOWHIDE:TOOLTIPS>
+                                          <input type="text" id="ExternalEditScript" name="ExternalEditScript" maxlength="255" size="52" />
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Abmeldung');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Die Abmeldung per Single Opt-Out ist empfohlen, um einem Empf&auml;nger die M&ouml;glichkeit zu geben sich schnell abzumelden (Empfehlung durch verschiedene Webspace-Anbieter).');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>Einstellungen f&uuml;r die Abmeldung (Opt-Out)</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="LabelColumn">Art der Abmeldung
+                                </td>
+                                <td><select id="UnsubscriptionType" name="UnsubscriptionType" onchange="DisableControlsArray(document.getElementById('UnsubscriptionType').selectedIndex == 1, Array(document.getElementById('UnsubscriptionExpirationDays')), Array( document.getElementById('UnsubscriptionExpirationDaysLabel'), document.getElementById('UnsubscriptionExpirationDaysLabel1') ) ); ">
+                                    <option value="SingleOptOut">Abmeldung ohne Best&auml;tigungs-E-Mail (Single Opt-Out)</option>
+                                    <option value="DoubleOptOut">Abmeldung mit Best&auml;tigung (Double Opt-Out, Klick auf Link in Best&auml;tigungs-E-Mail notwendig)</option>
+                                  </select></td>
+                              </tr>
+                              <tr>
+                                <td class="LabelColumn">&nbsp;
+                                </td>
+                                <td>
+                                   <table class="InnerTable" cellspacing="0" cellpadding="0" border="0">
+                                     <tbody>
+                                      <tr>
+                                       <td class="LabelColumn" name="UnsubscriptionExpirationDaysLabel" id="UnsubscriptionExpirationDaysLabel">
+                                         Ablaufzeitpunkt
+                                       </td>
+                                       <td>
+                                        <span name="UnsubscriptionExpirationDaysLabel1" id="UnsubscriptionExpirationDaysLabel1">
+                                        Nach&nbsp;<input type="text" name="UnsubscriptionExpirationDays" id="UnsubscriptionExpirationDays" size="3" style="text-align: right;" />&nbsp;Tagen ohne Klick auf Best&auml;tigungslink Eintrag l&ouml;schen.
+                                        </span>
+                                      </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  </td>
+                              </tr>
+                              <tr>
+                                <td colspan="2">&nbsp;
+                                </td>
+                              </tr>
+
+                              <tr><td colspan="2">&nbsp;</td></tr>
+                              <tr>
+                                <td class="LabelColumn">Bei Abmeldung...
+                                </td>
+                                <td>
+                                   <table class="InnerTable" cellspacing="0" cellpadding="0" border="0">
+                                     <tbody>
+                                      <tr>
+                                       <td colspan="2">
+                                         <input type="checkbox" name="OnUnsubscribeAlsoAddToMailListChkBox" id="OnUnsubscribeAlsoAddToMailListChkBox" onclick="DisableControl( document.getElementById('OnUnsubscribeAlsoAddToMailListChkBox').checked, document.getElementById('OnUnsubscribeAlsoAddToMailList'), null)" /><label for="OnUnsubscribeAlsoAddToMailListChkBox">&nbsp;Empf&auml;nger zur Liste&nbsp;</label>
+                                         <select size="1" name="OnUnsubscribeAlsoAddToMailList" id="OnUnsubscribeAlsoAddToMailList">
+                                           <SHOW:MailingLists>
+                                           </SHOW:MailingLists>
+                                         </select><label for="OnUnsubscribeAlsoAddToMailListChkBox">&nbsp;hinzuf&uuml;gen</label>
+                                       </td>
+                                      </tr>
+                                      <tr>
+                                       <td colspan="2">
+                                         <input type="checkbox" name="OnUnsubscribeAlsoRemoveFromMailListChkBox" id="OnUnsubscribeAlsoRemoveFromMailListChkBox" onclick="DisableControl( document.getElementById('OnUnsubscribeAlsoRemoveFromMailListChkBox').checked, document.getElementById('OnUnsubscribeAlsoRemoveFromMailList'), null)" /><label for="OnUnsubscribeAlsoRemoveFromMailListChkBox">&nbsp;Empf&auml;nger ebenfalls aus Liste&nbsp;</label>
+                                         <select size="1" name="OnUnsubscribeAlsoRemoveFromMailList" id="OnUnsubscribeAlsoRemoveFromMailList">
+                                           <SHOW:MailingLists>
+                                           </SHOW:MailingLists>
+                                         </select><label for="OnUnsubscribeAlsoRemoveFromMailListChkBox">&nbsp;entfernen</label>
+                                       </td>
+                                      </tr>
+                                      <tr>
+                                       <td colspan="2">
+                                         <input type="checkbox" name="AddUnsubscribersToLocalBlacklist" id="AddUnsubscribersToLocalBlacklist" /><label for="AddUnsubscribersToLocalBlacklist">&nbsp;Empf&auml;nger zur lokalen Blockliste hinzuf&uuml;gen</label><SHOWHIDE:TOOLTIPS>
+                                        <img onmouseover="showTooltip(event, 'Die lokale Blockliste gilt nur f&uuml;r die <b>gew&auml;hlte</b> Empf&auml;ngerliste.<br /><br />In der lokalen Blockliste werden alle E-Mail-Adressen gespeichert, f&uuml;r die in Zukunft keine Anmeldungen mehr akzeptiert werden sollen. In der Blockliste werden ebenfalls die E-Mail-Adressen gespeichert, an die in Zukunft keine E-Mail mehr versendet werden sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt="" />
+                                        </SHOWHIDE:TOOLTIPS>
+                                       </td>
+                                      </tr>
+                                      <tr>
+                                       <td colspan="2">
+                                         <input type="checkbox" name="AddUnsubscribersToGlobalBlacklist" id="AddUnsubscribersToGlobalBlacklist" /><label for="AddUnsubscribersToGlobalBlacklist">&nbsp;Empf&auml;nger zur globalen Blockliste hinzuf&uuml;gen</label><SHOWHIDE:TOOLTIPS>
+                                        <img onmouseover="showTooltip(event, 'Die globale Blockliste gilt f&uuml;r <b>alle</b> eingerichteten Empf&auml;ngerliste.<br /><br />In der globalen Blockliste werden alle E-Mail-Adressen gespeichert, f&uuml;r die in Zukunft keine Anmeldungen mehr akzeptiert werden sollen. In der Blockliste werden ebenfalls die E-Mail-Adressen gespeichert, an die in Zukunft keine E-Mail mehr versendet werden sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                        </SHOWHIDE:TOOLTIPS>
+                                       </td>
+                                      </tr>
+                                      <tr>
+                                       <td colspan="2">
+                                         <input type="checkbox" name="SendEMailToAdminOnOptOut" id="SendEMailToAdminOnOptOut" /><label for="SendEMailToAdminOnOptOut">&nbsp;E-Mail bei Abmeldung an den Administrator der Liste senden</label>
+                                       </td>
+                                      </tr>
+                                      <tr>
+                                       <td colspan="2">
+                                         <input type="checkbox" name="SendEMailToEMailAddressOnOptOut" id="SendEMailToEMailAddressOnOptOut" onclick="DisableControl( document.getElementById('SendEMailToEMailAddressOnOptOut').checked, document.getElementById('EMailAddressOnOptOutEMailAddress'), null); if(document.getElementById('SendEMailToEMailAddressOnOptOut').checked) document.getElementById('EMailAddressOnOptOutEMailAddress').focus();" /><label for="SendEMailToEMailAddressOnOptOut">&nbsp;E-Mail bei Abmeldung an folgende E-Mail-Adresse senden&nbsp;</label>
+                                         <input type="text" name="EMailAddressOnOptOutEMailAddress" id="EMailAddressOnOptOutEMailAddress" size="30" maxlength="255" />
+                                       </td>
+                                      </tr>
+
+                                      <tr>
+                                        <td colspan="2">&nbsp;Externes Script per http(s):// aufrufen&nbsp;
+                                         <SHOWHIDE:TOOLTIPS>
+                                          <img onmouseover="showTooltip(event, 'Es kann ein externes eigenes Script angegeben werden, welches bei Abmeldung von der Empf&auml;ngerliste aufgerufen wird. Durch das eigene Script kann in einer externen Datenbank der jeweilige Empf&auml;nger gel&ouml;scht oder deaktiviert werden.<br /><br />Dem Script werden per HTTP GET die Parameter EMail=(e-mail-adresse) und Type=unsubscribe, keine weiteren Angaben, &uuml;bergeben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                          &nbsp;
+                                          </SHOWHIDE:TOOLTIPS>
+                                          <input type="text" id="ExternalUnsubscriptionScript" name="ExternalUnsubscriptionScript" maxlength="255" size="52" />
+                                        </td>
+                                      </tr>
+
+                                    </tbody>
+                                  </table>
+                                </td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('E-Mail-Versand');
+                    //-->  
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie mindestens Absender-E-Mail-Adresse und angezeigter Absender-Name an. Die anderen Optionen sind optional.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>E-Mail-Adressen f&uuml;r den E-Mail-Versand</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Absender E-Mail-Adresse
+                                </td>
+                                <td><input type="text" id="SenderFromAddress" name="SenderFromAddress" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Angezeigter Absender-Name
+                                </td>
+                                <td><input type="text" id="SenderFromName" name="SenderFromName" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Antwort-E-Mail-Adresse (Reply-to)
+                                </td>
+                                <td><input type="text" id="ReplyToEMailAddress" name="ReplyToEMailAddress" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">E-Mail-Adresse f&uuml;r die Return-Path-Angabe
+                                </td>
+                                <td><input type="text" id="ReturnPathEMailAddress" name="ReturnPathEMailAddress" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Sichtbare Kopien-Empf&auml;nger (Cc)<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie eine oder mehrere E-Mail-Adressen mit Komma (,) getrennt an, die eine sichtbare Kopie(Cc) erhalten sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td><input type="text" id="CcEMailAddresses" name="CcEMailAddresses" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Unsichtbare Blindkopien-<br />Empf&auml;nger (BCc)<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie eine oder mehrere E-Mail-Adressen mit Komma (,) getrennt an, die eine unsichtbare Blindkopie(BCc) erhalten sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td><input type="text" id="BCcEMailAddresses" name="BCcEMailAddresses" size="50" /></td>
+                              </tr>
+                              <tr><td>&nbsp;</td></tr>
+                              <tr>
+                                <td colspan="2"><input type="checkbox" name="AllowOverrideSenderEMailAddressesWhileMailCreating" id="AllowOverrideSenderEMailAddressesWhileMailCreating" /><label for="AllowOverrideSenderEMailAddressesWhileMailCreating">&nbsp;Bei der Erstellung von E-Mails und Formularen d&uuml;rfen die E-Mail-Adress-Angaben ver&auml;ndert werden</label>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Jede Empf&auml;ngerliste muss eine Versandvariante zugewiesen bekommen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Versandvariante (MTA) der Empf&auml;ngerliste</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Versandvarianten
+                                <br /><a href="./browsemtas.php" onclick="MessageBox('Best&auml;tigung', 'Alle ver&auml;nderten Einstellungen auf diesen Seite(n) gehen verloren.<br /><br />M&ouml;chten Sie jetzt wirklich neue Versandvarianten definieren?', 3, 320, 160, 'ConfirmEditMTAsEvent'); return false;">(Neue Versandvariante definieren)</a>
+                                </td>
+                                <td>
+                                <select name="mtas[]" id="mtas[]" size="1">
+                                   <SHOW:MTAS>
+                                   </SHOW:MTAS>
+                                </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                   <CanChange:Users>
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Nutzer');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die Nutzer, die diese Empf&auml;ngerliste verwenden d&uuml;rfen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Nutzer, die diese Empf&auml;ngerliste verwenden d&uuml;rfen</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <div class="scrollbox" style="width: 800px; height: 150px" name="UsersScrollbox" id="UsersScrollbox">
+                                    <SHOW:USERS>
+                                    <span class="scrollboxSpan"><input type="checkbox" name="users[]" value="<UserId></UserId>" id="UsersLabelId" />&nbsp;<label for="UsersLabelId"><UserName></UserName></label><br /></span>
+                                    </SHOW:USERS>
+                                  </div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>&nbsp;</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+                   </CanChange:Users>
+                   
+                  </div>
+                  
+                  <br />
+                  <br />
+
+
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                    initTabs('dhtmlgoodies_tabView', TabListArray, 0, 924, 864);
+                    addScrollboxRolloverEffect('InboxesScrollbox','scrollboxRollOverEffect', null);
+
+                  --> 
+                  </script>
+
+                  <script language="javascript" type="text/javascript">
+                  <!--
+                    DisableControlsArray(document.getElementById('SubscriptionType').selectedIndex == 1, Array( document.getElementById('SubscriptionExpirationDays')), Array( document.getElementById('SubscriptionExpirationDaysLabel'), document.getElementById('SubscriptionExpirationDaysLabel1') ) );
+                    DisableControlsArray(document.getElementById('UnsubscriptionType').selectedIndex == 1, Array( document.getElementById('UnsubscriptionExpirationDays')), Array( document.getElementById('UnsubscriptionExpirationDaysLabel'), document.getElementById('UnsubscriptionExpirationDaysLabel1') ) );
+
+
+                    DisableControl( document.getElementById('OnSubscribeAlsoAddToMailList').options.length != 0, document.getElementById('OnSubscribeAlsoAddToMailListChkBox'), null);
+                    DisableControl( document.getElementById('OnSubscribeAlsoRemoveFromMailList').options.length != 0, document.getElementById('OnSubscribeAlsoRemoveFromMailListChkBox'), null);
+                    DisableControl( document.getElementById('OnUnsubscribeAlsoAddToMailList').options.length != 0, document.getElementById('OnUnsubscribeAlsoAddToMailListChkBox'), null);
+                    DisableControl( document.getElementById('OnUnsubscribeAlsoRemoveFromMailList').options.length != 0, document.getElementById('OnUnsubscribeAlsoRemoveFromMailListChkBox'), null);
+
+                    DisableControl( document.getElementById('OnSubscribeAlsoAddToMailListChkBox').checked && !document.getElementById('OnSubscribeAlsoAddToMailListChkBox').disabled, document.getElementById('OnSubscribeAlsoAddToMailList'), null);
+                    DisableControl( document.getElementById('OnSubscribeAlsoRemoveFromMailListChkBox').checked && !document.getElementById('OnSubscribeAlsoRemoveFromMailListChkBox').disabled, document.getElementById('OnSubscribeAlsoRemoveFromMailList'), null);
+                    DisableControl( document.getElementById('OnUnsubscribeAlsoAddToMailListChkBox').checked && !document.getElementById('OnUnsubscribeAlsoAddToMailListChkBox').disabled, document.getElementById('OnUnsubscribeAlsoAddToMailList'), null);
+                    DisableControl( document.getElementById('OnUnsubscribeAlsoRemoveFromMailListChkBox').checked && !document.getElementById('OnUnsubscribeAlsoRemoveFromMailListChkBox').disabled, document.getElementById('OnUnsubscribeAlsoRemoveFromMailList'), null);
+
+                    DisableControl( document.getElementById('SendEMailToEMailAddressOnOptIn').checked, document.getElementById('EMailAddressOnOptInEMailAddress'), null);
+                    DisableControl( document.getElementById('SendEMailToEMailAddressOnOptOut').checked, document.getElementById('EMailAddressOnOptOutEMailAddress'), null);
+
+                    function AddGrouppromptCallbackEvent(Apply, value){
+                      if(!Apply) return;
+                      if(value == null) return;
+
+                      var Groups = document.getElementById("Groups[]");
+                      var newGroupName = value;
+                      newGroupName = newGroupName.replace(/,/, '');
+
+                      var notallowed = "0123456789";
+                      if (notallowed.indexOf(newGroupName.charAt(0)) >= 0) {
+                        alert("Der Gruppenname muss mit einem Buchstaben beginnen.");
+                        return false;
+                      }
+
+                      Exists = false;
+                      for(var i=0; i<Groups.options.length; i++) {
+                         if(Groups.options[i].text.toLowerCase() == newGroupName.toLowerCase()) {
+                            Exists = true;
+                            break;
+                         }
+                      }
+
+                      if(Exists)
+                        alert("Es existiert bereits eine Gruppe mit diesem Namen");
+                        else {
+                           newOption = new Option(newGroupName, newGroupName, false, true);
+                           Groups.options[Groups.options.length] = newOption;
+                        }
+                      document.getElementById('EditGroupBtn').disabled = document.getElementById('Groups[]').value == '';
+                      document.getElementById('RemoveGroupsBtn').disabled = document.getElementById('Groups[]').value == '';
+
+                    }
+
+                    function AddGroup() {
+                       MessagePrompt("Empf&auml;ngergruppen", "Geben Sie den neuen Namen der Empf&auml;ngergruppe ein:", "", 300, 140, "AddGrouppromptCallbackEvent");
+                    }
+
+                    function EditGrouppromptCallbackEvent(Apply, value){
+                      if(!Apply) return;
+                      if(value == null) return;
+
+                      var Groups = document.getElementById("Groups[]");
+                      var option = null;
+                      for(var i=Groups.options.length - 1; i>=0; i--) {
+                        if(Groups.options[i].selected) {
+                          option = Groups.options[i];
+                          break;
+                        }
+                      }
+
+
+                      var newGroupName = value;
+                      newGroupName = newGroupName.replace(/,/, '');
+                      if(newGroupName == option.text) return;
+
+                      var notallowed = "0123456789";
+                      if (notallowed.indexOf(newGroupName.charAt(0)) >= 0) {
+                        alert("Der Gruppenname muss mit einem Buchstaben beginnen.");
+                        return false;
+                      }
+
+                      Exists = false;
+                      for(var i=0; i<Groups.options.length; i++) {
+                         if(Groups.options[i].text.toLowerCase() == newGroupName.toLowerCase()) {
+                            Exists = true;
+                            break;
+                         }
+                      }
+
+                      if(Exists)
+                        alert("Es existiert bereits eine Gruppe mit diesem Namen");
+                        else {
+                           option.text = newGroupName;
+
+                           if(option.value * 1 > 0) {
+                             if(document.getElementById("RenamedGroups").value == "")
+                                document.getElementById("RenamedGroups").value = option.value + "=" + option.text;
+                                else
+                                document.getElementById("RenamedGroups").value = document.getElementById("RenamedGroups").value + "," + option.value + "=" + option.text;
+                           } else {
+                             // is new group
+                             option.value = newGroupName;
+                           }
+
+                        }
+                      document.getElementById('EditGroupBtn').disabled = document.getElementById('Groups[]').value == '';
+                      document.getElementById('RemoveGroupsBtn').disabled = document.getElementById('Groups[]').value == '';
+
+                    }
+
+                    function EditGroup() {
+
+                       var Groups = document.getElementById("Groups[]");
+                       var option = null;
+                       for(var i=Groups.options.length - 1; i>=0; i--) {
+                         if(Groups.options[i].selected) {
+                           option = Groups.options[i];
+                           break;
+                         }
+                       }
+                       if(option == null) return;
+
+                       MessagePrompt("Empf&auml;ngergruppen", "Empf&auml;ngergruppe bearbeiten:", option.text, 300, 140, "EditGrouppromptCallbackEvent");
+
+                    }
+
+                    function RemoveGroups() {
+                       var Groups = document.getElementById("Groups[]");
+                       for(var i=Groups.options.length - 1; i>=0; i--) {
+                         if(Groups.options[i].selected) {
+                            if(Groups.options[i].value * 1 > 0) {
+                              if(document.getElementById("RemovedGroups").value == "")
+                                 document.getElementById("RemovedGroups").value = Groups.options[i].value;
+                                 else
+                                 document.getElementById("RemovedGroups").value = document.getElementById("RemovedGroups").value + "," + Groups.options[i].value;
+                            }
+                            
+                            Groups.options[i] = null;
+                         }
+                       }
+                       document.getElementById('EditGroupBtn').disabled = document.getElementById('Groups[]').value == '';
+                       document.getElementById('RemoveGroupsBtn').disabled = document.getElementById('Groups[]').value == '';
+                    }
+                    // onformsubmit select all!
+                    function SelectAllGroups() {
+                       Groups = document.getElementById("Groups[]");
+                       for(var i=Groups.options.length - 1; i>=0; i--) {
+                         Groups.options[i].selected = true;
+                       }
+                    }
+
+                    document.getElementById('EditGroupBtn').disabled = document.getElementById('Groups[]').value == '';
+                    document.getElementById('RemoveGroupsBtn').disabled = document.getElementById('Groups[]').value == '';
+
+
+                    if(document.getElementById('UsersScrollbox') != null) {
+                      addScrollboxRolloverEffect('UsersScrollbox','scrollboxRollOverEffect', 'scrollboxclickEffect');
+                    }
+
+                    //AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+                  -->
+                  </script>
+
+                  <!-- ##### TabView - END -->
+           
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                <br />
+                <input type="submit" name="MailingListEditBtn" value="&Auml;nderungen speichern" class="FormButton" />
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </form>
+      </div>
+      

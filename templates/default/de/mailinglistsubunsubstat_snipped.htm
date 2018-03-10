@@ -1,0 +1,842 @@
+      <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="js/canvasjs/excanvas.min.js"></script><![endif]-->
+      <script type="text/javascript" src="js/canvasjs/canvasjs.min.js"></script>
+      <script type="text/javascript" src="js/jquery-latest.min.js"></script>
+
+      <script type="text/javascript">
+
+        var charttop10;
+        var subunsubchart;
+        var chartRFUSurvey;
+
+        window.onload = function () {
+
+
+           CanvasJS.addColorSet("chartdefaultColorSet",
+                [
+                "#1941A5",
+                "#AFD8F8",
+                "#F6BD0F",
+                "#8BBA00",
+                "#A66EDD",
+                "#F984A1",
+                "#CCCC00",
+                "#999999",
+                "#0099CC",
+                "#FF0000",
+                "#006F00",
+                "#0099FF",
+                "#FF66CC",
+                "#669966",
+                "#7C7CB4",
+                "#FF9933",
+                "#9900FF",
+                "#99FFCC",
+                "#CCCCFF",
+                "#669900"
+               ]);
+
+           CanvasJS.addColorSet("subunsubColorSet",
+                [
+                "#00FFFF",
+                "#0099FF",
+                "#FF3399",
+                "#FF3300",
+                "#000000"
+               ]);
+
+             /* addCultureInfo */
+
+
+           charttop10 = new CanvasJS.Chart("CHARTTOP10", {
+
+             backgroundColor: "#FFFFFF",
+
+             animationEnabled: true,
+
+             exportEnabled: true,
+
+             culture: "en",
+
+             theme: "theme1",
+
+             colorSet: "chartdefaultColorSet",
+
+             title:{
+               text: "CHARTTOP10TITLE",
+               fontSize: 12,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             toolTip:{
+               enabled: true,
+               borderColor: "black",
+               shared: false
+             },
+
+             data: [
+             {
+              type: "doughnut",
+              startAngle: -90,
+              showInLegend: false,
+              indexLabelFontSize: 12,
+              dataPoints: /* CHARTTOP10_DATA */
+             }
+             ]
+
+         });
+
+           subunsubchart = new CanvasJS.Chart("SUBUNSUBCHART", {
+
+             backgroundColor: "#FFFFFF",
+
+             animationEnabled: true,
+
+             exportEnabled: true,
+
+             culture: "en",
+             creditText: "",
+
+             colorSet:  "subunsubColorSet",
+
+             theme: "theme1",
+
+             title:{
+               text: "SUBUNSUBCHARTTITLE",
+               fontSize: 12,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             legend:{
+               fontSize: 10,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             axisX:{
+               title: "SUBUNSUBCHARTAXISXTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               labelAngle: -30
+             },
+
+             axisY:{
+               title: "SUBUNSUBCHARTAXISYTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               minimum: 0,
+               gridThickness: 1
+               /*SUBUNSUBCHARTINTERVAL, interval: 1 SUBUNSUBCHARTINTERVAL*/
+             },
+
+             toolTip:{
+               enabled: true,
+               borderColor: "black",
+               shared: true
+             },
+
+             data: /* SUBUNSUBCHART_DATA */
+
+         });
+
+
+           chartRFUSurvey = new CanvasJS.Chart("RFUSURVEY", {
+
+             backgroundColor: "#FFFFFF",
+
+             animationEnabled: true,
+
+             exportEnabled: true,
+
+             culture: "en",
+             creditText: "",
+
+             theme: "theme1",
+
+             colorSet: "chartdefaultColorSet",
+
+             indexLabelPlacement: "outside",
+             indexLabelFontColor: "black",
+             indexLabelFontSize: "8",
+             indexLabelFontFamily: "arial, tahoma,verdana",
+
+             title:{
+               text: "CHARTRFUSURVEYTITLE",
+               fontSize: 12,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             axisX:{
+               title: "CHARTRFUSURVEYAXISXTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               gridThickness: 0,
+               interval: 1
+             },
+
+             axisY:{
+               title: "CHARTRFUSURVEYAXISYTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               minimum: 0,
+               gridThickness: 0,
+               labelAngle: -30
+             },
+
+             toolTip:{
+               enabled: true,
+               borderColor: "black",
+               shared: false
+             },
+
+             data: [
+             {
+              type: "bar",
+              showInLegend: false,
+              dataPoints: /* CHARTRFUSURVEY_DATA */
+             }
+             ]
+
+         });
+
+
+         charttop10.render();
+         subunsubchart.render();
+         chartRFUSurvey.render();
+        }
+
+      </script>
+
+      <style type="text/css">
+      <!--
+      div.scroll {
+      height: 88px;
+      width:82%;
+      overflow: auto;
+      border:0px dotted #BABABA;
+      background-color: #FFFFFF;
+      padding: 8px;
+      margin-left:27pt;
+      }
+
+      div.scroll_growth{
+      height: 970px;
+      width: 98%;
+      overflow: auto;
+      border:0px dotted #BABABA;
+      background-color: #FFFFFF;
+      padding: 8px;
+      }
+
+      div.scroll_ReasonTexts{
+      height: 290px;
+      width: 98%;
+      overflow: auto;
+      border:0px dotted #BABABA;
+      background-color: #FFFFFF;
+      padding: 8px;
+      }
+
+      -->
+      </style>
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var TabListArray = Array();
+      //-->
+      </script>
+
+      <div class="spacerborder">
+      <span class="Backlink"><a href="./browsemailinglists.php">Zur&uuml;ck</a></span><br />
+      <script language="javascript" type="text/javascript" src="js/dhtmlgoodies_calendar.js"></script>
+     	<link type="text/css" rel="stylesheet" href="css/dhtmlgoodies_calendar.css" media="screen"></link>
+      <script language="JavaScript">
+      <!--
+        ChangeLanguageCode("de");
+        // german ever dd.mm.yyyy, others must be ever yyyy-mm-dd the php script doesn't support other formats
+      //-->
+      </script>
+
+
+      <form method="post" name="MLStatForm" action="./mailinglistsubunsubstat.php">
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" value="" />
+      <fieldset>
+      <legend>Anzeige-Periode</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">Zeige die Aktivit&auml;ten vom&nbsp;
+                <input type="text" name="startdate" id="startdate" maxlength="10" size="10" readonly />
+                <input type="image" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum w&auml;hlen" onclick="displayCalendar(document.getElementById('startdate'),'dd.mm.yyyy',this); return false;" />
+                &nbsp;bis&nbsp;<input type="text" name="enddate" id="enddate" maxlength="10" size="10" />
+                <input type="image" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum w&auml;hlen" onclick="displayCalendar(document.getElementById('enddate'),'dd.mm.yyyy',this); return false;" />&nbsp;
+                <input type="submit" name="StatRefresh" value="Aktualisieren" />
+
+                <NoGoogleMaps>
+                <input type="hidden" name="ACard" id="ACard" value="" />
+                </NoGoogleMaps>
+
+                 <script language="JavaScript">
+                 <!--
+                   // Firefox problems with DHTML layer of calendar
+                   var BrowserName = navigator.appName;
+                   if(BrowserName == "Firefox1" || BrowserName == "Netscape1")
+                     document.write("<br /><br /><br /><br /><br /><br /><br /><br />");
+                 //-->
+                 </script>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+      </form>
+
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+          <tr>
+            <td>
+              <!-- ##### TabView - START -->
+              <div id="dhtmlgoodies_tabView">
+
+                <!-- ####### TAB START -->
+                <script language="JavaScript" type="text/javascript">
+                <!--
+                  TabListArray.push('Gesamt');
+                //-->
+                </script>
+              	<div class="dhtmlgoodies_aTab">
+
+                 <fieldset>
+                 <legend>Gesamtstatistik f&uuml;r die Empf&auml;ngerliste</legend>
+                 <br />
+                     <table class="FormTable" style="width:80%;margin-left:32pt" cellspacing="0" cellpadding="0" border="0">
+                       <tbody>
+                         <tr>
+                           <td class="StatColumn">Anzahl Empf&auml;nger gesamt
+                           </td>
+                           <td style="text-align: right; margin-right:8pt;"><LIST:TOTAL></LIST:TOTAL></td>
+                         </tr>
+                         <tr>
+                           <td class="StatColumn">Anzahl aktive und best&auml;tigte Empf&auml;nger
+                           </td>
+                           <td style="text-align: right; margin-right:8pt;"><LIST:CONFIRMEDSUBSCRIBTIONS></LIST:CONFIRMEDSUBSCRIBTIONS></td>
+                         </tr>
+                         <tr>
+                           <td class="StatColumn">Anzahl inaktive und best&auml;tigte Empf&auml;nger
+                           </td>
+                           <td style="text-align: right; margin-right:8pt;"><LIST:CONFIRMEDSUBSCRIBTIONSINACTIVE></LIST:CONFIRMEDSUBSCRIBTIONSINACTIVE></td>
+                         </tr>
+                         <tr>
+                           <td class="StatColumn">Unbest&auml;tigte Anmeldungen
+                           </td>
+                           <td style="text-align: right; margin-right:8pt;"><LIST:UNCONFIRMEDSUBSCRIBTIONS></LIST:UNCONFIRMEDSUBSCRIBTIONS></td>
+                         </tr>
+                         <tr>
+                           <td class="StatColumn">Unbest&auml;tigte Abmeldungen
+                           </td>
+                           <td style="text-align: right; margin-right:8pt;"><LIST:UNCONFIRMEDUNSUBSCRIBTIONS></LIST:UNCONFIRMEDUNSUBSCRIBTIONS></td>
+                         </tr>
+                         <tr>
+                           <td class="StatColumn">Anzahl Empf&auml;nger in lokaler Blacklist
+                           </td>
+                           <td style="text-align: right; margin-right:8pt;"><LIST:RECIPIENTSINBLACKLIST></LIST:RECIPIENTSINBLACKLIST></td>
+                         </tr>
+                         <tr>
+                           <td class="StatColumn">Aktive Empf&auml;nger mit Status &quot;permanent unzustellbar&quot;
+                           </td>
+                           <td style="text-align: right; margin-right:8pt; vertical-align: top"><LIST:BOUNCEDACTIVE></LIST:BOUNCEDACTIVE></td>
+                         </tr>
+                         <tr>
+                           <td class="StatColumn">Inaktive Empf&auml;nger mit Status &quot;permanent unzustellbar&quot;
+                           </td>
+                           <td style="text-align: right; margin-right:8pt; vertical-align: top"><LIST:BOUNCEDINACTIVE></LIST:BOUNCEDINACTIVE></td>
+                         </tr>
+                         <tr>
+                           <td class="StatColumn">Anzahl Empf&auml;ngergruppen
+                           </td>
+                           <td style="text-align: right; margin-right:8pt; vertical-align: top"><LIST:GROUPSCOUNT></LIST:GROUPSCOUNT></td>
+                         </tr>
+                       </tbody>
+                     </table>
+                 </fieldset>
+
+                 <IF:GROUPS>
+                 <fieldset>
+                 <legend>Empf&auml;nger in den einzelnen Empf&auml;ngergruppen</legend>
+                 <br />
+                    <div class="scroll">
+                     <table class="FormTable" style="width: 97% ! important;" cellspacing="0" cellpadding="0" border="0">
+                       <tbody>
+                         <LIST:RECIPIENTSINGROUPS>
+                         <tr>
+                           <td class="StatColumn"><LIST:GROUPNAME></LIST:GROUPNAME>
+                           </td>
+                           <td style="text-align: right; margin-right:8pt;"><LIST:GROUPRCOUNT></LIST:GROUPRCOUNT></td>
+                         </tr>
+                         </LIST:RECIPIENTSINGROUPS>
+                       </tbody>
+                     </table>
+                    </div>
+                 </fieldset>
+                 </IF:GROUPS>
+
+                 <fieldset>
+                 <legend>E-Mail-Provider Top 10 f&uuml;r die gesamte Empf&auml;ngerliste</legend>
+                 <br />
+                     <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                       <tbody>
+                         <tr>
+                           <td colspan="2">
+                             <div style="text-align: center; width: 100%; height: 470px; margin: 0px auto">
+                             <div id="CHARTTOP10" style="margin: 0px auto; height: 470px"></div>
+                             </div>
+                           </td>
+                         </tr>
+                       </tbody>
+                     </table>
+                 </fieldset>
+
+              	</div>
+              	<!-- ####### TAB END -->
+
+
+              	<!-- ####### TAB START -->
+                <script language="JavaScript" type="text/javascript">
+                <!--
+                  TabListArray.push('Periode');
+                //-->
+                </script>
+              	<div class="dhtmlgoodies_aTab">
+
+                  <fieldset>
+                  <legend>Chart f&uuml;r die Periode</legend>
+                  <br />
+                      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                          <tr>
+                            <td colspan="2">
+                             <div style="width: 100%; height: 600px;">
+                               <div id="SUBUNSUBCHART" style="height: 600px;"></div>
+                             </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </fieldset>
+
+                  <fieldset>
+                  <legend>Statistik &uuml;ber alle Aktivit&auml;ten in der gew&auml;hlten Periode</legend>
+                  <br />
+                      <table class="FormTable" style="width:80%;margin-left:32pt" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                          <tr>
+                            <td class="StatColumn">Anzahl Aktivit&auml;ten gesamt
+                            </td>
+                            <td style="text-align: right; margin-right:8pt;"><LIST:ACTIVITIES></LIST:ACTIVITIES></td>
+                          </tr>
+                          <tr>
+                            <td class="StatColumn">Anzahl best&auml;tigte Empf&auml;nger
+                            </td>
+                            <td style="text-align: right; margin-right:8pt;"><LIST:PCONFIRMEDSUBSCRIBTIONS></LIST:PCONFIRMEDSUBSCRIBTIONS></td>
+                          </tr>
+                          <tr>
+                            <td class="StatColumn">Anzahl abgemeldete Empf&auml;nger
+                            </td>
+                            <td style="text-align: right; margin-right:8pt;"><LIST:PUNSUBSCRIBED></LIST:PUNSUBSCRIBED></td>
+                          </tr>
+                          <tr>
+                            <td class="StatColumn">Unbest&auml;tigte Anmeldungen
+                            </td>
+                            <td style="text-align: right; margin-right:8pt;"><LIST:PUNCONFIRMEDSUBSCRIBTIONS></LIST:PUNCONFIRMEDSUBSCRIBTIONS></td>
+                          </tr>
+                          <tr>
+                            <td class="StatColumn">Unbest&auml;tigte Abmeldungen
+                            </td>
+                            <td style="text-align: right; margin-right:8pt;"><LIST:PUNCONFIRMEDUNSUBSCRIBTIONS></LIST:PUNCONFIRMEDUNSUBSCRIBTIONS></td>
+                          </tr>
+                          <tr>
+                            <td class="StatColumn">Anzahl Empf&auml;nger geblacklisted
+                            </td>
+                            <td style="text-align: right; margin-right:8pt;"><LIST:PRECIPIENTSINBLACKLIST></LIST:PRECIPIENTSINBLACKLIST></td>
+                          </tr>
+                          <tr>
+                            <td class="StatColumn">F&uuml;r den E-Mail-Versand aktivierte Empf&auml;nger
+                            </td>
+                            <td style="text-align: right; margin-right:8pt; vertical-align: top"><LIST:PACTIVATED></LIST:PACTIVATED></td>
+                          </tr>
+                          <tr>
+                            <td class="StatColumn">F&uuml;r den E-Mail-Versand deaktivierte Empf&auml;nger
+                            </td>
+                            <td style="text-align: right; margin-right:8pt; vertical-align: top"><LIST:PDEACTIVATED></LIST:PDEACTIVATED></td>
+                          </tr>
+                          <tr>
+                            <td class="StatColumn">Abgerufene Bounce-E-Mails
+                            </td>
+                            <td style="text-align: right; margin-right:8pt;"><LIST:PBOUNCES></LIST:PBOUNCES></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  </fieldset>
+
+              	</div>
+              	<!-- ####### TAB END -->
+
+
+              	<!-- ####### TAB START -->
+                <script language="JavaScript" type="text/javascript">
+                <!--
+                  TabListArray.push('Wachstum');
+                //-->
+                </script>
+              	<div class="dhtmlgoodies_aTab">
+                  <fieldset>
+                  <legend>Wachstum f&uuml;r die Periode</legend>
+                  <br />
+                    <div class="scroll_growth">
+                    <table class="FixedTable" id="GrowthTable" style="width: 97% ! important;">
+                       <thead>
+                        <tr>
+                          <td style="width: 20%; height: 32px" class="NoWrap">
+                            Datum
+                          </td>
+                          <td style="width: 1%">&nbsp;</td>
+                          <td style="width: 20%" class="NoWrapAlignRight">
+                            Anmeldungen
+                          </td>
+                          <td style="width: 1%">&nbsp;</td>
+                          <td style="width: 20%" class="NoWrapAlignRight">
+                            Abmeldungen
+                          </td>
+                          <td style="width: 1%">&nbsp;</td>
+                          <td style="width: 20%" class="NoWrapAlignRight">
+                            Summe Anmeldungen
+                          </td>
+                          <td style="width: 1%">&nbsp;</td>
+                          <td style="width: 24%" class="NoWrapAlignCenter" colspan="3">
+                            Wachstum
+                          </td>
+                        </tr>
+                       </thead>
+                       <tbody>
+
+                        <growth_entry>
+                        <tr>
+                          <td style="height: 32px">
+                            <Date></Date>
+                          </td>
+                          <td style="width: 1%">&nbsp;</td>
+                          <td class="NoWrapAlignRight">
+                            <SubscribeCount></SubscribeCount>
+                          </td>
+                          <td style="width: 1%">&nbsp;</td>
+                          <td class="NoWrapAlignRight">
+                            <UnsubscribeCount></UnsubscribeCount>
+                          </td>
+                          <td style="width: 1%">&nbsp;</td>
+                          <td class="NoWrapAlignRight">
+                            <ActivityCount></ActivityCount>
+                          </td>
+                          <td style="width: 1%">&nbsp;</td>
+                          <td class="NoWrapAlignLeft" style="width: 20px">
+                            <GrowthImage></GrowthImage>
+                          </td>
+                          <td class="NoWrapAlignRight" style="width: 10%">
+                            <GrowthValue></GrowthValue>
+                          </td>
+                          <td class="NoWrapAlignRight">
+                            <Growth></Growth>
+                          </td>
+                        </tr>
+                        </growth_entry>
+                       
+                       </tbody>
+                       <tfoot>
+                        <tr>
+                          <td style="width: 20%" class="NoWrap">
+                            Summe
+                          </td>
+                          <td style="width: 1%">&nbsp;</td>
+                          <td style="width: 20%" class="NoWrapAlignRight">
+                            <SumSubscribeCount></SumSubscribeCount>
+                          </td>
+                          <td style="width: 1%">&nbsp;</td>
+                          <td style="width: 20%" class="NoWrapAlignRight">
+                            <SumUnsubscribeCount></SumUnsubscribeCount>
+                          </td>
+                          <td style="width: 1%">&nbsp;</td>
+                          <td style="width: 20%" class="NoWrapAlignRight">
+                            &nbsp;
+                          </td>
+                          <td style="width: 1%">&nbsp;</td>
+                          <td class="NoWrapAlignLeft">
+                            <GrowthImage></GrowthImage>
+                          </td>
+                          <td class="NoWrapAlignLeft">
+                            &nbsp;
+                          </td>
+                          <td style="width: 24%" class="NoWrapAlignRight">
+                            &empty; <SumGrowth></SumGrowth>
+                          </td>
+                        </tr>
+                       </tfoot>
+                    </table>
+                    </div>
+
+                  
+                  
+                  </fieldset>
+              	</div>
+              	<!-- ####### TAB END -->
+
+
+
+
+              	<!-- ####### TAB START -->
+                <script language="JavaScript" type="text/javascript">
+                <!--
+                  TabListArray.push('Geo-Targeting');
+                //-->
+                </script>
+              	<div class="dhtmlgoodies_aTab">
+                  <fieldset>
+                  <legend>Geo-Targeting f&uuml;r die Periode</legend>
+                  <br />
+
+                      <NoGoogleMaps>
+                      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                          <tr><td colspan="2"><GoogleDeveloperPublicKeyMissing></GoogleDeveloperPublicKeyMissing></td></tr>
+                          <tr>
+                            <td colspan="2" align="left">
+                              Karte:<br />
+                              <select name="Card" size="1" id="Card" onchange="ChangeGeoTargeting()">
+                                <option value="world">Welt</option>
+                                <option value="europe">Europa</option>
+                                <option value="germany">Deutschland</option>
+                              </select><br /><br />
+                              <iframe id="geo" width="100%" height="900" border="0" marginheight="0" marginwidth="0" frameborder="0" src="./mailinglistsubunsubstat_iframe_geo.php"></iframe>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      </NoGoogleMaps>
+
+                      <GoogleMaps>
+                      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                        <tbody>
+                          <tr>
+                            <td colspan="2" align="left">
+                               <GeoLiteCityDatMissing></GeoLiteCityDatMissing>
+                               <GoogleDeveloperPublicKeyMissing></GoogleDeveloperPublicKeyMissing>
+
+                               <div id="GeoMap" style="width: 100%; height: 900px;"></div>
+
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      </GoogleMaps>
+
+                  </fieldset>
+              	</div>
+              	<!-- ####### TAB END -->
+
+
+              	<!-- ####### TAB START -->
+                <script language="JavaScript" type="text/javascript">
+                <!--
+                  TabListArray.push('Gr&uuml;nde f&uuml;r Abmeldung');
+                //-->
+                </script>
+              	<div class="dhtmlgoodies_aTab">
+                  <fieldset>
+                  <legend>Gr&uuml;nde f&uuml;r die Abmeldung von dieser Empf&auml;ngerliste</legend>
+                  <br />
+
+                     <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                       <tbody>
+                         <tr>
+                           <td colspan="2">
+                             <div style="text-align: center; width: 100%; height: 600px; margin: 0px auto">
+                             <div id="RFUSURVEY" style="margin: 0px auto; height: 600px"></div>
+                             </div>
+                           </td>
+                         </tr>
+                       </tbody>
+                     </table>
+
+
+                  </fieldset>
+
+                  <fieldset>
+                  <legend>Freitext Gr&uuml;nde f&uuml;r die Abmeldung von dieser Empf&auml;ngerliste</legend>
+                  <br />
+
+                     <div class="scroll_ReasonTexts">
+                     <table class="FixedTable" id="ReasonTexts" style="width: 97% ! important;">
+                       <tbody>
+                         <LIST:REASONHEADROW>
+                         <tr>
+                           <td style="height: 32px; font-weight: bold; color: #000000; background-color: #EAEAEA;"><b>Abmeldegrund: <LIST:REASONLABEL></LIST:REASONLABEL></b>
+                           </td>
+                         </tr>
+                         </LIST:REASONHEADROW>
+                         <LIST:REASONROW>
+                         <tr>
+                           <td style="height: 32px"><LIST:REASONTEXT></LIST:REASONTEXT></td>
+                         </tr>
+                         </LIST:REASONROW>
+                       </tbody>
+                     </table>
+                     </div>
+                 </fieldset>
+
+              	</div>
+              	<!-- ####### TAB END -->
+
+
+              </div>
+              <br />
+              <br />
+
+              <!-- ##### TabView - END -->
+
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+
+              <script language="JavaScript">
+              <!--
+
+               initTabs('dhtmlgoodies_tabView', TabListArray, 0, 924, 1060);
+               addTableRolloverEffect('GrowthTable','tableRollOverEffect','');
+               addTableRolloverEffect('ReasonTexts','tableRollOverEffect','');
+
+
+               //AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+              //-->
+              </script>
+
+              <NoGoogleMaps>
+              <script language="JavaScript" type="text/javascript">
+              <!--
+               function ChangeGeoTargeting(){
+                 var geo = document.getElementById("geo");
+                 var card = document.getElementById("Card");
+                 var src = geo.src;
+                 src = src.substr(0, src.indexOf("&Card=")) + "&Card="+card.value;
+                 geo.src = src;
+                 document.getElementById("ACard").value = card.value;
+               }
+              //-->
+              </script>
+              </NoGoogleMaps>
+
+              <GoogleMaps>
+              <script src="http://maps.googleapis.com/maps/api/js?key=<GoogleDeveloperPublicKey>&sensor=false"></script>
+              <script language="javascript" type="text/javascript">
+              <!--
+                var GeoDataLoaded = false;
+
+                var imageRed = 'images/mm_20_red.png'; // http://labs.google.com/ridefinder/images/mm_20_red.png
+                var imageBlue = 'images/mm_20_blue.png'; // http://labs.google.com/ridefinder/images/mm_20_blue.png
+
+                var DefaultLatlng = new google.maps.LatLng(52.5243700, 13.4105300); // default Berlin
+                var DefaultZoom = 5;
+
+                var mapProp = {center: DefaultLatlng,
+                               zoom: DefaultZoom,
+                               mapTypeId: google.maps.MapTypeId.ROADMAP
+                              };
+
+
+                if(document.getElementById("GeoMap"))
+                   var GeoMap = new google.maps.Map(document.getElementById("GeoMap"), mapProp);
+
+                function load_geodata(url, map){
+                 var date = new Date();
+                 var nocache = date.getTime() / 1000;
+                 $.ajaxSetup({ cache: false });
+
+                	jQuery.get(url + "&nocache=" + nocache, "", function(text){
+                    var data = $.parseJSON(text);
+                    //var data = JSON.parse(text);
+
+                    if(data){
+                      for(var i=0; i<data.length; i++){
+
+                         var aLatlng = new google.maps.LatLng(parseFloat(data[i]["latitude"]), parseFloat(data[i]["longitude"]));
+                         var image = imageBlue;
+                         var animation = google.maps.Animation.DROP;
+                         if(data[i]["image"] == "red"){ //myself
+                           var image = imageRed;
+                           DefaultLatlng = null;
+                           DefaultLatlng = new google.maps.LatLng(parseFloat(data[i]["latitude"]), parseFloat(data[i]["longitude"]));
+                           animation = google.maps.Animation.BOUNCE;
+                         }
+
+                         var marker = new google.maps.Marker({
+                               position: aLatlng,
+                               map: map,
+                               title: data[i]["title"],
+                               icon: image,
+                               animation: animation
+                           });
+                         marker.setMap(map);
+
+                      }
+
+                    } //if
+
+                	});
+
+                 GeoDataLoaded = true;
+
+                }
+
+                function initializegeodata() {
+                  var url = "./mailinglistsubunsubstat_geo.php";
+                  if(document.getElementById("GeoMap"))
+                     load_geodata(url, GeoMap);
+               }
+
+                if(document.getElementById("GeoMap"))
+                   google.maps.event.addDomListener(window, 'load', initializegeodata);
+
+
+                // resize problems on tabs
+                if(document.getElementById("GeoMap")){
+                  $('#tabTabdhtmlgoodies_tabView_3').on('click', function(){
+                    google.maps.event.trigger(GeoMap, 'resize');
+                    GeoMap.setZoom(DefaultZoom);
+                    GeoMap.setCenter(DefaultLatlng);
+                    /*if(GeoDataLoaded)
+                      $(this).off('click');*/
+                  });
+                }
+
+
+                $('#tabTabdhtmlgoodies_tabView_0').on('click', function(){
+                  charttop10.render();
+                });
+
+                $('#tabTabdhtmlgoodies_tabView_1').on('click', function(){
+                  subunsubchart.render();
+                });
+
+                $('#tabTabdhtmlgoodies_tabView_4').on('click', function(){
+                  chartRFUSurvey.render();
+                });
+
+              -->
+              </script>
+              </GoogleMaps>
+
+      </div>
+      

@@ -1,0 +1,1 @@
+Die Anleitung zur Installation finden Sie unter http://www.superwebmailer.de/joomla/ 

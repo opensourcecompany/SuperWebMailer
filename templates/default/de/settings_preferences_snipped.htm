@@ -1,0 +1,576 @@
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var TabListArray = Array();
+      //-->
+      </script>
+
+      <div class="spacerborder">
+        <form method="post" id="SettingsForm" name="SettingsForm" action="./settings_preferences.php">
+          <span class="Backlink">&nbsp;</span>
+          <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+
+                  <!-- ##### TabView - START -->
+                  <div id="dhtmlgoodies_tabView">
+
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('E-Mail-Erstellung');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Ver&auml;ndern Sie die Einstellungen nur, wenn es Probleme bei der E-Mail-Zustellung gibt.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>E-Mail-Erstellung</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="CRLF">Zeilenumbruch</label>
+                                </td>
+                                <td>
+	                                <select name="CRLF" size="1" id="CRLF">
+																																  <option value="auto">Automatisch</option>
+																																  <option value="CRLF">CRLF</option>
+																																  <option value="CR">CR</option>
+																																  <option value="LF">LF</option>
+	                    												</select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="Head_Encoding">Codierung des Headers</label>
+                                </td>
+                                <td>
+	                                <select name="Head_Encoding" size="1" id="Head_Encoding">
+									  																						<option value="auto">Automatisch</option>
+									  																						<option value="quoted-printable">Quoted printable</option>
+									  																						<option value="base64">Base 64</option>
+	                             		 </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="Text_Encoding">Codierung von Text-E-Mails</label>
+                                </td>
+                                <td>
+	                                <select name="Text_Encoding" size="1" id="Text_Encoding">
+									  																						<option value="auto">Automatisch</option>
+									  																						<option value="7bit">7 Bit</option>
+									  																						<option value="8bit">8 Bit</option>
+									  																						<option value="quoted-printable">Quoted printable</option>
+									  																						<option value="base64">Base 64</option>
+	                             		 </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="HTML_Encoding">Codierung von HTML-E-Mails</label>
+                                </td>
+                                <td>
+	                                <select name="HTML_Encoding" size="1" id="HTML_Encoding">
+									  																						<option value="auto">Automatisch</option>
+									  																						<option value="7bit">7 Bit</option>
+									  																						<option value="8bit">8 Bit</option>
+									  																						<option value="quoted-printable">Quoted printable</option>
+									  																						<option value="base64">Base 64</option>
+	                             		 </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="Attachment_Encoding">Codierung von Anh&auml;ngen</label>
+                                </td>
+                                <td>
+	                                <select name="Attachment_Encoding" size="1" id="Attachment_Encoding">
+									  																						<option value="auto">Automatisch</option>
+									  																						<option value="base64">Base 64</option>
+	                             		 </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="XMailer">X-Mailer-Headerfeld</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Damit die E-Mail nicht als Spam erkannt wird, sollte die Angabe leer bleiben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+																																	<input name="XMailer" type="text" size="32" id="XMailer" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="AddUniqueIdHeaderField">Eindeutige ID im E-Mail-Header verwenden</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Anhand der ID kann erkannt werden zu welchem E-Mailing oder Responder die Bounce-E-Mail geh&ouml;rt. Ohne die ID kann eine Bounce-E-Mail nicht zu einem E-Mailing oder Responder zugeordnet werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+																																	<input name="AddUniqueIdHeaderField" type="checkbox" id="AddUniqueIdHeaderField" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('E-Mail-Versand');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'E-Mails, die von den definierten Autorespondern und Follow-Up-Respondern erstellt werden, werden in einem Ausgangsqueue zwischengespeichert und danach nach und nach versendet. Geben Sie an, wie viele E-Mails versendet werden sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>E-Mail-Versand</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="SendEngineRetryCount">Anzahl Versende-Versuche bevor eine nicht zustellbare E-Mail aus dem Ausgangsqueue gel&ouml;scht wird</label>
+                                &nbsp;<img onmouseover="showTooltip(event, 'Es k&ouml;nnen mehrere Versende-Versuche durch das Versende-Script unternommen werden. Wurde die angegebene Anzahl erreicht, dann wird die E-Mail nicht versendet und aus dem Ausgangsqueue gel&ouml;scht. Wird beim Versand festgestellt, dass es sich um einen permanenten Fehler handelt, dann wird der Bounce-Status des Empf&auml;ngers ebenfalls ver&auml;ndert, d.h. der Empf&auml;nger erh&auml;lt den Status \'Permanent unzustellbar\'.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                </td>
+                                <td>
+                                  <input type="text" name="SendEngineRetryCount" size="5" style="text-align: right" id="SendEngineRetryCount" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">
+                                  <label for="SendEngineMaxEMailsToSend">Anzahl zu versendende E-Mails</label>&nbsp;<img onmouseover="showTooltip(event, 'Geben Sie an wie viele E-Mails auf einmal aus der Ausgangswarteschlange versendet werden sollen. Ist die Anzahl zu hoch eingestellt und das Script wird abgebrochen, dann k&ouml;nnten E-Mails doppelt oder niemals versendet werden. Ein normaler Wert liegt zwischen 100 und 200 E-Mails, abh&auml;ngig von der Leistung des Server.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                </td>
+                                <td class="MessageValueColumn">
+                                  <input type="text" name="SendEngineMaxEMailsToSend" size="5" style="text-align: right" id="SendEngineMaxEMailsToSend" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">
+                                  <label for="SendEngineFIFO">Reihenfolge des Versands aus Ausgangswarteschlange</label>&nbsp;<img onmouseover="showTooltip(event, 'Geben Sie an nach welchem Prinzip die E-Mails aus der Ausgangswarteschlange versendet werden sollen.<br />FIFO = First in First out versendet vom &auml;ltesten zum neuesten Eintrag.<br />Wird die Einstellung deaktiviert, werden die neuesten E-Mails zuerst versendet (LIFO = Last in First out), damit k&ouml;nnen neue E-Mails vorgezogen werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                </td>
+                                <td class="MessageValueColumn">
+                                  <input type="checkbox" name="SendEngineFIFO" id="SendEngineFIFO" /><label for="SendEngineFIFO">&nbsp;Nach dem FIFO-Prinzip</label>
+                                </td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'F&uuml;r jeden Empf&auml;nger kann der E-Mail-Betreff gespeichert werden, so dass sp&auml;ter nachvollzogen werden kann welche E-Mails der Empf&auml;nger erhalten hat.<br />Werden viele E-Mails versendet, dann wird die Speicherung viel Speicherplatz verbrauchen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Speicherung der E-Mail-Betreffs f&uuml;r jeden Empf&auml;nger</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td colspan="2">
+                                  <input type="checkbox" name="MailLoggerEnabled" value="1" id="MailLoggerEnabled" /><label for="MailLoggerEnabled">&nbsp;F&uuml;r jeden Empf&auml;nger die Betreffs der versendeten E-Mails in der History speichern</label>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Die ECG-Liste muss in das Verzeichnis ECG mit dem Dateinamen ecg-liste.hash gespeichert werden. Informationen zum Erhalt der Datei finden Sie unter http://www.rtr.at/de/tk/NutzenECG.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>E-Commerce-Gesetz (ECG)-Liste, nur f&uuml;r &Ouml;sterreich</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td colspan="2">
+                                  <input type="checkbox" name="ECGListCheck" value="1" id="ECGListCheck" /><label for="ECGListCheck">&nbsp;Keine E-Mails an Empf&auml;nger senden, die sich in der ECG-Liste befinden.</label>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Bounce-Management');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Es werden in regelm&auml;&szlig;igen Abst&auml;nden die definierten Posteingangsserver/Postf&auml;cher auf wirklich nicht mehr zustellbare E-Mails (Hardbounces) gepr&uuml;ft und die unzustellbaren E-Mail-Adressen gel&ouml;scht.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Unzustellbare E-Mails / Bounce-Management</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="HardbounceCount">Anzahl Hardbounces, nach denen ein Empf&auml;nger aus der Empf&auml;ngerliste gel&ouml;scht oder deaktiviert werden soll</label>
+                                </td>
+                                <td class="MessageValueColumn">
+                                  <input type="text" name="HardbounceCount" size="5" style="text-align: right" id="HardbounceCount" />
+                                  <br />
+                                  <input type="checkbox" name="RemoveToOftenBouncedRecipients" value="1" id="RemoveToOftenBouncedRecipients" /><label for="RemoveToOftenBouncedRecipients">&nbsp;Empf&auml;nger permanent l&ouml;schen</label>
+                                  <br />
+                                  <input type="checkbox" name="AddBouncedRecipientsToLocalBlocklist" value="1" id="AddBouncedRecipientsToLocalBlocklist" /><label for="AddBouncedRecipientsToLocalBlocklist">&nbsp;Empf&auml;nger in lokale Blockliste aufnehmen</label>
+                                  <br />
+                                  <input type="checkbox" name="AddBouncedRecipientsToGlobalBlocklist" value="1" id="AddBouncedRecipientsToGlobalBlocklist" /><label for="AddBouncedRecipientsToGlobalBlocklist">&nbsp;Empf&auml;nger in globale Blockliste aufnehmen</label>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">
+                                  <label for="BounceEMailCount">Anzahl abzurufende Bounce-E-Mails</label>&nbsp;<img onmouseover="showTooltip(event, 'Geben Sie an wie viele E-Mails auf einmal aus einem definierten Postfach abgerufen und analysiert werden sollen. Ist die Anzahl zu hoch eingestellt und das Script wird abgebrochen, dann werden niemals die Bounce-E-Mails korrekt verarbeitet. Ein normaler Wert liegt zwischen 30 und 50 E-Mails.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                </td>
+                                <td class="MessageValueColumn">
+                                  <input type="text" name="BounceEMailCount" size="5" style="text-align: right" id="BounceEMailCount" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">
+                                  L&ouml;schen von nicht erkannten E-Mails
+                                </td>
+                                <td class="MessageValueColumn">
+                                  <input type="checkbox" name="RemoveUnknownMailsAndSoftbounces" value="1" id="RemoveUnknownMailsAndSoftbounces" /><label for="RemoveUnknownMailsAndSoftbounces">&nbsp;Unbekannte Bounce-E-Mails und Antwort-E-Mails l&ouml;schen</label>&nbsp;<img onmouseover="showTooltip(event, 'Sollten sich zu viele E-Mails im Postfach befinden, dann kann es zum Scriptabbruch kommen. Es ist daher empfehlenswert Softbounce-E-Mails und etwaige Antwort-E-Mails automatisch aus dem Postfach dauerhaft l&ouml;schen zu lassen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Spam-Test');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend>Spam-Test mit SpamAssassin</legend>
+                      <br />
+                          <input type="radio" name="SpamTestExternal" value="0" id="SpamTestExternal" onclick="ActivateSpamTestControls()"><label for="SpamTestExternal">&nbsp;Spam-Test auf diesem Server durchf&uuml;hren</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Passen Sie die Einstellungen nur an, wenn die Einstellungen auf Ihrem Server abweichen, beachten Sie dazu die SpamAssassin-Anleitung.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                              <table class="FormTable" cellspacing="0" cellpadding="0" border="0" style="margin-left: 20px; margin-top: 20px">
+                                <tbody>
+                                  <tr>
+                                    <td class="MessageDescriptionColumn"><label for="spamassassinPath">Verzeichnis und Dateiname zu SpamAssassin</label>
+                                    </td>
+                                    <td>
+                                     <input type="text" name="spamassassinPath" size="40" maxlength="255" id="spamassassinPath" style="width: 80%" />
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td class="MessageDescriptionColumn"><label for="spamassassinParameters">Parameter f&uuml;r SpamAssassin</label>
+                                    </td>
+                                    <td>
+                                     <input type="text" name="spamassassinParameters" size="40" maxlength="255" id="spamassassinParameters" style="width: 80%" />
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            <p>&nbsp;</p>
+                          <input type="radio" name="SpamTestExternal" value="1" id="SpamTestExternal1" onclick="ActivateSpamTestControls()"><label for="SpamTestExternal1">&nbsp;Spam-Test auf externen Server durchf&uuml;hren</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Im PRODUCTAPPNAME-Verzeichnis finden Sie das Script spamtest_external.php, dieses Script k&ouml;nnen Sie anpassen (Upload-Verzeichnis korrekt angeben) und auf einen anderen Server &uuml;bertragen.<br />Geben Sie nach dem Upload den korrekten http://-Aufruf hier an.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                              <table class="FormTable" cellspacing="0" cellpadding="0" border="0" style="margin-left: 20px; margin-top: 20px">
+                                <tbody>
+                                  <tr>
+                                    <td class="MessageDescriptionColumn"><label for="SpamTestExternalURL">Externe URL mit http://</label>
+                                    </td>
+                                    <td>
+                                     <input type="text" name="SpamTestExternalURL" size="40" maxlength="255" id="SpamTestExternalURL" style="width: 80%" />
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Log-Bereinigung');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Um die Gr&ouml;&szlig;e der Datenbank zu begrenzen und die Performance zu erhalten k&ouml;nnen die Log-Eintr&auml;ge nach einiger Zeit gel&ouml;scht werden. Das L&ouml;schen der Eintr&auml;ge wird vom CronJob-Script automatisch ausgef&uuml;hrt.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Log-Bereinigung</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="CronCleanUpDays">Tage nach denen die Cron-Job-Protokoll-Eintr&auml;ge gel&ouml;scht werden sollen</label>
+                                </td>
+                                <td class="MessageValueColumn">
+                                  <input type="text" name="CronCleanUpDays" size="5" style="text-align: right" id="CronCleanUpDays" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="MailingListStatCleanUpDays">Tage nach denen die Protokoll-Eintr&auml;ge f&uuml;r die Empf&auml;ngerliste(n) gel&ouml;scht werden sollen</label>
+                                </td>
+                                <td class="MessageValueColumn">
+                                  <input type="text" name="MailingListStatCleanUpDays" size="5" style="text-align: right" id="MailingListStatCleanUpDays" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="ResponderStatCleanUpDays">Tage nach denen die Versand-Protokolle f&uuml;r die Responder und E-Mailings gel&ouml;scht werden sollen</label>
+                                </td>
+                                <td class="MessageValueColumn">
+                                  <input type="text" name="ResponderStatCleanUpDays" size="5" style="text-align: right" id="ResponderStatCleanUpDays" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="TrackingStatCleanUpDays">Tage nach denen die Tracking-Statistik f&uuml;r die Responder und E-Mailings gel&ouml;scht werden sollen</label>
+                                </td>
+                                <td class="MessageValueColumn">
+                                  <input type="text" name="TrackingStatCleanUpDays" size="5" style="text-align: right" id="TrackingStatCleanUpDays" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Google API');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend>Google Developer &ouml;ffentlicher API-Schl&uuml;ssel</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td colspan="2">
+                                  Zur Nutzung von GoogleMaps f&uuml;r das Geo-Targeting ist eine Anmeldung als Entwickler bei <a href="https://console.developers.google.com" target="_blank">Google</a> notwendig.
+                                  Nach Erstellung eines Projekts und Aktivierung der GoogleMaps-API k&ouml;nnen Sie einen &ouml;ffentlichen Schl&uuml;ssel f&uuml;r Browseranwendungen abrufen.
+                                  <br />
+                                  <br />
+                                  Weitere Informationen finden Sie in der <a href="javascript:ShowHelpWindow('googleapi')">Hilfe</a>.
+                                  <br />
+                                  <br />
+                                  <br />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="GoogleDeveloperPublicKey">&Ouml;ffentlicher Schl&uuml;ssel f&uuml;r Browseranwendungen</label>
+                                </td>
+                                <td class="MessageValueColumn">
+                                  <input type="text" name="GoogleDeveloperPublicKey" size="60" id="GoogleDeveloperPublicKey" style="width: 80%" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Version');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend>Version</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Installierte Version
+                                </td>
+                                <td>
+                                <LABEL:PRODUCTVERSION></LABEL:PRODUCTVERSION>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Lizenziert f&uuml;r
+                                </td>
+                                <td>
+                                <LABEL:LICENCENAME></LABEL:LICENCENAME>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Lizenz
+                                </td>
+                                <td>
+                                <LABEL:LICENCE></LABEL:LICENCE>
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">Demo-Version
+                                </td>
+                                <td>
+                                <LABEL:ISDEMO></LABEL:ISDEMO>
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">Versand wird nur simuliert
+                                </td>
+                                <td>
+                                <LABEL:SIMULATEMAILSENDING></LABEL:SIMULATEMAILSENDING>
+                                </td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend>Konfiguration</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Installationsverzeichnis
+                                </td>
+                                <td>
+                                <LABEL:INSTALLPATH></LABEL:INSTALLPATH>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Basis Verzeichnis
+                                </td>
+                                <td>
+                                <LABEL:BASEPATH></LABEL:BASEPATH>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Script URL
+                                </td>
+                                <td>
+                                <LABEL:SCRIPTBASEURL></LABEL:SCRIPTBASEURL>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Website URL
+                                </td>
+                                <td>
+                                <LABEL:WEBSITEURL></LABEL:WEBSITEURL>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">PHP Version
+                                </td>
+                                <td>
+                                <LABEL:PHPVERSION></LABEL:PHPVERSION>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">PHP Safe Mode
+                                </td>
+                                <td>
+                                <LABEL:PHPSAFEMODE></LABEL:PHPSAFEMODE>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">MySQL Version
+                                </td>
+                                <td>
+                                <LABEL:MYSQLVERSION></LABEL:MYSQLVERSION>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Aufruf Optionen, CronJob-Einstellungen und Ereignisprotokoll unterbinden
+                                </td>
+                                <td>
+                                  <input type="checkbox" id="OptionsCronJobOptionsOnlyAsSuperAdmin" name="OptionsCronJobOptionsOnlyAsSuperAdmin" value="1" onclick="if(document.getElementById('OptionsCronJobOptionsOnlyAsSuperAdmin').checked) DoShowWarning();" /><label for="OptionsCronJobOptionsOnlyAsSuperAdmin">&nbsp;Aufruf und &Auml;nderung Optionen, CronJob-Einstellungen und Ereignisprotokoll nur als SuperAdmin erlaubt</label>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+
+                  </div>
+
+                  <br />
+                  <br />
+
+
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                    initTabs('dhtmlgoodies_tabView', TabListArray, 0, 924, 600);
+
+                    function ActivateSpamTestControls() {
+                      DisableItem('SpamTestExternalURL', document.getElementsByName('SpamTestExternal')[1].checked);
+                      DisableItem('spamassassinPath', document.getElementsByName('SpamTestExternal')[0].checked);
+                      DisableItem('spamassassinParameters', document.getElementsByName('SpamTestExternal')[0].checked);
+                    }
+
+                    ActivateSpamTestControls();
+                    
+                    function DoShowWarning(){
+                      MessageBox('Warnung', 'Durch Aktivierung dieser Option k&ouml;nnen die Optionen, CronJob-Einstellungen und Ereignisprotokoll nur noch als Nutzer SuperAdmin aufgerufen und ver&auml;ndert werden. Ebenfalls k&ouml;nnen Sie diese Einstellung <b>nur als SuperAdmin</b> wieder deaktivieren.', 1, 320, 180, '');
+                    }
+
+                    //AUTO_SCRIPT_CODE_PLACEHOLDER//
+                  -->
+                  </script>
+
+
+                  <!-- ##### TabView - END -->
+
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                <br />
+                <input type="submit" name="SaveBtn" value="&Auml;nderungen speichern" class="FormButton" />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </form>
+      </div>

@@ -1,0 +1,27 @@
+      <form id="ImportForm" name="ImportForm" method="post" action="./browseblmembers.php">
+      <input type="hidden" name="action" id="action" />
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+      <input type="hidden" name="step" id="step" value="5" />
+
+      <fieldset>
+      <legend>Import abgeschlossen</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+        	    <tr>
+        	    <td>
+             Der Import wurde abgeschlossen.<br /><br />
+             Die Datei enthielt <IMPORT:FILECOUNT></IMPORT:FILECOUNT> Zeilen, davon wurden <IMPORT:IMPORTCOUNT></IMPORT:IMPORTCOUNT> Eintr&auml;ge ohne Duplikate importiert.
+             <br />
+             <br />
+             <input type="submit" name="ShowBlockList" value="Blockliste anschauen" />
+             <br />
+             <br />
+        	    </td>
+          	  </tr>
+             </TABLE:ROW>
+            </tbody>
+          </table>
+      </fieldset>
+
+      </form>

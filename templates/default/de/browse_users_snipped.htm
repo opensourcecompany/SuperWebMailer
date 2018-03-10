@@ -1,0 +1,194 @@
+<div class="spacerborder">
+  <form name="EditUsersForm" id="EditUsersForm" method="post" action="./browseusers.php">
+
+  <input type="hidden" name="OneUserAction" id="OneUserAction" value="" />
+  <input type="hidden" name="OneUserId" id="OneUserId" value="" />
+
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function SetListId(ASender, AFormID) {
+      var AForm = document.getElementById(AFormID);
+      var OneUserAction = document.getElementById('OneUserAction');
+      var OneUserId = document.getElementById('OneUserId');
+      OneUserAction.value = ASender.name;
+      OneUserId.value = ASender.value;
+      document.getElementById('UsersActions').selectedIndex = 0;
+      return true;
+    }
+
+    function CheckboxClicked() {
+     DisableItem('UsersActions', GetCheckedCount('UsersIDs[]', 'EditUsersForm') > 0 );
+     ShowItem('ListActionSubmitBtn', (document.getElementById('UsersActions').selectedIndex != 0) && ( document.getElementById('UsersActions').disabled == false ) ) ;
+    }
+
+    function ConfirmDeleteUserEvent(value) {
+      if(value)
+        document.getElementById('EditUsersForm').submit();
+        else {
+          document.getElementById('OneUserAction').value = "";
+          document.getElementById('OneUserId').value = "";
+        }
+
+    }
+
+    function ConfirmListActionEvent(value) {
+      if(value)
+        document.getElementById('EditUsersForm').submit();
+    }
+
+    function ConfirmListAction() {
+      if(document.getElementById("UsersActions").selectedIndex == 1) {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Nutzer dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmListActionEvent');
+        return false;
+      }
+      return true;
+    }
+
+  //-->
+  </script>
+
+  <table class="FixedTable">
+    <tbody>
+      <tr>
+        <td>
+         <span style="float: right; margin-right: 0pt">
+         <a class="Backlink" href="./usersedit.php" onclick="document.EditUsersForm.action='./usersedit.php';document.EditUsersForm.submit(); return false;">Neuen Nutzer anlegen</a>&nbsp;
+         </span>
+         <p>
+         <a href="javascript:void(0);" class="Backlink" onclick="ShowHideItem('ShowHideFilterBox')">Filter anzeigen / nicht anzeigen</a>
+      			<div id="ShowHideFilterBox">
+      			Suche nach:&nbsp;<input type="text" name="UsersSearchFor" size="32" />&nbsp;im Feld:&nbsp;
+            <select size="1" name="Usersfieldname">
+             <option value="SearchFor_id">ID</option>
+             <option value="SearchFor_Username">Benutzername</option>
+             <option value="SearchFor_LastName">Name</option>
+             <option value="SearchFor_FirstName">Vorname</option>
+             <option value="SearchFor_EMail">E-Mail</option>
+             <option value="SearchFor_All">Alle Felder</option>
+            </select>
+      			<br /><br />
+      			Sortiere Liste nach:&nbsp;
+            <select size="1" name="Userssortfieldname">
+               <option value="SortUsername">Benutzername</option>
+               <option value="SortLastName">Name</option>
+               <option value="SortFirstName">Vorname</option>
+               <option value="SortEMail">E-Mail</option>
+               <option value="SortUserType">Typ</option>
+               <option value="Sortid">ID</option>
+            </select>&nbsp;<select size="1" name="Userssortorder"><option value="descending">absteigend</option><option value="ascending">aufsteigend</option></select>
+      			<br />
+         <br />
+      			Zeige:&nbsp;<input type="text" name="UsersItemsPerPage" size="4" style="text-align:right" />&nbsp;Eintr&auml;ge&nbsp;pro&nbsp;Seite
+      			<br />
+         <br />
+         <div style="float:right"><input type="submit" name="FilterApplyBtn" value="&Uuml;bernehmen" /></div>
+         <input type="checkbox" name="UsersSaveFilter" value="true" />&nbsp;Filter zur n&auml;chsten Verwendung speichern
+         </div>
+         </p>
+        </td>
+      </tr>
+      <tr>
+      <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+      </tr>
+    </tbody>
+  </table>
+  <script language="JavaScript">
+  <!--
+    ShowHideItem('ShowHideFilterBox');
+  //-->
+  </script>
+  <table id="TableUsers" name="TableUsers" class="FixedTable">
+  	<thead>
+  		<tr>
+  			<td class="NoWrap" width="1%"><input name="SelectAllChkBox" type="checkbox" onclick="CheckAllCheckboxes('SelectAllChkBox', 'UsersIDs[]', 'EditUsersForm'); CheckboxClicked();" /></td>
+  			<td class="NoWrapAlignRight" width="5%">ID</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="width:auto;">Benutzername</td>
+  			<td class="NoWrap" style="width:auto;">Name</td>
+  			<td class="NoWrap" style="width:auto;">Vorname</td>
+  			<td class="NoWrap" style="width:auto;">E-Mail</td>
+  			<td class="NoWrap" style="width:auto;">Typ</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="min-width:10%">Aktionen</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td><input name="UsersIDs[]" type="checkbox" onclick="CheckboxClicked()" /></td>
+  			<td class="AlignRight"><LIST:ID></LIST:ID></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:USERNAME></LIST:USERNAME></td>
+  			<td><LIST:LASTNAME></LIST:LASTNAME></td>
+  			<td><LIST:FIRSTNAME></LIST:FIRSTNAME></td>
+  			<td><LIST:EMAIL></LIST:EMAIL></td>
+  			<td><LIST:USERTYPE></LIST:USERTYPE></td>
+  			<td>&nbsp;</td>
+  			<td>
+  			    <input type="image" src="images/edit.gif" width="16" height="16" name="EditUserProperties" onclick="SetListId(this, 'EditUsersForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Erm&ouml;glicht das &Auml;ndern des Nutzers.');return false" />&nbsp;
+         <CAN:DELETE>
+         <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteUser" onclick="SetListId(this, 'EditUsersForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich diesen Nutzer dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmDeleteUserEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht den Nutzer dauerhaft.');return false" />
+         </CAN:DELETE>
+		    </td>
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+  	</table>
+
+ 	 <table class="FixedTable">
+ 	 <thead></thead>
+ 	 <tbody></tbody>
+  	<tfoot>
+
+  		<tr>
+  		  <td>
+   		  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+   		  <tr>
+   		  <td style="width:1%; white-space:nowrap;">
+     		  Selektierte:&nbsp;
+   		  </td>
+   		  <td style="width:40%; white-space:nowrap; text-align: left">
+       		  <select name="UsersActions" id="UsersActions" size="1" onchange="ShowItem('ListActionSubmitBtn', (document.getElementById('UsersActions').selectedIndex != 0) && ( document.getElementById('UsersActions').disabled == false ) ) ;">
+         		  <option value="doNothing">Aktion w&auml;hlen</option>
+             <CAN:DELETE>
+             <option value="RemoveUsers">L&ouml;scht die gew&auml;hlten Nutzer</option>
+             </CAN:DELETE>
+       		  </select>
+       		  <input type="submit" name="ListActionSubmitBtn" id="ListActionSubmitBtn" value="Ausf&uuml;hren" onclick="return ConfirmListAction()" />
+   		  </td>
+        <td style="text-align:right; width:1%; white-space:nowrap;">
+       			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'EditUsersForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'EditUsersForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'EditUsersForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'EditUsersForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap;">
+         			  Seite:&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap;">
+         			  <select name="UsersPageSelected" id="UsersPageSelected" size="1" style="min-width:30pt ! important;" onchange="document.EditUsersForm.submit()">
+                <OPTION:PAGES>
+                <option>1</option>
+                </OPTION:PAGES>
+         			  </select>
+        </td>
+       	</tr>
+       	</table>
+  			</td>
+  		</tr>
+
+  	</tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableUsers','tableRollOverEffect','tableRowClickEffect');
+  AddTableDblClickEvent('TableUsers');
+  CheckboxClicked();
+  ShowItem('ListActionSubmitBtn', (document.getElementById('UsersActions').selectedIndex != 0) && ( document.getElementById('UsersActions').disabled == false ) ) ;
+  DisableItem('UsersActions', GetCheckedCount('UsersIDs[]', 'EditUsersForm') > 0 );
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

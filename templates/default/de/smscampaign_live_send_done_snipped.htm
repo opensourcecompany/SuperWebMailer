@@ -1,0 +1,101 @@
+      <form id="CampaignSendForm" name="CampaignSendForm" method="post" action="./browsesmscampaigns.php">
+         <input type="hidden" id="CampaignListId" name="CampaignListId" />
+         <input type="hidden" id="CurrentSendId" name="CurrentSendId" />
+         <input type="hidden" name="SendDone" />
+         <input type="hidden" name="OneCampaignListAction" id="OneCampaignListAction" />
+         <input type="hidden" name="OneCampaignListId" id="OneCampaignListId" />
+
+
+         <fieldset>
+           <legend>SMS-Versand abgeschlossen</legend>
+           <br />
+           <table class="FormTable">
+             <tbody>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Anzahl SMS-Empf&auml;nger
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <RECIPIENTSCOUNT></RECIPIENTSCOUNT>
+                 </td>
+               </tr>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Erfolgreich versendet
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <SENTCOUNTSUCC></SENTCOUNTSUCC>
+                 </td>
+               </tr>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Nicht erfolgreich versendet
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <SENTCOUNTFAILED></SENTCOUNTFAILED>
+                 </td>
+               </tr>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Versand begonnen
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <SENDING:START></SENDING:START>
+                 </td>
+               </tr>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Versand beendet
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <SENDING:END></SENDING:END>
+                 </td>
+               </tr>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Versanddauer
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <SENDING:DURATION></SENDING:DURATION>
+                 </td>
+               </tr>
+
+             </tbody>
+           </table>
+
+           <br />
+
+
+         </fieldset>
+
+         <fieldset>
+         <legend>Auswertung des SMS-Versands</legend>
+         <br />
+             <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+               <tbody>
+                 <tr>
+                   <td class="CampaignStatColumn">
+                     <input type="button" value="Versandprotokoll der SMS-Kampagne" onclick="document.getElementById('OneCampaignListAction').value='CampaignsSendLog'; document.getElementById('OneCampaignListId').value=document.getElementById('CampaignListId').value; document.CampaignSendForm.submit();" class="FormButton" style="width: 290px" />
+                     <br />
+                     <br />
+                   </td>
+                 </tr>
+                 <tr>
+                   <td class="CampaignStatColumn">
+                     <input type="submit" value="SMS-Kampagnen anzeigen" class="FormButton" style="width: 290px" />
+                   </td>
+                   <td class="CampaignStatColumn">
+                     &nbsp;
+                   </td>
+                 </tr>
+               </tbody>
+             </table>
+         </fieldset>
+
+         <script type="text/javascript">
+         <!--
+           //AUTO_SCRIPT_CODE_PLACEHOLDER//
+         //-->
+         </script>
+      </form>
+

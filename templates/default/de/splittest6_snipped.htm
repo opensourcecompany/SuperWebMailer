@@ -1,0 +1,64 @@
+      <form id="SplitTestEditForm" name="SplitTestEditForm" method="post" action="./splittestedit.php">
+      <span class="Backlink"><br /><a href="./browsesplittests.php" onclick="document.SplitTestEditForm.action='./browsesplittests.php';document.SplitTestEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="SplitTestListId" id="SplitTestListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel" value="99" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.SplitTestEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.SplitTestEditForm.submit(); return false;">E-Mailings</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.SplitTestEditForm.submit(); return false;">Einstellungen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.SplitTestEditForm.submit(); return false;">Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.SplitTestEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <fieldset>
+      <legend>Fertigstellung des A/B Split Tests</legend>
+      <br />
+          <table name="TableSplitTestSettings" id="TableSplitTestSettings" class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+
+              <tr>
+                <td colspan="2">
+                  Der A/B Split-Test &quot;<CAMPAIGNNAME></CAMPAIGNNAME>&quot; wurde vollst&auml;ndig gespeichert und falls konfiguriert f&uuml;r den E-Mail-Versand aktiviert.<br /><br />
+                  Sie k&ouml;nnen auf &quot;Zur&uuml;ck&quot; klicken um die Einstellungen zu &auml;ndern. Die &Auml;nderungen werden jedoch nur ber&uuml;cksichtigt, insofern der A/B Split Test noch nicht versendet worden ist.
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="2">&nbsp;
+                </td>
+              </tr>
+
+            </body>
+          </table>
+      </fieldset>
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+
+      <br />
+      <br />
+
+      <input type="button" class="FormButton" value="Zur&uuml;ck zur A/B Split Test-&Uuml;bersicht" onclick="document.SplitTestEditForm.action='./browsesplittests.php';document.SplitTestEditForm.submit(); " /><br />
+      <br />
+      <input type="button" class="FormButton" value="Zur E-Mailing-&Uuml;bersicht" onclick="document.SplitTestEditForm.action='./browsecampaigns.php';document.SplitTestEditForm.submit(); " /><br />
+      <br />
+
+      <script type="text/javascript">
+      <!--
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+      </form>

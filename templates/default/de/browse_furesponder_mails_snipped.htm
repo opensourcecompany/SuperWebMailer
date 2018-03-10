@@ -1,0 +1,206 @@
+<div class="spacerborder">
+  <form name="EditFUResponderEMailsForm" id="EditFUResponderEMailsForm" method="post" action="./browsefuresponderemails.php">
+
+  <input type="hidden" name="OneFUMAction" id="OneFUMAction" value="" />
+  <input type="hidden" name="OneFUMId" id="OneFUMId" value="" />
+  <input type="hidden" name="OneFUResponderListId" id="OneFUResponderListId"  />
+
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function SetListId(ASender, AFormID) {
+      if(ASender.name == "SpamTest" || ASender.name == "TestMail") {
+        ResponderPreviewOpenResponder("", "", "FollowUpResponder", document.getElementById("OneFUResponderListId").value, ASender.value, ASender.name);
+        return false;
+      }
+      var AForm = document.getElementById(AFormID);
+      var OneFUMAction = document.getElementById('OneFUMAction');
+      var OneFUMId = document.getElementById('OneFUMId');
+      OneFUMAction.value = ASender.name;
+      OneFUMId.value = ASender.value;
+      document.getElementById('FUMsActions').selectedIndex = 0;
+      return true;
+    }
+
+    function DoListActionChange(ASender, AFormID, ShowMessageBox) {
+      var AForm = document.getElementById(AFormID);
+    }
+
+    function CheckboxClicked() {
+     DisableItem('FUMsActions', GetCheckedCount('FUMsIDs[]', 'EditFUResponderEMailsForm') > 0 );
+     DoListActionChange( document.getElementById('FUMsActions'), 'EditFUResponderEMailsForm', false);
+     ShowItem('ListActionSubmitBtn', (document.getElementById('FUMsActions').selectedIndex != 0) && ( document.getElementById('FUMsActions').disabled == false ) ) ;
+    }
+
+    function ConfirmDeleteFUMEvent(value) {
+      if(value)
+        document.getElementById('EditFUResponderEMailsForm').submit();
+        else {
+          document.getElementById('OneFUMAction').value = "";
+          document.getElementById('OneFUMId').value = "";
+        }
+
+    }
+
+    function ConfirmListActionEvent(value) {
+      if(value)
+        document.getElementById('EditFUResponderEMailsForm').submit();
+    }
+
+    function ConfirmListAction() {
+      AOption = document.getElementById("FUMsActions").options[ document.getElementById("FUMsActions").selectedIndex ];
+
+      if(AOption.value == "RemoveFUMs") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Follow-Up-E-Mails dauerhaft l&ouml;schen?', 3, 320, 130, 'ConfirmListActionEvent');
+        return false;
+      }
+      return true;
+    }
+
+  //-->
+  </script>
+
+  <table class="FixedTable">
+    <tbody>
+      <tr>
+        <td>
+         <span style="float: right; margin-right: 0pt">
+         <a class="Backlink" href="./fumailedit.php?FUResponderId=[FUResponderId]" onclick="document.EditFUResponderEMailsForm.action='./fumailedit.php';document.EditFUResponderEMailsForm.submit(); return false;">Neue Follow-Up-E-Mail</a>&nbsp;
+         &nbsp;<a class="Backlink" href="./browsefuresponders.php">Zur&uuml;ck zur Follow-Up-Responder-&Uuml;bersicht</a>
+         </span>
+         <p>
+         <a href="javascript:void(0);" class="Backlink" onclick="ShowHideItem('ShowHideFilterBox')">Filter anzeigen / nicht anzeigen</a>
+      			<div id="ShowHideFilterBox">
+      			Suche nach:&nbsp;<input type="text" name="FUMsSearchFor" size="32" />&nbsp;im Feld:&nbsp;
+            <select size="1" name="FUMsfieldname">
+             <option value="SearchFor_id">ID</option>
+             <option value="SearchFor_Name">Name</option>
+             <option value="SearchFor_MailSubject">Betreff</option>
+             <option value="SearchFor_All">Alle Felder</option>
+            </select>
+      			<br /><br />
+      			Sortiere Liste nach:&nbsp;
+            <select size="1" name="FUMssortfieldname">
+               <option value="Sortsort_order">Reihenfolge der Aussendung</option>
+               <option value="SortName">Name</option>
+               <option value="SortMailSubject">Betreff</option>
+               <option value="Sortid">ID</option>
+            </select>&nbsp;<select size="1" name="FUMssortorder"><option value="descending">absteigend</option><option value="ascending">aufsteigend</option></select>
+      			<br />
+         <br />
+      			Zeige:&nbsp;<input type="text" name="FUMsItemsPerPage" size="4" style="text-align:right" />&nbsp;Eintr&auml;ge&nbsp;pro&nbsp;Seite
+      			<br />
+         <br />
+         <div style="float:right"><input type="submit" name="FilterApplyBtn" value="&Uuml;bernehmen" onclick="document.getElementById('FUMsActions').selectedIndex = 0; document.getElementById('FUMsActions').onchange();" /></div>
+         <input type="checkbox" name="FUMsSaveFilter" value="true" />&nbsp;Filter zur n&auml;chsten Verwendung speichern
+         </div>
+         </p>
+        </td>
+      </tr>
+      <tr>
+      <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+      </tr>
+    </tbody>
+  </table>
+  <script language="JavaScript">
+  <!--
+    ShowHideItem('ShowHideFilterBox');
+  //-->
+  </script>
+  <table id="TableFUMs" name="TableFUMs" class="FixedTable">
+  	<thead>
+  		<tr>
+  			<td class="NoWrap" width="1%"><input name="SelectAllChkBox" type="checkbox" onclick="CheckAllCheckboxes('SelectAllChkBox', 'FUMsIDs[]', 'EditFUResponderEMailsForm'); CheckboxClicked();" /></td>
+  			<td class="NoWrap" width="5%" onclick="SortOnClick('Sortid', 'FUMssortfieldname', 'sortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">ID</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" style="width:auto;" onclick="SortOnClick('SortName', 'FUMssortfieldname', 'FUMssortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">Name</td>
+  			<td class="NoWrap" style="width:auto;" onclick="SortOnClick('SortMailSubject', 'FUMssortfieldname', 'FUMssortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">Betreff der Nachricht</td>
+  			<td class="NoWrap" style="width:auto;" onclick="SortOnClick('Sortsort_order', 'FUMssortfieldname', 'FUMssortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">Versandzeitpunkt</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="10%">Aktionen</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td><input name="FUMsIDs[]" type="checkbox" onclick="CheckboxClicked()" /></td>
+  			<td class="NoWrapAlignRight"><LIST:ID></LIST:ID></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:NAME></LIST:NAME></td>
+  			<td><LIST:SUBJECT></LIST:SUBJECT></td>
+  			<td><LIST:SENDTIME></LIST:SENDTIME></td>
+  			<td>&nbsp;</td>
+  			<td>
+  			    <input type="image" src="images/edit.gif" width="16" height="16" name="EditFUMProperties" onclick="SetListId(this, 'EditFUResponderEMailsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Erm&ouml;glicht das &Auml;ndern der Follow-Up-E-Mail.');return false" />&nbsp;
+         <CAN:DELETE>
+         <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteFUM" onclick="SetListId(this, 'EditFUResponderEMailsForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich diese Follow-Up-E-Mail dauerhaft l&ouml;schen?', 3, 320, 130, 'ConfirmDeleteFUMEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht die Follow-Up-E-Mail dauerhaft.<br /><br />Zur L&ouml;schung der E-Mail muss der Follow-Up-Responder deaktiviert werden und es d&uuml;rfen sich keine Folge-E-Mails in der Ausgangswarteschlange befinden.');return false" />&nbsp;
+         </CAN:DELETE>
+  			    <input type="image" src="images/spamtest16.gif" width="16" height="16" name="SpamTest" onclick="return SetListId(this, 'EditFUResponderEMailsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Spam-Test durchf&uuml;hren');return false" />&nbsp;
+         <br />
+  			    <input type="image" src="images/mail_send_test.gif" width="16" height="16" name="TestMail" onclick="return SetListId(this, 'EditFUResponderEMailsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Test-E-Mail versenden');return false" />&nbsp;
+         <if:timebased_FUM>
+  			    <input type="image" src="images/arrow_up.gif" width="11" height="8" name="UpBtn" onclick="SetListId(this, 'EditFUResponderEMailsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Follow-Up-E-Mail nach oben verschieben.');return false" />&nbsp;
+  			    <input type="image" src="images/arrow_down.gif" width="11" height="8" name="DownBtn" onclick="SetListId(this, 'EditFUResponderEMailsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Follow-Up-E-Mail nach unten verschieben.');return false" />
+         </if:timebased_FUM>
+		    </td>
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+  	</table>
+
+ 	 <table class="FixedTable">
+ 	 <thead></thead>
+ 	 <tbody></tbody>
+  	<tfoot>
+
+  		<tr>
+  		  <td>
+   		  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+   		  <tr>
+   		  <td style="width:1%; white-space:nowrap; ">
+     		  Selektierte:&nbsp;
+   		  </td>
+   		  <td style="width:70%; white-space:nowrap; ">
+       		  <select name="FUMsActions" id="FUMsActions" size="1" onchange="DoListActionChange(this, 'EditFUResponderEMailsForm', false); ShowItem('ListActionSubmitBtn', (document.getElementById('FUMsActions').selectedIndex != 0) && ( document.getElementById('FUMsActions').disabled == false ) ); ">
+         		  <option value="doNothing">Aktion w&auml;hlen</option>
+         		  <option value="RemoveFUMs">L&ouml;scht die gew&auml;hlte(n) Follow-Up-E-Mail(s)</option>
+         		  <option value="DupFUMs">Dupliziert die gew&auml;hlte(n) Follow-Up-E-Mail(s)</option>
+       		  </select>
+       		  <input type="submit" name="ListActionSubmitBtn" id="ListActionSubmitBtn" value="Ausf&uuml;hren" onclick="return ConfirmListAction()" />
+   		  </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+       			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'EditFUResponderEMailsForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'EditFUResponderEMailsForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'EditFUResponderEMailsForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'EditFUResponderEMailsForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  Seite:&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <select name="FUMsPageSelected" id="FUMsPageSelected" size="1" style="min-width:30pt ! important;" onchange="document.EditFUResponderEMailsForm.submit()">
+                <OPTION:PAGES>
+                <option>1</option>
+                </OPTION:PAGES>
+         			  </select>
+        </td>
+       	</tr>
+       	</table>
+  			</td>
+  		</tr>
+
+  	</tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableFUMs','tableRollOverEffect',null);
+  AddTableDblClickEvent('TableFUMs');
+  DoListActionChange(document.getElementById("FUMsActions"), 'EditFUResponderEMailsForm', 'DestMailingList', 'Groups[]', false);
+  CheckboxClicked();
+  ShowItem('ListActionSubmitBtn', (document.getElementById('FUMsActions').selectedIndex != 0) && ( document.getElementById('FUMsActions').disabled == false ) ) ;
+  DisableItem('FUMsActions', GetCheckedCount('FUMsIDs[]', 'EditFUResponderEMailsForm') > 0 );
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

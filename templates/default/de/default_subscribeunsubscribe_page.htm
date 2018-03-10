@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Newsletteranmeldung/ -abmeldung</title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+@media only screen and (max-width: 640px) {
+   body {
+     min-width: 640px;
+     margin: 0px;
+   }
+   .PageContainerDialog, .container, .containerDialog {width: 620px; margin:0px; padding: 0px; border: 0px}
+   table, tbody, td {display: block}
+   .FormTable td.SubscribeColumn {padding-bottom: 2px; padding-top: 5px}
+   .FormTable td.SubscribeBtnTD, .FormTable td.SubscribeAction {padding-top: 20px}
+}
+
+@media only screen and (max-width: 320px) {
+   body {
+     min-width: 320px;
+     margin: 0px;
+   }
+   .PageContainerDialog, .container, .containerDialog {width: 300px; margin:0px; padding: 0px; border: 0px}
+   .FormTable td.SubscribeColumn {padding-bottom: 2px; padding-top: 5px}
+   .FormTable td.SubscribeBtnTD, .FormTable td.SubscribeAction {padding-top: 20px}
+   input[type=text]{
+     width: 260px
+   }
+}
+
+-->
+</style>
+</head>
+
+
+<body>
+
+<div class="PageContainerDialog">
+
+   <div class="container">
+
+    	<div class="containerDialog">
+
+          <div class="MenuTable">
+          Newsletteranmeldung/ -abmeldung
+          </div>
+
+    	</div>
+
+      <SHOWHIDE:ERRORTOPIC>
+        <div class="errortopic">
+        <LABEL:ERRORMESSAGETEXT></LABEL:ERRORMESSAGETEXT>
+        </div>
+      </SHOWHIDE:ERRORTOPIC>
+
+      <form id="SubscribeUnsubscribeForm" name="SubscribeUnsubscribeForm" method="post" action="./defaultnewsletter.php">
+        <input type="hidden" name="MailingListId" />
+        <input type="hidden" name="FormId" />
+        <input type="hidden" name="HTMLForm" />
+
+        <fieldset>
+        <br />
+            <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+              <tbody>
+                <TABLE:ROW>
+                <tr>
+                  <td class="SubscribeColumn"><!--FIELDNAME//-->
+                  </td>
+                  <td><!--INPUTFIELD//--></td>
+                </tr>
+                </TABLE:ROW>
+
+                <TABLE:GENDER>
+                <tr>
+                  <td class="SubscribeColumn">
+                    Geschlecht
+                  </td>
+                  <td>
+                     <input type="radio" name="u_Gender" value="m" checked="checked" id="u_Gender_m" />&nbsp;<label for="u_Gender_m">m&auml;nnlich</label>
+                     <br />
+                     <input type="radio" name="u_Gender" value="w" id="u_Gender_f" />&nbsp;<label for="u_Gender_f">weiblich</label>
+                  </td>
+                </tr>
+                </TABLE:GENDER>
+
+                <TABLE:TITLE>
+                <tr>
+                  <td class="SubscribeColumn">
+                    <label for="u_Salutation">Anrede</label>&nbsp;*
+                  </td>
+                  <td>
+                    <select name="u_Salutation" size="1" style="max-width: 420px;" id="u_Salutation">
+                      <option>---</option>
+                      <option value="Herr">Herr</option>
+                      <option value="Frau">Frau</option>
+                      <option value="Firma">Firma</option>
+                    </select>
+                  </td>
+                </tr>
+                </TABLE:TITLE>
+
+                <TABLE:USERBOOL>
+                <tr>
+                  <td class="SubscribeColumn">
+                   <label for="u_UserFieldBool"><DESCRIPTION></DESCRIPTION></label>&nbsp;*
+                  </td>
+                  <td>
+                    <select name="u_UserFieldBool" size="1" style="max-width: 420px;">
+                      <option value="0">FALSCH</option>
+                      <option value="1">WAHR</option>
+                    </select>
+                  </td>
+                </tr>
+                </TABLE:USERBOOL>
+
+                <TABLE:GROUPS>
+                <tr>
+                  <td colspan="2" class="SubscribeAction">
+                    &nbsp;<br />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="SubscribeColumn">
+                    Anmeldung in folgende Gruppen
+                    <span style="font-size: 8pt;">(Strg/Umsch k&ouml;nnen mehrere Gruppen gew&auml;hlt werden)</span>
+                  </td>
+                  <td>
+                    <select name="RecipientGroups[]" size="5" multiple="multiple" style="max-width: 420px; width: 420px;">
+                    <option></option>
+                    </select>
+                  </td>
+                </tr>
+                </TABLE:GROUPS>
+
+                <TABLE:GROUPSCHECKBOXES>
+                <tr>
+                  <td colspan="2" class="SubscribeAction">
+                    &nbsp;<br />
+                  </td>
+                </tr>
+                <tr>
+                  <td class="SubscribeColumn">
+                    Anmeldung in folgende Gruppen
+                  </td>
+                  <td>
+                    <checkbox></checkbox>
+                  </td>
+                </tr>
+                </TABLE:GROUPSCHECKBOXES>
+
+                <tr>
+                  <td colspan="2">
+                    &nbsp;<br />
+                  </td>
+                </tr>
+
+                <TABLE:EMAILFORMAT>
+                <tr>
+                  <td class="SubscribeColumn">
+                    <label for="u_EMailFormat">Gew&uuml;nschtes E-Mail-Format</label>
+                  </td>
+                  <td>
+                    <select name="u_EMailFormat" size="1" id="u_EMailFormat">
+                    <option value="HTML">HTML</option>
+                    <option value="PlainText">Nur Text</option>
+                    </select>
+                  </td>
+                </tr>
+                </TABLE:EMAILFORMAT>
+
+                <TABLE:SUBUNSUB>
+                <tr>
+                  <td class="SubscribeColumn SubscribeAction">
+                    Gew&uuml;nschte Aktion
+                  </td>
+                  <td>
+                    <input type="radio" name="Action" value="subscribe" id="Action1" />&nbsp;<label for="Action1">Anmelden</label><br />
+                    <input type="radio" name="Action" value="unsubscribe" id="Action2" />&nbsp;<label for="Action2">Abmelden</label><br />
+                  </td>
+                </tr>
+                </TABLE:SUBUNSUB>
+
+                <TABLE:CAPTCHA>
+                <tr>
+                  <td class="SubscribeColumn" style="vertical-align:top">
+                    <CAPTCHA:TEXT></CAPTCHA:TEXT><br />
+                  </td>
+                  <td>
+                    <CAPTCHA:INTERNAL>
+                    <input type="text" name="user_captcha_string" /><br /><br />
+                    <img src="./captcha/require/image.php?" />
+                    </CAPTCHA:INTERNAL>
+                  </td>
+                </tr>
+                </TABLE:CAPTCHA>
+
+                <tr>
+                  <td colspan="2" class="SubscribeBtnTD">
+                    <input type="submit" value="SUBMITBTNTEXT" />
+                  </td>
+                </tr>
+
+                <tr>
+                  <td colspan="2">
+                    &nbsp;<br />
+                  </td>
+                </tr>
+
+                <tr>
+                  <td colspan="2">
+                    Angaben mit * sind Pflichtangaben.
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+        </fieldset>
+
+      </form>
+
+
+     <div class="footer">
+         <div style="float: right">
+       		powered&nbsp;by&nbsp;<a href="PRODUCTURL" target="_blank">PRODUCTAPPNAME&nbsp;</a>
+       		</div><br />
+     </div>
+
+   </div>
+
+
+</div>
+
+
+</body>
+
+</html>

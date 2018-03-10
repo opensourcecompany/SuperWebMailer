@@ -1,0 +1,60 @@
+      <div class="spacerborder">
+          <span class="Backlink">&nbsp;</span>
+          <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+                    <IF:NOT_SUPERADMIN>
+                      <fieldset>
+                      <legend>E-Mail-Versand</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <form method="post" id="SettingsForm" name="Settings" action="./settings_test.php">
+                                      Es wird eine E-Mail an die E-Mail-Adresse <EMAILADDRESS></EMAILADDRESS> &uuml;ber die PHP mail()-Funktion gesendet.<br /><br />
+                                      <input name="LocalMailSendBtn" type="submit" value="E-Mail-Versand testen" />
+                                  </form>
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                    </IF:NOT_SUPERADMIN>
+                    
+                      <fieldset>
+                      <legend>PHP Informationen - phpinfo()</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <form method="post" id="SettingsForm" name="Settings" action="./settings_test.php" target="_blank">
+                                    Es werden Informationen zur PHP-Konfiguration in einem neuen Fenster angezeigt.<br /><br />
+                                    <input name="phpinfoBtn" type="submit" value="PHP informationen anzeigen" />
+                                  </form>
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                  <br />
+                  <br />
+
+                </td>
+              </tr>
+
+
+            </tbody>
+          </table>
+          <br style="clear:both;" />
+      </div>

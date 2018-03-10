@@ -1,0 +1,544 @@
+      <div class="spacerborder">
+      <span class="Backlink"><a href="./browsemtas.php">Zur&uuml;ck</a></span><br />
+      <br />
+      <form method="post" action="./mtaedit.php" name="MTAEditForm" id="MTAEditForm" onsubmit="SelectAllMailHeaderFields();">
+      <input type="hidden" name="MTAId" id="MTAId" />
+
+      <fieldset>
+      <legend>Allgemein</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="StatColumn">Name der Versandvariante (MTA)
+                </td>
+                <td><input type="text" id="Name" name="Name" maxlength="128" size="52" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn" valign="top">Typ der Versandvariante
+                </td>
+                <td>
+                <select size="1" name="Type" id="Type" onchange="EnableControls()">
+                   <option value="mail">PHP mail()</option>
+                   <option value="smtp">Versand &uuml;ber Postausgangsserver/SMTP-Server</option>
+                   <option value="smtpmx">Direkt an den Server des Empf&auml;ngers (SMTP/MX)</option>
+                   <option value="sendmail">sendmail verwenden</option>
+                </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="StatColumn" valign="top">Limit der Versandvariante<SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Das Limit wird beim Versand eines E-Mailings oder E-Mails einer Verteilerliste ber&uuml;cksichtigt, falls Sie mehrere Versandvarianten beim Anlegen des E-Mailings w&auml;hlen. Geben Sie einen Wert von 0 ein, um kein Limit einzurichten.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>
+                </td>
+                <td>
+                  <input type="text" name="MailLimit" id="MailLimit" size="8" maxlength="7" style="text-align: right;" />
+                </td>
+              </tr>
+              <tr>
+                <td class="StatColumn" valign="top">Absender-E-Mail-Adresse f&uuml;r die Versandvariante<SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'F&uuml;r die Versandvariante kann eine Absender-E-Mail-Adresse vordefiniert werden, die f&uuml;r den E-Mail-Versand verwendet werden muss. Die Angabe kann notwendig sein, wenn der verwendete Server nur diese E-Mail-Adresse als Absender-Adresse akzeptiert oder die E-Mail vom Zielserver als Spam erkannt wird, weil die Domain nicht auf dem Server gehostet ist.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>
+                </td>
+                <td>
+                  <input type="text" name="MTASenderEMailAddress" id="MTASenderEMailAddress" size="52" />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend>Einstellungen f&uuml;r den Versand per PHP mail()</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="StatColumn"><label for="PHPMailParams">Zusatzparameter z.B. -f &lt;E-Mail-Adresse&gt;</label>
+                </td>
+                <td><input type="text" id="PHPMailParams" name="PHPMailParams" maxlength="255" size="52" /></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend>Einstellungen f&uuml;r den Versand &uuml;ber Postausgangsserver/SMTP-Server</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="StatColumn"><label for="HELOName">SMTP HELO Name (muss eine g&uuml;ltige Domain sein)</label>
+                </td>
+                <td><input type="text" id="HELOName" name="HELOName" maxlength="255" size="52" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="SMTPPersist">Mehrere E-Mails w&auml;hrend einer Verbindung zum SMTP-Server versenden&nbsp;(Empfohlen deaktiviert)</label>
+                </td>
+                <td><input type="checkbox" id="SMTPPersist" name="SMTPPersist" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="SMTPPipelining">Pipelining verwenden&nbsp;(Empfohlen deaktiviert)</label>
+                </td>
+                <td><input type="checkbox" id="SMTPPipelining" name="SMTPPipelining" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="SMTPTimeout">Zeit&uuml;berschreitung/Timeout (0 ist keine Zeit&uuml;berschreitung)</label>
+                </td>
+                <td><input type="text" id="SMTPTimeout" name="SMTPTimeout" size="3" style="text-align: right;" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="SMTPServer">Name des Postausgangsservers/SMTP-Servers</label>
+                </td>
+                <td><input type="text" id="SMTPServer" name="SMTPServer" maxlength="255" size="52" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="SSL">Server erfordert eine sichere Verbindung (SSL)</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Der Zugriff &uuml;ber eine sichere Verbindung (SSL) funktioniert nur mit PHP 4.3 oder neuer und aktivierter OpenSSL-Unterst&uuml;tzung.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                </td>
+                <td><input type="checkbox" id="SSL" name="SMTPSSL" onchange="ChangeControls()" onclick="ChangeControls()" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="SMTPPort">Ports des Postausgangsservers/SMTP-Servers (Standard 25)</label>
+                </td>
+                <td><input type="text" id="SMTPPort" name="SMTPPort" size="5" style="text-align: right;" onblur="if(document.getElementById('SMTPPort').value == 465 && !document.getElementById('SSL').checked) document.getElementById('SSL').checked=true;" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="SMTPAuth">Authentifizierung beim Postausgangsserver/SMTP-Server notwendig </label>
+                </td>
+                <td><input type="checkbox" id="SMTPAuth" name="SMTPAuth" onclick="EnableControls()" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">&nbsp;</td>
+                <td>
+                   <table class="InnerTable" cellspacing="0" cellpadding="0" border="0">
+                     <tbody>
+                      <tr>
+                       <td class="LabelColumn" name="SMTPUsernameLabel" id="SMTPUsernameLabel">
+                         Benutzername/Kontoname&nbsp;
+                       </td>
+                       <td>
+                        <input type="text" name="SMTPUsername" id="SMTPUsername" size="30"/>
+                      </td>
+                      </tr>
+                      <tr>
+                       <td class="LabelColumn" name="SMTPPasswordLabel" id="SMTPPasswordLabel">
+                         Passwort&nbsp;
+                       </td>
+                       <td>
+                        <input type="password" name="SMTPPassword" id="SMTPPassword" size="30"/>
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+       <fieldset>
+      <legend>Einstellungen f&uuml;r den Versand per sendmail</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="StatColumn"><label for="sendmail_path">sendmail Verzeichnis</label>
+                </td>
+                <td><input type="text" id="sendmail_path" name="sendmail_path" maxlength="255" size="52" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="sendmail_args">sendmail Parameter</label>
+                </td>
+                <td><input type="text" id="sendmail_args" name="sendmail_args" maxlength="255" size="52" /></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <fieldset>
+      <legend>Pause w&auml;hrend des Versands von mehreren E-Mails</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="StatColumn"><label for="SleepInMailSendingLoop">Nach jeder E-Mail</label>
+                </td>
+                <td><input type="text" id="SleepInMailSendingLoop" name="SleepInMailSendingLoop" maxlength="5" size="6" style="text-align: right;" />&nbsp;ms warten.</td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend><input type="checkbox" name="mailheaderfieldscheckbox" id="mailheaderfieldscheckbox" onclick="ShowItem('mailheaderfieldstable', document.getElementById('mailheaderfieldscheckbox').checked);" /><label for="mailheaderfieldscheckbox">&nbsp;Benutzerdefinierte E-Mail-Header-Felder</label></legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0" id="mailheaderfieldstable">
+            <tbody>
+              <tr>
+                <td colspan="2">
+
+                   <select name="MailHeaderFields[]" id="MailHeaderFields" style="height: 100px; width: 100%" multiple="multiple" onchange="SetMailHeaderFieldsButtons();">
+                     <MailHeaderFields>
+                       <option value="<MailHeaderFieldText></MailHeaderFieldText>"><MailHeaderFieldText></MailHeaderFieldText></option>
+                     </MailHeaderFields>
+                   </select>
+                   <br /><br />
+                   <input type="button" class="button" name="MailHeaderFieldsAddBtn" value="Neues Feld" onclick="MailHeaderFieldsAddEdit('MTAEditForm', 'MailHeaderFields', ''); return false;" style="margin-left: 0px" />&nbsp;&nbsp;
+                   <input type="button" class="button" name="MailHeaderFieldsEditBtn" id="MailHeaderFieldsEditBtn" value="Feld &auml;ndern" onclick="var value = '';var P = document.getElementById('MailHeaderFields');for(var i=0; i<P.options.length; i++) {if(P.options[i].selected) {value=P.options[i].value; break;}}MailHeaderFieldsAddEdit('MTAEditForm', 'MailHeaderFields', value); return false;" style="margin-left: 0px" />&nbsp;&nbsp;
+                   <input type="button" class="button" name="MailHeaderFieldsDeleteBtn" id="MailHeaderFieldsDeleteBtn" value="Feld l&ouml;schen" onclick="RemoveMailHeaderFields(); return false;" style="margin-left: 0px" />
+
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend><input type="checkbox" name="SMIMESignMail" id="SMIMESignMail" onclick="ShowItem('smimetable', document.getElementById('SMIMESignMail').checked);" /><label for="SMIMESignMail">&nbsp;E-Mails eine digitale Signatur hinzuf&uuml;gen (S/MIME)</label></legend>
+      <br />
+
+          <if:noSSL>
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0" id="smimetableNoSSL">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                  <img src="images/icon_warning.gif" border="0" width="24" height="24" style="align: left;" alt="icon_warning" />&nbsp;Auf diesem Server
+                  steht diese Funktion, wegen fehlender SSL-Unterst&uuml;tzung, nicht zur Verf&uuml;gung.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </if:noSSL>
+
+
+          <if:SSL>
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0" id="smimetable">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                  <img src="images/icon_warning.gif" border="0" width="24" height="24" style="align: left;" alt="icon_warning" />&nbsp;Die Verwendung
+                  dieser Option f&uuml;hrt zu einer h&ouml;heren Serverlast, Vergr&ouml;&szlig;erung der E-Mails und damit zu einer Verl&auml;ngerung
+                  der Versandzeit.
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2"><input type="checkbox" name="SMIMEIgnoreSignErrors" id="SMIMEIgnoreSignErrors" /><label for="SMIMEIgnoreSignErrors">&nbsp;Schl&auml;gt Signierung fehl, E-Mail unsigniert versenden.</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Versendet die E-Mail unsigniert, falls Fehler bei der Signierung auftreten.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2"><input type="checkbox" name="SMIMEMessageAsPlainText" id="SMIMEMessageAsPlainText" /><label for="SMIMEMessageAsPlainText">&nbsp;Signierte E-Mails als Klartext-E-Mails versenden.</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Versendet die E-Mails als reine Text-E-Mails, damit werden diese auch von &auml;lteren, nicht-S/SMIME-f&auml;higen, E-Mail-Programmen lesbar dargestellt.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="SMIMESignCert">S/MIME-Zertifikat &ouml;ffentlicher Schl&uuml;ssel<br /><br /><br />Angabe <b>mit</b><br />-----BEGIN CERTIFICATE-----<br />-----END CERTIFICATE-----</label>
+                </td>
+                <td>
+                  <textarea style="font-family: Courier New, Courier" name="SMIMESignCert" id="SMIMESignCert" cols="65" rows="17"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="SMIMESignPrivKey">S/MIME-Zertifikat privater Schl&uuml;ssel<br /><br /><br />Angabe <b>mit</b><br />-----BEGIN RSA PRIVATE KEY-----<br />-----END RSA PRIVATE KEY-----</label>
+                </td>
+                <td>
+                  <textarea style="font-family: Courier New, Courier" name="SMIMESignPrivKey" id="SMIMESignPrivKey" cols="65" rows="17"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="SMIMESignPrivKeyPassword">Passwort f&uuml;r privaten Schl&uuml;ssel</label>
+                </td>
+                <td>
+                  <input type="password" name="SMIMESignPrivKeyPassword" id="SMIMESignPrivKeyPassword" size="52" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </if:SSL>
+      </fieldset>
+
+      <fieldset>
+      <legend><input type="checkbox" name="DomainKeyDKIM" id="DomainKeyDKIM" onclick="ShowItem('DomainKeyDKIMtable', document.getElementById('DomainKeyDKIM').checked); if(document.getElementById('DKIM') && document.getElementById('DomainKeyDKIM').checked) document.getElementById('DKIM').checked=true;" /><label for="DomainKeyDKIM">&nbsp;E-Mails eine DomainKey-/DKIM-Signatur hinzuf&uuml;gen</label></legend>
+      <br />
+
+          <if:noSSL>
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0" id="DomainKeyDKIMtableNoSSL">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                  <img src="images/icon_warning.gif" border="0" width="24" height="24" style="align: left;" alt="icon_warning" />&nbsp;Auf diesem Server
+                  steht diese Funktion, wegen fehlender SSL-Unterst&uuml;tzung, nicht zur Verf&uuml;gung.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </if:noSSL>
+
+          <if:SSL>
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0" id="DomainKeyDKIMtable">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                  <img src="images/icon_warning.gif" border="0" width="24" height="24" style="align: left;" alt="icon_warning" />&nbsp;Die Verwendung
+                  dieser Option f&uuml;hrt zu einer h&ouml;heren Serverlast, Vergr&ouml;&szlig;erung der E-Mails und damit zu einer Verl&auml;ngerung
+                  der Versandzeit.
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2"><input type="checkbox" name="DKIMIgnoreSignErrors" id="DKIMIgnoreSignErrors" /><label for="DKIMIgnoreSignErrors">&nbsp;Schl&auml;gt Signierung fehl, E-Mail unsigniert versenden.</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Versendet die E-Mail unsigniert, falls Fehler bei der Signierung auftreten.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2"><input type="checkbox" name="DKIM" id="DKIM" /><label for="DKIM">&nbsp;DKIM-Signatur hinzuf&uuml;gen.</label>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2"><input type="checkbox" name="DomainKey" id="DomainKey" /><label for="DomainKey">&nbsp;DomainKey-Signatur hinzuf&uuml;gen.</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Diese Option sollte nicht in Verbindung mit PHP mail() verwendet werden, da der E-Mail-Header nicht RFC-komform erstellt werden kann.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="DKIMSelector">DomainKeys/DKIM Selektor</label>
+                </td>
+                <td>
+                  <input type="text" name="DKIMSelector" id="DKIMSelector" size="52" />
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="DKIMPrivKey">DomainKeys/DKIM Privater Schl&uuml;ssel<br /><br /><br />Angabe <b>mit</b><br />-----BEGIN RSA PRIVATE KEY-----<br />-----END RSA PRIVATE KEY-----</label>
+                </td>
+                <td>
+                  <textarea style="font-family: Courier New, Courier" name="DKIMPrivKey" id="DKIMPrivKey" cols="65" rows="17"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="DKIMPrivKeyPassword">Optional, Passwort f&uuml;r privaten Schl&uuml;ssel</label>
+                </td>
+                <td>
+                  <input type="password" name="DKIMPrivKeyPassword" id="DKIMPrivKeyPassword" size="52" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </if:SSL>
+      </fieldset>
+
+   <br />
+
+
+     <input type="submit" name="SubmitBtn" value="&Auml;nderungen speichern" class="FormButton" />
+
+      </form>
+      </div>
+
+
+     <script type="text/javascript">
+
+       function EnableControls() {
+         var Type = document.getElementById('Type');
+         for(var i=0; i<document.forms[0].length; i++) {
+            if(document.forms[0].elements[i].type == "text" || document.forms[0].elements[i].type == "password" || document.forms[0].elements[i].type == "checkbox"  ) {
+               if( document.forms[0].elements[i].name == "Name" || document.forms[0].elements[i].name == "Type" || document.forms[0].elements[i].name == "MailLimit" ||
+                   document.forms[0].elements[i].name == "MTASenderEMailAddress" || document.forms[0].elements[i].name == "SleepInMailSendingLoop" ||
+                   document.forms[0].elements[i].name == "mailheaderfieldscheckbox" || document.forms[0].elements[i].name == "SMIMESignMail" ||
+                   document.forms[0].elements[i].name == "SMIMESignPrivKeyPassword" ||  document.forms[0].elements[i].name == "SMIMEIgnoreSignErrors" ||
+                   document.forms[0].elements[i].name == "DomainKeyDKIM" || document.forms[0].elements[i].name == "DKIMIgnoreSignErrors" || document.forms[0].elements[i].name == "DKIM" ||
+                   document.forms[0].elements[i].name == "DomainKey" || document.forms[0].elements[i].name == "DKIMPrivKey" || document.forms[0].elements[i].name == "DKIMPrivKeyPassword" ||
+                   document.forms[0].elements[i].name == "DKIMSelector" || document.forms[0].elements[i].name == "SMIMEMessageAsPlainText"
+
+                   )
+                   continue;
+
+               if(Type.selectedIndex == 0) { // phpmail
+                  if(document.forms[0].elements[i].name != "PHPMailParams")
+                     document.forms[0].elements[i].disabled = true;
+                     else
+                     document.forms[0].elements[i].disabled = false;
+               }
+
+               if(Type.selectedIndex == 1) { // smtp
+                  if( (document.forms[0].elements[i].name != "HELOName") && (document.forms[0].elements[i].name.indexOf("SMTP") < 0) )
+                     document.forms[0].elements[i].disabled = true;
+                     else
+                     document.forms[0].elements[i].disabled = false;
+               }
+
+               if(Type.selectedIndex == 2) { // smtpmx
+                  if( (document.forms[0].elements[i].name != "HELOName") &&  (document.forms[0].elements[i].name != "SMTPTimeout") )
+                     document.forms[0].elements[i].disabled = true;
+                     else
+                     document.forms[0].elements[i].disabled = false;
+               }
+
+               if(Type.selectedIndex == 3) { // sendmail
+                  if( document.forms[0].elements[i].name.indexOf("sendmail_") >= 0 )
+                     document.forms[0].elements[i].disabled = false;
+                     else
+                     document.forms[0].elements[i].disabled = true;
+               }
+
+            }
+           }
+
+           var form = document.getElementById('MTAEditForm');
+           var labels = form.getElementsByTagName("label");
+           for(var i=0;i<labels.length; i++) {
+              if(document.getElementById(labels[i].htmlFor) != null) {
+                  labels[i].disabled = document.getElementById(labels[i].htmlFor).disabled;
+              }
+
+
+         }
+         DisableControlsArray(document.getElementById('SMTPAuth').checked && document.getElementById('Type').selectedIndex == 1, Array( document.getElementById('SMTPUsername'), document.getElementById('SMTPPassword') ), Array( document.getElementById('SMTPUsernameLabel'), document.getElementById('SMTPPasswordLabel') ) );
+       }
+
+       EnableControls();
+
+       ShowItem('mailheaderfieldstable', document.getElementById('mailheaderfieldscheckbox').checked);
+       ShowItem('smimetable', document.getElementById('SMIMESignMail').checked);
+       ShowItem('DomainKeyDKIMtable', document.getElementById('DomainKeyDKIM').checked);
+
+       function ChangeControls() {
+         var SSL = document.getElementById('SSL');
+         if(!SSL.checked)
+           document.getElementById('SMTPPort').value = "25";
+           else
+           document.getElementById('SMTPPort').value = "465";
+       }
+
+
+       function RemoveMailHeaderFields() {
+          var P = document.getElementById("MailHeaderFields");
+          for(var i=P.options.length - 1; i>=0; i--) {
+            if(P.options[i].selected) {
+               P.options[i] = null;
+            }
+          }
+          SetMailHeaderFieldsButtons();
+       }
+
+       // onformsubmit select all!
+       function SelectAllMailHeaderFields() {
+          var P = document.getElementById("MailHeaderFields");
+          for(var i=P.options.length - 1; i>=0; i--) {
+            P.options[i].selected = true;
+          }
+       }
+
+       function SetMailHeaderFieldsButtons(){
+         document.getElementById('MailHeaderFieldsEditBtn').disabled = document.getElementById('MailHeaderFields').value == '';
+         document.getElementById('MailHeaderFieldsDeleteBtn').disabled = document.getElementById('MailHeaderFields').value == '';
+       }
+
+       function AddEditMailHeaderField(newField, oldField){
+
+          var SourceElement = document.getElementById('MailHeaderFields');
+          var Exists = false;
+          var newOption = null;
+          var newFieldName = newField.substr(0, newField.indexOf(":"));
+          var oldFieldName = oldField.substr(0, oldField.indexOf(":"));
+
+          for(var i=0; i<SourceElement.options.length; i++) {
+
+             var value = SourceElement.options[i].value;
+             value = value.substr(0, value.indexOf(":"));
+
+             if(oldFieldName == "" && value.toLowerCase() == newFieldName.toLowerCase()) {
+                Exists = true;
+                break;
+             }
+
+             if(oldFieldName != "" && oldFieldName.toLowerCase() != value.toLowerCase() && value.toLowerCase() == newFieldName.toLowerCase()) {
+                Exists = true;
+                break;
+             }
+
+             if(oldFieldName != "" && oldFieldName.toLowerCase() == value.toLowerCase())
+               newOption = SourceElement.options[i];
+          }
+
+          if(Exists){
+            return 1000;
+          }
+
+          if(oldField == ""){
+            newOption = new Option(newField, newField, false, true);
+            newOption.selected = true;
+            SourceElement.options[SourceElement.options.length] = newOption;
+          } else if(newOption) {
+            newOption.text = newField;
+            newOption.value = newField;
+          }
+
+          SetMailHeaderFieldsButtons();
+          return true;
+       }
+
+       SetMailHeaderFieldsButtons();
+
+
+
+
+       //AUTO_SCRIPT_CODE_PLACEHOLDER//
+    	</script>

@@ -1,0 +1,87 @@
+      <form id="MLRemoveRecipientsForm" name="MLRemoveRecipientsForm" method="post" action="./ml_remove_recipients_by_blocklists.php">
+
+      <span class="Backlink"><br />&nbsp;</span>
+      <fieldset>
+      <legend>Entfernen der Empf&auml;nger aus den Blocklisten abgeschlossen</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+        	    <tr>
+        	    <td colspan="2">
+               <br />
+               Das Entfernen der Empf&auml;nger aus den Blocklisten wurde abgeschlossen.
+               <br />
+               <br />
+        	    </td>
+        	    </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend>Gesamtstatistik</legend>
+      <br />
+          <table class="FormTable" style="width:80%;margin-left:32pt" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="StatColumn">Empf&auml;nger in Empf&auml;ngerliste '%MAILINGLISTNAME%' <b>vor</b> dem Entfernen der Empf&auml;nger gesamt
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><RECIPIENTSCOUNT></RECIPIENTSCOUNT></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Empf&auml;nger in Empf&auml;ngerliste '%MAILINGLISTNAME%' <b>nach</b> dem Entfernen der Empf&auml;nger gesamt
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><RECIPIENTSCOUNTAFTER></RECIPIENTSCOUNTAFTER></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Empf&auml;nger anhand der lokalen Blockliste entfernt
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><RemovedRecipientsByLocalBlocklistCount></RemovedRecipientsByLocalBlocklistCount></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Empf&auml;nger anhand der globalen Blockliste entfernt
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><RemovedRecipientsByGlobalBlocklistCount></RemovedRecipientsByGlobalBlocklistCount></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Empf&auml;nger anhand der lokalen Domain-Blockliste entfernt
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><RemovedRecipientsByLocalDomainBlocklistCount></RemovedRecipientsByLocalDomainBlocklistCount></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Empf&auml;nger anhand der globalen Domain-Blockliste entfernt
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><RemovedRecipientsByGlobalDomainBlocklistCount></RemovedRecipientsByGlobalDomainBlocklistCount></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Empf&auml;nger anhand der ECG-Liste entfernt
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><RemovedRecipientsByECGlistCount></RemovedRecipientsByECGlistCount></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <fieldset>
+      <legend>Weitere Empf&auml;ngerliste bereinigen</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+        	    <tr>
+        	    <td colspan="2">
+               &nbsp;
+        	    </td>
+        	    </tr>
+
+        	    <tr>
+        	    <td colspan="2">
+                <input type="submit" class="FormButton" value="Eine weitere Empf&auml;ngerliste bereinigen..." />
+        	    </td>
+        	    </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      </form>

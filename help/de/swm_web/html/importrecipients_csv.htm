@@ -1,0 +1,274 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link type="text/css" rel="stylesheet" href="../CSS/layout.css">
+<meta name="MS-HKWD" content="Importieren von Empfängern aus einer CSV-Datei">
+<meta name="MS-HKWD" content="Newsletter Empfänger aus einer CSV-Datei importieren">
+<meta name="MS-HKWD" content="Newsletter Empfänger in Empf&auml;ngerliste importieren">
+<meta name="MS-HKWD" content="Newsletter Empfänger aus Datei importieren">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Importieren von Empfängern aus einer CSV-Datei,Newsletter Empfänger aus einer CSV-Datei importieren,Newsletter Empfänger in Empf&auml;ngerliste importieren,Newsletter Empfänger aus Datei importieren Importieren von Empfängern aus einer CSV-Datei</title>
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,Importieren von Empfängern aus einer CSV-Datei,Newsletter Empfänger aus einer CSV-Datei importieren,Newsletter Empfänger in Empf&auml;ngerliste importieren,Newsletter Empfänger aus Datei importieren"><meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Importieren von Empfängern aus einer CSV-Datei,Newsletter Empfänger aus einer CSV-Datei importieren,Newsletter Empfänger in Empf&auml;ngerliste importieren,Newsletter Empfänger aus Datei importieren Importieren von Empfängern aus einer CSV-Datei Importieren von Empfängern aus einer CSV-Datei,Newsletter Empfänger aus einer CSV-Datei importieren,Newsletter Empfänger in Empf&auml;ngerliste importieren,Newsletter Empfänger aus Datei importieren"><meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script LANGUAGE="JavaScript" SRC="jscript.js"></script>
+<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/importrecipients_csv.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+
+<body>
+
+<h1>Importieren von Empfängern aus einer CSV-Datei</h1>
+<p>Es können Empfänger aus einer CSV-Datei (Text mit Trennzeichen) oder aus
+einer anderen MySQL-Datenbank importiert werden.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><b>Datei übertragen</b></p>
+<p><img border="0" src="../images/importrecipients2.png" width="956" height="310"></p>
+<p>Wählen Sie die Datei aus, die auf den Server übertragen werden soll und
+klicken Sie auf &quot;Weiter&quot; um die Datei übertragen zu lassen. Möchten
+Sie keine neue Datei übertragen oder Sie haben diese bereits manuell per FTP
+übertragen, dann klicken Sie einfach auf &quot;Weiter&quot;.</p>
+<p>Hinweis: Die maximale Größe der zu übertragenen Datei hängt von den
+Einstellungen in der Datei php.ini ab. Überschreitet die zu übertragende Datei
+diese Größe, dann wird der Upload verweigert. In diesem Fall können Sie
+manuell die Datei mit einem FTP-Programm in das userfiles/&lt;user-id&gt;/import-Verzeichnis
+übertragen</p>
+<p>&nbsp;</p>
+<p><b>Einstellungen für den Import</b></p>
+<p><img border="0" src="../images/importrecipients3.png" width="953" height="451"></p>
+<p>&nbsp;</p>
+<table border="1" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">Zu importierende Datei</td>
+    <td width="72%">Wählen Sie die Datei, die importiert werden soll.
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Datei nach Import löschen</td>
+    <td width="72%">Aktivieren Sie diese Einstellung damit die Datei nach
+      Abschluss des Imports gelöscht wird.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Trennzeichen zwischen den Feldern</td>
+    <td width="72%">Wählen Sie das Trennzeichen, welches in der Datei zur
+      Trennung der Daten verwendet wird. Bei einer CSV-Datei ist das meistens
+      ein Komma (,).
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Weitere Optionen</td>
+    <td width="72%">&nbsp;
+      <table border="0" width="90%">
+        <tr>
+          <td width="25%" valign="top">X Zeilen auf einmal importieren</td>
+          <td width="75%" valign="top">Geben Sie an, wie viele Zeilen auf einmal
+            importiert werden sollen, bevor das Import-Script automatisch erneut
+            geladen wird. Ist die Anzahl zu hoch, dann könnte es zu einem
+            Script-Abbruch und damit zu einem Nicht-Import der Daten kommen.
+            <p>&nbsp;</p>
+          </td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top">In der ersten Zeile befindet sich eine
+            Kopfzeile mit den Feldnamen</td>
+          <td width="75%" valign="top">Aktivieren Sie diese Einstellung, falls
+            sich in der ersten Zeile der Datei eine Kopfzeile mit Feldnamen
+            befindet. Die erste Zeile wird in diesem Fall nicht mit importiert.
+            <p>&nbsp;</p>
+          </td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top">Etwaige Anführungszeichen entfernen</td>
+          <td width="75%" valign="top">Entfernt enthaltende Anführungszeichen.
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top">Etwaige führende/nachfolgende
+            Leerzeichen entfernen</td>
+          <td width="75%" valign="top">Entfernt führende/nachfolgende
+            Leerzeichen in den zu importierenden Daten.
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top">Die Datei ist bereits <b>UTF-8</b>
+            codiert</td>
+          <td width="75%" valign="top">Aktivieren Sie diese Einstellung, falls
+            die zu importierende Datei bereits im UTF-8 Format gespeichert
+            worden ist.
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top">Empfänger, die sich in den Blocklisten
+            befinden, ebenfalls importieren</td>
+          <td width="75%" valign="top">Import ebenfalls die Empfänger, die sich
+            in der lokalen Blockliste der Empf&auml;ngerliste, der lokalen
+            Domain-Blockliste der Empf&auml;ngerliste, in der globalen Blockliste, in
+            der globalen Domain-Blockliste oder in der ECG-Liste (nur
+            Österreich) befinden.
+            <p><b>Hinweis:</b> Befindet sich der Empfänger in einer der
+            Blockliste, dann wird bei aktivierter Option &quot;Double-Opt-In,
+            E-Mail mit Bestätigungslink versenden&quot; keine E-Mail mit
+            Bestätigungslink an den Empfänger gesendet.</p>
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top">Fehlerprotokoll als Datei erstellen</td>
+          <td width="75%" valign="top">Erstellt ein Fehlerprotokoll als
+            Textdatei für den Import. Im Fehlerprotokoll sind die Empfänger
+            aufgeführt, die nicht importiert worden sind.
+            <p>&nbsp;</td>
+        </tr>
+      </table>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Double-Opt-In, E-Mail mit Bestätigungslink versenden</td>
+    <td width="72%">Aktivieren Sie diese Einstellung, damit an jeden
+      importierten Empfänger eine E-Mail mit Bestätigungslink zur entgültigen
+      Aufnahme in die Empf&auml;ngerliste versendet wird.
+      <p>Diese Option sollte nicht verwendet werden, besser ist es beim
+      nächsten Newsletter-Versand dem Newsletter-Empfänger die Möglichkeit zu
+      geben sich vom Newsletter mit einem Klick abzumelden</p>
+      <p>Hinweise</p>
+      <ul>
+        <li>Es wird der E-Mail-Text, des als Standard definierten
+          An/Abmeldeformulars der Empf&auml;ngerliste verwendet.</li>
+        <li>Lassen Sie nicht mehr als 100 Datensätze auf einmal importieren, da
+          der Versand der Bestätigungs-E-Mails bei einer hohen Empfängeranzahl
+          viel Zeit in Anspruch nehmen wird.</li>
+      </ul>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Feldzuordnung Datenbankfelder zu den zu importierenden Daten</b></p>
+<p><img border="0" src="../images/importrecipientsmysql3.png" width="958" height="850"></p>
+<p>Wählen Sie die Felder/Spalten aus, die importiert werden soll.</p>
+<p><b>Hinweise</b></p>
+<ul>
+  <li>Das Feld mit der E-Mail-Adresse ist ein <b>Pflichtfeld</b>, dass heißt es
+    muss immer eine Zuweisung besitzen. Es werden nur Daten importiert, die eine
+    syntaktisch gültige E-Mail-Adresse besitzen.</li>
+  <li>Beim Import in das Feld &quot;E-Mail-Format&quot; werden die Angaben wie
+    folgt gedeutet:
+    <ul>
+      <li>Angabe 'Text' oder 'PlainText', der Empfänger wird nach dem Import
+        E-Mails im reinen Text-Format erhalten.</li>
+      <li>alle anderen Angaben, der Empfänger wird E-Mails im HTML-Format
+        erhalten.</li>
+    </ul>
+  </li>
+  <li>Das Feld &quot;Geschlecht&quot; wird nur übernommen, wenn es die Angaben
+    w, f oder 1 für weiblich und m oder 0 für männlich enthält.</li>
+  <li>Für den Import des Geburtsdatums muss das korrekte Datumsformat gewählt
+    werden, unterstützt werden nur die Varianten dd.mm.yyyy, yyyy-mm-dd und
+    mm-dd-yyyy.</li>
+  <li>In das Feld Ganzzahl 1 - 3 werden nur Ganzzahlen übernommen,
+    Zeichenketten werden in eine 0 (Null) umgewandelt.</li>
+  <li>In das Feld Logisches Feld 1 - 3 werden die Werte nur übernommen, wenn
+    die Ziffern 0, 1 oder die Zeichenketten true und false enthalten sind.</li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<table border="1" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">Gruppenzuordnung</td>
+    <td width="72%">&nbsp;
+      <table border="0" width="90%">
+        <tr>
+          <td width="25%" valign="top">Keine Gruppenzuordnung verwenden</td>
+          <td width="75%" valign="top">Ordnet die neu importierten Empfänger
+            keiner Gruppe zu.
+            <p>&nbsp;</p>
+          </td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top">Gruppenname übernehmen aus Feld X</td>
+          <td width="75%" valign="top">Aktivieren Sie diese Einstellung und
+            wählen Sie das zu importierende Feld, aus dem der Gruppenname
+            übernommen werden soll. Existiert die Gruppe noch nicht, dann wird
+            diese während des Imports angelegt.
+            <p>&nbsp;</p>
+          </td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top">Import in folgende Gruppe</td>
+          <td width="75%" valign="top">Verwenden Sie diese Einstellung um die zu
+            importierenden Empfänger in eine bereits angelegte Gruppe
+            importieren zu lassen.
+            <p>&nbsp;</td>
+        </tr>
+      </table>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">Erweiterte Import-Einstellungen</td>
+    <td width="72%">&nbsp;
+      <table border="0" width="90%">
+        <tr>
+          <td width="25%" valign="top">Neue Empfänger hinzufügen, bei
+            bestehenden Empfängern zusätzlich die Gruppe zuordnen, falls eine
+            Gruppenzuordnung festgelegt worden ist.
+            <p>&nbsp;</p>
+          </td>
+          <td width="75%" valign="top">Es werden neue Empfänger zur
+            Empf&auml;ngerliste hinzugefügt. Sollte eine Gruppenzuordnung gewählt
+            worden sein, dann wird bestehenden Empfängern zusätzlich die
+            Gruppe zugeordnet, falls sich der Empfänger noch nicht in der
+            Gruppe befindet.
+            <p>&nbsp;</p>
+          </td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top">Neue Empfänger hinzufügen, Daten und
+            Gruppenzuordnung der bestehenden Empfänger nicht verändern.</td>
+          <td width="75%" valign="top">Es werden neue Empfänger hinzugefügt.
+            Bestehende Empfänger werden nicht geändert, ebenfalls wird die
+            Gruppenzuordnung beibehalten.
+            <p>&nbsp;</p>
+          </td>
+        </tr>
+        <tr>
+          <td width="25%" valign="top">Neue Empfänger hinzufügen, Daten der
+            bestehenden Empfänger durch die importierten nicht leeren Daten überschreiben
+            und zusätzlich die Gruppe zuordnen, falls eine Gruppenzuordnung
+            festgelegt worden ist.</td>
+          <td width="75%" valign="top">Es werden neue Empfänger hinzugefügt.
+            Die Daten der bestehenden Empfänger werden durch die neuen Daten
+            geupdatet, ebenfalls wird zusätzlich die Gruppe zugeordnet, falls
+            eine Gruppenzuordnung definiert worden ist. Das Update der
+            Empfängerdaten wird nur für nicht leere Daten (nicht leere
+            Zeichenketten) durchgeführt.
+            <p>&nbsp;</td>
+        </tr>
+      </table>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><b>Import durchführen</b></p>
+<p>Das Script wird selbständig den Import durchführen und am Ende des Imports
+das Ergebnis anzeigen. Während des Imports werden nur
+Empfänger/E-Mail-Adressen importiert, die sich bisher noch nicht in der
+Empf&auml;ngerliste befinden. Es können damit keine doppelten E-Mail-Empfänger
+importiert werden.</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

@@ -1,0 +1,743 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link type="text/css" rel="stylesheet" href="../CSS/layout.css">
+<meta name="MS-HKWD" content="RSS2EMail-Responder bearbeiten">
+<meta name="MS-HKWD" content="RSS feed als E-Mail versenden">
+<meta name="MS-HKWD" content="Versand RSS Feed Einträge als E-Mail">
+<meta name="MS-HKWD" content="Neue RSS-Einträge als E-Mail versenden">
+<meta name="MS-HKWD" content="Automatisch neue RSS-Feed-Einträge als Newsletter versenden">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer -
+RSS2EMail-Responder bearbeiten,RSS feed als E-Mail versenden,Versand RSS Feed
+Einträge als E-Mail,Neue RSS-Einträge als E-Mail versenden,Automatisch neue
+RSS-Feed-Einträge als Newsletter versenden RSS2EMail-Responder bearbeiten</title>
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,RSS2EMail-Responder bearbeiten,RSS feed als E-Mail versenden,Versand RSS Feed Einträge als E-Mail,Neue RSS-Einträge als E-Mail versenden,Automatisch neue RSS-Feed-Einträge als Newsletter versenden">
+<meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - RSS2EMail-Responder bearbeiten,RSS feed als E-Mail versenden,Versand RSS Feed Einträge als E-Mail,Neue RSS-Einträge als E-Mail versenden,Automatisch neue RSS-Feed-Einträge als Newsletter versenden RSS2EMail-Responder bearbeiten RSS2EMail-Responder bearbeiten,RSS feed als E-Mail versenden,Versand RSS Feed Einträge als E-Mail,Neue RSS-Einträge als E-Mail versenden,Automatisch neue RSS-Feed-Einträge als Newsletter versenden">
+<meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script LANGUAGE="JavaScript" SRC="jscript.js"></script>
+<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/rss2emailresponderedit.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+<h1>RSS2EMail-Responder bearbeiten</h1>
+<p>&nbsp;</p>
+<p><b>Registerkarte Allgemein</b></p>
+<p><img border="0" src="../images/rss2emailresponderedit.png" width="953" height="564"></p>
+<p>&nbsp;</p>
+<table border="1" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">Name des RSS2EMail-Responders</td>
+    <td width="72%">Geben Sie dem RSS2EMail-Responder einen eindeutigen Namen.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">RSS2EMail-Responder aktivieren/deaktivieren</td>
+    <td width="72%">Setzen Sie das Häkchen um den RSS2EMail-Responder zu
+      aktivieren, so dass er automatisch den hinterlegten RSS-Feed prüft und
+      neue RSS-Feed Einträge als E-Mail versendet.
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%">Informationen</td>
+    <td width="72%">Zeigt Informationen zum RSS2EMail-Responder.
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Registerkarte E-Mail-Verarbeitung</b></p>
+<p><img border="0" src="../images/rss2emailresponderedit1.png" width="950" height="621"></p>
+<table border="1" width="90%" cellspacing="0">
+  <tr>
+    <td width="28%" valign="top">URL des RSS-Feeds mit http:// oder komplettes
+      Verzeichnis und Dateiname der XML-Datei</td>
+    <td width="72%">Geben Sie den http://-Aufruf des RSS-Feeds an, deren neueste
+      Einträge per E-Mail versendet werden sollen (allow_url_fopen muss in der
+      php.ini aktiviert sein). Befindet sich die RSS-Feed-Datei im gleichen
+      Webspace, dann können Sie ebenfalls das komplette Verzeichnis ab
+      Root-Verzeichnis und den Namen der XML-Datei angeben.
+      <p><b>Wichtige Hinweise:</b></p>
+      <ul>
+        <li>Der RSS-Feed/XML-Datei muss valides XML enthalten, ansonsten wird
+          dieser nicht geparst.</li>
+        <li>Jeder RSS-Feed-Eintrag muss eine eindeutige GUID besitzen, nur an
+          der hinterlegten GUID werden neue Einträge erkannt.</li>
+      </ul>
+      <p><b>ACHTUNG: Das Ändern der URL des RSS-Feeds führt zum Löschen der
+      gespeicherten Statistik und versendeten RSS-Feed-Einträge dieses
+      RSS2EMail-Responders.</b></p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%">Maximale Anzahl Einträge, die aus der XML-Datei gelesen
+      werden sollen</td>
+    <td width="72%">Geben Sie an wie viele Einträge aus der RSS-Feed-Datei
+      gelesen werden sollen. Ist die Anzahl RSS-Feed-Einträge zu hoch
+      eingestellt, dann kann es zum Scriptabbruch mangels verfügbaren Speicher
+      oder wegen zu hoher Last kommen.
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%">X-Loop Header-Feld beim Versand einer E-Mail hinzufügen
+      (empfohlen)</td>
+    <td width="72%">Fügt in jede E-Mail ein X-Loop-Feld in den Kopf der E-Mail
+      ein. Die Nutzung dieser Funktion ist empfohlen, damit andere Autoresponder
+      die E-Mail nicht beantworten.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Empfängerliste</td>
+    <td width="72%">Wählen Sie die Empfängerliste für den RSS2EMail-Responder
+      aus. An alle Empfänger in der Empfängerliste werden die neuesten
+      RSS-Feed-Einträge per E-Mail versendet.
+      <p><b>ACHTUNG: Das Ändern der Empfängerliste auf eine andere
+      Empfängerliste führt zum Löschen der gespeicherten Statistik und
+      versendeten RSS-Feed-Einträge dieses RSS2EMail-Responders.</b></p>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Registerkarte E-Mail-Versand</b></p>
+<p><img border="0" src="../images/rss2emailresponderedit2.png" width="948" height="680"></p>
+<p>&nbsp;</p>
+<table border="1" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">E-Mail-Adressen</td>
+    <td width="72%">Geben Sie die E-Mail-Adressen und angezeigter Absender-Name
+      korrekt ein. Die E-Mail-Adresse für die Return-Path-Angabe wird für die
+      Bounce-E-Mails/Rückläufer-E-Mails verwendet.
+      <p>Hinweis:<br>
+      Diese Einstellung ist nicht verfügbar, wenn die Einstellung &quot;Bei der
+      Erstellung von E-Mails und Formularen dürfen die E-Mail-Adress-Angaben
+      verändert werden&quot; der Empfängerliste nicht aktiviert ist.<br>
+      <br>
+      <b>Siehe dazu auch</b><br>
+      <a href="mailinglistedit.htm">Empfängerlisten bearbeiten</a></p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" valign="top">Lesebestätigung anfordern</td>
+    <td width="72%">Fordert eine Lesebestätigung an. Nicht jeder Server oder
+      E-Mail-Programm unterstützt diese Funktion. Beim Versand sehr vieler
+      E-Mails kann diese Funktion Ihren eigenen Mailserver stark belasten, da
+      viele E-Mails mit der Lesebestätigung zurückgesendet werden.
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" valign="top">Sichtbare Kopien-Empfänger (Cc)
+      <p>&nbsp;</td>
+    <td width="72%">Geben Sie eine oder mehrere E-Mail-Adressen mit Komma (,)
+      getrennt an, die eine sichtbare Kopie(Cc) erhalten sollen.
+      <p><b>Hinweis:</b><br>
+      Die sichtbaren Kopien-Empfänger sind beim Empfänger der E-Mail
+      einsehbar, zur Eindämmung des Versands von unerwünschten E-Mails (Spam)
+      sollten keine sichtbaren Kopien-Empfänger verwendet werden.</p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" valign="top">Unsichtbare Blindkopien-<br>
+      Empfänger (BCc)</td>
+    <td width="72%">Geben Sie eine oder mehrere E-Mail-Adressen mit Komma (,)
+      getrennt an, die eine unsichtbare Blindkopie(BCc) erhalten sollen.
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">List-Unsubscribe-Header-Feld in die E-Mails
+      für die Abmeldung einfügen</td>
+    <td width="72%">Fügt in den unsichtbaren Header der versendeten E-Mail das
+      Feld List-Unsubscribe mit dem Abmeldelink hinzu. Einige webbasierte
+      Anbieter wie Microsoft Hotmail oder Google Mail zeigen bei Vorhandensein
+      dieses Header-Felds eine Schaltfläche &quot;Abmelden&quot; oder einen
+      Link für die direkte Abmeldung vom Newsletter-Verteiler oberhalb der
+      E-Mail an.
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Versandvarianten (MTA = Mail Transfer Agent)
+      des RSS2EMail-Responders</td>
+    <td width="72%">Wählen Sie die Versandvariante, welche für den Versand der
+      RSS2EMail-E-Mails verwendet werden soll.
+      <p><b>Siehe dazu auch</b><br>
+      <a href="browsemtas.htm">Versandvarianten bearbeiten</a></p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Zeitpunkt des Versands der neuen
+      RSS-Feed-Einträge</td>
+    <td width="72%">Wählen Sie aus, wann die neue RSS-Feed-Einträge per E-Mail
+      versendet werden sollen.
+      <p>&nbsp;</p>
+      <table border="0" cellpadding="2" cellspacing="1" width="90%">
+        <tr>
+          <td width="50%" valign="top"><span id="SendOnNewPostsLabel">sobald
+            neue Einträg(e) im RSS-Feed gefunden worden</span></td>
+          <td width="50%">Versendet die neuen RSS-Feed-Einträge sobald
+            mindestens ein neuer Eintrag im RSS-Feed gefunden worden ist.
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="50%" valign="top">jeden X <span id="SendAtDayLabel">falls
+            neue Einträge im RSS-Feed gefunden worden.</span></td>
+          <td width="50%">Wählen Sie den Wochentag für die Prüfung und für
+            den Versand der neuen RSS-Feed-Einträge.
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="50%" valign="top"><span id="SendOnceAMonthLabel">jeden X
+            des Monats, falls neue Einträge im RSS-Feed gefunden worden.</span></td>
+          <td width="50%">Wählen Sie den Tag des Monats für die Prüfung und
+            für den Versand der neuen RSS-Feed-Einträge.
+            <p>Hinweis: Existiert der gewählte Tag im jeweiligen Monat nicht,
+            dann wird im Monat keine Prüfung des RSS-Feeds durchgeführt und
+            ebenfalls werden keine E-Mails versendet.</p>
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="50%" valign="top">Uhrzeit des Versand der E-Mails</td>
+          <td width="50%">Geben Sie an zu welcher Uhrzeit der RSS-Feed geprüft
+            und die E-Mails versendet werden sollen.
+            <p>Hinweis: Wird die Aufgabe &quot;Prüfung RSS2EMail
+            Responder&quot; nur einmal pro Tag durch das <a href="settings_cron.htm">CronJob-Script</a>
+            durchgeführt, dann sollte die Uhrzeit auf 00:00 Uhr belassen
+            werden.</p>
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="50%" valign="top">Immer die&nbsp;<span id="EverSendLastRSSFeedMaxEntriesCount">X</span>&nbsp;letzten
+            RSS-Feed-Einträge versenden, ansonsten nur die neuesten</td>
+          <td width="50%">Aktivieren Sie diese Einstellung, damit immer auf der
+            Registerkarte E-Mail-Verarbeitung angegebene &quot;Maximale Anzahl
+            Einträge, die aus der XML-Datei gelesen werden sollen&quot; an
+            RSS-Feed-Einträgen versendet wird. Ist die Einstellung deaktiviert,
+            dann werden an den Empfänger nur die neuesten RSS-Feed-Einträge
+            gesendet.
+            <p>&nbsp;</td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Registerkarte E-Mail-Vorlage</b></p>
+<p>Für den Versand der neuesten RSS-Feed-Einträge ist eine spezielle Vorlage
+notwendig. Ein Beispiel für eine Vorlage finden Sie im Verzeichnis
+rss2emailtemplate. Die Platzhalter, die in der Vorlage verwendet werden müssen,
+finden Sie am <a href="#rssfeed_vorlage">Ende dieser Seite</a>.</p>
+<p><img border="0" src="../images/rss2emailresponderedit3.png" width="953" height="721"></p>
+<p>&nbsp;</p>
+<table border="1" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">Format der E-Mail</td>
+    <td width="72%">Als Format ist nur HTML- und Text-E-Mail verfügbar, da die
+      neuen RSS-Feed-Einträge meistens als HTML-Code vorliegen. Der Text-Teil
+      der E-Mail wird automatisch aus dem HTML-Teil erstellt, sobald die neuen
+      RSS-Feed-Einträge während des E-Mail-Versand eingesetzt worden sind.
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Codierung</td>
+    <td width="72%">Wählen Sie die Codierung der E-Mail aus. Die Variante
+      &quot;Normal/Europa (iso-8859-1)&quot; ist empfehlenswert für die meisten
+      E-Mails. Verwenden Sie die anderen Codierungen (UTF-8 bevorzugt) um z.B.
+      E-Mails mit kyrillischen Texten zu versenden.
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Priorität</td>
+    <td width="72%">Wählen Sie die gewünschte Priorität der E-Mail. Die
+      Priorität Hoch ist nicht empfehlenswert, da diese E-Mails als Spam
+      erkannt werden könnten.
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Cache für E-Mail-Versand verwenden</td>
+    <td width="72%">Aktivieren Sie dies Einstellung, damit einmal für den
+      E-Mail-Versand vorcodierte eingebettete Bilder und Anhänge zur Verwendung
+      für die nächste E-Mail im Speicher gehalten werden. Es wird damit
+      CPU-Zeit für die Codierung der Bilder und Anhänge eingespart aber
+      gleichzeitig mehr Speicher in Anspruch genommen.
+      <p><b>Hinweis</b><br>
+      Sollten Sie E-Mails mit personalisierten Bildern (z.B. Platzhalter
+      [u_FirstName] im Dateinamen) versenden wollen, dann muss die Cache-Option
+      deaktiviert werden.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Betreff der E-Mail</td>
+    <td width="72%">Vergeben Sie Ihrer E-Mail einen Betreff. Der Betreff der
+      E-Mail ist eine Pflichtangabe.
+      <p>Im Betreff können Sie Platzhalter verwenden, die in der Auswahlbox zur
+      Verfügung stehen. Die Platzhalter &quot;Abmeldelink&quot; und
+      &quot;Alternativer Browserlink&quot; sollten nicht verwendet werden, da
+      diese http://-Aufrufe enthalten. Zur Nutzung einer Funktion, z.B.
+      persönliche Anrede, klicken Sie auf <img border="0" src="../images/btnCustomFct.gif" width="16" height="16">
+      um diese direkt mit einem Klick auf das Symbol <img border="0" src="../images/paste.gif" width="16" height="16">
+      einzufügen.</p>
+      <p>Speziell für RSS-Feeds können die Platzhalter aus dem
+      &lt;channel&gt;Bereich verwendet werden. Nicht zulässig sind Platzhalter
+      aus dem Bereich &lt;channel&gt;&lt;items&gt;-Bereich.</p>
+      <p><b>Siehe auch</b><br>
+      <a href="#rssfeed_vorlage">Aufbau der HTML-Vorlage</a></p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Pre-Header</td>
+    <td width="72%">
+      <p>Der Pre-Header/Vorschautext ist ein Text der von verschiedenen
+      E-Mail-Programmen, z.B. Outlook, GoogleMail oder Thunderbird, in der
+      E-Mail-Vorschau neuer E-Mails direkt unter oder neben dem E-Mail-Betreff
+      angezeigt wird. Dieser Text kann, neben dem Betreff der E-Mail, verwendet
+      werden, um den Empfänger des Newsletters zu motivieren Ihre E-Mail zu
+      öffnen.</p>
+      <p><b>Hinweise</b></p>
+      <ul>
+        <li>
+          <p>Die Länge dieses Texts sollte zwischen 85 und 100 Zeichen liegen,
+          längere Texte werden möglicherweise abgeschnitten dargestellt.</p>
+        </li>
+        <li>
+          <p>Verwenden Sie keine &quot;reißerischen&quot; Begriffe, dies kann
+          möglicherweise zur Erkennung als Spam führen bzw. es werden mehr
+          Spam-Punkte für Ihre E-Mail vergeben.</p>
+        </li>
+      </ul>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Registerkarte Vorlage im HTML-Format</td>
+    <td width="72%">Geben Sie den Text (HTML-Teil) der zu versendenden E-Mail
+      ein. Sie können den Text mit Hilfe des WYSIWYG-Editors beliebig
+      formatieren oder im Text Bilder verwenden. Für das korrekte Einsetzen der
+      RSS-Feed-Einträge <a href="#rssfeed_vorlage">müssen bestimmte
+      Platzhalter enthalten sein</a>.
+      <p><b>Platzhalter verwenden, um den Empfänger persönlich anzusprechen</b></p>
+      <ul>
+        <li>In der Auswahlliste &quot;Platzhalter einfügen&quot; können Sie
+          Platzhalter wählen, die beim Versand der E-Mail durch die Daten des
+          Empfängers ersetzt werden sollen.</li>
+        <li>Klicken Sie auf die Schaltfläche <img border="0" src="../images/btnCustomFct.gif" width="16" height="16">
+          um eine Funktion z.B. für die persönliche Anrede mit einem Klick auf
+          die Schaltfläche <img border="0" src="../images/paste.gif" width="16" height="16">
+          einfügen zu lassen.</li>
+        <li>Mit Hilfe der Schaltfläche <img border="0" src="../images/btnLoadFile.gif" width="16" height="16">
+          können Sie eine Datei von Ihrer lokalen Festplatte oder durch einen
+          http://-Aufruf eine Datei aus dem Web direkt in den WYSIWYG-Editor
+          laden lassen.</li>
+        <li>Um eine definierte E-Mail-Vorlage zu laden, klicken Sie auf die
+          Schaltfläche <img border="0" src="../images/btnTemplates.gif" width="23" height="22">
+          und wählen Sie die Vorlage aus. Angezeigt werden im Dialog mit den
+          Vorlagen nur Vorlagen des Typs HTML.</li>
+      </ul>
+      <p><strong>Zielgruppen verwenden, um den Inhalt der E-Mail speziell für
+      den Empfänger zu individualisieren.</strong></p>
+      <ul>
+        <li>Klicken Sie auf <img alt="Zielgruppen" src="../images/btntgroups.gif" width="16" height="16">
+          bzw. wählen Sie im Kontextmenü den jeweiligen Eintrag, um dem
+          Textbereich bzw. HTML-(Block)-Element eine Zielgruppe zuzuweisen. Mehr
+          Informationen finden Sie unter <a href="targetgroupsedit.htm">Zielgruppen</a>.</li>
+      </ul>
+      <p><b>Hyperlink einfügen</b></p>
+      <ol>
+        <li>Schreiben Sie den Link mit http:// einfach in den HTML-Editor,
+          dieser wird automatisch zum Link. Bei Verwendung des Link-Tracking
+          sollte diese Variante <b>nicht</b> verwendet werden, da die E-Mail als
+          Phishing-Versuch erkannt werden könnte, falls Sie diesen Link tracken
+          lassen. Bei Verwendung des Link-Tracking sollte immer die 2. Variante
+          verwendet werden.</li>
+        <li>Schreiben Sie einen Text in den HTML-Editor und markieren Sie den
+          Text-Teil der zum Link werden soll. Klicken Sie auf die Schaltfläche <img border="0" src="../images/btnlink.png" width="24" height="24">
+          und geben Sie die URL ein.</li>
+      </ol>
+      <p><b>Abmeldelink integrieren</b></p>
+      <ol>
+        <li>Wählen Sie in der Auswahlliste &quot;Serien-E-Mail-Feld&quot; den
+          Platzhalter &quot;Abmeldelink&quot; um den Abmeldelink direkt
+          einzufügen. Diese Variante zeigt alle Parameter des Links, daher
+          sollte die 2. Variante verwendet werden.</li>
+        <li>Schreiben Sie den Text für den Abmeldelink z.B. &quot;Möchten Sie
+          diesen Newsletter nicht mehr erhalten, dann klicken Sie auf diesen
+          Link&quot;. Markieren Sie den Text, der zum Link werden sollen.
+          Klicken Sie auf die Schaltfläche zum Einfügen eines Links <img border="0" src="../images/btnlink.png" width="24" height="24">
+          und wählen Sie in der Auswahlliste &quot;<span fcklang="SerialEMailFieldAsURL">Serien-E-Mail-Feld
+          in URL&quot; den Platzhalter &quot;Abmeldelink&quot; aus. Mit einem
+          Klick auf &quot;OK&quot; wird der markierte Text zum Link, in diesem
+          Fall zum Abmeldelink des Newsletters.</span></li>
+      </ol>
+      <p>&nbsp;</p>
+      <p><b>Alternativen Browserlink integrieren</b></p>
+      <p>Der alternative Browserlink ermöglicht es die E-Mail direkt im Browser
+      anzuschauen z.B. wenn es Darstellungsprobleme im E-Mail-Programm gibt.
+      SuperWebMailer stellt dafür <b>automatisch beim E-Mail-Versand</b> eine
+      Variante für den Browser zur Verfügung. Zur Integration des Links gehen
+      Sie genauso wie beim Abmeldelink vor, jedoch verwenden Sie den Platzhalter
+      &quot;Alternativer Browserlink&quot;. Zum Entfernen des Browserlinks in
+      der Ansicht im Browser selbst können direkt im HTML-Quelltext die
+      Kommentare &lt;!--AltBrowserLink_begin//--&gt;
+      &lt;!--AltBrowserLink_end//--&gt; um den Browserlink bzw. den gesamten
+      Textblock mit Verweis auf den Browserlink gesetzt werden.<br>
+      <b>Hinweis:</b> Der Browserlink könnte falsche RSS-Feed-Einträge
+      anzeigen, falls neue Einträge im RSS-Feed vorliegen und diese bereits
+      abgeholt worden sind.</p>
+      <p>&nbsp;</p>
+      <p><b>Anzeige in der Serien-E-Mail-Vorschau</b></p>
+      <p>Nach Änderung der E-Mail-Texte, müssen Sie die Angaben zuerst
+      speichern. Klicken Sie auf das Symbol <img border="0" src="../images/serialmailpreview.gif" width="16" height="16">
+      um die E-Mail in der Serien-E-Mail-Vorschau anzeigen zu lassen. Es wird
+      dabei nur die Vorlage in der Serien-E-Mail-Vorschau ohne
+      RSS-Feed-Einträge dargestellt.</p>
+      <p>&nbsp;</p>
+      <p><b>Siehe auch</b><br>
+      <a href="fckeditor.htm">WYSIWYG HTML-Editor verwenden</a></p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Registerkarte E-Mail im Text-Format</td>
+    <td width="72%">Der Text-Teil ist bei einem RSS2EMail-Responder nicht
+      änderbar, dieser wird direkt beim E-Mail-Versand nach dem Einsetzen der
+      neuen RSS-Feed-Einträge automatisch erstellt.
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Registerkarte Anhänge der E-Mail</td>
+    <td width="72%">Wählen Sie einen oder mehrere Anhänge, die mit der E-Mail
+      versendet werden sollen.
+      <p><b>Neue Datei(en) übertragen</b></p>
+      <p>Klicken Sie auf die Schaltfläche &quot;Neue Datei(en)
+      übertragen&quot; um eine neue Datei von Ihrem Rechner auf den Server zu
+      übertragen. Beachten Sie dabei, dass die Größe der Datei, die
+      angezeigte Größe nicht überschreiten darf. Die angegebene Größe wurde
+      in der Datei php.ini vom Administrator des Servers festgelegt. Ist Ihr
+      Anhang größer als die angegebene Größe, dann können Sie diese
+      ebenfalls mit einem FTP-Programm in das userfiles/&lt;nutzer-id&gt;/file
+      Verzeichnis übertragen.</p>
+      <p><b>Datei(en) löschen</b></p>
+      <p>Dies ermöglicht das Löschen der markierten Dateien.<br>
+      <b>Hinweis:</b> Werden die Anhänge in anderen E-Mailings oder Respondern
+      verwendet und diese müssen noch versendet werden, dann wird der Versand
+      fehlschlagen falls ein Dateianhang nicht mehr existiert.</p>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Registerkarte Tracking</b></p>
+<p><img border="0" src="../images/rss2emailresponderedit4.png" width="952" height="685"></p>
+<p>&nbsp;</p>
+<p><u>Anonymes Tracking</u></p>
+<table border="1" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">Anzahl E-Mail-Öffnungen zählen</td>
+    <td width="72%">Ermöglicht es die Anzahl der Öffnungen der E-Mail zählen
+      zu lassen. Die Anzahl Öffnungen werden in der Tracking-Statistik
+      dargestellt.
+      <ul>
+        <li>Der E-Mail-Empfänger muss den Download der Bilder aus dem Internet
+          zulassen, falls das E-Mail-Programm z.B. Outlook dies unterbindet.</li>
+        <li>Für die Zählung wird ein unsichtbares Zählpixel verwendet,
+          welches am Ende der E-Mail eingefügt wird.</li>
+      </ul>
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Klicks auf Links zählen</td>
+    <td width="72%">Ermöglicht es Klicks auf die enthalten Hyperlinks zählen
+      zu lassen. Es werden alle Links getrackt, es kann kein Link vom
+      Link-Tracking ausgeschlossen werden.
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">IP-Blocking verwenden</td>
+    <td width="72%">Verwenden Sie das IP-Blocking um eine Mehrfachzählung in
+      der Öffnungsstatistik und Klicks auf Links-Statistik zu vermeiden.<br />
+      <br />
+      Beim Versand an große Unternehmen, die nach außen hin mit einer
+      IP-Adresse im Internet auftreten, führt dies zu einer Fehlzählung wenn
+      mehrere Mitarbeiter des Unternehmens angeschrieben werden.
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><u>Personalisiertes Tracking der E-Mails (Empfängertracking)</u></p>
+<p>Die Nutzung des direkten Empfängertrackings kann gegen <b>Datenschutzbestimmungen</b>
+in Ihrem Land widersprechen. Sie müssen sich <b>SELBST</b> über die
+gesetzlichen Bestimmungen informieren und haften ebenfalls selbst VOLL sollte es
+zu etwaigen rechtlichen Maßnahmen gegen Sie kommen.<br>
+</p>
+<table border="1" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">Anzahl E-Mail-Öffnungen zählen</td>
+    <td width="72%">Ermöglicht es die Anzahl der Öffnungen jedes einzelnen
+      Empfängers der E-Mail zählen zu lassen. Die Anzahl Öffnungen werden in
+      der Tracking-Statistik für jeden Empfänger dargestellt.
+      <ul>
+        <li>Der E-Mail-Empfänger muss den Download der Bilder aus dem Internet
+          zulassen, falls das E-Mail-Programm z.B. Outlook dies unterbindet.</li>
+        <li>Für die Zählung wird ein unsichtbares Zählpixel verwendet,
+          welches am Ende der E-Mail eingefügt wird.</li>
+      </ul>
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Klicks auf Links zählen</td>
+    <td width="72%">Ermöglicht es jeden Klick eines Newsletter-Empfängers auf
+      die enthalten Hyperlinks zählen zu lassen. Es werden alle Links getrackt,
+      es kann kein Link vom Link-Tracking ausgeschlossen werden.
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><u>Google Analytics</u></p>
+<p>Mit Google Analytics lassen sich detailliert Webseiten-Zugriffe analysieren
+und eigene Webseitenoptimierungen überwachen. Ebenfalls ist es möglich in
+HTML-Newslettern mit Tags gekennzeichnete Links mit Google Analytics auswerten
+zu lassen. Zur Nutzung dieser Funktion ist ein Konto bei <a href="http://www.google.com/analytics/" target="_blank">Google
+Analytics</a> notwendig.<br>
+<br>
+Google Analytics ist ein Service der Google Inc., USA und kein Bestandteil
+dieser Software.</p>
+<p>Google Analytics kann gemeinsam mit dem Tracking verwendet werden, die Links
+werden beim Klick auf einen getrackten Link automatisch angepasst, so dass der
+Google Analytics Code in der Webseite die Zugriffe erkennt.</p>
+<p>&nbsp;</p>
+<p>Angaben zur Auswertung der Links mit Google Analytics</p>
+<p>Informationen zu den Einstellungen finden Sie beim <a href="http://www.google.com/support/googleanalytics/bin/answer.py?answer=55578" target="_blank">Google
+Tool zur URL-Erstellung</a>.</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">Links zur Analyse mit Google Analytics anpassen</td>
+    <td width="72%">Aktivieren Sie diese Einstellung und geben Sie die
+      notwendigen Daten ein, so dass alle Links mit Tags versehen werden, die
+      zur Auswertung mit Google Analytics notwendig sind.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Kampagne Quelle</td>
+    <td width="72%">Vergeben Sie eine eindeutige Bezeichnung als Quelle der
+      Kampagne. Dies ist eine Pflichtangabe.
+      <p>Hinweis: Verwenden Sie keine Umlaute, Sonderzeichen oder Leerzeichen,
+      da diese von Google Analytics womöglich nicht korrekt ausgewertet bzw.
+      dargestellt werden.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Kampagnenmedium</td>
+    <td width="72%">Geben Sie das Marketingmedium ein. Dies ist eine
+      Pflichtangabe.
+      <p>Hinweis: Verwenden Sie keine Umlaute, Sonderzeichen oder Leerzeichen,
+      da diese von Google Analytics womöglich nicht korrekt ausgewertet bzw.
+      dargestellt werden.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Kampagnenbegriff</td>
+    <td width="72%">Geben Sie den Kampagnenbegriff ein, dies ist nur bezahlten
+      Keywords sinnvoll.
+      <p>Hinweis: Verwenden Sie keine Umlaute, Sonderzeichen oder Leerzeichen,
+      da diese von Google Analytics womöglich nicht korrekt ausgewertet bzw.
+      dargestellt werden.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Kampagnen-Content</td>
+    <td width="72%">Diese Angabe ist nur für Anzeigen sinnvoll, die Angabe kann
+      entfallen.
+      <p>Hinweis: Verwenden Sie keine Umlaute, Sonderzeichen oder Leerzeichen,
+      da diese von Google Analytics womöglich nicht korrekt ausgewertet bzw.
+      dargestellt werden.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Kampagnenname</td>
+    <td width="72%">Vergeben Sie einen Namen für Ihre Kampagne. Dies ist eine
+      Pflichtangabe.
+      <p>Hinweis: Verwenden Sie keine Umlaute, Sonderzeichen oder Leerzeichen,
+      da diese von Google Analytics womöglich nicht korrekt ausgewertet bzw.
+      dargestellt werden.</p>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><b><a name="rssfeed_vorlage">Aufbau der HTML-Vorlage für den Versand von
+RSS-Feed-Einträgen</a></b></p>
+<p>Damit die RSS-Feed-Einträge korrekt in der E-Mail platziert werden, ist eine
+HTML-Vorlage mit speziellen Platzhaltern notwendig. Die Namen der Platzhalter
+orientieren sich dabei an den Bezeichnungen in der RSS-Feed/XML-Datei. Ein
+Beispiel für eine Vorlage finden Sie im Verzeichnis rss2emailtemplate, die
+Datei trägt den Namen rss2email_template.htm. Mehr Informationen zu RSS-Feeds
+finden Sie z.B. unter <a href="http://de.wikipedia.org/wiki/RSS" target="_blank">http://de.wikipedia.org/wiki/RSS</a>.</p>
+<p>&nbsp;</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0" height="770">
+  <tr valign="top">
+    <td width="28%" height="51"><b>Platzhaltername</b></td>
+    <td width="72%" height="51"><b>Beschreibung</b>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_title]</td>
+    <td width="72%" height="16">Titel des RSS-Feed</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_link]</td>
+    <td width="72%" height="16">Link zur eigenen Webseite</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_description]</td>
+    <td width="72%" height="16">Beschreibung des RSS-Feed</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_copyright]</td>
+    <td width="72%" height="16">Copyright</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_pubDate]</td>
+    <td width="72%" height="16">Publizierungsdatum und -uhrzeit</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_lastBuildDate]</td>
+    <td width="72%" height="16">Datum-/Uhrzeit der letzten Änderung des
+      RSS-Feeds</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_language]</td>
+    <td width="72%" height="16">Sprach- oder Länderkürzel</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_category]</td>
+    <td width="72%" height="16">Einordnung des RSS-Feeds</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_ttl]</td>
+    <td width="72%" height="16">ttl = time to live, gibt an wie lange die Daten
+      vor einem erneuten Laden gecached werden dürfen</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_managingEditor]</td>
+    <td width="72%" height="16">E-Mail-Adresse des Autors des RSS-Feed</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_webMaster]</td>
+    <td width="72%" height="16">E-Mail-Adresse des technischen Ansprechpartners</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_generator]</td>
+    <td width="72%" height="16">Softwarename, welche den RSS-Feed erstellt hat</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16"></td>
+    <td width="72%" height="16"></td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_image_url]</td>
+    <td width="72%" height="16">URL zu einem Bild</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="15">[rss_channel_image_link]</td>
+    <td width="72%" height="15">Link für das Bild</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_image_title]</td>
+    <td width="72%" height="16">Titel für das Bild</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_image_description]</td>
+    <td width="72%" height="16">Beschreibung für das Bild</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16"></td>
+    <td width="72%" height="16"></td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_items] ... [/rss_channel_items]</td>
+    <td width="72%" height="16">Die öffnende und schließende Angabe
+      [rss_channel_items] ... [/rss_channel_items] muss um die folgenden Angaben
+      gesetzt werden, damit mehrere RSS-Feed-Einträge in die E-Mail eingefügt
+      werden.</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_item_title]</td>
+    <td width="72%" height="16">Titel des RSS-Feed-Eintrags</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_item_link]</td>
+    <td width="72%" height="16">Link für den RSS-Feed-Eintrag</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_item_description]</td>
+    <td width="72%" height="16">Text des RSS-Feed-Eintrags</td>
+  </tr>
+  <tr>
+    <td width="28%" height="16">[rss_channel_item_content:encoded]</td>
+    <td width="72%" height="16">Nur falls im RSS-Feed enthalten, zusätzlicher
+      Text des RSS-Feed-Eintrags</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_item_author]</td>
+    <td width="72%" height="16">Autors des RSS-Feed-Eintrags</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_item_category]</td>
+    <td width="72%" height="16">Etwaige Kategorie(n)</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_item_comments]</td>
+    <td width="72%" height="16">Etwaige Kommentare</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_item_guid]</td>
+    <td width="72%" height="16">Eindeutige ID des RSS-Feed-Eintrags</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_item_pubDate]</td>
+    <td width="72%" height="16">Publizierungsdatum und -uhrzeit</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16"></td>
+    <td width="72%" height="16"></td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="32">[rss_channel_item_enclosure_included] ...
+      [/rss_channel_item_enclosure_included]</td>
+    <td width="72%" height="32">Mit [rss_channel_item_enclosure_included] und
+      [/rss_channel_item_enclosure_included] kann ein Block für einen Anhang
+      gebildet werden. Ist kein Anhang enthalten, dann wird der Block entfernt.
+      Die folgenden 3 Anweisungen müssen sich dabei innerhalb dieses Blocks
+      befinden.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_item_enclosure_url]</td>
+    <td width="72%" height="16">URL des Anhangs</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_item_enclosure_length]</td>
+    <td width="72%" height="16">Größe in Byte des Anhangs</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" height="16">[rss_channel_item_enclosure_type]</td>
+    <td width="72%" height="16">Typ des Anhangs z.B. image/png</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

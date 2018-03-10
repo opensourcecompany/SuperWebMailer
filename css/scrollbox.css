@@ -1,0 +1,34 @@
+.scrollbox{
+	height: 300pt;
+	overflow:auto;
+	margin:0;
+ padding: 4px;
+	text-align:justify;
+ border:1px dotted #BABABA;
+ padding-left: 5px;
+ padding-right: 5px;
+}
+
+.scrollboxMissingFieldError{
+ border:4px dotted #FF0000;
+}
+
+scrollboxSpan{
+}
+
+* html .scrollbox{
+	overflow-y: scroll;
+	overflow-x: scroll;
+}
+
+.scrollboxRollOverEffect{
+		background-color: #dff1ff;
+		color: #000000;
+		cursor: default;
+}
+
+.scrollboxclickEffect{
+		background-color: #dff1ff;
+		color: #000000;
+		cursor: default;
+}

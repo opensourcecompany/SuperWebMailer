@@ -1,0 +1,419 @@
+			   <link rel="stylesheet" href="ipe/css/redmond/jquery-ui-1.8.14.custom.css" type="text/css" />
+			   <link rel="stylesheet" href="ipe/css/inplace_edit.css" type="text/css" />
+
+      <script type="text/javascript"  src="js/jquery-latest.min.js"></script>
+			   <script type="text/javascript" src="ipe/js/jquery-ui.min.js"></script>
+			   <script type="text/javascript" src="ipe/js/jq_inherit.js"></script>
+
+      <style type="text/css">
+      <!--
+       .show_elementborder{
+        	border: 1px dashed #6600FF;
+        	margin:-1px;
+        	min-height: 10px;
+        }
+       
+       .HTMLCode{
+         border:1px #BABABA solid;
+         background-color: #FFFFCC;
+       }
+       
+       .ui-state-hover{
+         font-weight: normal;
+       }
+
+       /*  jquery UI */
+       .ui-widget{
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.0em;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+       }
+       .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button{
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.10em;
+       	font-weight: normal;
+       	color: #000000;
+        margin: 0px;
+        padding:2px;
+        line-height: normal;
+       }
+
+       /*textarea{max-width: 900px}*/
+
+       textarea {width: 80%;}
+       textarea { word-break: break-all; -ms-word-break: break-all;}
+       @media all and (-ms-high-contrast:none) {
+          *::-ms-backdrop, textarea { white-space: pre; }
+       }
+
+
+      -->
+      </style>
+      
+      <script language="JavaScript">
+      <!--
+         var rsMoveItem = 'Verschieben';
+         var rsDeleteItem = 'L&ouml;schen';
+         var rsHTMLSortableBtnSort = 'Felder umsortieren';
+         var rsHTMLSortableBtnHTML = 'HTML-Code zeigen';
+         var rsYes = "Ja";
+         var rsNo = "Nein";
+      //-->
+      </script>
+      <noscript></noscript>
+
+      <form id="HTMLForm" name="HTMLForm" method="post" action="./formcode.php">
+      <input type="hidden" name="MailingListId" />
+      <input type="hidden" name="FormId" />
+      <input type="hidden" name="FormType" />
+      <span class="Backlink"><br /><a href="./browseforms.php?MailingListId=">Zur&uuml;ck</a></span>
+      <fieldset>
+      <legend>HTML-Code f&uuml;r die eigene Webpr&auml;senz</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <TABLE:NOT_CAPTCHA>
+                <td colspan="2">
+                  Den nachfolgenden HTML-Code k&ouml;nnen Sie auf Ihrer Webseite in eine bestehende oder neue HTML-Datei integrieren.<br />
+                  <br />Markieren Sie den gesamten HTML-Code und f&uuml;gen Sie diesen in den HTML-Code Ihrer HTML-Datei ein.<br />
+                  Beachten Sie dabei, dass dieser HTML-Code nicht innerhalb eines anderen Formulars platziert werden darf.
+                  <br />
+                  <br />
+                  <div style="text-align: right;margin-bottom: -8px">
+                  <input type="button" class="button" name="HTMLSortableBtn" id="HTMLSortableBtn" value="Felder umsortieren" onclick="ShowAsSortableHTML()" />
+                  </div>
+                  <br />
+                  <textarea name="HTMLCode" id="HTMLCode" cols="140" rows="20" style="width: 99%"></textarea><br />
+                  <br />
+                  <br />
+                </td>
+                </TABLE:NOT_CAPTCHA>
+                <TABLE:CAPTCHA>
+                <td colspan="2">
+                  Den nachfolgenden HTML-Code k&ouml;nnen Sie auf Ihrer Webseite in eine bestehende oder neue <b>PHP-Datei</b> integrieren.<br />
+                  <br />Markieren Sie den gesamten HTML-Code und f&uuml;gen Sie diesen in den HTML-Code einer neuen oder bestehenden PHP-Datei ein.<br />
+                  Beachten Sie dabei, dass dieser HTML-Code nicht innerhalb eines anderen Formulars platziert werden darf.
+                  <br />
+                  <br />
+                  <div style="text-align: right;margin-bottom: -8px">
+                  <input type="button" class="button" name="HTMLSortableBtn" id="HTMLSortableBtn" value="Felder umsortieren" onclick="ShowAsSortableHTML()" />
+                  </div>
+                  <br />
+                  <textarea name="HTMLCode" id="HTMLCode" cols="140" rows="20" style="width: 99%"></textarea><br />
+                  <br />
+                  <br />
+                </td>
+                </TABLE:CAPTCHA>
+              </tr>
+
+              <IS:SWM>
+              <tr>
+                <td colspan="2">
+                   <b>Die folgenden Abmelde- und &Auml;ndernlinks sind nur f&uuml;r externe Programme/Aufrufe gedacht.</b><br />
+                   Im PRODUCTAPPNAME w&auml;hlen Sie bei Erstellung des E-Mail-Texts im Auswahlfeld &quot;Serien-E-Mail-Feld&quot;
+                   den Platzhalter
+
+                   <ul>
+                     <li>Abmeldelink bzw. geben [UnsubscribeLink] an,</li>
+                     <li>&Auml;ndernlink bzw. geben [EditLink] an.</li>
+                   </ul>
+
+                   PRODUCTAPPNAME wird dann selbst den korrekten Link erzeugen.
+                   <br /><br /><br />
+
+                   <br />
+                </td>
+              </tr>
+              </IS:SWM>
+
+              <tr>
+                <td colspan="2">
+                <b>Abmeldelinks f&uuml;r externe Aufrufe</b><br /><br />
+
+                F&uuml;r E-Mails im HTML-Format mit ID<br />
+                <textarea name="UNSUBSCRIBE_LINK_HTML" cols="140" rows="10"></textarea><br /><br />
+
+                <b>Alternativ</b> f&uuml;r E-Mails im HTML-Format mit Name der Empf&auml;ngerliste<br />
+                <textarea name="UNSUBSCRIBE_LINK_HTML_NAME" cols="140" rows="10"></textarea><br /><br />
+
+                <b>Alternativ</b> f&uuml;r E-Mails im HTML-Format mit Nutzung des IdentStrings, nur beim Import in <a href="http://www.supermailer.de" target="_blank">SuperMailer</a><br />
+                <textarea name="UNSUBSCRIBE_LINK_HTML_IDENTSTRING" cols="140" rows="10"></textarea><br /><br />
+                <br />
+                F&uuml;r E-Mails im Text-Format mit ID<br />
+                <textarea name="UNSUBSCRIBE_LINK_TEXT" cols="140" rows="10"></textarea><br /><br />
+
+                <b>Alternativ</b> f&uuml;r E-Mails im Text-Format mit Name der Empf&auml;ngerliste<br />
+                <textarea name="UNSUBSCRIBE_LINK_TEXT_NAME" cols="140" rows="10"></textarea><br /><br />
+
+                <b>Alternativ</b> f&uuml;r E-Mails im Text-Format mit Nutzung des IdentStrings, nur beim Import in <a href="http://www.supermailer.de" target="_blank">SuperMailer</a><br />
+                <textarea name="UNSUBSCRIBE_LINK_TEXT_IDENTSTRING" cols="140" rows="10"></textarea><br /><br />
+
+                <br />
+                Der Platzhalter [EMail] <strong>muss</strong> gegen den Platzhalter mit der E-Mail-Adresse getauscht werden, ansonsten funktioniert der Link nicht korrekt.
+                <br />
+                Der Platzhalter [IdentString] <strong>muss</strong> gegen den Platzhalter mit dem Identifikations-String getauscht werden. Werden alle Felder in <a href="http://www.supermailer.de" target="_blank">SuperMailer</a> &uuml;bernommen, dann ist keine Umbenennung notwendig.
+                <br />
+                <br />
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="2">
+                <br />
+                <b>&Auml;ndernlinks f&uuml;r externe Aufrufe</b><br /><br />
+
+                Zur &Auml;nderung der gespeicherten Empf&auml;ngerdaten kann nur das interne Formular verwendet wenden, in welches die bestehenden Empf&auml;ngerdaten eingesetzt werden.
+                In externe Formulare k&ouml;nnen diese Daten nicht direkt eingesetzt werden.
+
+                <br /><br />
+
+                F&uuml;r E-Mails im HTML-Format mit Nutzung des IdentStrings, nur beim Import in <a href="http://www.supermailer.de" target="_blank">SuperMailer</a><br />
+                <textarea name="EDIT_LINK_HTML_IDENTSTRING" cols="140" rows="10"></textarea><br /><br />
+
+                <b>Alternativ</b> f&uuml;r E-Mails im HTML-Format mit E-Mail-Adresse <b>(NICHT EMPFOHLEN)</b><br />
+                <textarea name="EDIT_LINK_HTML_EMAIL" cols="140" rows="10"></textarea><br /><br />
+
+                <br />
+                F&uuml;r E-Mails im Text-Format mit IdentString, nur beim Import in <a href="http://www.supermailer.de" target="_blank">SuperMailer</a><br />
+                <textarea name="EDIT_LINK_TEXT_IDENTSTRING" cols="140" rows="10"></textarea><br /><br />
+
+                <b>Alternativ</b> f&uuml;r E-Mails im Text-Format mit E-Mail-Adresse <b>(NICHT EMPFOHLEN)</b><br />
+                <textarea name="EDIT_LINK_TEXT_EMAIL" cols="140" rows="10"></textarea><br /><br />
+
+
+                <br />
+                Der Platzhalter [EMail] <strong>muss</strong> gegen den Platzhalter mit der E-Mail-Adresse getauscht werden, ansonsten funktioniert der Link nicht korrekt.
+                <br />
+                Der Platzhalter [IdentString] <strong>muss</strong> gegen den Platzhalter mit dem Identifikations-String getauscht werden. Werden alle Felder in <a href="http://www.supermailer.de" target="_blank">SuperMailer</a> &uuml;bernommen, dann ist keine Umbenennung notwendig.
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <script language="javascript" type="text/javascript">
+
+
+        function ShowAsSortableHTML(){
+         var AItem = document.getElementById("HTMLCode");
+         if(AItem.style.display == ""){
+           var html = $( "#HTMLCode" ).val();
+           html = html.replace(/\<\?php/g, '<!--?php');
+           html = html.replace(/\?\>/g, '?-->');
+
+           // chrome, safari
+           html = html.replace(/\<form/g, '<quoteform');
+           html = html.replace(/\<\/form\>/g, '</quoteform>');
+
+           // script tag
+           html = html.replace(/\<script/g, '<ascript');
+           html = html.replace(/\<\/script\>/g, '</ascript>');
+
+           $( "#HTMLCode" ).after("<div class=\"HTMLCode\"></div>");
+           
+           html = html.replace(/\<table/g, '<table id="sort" width="100%"');
+           AItem.style.display = 'none';
+           
+           $( ".HTMLCode" ).html(html);
+           
+           $("#sort tbody tr").each(function(){
+             $(this).find("td:first").append('<span class="ipe_move ui-button ui-icon ui-icon-arrow-4-diag ui-state-default ui-corner-all" title="' + rsMoveItem + '"></span>');
+             $(this).find("td:first").append('<span class="ipe_delete ui-button ui-icon ui-icon-trash ui-state-default ui-corner-all" title="' + rsDeleteItem + '"></span>');
+           });
+
+
+           // prevent submitting form
+           $( ".HTMLCode" ).find("input, select").each(function(){
+             $(this).attr("disabled", "disabled");
+           });
+
+           $( ".HTMLCode" ).find(".g-recaptcha").each(function(){
+             $(this).html("<strong>[Google reCAPTCHA]</strong>");
+           });
+
+           $("#sort").find(".ipe_move").off('hover');
+          	$("#sort").find(".ipe_move").hover(
+          			function(e){
+              $(this).addClass('ui-state-hover');
+              $(this).css('cursor','move');
+              $(this).parent().parent().addClass('ui-state-hover');
+          			}
+          			,
+          			function(e){
+              $(this).css('cursor','auto');
+              $(this).removeClass('ui-state-hover');
+              $(this).parent().parent().removeClass('ui-state-hover');
+          			}
+          	);
+
+           $("#sort").find(".ipe_delete").off('hover');
+          	$("#sort").find(".ipe_delete").hover(
+          			function(e){
+              $(this).addClass('ui-state-hover');
+              $(this).parent().parent().addClass('ui-state-hover');
+          			}
+          			,
+          			function(e){
+          				$(this).removeClass('ui-state-hover');
+          				$(this).parent().parent().removeClass('ui-state-hover');
+          			}
+          	);
+
+
+          	$("#sort").find(".ipe_delete").off('click');
+          	$("#sort").find(".ipe_delete").click(function(e){
+            e.stopPropagation();
+            var remove_element = $(this).closest("tr");
+
+            $( "#dialog-removeitem" ).dialog("destroy");
+          		$( "#dialog-removeitem" ).dialog({
+          			resizable: false,
+          			draggable: false,
+          			height:230,
+          			width:400,
+          			modal: true
+          		});
+
+            $( "#dialog-removeitem" ).dialog( "option", "buttons", [
+              {
+                  text: rsYes,
+                  click: function() {
+                                       $(this).dialog("close");
+                                    			remove_element.remove();
+                                    }
+              },
+
+              {
+                  text: rsNo,
+                  click: function() {
+                                       $(this).dialog("close");
+                                       remove_element.removeClass('ui-state-hover');
+                                    }
+              }
+
+            ] );
+
+          	});
+
+
+
+           $("#sort tbody").sortable('destroy');
+
+           // Return a helper with preserved width of cells
+           var fixHelper = function(e, ui) {
+           	ui.children().each(function() {
+           		$(this).width($(this).width());
+           	});
+           	return ui;
+           };
+
+           $("#sort tbody").sortable({
+                	helper: fixHelper,
+
+                 opacity: 0.9,
+        		       scroll: true,
+        		       handle: $('.ipe_move'),
+        		       placeholder: "ipe_hover",
+        		       forceHelperSize: true,
+        		       forcePlaceholderSize: true,
+        		       cursor: "crosschair",
+        		       tolerance: "pointer",
+
+        		       start: function(event, ui){
+                                    $('tr').addClass("show_elementborder");
+                                  },
+
+        		       stop: function(event, ui){
+
+                  // simulate "mouseout"
+        		    	   $('tr').removeClass("show_elementborder");
+        		    	   $('tr').removeClass('ui-state-hover');
+        		    	   $('.ipe_move').removeClass('ui-state-hover');
+        		    	  }
+           }).disableSelection();
+
+           $("#HTMLSortableBtn").val(rsHTMLSortableBtnHTML);
+         } else {
+
+           $("#sort tbody").sortable('destroy');
+           
+           // span remove
+           $( ".HTMLCode" ).find(".ipe_move, .ipe_delete").each(function(){
+             $(this).remove();
+           });
+
+           $( ".HTMLCode" ).find(".g-recaptcha").each(function(){
+             $(this).html("");
+           });
+
+           $( ".HTMLCode" ).find("table, tbody, tr, td").each(function(){
+             $(this).attr("class", null);
+             $(this).attr("style", null);
+             $(this).attr("width", null);
+             $(this).attr("id", null);
+           });
+
+
+           $( ".HTMLCode" ).find("input, select").each(function(){
+             $(this).attr("disabled", null);
+           });
+
+           var html = $( ".HTMLCode" ).html();
+           // empty lines
+           html = html.replace(/\r\n\r\n/g, '');
+           html = html.replace(/\n\n/g, '');
+           html = html.replace(/\r\r/g, '');
+           // one tag per line
+           html = html.replace(/\>\</g, ">\n<");
+           
+           html = html.replace(/CHECKED\=\"checked\"/g, 'checked="checked"'); /// IE
+
+           html = html.replace(/\<\!\-\-\?php/g, '<?php');
+           html = html.replace(/\?\-\-\>/g, '?>');
+
+           html = html.replace(/\&lt;\!\-\-\?php/g, '<?php');
+           html = html.replace(/\?\-\-\&gt;/g, '?>');
+
+           html = html.replace(/\<quoteform/g, '<form');
+           html = html.replace(/\<\/quoteform\>/g, '</form>');
+
+           html = html.replace(/\<ascript/g, "\<script");
+           html = html.replace(/\<\/ascript\>/g, "\<\/script>");
+
+           $( "#HTMLCode" ).val(html);
+           AItem.style.display = '';
+           $( ".HTMLCode" ).remove();
+           
+           $("#HTMLSortableBtn").val(rsHTMLSortableBtnSort);
+
+         }
+        }
+
+
+        var labs = document.getElementsByTagName('textarea');
+        for(var j=0; j<labs.length; j++) {
+          labs[j].setAttribute("readonly", "readonly");
+        }
+
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      </script>
+      <br />
+
+      </form>
+
+<div id="IPE_dialogdefinition" style="visibility:hidden; display: none">
+  <div id="dialog-removeitem" title="Zeile l&ouml;schen">
+   <p>
+    <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+    M&ouml;chten Sie diese Zeile wirklich l&ouml;schen?
+    <br />
+    <br />
+    Sollten Sie ein Pflichtfeld l&ouml;schen, dann wird das Formular m&ouml;glicherweise nicht mehr funktionieren.
+   </p>
+  </div>
+</div>

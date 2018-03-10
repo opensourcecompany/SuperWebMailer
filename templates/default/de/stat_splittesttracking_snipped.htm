@@ -1,0 +1,632 @@
+
+      <style type="text/css">
+      <!--
+      div.scroll {
+      height: 200px;
+      width: 98%;
+      overflow: auto;
+      border:1px dotted #BABABA;
+      background-color: #FFFFFF;
+      padding: 8px;
+      }
+      div.scroll_countries {
+      height: 132px;
+      width: 100%;
+      overflow: auto;
+      border:1px dotted #BABABA;
+      background-color: #FFFFFF;
+      padding: 8px;
+      }
+      -->
+      </style>
+      
+      
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var TabListArray = Array();
+
+       function SetListId(ASender, AFormID) {
+         var AForm = document.getElementById(AFormID);
+         var OneTrackingListAction = document.getElementById('OneTrackingListAction');
+         var OneTrackingListId = document.getElementById('OneTrackingListId');
+         OneTrackingListAction.value = ASender.name;
+         OneTrackingListId.value = ASender.value;
+         SplitTestId = document.getElementById('SplitTestId').value;
+         SendStatId = document.getElementById('SendStatId').value;
+         ResponderType = document.getElementById('ResponderType').value;
+         var date = new Date();
+
+         if(ASender.name == 'WhoHasOpenedBtn') {
+            ResponderType = "Campaign";
+            var value = ASender.value;
+            CampaignId = value.substring(0, value.indexOf("-")  );
+            SendStatId = value.substring(value.indexOf("-") + 1);
+
+            window.open('./stat_campaigntracking_recipients.php?ResponderType='+ResponderType+'&TrackingType=Openers&CampaignId='+CampaignId+'&SendStatId='+SendStatId + '&nocache=' + date.getTime(), 'CampaignRTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=no,location=no,modal=yes');
+            return false;
+         }
+
+         return true;
+       }
+
+      //-->
+      </script>
+
+
+      <div class="spacerborder">
+        <form method="post" id="TrackingStatForm" name="TrackingStatForm" action="stat_campaigntracking.php">
+          <input type="hidden" name="SplitTestId" id="SplitTestId" />
+          <input type="hidden" name="SendStatId" id="SendStatId" />
+          <input type="hidden" name="ResponderType" id="ResponderType" />
+
+          <input type="hidden" name="OneTrackingListAction" id="OneTrackingListAction" value="" />
+          <input type="hidden" name="OneTrackingListId" id="OneTrackingListId" value="" />
+
+          <span class="Backlink"><a href="./browsesplittests.php">Zur&uuml;ck</a></span><br />
+          <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+
+                  <!-- ##### TabView - START -->
+                  <div id="dhtmlgoodies_tabView">
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('&Uuml;bersicht');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+
+                    <fieldset>
+                      <legend>Informationen zum A/B Split Test</legend>
+                      <br />
+                      <table class="FormTable">
+                        <tbody>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              ID des A/B Split Tests
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SplitTestId></SplitTestId>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Name des A/B Split Tests
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <CAMPAIGNNAME></CAMPAIGNNAME>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Erstellt am
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <CREATEDATE></CREATEDATE>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              &quot;Gewinner&quot; des A/B Split Tests bestimmen
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <WinnerType></WinnerType>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Test-Versand
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <TestType></TestType>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              IP-Blocking aktiv
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <IPBLOCKING></IPBLOCKING>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </fieldset>
+
+                    <fieldset>
+                      <legend>Informationen zum Versand</legend>
+                      <br />
+                      <table class="FormTable">
+                        <tbody>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              ID der Versendung
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENTSTATID></SENTSTATID>
+                              <CAN_REMOVE_SENDSTATID>
+                              <input type="image" src="images/delete.gif" name="RemoveSendEntry" width="16" height="16" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Versandeintrag, Tracking-Statistik und E-Mail-Text dauerhaft l&ouml;schen.<br /><br /><b>Hinweis:</b> Nach dem L&ouml;schen des Eintrags werden getrackte Links und der Browserlink im Newsletter nicht mehr funktionieren. Ebenfalls wird der Eintrag im Newsletter-Archiv gel&ouml;scht.');return false" />
+                              </CAN_REMOVE_SENDSTATID>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="2">
+                              &nbsp;
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Versand begonnen
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENDING:START></SENDING:START>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Versand beendet
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENDING:END></SENDING:END>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Versanddauer
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENDING:DURATION></SENDING:DURATION>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              &nbsp;
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              &nbsp;
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Gewinner-E-Mailing des A/B Split Tests
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SPLITTESTWINNERCAMPAIGN></SPLITTESTWINNERCAMPAIGN>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              &nbsp;
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              &nbsp;
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Anzahl E-Mail-Empf&auml;nger
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <RECIPIENTSCOUNT></RECIPIENTSCOUNT>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              &nbsp;
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              &nbsp;
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Erfolgreich versendet
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENTCOUNTSUCC></SENTCOUNTSUCC>&nbsp;(<SENTCOUNTSUCCPERCENT></SENTCOUNTSUCCPERCENT>)
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Nicht erfolgreich versendet
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENTCOUNTFAILED></SENTCOUNTFAILED>&nbsp;(<SENTCOUNTFAILEDPERCENT></SENTCOUNTFAILEDPERCENT>)
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              M&ouml;glicherweise versendet<SHOWHIDE:TOOLTIPS>
+                                    <img onmouseover="showTooltip(event, 'Wird der Versand per CronJob verwendet, dann k&ouml;nnte es zum Scriptabbruch in dem Moment kommen, in dem gerade die E-Mail an den Mailserver &uuml;bermittelt wird. Der Status des Versands der E-Mail ist damit nicht bestimmbar. Ist diese Angabe hoch, dann sollte unter Men&uuml; Einstellungen - Optionen, Registerkarte E-Mail-Versand die Anzahl zu versendender E-Mails verringert werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                    </SHOWHIDE:TOOLTIPS>
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENTCOUNTPOSSIBLYSENT></SENTCOUNTPOSSIBLYSENT>&nbsp;(<SENTCOUNTPOSSIBLYSENTPERCENT></SENTCOUNTPOSSIBLYSENTPERCENT>)
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              &nbsp;
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              &nbsp;
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Summe unzustellbare E-Mails (Hard bounces)
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <HARDBOUNCESCOUNT></HARDBOUNCESCOUNT>&nbsp;(<HARDBOUNCESCOUNTPERCENT></HARDBOUNCESCOUNTPERCENT>)
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Summe undefinierte R&uuml;ckl&auml;ufer (Soft bounces)
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SOFTBOUNCESCOUNT></SOFTBOUNCESCOUNT>&nbsp;(<SOFTBOUNCESCOUNTPERCENT></SOFTBOUNCESCOUNTPERCENT>)
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              &nbsp;
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              &nbsp;
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Summe Abmeldungen
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <UNSUBSCRIBESCOUNT></UNSUBSCRIBESCOUNT>&nbsp;(<UNSUBSCRIBESCOUNTPERCENT></UNSUBSCRIBESCOUNTPERCENT>)
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              &nbsp;
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              &nbsp;
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              &nbsp;
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              &nbsp;
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Summe &Ouml;ffnungen
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <OPENINGSCOUNT></OPENINGSCOUNT>&nbsp;(<OPENINGSRATE></OPENINGSRATE>)
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Summe Klicks auf Hyperlinks
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SUMLINKCLICKS></SUMLINKCLICKS>
+                            </td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('&Ouml;ffnungsstatistik');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+
+                    <fieldset>
+                      <br />
+                      
+                      
+                      
+                      <table class="FixedTable" name="OPEN_STAT" id="OPEN_STAT">
+                        <thead>
+                          <tr>
+                            <td class="NoWrap">
+                              E-Mailing
+                            </td>
+                            <td class="NoWrap">
+                              Empf&auml;nger
+                            </td>
+                            <td class="NoWrap">
+                              &Ouml;ffnungen
+                            </td>
+                            <td class="NoWrap">
+                              Erfolgreich
+                            </td>
+                            <td class="NoWrap">
+                              Fehlgeschlagen
+                            </td>
+                            <td class="NoWrap">
+                              Abmeldungen
+                            </td>
+                            <td class="NoWrap">
+                              Soft bounces
+                            </td>
+                            <td class="NoWrap">
+                              Hard bounces
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          <OPENINGS_LINE>
+                          <tr style="height: 40px; vertical-align: middle">
+                            <td>
+                              <a href="stat_campaigntracking.php?CampaignId=&SendStatId="><OPENINGS_CAMPAIGNNAME></OPENINGS_CAMPAIGNNAME></a>&nbsp;
+                            </td>
+
+                            <td class="AlignRight">
+                              <OPENINGS_RECIPIENTSCOUNT></OPENINGS_RECIPIENTSCOUNT>&nbsp;
+                            </td>
+
+                            <td class="AlignRight">
+                              <OPENINGS_OPENINGSCOUNT></OPENINGS_OPENINGSCOUNT>&nbsp;(<OPENINGS_OPENINGSRATE></OPENINGS_OPENINGSRATE>)&nbsp;
+                              <IF:RECIPIENTOPENINGTRACKING>
+                                  <br /><input type="image" src="images/whohasclicked16.gif" width="16" height="16" name="WhoHasOpenedBtn" value="-1" onclick="return SetListId(this, 'TrackingStatForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Wer hat die E-Mail ge&ouml;ffnet?');return false" />
+                              </IF:RECIPIENTOPENINGTRACKING>
+                            </td>
+
+                            <td class="AlignRight">
+                              <OPENINGS_SUCCCOUNT></OPENINGS_SUCCCOUNT>&nbsp;
+                            </td>
+                            <td class="AlignRight">
+                              <OPENINGS_FAILEDCOUNT></OPENINGS_FAILEDCOUNT>&nbsp;
+                            </td>
+
+                            <td class="AlignRight">
+                              <OPENINGS_UNSUBSCRIBESCOUNT></OPENINGS_UNSUBSCRIBESCOUNT>&nbsp;(<OPENINGS_UNSUBSCRIBESCOUNTPERCENT></OPENINGS_UNSUBSCRIBESCOUNTPERCENT>)&nbsp;
+                            </td>
+
+                            <td class="AlignRight">
+                              <OPENINGS_SOFTBOUNCESCOUNT></OPENINGS_SOFTBOUNCESCOUNT>&nbsp;(<OPENINGS_SOFTBOUNCESCOUNTPERCENT></OPENINGS_SOFTBOUNCESCOUNTPERCENT>)&nbsp;
+                            </td>
+
+                            <td class="AlignRight">
+                              <OPENINGS_HARDBOUNCESCOUNT></OPENINGS_HARDBOUNCESCOUNT>&nbsp;(<OPENINGS_HARDBOUNCESCOUNTPERCENT></OPENINGS_HARDBOUNCESCOUNTPERCENT>)&nbsp;
+                            </td>
+
+                          </tr>
+                          </OPENINGS_LINE>
+
+                        </tbody>
+                      </table>
+                    </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Klicks auf Hyperlinks');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+
+                    <fieldset>
+                      <br />
+
+
+
+                      <table class="FixedTable" name="LINK_STAT" id="LINK_STAT">
+                        <thead>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              E-Mailing
+                            </td>
+                            <td class="CampaignStatColumn">
+                              Empf&auml;nger
+                            </td>
+                            <td class="CampaignStatColumn">
+                              Anzahl Klicks auf Hyperlinks
+                            </td>
+                            <td class="CampaignStatColumn">
+                              Klickrate
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          <CLICKS_LINE>
+                          <tr style="height: 40px; vertical-align: middle">
+                            <td class="CampaignStatValueColumn" style="vertical-align: middle">
+                              <a href="stat_campaigntracking.php?CampaignId=&SendStatId="><LINKS_CAMPAIGNNAME></LINKS_CAMPAIGNNAME></a>
+                            </td>
+
+                            <td class="CampaignStatValueColumn" style="vertical-align: middle">
+                              &nbsp;&nbsp;&nbsp;<LINKS_RECIPIENTSCOUNT></LINKS_RECIPIENTSCOUNT>
+                            </td>
+
+                            <td class="CampaignStatValueColumn" style="vertical-align: middle">
+                              &nbsp;&nbsp;&nbsp;<LINKS_CLICKSCOUNT></LINKS_CLICKSCOUNT>
+                            </td>
+
+                            <td class="CampaignStatValueColumn" style="vertical-align: middle">
+                              &nbsp;&nbsp;&nbsp;<LINKS_CLICKRATE></LINKS_CLICKRATE>
+                            </td>
+
+                          </tr>
+                          </CLICKS_LINE>
+
+                        </tbody>
+                      </table>
+                    </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('User agents(kumuliert)');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+
+                    <fieldset>
+                      <legend>Am h&auml;ufigsten verwendete E-Mail-Programme/Browser(kumuliert)</legend>
+                      <br />
+                      <table class="FixedTable" style="width: 99% ! important;" name="EMAILCLIENT_STAT" id="EMAILCLIENT_STAT">
+                        <thead>
+                          <tr>
+                            <td style="width: 400px;">
+                              E-Mail-Programm/Browser
+                            </td>
+                            <td>
+                              Anzahl
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <EMAILCLIENT_STAT>
+                          <tr>
+                            <td>
+                              <img src="EMAILCLIENT_ICON" alt="&lt;EMAILCLIENT_NAME&gt;&lt;/EMAILCLIENT_NAME&gt;" border="0" width="16" height="16" />&nbsp;<EMAILCLIENT_NAME></EMAILCLIENT_NAME>
+                            </td>
+                            <td>
+                              <EMAILCLIENT_COUNT></EMAILCLIENT_COUNT>
+                            </td>
+                          </tr>
+                          </EMAILCLIENT_STAT>
+                          <tr>
+                            <td>
+                              &nbsp;
+                            </td>
+                            <td>
+                              &nbsp;
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                    </fieldset>
+
+                    <fieldset>
+                      <legend>Am h&auml;ufigsten verwendete Betriebssysteme(kumuliert)</legend>
+                      <br />
+                      <table class="FixedTable" style="width: 99% ! important;" name="OS_STAT" id="OS_STAT">
+                        <thead>
+                          <tr>
+                            <td style="width: 400px;">
+                              Betriebssystem
+                            </td>
+                            <td>
+                              Anzahl
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <OS_STAT>
+                          <tr>
+                            <td>
+                              <img src="OS_ICON" alt="&lt;OS_NAME&gt;&lt;/OS_NAME&gt;" border="0" width="16" height="16" />&nbsp;<OS_NAME></OS_NAME>
+                            </td>
+                            <td>
+                              <OS_COUNT></OS_COUNT>
+                            </td>
+                          </tr>
+                          </OS_STAT>
+                          <tr>
+                            <td>
+                              &nbsp;
+                            </td>
+                            <td>
+                              &nbsp;
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                    </fieldset>
+
+                    <span style="font-size: 8pt">Die E-Mail-Programm/Betriebssystem-Statistik wird u.a. erm&ouml;glicht durch <a href="http://user-agent-string.info/" target="_blank">http://user-agent-string.info/</a></span>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                  </div>
+
+                  <br />
+                  <br />
+
+
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                    initTabs('dhtmlgoodies_tabView', TabListArray, 0, 924, 870);
+
+
+                    addTableRolloverEffect('OPEN_STAT','tableRollOverEffect','');
+                    addTableRolloverEffect('LINK_STAT','tableRollOverEffect','');
+                    addTableRolloverEffect('EMAILCLIENT_STAT','tableRollOverEffect','');
+                    addTableRolloverEffect('OS_STAT','tableRollOverEffect','');
+
+                  -->
+                  </script>
+
+                  <script language="javascript" type="text/javascript">
+                  <!--
+
+                  	//AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+                  -->
+                  </script>
+
+                  <!-- ##### TabView - END -->
+
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+          <br style="clear:both;" />
+        </form>
+      </div>

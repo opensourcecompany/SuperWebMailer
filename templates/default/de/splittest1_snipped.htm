@@ -1,0 +1,75 @@
+      <form id="SplitTestEditForm" name="SplitTestEditForm" method="post" action="./splittestedit.php" onsubmit="CheckAndRemoveCriticalChars('SplitTestEditForm')">
+      <span class="Backlink"><br /><a href="./browsesplittests.php" onclick="document.SplitTestEditForm.action='./browsesplittests.php';document.SplitTestEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="SplitTestListId" id="SplitTestListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel" value="1" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.SplitTestEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.SplitTestEditForm.submit(); return false;">E-Mailings</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.SplitTestEditForm.submit(); return false;">Einstellungen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.SplitTestEditForm.submit(); return false;">Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.SplitTestEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie dem A/B Split Test einen eindeutigen Namen z.B. Vergleich Newsletter. Optional k&ouml;nnen Sie eine Beschreibung angeben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Allgemein</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn">Name des A/B Split Tests
+                </td>
+                <td><input type="text" id="Name" name="Name" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="LabelColumn" valign="top">Beschreibung (optional)
+                </td>
+                <td><textarea id="Description" name="Description" rows="3" cols="50"></textarea></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die Empf&auml;ngerliste f&uuml;r den Split Test. Nur E-Mailings, die diese Empf&auml;ngerliste verwenden, k&ouml;nnen f&uuml;r den A/B Split Test verwendet werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                  </SHOWHIDE:TOOLTIPS>Empf&auml;ngerliste f&uuml;r den A/B Split Test</legend>
+      <br />
+         <IF:CANCHANGEMAILINGLIST>
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+
+              <tr>
+                <td class="LabelColumn">Empf&auml;ngerliste
+                </td>
+                <td><select name="maillists_id" size="1">
+                    <SHOW:MailingLists>
+                    </SHOW:MailingLists>
+                    </select>
+                    <br /><br />
+                    <b>ACHTUNG: Das &Auml;ndern der Empf&auml;ngerliste auf eine andere Empf&auml;ngerliste f&uuml;hrt zum L&ouml;schen der gespeicherten Statistik dieses A/B Split Tests.</b>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+         </IF:CANCHANGEMAILINGLIST>
+      </fieldset>
+
+     <input type="submit" name="NextBtn" value="Speichern und Weiter &gt;" class="FormButton" />
+
+      </form>      

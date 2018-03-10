@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title>Test-E-Mail versenden</title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+
+
+
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+      Test-E-Mail versenden
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+   
+   <div class="container">
+
+      <SHOWHIDE:ERRORTOPIC>
+        <div class="errortopic">
+        <LABEL:ERRORMESSAGETEXT></LABEL:ERRORMESSAGETEXT>
+        </div>
+      </SHOWHIDE:ERRORTOPIC>
+
+
+      <form id="frmTestMail" name="frmTestMail" method="post" action="./responderpreview.php?TestMail=1">
+       <input type="hidden" name="ResponderType" />
+       <input type="hidden" name="ResponderId" />
+       <input type="hidden" name="ResponderMailItemId" />
+       <input type="hidden" name="MailingListId" id="MailingListId" />
+       <input type="hidden" name="FormId" id="FormId" />
+
+       <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+         <tr>
+          <td colspan="2">
+            Beim Versand einer Test-E-Mail werden die Daten des Empf&auml;ngers der Empf&auml;ngerliste verwendet und die E-Mail-Adresse
+            gegen die angegebene Test-E-Mail-Adresse getauscht.
+            <br />
+            <br />
+          </td>
+         </tr>
+
+         <tr>
+          <td style="width: 500px">
+            Empf&auml;nger:
+          </td>
+          <td>
+            <select name="Recipient" size="1">
+              <option:recipient></option:recipient>
+            </select>
+          </td>
+         </tr>
+
+         <tr>
+          <td style="width: 500px">
+            E-Mail-Adresse f&uuml;r die Test-E-Mail:
+          </td>
+          <td>
+            <input type="text" name="to" size="50" />
+          </td>
+         </tr>
+
+         <tr>
+          <td colspan="2" style="text-align: right">
+            <hr noshade="noshade" style="width: 100%; border:dotted #BABABA 1px; " />
+            <input type="submit" name="SendBtn" value="E-Mail versenden" class="FormButton" />
+            <input type="button" name="CloseBtn" value="Schlie&szlig;en" class="FormButton" onclick="parent.closeDialog();" />
+            <br />
+          </td>
+         </tr>
+        </tbody>
+       </table>
+      </form>
+   </div>
+</div>
+
+</body>
+
+</html>

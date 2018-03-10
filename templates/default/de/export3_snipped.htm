@@ -1,0 +1,145 @@
+<script language="JavaScript">
+<!--
+  function SelectAll(checkit) {
+    var AForm = document.getElementById('ExportForm');
+    var elem = AForm.getElementsByTagName('input');
+    var saveit = document.getElementById('fieldGroupsRelations').checked;
+ 			for (var i = 0; i < elem.length; i++)
+      if(elem[i].type == "checkbox")
+     			elem[i].checked = checkit;
+    if(checkit && !saveit)
+       document.getElementById('fieldGroupsRelations').checked = false;
+  }
+//-->
+</script>
+<noscript></noscript>
+      <form id="ExportForm" name="ExportForm" method="post" action="./exportrecipients.php">
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+      <input type="hidden" name="MailingListName" id="MailingListName" />
+      <input type="hidden" name="step" id="step" value="3" />
+      <input type="hidden" name="Separator" />
+      <input type="hidden" name="Header1Line" />
+      <input type="hidden" name="AddQuotes" />
+      <input type="hidden" name="ExportLines" />
+      <input type="hidden" name="OnlyActiveRecipients" />
+      <input type="hidden" name="GroupsOption" />
+      <input type="hidden" name="groups" />
+
+      <span class="Backlink"><br /><a href="./exportrecipients.php">Zur&uuml;ck</a></span>
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie die Datenbankfelder an, die exportiert werden sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Zu exportierende Datenbankfelder festlegen</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+      	    <colgroup>
+        	    <col style="width:20%; vertical-align:middle">
+        	    <col style="width:20%;">
+        	    <col style="width:16px; ">
+        	    <col style="width:20%; vertical-align:middle">
+        	    <col style="width:20%;">
+      	    </colgroup>
+            <tbody>
+             <TABLE:ROW>
+        	    <tr>
+        	      <td class="LabelColumn">
+         	      <!--FIELD1-->
+               </td>
+        	      <td>
+        	        <!--VALUE1-->
+        	      </td>
+        	      <td>
+        	      &nbsp;</td>
+        	      <td class="LabelColumn">
+                <!--FIELD2-->
+               </td>
+        	      <td>
+         	      <!--VALUE2-->
+        	      </td>
+          	  </tr>
+             </TABLE:ROW>
+
+
+        	    <tr>
+        	      <td class="LabelColumn">
+                &nbsp;
+               </td>
+        	      <td>
+                 &nbsp;
+        	      </td>
+        	      <td>
+        	      &nbsp;</td>
+        	      <td class="LabelColumn">
+                 &nbsp;
+               </td>
+        	      <td>
+                &nbsp;
+        	      </td>
+          	  </tr>
+
+        	    <tr>
+        	      <td class="LabelColumn">
+                <label for="fieldGroupsRelations">Gruppenzugeh&ouml;rigkeit des Empf&auml;ngers exportieren<SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Die Aktivierung dieser Option verursacht bei einer hohen Empf&auml;ngerzahl eine erhebliche Serverlast, da f&uuml;r jeden Empf&auml;nger einzeln die Gruppennamen festgestellt werden m&uuml;ssen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS></label>
+               </td>
+        	      <td>
+                 <input type="checkbox" id="fieldGroupsRelations" name="fields[GroupsRelations]" value="1" />
+        	      </td>
+        	      <td>
+        	      &nbsp;</td>
+        	      <td class="LabelColumn">
+                 &nbsp;
+               </td>
+        	      <td>
+                &nbsp;
+        	      </td>
+          	  </tr>
+
+
+        	    <tr>
+        	      <td class="LabelColumn">
+                &nbsp;
+               </td>
+        	      <td>
+                 &nbsp;
+        	      </td>
+        	      <td>
+        	      &nbsp;</td>
+        	      <td class="LabelColumn">
+                 &nbsp;
+               </td>
+        	      <td>
+                &nbsp;
+        	      </td>
+          	  </tr>
+        	    <tr>
+        	      <td class="LabelColumn">
+                <input type="button" value="Alle Felder ausw&auml;hlen" onclick="SelectAll(true)" />
+               </td>
+        	      <td>
+                <input type="button" value="Alle Felder abw&auml;hlen" onclick="SelectAll(false)" />
+        	      </td>
+        	      <td>
+        	      &nbsp;</td>
+        	      <td class="LabelColumn">
+                 &nbsp;
+               </td>
+        	      <td>
+                &nbsp;
+        	      </td>
+          	  </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+
+
+      <script language="JavaScript">
+      <!--
+      //-->
+      </script>
+      </form>

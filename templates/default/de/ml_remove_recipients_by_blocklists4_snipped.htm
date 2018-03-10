@@ -1,0 +1,161 @@
+      <form id="MLRemoveRecipientsForm" name="MLRemoveRecipientsForm" method="post" action="./ml_remove_recipients_by_blocklists.php">
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+      <input type="hidden" name="MailingListName" id="MailingListName" />
+      <input type="hidden" name="step" id="step" value="4" />
+
+      <input type="hidden" name="MailingListRecipientsCount" />
+
+      <input type="hidden" name="RemoveRecipientsByLocalBlocklist" />
+      <input type="hidden" name="RemoveRecipientsByGlobalBlocklist" />
+      <input type="hidden" name="RemoveRecipientsByLocalDomainBlocklist" />
+      <input type="hidden" name="RemoveRecipientsByGlobalDomainBlocklist" />
+      <input type="hidden" name="RemoveRecipientsByECGlist" />
+
+
+      <script language="JavaScript">
+      <!--
+
+      	function highlightTableRow(obj)
+      	{
+      	 while(obj != null && obj.tagName != 'SPAN')
+      	   obj = obj.parentNode;
+
+        var rows = obj.getElementsByTagName('DIV');
+        for(var no=0;no<rows.length;no++){
+          rows[no].className="tableRollOverEffect";
+        }
+      	}
+
+
+      	function resetRowStyle(obj)
+      	{
+      	 while(obj != null && obj.tagName != 'SPAN')
+      	   obj = obj.parentNode;
+
+        var rows = obj.getElementsByTagName('DIV');
+        for(var no=0;no<rows.length;no++){
+          rows[no].className="";
+        }
+      	}
+
+       function SubmitForm() {
+         document.MLRemoveRecipientsForm.submit();
+       }
+
+
+       // only for IE
+       document.onreadystatechange = function()
+       {
+        if (document.readyState == 'complete')
+         {
+            if(document.getElementById("idRefresh") == null) { // file not loaded completly?
+               setTimeout("SubmitForm()", 10);
+            }
+
+         }
+       }
+
+      //-->
+      </script>
+      <noscript>
+       Es ist kein JavaScript aktiviert, klicken Sie auf die nachfolgende Schaltfl&auml;che um das Entfernen der Empf&auml;nger nach dem Laden der Seite fortzusetzen.<br /><br />
+       <input type="submit" value="Entfernen der Empf&auml;nger fortsetzen" class="FormButton" />
+      </noscript>
+
+      <span class="Backlink"><br /></span>
+          <fieldset>
+           <legend>%MLREMOVEPAGETITLE%</legend>
+           <br />
+           <table class="FormTable">
+             <tbody>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Empf&auml;nger in Empf&auml;ngerliste '%MAILINGLISTNAME%' gesamt
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <RECIPIENTSCOUNT></RECIPIENTSCOUNT>
+                 </td>
+               </tr>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Empf&auml;nger anhand der lokalen Blockliste entfernt
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <RemovedRecipientsByLocalBlocklistCount></RemovedRecipientsByLocalBlocklistCount>
+                 </td>
+               </tr>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Empf&auml;nger anhand der globale Blockliste entfernt
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <RemovedRecipientsByGlobalBlocklistCount></RemovedRecipientsByGlobalBlocklistCount>
+                 </td>
+               </tr>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Empf&auml;nger anhand der lokalen Domain-Blockliste entfernt
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <RemovedRecipientsByLocalDomainBlocklistCount></RemovedRecipientsByLocalDomainBlocklistCount>
+                 </td>
+               </tr>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Empf&auml;nger anhand der globale Domain-Blockliste entfernt
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <RemovedRecipientsByGlobalDomainBlocklistCount></RemovedRecipientsByGlobalDomainBlocklistCount>
+                 </td>
+               </tr>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Empf&auml;nger anhand der ECG-Liste entfernt
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <RemovedRecipientsByECGlistCount></RemovedRecipientsByECGlistCount>
+                 </td>
+               </tr>
+
+             </tbody>
+           </table>
+
+           <br />
+
+         </fieldset>
+
+      <br />
+         <div id="table2Div">
+            <div id="table2Divheadcol1"><b>E-Mail-Adresse</b></div>
+            <div id="table2Divheadcol2"><b>Status</b></div>
+
+            <!--SPACER//-->
+
+            <input type="hidden" name="RemovedRecipientsByLocalBlocklistCount" />
+            <input type="hidden" name="RemovedRecipientsByGlobalBlocklistCount" />
+            <input type="hidden" name="RemovedRecipientsByLocalDomainBlocklistCount" />
+            <input type="hidden" name="RemovedRecipientsByGlobalDomainBlocklistCount" />
+            <input type="hidden" name="RemovedRecipientsByECGlistCount" />
+            <input type="hidden" name="CurrentList" />
+
+            <LIST:ENTRY>
+            <span>
+            <div id="table2Divcol1" onmouseover="highlightTableRow(this)" onmouseout="resetRowStyle(this)"><input type="hidden" name="CurrentListID[]" /><LIST:EMAIL></LIST:EMAIL></div>
+            <div id="table2Divcol2" onmouseover="highlightTableRow(this)" onmouseout="resetRowStyle(this)"><LIST:STATUS></LIST:STATUS></div>
+            </span>
+            </LIST:ENTRY>
+
+         </div>
+
+         <input type="hidden" name="ListDone" />
+
+         <script type="text/javascript" name="idRefresh" id="idRefresh">
+         <!--
+           //AUTO_SCRIPT_CODE_PLACEHOLDER//
+           /* firefox problems */
+           setTimeout("SubmitForm()", 10);
+         //-->
+         </script>
+
+
+      </form>

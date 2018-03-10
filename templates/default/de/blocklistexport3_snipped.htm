@@ -1,0 +1,53 @@
+      <form id="ExportForm" name="ExportForm" method="post" action="">
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+      <input type="hidden" name="step" id="step" value="3" />
+      <input type="hidden" name="action" id="action" />
+      
+      <fieldset>
+      <legend>Export abgeschlossen</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+        	    <tr>
+          	    <td>
+                 Der Export wurde abgeschlossen.<br /><br />
+                 Die Datei enth&auml;lt <EXPORT:FILECOUNT></EXPORT:FILECOUNT> Eintr&auml;ge.
+                 <br />
+                 <br />
+                 <br />
+                 <br />
+                 <a href="DOWNLOAD" target="_blank">Textdatei laden</a>
+                 <br />
+                 <br />
+          	    </td>
+          	  </tr>
+
+        	    <tr>
+          	    <td>
+                &nbsp;
+          	    </td>
+          	  </tr>
+
+        	    <tr>
+          	    <td>
+          	     <div class="errortopic">
+                <img src="images/icon_warning.gif" border="0" width="24" height="24" align="left" /><p>
+                  <b>Sicherheitungswarnung</b>
+                  <br />
+                  Die Datei DOWNLOAD kann durch Jedermann heruntergeladen und damit die gespeicherten E-Mail-Adressen ausgelesen werden.
+                  <br />
+                  <br />
+                  Klicken Sie nach dem Download der Datei auf nachfolgende Schaltfl&auml;che, um die Daten aus der Datei dauerhaft l&ouml;schen zu lassen.
+                  <br />
+                  <br />
+                  <input type="submit" name="RemoveExportFileBtn" class="button" value="Export-Datei-Inhalt dauerhaft l&ouml;schen" />
+                </p>
+          	     </div>
+          	    </td>
+          	  </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      </form>

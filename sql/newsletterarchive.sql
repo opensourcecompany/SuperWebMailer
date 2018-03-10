@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS `TABLE_CAMPAIGNTONEWSLETTERARCHIVE` (
+  `campaigns_id` int(11) NOT NULL,
+  PRIMARY KEY  (`campaigns_id`)
+);

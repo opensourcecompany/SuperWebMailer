@@ -1,0 +1,64 @@
+body  {  font-size: 10pt; font-family: Verdana, Arial, Helvetica, Sans-Serif;	}
+p,li  {  font-size: 10pt; font-family: Verdana, Arial, Helvetica, Sans-Serif;	}
+
+
+a:link 	{  background: transparent; 
+		color: #0000FF;		} 
+
+a:visited	{  color: #800080;	}
+
+h1		{  font-weight: bold;
+		font-size: 12pt; }
+
+h2		{  font-weight: bold;
+		font-size: 11pt;}
+
+
+h3		{  font-weight: bold;
+		font-size: 12pt }
+
+
+h4		{  font-weight: bold; font-size: 11pt }
+
+h5		{  font-weight: bold; font-size: 11pt }
+
+h6		{  text-decoration: underline; font-weight: none; font-size: 10pt}
+		
+code		{  font-family: Courier; 	}
+
+pre		{  font-family: Courier; 	}
+
+table 	{ font-size: 10pt; }
+			
+th		{  text-align: left; }
+
+td, tr	{  font-size: 100%;} 
+
+
+img		{  margin-top: -4pt;  }	
+
+ul          {list-style-type: square}
+
+/* Overview heading   */
+h5.overh	{  font-size: 120%;	}           
+
+h5	{  font-size: 100%;	}           
+
+/* Procedure heading  */
+h5.proch	{    font-size: 100%;	}          
+
+/* Decision heading   */
+h5.what     {    font-size: 100%; 
+		color: #993399;		}           
+
+/* Note & Tip heading */
+h5.note	{    font-size: 95%; 	}
+
+/* mobil */
+   @media only screen and (max-width: 320px) {
+     table, tr, td {width: 100% !important;border-spacing:0px;border-collapse: collapse;}
+     td {display: block; padding-right: 0 !important;}
+     img {max-width: 320px; height: auto;}
+   }
+
+          

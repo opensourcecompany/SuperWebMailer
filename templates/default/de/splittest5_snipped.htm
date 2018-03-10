@@ -1,0 +1,141 @@
+      <form id="SplitTestEditForm" name="SplitTestEditForm" method="post" action="./splittestedit.php">
+      <span class="Backlink"><br /><a href="./browsesplittests.php" onclick="document.SplitTestEditForm.action='./browsesplittests.php';document.SplitTestEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="SplitTestListId" id="SplitTestListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel" value="5" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.SplitTestEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.SplitTestEditForm.submit(); return false;">E-Mailings</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.SplitTestEditForm.submit(); return false;">Einstellungen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.SplitTestEditForm.submit(); return false;">Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.SplitTestEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <fieldset>
+      <legend>Zusammenfassung der A/B Split Test-Einstellungen</legend>
+      <br />
+          <table name="TableSplitTestSettings" id="TableSplitTestSettings" class="FixedTable" style="border: 0px">
+            <tbody>
+              <tr>
+                <td class="CampaignStatColumn">Name des A/B Split Tests
+                </td>
+                <td class="CampaignStatValueColumn"><Name></Name></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Beschreibung
+                </td>
+                <td class="CampaignStatValueColumn"><Description></Description></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Zuletzt versendet
+                </td>
+                <td class="CampaignStatValueColumn"><LastSent></LastSent></td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">&nbsp;
+                </td>
+                <td class="CampaignStatValueColumn">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">Empf&auml;ngerliste
+                </td>
+                <td class="CampaignStatValueColumn"><MailingListName></MailingListName></td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">&nbsp;
+                </td>
+                <td class="CampaignStatValueColumn">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">E-Mailings
+                </td>
+                <td class="CampaignStatValueColumn"><EMailingsNames></EMailingsNames></td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">&nbsp;
+                </td>
+                <td class="CampaignStatValueColumn">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">&quot;Gewinner&quot; des A/B Split Tests bestimmen
+                </td>
+                <td class="CampaignStatValueColumn"><WinnerType></WinnerType></td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">&nbsp;
+                </td>
+                <td class="CampaignStatValueColumn">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">Test-Versand
+                </td>
+                <td class="CampaignStatValueColumn"><TestType></TestType></td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">&nbsp;
+                </td>
+                <td class="CampaignStatValueColumn">&nbsp;</td>
+              </tr>
+
+              <tr>
+                <td class="CampaignStatColumn">Versand des A/B Split Tests
+                </td>
+                <td class="CampaignStatValueColumn">
+                    <SendSchedulerSaveOnly>A/B Split Test nur speichern</SendSchedulerSaveOnly>
+                    <SendSchedulerSendImmediately>A/B Split Test nach dem Klick auf &quot;Fertig stellen&quot; sofort versenden</SendSchedulerSendImmediately>
+                    <SendSchedulerSendInFutureOnce>A/B Split Test zu einem sp&auml;teren Zeitpunkt am [SENDDATETIME] versenden</SendSchedulerSendInFutureOnce>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="CampaignStatColumn">&nbsp;
+                </td>
+                <td class="CampaignStatValueColumn">&nbsp;</td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <if:AlwaysSent>
+        <p><img src="images/icon_warning.gif" align="left" width="24" height="24" alt="" />Hinweis: Der A/B Split Test wurde zuletzt am <LastSent></LastSent> Uhr versendet.
+           <if:SendImmediately>Durch einen Klick auf &quot;Fertig stellen&quot; wird der A/B Split Test nochmals versendet.</if:SendImmediately>
+           <if:SendManually>Durch einen Klick auf &quot;Fertig stellen&quot; kann der A/B Split Test nochmals versendet werden.</if:SendManually>
+        </p><br />
+      </if:AlwaysSent>
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Fertig stellen" class="FormButton" />
+
+      <script type="text/javascript">
+      <!--
+
+        addTableRolloverEffect('TableSplitTestSettings','tableRollOverEffect','tableRowClickEffect');
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+      </form>

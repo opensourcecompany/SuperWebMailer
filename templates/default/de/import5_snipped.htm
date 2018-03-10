@@ -1,0 +1,222 @@
+      <form id="ImportForm" name="ImportForm" method="post" action="./importrecipients.php">
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+      <input type="hidden" name="MailingListName" id="MailingListName" />
+      <input type="hidden" name="step" id="step" value="4" />
+      <input type="hidden" name="ImportFilename" />
+      <input type="hidden" name="Separator" />
+      <input type="hidden" name="Header1Line" />
+      <input type="hidden" name="RemoveQuotes" />
+      <input type="hidden" name="RemoveSpaces" />
+      <input type="hidden" name="RemoveFile" />
+      <input type="hidden" name="ImportLines" />
+      <input type="hidden" name="SendOptInEMail" />
+      <input type="hidden" name="BirthdayDateFormat" />
+      <input type="hidden" name="GroupsOption" />
+      <input type="hidden" name="ExImportOption" />
+      <input type="hidden" name="ImportGroupField" />
+      <input type="hidden" name="groups_id" />
+      <input type="hidden" name="IsUTF8" />
+      <input type="hidden" name="CreateErrorLog" />
+      <input type="hidden" name="ImportBlockedRecipients" />
+      <input type="hidden" name="IsMacFile" />
+      <input type="hidden" name="RemoveRecipientFromGroups" />
+      <HIDDEN:FIELDS></HIDDEN:FIELDS>
+
+     	<style type="text/css">
+
+     	#dhtmlgoodies_progressPane{
+     		width:300px;
+     		height:30px;
+     		background-color:#FFF;
+     		z-index:5000;
+     		left:250px;
+     		top:30px;
+       position:relative;
+     	}
+     	#dhtmlgoodies_progressBar_bg{
+     		position:absolute;
+     		left:40%;
+     		top:40%;
+     		width:300px;
+     		height:20px;
+     		border:1px solid #000;
+     		background-color:#EEE;
+     		margin-left:-050px;
+     		margin-top:-20px;
+     		text-align:center;
+     	}
+     	#dhtmlgoodies_progressBar_outer{
+     		position:absolute;
+     		left:0px;
+     		top:0px;
+     		width:0px;
+       height:100%;
+     		overflow:hidden;
+     	}
+
+     	#dhtmlgoodies_progressBar{
+     		position:absolute;
+     		left:0px;
+     		top:0px;
+     		width:300px;
+     		background-color:#184EB8;
+     		filter: Alpha(Opacity=0, FinishOpacity=100,Style=1,StartX=0, StartY=0, FinishX=200,FinishY=20) ;
+     		height:100%;
+     		z-index:5000;
+     	}
+     	#dhtmlgoodies_progressBar_txt{
+     		color:#000;
+     		z-index:10000;
+     		width:100%;
+     		height:100%;
+     		left:0px;
+     		top:0px;
+     		position:absolute;
+     		font-family:Arial;
+     		font-size:0.8em;
+     		line-height:20px;	/* Same as height of progress bar */
+     	}
+     	</style>
+     	<script type="text/javascript">
+     	/************************************************************************************************************
+     	(C) www.dhtmlgoodies.com, October 2005
+
+     	This is a script from www.dhtmlgoodies.com. You will find this and a lot of other scripts at our website.
+
+     	Terms of use:
+     	You are free to use this script as long as the copyright message is kept intact. However, you may not
+     	redistribute, sell or repost it without our permission.
+
+     	Thank you!
+
+     	www.dhtmlgoodies.com
+     	Alf Magne Kalleland
+
+     	************************************************************************************************************/
+     	var progressbar_steps = 100;	// Total number of progress bar steps.
+
+     	/* Don't change any of these variables */
+     	var dhtmlgoodies_progressPane = false;
+     	var dhtmlgoodies_progressBar_bg = false;
+     	var dhtmlgoodies_progressBar_outer = false;
+     	var dhtmlgoodies_progressBar_txt = false;
+     	var progressbarWidth;
+     	var currentStep = 0;
+     	function moveProgressBar(steps){
+     		if(!dhtmlgoodies_progressBar_bg){
+     			dhtmlgoodies_progressPane = document.getElementById('dhtmlgoodies_progressPane');
+     			dhtmlgoodies_progressBar_bg = document.getElementById('dhtmlgoodies_progressBar_bg');
+     			dhtmlgoodies_progressBar_outer = document.getElementById('dhtmlgoodies_progressBar_outer');
+     			dhtmlgoodies_progressBar_txt = document.getElementById('dhtmlgoodies_progressBar_txt');
+     			progressbarWidth = dhtmlgoodies_progressBar_bg.clientWidth;
+     			// IE problem, page not loaded completly
+     			if(!progressbarWidth)
+     			  progressbarWidth = 300;
+     		}
+     		if(!steps){
+     			dhtmlgoodies_progressBar_outer.style.width = /*progressbarWidth +*/ '0px';
+     			dhtmlgoodies_progressBar_txt.innerHTML = '0%';
+     			setTimeout('document.getElementById("dhtmlgoodies_progressPane").style.display="none"',50);
+     		}else{
+     			currentStep+=steps;
+     			if(currentStep>progressbar_steps)currentStep = progressbar_steps;
+     			var width = Math.ceil(progressbarWidth * (currentStep / progressbar_steps));
+     			dhtmlgoodies_progressBar_outer.style.width = width + 'px';
+     			var percent = Math.ceil((currentStep / progressbar_steps)*100);
+     			dhtmlgoodies_progressBar_txt.innerHTML = percent + '%';
+     			if(currentStep==progressbar_steps){
+     				setTimeout('document.getElementById("dhtmlgoodies_progressPane").style.display="none"',50);
+     			}
+     		}
+     	}
+
+     	</script>
+	
+      <script language="JavaScript">
+      <!--
+          function SubmitForm() {
+            document.ImportForm.submit();
+          }
+
+          // only for IE
+          document.onreadystatechange = function()
+          {
+           if (document.readyState == 'complete')
+            {
+               if(document.getElementById("idRefresh") == null) { // file not loaded completly?
+                  setTimeout("SubmitForm()", 10);
+               }
+
+            }
+          }
+      //-->
+      </script>
+
+      <fieldset>
+      <legend>Import wird ausgef&uuml;hrt</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+        	    <tr>
+        	    <td>
+             Der Import wird jetzt durchgef&uuml;hrt. Je nach Anzahl der Empf&auml;nger kann dies eine gewisse Zeit in Anspruch nehmen.
+             <br />
+             <div >
+               <div id="dhtmlgoodies_progressPane">
+               	<div id="dhtmlgoodies_progressBar_bg">
+               		<div id="dhtmlgoodies_progressBar_outer">
+               			<div id="dhtmlgoodies_progressBar"></div>
+               		</div>
+               		<div id="dhtmlgoodies_progressBar_txt">0 %</div>
+               	</div>
+               </div>
+             </div>
+
+            <script language="JavaScript">
+            <!--
+             moveProgressBar(<SHOW:PERCENT></SHOW:PERCENT>);
+            //-->
+            </script>
+
+             <br />
+             <br />
+        	    </td>
+          	  </tr>
+             </TABLE:ROW>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+        <legend>Import bei Script-Abbruch fortsetzen</legend>
+        <br />
+        <table class="FormTable">
+          <tbody>
+            <tr>
+              <td>
+                 Sollte es zu einem Script-Abbruch kommen &quot;Maximum execution time of X seconds exceeded&quot;, dann klicken Sie
+                 auf nachfolgende Schaltfl&auml;che um den Import fortzusetzen.<br /><br />
+                 <img src="images/icon_warning.gif" width="24" height="24" alt="" style="align: left;" />&nbsp;Klicken Sie <b>nur auf die Schaltfl&auml;che</b> bei einem Script-Abbruch, ansonsten k&ouml;nnte dies zu einem fehlerhaften Import f&uuml;hren.
+                 <br /><br />
+                 <input type="submit" value="Import fortsetzen" class="FormButton" />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </fieldset>
+
+      <BLOCK />
+
+      <script language="JavaScript" name="idRefresh" id="idRefresh">
+      <!--
+       /* firefox problems */
+       setTimeout("SubmitForm()", 10);
+      //-->
+      </script>
+      <noscript>
+       Es ist kein JavaScript aktiviert, klicken Sie auf die nachfolgende Schaltfl&auml;che um den Import fortzusetzen.<br /><br />
+       <input type="submit" name="ImportNextBtn" value="Import fortsetzen" class="FormButton" />
+      </noscript>
+      <!-- <input type="submit" name="ImportNextBtn" value="Import fortsetzen" class="FormButton" /> //-->
+
+      </form>

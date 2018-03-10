@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title>Spalten in der Empf&auml;ngerliste</title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+
+<script language="JavaScript">
+<!--
+
+//-->
+</script>
+
+
+<style type="text/css">
+<!--
+.scroll{
+/*	width: 100%; */
+	height: 300px;
+	overflow:auto;
+	margin:0; padding:5px; border:0;
+/*	scrollbar-face-color: #6095C1;
+	scrollbar-highlight-color: #C2D7E7;
+	scrollbar-3dlight-color: #85AECF;
+	scrollbar-darkshadow-color: #427AA8;
+	scrollbar-shadow-color: #315B7D;
+	scrollbar-arrow-color: #FFFFFF;
+	scrollbar-track-color: #4DECF8S; */
+	text-align:justify;
+/*	background-color: #EAEAEA;*/
+}
+* html .scroll{
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+-->
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+      Spalten in der Empf&auml;ngerliste
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+   
+   <div class="container">
+
+        <div class="errortopic" id="errortopic" style="display: none">
+        <span id="ERRORMESSAGETEXT"><LABEL:ERRORMESSAGETEXT></LABEL:ERRORMESSAGETEXT></span>
+        </div>
+
+      <form id="frmRcptsColumns" name="frmRcptsColumns" method="post" action="./rcptscolumns.php">
+      <input type="hidden" name="PersTrackingRcptsListColumns" />
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+       <tbody>
+        <tr>
+         <td>
+            <p>W&auml;hlen Sie die Spalten, die in der Empf&auml;ngerliste dargestellt werden sollen.<br /><br />
+            <!--[if lt IE 7]>
+            Im Internet Explorer 6.0 d&uuml;rfen nicht mehr als 4 Spalten definiert werden, da der Internet Explorer 6.0 keine Scrollbars in Verbindung mit Tabellen unterst&uuml;tzt.
+            <![endif]-->
+            <br />
+            <br />
+            </p>
+          
+            <div class="scroll">
+            <table class="FixedTable" cellspacing="0" cellpadding="0" border="0" name="RcptsColumns" id="RcptsColumns">
+              <tbody>
+               <TABLE:ROW>
+          	    <tr>
+          	      <td onclick="CellClick(this);">
+                  <input type="checkbox" name="COLUMNNAME" id="COLUMNNAME" value="1" />&nbsp;<label for="COLUMNNAME"><!--COLUMNNAMELOCALIZED--></label>
+                 </td>
+            	  </tr>
+               </TABLE:ROW>
+              </tbody>
+            </table>
+            </div>
+
+          
+         </td>
+        </tr>
+        <tr>
+         <td>
+           <hr noshade="noshade" style="width: 100%; border:dotted #BABABA 1px; " />
+           <input type="button" name="ColUp" id="ColUp" class="FormButton" value="Nach oben" onclick="MoveCol('Up', 'RcptsColumns');" />
+           <input type="button" name="ColDown" id="ColDown" class="FormButton" value="Nach unten" onclick="MoveCol('Down', 'RcptsColumns');" />
+           <br />Positionierung&nbsp;Spalte&nbsp;&quot;Aktionen&quot;:&nbsp;<input type="radio" name="ActionsColumn" value="right" id="ActionsColumn_r" /><label for="ActionsColumn_r">&nbsp;rechts</label>&nbsp;<input type="radio" name="ActionsColumn" value="left" id="ActionsColumn_l" /><label for="ActionsColumn_l">&nbsp;links</label>&nbsp;
+           <div style="float:right"><input type="button" name="CancelBtn" value="Abbrechen" class="FormButton" onclick="parent.closeDialog();" /></div>
+           <div style="float:right"><input type="submit" name="SaveBtn" value="Speichern" class="FormButton" /></div>
+           <br />
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      </form>
+
+   </div>
+</div>
+
+
+      <script type="text/javascript">
+      <!--
+        addTableRolloverEffect('RcptsColumns','tableRollOverEffect','tableRowClickEffect');
+        
+        function CellClick(tablecell){
+          if (tablecell != null && tablecell.firstChild != null ){
+          
+            var parent_tr = tablecell.parentNode;
+            var parent_table = parent_tr.parentNode;
+            while( (parent_table!= null) && (parent_table.nodeName != 'TABLE') ){
+              parent_table=parent_table.parentNode;
+            }
+            document.getElementById('ColUp').disabled = parent_tr.rowIndex == 0;
+            document.getElementById('ColDown').disabled = parent_tr.rowIndex == parent_table.rows.length - 1;
+
+          } else {
+            document.getElementById('ColUp').disabled = true;
+            document.getElementById('ColDown').disabled = true;
+          }
+        }
+
+
+        function MoveCol(direction, tableID) {
+          var parent_tr = null;
+          var parent_table = document.getElementById(tableID);
+          if(parent_table == null) return false;
+          for(var i=0; i<parent_table.rows.length; i++){
+            if(parent_table.rows.item(i, i).className == "tableRowClickEffect") {
+              parent_tr = parent_table.rows.item(i, i);
+              break;
+            }
+          }
+          
+          if(parent_tr == null) return false;
+
+          if(direction == "Up") {
+            var index = parent_tr.rowIndex;
+            var target_tr = parent_table.rows.item(index - 1, index - 1);
+            exchangebyRowId(parent_tr.rowIndex, target_tr.rowIndex, tableID);
+          }
+
+          if(direction == "Down") {
+            var index = parent_tr.rowIndex;
+            var target_tr = parent_table.rows.item(index + 1, index + 1);
+            exchangebyRowId(parent_tr.rowIndex, target_tr.rowIndex, tableID);
+          }
+          
+          CellClick(parent_tr.cells.item(0));
+
+        }
+
+        // http://terrill.ca/sorting/switching_table_rows.php
+        function exchangebyRowId(i, j, tableID)
+        {
+        	var oTable = document.getElementById(tableID); // fixed
+        	var trs = oTable.tBodies[0].getElementsByTagName("tr");
+
+        	if(i == j+1) {
+        		oTable.tBodies[0].insertBefore(trs[i], trs[j]);
+        	} else if(j == i+1) {
+        		oTable.tBodies[0].insertBefore(trs[j], trs[i]);
+        	} else {
+        		var tmpNode = oTable.tBodies[0].replaceChild(trs[i], trs[j]);
+        		if(typeof(trs[i]) != "undefined") {
+        			oTable.tBodies[0].insertBefore(tmpNode, trs[i]);
+        		} else {
+        			oTable.appendChild(tmpNode);
+        		}
+        	}
+        }
+
+        CellClick(null);
+
+        function SubmitParentForm(){
+          if(!parent) return;
+          var forms = parent.document.getElementsByTagName("form");
+          if(forms)
+            forms[0].submit();
+        }
+
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+</body>
+
+</html>

@@ -1,0 +1,8 @@
+Beispiel Wrapper Scripte für die Scripte nl.php, nlu.php und defaultnewsletter.php
+
+1. die Scripte auf dem Webspace der anderen Domain in ein Verzeichnis ablegen
+2. im Script _path.inc.php den korrekten http://-Aufruf zur SuperWebMailer-Installation angeben
+3. im An-/Abmeldeformular den Aufruf zum Script nl.php bzw. defaultnewsletter.php auf die neue URL anpassen
+4. im SuperWebMailer Menü Webseite - An-/Abmeldeformulare für die jeweilige Empfängerliste das An-/Abmeldeformular aufrufen
+5. das An-/Abmeldeformular ändern, im Feld "Alternativer http://-Aufruf für Anmeldungen/Abmeldungen" die URL mit / am Ende eingeben
+

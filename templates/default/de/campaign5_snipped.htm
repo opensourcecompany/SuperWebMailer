@@ -1,0 +1,283 @@
+      <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+      <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
+
+      <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./campaignedit.php">
+      <span class="Backlink"><br /><a href="./browsecampaigns.php" onclick="document.CampaignEditForm.action='./browsecampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="CampaignListId" id="CampaignListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel"  value="5" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.CampaignEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.CampaignEditForm.submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.CampaignEditForm.submit(); return false;">Regeln</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.CampaignEditForm.submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.CampaignEditForm.submit(); return false;">Versand</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';document.CampaignEditForm.submit(); return false;">E-Mail-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='7';document.CampaignEditForm.submit(); return false;">Tracking</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';document.CampaignEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <IF:CANCHANGEEMAILADDRESSES>
+       <fieldset>
+       <legend><SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Geben Sie mindestens Absender-E-Mail-Adresse und angezeigter Absender-Name an. Die anderen Optionen sind optional.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                   </SHOWHIDE:TOOLTIPS>E-Mail-Adressen f&uuml;r den E-Mail-Versand</legend>
+       <br />
+           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+             <tbody>
+               <tr>
+                 <td class="MessageDescriptionColumn">Absender E-Mail-Adresse
+                 </td>
+                 <td><input type="text" id="SenderFromAddress" name="SenderFromAddress" maxlength="128" size="50" /></td>
+               </tr>
+               <tr>
+                 <td class="MessageDescriptionColumn">Angezeigter Absender-Name
+                 </td>
+                 <td><input type="text" id="SenderFromName" name="SenderFromName" maxlength="128" size="50" /></td>
+               </tr>
+               <tr>
+                 <td class="MessageDescriptionColumn">Antwort-E-Mail-Adresse (Reply-to)
+                 </td>
+                 <td><input type="text" id="ReplyToEMailAddress" name="ReplyToEMailAddress" maxlength="128" size="50" /></td>
+               </tr>
+               <tr>
+                 <td class="MessageDescriptionColumn">E-Mail-Adresse f&uuml;r die Return-Path-Angabe
+                 </td>
+                 <td><input type="text" id="ReturnPathEMailAddress" name="ReturnPathEMailAddress" maxlength="128" size="50" /></td>
+               </tr>
+             </tbody>
+           </table>
+       </fieldset>
+      </IF:CANCHANGEEMAILADDRESSES>
+
+       <fieldset>
+       <legend>Optionale Parameter f&uuml;r den E-Mail-Versand</legend>
+       <br />
+           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+             <tbody>
+               <tr>
+                 <td class="MessageDescriptionColumn">Lesebest&auml;tigung anfordern<SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Fordert eine Lesebest&auml;tigung an. Nicht jeder Server oder E-Mail-Programm unterst&uuml;tzt diese Funktion. Beim Versand sehr vieler E-Mails kann diese Funktion Ihren eigenen Mailserver stark belasten, da viele E-Mails mit der Lesebest&auml;tigung zur&uuml;ckgesendet werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                   </SHOWHIDE:TOOLTIPS>
+                 </td>
+                 <td><input type="checkbox" id="ReturnReceipt" name="ReturnReceipt" /></td>
+               </tr>
+               <tr>
+                 <td class="MessageDescriptionColumn">Sichtbare Kopien-Empf&auml;nger (Cc)<SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Geben Sie eine oder mehrere E-Mail-Adressen mit Komma (,) getrennt an, die eine sichtbare Kopie(Cc) erhalten sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                   </SHOWHIDE:TOOLTIPS>
+                 </td>
+                 <td><input type="text" id="CcEMailAddresses" name="CcEMailAddresses" size="50" /></td>
+               </tr>
+               <tr>
+                 <td class="MessageDescriptionColumn">Unsichtbare Blindkopien-<br />Empf&auml;nger (BCc)<SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Geben Sie eine oder mehrere E-Mail-Adressen mit Komma (,) getrennt an, die eine unsichtbare Blindkopie(BCc) erhalten sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                   </SHOWHIDE:TOOLTIPS>
+                 </td>
+                 <td><input type="text" id="BCcEMailAddresses" name="BCcEMailAddresses" size="50" /></td>
+               </tr>
+               <tr>
+                 <td class="MessageDescriptionColumn" valign="top">
+                   List-Unsubscribe-Header-Feld in die E-Mails f&uuml;r die Abmeldung einf&uuml;gen<SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Das List-Unsubscribe Feld mit dem Abmeldelink kann in den unsichtbaren Header der E-Mail aufgenommen werden, so dass bei diversen webbasierten Anbietern z.B. Microsoft Hotmail eine direkte Abmeldung vom Newsletter oberhalb der angezeigten E-Mail mit einem Klick m&ouml;glich ist.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                   </SHOWHIDE:TOOLTIPS>
+                 </td>
+                 <td valign="top">
+                   <input type="checkbox" name="AddListUnsubscribe" id="AddListUnsubscribe" /><label for="AddListUnsubscribe">&nbsp;List-Unsubscribe-Header-Feld hinzuf&uuml;gen</label>
+                 </td>
+               </tr>
+               <tr><td colspan="2">&nbsp;</td></tr>
+             </tbody>
+           </table>
+       </fieldset>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Jedes E-Mailing muss zumindest eine Versandvariante zugewiesen werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Versandvariante (MTAs) des E-Mailings</legend>
+      <br />
+         <IF:CANCHANGEMTA>
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="MessageDescriptionColumn" valign="top">Versandvariante
+                <br /><a href="./browsemtas.php" onclick="MessageBox('Best&auml;tigung', 'Alle ver&auml;nderten Einstellungen auf diesen Seite(n) gehen verloren.<br /><br />M&ouml;chten Sie jetzt wirklich neue Versandvarianten definieren?', 3, 320, 160, 'ConfirmEditMTAsEvent'); return false;">(Neue Versandvariante definieren)</a>
+                </td>
+                <td>
+                   <div class="scrollbox" style=" width: 368px; height: 150px" name="MTAsScrollbox" id="MTAsScrollbox">
+                     <SHOW:MTAS>
+                       <span class="scrollboxSpan"><input type="checkbox" name="mtas[]" value="<MTAId></MTAId>" id="MTAsLabelId" onclick="MTAClick(this, 'MTAsScrollbox');" />&nbsp;<label for="MTAsLabelId"><MTAName></MTAName></label><br /></span>
+                     </SHOW:MTAS>
+                   </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn" valign="top">
+                  Anordnung der Versandvarianten
+                 </td>
+                <td>
+                  <input class="FormButton" type="button" name="MTAUp" id="MTAUp" value="Nach oben" onclick="MoveMTA('Up', 'MTAsScrollbox');" />
+                  &nbsp;
+                  <input class="FormButton" type="button" name="MTADown" id="MTADown" value="Nach unten" onclick="MoveMTA('Down', 'MTAsScrollbox');" />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn" valign="top">
+                  &nbsp;
+                </td>
+                <td>
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn" valign="top">Anzahl E-Mails, die auf einmal f&uuml;r den Versand vorbereitet bzw. beim Live-E-Mail-Versand versendet werden sollen<SHOWHIDE:TOOLTIPS>
+				                                  <img onmouseover="showTooltip(event, 'Geben Sie an wie viele E-Mails auf einmal bei einer E-Mailing-Pr&uuml;fung durch das CronJob-Script f&uuml;r den Versand vorbereitet bzw. beim Live-E-Mail-Versand versendet werden sollen. Ist die Anzahl zu hoch eingestellt, dann kann es zum Script-Abbruch und damit zum Nicht-Versand kommen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+				                                  </SHOWHIDE:TOOLTIPS>
+                </td>
+                <td>
+                  <input type="text" name="MaxEMailsToProcess" style="text-align: right" size="3" />
+                <br />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+         </IF:CANCHANGEMTA>
+      </fieldset>
+
+      <!--
+       <fieldset>
+       <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Beim Versand des E-Mailings kann einmalig ein Twitter-Tweat in Ihrem Twitter-Account gepostet werden, dazu muss Benutzername und Passwort korrekt eingegeben werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Twitter-Tweat posten</legend>
+       <br />
+           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+             <tbody>
+               <tr>
+                 <td class="MessageDescriptionColumn">
+                 <label for="TwitterUpdate">Twitter-Tweat beim Versand posten</label>
+                 </td>
+                 <td>
+                 <input type="checkbox" name="TwitterUpdate" value="1" id="TwitterUpdate" onclick="DisableControlsById('TwitterUpdate', Array('TwitterUsername', 'TwitterPassword'));" />
+                 </td>
+               </tr>
+
+               <tr>
+                 <td class="MessageDescriptionColumn"><label for="TwitterUsername">Twitter Nutzername</label>
+                 </td>
+                 <td><input type="text" id="TwitterUsername" name="TwitterUsername" size="50" /></td>
+               </tr>
+               <tr>
+                 <td class="MessageDescriptionColumn"><label for="TwitterPassword">Twitter Passwort</label>
+                 </td>
+                 <td><input type="password" id="TwitterPassword" name="TwitterPassword" size="50" /></td>
+               </tr>
+               <tr><td colspan="2">&nbsp;</td></tr>
+             </tbody>
+           </table>
+       </fieldset>
+      //-->
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Speichern und Weiter &gt;" class="FormButton" />
+
+      <script type="text/javascript">
+      <!--
+
+        function ConfirmEditMTAsEvent(value) {
+         if(value)
+           window.location.href="./browsemtas.php";
+        }
+
+        // Firefox fix it returns also textnodes
+        function GetNextNodeSibling(node) {
+        	var n = node;
+        	do n = n.nextSibling;
+        	while (n && n.nodeType != 1);
+        	return n;
+        }
+
+        function GetPreviousNodeSibling(node) {
+        	var p = node;
+        	do p = p.previousSibling;
+        	while (p && p.nodeType != 1);
+        	return p;
+        }
+
+        function MTAClick(o, MTAsScrollboxid) {
+          var MTAsScrollbox = document.getElementById(MTAsScrollboxid);
+          p = o;
+          while(p != null && p.tagName != "SPAN")
+             p = p.parentNode;
+          if(p == null) {
+             document.getElementById("MTAUp").disabled = true;
+             document.getElementById("MTADown").disabled = true;
+             return false;
+          }
+          if(GetPreviousNodeSibling(p) == null)
+             document.getElementById("MTAUp").disabled = true;
+             else {
+             document.getElementById("MTAUp").disabled = false;
+             }
+          if(GetNextNodeSibling(p) == null)
+             document.getElementById("MTADown").disabled = true;
+             else
+             document.getElementById("MTADown").disabled = false;
+        }
+        
+
+        function MoveMTA(direction, MTAsScrollboxid) {
+          // disabled because DOM is slow
+          document.getElementById("MTAUp").disabled = true;
+          document.getElementById("MTADown").disabled = true;
+
+          var MTAsScrollbox = document.getElementById(MTAsScrollboxid);
+          p = MTAsScrollbox.firstChild;
+          while(p != null & p.className != "scrollboxclickEffect") {
+            p = p.nextSibling;
+          }
+          if(p == null) {
+            MTAClick(p, MTAsScrollboxid);
+            return false;
+          }
+          
+          if(direction == "Up" && GetPreviousNodeSibling(p) == null) return;
+          if(direction == "Down" && GetNextNodeSibling(p) == null) return;
+
+          if(direction == "Up") {
+             prevP = GetPreviousNodeSibling(p);
+             MTAsScrollbox.removeChild(p);
+             MTAsScrollbox.insertBefore(p, prevP);
+             MTAClick(p, MTAsScrollboxid);
+          }
+          if(direction == "Down") {
+             nextP = GetNextNodeSibling(p);
+             MTAsScrollbox.removeChild(p);
+             nextP = MTAsScrollbox.replaceChild(p, nextP);
+             MTAsScrollbox.insertBefore(nextP, p);
+             MTAClick(p, MTAsScrollboxid);
+          }
+
+        }
+        //
+
+        if(document.getElementById('MTAsScrollbox') != null) {
+          addScrollboxRolloverEffect('MTAsScrollbox','scrollboxRollOverEffect', 'scrollboxclickEffect');
+          MTAClick(null, 'MTAsScrollbox');
+        }
+        DisableControlsById('TwitterUpdate', Array('TwitterUsername', 'TwitterPassword'));
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+      </form>

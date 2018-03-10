@@ -1,0 +1,109 @@
+      <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./smscampaignedit.php">
+      <span class="Backlink"><br /><a href="./browsesmscampaigns.php" onclick="document.CampaignEditForm.action='./browsesmscampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="CampaignListId" id="CampaignListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel" value="99" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.CampaignEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.CampaignEditForm.submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.CampaignEditForm.submit(); return false;">Regeln</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.CampaignEditForm.submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.CampaignEditForm.submit(); return false;">Versand</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';document.CampaignEditForm.submit(); return false;">SMS-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';document.CampaignEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <fieldset>
+      <legend>Test der SQL-Anweisung f&uuml;r die SMS-Kampagne</legend>
+      <br />
+          <table name="TableCampaignSettings" id="TableCampaignSettings" class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <if:NOSQLPROBLEMS>
+                  <td colspan="2">
+                     <img src="images/icon_confirmation.gif" border="0" width="24" height="24" style="align: left;" />&nbsp;Beim Test der SQL-Anweisung f&uuml;r die SMS-Kampagne &quot;<CAMPAIGNNAME></CAMPAIGNNAME>&quot; wurden keine Probleme mit dem SQL-Server festgestellt.
+                  </td>
+                </if:NOSQLPROBLEMS>
+                <if:SQLPROBLEMS>
+                  <td colspan="2">
+                     <img src="images/icon_warning.gif" border="0" width="24" height="24" style="align: left;" />&nbsp;Beim Test der SQL-Anweisung f&uuml;r die SMS-Kampagne &quot;<CAMPAIGNNAME></CAMPAIGNNAME>&quot; wurden Probleme mit dem SQL-Server festgestellt.<br /><br />
+                     <SQLSERVER:ERROR></SQLSERVER:ERROR>
+                     <br />
+                     <br />
+                     Die SMS-Kampagne konnte <b>nicht</b> f&uuml;r den Versand vollst&auml;ndig gespeichert werden, da zuerst die Probleme mit dem
+                     SQL-Server beseitigt werden m&uuml;ssen.
+                  </td>
+                </if:SQLPROBLEMS>
+              </tr>
+            </body>
+          </table>
+      </fieldset>
+
+      <if:NOSQLPROBLEMS>
+        <br /><br />
+        <fieldset>
+        <legend>Fertigstellung der SMS-Kampagne</legend>
+        <br />
+            <table name="TableCampaignSettings" id="TableCampaignSettings" class="FormTable" cellspacing="0" cellpadding="0" border="0">
+              <tbody>
+
+                <tr>
+                  <td colspan="2">
+                    Die SMS-Kampagne &quot;<CAMPAIGNNAME></CAMPAIGNNAME>&quot; wurde vollst&auml;ndig gespeichert und falls konfiguriert f&uuml;r den SMS-Versand aktiviert.<br /><br />
+                    Sie k&ouml;nnen auf &quot;Zur&uuml;ck&quot; klicken um die Einstellungen zu &auml;ndern. Die &Auml;nderungen werden jedoch nur ber&uuml;cksichtigt, insofern die SMS-Kampagne noch nicht versendet worden ist.
+                  </td>
+                </tr>
+
+                <tr>
+                  <td colspan="2">
+                    <if:SendManually>
+                      <br /><br />
+                      <if:AlwaysSent>
+                        <p><img src="images/icon_warning.gif" align="left" width="24" height="24" alt="" />Hinweis: Die SMS-Kampagne wurde zuletzt am <LastSent></LastSent> Uhr versendet.</p>
+                      </if:AlwaysSent>
+                      <br />
+                      <br />
+                      <input type="submit" name="SendBtn" value="SMS-Versand jetzt beginnen" class="FormButton" />
+                      <br />
+                    </if:SendManually>
+                  </td>
+                </tr>
+
+              </body>
+            </table>
+        </fieldset>
+        <br />
+      </if:NOSQLPROBLEMS>
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" /><br /><br />
+
+      <if:NOSQLPROBLEMS>
+
+
+      </if:NOSQLPROBLEMS>
+
+      <br />
+      <br />
+
+      <input type="button" class="FormButton" value="Zur&uuml;ck zur SMS-Kampagnen-&Uuml;bersicht" onclick="document.CampaignEditForm.action='./browsesmscampaigns.php';document.CampaignEditForm.submit(); " /><br />
+      <br />
+      <script type="text/javascript">
+      <!--
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+      //-->
+      </script>
+
+      </form>

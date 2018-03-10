@@ -1,0 +1,446 @@
+      <script type="text/javascript" src="js/jquery-latest.min.js"></script>
+      <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./campaignedit.php">
+      <span class="Backlink"><br /><a href="./browsecampaigns.php" onclick="document.CampaignEditForm.action='./browsecampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="CampaignListId" id="CampaignListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel" value="3" />
+      <input type="hidden" name="OneRuleAction" id="OneRuleAction" value="" />
+      <input type="hidden" name="OneRuleActionId" id="OneRuleActionId" value="" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.CampaignEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.CampaignEditForm.submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.CampaignEditForm.submit(); return false;">Regeln</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.CampaignEditForm.submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.CampaignEditForm.submit(); return false;">Versand</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';document.CampaignEditForm.submit(); return false;">E-Mail-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='7';document.CampaignEditForm.submit(); return false;">Tracking</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';document.CampaignEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Sie k&ouml;nnen optionale Regeln definieren um nur bestimmten Zielgruppen E-Mails zusenden zu lassen.<br />Geben Sie keine Regeln an, um allen aktiven Empf&auml;ngern der Empf&auml;ngerliste eine E-Mail zu senden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Optionale Regeln f&uuml;r den E-Mail-Versand</legend>
+      <br />
+      <IF_CAN_CHANGE_RULES>
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+				        <thead>
+				      		<tr>
+				      			<td class="NoWrap" width="33%">Feld<SHOWHIDE:TOOLTIPS>
+				                                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie das Feld dessen Inhalt mit der Vergleichszeichenkette verglichen werden soll.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+				                                  </SHOWHIDE:TOOLTIPS></td>
+				      			<td class="NoWrap" width="33%">Vergleichsoperator<SHOWHIDE:TOOLTIPS>
+				                                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie einen der Vergleichsoperatoren.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+				                                  </SHOWHIDE:TOOLTIPS></td>
+				      			<td class="NoWrap" width="33%">Vergleichszeichenkette<SHOWHIDE:TOOLTIPS>
+				                                  <img onmouseover="showTooltip(event, 'Geben Sie die Vergleichszeichenkette an. Beim Vergleich mit Datumswerten <b>muss</b> das Datum im englischen Format JJJJ-MM-TT (J=Jahr, M=Monat, T=Tag) eingegeben werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+				                                  </SHOWHIDE:TOOLTIPS></td>
+				      		</tr>
+				        </thead>
+            <tbody>
+              <tr>
+
+                <td>
+                  <select name="fieldname" id="fieldname" size="1" onchange="CheckRequiredFields()">
+  		                 <option value="none">--</option>
+  		                 <fieldnames></fieldnames>
+               			</select>
+                </td>
+
+                <td>
+		               <select size="1" name="operator" id="operator" onchange="CheckRequiredFields()">
+		                 <option value="none">--</option>
+		                 <option value="eq">=</option>
+		                 <option value="neq">&lt;&gt;</option>
+		                 <option value="lt">&lt;</option>
+		                 <option value="gt">&gt;</option>
+		                 <option value="eq_num">= (num)</option>
+		                 <option value="neq_num">&lt;&gt; (num)</option>
+		                 <option value="lt_num">&lt; (num)</option>
+		                 <option value="gt_num">&gt; (num)</option>
+                   <option value="contains"><contains></contains></option>
+                   <option value="contains_not"><contains_not></contains_not></option>
+                   <option value="starts_with"><starts_with></starts_with></option>
+                   <option value="is"><IS></IS></option>
+		               </select>
+                </td>
+
+			            <td>
+			              <input name="comparestring" id="comparestring" type="text" size="30" />
+			            </td>
+
+              </tr>
+              <tr>
+                <td colspan="3">
+                 <br />
+                 <br />
+                 Verkn&uuml;pfung mit einer weiteren Bedingung<br />
+                 <select size="1" name="logicaloperator" id="logicaloperator" onchange="CheckRequiredFields()" style="width: 220px">
+               				<option value="AND"><AND></AND></option>
+               				<option value="OR"><OR></OR></option>
+             			 </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="3">
+                 <br />
+                 <br />
+                  <input name="AddRuleBtn" id="AddRuleBtn" type="submit" value="Regel hinzuf&uuml;gen" />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Alle definierten Regeln werden paarweise verglichen, dass hei&szlig;t 2 Regeln werden immer geklammert. Ordnen Sie die Regeln daher so an, so dass Sie das gew&uuml;nschte Ergebnis erhalten.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Definierte Regeln f&uuml;r den E-Mail-Versand</legend>
+      <br />
+          <table id="TableRules" name="TableRules" class="FixedTable">
+            <thead>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td>
+                 Feldname
+                </td>
+                <td>
+                 Vergleichsoperator
+                </td>
+                <td>
+                 Vergleichszeichenkette
+                </td>
+                <td>
+                 Verkn&uuml;pfung
+                </td>
+                <td>
+                  Operation
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <LIST:RULES>
+              <tr>
+                <td>
+                  <IF></IF>
+                </td>
+                <td>
+                 <FIELDNAME></FIELDNAME>
+                </td>
+                <td>
+                 <COMP_OPERATOR></COMP_OPERATOR>
+                </td>
+                <td>
+                 <COMP_VALUE></COMP_VALUE>
+                </td>
+                <td>
+                 <LINK_OPERATOR></LINK_OPERATOR>
+                </td>
+                <td>
+           			    <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteRule" onclick="SetListId(this, 'CampaignEditForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich diese Regel dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmDeleteRuleEntryEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht die Regel dauerhaft.');return false" />&nbsp;
+           			    <input type="image" src="images/arrow_up.gif" width="11" height="8" name="UpBtn" onclick="SetListId(this, 'CampaignEditForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Regel nach oben verschieben.');return false" />&nbsp;
+  			             <input type="image" src="images/arrow_down.gif" width="11" height="8" name="DownBtn" onclick="SetListId(this, 'CampaignEditForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Regel nach unten verschieben.');return false" />
+                </td>
+              </tr>
+              </LIST:RULES>
+
+            </tbody>
+          </table>
+      </IF_CAN_CHANGE_RULES>
+      </fieldset>
+
+      <IF_CAN_CHANGE_RULES>
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Mit Hilfe dieser speziellen Funktion k&ouml;nnen Sie Empf&auml;ngern ein E-Mailing zusenden lassen, falls der Empf&auml;nger in einem vorherigen Versand dieses E-Mailings eine bestimmte Aktion ausgef&uuml;hrt oder nicht ausgef&uuml;hrt hat. Bestimmte Aktionen erfordern die Verwendung des personalisierten Empf&auml;ngertrackings, ansonsten k&ouml;nnen die notwendigen Daten nicht bestimmt werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Aktionen der Empf&auml;nger bei einem vorhergehenden Versand eines E-Mailings</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+                   <input type="radio" name="DestCampaignAction" value="0" id="DestCampaignAction0" onclick="ActivateDeactivateLastActions();" /><label for="DestCampaignAction0">&nbsp;Keine Aktion ber&uuml;cksichtigen.</label>
+                   <br />
+                   <br />
+                   <input type="radio" name="DestCampaignAction" value="1" id="DestCampaignAction1" onclick="ActivateDeactivateLastActions();" /><label for="DestCampaignAction1">&nbsp;Diese Aktion ber&uuml;cksichtigen...</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div id="DestCampaignActionSettings">
+                   <br />
+
+                   <span id="tracking_params"><!--TRACKINGPARAMS_PHP//--></span>
+
+                   <blockquote style="margin-left: 12pt; margin-top: 6pt">
+
+                   <label for="DestCampaignActionId">E-Mailing</label><br />
+                   <select name="DestCampaignActionId" size="1" id="DestCampaignActionId" onchange="ActivateDeactivateLastActions();">
+                     <!--DESTCAMPAIGNS_PHP//-->
+                   </select>
+                   <br />
+                   <br />
+                   <label for="DestCampaignActionSentEntry_id">Versendet am</label><img id="ActionCampaignSentEntry_loading" style="height:32px; width: 32px; display:none;" src="images/loading.gif" /><br />
+                   <select name="DestCampaignActionSentEntry_id" size="1" id="DestCampaignActionSentEntry_id">
+                     <!--SentEntries_PHP//-->
+                   </select>
+                   </blockquote>
+
+
+                   <table class="InnerTable" cellspacing="0" cellpadding="0" border="0">
+                     <tbody>
+                      <tr>
+                       <td>
+                         &nbsp;
+                       </td>
+                       <td>
+                        <table class="InnerTable" cellspacing="0" cellpadding="0" border="0" style="margin-left: 12pt; margin-top: 6pt">
+                         <tbody>
+                          <tr>
+                           <td>
+                            <input type="radio" name="DestCampaignActionLastRecipientsAction" value="WasSent" id="DestCampaignActionLastRecipientsAction0" /><label for="DestCampaignActionLastRecipientsAction0">&nbsp;Empf&auml;nger muss die E-Mail zugesendet bekommen haben</label>
+                           </td>
+                          </tr>
+                          <tr>
+                           <td>
+                            <input type="radio" name="DestCampaignActionLastRecipientsAction" value="WasNotSent" id="DestCampaignActionLastRecipientsAction1" /><label for="DestCampaignActionLastRecipientsAction1">&nbsp;Empf&auml;nger hat die E-Mail nicht zugesendet bekommen</label>
+                           </td>
+                          </tr>
+                          <tr>
+                           <td>
+                            <input type="radio" name="DestCampaignActionLastRecipientsAction" value="WasOpened" id="DestCampaignActionLastRecipientsAction2" /><label for="DestCampaignActionLastRecipientsAction2">&nbsp;Empf&auml;nger muss die E-Mail ge&ouml;ffnet haben</label>
+                           </td>
+                          </tr>
+                          <tr>
+                           <td>
+                            <input type="radio" name="DestCampaignActionLastRecipientsAction" value="WasNotOpened" id="DestCampaignActionLastRecipientsAction3" /><label for="DestCampaignActionLastRecipientsAction3">&nbsp;Empf&auml;nger hat die E-Mail nicht ge&ouml;ffnet</label>
+                           </td>
+                          </tr>
+                          <tr>
+                           <td>
+                            <input type="radio" name="DestCampaignActionLastRecipientsAction" value="HasLinkClicked" id="DestCampaignActionLastRecipientsAction4" /><label for="DestCampaignActionLastRecipientsAction4">&nbsp;Empf&auml;nger muss einen beliebigen Link in der E-Mail angeklickt haben</label>
+                           </td>
+                          </tr>
+                          <tr>
+                           <td>
+                            <input type="radio" name="DestCampaignActionLastRecipientsAction" value="HasSpecialLinkClicked" id="DestCampaignActionLastRecipientsAction5" onclick="ActivateDeactivateLastActionLinks();" /><label for="DestCampaignActionLastRecipientsAction5">&nbsp;Empf&auml;nger muss einen speziellen Link in der E-Mail angeklickt haben, Link:</label>
+                            <br />
+                            <blockquote style="margin-left: 12pt; margin-top: 6pt">
+                              <img id="LastRecipientsActionLinkId_loading" style="height:32px; width: 32px; display:none;" src="images/loading.gif" />
+                              <select name="DestCampaignActionLastRecipientsActionLink_id" size="1" id="DestCampaignActionLastRecipientsActionLink_id" style="width: 700px">
+                                <!--LinkEntries_PHP//-->
+                              </select>
+                            </blockquote>
+                           </td>
+                          </tr>
+                        </table>
+                        
+                        
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                 </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+      </IF_CAN_CHANGE_RULES>
+
+      <fieldset>
+      <legend>Sch&auml;tzung der Empf&auml;ngerzahl</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+                  <strong><RECIPIENTSCOUNT></RECIPIENTSCOUNT></strong> Empf&auml;nger werden eine E-Mail erhalten.<br ><br />
+                  Die Empf&auml;ngerzahl kann beim Versand der E-Mails abweichen z.B. Neuanmeldungen/Abmeldungen von der Empf&auml;ngerliste.
+
+                  <p>
+                   <a href="javascript:void(0);" class="Backlink" onclick="ShowHideItem('ShowHideSQLBox')">SQL anzeigen / nicht anzeigen</a>
+                  			<div id="ShowHideSQLBox">
+                       <textarea name="SQL" cols="130" rows="20" readonly="readonly"><SQL></SQL></textarea>
+                     </div>
+                  </p>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Speichern und Weiter &gt;" class="FormButton" />
+
+      <script type="text/javascript">
+      <!--
+        var LastSelectedCampaignId=0;
+
+        if(document.getElementById('TableRules'))
+          addTableRolloverEffect('TableRules','tableRollOverEffect','tableRowClickEffect');
+
+        function CheckRequiredFields() {
+         if(!document.getElementById('fieldname')) return;
+         var OK = document.getElementById('fieldname').selectedIndex > 0;
+         if(OK)
+           OK = document.getElementById('operator').selectedIndex > 0;
+         document.getElementById('AddRuleBtn').disabled = !OK;
+        }
+
+        CheckRequiredFields();
+
+				    function SetListId(ASender, AFormID) {
+				      var AForm = document.getElementById(AFormID);
+				      var OneRuleAction = document.getElementById('OneRuleAction');
+				      var OneRuleActionId = document.getElementById('OneRuleActionId');
+				      OneRuleAction.value = ASender.name;
+				      OneRuleActionId.value = ASender.value;
+				      return true;
+				    }
+
+				    function ConfirmDeleteRuleEntryEvent(value) {
+				      if(value)
+				        document.getElementById('CampaignEditForm').submit();
+				        else {
+				          document.getElementById('OneRuleAction').value = "";
+				          document.getElementById('OneRuleActionId').value = "";
+				        }
+
+				    }
+
+        ShowHideItem('ShowHideSQLBox');
+
+        $(document).ajaxComplete(function(event, xhr, settings) {
+
+          ActivateDeactivateLastActions(true);
+          if ( settings.url.indexOf("GetDoneSentEntries") > -1 ) {
+            $("#ActionCampaignSentEntry_loading").hide();
+          }
+
+          if ( settings.url.indexOf("GetLinks") > -1 ) {
+            $("#LastRecipientsActionLinkId_loading").hide();
+          }
+
+          if ( settings.url.indexOf("GetTrackingParams") > -1 ) {
+
+              var date = new Date();
+              var nocache = date.getTime() / 1000;
+
+             	jQuery.get('ajax_getemailingactions.php' + "?nocache=" + nocache + "&SrcCampaignId=" + LastSelectedCampaignId + "&Action=GetDoneSentEntries", "", function(data){
+             	   $("#DestCampaignActionSentEntry_id").html( data );
+             	});
+
+
+              $("#LastRecipientsActionLinkId_loading").show();
+             	jQuery.get('ajax_getemailingactions.php' + "?nocache=" + nocache + "&SrcCampaignId=" + LastSelectedCampaignId + "&Action=GetLinks", "", function(data){
+             	   $("#DestCampaignActionLastRecipientsActionLink_id").html( data );
+             	});
+          }
+
+        });
+
+        function ActivateDeactivateLastActions(fromajaxComplete){
+          if(!document.getElementById('DestCampaignAction0')) return;
+
+          if($('#DestCampaignAction1').attr("checked")){
+            if($('#DestCampaignActionId option').size() == 0) return; // nothing?
+
+            var date = new Date();
+            var nocache = date.getTime() / 1000;
+            $.ajaxSetup({ cache: false });
+
+            if(!fromajaxComplete && ($('#DestCampaignActionSentEntry_id option').size() == 0 || LastSelectedCampaignId != $('#DestCampaignActionId').val())){
+
+              $("#ActionCampaignSentEntry_loading").show();
+              LastSelectedCampaignId = $('#DestCampaignActionId').val();
+
+              $("#DestCampaignActionSentEntry_id").html('');
+              $("#DestCampaignActionLastRecipientsActionLink_id").html('');
+              $("#tracking_params").html('');
+
+              $("#tracking_params").html('');
+             	jQuery.get('ajax_getemailingactions.php' + "?nocache=" + nocache + "&SrcCampaignId=" + LastSelectedCampaignId + "&Action=GetTrackingParams", "", function(data){
+             	   $("#tracking_params").html( data );
+             	});
+
+            }
+          }
+
+          DisableControlsById('DestCampaignAction1', Array('DestCampaignActionId', 'DestCampaignActionSentEntry_id', 'DestCampaignActionLastRecipientsAction0', 'DestCampaignActionLastRecipientsAction1', 'DestCampaignActionLastRecipientsAction2', 'DestCampaignActionLastRecipientsAction3', 'DestCampaignActionLastRecipientsAction4', 'DestCampaignActionLastRecipientsAction5'));
+          ActivateDeactivateLastActionLinks();
+          if(!document.getElementById('DestCampaignAction1').checked) {
+            document.getElementById('DestCampaignActionSettings').style.display = 'none';
+            return;
+           } else {
+            document.getElementById('DestCampaignActionSettings').style.display = '';
+           }
+
+          var IsSent = true;
+          if($('#DestCampaignActionSentEntry_id option').size() == 0) {
+            IsSent = false;
+          }
+
+          DisableItem('DestCampaignActionLastRecipientsAction0', IsSent);
+          DisableItem('DestCampaignActionLastRecipientsAction1', IsSent);
+
+          var b = 0;
+          if( $('#TrackEMailOpeningsByRecipient').val() != null )
+            b = $('#TrackEMailOpeningsByRecipient').val();
+
+          if(!IsSent || b == 0) {
+            DisableItem('DestCampaignActionLastRecipientsAction2', false);
+            DisableItem('DestCampaignActionLastRecipientsAction3', false);
+            if(document.getElementById('DestCampaignActionLastRecipientsAction2').checked || document.getElementById('DestCampaignActionLastRecipientsAction3').checked)
+               document.getElementById('DestCampaignActionLastRecipientsAction0').checked = true;
+          } else {
+            DisableItem('DestCampaignActionLastRecipientsAction2', true);
+            DisableItem('DestCampaignActionLastRecipientsAction3', true);
+          }
+
+          var b = 0;
+          if( $('#TrackLinksByRecipient').val() != null )
+            b = $('#TrackLinksByRecipient').val();
+
+          if(!IsSent || b == 0){
+            DisableItem('DestCampaignActionLastRecipientsAction4', false);
+            DisableItem('DestCampaignActionLastRecipientsAction5', false);
+
+            if(document.getElementById('DestCampaignActionLastRecipientsAction4').checked || document.getElementById('DestCampaignActionLastRecipientsAction5').checked)
+               document.getElementById('DestCampaignActionLastRecipientsAction0').checked = true;
+          } else {
+            DisableItem('DestCampaignActionLastRecipientsAction4', document.getElementById('DestCampaignActionLastRecipientsActionLink_id').length > 0 );
+            DisableItem('DestCampaignActionLastRecipientsAction5', document.getElementById('DestCampaignActionLastRecipientsActionLink_id').length > 0 );
+          }
+
+        }
+
+        function ActivateDeactivateLastActionLinks(){
+          if(!document.getElementById('DestCampaignAction0')) return;
+          DisableControlsById('DestCampaignActionLastRecipientsAction5', Array('DestCampaignActionLastRecipientsActionLink_id'));
+        }
+        ActivateDeactivateLastActions();
+
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+      </form>

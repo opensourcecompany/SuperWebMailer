@@ -1,0 +1,42 @@
+      <form id="MLRemoveRecipientsForm" name="MLRemoveRecipientsForm" method="post" action="./ml_remove_recipients_by_blocklists.php">
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+      <input type="hidden" name="MailingListName" id="MailingListName" />
+      <input type="hidden" name="step" id="step" value="2" />
+
+      <span class="Backlink"><br /><a href="./ml_remove_recipients_by_blocklists.php">Zur&uuml;ck</a></span>
+      <fieldset>
+      <legend>Einstellungen f&uuml;r das Entfernen der Empf&auml;nger</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="ImportColumn">Optionen</td>
+                <td>
+                 <br />
+                 <input type="checkbox" name="RemoveRecipientsByLocalBlocklist" id="RemoveRecipientsByLocalBlocklist" value="1" checked="checked" /><label for="RemoveRecipientsByLocalBlocklist">&nbsp;Lokale Blockliste der Empf&auml;ngerliste ber&uuml;cksichtigen</label>
+                 <br />
+                 <br />
+                 <input type="checkbox" name="RemoveRecipientsByGlobalBlocklist" id="RemoveRecipientsByGlobalBlocklist" value="1" checked="checked" /><label for="RemoveRecipientsByGlobalBlocklist">&nbsp;Globale Blockliste ber&uuml;cksichtigen</label>
+                 <br />
+                 <br />
+                 <input type="checkbox" name="RemoveRecipientsByLocalDomainBlocklist" id="RemoveRecipientsByLocalDomainBlocklist" value="1" checked="checked" /><label for="RemoveRecipientsByLocalDomainBlocklist">&nbsp;Lokale Domain-Blockliste der Empf&auml;ngerliste ber&uuml;cksichtigen</label>
+                 <br />
+                 <br />
+                 <input type="checkbox" name="RemoveRecipientsByGlobalDomainBlocklist" id="RemoveRecipientsByGlobalDomainBlocklist" value="1" checked="checked" /><label for="RemoveRecipientsByGlobalDomainBlocklist">&nbsp;Globale Domain-Blockliste ber&uuml;cksichtigen</label>
+                 <br />
+                 <br />
+                 <input type="checkbox" name="RemoveRecipientsByECGlist" id="RemoveRecipientsByECGlist" value="1" checked="checked" /><label for="RemoveRecipientsByECGlist">&nbsp;ECG-Liste ber&uuml;cksichtigen (nur f&uuml;r &Ouml;sterreich)</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Die ECG-Liste muss in das Verzeichnis ECG mit dem Dateinamen ecg-liste.hash gespeichert werden. Informationen zum Erhalt der Datei finden Sie unter http://www.rtr.at/de/tk/NutzenECG.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                 <br />
+                 <br />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+
+      </form>      

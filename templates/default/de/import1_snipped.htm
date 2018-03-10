@@ -1,0 +1,34 @@
+      <form id="ImportForm" name="ImportForm" method="post" action="./importrecipients.php" enctype="multipart/form-data">
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+      <input type="hidden" name="MailingListName" id="MailingListName" />
+      <input type="hidden" name="MAX_FILE_SIZE" />
+      <input type="hidden" name="step" id="step" value="1" />
+
+      <span class="Backlink"><br /><a href="./importrecipients.php">Zur&uuml;ck</a></span>
+      <fieldset>
+      <legend>Import von Empf&auml;ngern</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn">Hinweis
+                </td>
+                <td>Die zu importierende Datei muss eine Textdatei (CSV-Datei / Text mit Trennzeichen) mit festen Aufbau sein. Die Datei darf eine Gr&ouml;&szlig;e von upload_max_filesize nicht &uuml;berschreiten.<br />Sie k&ouml;nnen ebenfalls per FTP in das Verzeichnis
+				            /userfiles/import die Datei &uuml;bertragen, danach einfach auf "Weiter" klicken und importieren lassen.<br /><br />
+                </td>
+              </tr>
+              <tr>
+                <td class="LabelColumn">Datei<SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie die Datei an, die importiert werden soll.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>
+                </td>
+                <td><input type="file" id="file1" name="file1" size="50" /></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+
+      </form>      
+      

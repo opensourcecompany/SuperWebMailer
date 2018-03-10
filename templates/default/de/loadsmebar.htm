@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title>Social Media Leiste einf&uuml;gen</title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript"  src="js/jquery-latest.min.js"></script>
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style type="text/css">
+<!--
+
+body {
+  min-width: 750px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+
+
+
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+      Social Media Leiste einf&uuml;gen
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+   
+   <div class="container">
+
+        <div class="errortopic" id="errortopic" style="display: none">
+        <span id="ERRORMESSAGETEXT"></span>
+        </div>
+
+
+      <script language="javascript" type="text/javascript">
+      <!--
+
+        var SourceCKEditor = "SourceCKEditor";
+        if(SourceCKEditor != "")
+           var oEditor	= window.opener.CKEDITOR.instances[SourceCKEditor];
+        if(oEditor == undefined)
+           for(var i in window.opener.CKEDITOR.instances) {
+              var oEditor	= window.opener.CKEDITOR.instances[i];
+              break;
+           }
+
+        IsFCK = oEditor != undefined;
+      //-->
+      </script>
+
+      <script language="javascript" type="text/javascript">
+      <!--
+
+        function InsertSEMs(){
+           obj = $('#sem_window').contents();
+
+         		var socialmediabar = obj.find( "#socialmediabar" );
+         		var smbaralignmentCB = $( "#smbaralignmentCB" );
+         		socialmediabar.hide();
+         		
+         		var that = $( "#socialmediabar" );
+
+           socialmediabar.find(".socialmedia_item").each(function(){
+             if( $(this).find("input").attr("checked") ) {
+                 $(this).find("input").remove();
+                 $(this).find("br").remove();
+
+                 var clone = $(this).clone();
+                 $(that).find("#socialmedia").append( clone );
+             }
+           });
+           
+           $(that).find("#socialmedia").css("text-align", smbaralignmentCB.val());
+             
+           InsertValue($(that).html());
+        }
+
+        function SelectAll(){
+           obj = $('#sem_window').contents();
+         		var socialmediabar = obj.find( "#socialmediabar" );
+           socialmediabar.find(".socialmedia_item").each(function(){
+             if( !$(this).find("input").attr("checked") ) {
+                $(this).find("input").attr("checked", "checked");
+             }
+           });
+           $('#InsertBtn').attr("disabled", null);
+        }
+
+        function SelectNone(){
+           obj = $('#sem_window').contents();
+         		var socialmediabar = obj.find( "#socialmediabar" );
+           socialmediabar.find(".socialmedia_item").each(function(){
+             if( $(this).find("input").attr("checked") ) {
+                $(this).find("input").attr("checked", null);
+             }
+           });
+           $('#InsertBtn').attr("disabled", "disabled");
+        }
+        
+        function EnableDisableInsertBtn(){
+           obj = $('#sem_window').contents();
+         		var socialmediabar = obj.find( "#socialmediabar" );
+         		var checked = 0;
+           socialmediabar.find(".socialmedia_item").each(function(){
+             if( $(this).find("input").attr("checked") ) {
+                checked++;
+                return true;
+             }
+           });
+           if(checked == 0)
+             $('#InsertBtn').attr("disabled", "disabled");
+             else
+             $('#InsertBtn').attr("disabled", null);
+        }
+
+        function InsertValue(value) {
+              oEditor.focus();
+              oEditor.fire( 'saveSnapshot' );
+              oEditor.insertHtml(value);
+              oEditor.fire( 'saveSnapshot' );
+              oEditor.fire("blur");
+        }
+
+      //-->
+      </script>
+
+
+      <fieldset>
+      <legend>Soziale Netzwerke</legend>
+
+     <form>
+      <input type="hidden" id="_FORMNAME" name="_FORMNAME" />
+	     <input type="hidden" id="_FORMFIELD" name="_FORMFIELD" />
+	     <input type="hidden" name="_IsFCKEditor" />
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+       <tbody>
+        <tr>
+         <td style="width: 90%">
+            W&auml;hlen Sie die Symbole der sozialen Netzwerke, die eingef&uuml;gt werden sollen.
+      						<br />
+         </td>
+        </tr>
+
+        <tr>
+         <td style="width: 90%">
+             <iframe id="sem_window" style="height: 250px; border: 3px solid #efefef"
+                               src="ajax_load_new_ipe_elements.php?filename=socialmediashare.htm&smechkboxes=true&ckeditor=true" width="628" frameborder="0"></iframe>
+         </td>
+        </tr>
+
+
+        <tr>
+         <td style="width: 90%">
+           <br />
+         		<label for="smbaralignmentCB">Ausrichtung der Symbole</label>
+           <select name="smbaralignmentCB" id="smbaralignmentCB" size="1">
+             <option value="left">links</option>
+             <option value="center">zentriert</option>
+             <option value="right">rechts</option>
+           </select>
+           <div style="float: right">
+             <input type="button" value="Alle w&auml;hlen" onclick="SelectAll();" />&nbsp;<input type="button" value="Alle abw&auml;hlen" onclick="SelectNone();" />
+           </div>
+         </td>
+        </tr>
+
+       </tbody>
+      </table>
+      
+      </fieldset>
+
+
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+       <tbody>
+        <tr>
+         <td colspan="2" style="text-align: right;">
+           <br />
+           <input type="button" name="InsertBtn" id="InsertBtn" value="Einf&uuml;gen" class="FormButton" onclick="InsertSEMs(); window.close();" />
+           <input type="button" name="CloseBtn" value="Schlie&szlig;en" class="FormButton" onclick="window.close();" />
+           <br />
+         </td>
+        </tr>
+       </body>
+      </table>
+
+      </form>
+      
+   </div>
+</div>
+     <script type="text/javascript">
+       //AUTO_SCRIPT_CODE_PLACEHOLDER//
+    	</script>
+     <div id="socialmediabar" style="display: none">
+       <div id="socialmedia" class="socialmedia" style="display: block">
+       </div>
+     </div>
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<link rel="stylesheet" href="ipe/css/redmond/jquery-ui-1.8.14.custom.css" type="text/css" />
+<script type="text/javascript"  src="js/jquery-latest.min.js"></script>
+<script type="text/javascript" src="ipe/js/jquery-ui.min.js"></script>
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+<style type="text/css">
+<!--
+.socialmedia_item { float: left; width: 50px; height: 38px; text-align: center; background-color: #EAEAEA; margin: 5px; padding-bottom: 4px; padding-top: 4px; cursor: pointer; border: 1px solid #EAEAEA;}
+-->
+</style>
+
+<script>
+    $(document).ready(function(){
+      var socialmediabar = $("body").find("#socialmediabar");
+
+      socialmediabar.find(".socialmedia_item").hover(function(e){
+        $(this).addClass("ui-state-hover");
+      }, function(){
+         $(this).removeClass("ui-state-hover");
+      });
+
+      socialmediabar.find(".socialmedia_item").unbind("click");
+      socialmediabar.find(".socialmedia_item").click(function(e){
+       e.stopPropagation();
+       $(this).find("input").attr("checked", !$(this).find("input").attr("checked") );
+       parent.EnableDisableInsertBtn();
+      });
+
+      socialmediabar.find(".socialmedia_item").find("input").unbind("click");
+      socialmediabar.find(".socialmedia_item").find("input").click(function(e){
+       e.stopPropagation();
+       parent.EnableDisableInsertBtn();
+      });
+
+      socialmediabar.find(".socialmedia_item").find("a").unbind("click");
+      socialmediabar.find(".socialmedia_item").find("a").click(function(e){
+       e.stopPropagation();
+       $(this).parent().find("input").attr("checked", !$(this).parent().find("input").attr("checked") );
+       parent.EnableDisableInsertBtn();
+       return false;
+      });
+
+      socialmediabar.find(".socialmedia_item").find("input").each(function(){
+         $(this).attr("checked", true);
+         parent.EnableDisableInsertBtn();
+      });
+
+    });
+</script>
+
+
+</head>
+
+<body bgcolor="#FFFFFF" style="background-color: #FFFFFF; margin: 0px; padding: 0px">
+
+  <table width="600" border="0"><tr><td>
+
+  <div style="padding: 8px;" id="socialmediabar"><SMEBAR></SMEBAR></div>
+
+  </td></tr></table>
+
+</body>
+</html>

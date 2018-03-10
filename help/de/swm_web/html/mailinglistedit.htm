@@ -1,0 +1,471 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link type="text/css" rel="stylesheet" href="../CSS/layout.css">
+<meta name="MS-HKWD" content="Empfängerlisten anlegen">
+<meta name="MS-HKWD" content="Single Opt-In">
+<meta name="MS-HKWD" content="Double Opt-In">
+<meta name="MS-HKWD" content="Single Opt-Out">
+<meta name="MS-HKWD" content="Double Opt-Out">
+<meta name="MS-HKWD" content="Empfängergruppen">
+<meta name="MS-HKWD" content="Ablaufzeitpunkt der Newsletter Anmeldung">
+<meta name="MS-HKWD" content="Ablaufzeitpunkt der Newsletter Abmeldung">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer -
+Empfängerlisten anlegen,Single Opt-In,Double Opt-In,Single Opt-Out,Double
+Opt-Out,Empfängergruppen,Ablaufzeitpunkt der Newsletter
+Anmeldung,Ablaufzeitpunkt der Newsletter Abmeldung Empfängerliste bearbeiten</title>
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,Empfängerlisten anlegen,Single Opt-In,Double Opt-In,Single Opt-Out,Double Opt-Out,Empfängergruppen,Ablaufzeitpunkt der Newsletter Anmeldung,Ablaufzeitpunkt der Newsletter Abmeldung">
+<meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Empfängerlisten anlegen,Single Opt-In,Double Opt-In,Single Opt-Out,Double Opt-Out,Empfängergruppen,Ablaufzeitpunkt der Newsletter Anmeldung,Ablaufzeitpunkt der Newsletter Abmeldung Empfängerliste bearbeiten Empfängerlisten anlegen,Single Opt-In,Double Opt-In,Single Opt-Out,Double Opt-Out,Empfängergruppen,Ablaufzeitpunkt der Newsletter Anmeldung,Ablaufzeitpunkt der Newsletter Abmeldung">
+<meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script LANGUAGE="JavaScript" SRC="jscript.js"></script>
+<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/mailinglistedit.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+
+<body>
+
+<h1>Empfängerliste bearbeiten</h1>
+<p>Eine Empfängerliste beinhaltet alle Daten zu den gespeicherten Empfängern.</p>
+<p>&nbsp;</p>
+<p><b>Registerkarte Allgemein</b></p>
+<p><img border="0" src="../images/mailinglistedit1.png" width="951" height="652"></p>
+<p>&nbsp;</p>
+<table border="1" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">Name der Empfängerliste</td>
+    <td width="72%">Geben Sie der Empfängerliste einen eindeutigen Namen. Ist
+      der Name nicht eindeutig, so wird bei einem Klick &quot;Neue
+      Empfängerliste anlegen&quot; eine Fehlermeldung ausgegeben.
+      <p>Hinweis:<br>
+      Sollen die Daten in die <a href="http://www.supermailer.de/" target="_blank">Newsletter
+      Software SuperMailer</a> importiert werden, dann darf der Name keine
+      Leerzeichen, Umlaute oder Sonderzeichen enthalten, ansonsten könnte es zu
+      Problemen beim Empfänger-Import oder bei der Abmeldung von der
+      Empfängerliste kommen.</p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Beschreibung</td>
+    <td width="72%">Sie können der Empfängerliste optional eine Beschreibung
+      oder Notizen hinzufügen.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Posteingangsserver/Postfächer</td>
+    <td width="72%">Für den Abruf von nicht zustellbaren Hard Bounce-E-Mails
+      aus den definierten POP3-/IMAP-Postfächern, wählen Sie hier ein oder
+      mehrere Postfächer aus. Das CronJob-Script wird im definierten Zeitpunkt
+      die Postfächer auf wirklich nicht mehr zustellbare E-Mails prüfen und
+      die Empfänger aus der Empfängerliste löschen bzw. deaktivieren.
+      <p><b>Siehe dazu auch</b><br>
+      <a href="bouncemanagement.htm">Bounce-Management<br>
+      </a><a href="browseinboxes.htm">Posteingangsserver/Postfächer<br>
+      </a><a href="settings_preferences.htm">Einstellungen<br>
+      </a><a href="settings_cron.htm">Geplante Aufgaben/Cron Jobs</a></p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Externes Script beim Erkennen von Hard Bounces per http://
+      aufrufen</td>
+    <td width="72%">Es kann ein externes selbst erstelltes Script per http://
+      aufgerufen werden, sobald eine Hard Bounce-E-Mail erkannt worden ist. Dem
+      Script werden als Parameter EMail=(e-mail-adresse);
+      BounceType=(PermanentlyBounced|TemporarilyBounced) und BounceCount=(anzahl
+      bounces) übergeben. Das eigene Script kann damit eine externe Datenbank
+      aktualisieren z.B. einen Newsletter-Empfänger löschen oder deaktivieren.
+      <p>Ein Beispiel-Aufruf für ein eigenes Script scriptexternal.php würde
+      so aussehen:
+      http://www.EIGENEWEBSEITE.com/scriptexternal.php?EMail=email@email.com&amp;BounceType=PermanentlyBounced&amp;BounceCount=1</p>
+      <p>&nbsp;</p>
+      <p>Hinweise:</p>
+      <ul>
+        <li>Es wird bei der Ausführung des externen Scripts gewartet, dass
+          heißt in dieser Zeit wird der weitere Bounce-Abruf nicht
+          durchgeführt. Sollte Ihr eigenes Script viel Zeit für ein
+          Datenbankupdate benötigen, dann behindert dieses Script damit den
+          weiteren Abruf der Bounce-E-Mails.</li>
+        <li>Das externe Script sollte eine Meldung nach Ausführung der Aktionen
+          ausgeben z.B. &quot;OK&quot;.</li>
+      </ul>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Standard An-/Abmeldeformular</td>
+    <td width="72%">Wählen Sie ein definiertes Formular für die Anmeldungen
+      und Abmeldungen aus. Ein Formular enthält die definierten Pflichtfelder,
+      optionale Felder, zu versendende E-Mail-Texte und auszugebende
+      Meldungstexte.
+      <p><b>Siehe dazu auch</b><br>
+      <a href="formedit.htm">An/Abmeldeformulare</a></p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Informationen</td>
+    <td width="72%">Zeigt Informationen zum Tabellennamen in der
+      MySQL-Datenbank, Erstellungsdatum, Ersteller bzw. Besitzer der
+      Empfängerliste und der derzeitigen Anzahl Empfänger-Einträge.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Doppelte Empfänger</td>
+    <td width="72%">Lassen Sie die Option zur Vermeidung doppelter Empfänger
+      aktiviert, damit keine doppelten E-Mail-Adressen manuell oder per Import
+      in die Empfängerliste aufgenommen werden (Standard aktiviert).
+      <p>Es ist nicht empfehlenswert doppelte E-Mail-Adressen in einer
+      Empfängerliste zu führen, da bei einer Abmeldung über den Abmeldelink
+      nur der eine Empfänger entfernt wird. Alle weiteren Einträge zu dieser
+      E-Mail-Adresse bleiben in der Empfängerliste erhalten. Sollten Sie danach
+      erneut E-Mails an die verbleibenden E-Mail-Adressen senden, dann wird dies
+      als unerlaubter E-Mail-Versand (Spam) angesehen.</p>
+	<p>Hinweis: Bei Anmeldungen über das Anmelde-Formular werden beim Zulassen 
+	von Duplikaten für eine Empfängerliste weiterhin <strong>keine</strong> 
+	doppelten Anmeldungen erlaubt.</p>
+	<p>&nbsp;</p>
+	  </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Registerkarte Empfängergruppen</b></p>
+<p><img border="0" src="../images/mailinglistedit2.png" width="953" height="613"></p>
+<p>&nbsp;</p>
+<table border="1" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">Empfängergruppen</td>
+    <td width="72%">Sie können Empfängergruppen definieren, um die Empfänger
+      der Empfängerliste logisch zu gruppieren. Es kann dabei ein Empfänger
+      Mitglied keiner, einer oder mehrerer Gruppen sein.
+      <p>Nutzen Sie die Schaltfläche &quot;Hinzufügen&quot; um eine neue
+      Gruppe zu erstellen, klicken Sie auf &quot;Löschen&quot; um eine Gruppe
+      zu löschen.<br>
+      Eine Empfängergruppe muss immer mit einem Buchstaben beginnen, es ist
+      nicht erlaubt eine Ziffer zu verwenden.</p>
+      <p>Hinweis:<br>
+      Bei Nutzung der <a href="http://www.supermailer.de/" target="_blank">Newsletter
+      Software SuperMailer</a> dürfen die Gruppennamen keine Leerzeichen,
+      Sonderzeichen oder Umlaute enthalten, ansonsten könnte es zu Problemen
+      beim Import oder Abmeldung von der Empfängerliste kommen.</p>
+      <p>Eine Zuordnung der Empfänger zu einer oder mehrer Gruppen ist manuell
+      durch <a href="recipientedit.htm">Änderung des Empfängers</a> oder für
+      mehrere Empfänger in der <a href="browsercpts.htm">Empfängerliste</a>
+      möglich.</p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Registerkarte Anmeldung</b></p>
+<p><img border="0" src="../images/mailinglistedit3.png" width="953" height="596"></p>
+<p>&nbsp;</p>
+<table border="1" width="90%" cellspacing="0">
+  <tr>
+    <td width="28%" valign="top">Anmeldung (Opt-In)</td>
+    <td width="72%">Wählen Sie welche Variante zur Anmeldung zur
+      Empfängerliste verwendet werden soll.
+      <p>Die Variante &quot;Anmeldung mit Bestätigung (Double-Opt-In)&quot; ist
+      die <b>bevorzugte</b> Variante, dabei erhält der zukünftige
+      Newsletter-Abonnent eine E-Mail mit einem Bestätigungslink. Dieser Link
+      muss angeklickt werden bevor die Anmeldung komplett abgeschlossen ist.</p>
+      <p>Die Anmelde-Art &quot;Einfach Anmeldung (Single Opt-In)&quot; versendet
+      keine Anmelde-E-Mail, d.h. der Empfänger ist nach Anmeldung sofort in der
+      Empfängerliste aktiv.</p>
+      <p>Zur Vermeidung von rechtlichen Problemen ist die Double-Opt-In-Variante
+      zu bevorzugen.</p>
+      <p>&nbsp;</p>
+      <p>Nur bei Anmeldung mit Double-Option</p>
+      <p>Der Ablaufzeitpunkt bestimmt wann eine nicht bestätigte Anmeldung
+      wieder aus der Empfängerliste gelöscht wird. Klickt der neue
+      Newsletter-Abonnent nach diesem Zeitpunkt auf den Bestätigungslink, dann
+      muss er sich neu anmelden. Das Löschen der nicht bestätigten Anmeldungen
+      wird durch das <a href="settings_cron.htm">CronJob-Script</a> ausgeführt.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Format der E-Mail</td>
+    <td width="72%">Wählen Sie das Format der E-Mail aus, es ist die Variante
+      &quot;Reine Text-E-Mail&quot; zu bevorzugen, da reine Text-E-Mails am
+      wenigsten als Spam erkannt werden.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" valign="top">Bei Anmeldung...</td>
+    <td width="72%">&nbsp;
+      <div align="center">
+        <center>
+        <table border="1" width="90%" bordercolor="#C0C0C0" cellspacing="0">
+          <tr>
+            <td width="50%">Empfänger ebenfalls in Liste X hinzufügen</td>
+            <td width="50%">Aktivieren Sie diese Einstellung und wählen Sie die
+              Empfängerliste, in welche der Empfänger ebenfalls hinzugefügt
+              werden soll.
+              <p>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="50%">Empfänger aus Liste X entfernen</td>
+            <td width="50%">Aktivieren Sie diese Einstellung und wählen Sie die
+              Empfängerliste, aus welcher der Empfänger gelöscht werden soll.
+              <p>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="50%">E-Mail bei Anmeldung an den Administrator der Liste
+              senden</td>
+            <td width="50%">Sendet bei jeder Anmeldung eine E-Mail mit den
+              Anmeldedaten an den Administrator/Besitzer der Liste.
+              <p>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="50%">E-Mail bei Anmeldung an folgende E-Mail-Adresse
+              senden</td>
+            <td width="50%">Geben Sie eine beliebige gültige E-Mail-Adresse an,
+              an welche eine E-Mail mit den Anmeldedaten gesendet werden soll.
+              <p>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top">Externes Script per http:// aufrufen</td>
+            <td width="50%">Es kann ein externes selbst erstelltes Script per
+              http:// aufgerufen werden, sobald eine Anmeldung zur
+              Empfängerliste durchgeführt worden ist. Dem Script werden als
+              Parameter EMail=(e-mail-adresse) und Type=subscribe, übergeben.
+              Das eigene Script kann damit eine externe Datenbank aktualisieren
+              z.B. einen Newsletter-Empfänger hinzufügen oder aktivieren.
+              <p>Ein Beispiel-Aufruf für ein eigenes Script scriptexternal.php
+              würde so aussehen:
+              http://www.EIGENEWEBSEITE.com/scriptexternal.php?<br>
+              EMail=email@email.com&amp;Type=subscribe</p>
+              <p>&nbsp;</p>
+              <p>Hinweise:</p>
+              <ul>
+                <li>Es wird bei der Ausführung des externen Scripts gewartet,
+                  dass heißt in dieser Zeit muss der Nutzer auf die
+                  Ergebnisseite im Browser warten.</li>
+                <li>Bei Verwendung von Double-Opt-In wird der Scriptaufruf erst
+                  ausgeführt, nach dem der Bestätigungslink in der E-Mail
+                  angeklickt worden ist.</li>
+                <li>Das externe Script sollte eine Meldung nach Ausführung der
+                  Aktionen ausgeben z.B. &quot;OK&quot;.</li>
+              </ul>
+              <p>&nbsp;</p>
+              <p>&nbsp;</td>
+          </tr>
+        </table>
+        </center>
+      </div>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" valign="top">Bei Änderung</td>
+    <td width="72%">
+      <p>&nbsp;</p>
+      <div align="center">
+        <center>
+        <table border="1" width="90%" bordercolor="#C0C0C0" cellspacing="0">
+          <tr>
+            <td width="50%" valign="top">Externes Script per http:// aufrufen</td>
+            <td width="50%">Es kann ein externes selbst erstelltes Script per
+              http:// aufgerufen werden, sobald eine Änderung über das
+              Ändern-Formular in der Empfängerliste durchgeführt worden ist.
+              Dem Script werden als Parameter EMail=(e-mail-adresse),
+              NewEMail=(e-mail-adresse) und Type=edit, übergeben.
+              <p>Ein Beispiel-Aufruf für ein eigenes Script scriptexternal.php
+              würde so aussehen:
+              http://www.EIGENEWEBSEITE.com/scriptexternal.php?<br>
+              EMail=email@email.com&amp;Type=edit</p>
+              <p>&nbsp;</p>
+              <p>Hinweise:</p>
+              <ul>
+                <li>Es wird bei der Ausführung des externen Scripts gewartet,
+                  dass heißt in dieser Zeit muss der Nutzer auf die
+                  Ergebnisseite im Browser warten.</li>
+                <li>Das externe Script sollte eine Meldung nach Ausführung der
+                  Aktionen ausgeben z.B. &quot;OK&quot;.</li>
+              </ul>
+              <p>&nbsp;</p>
+              <p>&nbsp;</td>
+          </tr>
+        </table>
+        </center>
+      </div>
+      <p>&nbsp;</p>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Registerkarte Abmeldung</b></p>
+<p><img border="0" src="../images/mailinglistedit4.png" width="953" height="542"></p>
+<p>&nbsp;</p>
+<table border="1" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%" valign="top">Abmeldung (Opt-Out)</td>
+    <td width="72%">Es stehen die Varianten &quot;Abmeldung ohne
+      Bestätigungs-E-Mail (Single Opt-Out)&quot; und &quot;Abmeldung mit
+      Bestätigung (Double Opt-Out)&quot; zur Verfügung.
+      <p>Die Variante &quot;Abmeldung ohne Bestätigungs-E-Mail (Single
+      Opt-Out)&quot; ist zu bevorzugen, d.h. der Empfänger wird nach Abmeldung
+      sofort aus der Empfängerliste entfernt.</p>
+      <p>&nbsp;</p>
+      <p>Nur bei Abmeldung mit Double-Opt-Out</p>
+      <p>Der Ablaufzeitpunkt bestimmt wann eine nicht bestätigte Abmeldung
+      wieder in der Empfängerliste zurückgesetzt wird, d.h. der Empfänger
+      erhält wieder den normalen Status aktiv und angemeldet. Klickt der
+      bestehende Newsletter-Abonnent nach diesem Zeitpunkt auf den
+      Bestätigungslink, dann muss er sich neu abmelden um danach auf den
+      Bestätigungslink klicken zu können. Das Zurücksetzen des Status der
+      nicht bestätigten Abmeldungen wird durch das <a href="settings_cron.htm">CronJob-Script</a>
+      ausgeführt.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Format der E-Mail</td>
+    <td width="72%">Wählen Sie das Format der E-Mail aus, es ist die Variante
+      &quot;Reine Text-E-Mail&quot; zu bevorzugen, da reine Text-E-Mails am
+      wenigsten als Spam erkannt werden.
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Bei Abmeldung...</td>
+    <td width="72%">&nbsp;
+      <div align="center">
+        <center>
+        <table border="1" width="90%" bordercolor="#C0C0C0" cellspacing="0">
+          <tr>
+            <td width="50%">Empfänger zur Liste X hinzufügen</td>
+            <td width="50%">Fügt den Empfänger nach dem Löschen aus der
+              Empfängerliste zur angegebenen Empfängerliste hinzu.
+              <p>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="50%">Empfänger ebenfalls aus Liste X entfernen.</td>
+            <td width="50%">Löscht den Empfänger nach dem Löschen aus der
+              Empfängerliste ebenfalls aus der angegebenen Empfängerliste.
+              <p>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="50%">Empfänger zur lokalen Blockliste hinzufügen
+              <p>&nbsp;</td>
+            <td width="50%">Fügt die E-Mail-Adresse zur lokalen Blockliste
+              hinzu, der Empfänger kann sich damit niemals wieder zu dieser
+              Empfängerliste anmelden.
+              <p>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="50%">Empfänger zur globalen Blockliste hinzufügen</td>
+            <td width="50%">Fügt die E-Mail-Adresse zur globalen Blockliste
+              hinzu, der Empfänger kann sich damit niemals wieder in einer
+              definierten Empfängerlisten anmelden.
+              <p>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="50%">E-Mail bei Abmeldung an den Administrator der Liste
+              senden
+              <p>&nbsp;</td>
+            <td width="50%">Sendet bei jeder Abmeldung eine E-Mail mit den
+              Empfängerdaten an den Administrator/Besitzer der Liste.
+              <p>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="50%">E-Mail bei Abmeldung an folgende E-Mail-Adresse
+              senden</td>
+            <td width="50%">Sendet bei jeder Abmeldung eine E-Mail mit den
+              Empfängerdaten an die angegebene E-Mail-Adresse.
+              <p>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top">Externes Script per http:// aufrufen</td>
+            <td width="50%">Es kann ein externes selbst erstelltes Script per
+              http:// aufgerufen werden, sobald eine Abmeldung von der
+              Empfängerliste durchgeführt worden ist. Dem Script werden als
+              Parameter EMail=(e-mail-adresse) und Type=unsubscribe, übergeben.
+              Das eigene Script kann damit eine externe Datenbank aktualisieren
+              z.B. einen Newsletter-Empfänger löschen oder deaktivieren.
+              <p>Ein Beispiel-Aufruf für ein eigenes Script scriptexternal.php
+              würde so aussehen:
+              http://www.EIGENEWEBSEITE.com/scriptexternal.php?<br>
+              EMail=email@email.com&amp;Type=unsubscribe</p>
+              <p>&nbsp;</p>
+              <p>Hinweise:</p>
+              <ul>
+                <li>Es wird bei der Ausführung des externen Scripts gewartet,
+                  dass heißt in dieser Zeit muss der Nutzer auf die
+                  Ergebnisseite im Browser warten.</li>
+                <li>Bei Verwendung von Double-Opt-Out wird der Scriptaufruf erst
+                  ausgeführt, nach dem der Bestätigungslink in der E-Mail
+                  angeklickt worden ist.</li>
+                <li>Das externe Script sollte eine Meldung nach Ausführung der
+                  Aktionen ausgeben z.B. &quot;OK&quot;.</li>
+              </ul>
+              <p>&nbsp;</td>
+          </tr>
+        </table>
+        </center>
+      </div>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>E-Mail-Versand</b></p>
+<p><img border="0" src="../images/mailinglistedit5.png" width="952" height="516"></p>
+<p>&nbsp;</p>
+<table border="1" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%" valign="top">E-Mail-Adressen</td>
+    <td width="72%">Geben Sie die E-Mail-Adressen und angezeigter Absender-Name
+      korrekt ein. Die E-Mail-Adresse für die Return-Path-Angabe wird für die
+      Bounce-E-Mails/Rückläufer-E-Mails verwendet.
+      <p>Deaktivieren Sie die Einstellung &quot;Bei der Erstellung von E-Mails
+      und Formularen dürfen die E-Mail-Adress-Angaben verändert werden&quot;
+      um eine Änderung der Absender-Adressen bei Erstellung eines
+      An-/Abmeldeformulars oder von E-Mails nicht zu erlauben.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Sichtbare Kopien-Empfänger (Cc)
+      <p>&nbsp;</td>
+    <td width="72%">Geben Sie eine oder mehrere E-Mail-Adressen mit Komma (,)
+      getrennt an, die eine sichtbare Kopie(Cc) erhalten sollen.
+      <p><b>Hinweis:</b><br>
+      Die sichtbaren Kopien-Empfänger sind beim Empfänger der E-Mail
+      einsehbar, zur Eindämmung des Versands von unerwünschten E-Mails (Spam)
+      sollten keine sichtbaren Kopien-Empfänger verwendet werden.</p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Unsichtbare Blindkopien-<br>
+      Empfänger (BCc)</td>
+    <td width="72%">Geben Sie eine oder mehrere E-Mail-Adressen mit Komma (,)
+      getrennt an, die eine unsichtbare Blindkopie(BCc) erhalten sollen.
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="28%" valign="top">Versandvarianten (MTA = Mail Transfer Agent)
+      der Empfängerlisten</td>
+    <td width="72%">Wählen Sie die Versandvariante aus, welcher für den
+      Versand der Anmelde-, Abmelde- und Bestätigungs-E-Mails verwendet werden
+      soll.
+      <p><b>Siehe dazu auch</b><br>
+      <a href="mtaedit.htm">Versandvarianten</a></p>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Registerkarte Nutzer</b></p>
+<p>Auf der Registerkarte Nutzer können Sie die Nutzer auswählen, die diese
+Empfängerliste sehen und bearbeiten dürfen. Nicht ausgewählten Nutzern wird
+die Empfängerliste nicht angezeigt.</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

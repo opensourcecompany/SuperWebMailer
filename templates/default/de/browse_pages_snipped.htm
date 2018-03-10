@@ -1,0 +1,121 @@
+<div class="spacerborder">
+  <form name="PagesListsForm" id="PagesListsForm" method="post">
+
+  <input type="hidden" name="OnePageListAction" id="OnePageListAction" value="" />
+  <input type="hidden" name="OnePageListId" id="OnePageListId" value="" />
+
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function SetListId(ASender, AFormID) {
+      var AForm = document.getElementById(AFormID);
+      var OnePageListAction = document.getElementById('OnePageListAction');
+      var OnePageListId = document.getElementById('OnePageListId');
+      OnePageListAction.value = ASender.name;
+      OnePageListId.value = ASender.value;
+      return true;
+    }
+
+    function ConfirmDeleteEvent(value) {
+      if(value)
+        document.getElementById('PagesListsForm').submit();
+        else {
+          document.getElementById('OnePageListAction').value = "";
+          document.getElementById('OnePageListId').value = "";
+        }
+    }
+
+    function ConfirmListAction() {
+      return true;
+    }
+
+  //-->
+  </script>
+
+  <table class="FixedTable">
+    <tbody>
+      <tr>
+        <td>
+         <span style="float: right; margin-right: 0pt"><a class="Backlink" href="./pageedit.php">Neue HTML-Seite/Umleitung anlegen</a></span>
+        </td>
+      </tr>
+      <tr>
+      <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table id="TableMailLists" name="TableMailLists" class="FixedTable">
+  	<thead>
+  		<tr>
+  			<td class="NoWrapAlignCenter" width="5%">ID</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="40%">Bezeichnung</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="25%">Aktionen</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td class="NoWrapAlignRight"><LIST:ID></LIST:ID></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:NAME></LIST:NAME></td>
+  			<td>&nbsp;</td>
+  			<td>
+  			    <input type="image" src="images/edit.gif" width="16" height="16" name="EditPageProperties" onclick="SetListId(this, 'PagesListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'&Auml;ndern der HTML-Seite/Umleitung');return false" />&nbsp;
+         <CAN:DELETE>
+  			    <input type="image" src="images/delete.gif" width="16" height="16" name="DeletePage" onclick="SetListId(this, 'PagesListsForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich die HTML-Seite/Umleitung dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmDeleteEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht die HTML-Seite/Umleitung dauerhaft.');return false" />
+         </CAN:DELETE>
+		    </td>
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+  </table>
+
+  <table class="FixedTable">
+  	<thead>
+  	</thead>
+  	<tbody>
+  	</tbody>
+  	<tfoot>
+
+  		<tr>
+  		  <td colspan="5">
+    		  <table border="0" cellpadding="0" cellspacing="0" style="width:100%">
+    		  <tr>
+    		  <td style="width:100%; white-space:nowrap;">
+        		  &nbsp;
+    		  </td>
+     			<td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'PagesListsForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'PagesListsForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'PagesListsForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'PagesListsForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  Seite:&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.PagesListsForm.submit()">
+                <OPTION:PAGES>
+                <option>1</option>
+                </OPTION:PAGES>
+         			  </select>
+        </td>
+       	</tr>
+       	</table>
+  			</td>
+  		</tr>
+
+  	</tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableMailLists','tableRollOverEffect','tableRowClickEffect');
+  AddTableDblClickEvent('TableMailLists');
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

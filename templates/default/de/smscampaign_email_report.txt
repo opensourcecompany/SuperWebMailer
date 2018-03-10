@@ -1,0 +1,23 @@
+Report für den Versand der SMS-Kampagne "<CAMPAIGN_NAME></CAMPAIGN_NAME>"
+
+Informationen zum Versand
+=========================
+
+Anzahl SMS-Empfänger: <RECIPIENTSCOUNT></RECIPIENTSCOUNT>
+Erfolgreich versendet: <SENTCOUNTSUCC></SENTCOUNTSUCC>
+Nicht erfolgreich versendet: <SENTCOUNTFAILED></SENTCOUNTFAILED>
+Versand begonnen: <SENDING:START></SENDING:START>
+Versand beendet: <SENDING:END></SENDING:END>
+Versanddauer: <SENDING:DURATION></SENDING:DURATION>
+
+Bei PRODUCTAPPNAME SCRIPTBASEURL jetzt anmelden.
+
+
+
+
+powered by PRODUCTAPPNAME PRODUCTURL
+
+
+
+
+-

@@ -1,0 +1,26 @@
+      <form id="ImportForm" name="ImportForm" method="post" action="./importrecipients.php">
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+      <input type="hidden" name="step" id="step" value="0" />
+
+      <span class="Backlink"><br /><a href="./importrecipients.php">Zur&uuml;ck</a></span>
+      <fieldset>
+      <legend>Import von Empf&auml;ngern</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn">Quelle w&auml;hlen
+                </td>
+                <td>
+                 <input type="radio" name="ImportOption" id="ImportOption0" value="CSV" checked="checked" /><label for="ImportOption0">&nbsp;Aus CSV-Datei (Text mit Trennzeichen) importieren</label><br />
+                 <input type="radio" name="ImportOption" id="ImportOption1" value="DB" /><label for="ImportOption1">&nbsp;Aus externer Datenbank importieren</label><br />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+
+      </form>      
+      

@@ -1,0 +1,131 @@
+      <style type="text/css">
+      <!--
+        textarea {width: 80%;}
+        textarea { word-break: break-all; -ms-word-break: break-all;}
+        @media all and (-ms-high-contrast:none) {
+           *::-ms-backdrop, textarea { white-space: pre; }
+        }
+      -->
+      </style>
+
+      <form id="HTMLForm" name="HTMLForm" method="post" action="./formcode.php">
+      <input type="hidden" name="MailingListId" />
+      <input type="hidden" name="FormId" />
+      <input type="hidden" name="FormType" />
+      <span class="Backlink"><br /><a href="./browseforms.php?MailingListId=">Zur&uuml;ck</a></span>
+      <fieldset>
+      <legend>Link zum Formular</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                  Den nachfolgenden Link k&ouml;nnen Sie an beliebiger Stelle in Ihrer eigenen Webseite z.B. im Navigationsbereich einbinden. Das Formular ist danach sofort funktionst&uuml;chtig.
+                  <br />
+                  <br />
+                  <textarea name="INTERNAL_LINK" cols="80" rows="10"></textarea><br />
+                  <a href="http://INTERNAL_LINK" target="_blank">Formular anschauen/testen</a>
+                  <br />
+                  <br />
+                </td>
+              </tr>
+
+              <IS:SWM>
+              <tr>
+                <td colspan="2">
+                   <b>Die folgenden Abmelde- und &Auml;ndernlinks sind nur f&uuml;r externe Programme/Aufrufe gedacht.</b><br />
+                   Im PRODUCTAPPNAME w&auml;hlen Sie bei Erstellung des E-Mail-Texts im Auswahlfeld &quot;Serien-E-Mail-Feld&quot;
+                   den Platzhalter
+
+                   <ul>
+                     <li>Abmeldelink bzw. geben [UnsubscribeLink] an,</li>
+                     <li>&Auml;ndernlink bzw. geben [EditLink] an.</li>
+                   </ul>
+
+                   PRODUCTAPPNAME wird dann selbst den korrekten Link erzeugen.
+                   <br /><br /><br />
+
+                   <br />
+                </td>
+              </tr>
+              </IS:SWM>
+
+              <tr>
+                <td colspan="2">
+                <b>Abmeldelinks f&uuml;r externe Aufrufe</b><br /><br />
+
+                F&uuml;r E-Mails im HTML-Format mit ID<br />
+                <textarea name="UNSUBSCRIBE_LINK_HTML" cols="140" rows="10"></textarea><br /><br />
+
+                <b>Alternativ</b> f&uuml;r E-Mails im HTML-Format mit Name der Empf&auml;ngerliste<br />
+                <textarea name="UNSUBSCRIBE_LINK_HTML_NAME" cols="140" rows="10"></textarea><br /><br />
+
+                <b>Alternativ</b> f&uuml;r E-Mails im HTML-Format mit Nutzung des IdentStrings, nur beim Import in <a href="http://www.supermailer.de" target="_blank">SuperMailer</a><br />
+                <textarea name="UNSUBSCRIBE_LINK_HTML_IDENTSTRING" cols="140" rows="10"></textarea><br /><br />
+                <br />
+                F&uuml;r E-Mails im Text-Format mit ID<br />
+                <textarea name="UNSUBSCRIBE_LINK_TEXT" cols="140" rows="10"></textarea><br /><br />
+
+                <b>Alternativ</b> f&uuml;r E-Mails im Text-Format mit Name der Empf&auml;ngerliste<br />
+                <textarea name="UNSUBSCRIBE_LINK_TEXT_NAME" cols="140" rows="10"></textarea><br /><br />
+
+                <b>Alternativ</b> f&uuml;r E-Mails im Text-Format mit Nutzung des IdentStrings, nur beim Import in <a href="http://www.supermailer.de" target="_blank">SuperMailer</a><br />
+                <textarea name="UNSUBSCRIBE_LINK_TEXT_IDENTSTRING" cols="140" rows="10"></textarea><br /><br />
+
+                <br />
+                Der Platzhalter [EMail] <strong>muss</strong> gegen den Platzhalter mit der E-Mail-Adresse getauscht werden, ansonsten funktioniert der Link nicht korrekt.
+                <br />
+                Der Platzhalter [IdentString] <strong>muss</strong> gegen den Platzhalter mit dem Identifikations-String getauscht werden. Werden alle Felder in <a href="http://www.supermailer.de" target="_blank">SuperMailer</a> &uuml;bernommen, dann ist keine Umbenennung notwendig.
+                <br />
+                <br />
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="2">
+                <br />
+                <b>&Auml;ndernlinks f&uuml;r externe Aufrufe</b><br /><br />
+
+                Zur &Auml;nderung der gespeicherten Empf&auml;ngerdaten kann nur das interne Formular verwendet wenden, in welches die bestehenden Empf&auml;ngerdaten eingesetzt werden.
+                In externe Formulare k&ouml;nnen diese Daten nicht direkt eingesetzt werden.
+
+                <br /><br />
+
+                F&uuml;r E-Mails im HTML-Format mit Nutzung des IdentStrings, nur beim Import in <a href="http://www.supermailer.de" target="_blank">SuperMailer</a><br />
+                <textarea name="EDIT_LINK_HTML_IDENTSTRING" cols="140" rows="10"></textarea><br /><br />
+
+                <b>Alternativ</b> f&uuml;r E-Mails im HTML-Format mit E-Mail-Adresse <b>(NICHT EMPFOHLEN)</b><br />
+                <textarea name="EDIT_LINK_HTML_EMAIL" cols="140" rows="10"></textarea><br /><br />
+
+                <br />
+                F&uuml;r E-Mails im Text-Format mit IdentString, nur beim Import in <a href="http://www.supermailer.de" target="_blank">SuperMailer</a><br />
+                <textarea name="EDIT_LINK_TEXT_IDENTSTRING" cols="140" rows="10"></textarea><br /><br />
+
+                <b>Alternativ</b> f&uuml;r E-Mails im Text-Format mit E-Mail-Adresse <b>(NICHT EMPFOHLEN)</b><br />
+                <textarea name="EDIT_LINK_TEXT_EMAIL" cols="140" rows="10"></textarea><br /><br />
+
+
+                <br />
+                Der Platzhalter [EMail] <strong>muss</strong> gegen den Platzhalter mit der E-Mail-Adresse getauscht werden, ansonsten funktioniert der Link nicht korrekt.
+                <br />
+                Der Platzhalter [IdentString] <strong>muss</strong> gegen den Platzhalter mit dem Identifikations-String getauscht werden. Werden alle Felder in <a href="http://www.supermailer.de" target="_blank">SuperMailer</a> &uuml;bernommen, dann ist keine Umbenennung notwendig.
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <script language="javascript" type="text/javascript">
+
+        var labs = document.getElementsByTagName('textarea');
+        for(var j=0; j<labs.length; j++) {
+          labs[j].setAttribute("readonly", "readonly");
+        }
+
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      </script>
+      <br />
+
+      </form>      

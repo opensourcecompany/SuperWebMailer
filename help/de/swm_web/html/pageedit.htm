@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link type="text/css" rel="stylesheet" href="../CSS/layout.css">
+<meta name="MS-HKWD" content="HTML-Seiten/Umleitungen bearbeiten">
+<meta name="MS-HKWD" content="Anzuzeigende Seite ändern">
+<meta name="MS-HKWD" content="Falsche Seite">
+<meta name="MS-HKWD" content="Fehler 404">
+<meta name="MS-HKWD" content="Ausgabe lokalisieren">
+<meta name="MS-HKWD" content="Ausgabe übersetzen">
+<meta name="MS-HKWD" content="Newsletteran-/abmeldung in mehreren Sprachen">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer -
+HTML-Seiten/Umleitungen bearbeiten,Anzuzeigende Seite ändern,Falsche
+Seite,Fehler 404,Ausgabe lokalisieren,Ausgabe
+übersetzen,Newsletteran-/abmeldung in mehreren Sprachen HTML-Seiten/Umleitungen
+bearbeiten</title>
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,HTML-Seiten/Umleitungen bearbeiten,Anzuzeigende Seite ändern,Falsche Seite,Fehler 404,Ausgabe lokalisieren,Ausgabe übersetzen,Newsletteran-/abmeldung in mehreren Sprachen">
+<meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - HTML-Seiten/Umleitungen bearbeiten,Anzuzeigende Seite ändern,Falsche Seite,Fehler 404,Ausgabe lokalisieren,Ausgabe übersetzen,Newsletteran-/abmeldung in mehreren Sprachen HTML-Seiten/Umleitungen bearbeiten HTML-Seiten/Umleitungen bearbeiten,Anzuzeigende Seite ändern,Falsche Seite,Fehler 404,Ausgabe lokalisieren,Ausgabe übersetzen,Newsletteran-/abmeldung in mehreren Sprachen">
+<meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script LANGUAGE="JavaScript" SRC="jscript.js"></script>
+<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/pageedit.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+
+<body>
+
+<h1>HTML-Seiten/Umleitungen bearbeiten</h1>
+<p>HTML-Seiten/Umleitungen werden in <a href="formedit.htm">Formularen</a>
+verwendet, sobald eine Anmeldung oder Abmeldung von der Empfängerliste erfolgt.</p>
+<p><img border="0" src="../images/pageedit.png" width="953" height="744"></p>
+<p>&nbsp;</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">Name der HTML-Seite/Umleitung</td>
+    <td width="72%">Vergeben Sie einen eindeutigen Namen für die
+      HTML-Seite/Umleitung.
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Typ der Seite/Umleitung</td>
+    <td width="72%">Wählen Sie den Typ der Seite/Umleitung. Bei der Bearbeitung
+      eines <a href="formedit.htm">Formulars</a> können Sie dem Formular die
+      Seite/Umleitung eines Typs zuweisen.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">URL für die Umleitung</td>
+    <td width="72%">Geben Sie einen vollständigen http://-Aufruf für die
+      anzuzeigende Seite ein.
+      <p>Hinweise:</p>
+      <ul>
+        <li>Die Seite wird vom Script geladen, Verweise auf Bilder angepasst und
+          die Seite dargestellt. Kann das Script die Seite nicht laden, weil in
+          den PHP-Einstellungen allow_url_fopen deaktiviert ist, dann wird eine
+          normale Umleitung durchgeführt.<br>
+          Das Layout der Seite sollte einfach gestaltet sein, d.h. die Verweise
+          auf Bilder und externe Dateien sollten sich im gleichen Verzeichnis
+          wie die angegebene HTML-Seite oder Unterverzeichnis befinden,
+          ansonsten könnte es zu Problemen bei der Darstellung der Seite
+          kommen.</li>
+        <li>Soll eine echte Umleitung, ohne Laden der Seite durch das Script
+          erfolgen, dann setzen Sie das Häkchen bei der Option &quot;Echte
+          Umleitung durchführen&quot;. In dem Fall wird auf die Seite sofort
+          umgeleitet aber die Platzhalter [ERRORPAGEMESSAGE], auf Fehlerseiten,
+          oder [PAGEMESSAGE] auf normalen Seiten <b>nicht</b> ersetzt. Die Werte
+          werden als reine GET-Parameter ERRORPAGEMESSAGE= bzw. PAGEMESSAGE=
+          übergeben, so dass diese durch ein eigenes Script auf der jeweiligen
+          Webseite angezeigt werden können. </li>
+        <li>Wird die Seite vom Script geladen und dargestellt, dann können die
+          Platzhalter [ERRORPAGEMESSAGE], auf Fehlerseiten, oder [PAGEMESSAGE]
+          auf normalen Seiten verwendet werden, um den <a href="messageedit.htm">definierten
+          Meldungstext</a> darstellen zu lassen.</li>
+        <li>Verwenden Sie <b>keine</b> Umleitung für die Zwischenseite nach
+          Klick auf den Abmeldelink in einer E-Mail, ansonsten wird die
+          Abmeldung womöglich nicht korrekt durchgeführt.</li>
+        <li>Verwenden Sie <b>keine</b> Umleitung für die Abmeldeseite, wenn
+          eine Umfrage nach dem Grund der Abmeldung durchgeführt werden soll,
+          ansonsten kann das notwendige Umfrage-Formular nicht eingesetzt
+          werden.</li>
+      </ul>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">HTML-Seite</td>
+    <td width="72%">Ist keine URL zur Umleitung definiert, dann kann eine
+      HTML-Seite erstellt werden, die dargestellt werden soll. Die HTML-Seite
+      kann beliebigen HTML-Code und Scripte enthalten.
+      <p><b>Hinweise</b></p>
+      <ul>
+        <li>Verwenden Sie den Platzhalter [ERRORPAGEMESSAGE] auf Fehlerseiten
+          oder [PAGEMESSAGE] um den <a href="messageedit.htm">definierten
+          Meldungstext</a> darstellen zu lassen.</li>
+        <li>Hinweis zur Seite des Typs &quot;Abmeldeseite&quot;:
+          <ul>
+            <li>Fügen Sie den Platzhalter &quot;Umfrage Grund für
+              Abmeldung&quot;/[ReasonsForUnsubscriptionSurvey] ein, um an dieser
+              Stelle den abgemeldeten Empfänger mit einer kleinen Umfrage nach
+              dem Grund der Abmeldung zu fragen. Im <a href="formedit.htm">Formular</a>
+              muss dazu die Option zum Erfragen des Grunds der Abmeldung und
+              etwaige Gründe definiert werden.</li>
+          </ul>
+        </li>
+        <li>Hinweis zur Seite des Typs &quot;Umfrage nach Abmeldung
+          abgeschlossen&quot;:
+          <ul>
+            <li>Diese Seite wird nach Absenden der Umfrage angezeigt, auch wenn
+              der abgemeldete Empfänger keine Umfrage-Option gewählt hat. Es
+              dürfen in dieser Seite keine Platzhalter für die persönliche
+              Ansprache/Personalisierung verwendet werden, da der Empfänger zu
+              diesem Zeitpunkt bereits gelöscht wurde.</li>
+          </ul>
+        </li>
+      </ul>
+      <p>&nbsp;</p>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

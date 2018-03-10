@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title></title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+<link href="css/suckertreemenu.css" rel="stylesheet" type="text/css" />
+<!--[if IE 6]>
+<link href="css/suckertreemenu_ie6.css" rel="stylesheet" type="text/css" />
+<![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-dialog.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+
+</head>
+
+
+<body>
+
+<div class="top first_top">
+  <SHOWHIDE:WARNHEADER>
+  <div class="WarnHeader">
+   <div><LABEL:WARNHEADER></LABEL:WARNHEADER></div>
+  </div>
+  </SHOWHIDE:WARNHEADER>
+
+  <SHOWHIDE:EVALUATIONHEADER>
+  <div class="EvaluationHeader">
+   <div><LABEL:EVALUATIONHEADER></LABEL:EVALUATIONHEADER></div>
+  </div>
+  </SHOWHIDE:EVALUATIONHEADER>
+
+  <noscript>
+  <div class="WarnHeader">
+   <img src="images/icon_warning.gif" width="24" height="24" align="left" />Aktivieren Sie JavaScript, damit alle Funktionen korrekt ausgef&uuml;hrt werden.
+   <br /><br />
+  </div>
+  </noscript>
+</div>
+
+<div class="top">
+	<div class="header">
+
+
+      <table border="0" cellpadding="0" cellspacing="0" class="LogoTable">
+      	<tr>
+      		<td class="LeftTD">
+      		<SHOWHIDE:ProductLogo>
+      		<img src="images/logo_swm.png" width="173" height="89" style="max-width: 173px; max-height: 89px" class="normalimage" alt="" />
+      		</SHOWHIDE:ProductLogo>
+
+      		</td>
+      		<td class="RightTD">
+
+            <ENABLE:SYSTEMMENU>
+               <div class="suckertreemenu">
+            			<ul id="SystemMenu">
+
+            				<li style="float: right;"><a href="./logout.php">Abmelden</a></li>
+
+                <li style="float: right;"><a href="#">Einstellungen</a>
+            					<ul>
+
+                  <li><a href="javascript:FunctionsOpen('null', 'null', false)">Funktionen</a></li>
+                  <li><a href="javascript:TextBlocksOpen('null', 'null', false)">Textbl&ouml;cke</a></li>
+                  <li><a href="javascript:TargetGroupsOpen()">Zielgruppen</a></li>
+                  <li><a href="./browsepages.php">HTML-Seiten/Umleitungen</a></li>
+                  <li><a href="./browsemessages.php">Meldungstexte</a></li>
+                  <li><a href="./browsemtas.php">Versandvarianten</a></li>
+                  <li><a href="./browseinboxes.php">Posteingangsserver</a></li>
+
+                  <li><a href="./browseautoimports.php">Automatischer Empf&auml;nger-Import</a></li>
+
+            						<li><a href="./settings_preferences.php">Optionen</a></li>
+               			<li><a href="./settings_branding.php">Firmenlogo &auml;ndern</a></li>
+               			<li><a href="./settings_db.php">Datenbankwartung</a></li>
+
+            						<li><a href="./settings_test.php">System testen</a></li>
+
+
+                        <ISUSER:SUPERADMIN>
+                        <li><a href="./settings_editfields.php">Felder der Empf&auml;ngerlisten bearbeiten</a></li>
+                        </ISUSER:SUPERADMIN>
+
+            						<li><a href="./stat_processlog.php">Ereignisprotokoll</a></li>
+
+
+            						<li><a href="./settings_cron.php">Geplante Aufgaben</a></li>
+
+            						<li><a href="./browseoutqueue.php">Ausgangswarteschlange</a></li>
+
+            					</ul>
+            				</li>
+
+            				<li style="float: right;"><a href="#">Benutzer</a>
+            					<ul>
+
+            						<li><a href="./ownaccountedit.php">Eigenes Konto &auml;ndern</a></li>
+                  <li><a href="./browseusers.php">Benutzer bearbeiten</a></li>
+                  <li><a href="javascript:LocalMessagesBrowse()">Lokales Nachrichtencenter</a></li>
+
+            					</ul>
+            				</li>
+            				<li style="float: right;"><a href="./dashboard.php">&Uuml;bersichtsseite</a></li>
+            			</ul>
+            		</div>
+            </ENABLE:SYSTEMMENU>
+
+
+            <SHOWHIDE:LOGGEDINUSER>
+             <br /><br /><br /><br /><div class="LoggedInUser">Angemeldet als <LABEL:LOGGEDINUSER></LABEL:LOGGEDINUSER><SHOWHIDE:LOCALMESSAGES><br /><a href="javascript:LocalMessagesBrowse()"><LOCALMESSAGES_COUNT></LOCALMESSAGES_COUNT> neue Nachricht(en)</a></SHOWHIDE:LOCALMESSAGES></div>
+            </SHOWHIDE:LOGGEDINUSER>
+
+
+
+      		</td>
+      	</tr>
+      </table>
+
+
+      <div class="MenuTable">
+          <ENABLE:MAINMENU>
+
+          <div class="suckertreemenu" >
+            <ul id="MainMenu">
+              <li><a href="#">Empf&auml;ngerlisten</a>
+                <ul>
+                <li><a href="./mailinglistcreate.php">Neue Empf&auml;ngerliste</a></li>
+                <li><a href="./browsemailinglists.php">Empf&auml;ngerlisten anzeigen</a></li>
+                </ul>
+              </li>
+
+              <li><a href="#">Empf&auml;nger</a>
+                <ul>
+                <li><a href="./recipientedit.php">Empf&auml;nger hinzuf&uuml;gen</a></li>
+                <li><a href="./browsercpts.php">Empf&auml;nger anzeigen</a></li>
+                <li><a href="./importrecipients.php">Empf&auml;nger importieren</a></li>
+                <li><a href="./exportrecipients.php">Empf&auml;nger exportieren</a></li>
+                <li><a href="./searchrecipients.php">Empf&auml;nger suchen</a></li>
+                <li><a href="./browseblmembers.php?action=local">Empf&auml;nger in lokaler Blockliste</a></li>
+                <li><a href="./browseblmembers.php?action=global">Empf&auml;nger in globaler Blockliste</a></li>
+                <li><a href="./browsedomainblmembers.php?action=local">Domains in lokaler Domain-Blockliste</a></li>
+                <li><a href="./browsedomainblmembers.php?action=global">Domains in globaler Domain-Blockliste</a></li>
+                <li><a href="./ml_remove_recipients_by_blocklists.php">Empf&auml;nger anhand der Blocklisten aus Empf&auml;ngerliste entfernen</a></li>
+                <li><a href="./browseautoimports.php">Automatischer Empf&auml;nger-Import</a></li>
+                </ul>
+              </li>
+
+              <li><a href="#">Webseite</a>
+                <ul>
+                <li><a href="./browseforms.php">An-/Abmeldeformulare</a></li>
+                <li><a href="./browsepages.php">HTML-Seiten/Umleitungen</a></li>
+                <li><a href="./browsemessages.php">Meldungstexte&nbsp;bearbeiten</a></li>
+                </ul>
+              </li>
+
+              <li><a href="#">E-Mailings</a>
+                <ul>
+                <li><a href="./campaigncreate.php">Neues E-Mailing</a></li>
+                <li><a href="./browsecampaigns.php">E-Mailings anzeigen</a></li>
+                <li><a href="./browsesplittests.php">A/B Split Tests</a></li>
+                <li><a href="./stat_campaignlog.php">Versandprotokoll der E-Mailings</a></li>
+                <li><a href="./browsetemplates.php">E-Mail-Vorlagen</a></li>
+                <li><a href="./browsenas.php">Newsletter-Archive</a></li>
+                </ul>
+              </li>
+
+              <li><a href="#">Verteilerlisten</a>
+                <ul>
+                <li><a href="./distriblistcreate.php">Neue Verteilerliste</a></li>
+                <li><a href="./browsedistriblists.php">Verteilerlisten anzeigen</a></li>
+                <li><a href="./stat_distriblistlog.php">Versandprotokoll der Verteilerlisten</a></li>
+                </ul>
+              </li>
+
+              <li><a href="#">Responder</a>
+                <ul>
+                <li><a href="./browseautoresponders.php">Autoresponder</a></li>
+                <li><a href="./browsebirthdayresponders.php">Geburtstags-Responder</a></li>
+                <li><a href="./browsefuresponders.php">Follow-Up-Responder</a></li>
+                <li><a href="./browserss2emailresponders.php">RSS2EMail-Responder</a></li>
+                <li><a href="./stat_autoresponderlog.php">Versandprotokoll der Autoresponder</a></li>
+                <li><a href="./stat_birthdayresponderlog.php">Versandprotokoll der Geburtstags-Responder</a></li>
+                <li><a href="./stat_furesponderlog.php">Versandprotokoll der Follow-Up-Responder</a></li>
+                <li><a href="./stat_rss2emailresponderlog.php">Versandprotokoll der RSS2EMail-Responder</a></li>
+                <li><a href="./browsetemplates.php" id="Responder">E-Mail-Vorlagen</a></li>
+                </ul>
+              </li>
+
+              <li><a href="#">SMS</a>
+                <ul>
+                <li><a href="./smscampaigncreate.php">Neue SMS-Kampagne</a></li>
+                <li><a href="./browsesmscampaigns.php">SMS-Kampagnen anzeigen</a></li>
+                <li><a href="./stat_smscampaignlog.php">Versandprotokoll der SMS-Kampagnen</a></li>
+                </ul>
+              </li>
+
+              <li><a href="#">Statistik</a>
+                <ul>
+                <li><a href="./mailinglistsubunsubstat.php?showsubunsubstat=1">An-/Abmeldestatistik</a></li>
+                <li><a href="./showstatsummary.php">Statistik &uuml;ber alle Empf&auml;ngerlisten</a></li>
+
+                <li><a href="./stat_campaigntracking.php">Tracking-Statistik der E-Mailings</a></li>
+                <li><a href="./stat_respondertracking.php?ResponderType=BirthdayResponder">Tracking-Statistik der Geburtstags-Responder</a></li>
+                <li><a href="./stat_respondertracking.php?ResponderType=FollowUpResponder">Tracking-Statistik der Follow-Up-Responder</a></li>
+                <li><a href="./stat_respondertracking.php?ResponderType=RSS2EMailResponder">Tracking-Statistik der RSS2EMail-Responder</a></li>
+                <li><a href="./stat_respondertracking.php?ResponderType=DistributionList">Tracking-Statistik der Verteilerlisten</a></li>
+
+                <li><a href="./stat_autoresponderlog.php">Versandprotokoll der Autoresponder</a></li>
+                <li><a href="./stat_birthdayresponderlog.php">Versandprotokoll der Geburtstags-Responder</a></li>
+                <li><a href="./stat_furesponderlog.php">Versandprotokoll der Follow-Up-Responder</a></li>
+                <li><a href="./stat_rss2emailresponderlog.php">Versandprotokoll der RSS2EMail-Responder</a></li>
+                <li><a href="./stat_distriblistlog.php">Versandprotokoll der Verteilerlisten</a></li>
+                <li><a href="./stat_campaignlog.php">Versandprotokoll der E-Mailings</a></li>
+
+                <li><a href="./stat_sentmails.php">Statistik versendete E-Mails</a></li>
+
+                <li><a href="./stat_smscampaignlog.php">Versandprotokoll der SMS-Kampagnen</a></li>
+
+                </ul>
+              </li>
+
+            </ul>
+
+            <br style="clear: left;" />
+
+          </div>
+          </ENABLE:MAINMENU>
+      </div>
+
+
+
+	</div>
+</div>
+
+<script language="JavaScript">
+<!--
+  HideEmptyMenuItems();
+//-->
+</script>
+
+<div class="PageContainer">
+
+   <SHOWHIDE:PAGETOPIC>
+   <div class="topic">
+      <table style="width: 100%">
+        <tr>
+          <td style="width: 95%;">
+            <LABEL:PAGETOPIC></LABEL:PAGETOPIC>
+          </td>
+          <td style="width: 5%;" nowrap="nowrap">
+            <SHOWHIDE:HELPTOPIC>
+            <input type="hidden" name="HelpTopic" id="HelpTopic" />
+            <a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)"><img src="images/help_icon.gif" width="16" height="16" alt="Hilfe" style="text-align: left;" /></a>&nbsp;<a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)">Hilfe</a>
+            </SHOWHIDE:HELPTOPIC>
+          </td>
+        </tr>
+      </table>
+   </div>
+   </SHOWHIDE:PAGETOPIC>
+
+
+   <div class="container">
+
+      <SHOWHIDE:ERRORTOPIC>
+        <div class="errortopic">
+        <LABEL:ERRORMESSAGETEXT></LABEL:ERRORMESSAGETEXT>
+        </div>
+      </SHOWHIDE:ERRORTOPIC>
+
+      <CONTAINER:CONTENT>
+      </CONTAINER:CONTENT>
+
+      <link href="css/ckeditorfix.css" rel="stylesheet" type="text/css" />
+
+   </div>
+
+
+
+   <div class="footer">
+
+     <div class="footer_supportlinks">
+       <SHOW:SUPPORTLINKS>
+       		<a href="http://board.superscripte.de" target="_blank">Support-Forum</a> | <a href="http://feedback.superscripte.de/" target="_blank">Support</a>
+       </SHOW:SUPPORTLINKS>
+     </div>
+
+     <SHOW:SHOWCOPYRIGHT>
+     &copy;Copyright <!--PRODUCTCOPYRIGHTYEAR--> <a href="http://www.wt-rate.com/" target="_blank">Mirko B&ouml;er Softwareentwicklungen, Leipzig</a><br />
+     Alle Rechte vorbehalten.<br />
+     </SHOW:SHOWCOPYRIGHT>
+
+     <SHOW:PRODUCTVERSION>
+     		 <a href="PRODUCTURL" target="_blank">PRODUCTAPPNAME&nbsp;<LABEL:PRODUCTVERSION></LABEL:PRODUCTVERSION></a>
+     </SHOW:PRODUCTVERSION>
+
+
+   </div>
+
+
+
+</div>
+<br />
+<br />
+      <script language="JavaScript" type="text/javascript">
+      <!--
+       for(var i=0; i<document.forms.length; i++) {
+         document.forms[i].autocomplete = "off";
+         for(var j=0; j<document.forms[i].elements.length; j++)
+            document.forms[i].elements[j].autocomplete = "off";
+       }
+      //MAINJAVASCRIPT//
+      //-->
+      </script>
+      <noscript>
+      </noscript>
+<ENABLE:MAINMENU>
+      <script language="JavaScript" type="text/javascript">
+        document.open();
+        document.write('<iframe src="./keepalive.php?caller=' + location.href + '" width="1" height="1" frameborder="0"></iframe>');
+        document.close();
+      </script>
+      <noscript>
+         <iframe src="./keepalive.php" width="1" height="1" frameborder="0"></iframe>
+      </noscript>
+</ENABLE:MAINMENU>
+</body>
+
+</html>

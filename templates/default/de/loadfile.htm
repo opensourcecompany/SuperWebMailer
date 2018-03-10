@@ -1,0 +1,431 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title>Datei laden</title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+
+
+<script type="text/javascript">
+// Automatically detect the correct document.domain (#1919).
+(function()
+{
+	var d = document.domain ;
+
+	while ( true )
+	{
+		// Test if we can access a parent property.
+		try
+		{
+			var test = window.opener.document.domain ;
+			break ;
+		}
+		catch( e ) {}
+
+		// Remove a domain part: www.mytest.example.com => mytest.example.com => example.com ...
+		d = d.replace( /.*?(?:\.|$)/, '' ) ;
+
+		if ( d.length == 0 )
+			break ;		// It was not able to detect the domain.
+
+		try
+		{
+			document.domain = d ;
+		}
+		catch (e)
+		{
+			break ;
+		}
+	}
+})() ;
+
+
+function SendFile()
+{
+ if(document.getElementById('NewFile').value == '')
+   return false;
+
+	var sUploaderUrl = document.getElementById('cmbUploaderUrl').value ;
+
+	if ( sUploaderUrl.length == 0 )
+		sUploaderUrl = txtCustomUrl.value ;
+
+	if ( sUploaderUrl.length == 0 )
+	{
+		return ;
+	}
+
+	var date = new Date()
+ var frmUpload = document.forms['frmUpload'];
+ 
+	frmUpload.action = sUploaderUrl + '?time=' + date.getTime();
+	if (document.getElementById('cmbType').value) {
+		frmUpload.action = frmUpload.action + '&Type='+document.getElementById('cmbType').value;
+	}
+	if (document.getElementById('CurrentFolder').value) {
+		frmUpload.action = frmUpload.action + '&CurrentFolder='+document.getElementById('CurrentFolder').value;
+	}
+	frmUpload.submit() ;
+}
+
+function LoadInternetFile() {
+
+ if(document.getElementById('InternetFile').value == '')
+   return false;
+ 
+	var sUploaderUrl = document.getElementById('cmbUploaderUrl').value ;
+
+	if ( sUploaderUrl.length == 0 )
+		sUploaderUrl = txtCustomUrl.value ;
+
+	if ( sUploaderUrl.length == 0 )
+	{
+		return ;
+	}
+
+	var date = new Date()
+ var frmUpload = document.forms['frmUploadInternet'];
+ 
+	frmUpload.action = sUploaderUrl + '?time=' + date.getTime();
+	if (document.getElementById('cmbType').value) {
+		frmUpload.action = frmUpload.action + '&Type='+document.getElementById('cmbType').value;
+	}
+	if (document.getElementById('CurrentFolder').value) {
+		frmUpload.action = frmUpload.action + '&CurrentFolder='+document.getElementById('CurrentFolder').value;
+	}
+	frmUpload.submit() ;
+}
+
+
+
+function OnUploadCompleted( errorNumber, fileUrl, fileName, customMsg )
+{
+	switch ( errorNumber )
+	{
+		case 0 :	// No errors
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "Die Datei wurde erfolgreich &uuml;bertragen.";
+		 LoadFile();
+			break ;
+		case 1 :	// Custom error
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = customMsg;
+			break ;
+		case 10 :	// Custom warning
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = customMsg;
+			break ;
+		case 201 :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "Es existiert bereits eine Datei mit diesem Dateinamen, die &uuml;bertragene Datei wurde in '" + fileName + "' umbenannt.";
+		 LoadFile();
+			break ;
+		case 202 :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "Die Datei ist ung&uuml;ltig bzw. Dateityp nicht erlaubt.";
+			break ;
+		case 203 :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "Die Datei konnte nicht gespeichert werden, weil die Rechte nicht ausreichten. Pr&uuml;fen Sie die Rechte auf das Upload-Verzeichnis.";
+			break ;
+		case 208 :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "Es wurde keine Datei &uuml;bergeben.";
+			break ;
+		case 300 :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "ZIP-Klasse nicht initialisierbar.";
+			break ;
+		case 301 :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "ZIP-Datei nicht lesbar.";
+			break ;
+		case 302 :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "Keine HTML-Datei in ZIP-Datei gefunden.";
+			break ;
+		case 303 :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "Kann Bilder nicht in das Bilderverzeichnis speichern.";
+			break ;
+		case 310 :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "ZIP-Dateien werden vom PHP nicht unterst&uuml;tzt.";
+			break ;
+		case 320 :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "Der Download der ZIP-Datei ist fehlgeschlagen.";
+			break ;
+		default :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "Fehler beim Dateiupload: " + errorNumber;
+			break ;
+	}
+	
+	if(document.getElementById('ERRORMESSAGETEXT').innerHTML != "")
+	  document.getElementById('errortopic').style.display = "";
+	  else
+	  document.getElementById('errortopic').style.display = "none";
+}
+
+  function LoadFile() {
+    if ( document.frames ) 
+   		  var currentfr = document.frames[0];
+   		  else
+   		  var currentfr = document.getElementById("UploadWindow");
+   	if(currentfr.document)	  {
+  		  elem = currentfr.document.getElementById("UploadedFileContent");
+  		  }
+  		  else
+  		  if(currentfr.contentDocument) {
+    		  elem = currentfr.contentDocument.getElementById("UploadedFileContent");
+    		 } 
+  		  else
+  		  if(currentfr.contentWindow) {
+    		  elem = currentfr.contentWindow.document.getElementById("UploadedFileContent");
+    		}  
+  		  
+    s = elem.innerHTML;
+				s = s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
+				InsertValue(s);
+				window.close();
+  }
+
+
+		</script>
+
+
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+      Datei laden
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+   
+   <div class="container">
+
+        <div class="errortopic" id="errortopic" style="display: none">
+        <span id="ERRORMESSAGETEXT"></span>
+        </div>
+
+      <HAS_SOURCEELEMENT>
+
+      <ISNOTFCKEDITOR>
+      <script language="javascript" type="text/javascript">
+      <!--
+        SourceElement = window.opener.document.forms['FORMNAME'].FORMFIELD;
+        IsFCK = false;
+      //-->
+      </script>
+      </ISNOTFCKEDITOR>
+
+      <ISFCKEDITOR>
+      <script language="javascript" type="text/javascript">
+      <!--
+
+        var SourceCKEditor = "SourceCKEditor";
+        if(SourceCKEditor != "")
+           var oEditor	= window.opener.CKEDITOR.instances[SourceCKEditor];
+        if(oEditor == undefined)
+           for(var i in window.opener.CKEDITOR.instances) {
+              var oEditor	= window.opener.CKEDITOR.instances[i];
+              break;
+           }
+
+        IsFCK = oEditor != undefined;
+      //-->
+      </script>
+      </ISFCKEDITOR>
+
+      <script language="javascript" type="text/javascript">
+      <!--
+        function PasteText(aText) {
+          var input = SourceElement;
+          input.focus();
+          /* fuer Internet Explorer */
+          if(typeof window.opener.document.selection != 'undefined') {
+            /* Einfuegen des Formatierungscodes */
+            var range = window.opener.document.selection.createRange();
+            var insText = range.text;
+            range.text = insText + aText;
+            /* Anpassen der Cursorposition */
+            range = window.opener.document.selection.createRange();
+            if (insText.length == 0) {
+              range.move('character', -aText.length);
+            } else {
+              range.moveStart('character', insText.length + aText.length);
+            }
+            range.select();
+          }
+          /* fuer neuere auf Gecko basierende Browser */
+          else if(typeof input.selectionStart != 'undefined')
+          {
+            /* Einfuegen des Formatierungscodes */
+            var start = input.selectionStart;
+            var end = input.selectionEnd;
+            var insText = input.value.substring(start, end);
+            input.value = input.value.substr(0, start) + insText + aText + input.value.substr(end);
+            /* Anpassen der Cursorposition */
+            var pos;
+            if (insText.length == 0) {
+              pos = start + aText.length;
+            } else {
+              pos = start + aText.length + insText.length;
+            }
+            input.selectionStart = pos;
+            input.selectionEnd = pos;
+          }
+          /* fuer die uebrigen Browser */
+          else
+          {
+          }
+        }
+
+        function InsertValue(value) {
+          if(!IsFCK)
+            PasteText(value);
+            else {
+              if(oEditor.config.fullPage == true)
+                 oEditor.setData(value);
+                 else {
+                  if( (value.indexOf("<body") > 0) && (value.indexOf("</body") > 0) ) {
+                    value = value.substr(0, value.indexOf("</body") - 1);
+                    value = value.substr( value.indexOf("<body") );
+                    value = value.substr( value.indexOf(">") + 1 );
+                    oEditor.setData(value);
+                  } else
+                    oEditor.setData(value);
+                 }
+            }
+        }
+
+      //-->
+      </script>
+      </HAS_SOURCEELEMENT>
+
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie von Ihrem lokalen Rechner eine HTML-Datei, die in den HTML-Editor geladen werden soll.<br />Unterst&uuml;tzt das PHP auf dem Webserver das Auspacken von ZIP-Dateien, dann k&ouml;nnen Sie ebenfalls eine ZIP-Datei mit einer HTML-Datei und Bildern, die in der HTML-Datei verwendet werden, angeben. Die HTML-Datei und Bilder m&uuml;ssen in einem Verzeichnis in der ZIP-Datei liegen, Unterverzeichnisse werden nicht unterst&uuml;tzt.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Lokale Datei</legend>
+
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+       <tbody>
+        <tr>
+         <td style="width: 40px; vertical-align: middle">
+          <img src="images/hard_drive24.gif" width="24" height="24" alt="" />&nbsp;</td>
+         <td style="width: 90%">
+            <form id="frmUpload" name="frmUpload" enctype="multipart/form-data" method="post" target="UploadWindow"  action="">
+            <input type="hidden" name="cmbUploaderUrl" id="cmbUploaderUrl" />
+            <input type="hidden" name="cmbType" id="cmbType" value="File" />
+            <input type="hidden" name="CurrentFolder" id="CurrentFolder" value="/file" />
+            <input type="hidden" name="MAX_FILE_SIZE" />
+ 					      <input type="hidden" id="_FORMNAME" name="_FORMNAME" />
+	 				      <input type="hidden" id="_FORMFIELD" name="_FORMFIELD" />
+		 			      <input type="hidden" name="_IsFCKEditor" />
+            <br />
+            <br />
+            Lokale Datei laden:<br />
+      						<input type="file" name="NewFile" id="NewFile" size="58" accept="text/html"  /><br />
+            <br />
+      						Die Datei darf eine Gr&ouml;&szlig;e von upload_max_filesize nicht &uuml;berschreiten.
+            <br />
+      						<br />
+      						<input type="button" value="Datei laden und bestehenden Editor-Inhalt ersetzen" style="width: 400px;margin-left: 0px" onclick="SendFile();" />
+      						<br />
+          </form>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      
+      </fieldset>
+
+      <fieldset name="FileFromInternet" id="FileFromInternet">
+      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie eine URL mit http:// zu einer HTML-Datei an, die in den HTML-Editor geladen werden soll.<br />Unterst&uuml;tzt das PHP auf dem Webserver das Auspacken von ZIP-Dateien, dann k&ouml;nnen Sie ebenfalls eine ZIP-Datei mit einer HTML-Datei und Bildern, die in der HTML-Datei verwendet werden, angeben. Die HTML-Datei und Bilder m&uuml;ssen in einem Verzeichnis in der ZIP-Datei liegen, Unterverzeichnisse werden nicht unterst&uuml;tzt.<br /><br />Das Laden von Dateien per http:// ist nur m&ouml;glich, wenn in der PHP-Konfiguration allow_url_fopen aktiviert worden ist.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Datei aus dem Internet</legend>
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+       <tbody>
+        <tr>
+         <td style="width: 40px; vertical-align: middle">
+          <img src="images/web_download24.gif" alt="" width="24" height="24" /></td>
+         <td style="width: 90%">
+            <form id="frmUploadInternet" name="frmUploadInternet" method="post" target="UploadWindow" action="">
+              <input type="hidden" name="MAX_FILE_SIZE" />
+   					      <input type="hidden" id="_FORMNAME" name="_FORMNAME" />
+  	 				      <input type="hidden" id="_FORMFIELD" name="_FORMFIELD" />
+  		 			      <input type="hidden" name="_IsFCKEditor" />
+              <br />
+              <br />
+              Datei aus Internet laden, Angabe mit http://:<br />
+        						<input type="text" name="InternetFile" id="InternetFile" size="62" /><br />
+              <br />
+        						<br />
+        						<input type="button" value="Datei laden und bestehenden Editor-Inhalt ersetzen" style="width: 400px;margin-left: 0px" onclick="LoadInternetFile();" />
+        						<br />
+            </form>
+         </td>
+        </tr>
+       </tbody>
+      </table>
+      </fieldset>
+
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+       <tbody>
+        <tr>
+         <td colspan="2" style="text-align: right;">
+           <br />
+           <input type="button" name="CloseBtn" value="Schlie&szlig;en" class="FormButton" onclick="window.close();" />
+           <br />
+         </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+           <iframe id="UploadWindow" name="UploadWindow" width="0" height="0" style="display: none;" src="javascript:void(0)"></iframe>
+           <textarea name="dummy" id="dummy" style="display: none;" cols="0" rows="0"></textarea>
+          </td>
+        </tr>
+       </body>
+      </table>
+
+   </div>
+</div>
+     <script type="text/javascript">
+       //AUTO_SCRIPT_CODE_PLACEHOLDER//
+    	</script>
+</body>
+
+</html>

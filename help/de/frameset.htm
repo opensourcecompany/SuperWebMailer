@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/frameset.htm">
+
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer, HTML Newsletter erstellen und HTML Newsletter versenden</title>
+<script language="JavaScript">
+<!--
+
+  function extractDomain(url) {
+      var domain;
+      //find & remove protocol (http, ftp, etc.) and get domain
+      if (url.indexOf("://") > -1) {
+          domain = url.split('/')[2];
+      }
+      else {
+          domain = url.split('/')[0];
+      }
+
+      //find & remove port number
+      domain = domain.split(':')[0];
+
+      return domain;
+  }
+
+  function LoadPageInFrame() {
+     if (self.location.search.length > 0) {
+        var Search_Len = self.location.search.length;
+        var info_url = self.location.search.substring(1, Search_Len);
+        var referrer = self.location.search.substring(1, Search_Len);
+        referrer = referrer.substr(referrer.indexOf('&'), referrer.length);
+        if (referrer == "&frame=") {
+          if (escape(top.document.referrer) != "") {
+            info_url = info_url.substring(0, info_url.indexOf('?&'));
+            top.location.href = "frameset.htm?" + escape(unescape(info_url)) + '?&frame=' + escape(top.document.referrer);
+            return;
+           }
+        }
+
+        var d = extractDomain(self.main_amber.location.href);
+        var test = unescape(info_url).split('&');
+        if(test.length <= 1) return;
+        var d1 = extractDomain(test[0]);
+        var d2 = extractDomain( test[1].substr(test[1].indexOf('=') + 1) );
+        d2=d1; // ignore referer domain
+        if(d == d1 && d == d2)
+          self.main_amber.location.href = unescape(info_url);
+          else{
+            // subdomain
+            if(d.indexOf(".") > -1)
+              d = d.substr(d.indexOf(".") + 1);
+            if(d1.indexOf(".") > -1)
+              d1 = d1.substr(d1.indexOf(".") + 1);
+            if(d2.indexOf(".") > -1)
+              d2 = d2.substr(d2.indexOf(".") + 1);
+            if(d == d1 && d == d2)
+              self.main_amber.location.href = unescape(info_url);
+          }
+     }
+
+     setFrameVis();
+  }
+//-->
+</script>
+<meta name="description" content="PHP Newsletter Software SuperWebMailer">
+<meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script language="javascript" type="text/javascript" src="frameresize.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link type="text/css" rel="stylesheet" href="swm_web/CSS/layout.css">
+</head>
+
+<frameset frameborder="0" framespacing="0" border="0" id="masterFrameset" cols="30%, 70%" onload="LoadPageInFrame();">
+<FRAME name="contents" SRC="swm_web/amber_menu.htm">
+<FRAME name="main_amber" SRC="swm_web/html/contents.htm">
+</frameset>
+
+
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title>Anh&auml;nge &uuml;bertragen</title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+<script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+
+
+		<script type="text/javascript">
+		<!--
+// Automatically detect the correct document.domain (#1919).
+(function()
+{
+	var d = document.domain ;
+
+	while ( true )
+	{
+		// Test if we can access a parent property.
+		try
+		{
+			var test = parent.document.domain ;
+			break ;
+		}
+		catch( e ) {}
+
+		// Remove a domain part: www.mytest.example.com => mytest.example.com => example.com ...
+		d = d.replace( /.*?(?:\.|$)/, '' ) ;
+
+		if ( d.length == 0 )
+			break ;		// It was not able to detect the domain.
+
+		try
+		{
+			document.domain = d ;
+		}
+		catch (e)
+		{
+			break ;
+		}
+	}
+})() ;
+
+
+function SendFile()
+{
+	var sUploaderUrl = document.getElementById('cmbUploaderUrl').value ;
+
+	if ( sUploaderUrl.length == 0 )
+		sUploaderUrl = txtCustomUrl.value ;
+
+	if ( sUploaderUrl.length == 0 )
+	{
+		return ;
+	}
+
+	var date = new Date()
+ var frmUpload = document.forms['frmUpload'];
+ 
+	frmUpload.action = sUploaderUrl + '?time=' + date.getTime() + '&command=QuickUpload';
+	if (document.getElementById('cmbType').value) {
+		frmUpload.action = frmUpload.action + '&type='+document.getElementById('cmbType').value;
+	}
+	if (document.getElementById('CurrentFolder').value) {
+		frmUpload.action = frmUpload.action + '&CurrentFolder='+document.getElementById('CurrentFolder').value;
+	}
+	frmUpload.submit() ;
+}
+
+function OnUploadCompleted( errorNumber, fileUrl, fileName, customMsg )
+{
+	switch ( errorNumber )
+	{
+		case 0 :	// No errors
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "Die Datei wurde erfolgreich &uuml;bertragen.";
+		 AddFile2List(fileName, SourceDIV1Element, DestElement1Name);
+		 AddFile2List(fileName, SourceDIV2Element, DestElement2Name);
+			break ;
+		case 1 :	// Custom error
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = customMsg;
+			break ;
+		case 10 :	// Custom warning
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = customMsg;
+			break ;
+		case 201 :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "Es existiert bereits eine Datei mit diesem Dateinamen, die &uuml;bertragene Datei wurde in '" + fileName + "' umbenannt.";
+		 AddFile2List(fileName, SourceDIV1Element, DestElement1Name);
+		 AddFile2List(fileName, SourceDIV2Element, DestElement2Name);
+			break ;
+		case 202 :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "Die Datei ist ung&uuml;ltig bzw. Dateityp nicht erlaubt.";
+			break ;
+		case 203 :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "Die Datei konnte nicht gespeichert werden, weil die Rechte nicht ausreichten. Pr&uuml;fen Sie die Rechte auf das Upload-Verzeichnis.";
+			break ;
+		default :
+		 document.getElementById('ERRORMESSAGETEXT').innerHTML = "Fehler beim Dateiupload: " + errorNumber + ' ' + customMsg;
+			break ;
+	}
+	
+	if(document.getElementById('ERRORMESSAGETEXT').innerHTML != "")
+	  document.getElementById('errortopic').style.display = "";
+	  else
+	  document.getElementById('errortopic').style.display = "none";
+}
+
+  function GetUniqueID() {
+    var date = new Date();
+    var id = date.getTime() / 1000;
+
+    id = "uattach_" + id;
+    if(document.getElementById(id) == null)
+       return id;
+       else
+       return GetUniqueID();
+  }
+
+
+  function AddFile2List(filename, SourceDIVElement, DestElementName) {
+    filename = filename.substr(filename.lastIndexOf("/") + 1);
+    if(SourceDIVElement == null) return false;
+    if(DestElementName == "") return false;
+
+    var oSpan = SourceDocument.createElement("SPAN");
+    oSpan.className = "scrollboxSpan";
+
+    var oInput = SourceDocument.createElement("INPUT");
+    oInput.type = "checkbox";
+    oInput.name = DestElementName;
+    oInput.value = filename;
+    oInput.id = GetUniqueID();
+
+    var oLabel = SourceDocument.createElement("LABEL");
+    oLabel.htmlFor = oInput.id;
+
+    var oBR = SourceDocument.createElement("BR");
+
+    SourceDIVElement.appendChild(oSpan);
+    oSpan.appendChild(oInput);
+
+    var oText = SourceDocument.createTextNode(String.fromCharCode(160)); // 160 = &nbsp;
+
+    oSpan.appendChild(oText);
+    oSpan.appendChild(oLabel);
+    oLabel.innerHTML = filename;
+    oSpan.appendChild(oBR);
+    
+    parent.addScrollboxRolloverEffect(SourceDIVElement.id,'scrollboxRollOverEffect', null);
+  }
+
+//-->
+		</script>
+
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+      Anh&auml;nge &uuml;bertragen
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+   
+   <div class="container">
+
+        <div class="errortopic" id="errortopic" style="display: none">
+        <span id="ERRORMESSAGETEXT"></span>
+        </div>
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        SourceDocument = parent.document;
+        SourceForm = parent.document.forms['FORMNAME'];
+        SourceDIV1Element = parent.document.getElementById("FORM1FIELD");
+        SourceDIV2Element = parent.document.getElementById("FORM2FIELD");
+
+        DestElement1Name = "ELEMENT1NAME";
+        DestElement2Name = "ELEMENT2NAME";
+
+        var myBasePath='';
+      //-->
+      </script>
+
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+       <tbody>
+        <tr>
+         <td>
+          <form id="frmUpload" name="frmUpload" enctype="multipart/form-data" method="post" target="UploadWindow"  action="">
+            <input type="hidden" name="cmbUploaderUrl" id="cmbUploaderUrl" />
+            <input type="hidden" name="cmbType" id="cmbType" value="File" />
+            <input type="hidden" name="CurrentFolder" id="CurrentFolder" value="/file" />
+            <input type="hidden" name="MAX_FILE_SIZE" />
+            <br />
+            <br />
+            Neue Datei &uuml;bertragen<br />
+      						<input type="file" name="newfile" size="70" /><br />
+            <br />
+      						Die Datei darf eine Gr&ouml;&szlig;e von upload_max_filesize nicht &uuml;berschreiten.
+            <br />
+      						<br />
+      						<input type="button" value="Auf den Server &uuml;bertragen" onclick="SendFile(); return false;" style="margin-left: 0px" />
+      						<br />
+      						<br />
+          </form>
+         </td>
+        </tr>
+        <tr>
+         <td>
+           <hr noshade="noshade" style="width: 100%; border:dotted #BABABA 1px; " />
+           <input type="button" name="CloseBtn" value="Schlie&szlig;en" class="FormButton" onclick="parent.closeDialog();" style="margin-left: 0px" />
+           <br />
+         </td>
+        </tr>
+        <tr>
+          <td>
+           <iframe name="UploadWindow" width="0" height="0" border="0" style="border-style: none;" src="javascript:void(0)"></iframe>
+           <textarea name="dummy" id="dummy" style="display: none;" cols="0" rows="0"></textarea>
+          </td>
+        </tr>
+       </tbody>
+      </table>
+
+   </div>
+</div>
+
+
+</body>
+
+</html>

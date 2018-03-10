@@ -1,0 +1,1683 @@
+      <script type="text/javascript" src="js/jquery-latest.min.js"></script>
+
+      <script language="javascript" type="text/javascript">
+      <!--
+
+        function load_permissionsfromuser(id){
+         if(id == 0) return;
+         var date = new Date();
+         var nocache = date.getTime() / 1000;
+         $("#Loading").show();
+         $.ajaxSetup({ cache: false });
+
+        	jQuery.get('ajax_getuserpermissions.php' + "?nocache=" + nocache + "&user_id=" + id, "", function(data){
+           $.each(data,function(key,value){
+              if( document.getElementById(key) ) {
+                 document.getElementById(key).checked = value != 0;
+                 if(document.getElementById(key).onclick) document.getElementById(key).onclick();
+              }
+            })
+        	});
+
+         $("#Loading").hide();
+        }
+      //-->
+      </script>
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var TabListArray = Array();
+      //-->
+      </script>
+      <div class="spacerborder">
+        <form method="post" id="UserEditForm" name="UserEditForm" action="./usersedit.php">
+          <input type="hidden" name="UserId" id="UserId" />
+          <input type="hidden" name="ShowUsername" />
+          <IS:OWNACCOUNT>
+          <input type="hidden" name="OwnAccount" />
+          </IS:OWNACCOUNT>
+          <span class="Backlink"><a href="./browseusers.php">Zur&uuml;ck</a></span><br />
+          <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+
+                  <!-- ##### TabView - START -->
+                  <div id="dhtmlgoodies_tabView">
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Benutzer');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie einen eindeutigen Benutzernamen und Kennwort f&uuml;r den Nutzer an. Die Angabe der E-Mail-Adresse ist notwendig um dem Nutzer das Kennwort zusenden zu k&ouml;nnen, falls er es vergessen hat.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Zugangsdaten des Nutzers</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <ISNOT:OWNACCOUNT>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Typ des Nutzers
+                                </td>
+                                <td>
+                                  <select name="UserType" id="UserType" size="1">
+                                     <SHOW:USERTYPE>
+                                     </SHOW:USERTYPE>
+  			                             </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Benutzer ist
+                                </td>
+                                <td>
+                                  <select name="IsActive" id="IsActive" size="1">
+                                    <option value="1">aktiviert</option>
+                                    <option value="0">deaktiviert</option>
+  			                             </select>
+                                </td>
+                              </tr>
+                              </ISNOT:OWNACCOUNT>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Benutzername
+                                </td>
+                                <td><input type="text" id="Username" name="Username" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Kennwort
+                                </td>
+                                <td><input type="password" id="Password" name="Password" maxlength="128" size="50" /></td>
+                              </tr>
+                              <IS:NEWUSER>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Kennwort wiederholen
+                                </td>
+                                <td><input type="password" id="PasswordAgain" name="PasswordAgain" maxlength="128" size="50" /></td>
+                              </tr>
+                              </IS:NEWUSER>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">E-Mail-Adresse
+                                </td>
+                                <td><input type="text" id="EMail" name="EMail" maxlength="128" size="50" /></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <IS:NOTUSER>
+                      <fieldset>
+                      <legend>PRODUCTAPPNAME Oberfl&auml;che</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Sprache der Oberfl&auml;che
+                                </td>
+                                <td>
+                                <select name="Language" size="1">
+                                   <SHOW:LANGUAGE>
+                                   </SHOW:LANGUAGE>
+			                             </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Erscheinungsbild (Theme) der Oberfl&auml;che
+                                </td>
+                                <td>
+                                <select name="ThemesId" size="1">
+                                   <SHOW:THEMES>
+                                   </SHOW:THEMES>
+			                             </select>
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">Benutzername anzeigen
+                                </td>
+                                <td>
+                                <input type="checkbox" name="SHOW_LOGGEDINUSER" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Links zum Support anzeigen
+                                </td>
+                                <td>
+                                <input type="checkbox" name="SHOW_SUPPORTLINKS" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Copyright-Angabe anzeigen
+                                </td>
+                                <td>
+                                <input type="checkbox" name="SHOW_SHOWCOPYRIGHT" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Produktversion anzeigen
+                                </td>
+                                <td>
+                                <input type="checkbox" name="SHOW_PRODUCTVERSION" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Hilfesymbole anzeigen
+                                </td>
+                                <td>
+                                <input type="checkbox" name="SHOW_TOOLTIPS" />
+                                </td>
+                              </tr>
+                              <ISUSER:SUPERADMIN>
+                              <ISNOT:OWNACCOUNT>
+                              <tr>
+                                <td class="MessageDescriptionColumn" colspan="2">
+                                  <br /><br />
+                                  F&uuml;r jeden Administrator und seine Nutzer kann ein eigenes Firmenlogo links oben in der Ecke angezeigt werden.<br />
+                                  Ist kein Logo angegeben wird das Standard-Logo oder das unter Einstellungen - Firmenlogo angegebene Logo verwendet.
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">URL / http://-Aufruf der Grafikdatei<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben die vollst&auml;ndige URL zu einer Grafikdatei an. Die Datei sollte eine Gr&ouml;&szlig;e von 173x89 Pixeln nicht &uuml;berschreiten.<br /><br />Lassen Sie das Feld leer, um das Standardbild darstellen zu lassen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  <input type="text" name="ProductLogoURL" size="64" />
+                                </td>
+                              </tr>
+                              </ISNOT:OWNACCOUNT>
+                              </ISUSER:SUPERADMIN>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <SHOW:API>
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Der API Schl&uuml;ssel wird ben&ouml;tigt, um mit Hilfe der PRODUCTAPPNAME API auf die gespeicherten PRODUCTAPPNAME-Daten zugreifen zu k&ouml;nnen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>PRODUCTAPPNAME API</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">API Schl&uuml;ssel
+                                </td>
+                                <td>
+                                 <apikey></apikey>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      </SHOW:API>
+
+                      </IS:NOTUSER>
+
+                      <SHOW:LIMITS>
+                      <ISUSER:SUPERADMIN>
+                      <fieldset>
+                      <legend>Limitierungen</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Art des Limits
+                                </td>
+                                <td>
+                                  <input type="radio" id="AccountType0" name="AccountType" value="Unlimited" onclick="DisableControlsById('AccountType1', Array('AccountTypeLimitedMailCountLimited') );" /><label for="AccountType0">&nbsp;Unlimitiert</label><br />
+                                  <input type="radio" id="AccountType1" name="AccountType" value="Limited" onclick="DisableControlsById('AccountType1', Array('AccountTypeLimitedMailCountLimited') );" />&nbsp;<label for="AccountType1">Limitiert auf</label>
+                                  &nbsp;<input type="text" name="AccountTypeLimitedMailCountLimited" id="AccountTypeLimitedMailCountLimited" size="20" style="text-align: right" />&nbsp;E-Mails pro Monat<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie die Anzahl E-Mails an, die ein Administrator und seine Nutzer pro Monat versenden d&uuml;rfen.<br /><br />Interne Informations-E-Mails, Test-E-Mails, Report-E-Mails und E-Mails mit Best&auml;tigungslinks zur An-/Abmeldung werden immer ohne Ber&uuml;cksichtigung des Limits versendet.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      </ISUSER:SUPERADMIN>
+
+                      <ISUSER:ADMIN>
+                      <IS:OWNACCOUNT>
+                      <fieldset>
+                      <legend>Informationen zu Limitierungen</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Art des Limits
+                                </td>
+                                <td>
+                                  <AccountType:Unlimited>Unlimitiert</AccountType:Unlimited>
+
+                                  <AccountType:Limited>
+                                  Limitiert auf&nbsp;<AccountTypeLimitedMailCountLimited></AccountTypeLimitedMailCountLimited>&nbsp;E-Mails pro Monat.
+                                  <br /><br />
+                                  Diesen Monat wurden bereits&nbsp;<AccountTypeLimitedCurrentMailCount></AccountTypeLimitedCurrentMailCount>&nbsp;E-Mail(s) versendet.
+                                  </AccountType:Limited>
+
+                                  <AccountType:Payed>
+                                  </AccountType:Payed>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      </IS:OWNACCOUNT>
+                      </ISUSER:ADMIN>
+                      </SHOW:LIMITS>
+
+                      <ISUSER:ADMIN>
+                      <IS:NOTSUPERADMINOWNACCOUNT>
+                      <fieldset>
+                      <legend>Schutz vor Massenan-/abmeldungen</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Aufrufe der Newsletteran-/abmeldescripte
+                                </td>
+                                <td>
+                                  <input type="radio" id="LimitSubUnsubScripts0" name="LimitSubUnsubScripts" value="Unlimited" onclick="DisableControlsById('LimitSubUnsubScripts1', Array('LimitSubUnsubScriptsLimitedRequests', 'LimitSubUnsubScriptsLimitedRequestsInterval') );" /><label for="LimitSubUnsubScripts0">&nbsp;Unlimitiert</label><br />
+                                  <input type="radio" id="LimitSubUnsubScripts1" name="LimitSubUnsubScripts" value="Limited" onclick="DisableControlsById('LimitSubUnsubScripts1', Array('LimitSubUnsubScriptsLimitedRequests', 'LimitSubUnsubScriptsLimitedRequestsInterval') );" /><label for="LimitSubUnsubScripts1">&nbsp;Limitiert auf</label>&nbsp;
+                                  <input type="text" name="LimitSubUnsubScriptsLimitedRequests" id="LimitSubUnsubScriptsLimitedRequests" size="20" style="text-align: right" />&nbsp;<label for="LimitSubUnsubScriptsLimitedRequestsInterval">Aufrufe pro IP und</label>&nbsp;
+                                  <select name="LimitSubUnsubScriptsLimitedRequestsInterval" id="LimitSubUnsubScriptsLimitedRequestsInterval" size="1">
+                                    <option value="Hour">Stunde</option>
+                                    <option value="Day">Tag</option>
+                                  </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      </IS:NOTSUPERADMINOWNACCOUNT>
+                      </ISUSER:ADMIN>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Pers&ouml;nliche Daten');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+
+                      <fieldset>
+                      <legend>Name und Anschrift</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Firma
+                                </td>
+                                <td><input type="text" id="Firm" name="Firm" maxlength="255" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Anrede
+                                </td>
+                                <td>
+                                 <select name="Salutation" size="1">
+                                   <option value="">--</option>
+                                   <option value="MRS">Frau</option>
+                                   <option value="MR">Herr</option>
+                                 </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Vorname
+                                </td>
+                                <td><input type="text" id="FirstName" name="FirstName" maxlength="255" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Nachname
+                                </td>
+                                <td><input type="text" id="LastName" name="LastName" maxlength="255" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Stra&szlig;e
+                                </td>
+                                <td><input type="text" id="Street" name="Street" maxlength="255" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Postleitzahl
+                                </td>
+                                <td><input type="text" id="ZIPCode" name="ZIPCode" maxlength="64" size="10" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Stadt
+                                </td>
+                                <td><input type="text" id="City" name="City" maxlength="255" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Bundesland
+                                </td>
+                                <td><input type="text" id="State_" name="State_" maxlength="255" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Land
+                                </td>
+                                <td>
+
+                                  <select name="Country" size="1">
+                                  <option value="DEU" >Deutschland</option>
+                                  <option value="AUT" >&Ouml;sterreich</option>
+                                  <option value="CHE" >Schweiz</option>
+                                  <option value="AFG" >Afghanistan</option>
+                                  <option value="EGY" >&Auml;gypten</option>
+                                  <option value="ALB" >Albanien</option>
+                                  <option value="DZA" >Algerien</option>
+                                  <option value="ASM" >Amerikanisch Samoa</option>
+                                  <option value="AND" >Andorra</option>
+                                  <option value="AGO" >Angola</option>
+                                  <option value="AIA" >Anguilla</option>
+                                  <option value="ATA" >Antarktis</option>
+                                  <option value="ATG" >Antigua und Barbuda</option>
+                                  <option value="GNQ" >&Auml;quatorial-Guinea</option>
+                                  <option value="ARG" >Argentinien</option>
+                                  <option value="ARM" >Armenien</option>
+                                  <option value="ABW" >Aruba</option>
+                                  <option value="AZE" >Aserbaidschan</option>
+                                  <option value="ETH" >&Auml;thiopien</option>
+                                  <option value="AUS" >Australien</option>
+                                  <option value="BHS" >Bahamas</option>
+                                  <option value="BHR" >Bahrain</option>
+                                  <option value="BGD" >Bangladesch</option>
+                                  <option value="BRB" >Barbados</option>
+                                  <option value="BEL" >Belgien</option>
+                                  <option value="BLZ" >Belize</option>
+                                  <option value="BEN" >Benin</option>
+                                  <option value="BMU" >Bermudas</option>
+                                  <option value="BTN" >Bhutan</option>
+                                  <option value="BOL" >Bolivien</option>
+                                  <option value="BIH" >Bosnien-Herzegowina</option>
+                                  <option value="BWA" >Botswana</option>
+                                  <option value="BVT" >Bouvet Insel</option>
+                                  <option value="BRA" >Brasilien</option>
+                                  <option value="IOT" >Britische Gebiete im Ind. Ozean</option>
+                                  <option value="BRN" >Brunei</option>
+                                  <option value="BGR" >Bulgarien</option>
+                                  <option value="BFA" >Burkina Faso</option>
+                                  <option value="BDI" >Burundi</option>
+                                  <option value="CYM" >Cayman Inseln</option>
+                                  <option value="CHL" >Chile</option>
+                                  <option value="CHN" >China People`s Pepublic of</option>
+                                  <option value="CCK" >Cocos (Keeling) Inseln</option>
+                                  <option value="COK" >Cook Inseln</option>
+                                  <option value="CRI" >Costa Rica</option>
+                                  <option value="CIV" >Cote d'Ivoire</option>
+                                  <option value="DNK" >D&auml;nemark</option>
+                                  <option value="DMA" >Dominica</option>
+                                  <option value="DOM" >Dominikanische Republik</option>
+                                  <option value="DJI" >Dschibuti</option>
+                                  <option value="ECU" >Ecuador</option>
+                                  <option value="SLV" >El Salvador</option>
+                                  <option value="ERI" >Eritrea</option>
+                                  <option value="EST" >Estland</option>
+                                  <option value="FLK" >Falkland Inseln</option>
+                                  <option value="FRO" >F&auml;r&ouml;er Inseln</option>
+                                  <option value="FIN" >Finnland</option>
+                                  <option value="FRA" >Frankreich</option>
+                                  <option value="ATF" >Franz&ouml;s. S&uuml;dl. Gebiete</option>
+                                  <option value="PYF" >Franz&ouml;sisch Polynesien</option>
+                                  <option value="GUF" >Franz&ouml;sisch-Guyana</option>
+                                  <option value="GAB" >Gabun</option>
+                                  <option value="GMB" >Gambia</option>
+                                  <option value="GEO" >Georgien</option>
+                                  <option value="GHA" >Ghana</option>
+                                  <option value="GIB" >Gibraltar</option>
+                                  <option value="GRD" >Grenada</option>
+                                  <option value="GRC" >Griechenland</option>
+                                  <option value="GRL" >Gr&ouml;nland</option>
+                                  <option value="GRB" >Gro&szlig;britannien</option>
+                                  <option value="GLP" >Guadeloupe</option>
+                                  <option value="GUM" >Guam</option>
+                                  <option value="GTM" >Guatemala</option>
+                                  <option value="GIN" >Guinea</option>
+                                  <option value="GNB" >Guinea-Bissau</option>
+                                  <option value="GUY" >Guyana</option>
+                                  <option value="HTI" >Haiti</option>
+                                  <option value="HMD" >Heard und McDonald Inseln</option>
+                                  <option value="HND" >Honduras</option>
+                                  <option value="HKG" >Hong Kong</option>
+                                  <option value="IND" >Indien</option>
+                                  <option value="IDN" >Indonesien</option>
+                                  <option value="IRQ" >Irak</option>
+                                  <option value="IRN" >Iran (Islamic Republic of</option>
+                                  <option value="IRL" >Irland</option>
+                                  <option value="ISL" >Island</option>
+                                  <option value="ISR" >Israel</option>
+                                  <option value="ITA" >Italien</option>
+                                  <option value="JAM" >Jamaika</option>
+                                  <option value="JPN" >Japan</option>
+                                  <option value="YEM" >Jemen</option>
+                                  <option value="JOR" >Jordanien</option>
+                                  <option value="KHM" >Kambodscha</option>
+                                  <option value="CMR" >Kamerun</option>
+                                  <option value="CAN" >Kanada</option>
+                                  <option value="CPV" >Kap Verde</option>
+                                  <option value="KAZ" >Kasachstan</option>
+                                  <option value="QAT" >Katar</option>
+                                  <option value="KEN" >Kenia</option>
+                                  <option value="KGZ" >Kirgistan</option>
+                                  <option value="KIR" >Kiribati</option>
+                                  <option value="COL" >Kolumbien</option>
+                                  <option value="COM" >Komoren</option>
+                                  <option value="PRK" >Korea, Nord</option>
+                                  <option value="KOR" >Korea, s&uuml;d</option>
+                                  <option value="KOS" >Kosovo</option>
+                                  <option value="COG" >Kongo</option>
+                                  <option value="KWT" >Kuwait</option>
+                                  <option value="HRV" >Kroatien</option>
+                                  <option value="CUB" >Kuba</option>
+                                  <option value="LAO" >Laos</option>
+                                  <option value="LVA" >Lettland</option>
+                                  <option value="LBN" >Libanon</option>
+                                  <option value="LSO" >Lesotho</option>
+                                  <option value="LBR" >Liberia</option>
+                                  <option value="LBY" >Libyen</option>
+                                  <option value="LIE" >Liechtenstein</option>
+                                  <option value="LTU" >Litauen</option>
+                                  <option value="LUX" >Luxemburg</option>
+                                  <option value="MAC" >Macau</option>
+                                  <option value="MDG" >Madagaskar</option>
+                                  <option value="MWI" >Malawi</option>
+                                  <option value="MYS" >Malaysia</option>
+                                  <option value="MDV" >Malediven</option>
+                                  <option value="MLI" >Mali</option>
+                                  <option value="MLT" >Malta</option>
+                                  <option value="MAR" >Marokko</option>
+                                  <option value="MHL" >Marshall Inseln</option>
+                                  <option value="MTQ" >Martinique</option>
+                                  <option value="MRT" >Mauritanien</option>
+                                  <option value="MUS" >Mauritius</option>
+                                  <option value="MYT" >Mayotte</option>
+                                  <option value="MKD" >Mazedonien</option>
+                                  <option value="MEX" >Mexiko</option>
+                                  <option value="FSM" >Mikronesien</option>
+                                  <option value="MDA" >Moldawien</option>
+                                  <option value="MCO" >Monaco</option>
+                                  <option value="MNG" >Mongolei</option>
+                                  <option value="MSR" >Montserrat</option>
+                                  <option value="MOZ" >Mosambik</option>
+                                  <option value="MMR" >Myanmar</option>
+                                  <option value="NAM" >Namibia</option>
+                                  <option value="NRU" >Nauru</option>
+                                  <option value="NPL" >Nepal</option>
+                                  <option value="NCL" >Neu Caledonien</option>
+                                  <option value="NZL" >Neuseeland</option>
+                                  <option value="NIC" >Nicaragua</option>
+                                  <option value="NLD" >Niederlande</option>
+                                  <option value="ANT" >Niederl&auml;ndische Antillen</option>
+                                  <option value="NER" >Niger</option>
+                                  <option value="NGA" >Nigeria</option>
+                                  <option value="NIU" >Niue</option>
+                                  <option value="MNP" >N&ouml;rdliche Mariana Inseln</option>
+                                  <option value="NFK" >Norfolk Inseln</option>
+                                  <option value="NOR" >Norwegen</option>
+                                  <option value="OMN" >Oman</option>
+                                  <option value="TMP" >Ost Timor</option>
+                                  <option value="PAK" >Pakistan</option>
+                                  <option value="PLW" >Palau</option>
+                                  <option value="PAN" >Panama</option>
+                                  <option value="PNG" >Papua-Neuguinea</option>
+                                  <option value="PRY" >Paraguay</option>
+                                  <option value="PER" >Peru</option>
+                                  <option value="PHL" >Philippinen</option>
+                                  <option value="PCN" >Pitcairn</option>
+                                  <option value="POL" >Polen</option>
+                                  <option value="PRT" >Portugal</option>
+                                  <option value="PRI" >Puerto Rico</option>
+                                  <option value="REU" >Reunion</option>
+                                  <option value="RWA" >Ruanda</option>
+                                  <option value="ROM" >Rum&auml;nien</option>
+                                  <option value="RUS" >Russische F&ouml;deration</option>
+                                  <option value="SHN" >Saint Helena</option>
+                                  <option value="KNA" >Saint Kitts und Nevis</option>
+                                  <option value="LCA" >Saint Lucia</option>
+                                  <option value="SPM" >Saint Pierre und Miquelon</option>
+                                  <option value="VCT" >St Vincent und die Grenadinen</option>
+                                  <option value="ZMB" >Sambia</option>
+                                  <option value="WSM" >Samoa</option>
+                                  <option value="SMR" >San Marino</option>
+                                  <option value="STP" >Sao Tome und Principe</option>
+                                  <option value="SAU" >Saudi Arabien</option>
+                                  <option value="SWE" >Schweden</option>
+                                  <option value="SEN" >Senegal</option>
+                                  <option value="SCG" >Serbien und Montenegro</option>
+                                  <option value="SYC" >Seychellen</option>
+                                  <option value="SLE" >Sierra Leone</option>
+                                  <option value="SGP" >Singapur</option>
+                                  <option value="SVK" >Slowakei</option>
+                                  <option value="SVN" >Slowenien</option>
+                                  <option value="SGS" >So Georgia und So Sandwich Inseln</option>
+                                  <option value="SLB" >Solomon Islands</option>
+                                  <option value="SOM" >Somalia</option>
+                                  <option value="ESP" >Spanien</option>
+                                  <option value="LKA" >Sri Lanka</option>
+                                  <option value="ZAF" >S&uuml;d Afrika</option>
+                                  <option value="SDN" >Sudan</option>
+                                  <option value="SUR" >Surinam</option>
+                                  <option value="SJM" >Svalbard und Jan Mayen Inseln</option>
+                                  <option value="SWZ" >Swaziland</option>
+                                  <option value="SYR" >Syrien</option>
+                                  <option value="TJK" >Tadschikistan</option>
+                                  <option value="TWN" >Taiwan</option>
+                                  <option value="TZA" >Tansania</option>
+                                  <option value="THA" >Thailand</option>
+                                  <option value="TGO" >Togo</option>
+                                  <option value="TKL" >Tokelau</option>
+                                  <option value="TON" >Tonga</option>
+                                  <option value="TTO" >Trinidad und Tobago</option>
+                                  <option value="TCD" >Tschad</option>
+                                  <option value="CZE" >Tschechische Republik</option>
+                                  <option value="TUN" >Tunesien</option>
+                                  <option value="TUR" >T&uuml;rkei</option>
+                                  <option value="TKM" >Turkmenistan</option>
+                                  <option value="TCA" >Turks und Caicos Inseln</option>
+                                  <option value="TUV" >Tuvalu</option>
+                                  <option value="UGA" >Uganda</option>
+                                  <option value="UKR" >Ukraine</option>
+                                  <option value="HUN" >Ungarn</option>
+                                  <option value="URY" >Uruguay</option>
+                                  <option value="UZB" >Usbekistan</option>
+                                  <option value="VUT" >Vanuatu</option>
+                                  <option value="VAT" >Vatikanstadt</option>
+                                  <option value="VEN" >Venezuela</option>
+                                  <option value="ARE" >Vereinigte Arabische Emirate</option>
+                                  <option value="USA" >Vereinigte Staaten von Amerika</option>
+                                  <option value="VNM" >Viet Nam</option>
+                                  <option value="VGB" >Virgin Islands (Britisch)</option>
+                                  <option value="VIR" >Virgin Islands (USA)</option>
+                                  <option value="WLF" >Wallis und Futuna Inseln</option>
+                                  <option value="CXR" >Weihnachtsinseln</option>
+                                  <option value="BLR" >Wei&szlig;russland</option>
+                                  <option value="CAF" >Zentralafrikanische Republik</option>
+                                  <option value="ZWE" >Zimbabwe</option>
+                                  <option value="CYP" >Zypern</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Telefon
+                                </td>
+                                <td><input type="text" id="Phone" name="Phone" maxlength="64" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Mobilfunknummer
+                                </td>
+                                <td><input type="text" id="CellPhone" name="CellPhone" maxlength="64" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Fax
+                                </td>
+                                <td><input type="text" id="Fax" name="Fax" maxlength="64" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Webseite (mit http://)
+                                </td>
+                                <td><input type="text" id="Website" name="Website" maxlength="255" size="50" /></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                   <USER_RIGHTS>
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Rechte des Nutzers');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'F&uuml;r jeden Nutzer k&ouml;nnen Sie festlegen welche Aktionen ausgef&uuml;hrt werden d&uuml;rfen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Rechte</legend>
+                      <br />
+                          <ISNOT:OWNACCOUNT>
+                          <CopyPermissionsFromUsers_table>
+                          <table class="FixedTable">
+                           <tr>
+                             <td class="NoWrap">Rechte kopieren von Nutzer&nbsp;</td>
+                             <td style="width: 90%;">
+                                 <select name="CopyPermissionsFromUser" id="CopyPermissionsFromUser" size="1" style="max-width: 600px" onchange="load_permissionsfromuser(this.options[this.selectedIndex].value); this.selectedIndex=0;">
+                                   <CopyPermissionsFromUsers_items>
+                                     <option value="<CopyPermissionsFromUsers_id></CopyPermissionsFromUsers_id>"><CopyPermissionsFromUsers_name></CopyPermissionsFromUsers_name></option>
+                                   </CopyPermissionsFromUsers_items>
+                                 </select>
+                                 <span id="Loading" style="visibility:hidden; display: none"><img src="images/loading.gif" height="16" width="16" /></span>
+                             </td>
+                           </tr>
+                          </table>
+                          <br /><br />
+                          </CopyPermissionsFromUsers_table>
+                          </ISNOT:OWNACCOUNT>
+
+                          <table class="FixedTable" id="Privileges" name="Privileges">
+                          	<thead>
+                          		<tr>
+                          			<td class="NoWrap" width="20%">Bereich</td>
+                          			<td class="NoWrap" width="10%">Erstellen</td>
+                          			<td class="NoWrap" width="10%">&Auml;ndern</td>
+                          			<td class="NoWrap" width="10%">L&ouml;schen</td>
+                          			<td class="NoWrap" width="10%">Zugreifen/<br />Anschauen</td>
+                          		</tr>
+                          	</thead>
+
+                            <tbody>
+                              <tr>
+                                <td>
+                                   Empf&auml;ngerliste
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMailingListCreate" id="PrivilegeMailingListCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMailingListEdit" id="PrivilegeMailingListEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMailingListRemove" id="PrivilegeMailingListRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMailingListBrowse" id="PrivilegeMailingListBrowse" onclick="DisableControlsById('PrivilegeMailingListBrowse', Array('PrivilegeMailingListCreate', 'PrivilegeMailingListEdit', 'PrivilegeMailingListRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Zuweisung Nutzer der Empf&auml;ngerliste
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMailingListUsersEdit" id="PrivilegeMailingListUsersEdit" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Empf&auml;nger der Empf&auml;ngerliste
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRecipientCreate" id="PrivilegeRecipientCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRecipientEdit" id="PrivilegeRecipientEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRecipientRemove" id="PrivilegeRecipientRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRecipientBrowse" id="PrivilegeRecipientBrowse" onclick="DisableControlsById('PrivilegeRecipientBrowse', Array('PrivilegeRecipientCreate', 'PrivilegeRecipientEdit', 'PrivilegeRecipientRemove') )" />
+                                </td>
+                              </tr>
+                              
+                              <tr>
+                                <td>
+                                   Empf&auml;nger in lokaler (Domain-)Blockliste
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeLocalBlockListRecipientCreate" id="PrivilegeLocalBlockListRecipientCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeLocalBlockListRecipientEdit" id="PrivilegeLocalBlockListRecipientEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeLocalBlockListRecipientRemove" id="PrivilegeLocalBlockListRecipientRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeLocalBlockListRecipientBrowse" id="PrivilegeLocalBlockListRecipientBrowse" onclick="DisableControlsById('PrivilegeLocalBlockListRecipientBrowse', Array('PrivilegeLocalBlockListRecipientCreate', 'PrivilegeLocalBlockListRecipientEdit', 'PrivilegeLocalBlockListRecipientRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Empf&auml;nger in globaler (Domain-)Blockliste
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeGlobalBlockListRecipientCreate" id="PrivilegeGlobalBlockListRecipientCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeGlobalBlockListRecipientEdit" id="PrivilegeGlobalBlockListRecipientEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeGlobalBlockListRecipientRemove" id="PrivilegeGlobalBlockListRecipientRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeGlobalBlockListRecipientBrowse" id="PrivilegeGlobalBlockListRecipientBrowse" onclick="DisableControlsById('PrivilegeGlobalBlockListRecipientBrowse', Array('PrivilegeGlobalBlockListRecipientCreate', 'PrivilegeGlobalBlockListRecipientEdit', 'PrivilegeGlobalBlockListRecipientRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Empf&auml;nger importieren
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeImportBrowse" id="PrivilegeImportBrowse" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Empf&auml;nger exportieren
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeExportBrowse" id="PrivilegeExportBrowse" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Automatischer Import von Empf&auml;ngern
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoImportCreate" id="PrivilegeAutoImportCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoImportEdit" id="PrivilegeAutoImportEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoImportRemove" id="PrivilegeAutoImportRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoImportBrowse" id="PrivilegeAutoImportBrowse" onclick="DisableControlsById('PrivilegeAutoImportBrowse', Array('PrivilegeAutoImportCreate', 'PrivilegeAutoImportEdit', 'PrivilegeAutoImportRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   An/Abmeldeformulare
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFormCreate" id="PrivilegeFormCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFormEdit" id="PrivilegeFormEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFormRemove" id="PrivilegeFormRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFormBrowse" id="PrivilegeFormBrowse" onclick="DisableControlsById('PrivilegeFormBrowse', Array('PrivilegeFormCreate', 'PrivilegeFormEdit', 'PrivilegeFormRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Statistik versendete E-Mails
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMailsSentStatBrowse" id="PrivilegeMailsSentStatBrowse" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Funktionen
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFunctionCreate" id="PrivilegeFunctionCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFunctionEdit" id="PrivilegeFunctionEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFunctionRemove" id="PrivilegeFunctionRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFunctionBrowse" id="PrivilegeFunctionBrowse" onclick="DisableControlsById('PrivilegeFunctionBrowse', Array('PrivilegeFunctionCreate', 'PrivilegeFunctionEdit', 'PrivilegeFunctionRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Zielgruppen
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTargetGroupsCreate" id="PrivilegeTargetGroupsCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTargetGroupsEdit" id="PrivilegeTargetGroupsEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTargetGroupsRemove" id="PrivilegeTargetGroupsRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTargetGroupsBrowse" id="PrivilegeTargetGroupsBrowse" onclick="DisableControlsById('PrivilegeTargetGroupsBrowse', Array('PrivilegeTargetGroupsCreate', 'PrivilegeTargetGroupsEdit', 'PrivilegeTargetGroupsRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   HTML-Seiten/Umleitungen
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegePageCreate" id="PrivilegePageCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegePageEdit" id="PrivilegePageEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegePageRemove" id="PrivilegePageRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegePageBrowse" id="PrivilegePageBrowse" onclick="DisableControlsById('PrivilegePageBrowse', Array('PrivilegePageCreate', 'PrivilegePageEdit', 'PrivilegePageRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Meldungstexte
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMessageCreate" id="PrivilegeMessageCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMessageEdit" id="PrivilegeMessageEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMessageRemove" id="PrivilegeMessageRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMessageBrowse" id="PrivilegeMessageBrowse" onclick="DisableControlsById('PrivilegeMessageBrowse', Array('PrivilegeMessageCreate', 'PrivilegeMessageEdit', 'PrivilegeMessageRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Versandvarianten
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMTACreate" id="PrivilegeMTACreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMTAEdit" id="PrivilegeMTAEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMTARemove" id="PrivilegeMTARemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMTABrowse" id="PrivilegeMTABrowse" onclick="DisableControlsById('PrivilegeMTABrowse', Array('PrivilegeMTACreate', 'PrivilegeMTAEdit', 'PrivilegeMTARemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Posteingangsserver/Postf&auml;cher
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeInboxCreate" id="PrivilegeInboxCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeInboxEdit" id="PrivilegeInboxEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeInboxRemove" id="PrivilegeInboxRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeInboxBrowse" id="PrivilegeInboxBrowse" onclick="DisableControlsById('PrivilegeInboxBrowse', Array('PrivilegeInboxCreate', 'PrivilegeInboxEdit', 'PrivilegeInboxRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   An/Abmeldestatistik einer Empf&auml;ngerliste
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMLSubUnsubStatBrowse" id="PrivilegeMLSubUnsubStatBrowse" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Statistik &uuml;ber alle Empf&auml;ngerlisten
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAllMLStatBrowse" id="PrivilegeAllMLStatBrowse" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Benutzer
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeUserCreate" id="PrivilegeUserCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeUserEdit" id="PrivilegeUserEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeUserRemove" id="PrivilegeUserRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeUserBrowse" id="PrivilegeUserBrowse" onclick="DisableControlsById('PrivilegeUserBrowse', Array('PrivilegeUserCreate', 'PrivilegeUserEdit', 'PrivilegeUserRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Lokales Nachrichtencenter
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeLocalMessageCreate" id="PrivilegeLocalMessageCreate" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeLocalMessageRemove" id="PrivilegeLocalMessageRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeLocalMessageBrowse" id="PrivilegeLocalMessageBrowse" onclick="DisableControlsById('PrivilegeLocalMessageBrowse', Array('PrivilegeLocalMessageCreate', 'PrivilegeLocalMessageRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   System-Einstellungen
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeOptionsEdit" id="PrivilegeOptionsEdit" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <!--
+                              <tr>
+                                <td>
+                                   Firmenlogo &auml;ndern
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeBrandingEdit" id="PrivilegeBrandingEdit" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+                              //-->
+
+                              <tr>
+                                <td>
+                                   Datenbankwartung
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeDbRepair" id="PrivilegeDbRepair" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   System testen
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeSystemTest" id="PrivilegeSystemTest" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Ereignisprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewProcessLog" id="PrivilegeViewProcessLog" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Geplante Aufgaben
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeCron" id="PrivilegeCron" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Vorlagen
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTemplateCreate" id="PrivilegeTemplateCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTemplateEdit" id="PrivilegeTemplateEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTemplateRemove" id="PrivilegeTemplateRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTemplateBrowse" id="PrivilegeTemplateBrowse" onclick="DisableControlsById('PrivilegeTemplateBrowse', Array('PrivilegeTemplateCreate', 'PrivilegeTemplateEdit', 'PrivilegeTemplateRemove') )" />
+                                </td>
+                              </tr>
+
+
+                              <tr>
+                                <td>
+                                   Textbl&ouml;cke
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTextBlockCreate" id="PrivilegeTextBlockCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTextBlockEdit" id="PrivilegeTextBlockEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTextBlockRemove" id="PrivilegeTextBlockRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTextBlockBrowse" id="PrivilegeTextBlockBrowse" onclick="DisableControlsById('PrivilegeTextBlockBrowse', Array('PrivilegeTextBlockCreate', 'PrivilegeTextBlockEdit', 'PrivilegeTextBlockRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Autoresponder
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoresponderCreate" id="PrivilegeAutoresponderCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoresponderEdit" id="PrivilegeAutoresponderEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoresponderRemove" id="PrivilegeAutoresponderRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoresponderBrowse" id="PrivilegeAutoresponderBrowse" onclick="DisableControlsById('PrivilegeAutoresponderBrowse', Array('PrivilegeAutoresponderCreate', 'PrivilegeAutoresponderEdit', 'PrivilegeAutoresponderRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Autoresponder Versendeprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewAutoresponderLog" id="PrivilegeViewAutoresponderLog" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Geburtstags-Mailer
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeBirthdayMailsCreate" id="PrivilegeBirthdayMailsCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeBirthdayMailsEdit" id="PrivilegeBirthdayMailsEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeBirthdayMailsRemove" id="PrivilegeBirthdayMailsRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeBirthdayMailsBrowse" id="PrivilegeBirthdayMailsBrowse" onclick="DisableControlsById('PrivilegeBirthdayMailsBrowse', Array('PrivilegeBirthdayMailsCreate', 'PrivilegeBirthdayMailsEdit', 'PrivilegeBirthdayMailsRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Geburtstags-Mailer Versendeprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewBirthdayMailsLog" id="PrivilegeViewBirthdayMailsLog" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Geburtstags-Mailer Tracking-Statistik
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewBirthdayMailsTrackingStat" id="PrivilegeViewBirthdayMailsTrackingStat" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Follow-Up-Responder
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUResponderCreate" id="PrivilegeFUResponderCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUResponderEdit" id="PrivilegeFUResponderEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUResponderRemove" id="PrivilegeFUResponderRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUResponderBrowse" id="PrivilegeFUResponderBrowse" onclick="DisableControlsById('PrivilegeFUResponderBrowse', Array('PrivilegeFUResponderCreate', 'PrivilegeFUResponderEdit', 'PrivilegeFUResponderRemove', 'PrivilegeFUMMailsBrowse', 'PrivilegeFUMMailsCreate', 'PrivilegeFUMMailsEdit', 'PrivilegeFUMMailsRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Follow-Up-Responder Versendeprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewFUResponderLog" id="PrivilegeViewFUResponderLog" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Follow-Up-Responder Tracking-Statistik
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewFUResponderTrackingStat" id="PrivilegeViewFUResponderTrackingStat" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Follow-Up-Responder E-Mails
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUMMailsCreate" id="PrivilegeFUMMailsCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUMMailsEdit" id="PrivilegeFUMMailsEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUMMailsRemove" id="PrivilegeFUMMailsRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUMMailsBrowse" id="PrivilegeFUMMailsBrowse" onclick="DisableControlsById('PrivilegeFUMMailsBrowse', Array('PrivilegeFUMMailsCreate', 'PrivilegeFUMMailsEdit', 'PrivilegeFUMMailsRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   RSS2EMail Responder
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRSS2EMailMailsCreate" id="PrivilegeRSS2EMailMailsCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRSS2EMailMailsEdit" id="PrivilegeRSS2EMailMailsEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRSS2EMailMailsRemove" id="PrivilegeRSS2EMailMailsRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRSS2EMailMailsBrowse" id="PrivilegeRSS2EMailMailsBrowse" onclick="DisableControlsById('PrivilegeRSS2EMailMailsBrowse', Array('PrivilegeRSS2EMailMailsCreate', 'PrivilegeRSS2EMailMailsEdit', 'PrivilegeRSS2EMailMailsRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   RSS2EMail Responder Versendeprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewRSS2EMailMailsLog" id="PrivilegeViewRSS2EMailMailsLog" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   RSS2EMail Responder Tracking-Statistik
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewRSS2EMailMailsTrackingStat" id="PrivilegeViewRSS2EMailMailsTrackingStat" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Verteilerlisten
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeDistribListCreate" id="PrivilegeDistribListCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeDistribListEdit" id="PrivilegeDistribListEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeDistribListRemove" id="PrivilegeDistribListRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeDistribListBrowse" id="PrivilegeDistribListBrowse" onclick="DisableControlsById('PrivilegeDistribListBrowse', Array('PrivilegeDistribListCreate', 'PrivilegeDistribListEdit', 'PrivilegeDistribListRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Verteilerlisten Versendeprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewDistribListLog" id="PrivilegeViewDistribListLog" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Verteilerlisten Tracking-Statistik
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewDistribListTrackingStat" id="PrivilegeViewDistribListTrackingStat" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   E-Mailings
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeCampaignCreate" id="PrivilegeCampaignCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeCampaignEdit" id="PrivilegeCampaignEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeCampaignRemove" id="PrivilegeCampaignRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeCampaignBrowse" id="PrivilegeCampaignBrowse" onclick="DisableControlsById('PrivilegeCampaignBrowse', Array('PrivilegeCampaignCreate', 'PrivilegeCampaignEdit', 'PrivilegeCampaignRemove', 'PrivilegeCampaignSending') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   E-Mailings versenden<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Besitzt ein Nutzer nicht das Recht E-Mailings zu versenden, dann kann er E-Mailings nur speichern. Ein berechtigter Nutzer oder Administrator muss danach die korrekte Versandvariante f&uuml;r das E-Mailing festlegen, das E-Mailing fertig stellen und damit den Versand starten.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeCampaignSending" id="PrivilegeCampaignSending" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   E-Mailings Versendeprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewCampaignLog" id="PrivilegeViewCampaignLog" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   E-Mailings Tracking-Statistik
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewCampaignTrackingStat" id="PrivilegeViewCampaignTrackingStat" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   E-Mailings Newsletter-Archiv
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeNewsletterArchiveCreate" id="PrivilegeNewsletterArchiveCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeNewsletterArchiveEdit" id="PrivilegeNewsletterArchiveEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeNewsletterArchiveRemove" id="PrivilegeNewsletterArchiveRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeNewsletterArchiveBrowse" id="PrivilegeNewsletterArchiveBrowse" onclick="DisableControlsById('PrivilegeNewsletterArchiveBrowse', Array('PrivilegeNewsletterArchiveCreate', 'PrivilegeNewsletterArchiveEdit', 'PrivilegeNewsletterArchiveRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   SMS-Kampagnen
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeSMSCampaignCreate" id="PrivilegeSMSCampaignCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeSMSCampaignEdit" id="PrivilegeSMSCampaignEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeSMSCampaignRemove" id="PrivilegeSMSCampaignRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeSMSCampaignBrowse" id="PrivilegeSMSCampaignBrowse" onclick="DisableControlsById('PrivilegeSMSCampaignBrowse', Array('PrivilegeSMSCampaignCreate', 'PrivilegeSMSCampaignEdit', 'PrivilegeSMSCampaignRemove', 'PrivilegeSMSCampaignSending') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   SMS-Kampagnen versenden<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Besitzt ein Nutzer nicht das Recht SMS-Kampagnen zu versenden, dann kann er SMS-Kampagnen nur speichern. Ein berechtigter Nutzer oder Administrator muss danach die korrekte Versandvariante f&uuml;r die SMS-Kampagne festlegen, das SMS-Kampagne fertig stellen und damit den Versand starten.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeSMSCampaignSending" id="PrivilegeSMSCampaignSending" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   SMS-Kampagnen Versendeprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewSMSCampaignLog" id="PrivilegeViewSMSCampaignLog" />
+                                </td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                          <br />
+                          <br />
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+                  	</USER_RIGHTS>
+                  </div>
+
+                  <br />
+                  <br />
+
+
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                    var TabViewHeight = 1228;
+                    if(TabListArray.length < 3 && !document.getElementById("AccountType0"))
+                      if(!document.getElementById("LimitSubUnsubScripts0"))
+                        TabViewHeight = 700;
+                        else
+                        TabViewHeight = 800;
+
+                    initTabs('dhtmlgoodies_tabView', TabListArray, 0, 924, TabViewHeight);
+                    if(document.getElementById("Privileges") != null)
+                       addTableRolloverEffect('Privileges','tableRollOverEffect','tableRowClickEffect');
+
+                    DisableItem("Username", document.getElementById("UserId").value == "" || document.getElementById("UserId").value == "0");
+
+                    DisableControlsById('AccountType1', Array('AccountTypeLimitedMailCountLimited') );
+                    DisableControlsById('LimitSubUnsubScripts1', Array('LimitSubUnsubScriptsLimitedRequests', 'LimitSubUnsubScriptsLimitedRequestsInterval') );
+
+                    DisableControlsById('PrivilegeMailingListBrowse', Array('PrivilegeMailingListCreate', 'PrivilegeMailingListEdit', 'PrivilegeMailingListRemove') );
+                    DisableControlsById('PrivilegeRecipientBrowse', Array('PrivilegeRecipientCreate', 'PrivilegeRecipientEdit', 'PrivilegeRecipientRemove') );
+                    DisableControlsById('PrivilegeLocalBlockListRecipientBrowse', Array('PrivilegeLocalBlockListRecipientCreate', 'PrivilegeLocalBlockListRecipientEdit', 'PrivilegeLocalBlockListRecipientRemove') );
+                    DisableControlsById('PrivilegeGlobalBlockListRecipientBrowse', Array('PrivilegeGlobalBlockListRecipientCreate', 'PrivilegeGlobalBlockListRecipientEdit', 'PrivilegeGlobalBlockListRecipientRemove') );
+                    DisableControlsById('PrivilegeAutoImportBrowse', Array('PrivilegeAutoImportCreate', 'PrivilegeAutoImportEdit', 'PrivilegeAutoImportRemove') );
+                    DisableControlsById('PrivilegeFormBrowse', Array('PrivilegeFormCreate', 'PrivilegeFormEdit', 'PrivilegeFormRemove') );
+                    DisableControlsById('PrivilegeFunctionBrowse', Array('PrivilegeFunctionCreate', 'PrivilegeFunctionEdit', 'PrivilegeFunctionRemove') );
+                    DisableControlsById('PrivilegeTargetGroupsBrowse', Array('PrivilegeTargetGroupsCreate', 'PrivilegeTargetGroupsEdit', 'PrivilegeTargetGroupsRemove') );
+                    DisableControlsById('PrivilegePageBrowse', Array('PrivilegePageCreate', 'PrivilegePageEdit', 'PrivilegePageRemove') );
+                    DisableControlsById('PrivilegeMessageBrowse', Array('PrivilegeMessageCreate', 'PrivilegeMessageEdit', 'PrivilegeMessageRemove') );
+                    DisableControlsById('PrivilegeMTABrowse', Array('PrivilegeMTACreate', 'PrivilegeMTAEdit', 'PrivilegeMTARemove') );
+                    DisableControlsById('PrivilegeUserBrowse', Array('PrivilegeUserCreate', 'PrivilegeUserEdit', 'PrivilegeUserRemove') );
+                    DisableControlsById('PrivilegeLocalMessageBrowse', Array('PrivilegeLocalMessageCreate', 'PrivilegeLocalMessageRemove') );
+                    
+                    DisableControlsById('PrivilegeTemplateBrowse', Array('PrivilegeTemplateCreate', 'PrivilegeTemplateEdit', 'PrivilegeTemplateRemove') );
+                    DisableControlsById('PrivilegeTextBlockBrowse', Array('PrivilegeTextBlockCreate', 'PrivilegeTextBlockEdit', 'PrivilegeTextBlockRemove') )
+                    
+                    DisableControlsById('PrivilegeAutoresponderBrowse', Array('PrivilegeAutoresponderCreate', 'PrivilegeAutoresponderEdit', 'PrivilegeAutoresponderRemove') );
+                    DisableControlsById('PrivilegeFUResponderBrowse', Array('PrivilegeFUResponderCreate', 'PrivilegeFUResponderEdit', 'PrivilegeFUResponderRemove', 'PrivilegeFUMMailsBrowse', 'PrivilegeFUMMailsCreate', 'PrivilegeFUMMailsEdit', 'PrivilegeFUMMailsRemove') );
+                    DisableControlsById('PrivilegeFUMMailsBrowse', Array('PrivilegeFUMMailsCreate', 'PrivilegeFUMMailsEdit', 'PrivilegeFUMMailsRemove') );
+                    DisableControlsById('PrivilegeBirthdayMailsBrowse', Array('PrivilegeBirthdayMailsCreate', 'PrivilegeBirthdayMailsEdit', 'PrivilegeBirthdayMailsRemove') );
+                    DisableControlsById('PrivilegeRSS2EMailMailsBrowse', Array('PrivilegeRSS2EMailMailsCreate', 'PrivilegeRSS2EMailMailsEdit', 'PrivilegeRSS2EMailMailsRemove') );
+                    DisableControlsById('PrivilegeDistribListBrowse', Array('PrivilegeDistribListCreate', 'PrivilegeDistribListEdit', 'PrivilegeDistribListRemove') );
+                    DisableControlsById('PrivilegeCampaignBrowse', Array('PrivilegeCampaignCreate', 'PrivilegeCampaignEdit', 'PrivilegeCampaignRemove', 'PrivilegeCampaignSending') );
+                    DisableControlsById('PrivilegeNewsletterArchiveBrowse', Array('PrivilegeNewsletterArchiveCreate', 'PrivilegeNewsletterArchiveEdit', 'PrivilegeNewsletterArchiveRemove') );
+
+                    DisableControlsById('PrivilegeSMSCampaignBrowse', Array('PrivilegeSMSCampaignCreate', 'PrivilegeSMSCampaignEdit', 'PrivilegeSMSCampaignRemove', 'PrivilegeSMSCampaignSending') );
+
+                    //AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+                  -->
+                  </script>
+
+
+                  <!-- ##### TabView - END -->
+
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                <br />
+                <input type="submit" name="UserEditBtn" value="&Auml;nderungen speichern" class="FormButton" />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </form>
+      </div>

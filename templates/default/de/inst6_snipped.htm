@@ -1,0 +1,52 @@
+      <form id="InstallForm" name="InstallForm" method="post" action="./install.php">
+      <input type="hidden" name="step" value="6" />
+      <input type="hidden" name="Language" />
+      <fieldset>
+      <legend>PRODUCTAPPNAME - Rechte auf Verzeichnisse und Dateien festlegen</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+            	<tr>
+                <td colspan="2">
+                  Es m&uuml;ssen jetzt Rechte auf Dateien und Verzeichnisse gesetzt werden, um
+                  PRODUCTAPPNAME vor unberechtigten Zugriffen von au&szlig;en zu sch&uuml;tzen bzw. den Upload von Dateien zu erm&ouml;glichen.
+                  <br />
+                  <br />
+                  <br />
+                </td>
+            	</tr>
+
+            	<tr>
+                <td>
+                <b>Dateien config.inc.php, config_db.inc.php und config_paths.inc.php</b><br /><br />
+                Setzen Sie die Rechte der Konfigurationsdateien <i> config.inc.php, config_db.inc.php und config_paths.inc.php</i> auf <b>nur</b> LESEN durch den Eigent&uuml;mer der Dateien(en) und <b>nur</b> LESEN f&uuml;r allen anderen Nutzer. Dies entspricht auf Linux/Unix-Systemen dem Wert <b>444</b> (chmod 444).
+                <br />
+                </td>
+                <td><img align="right" src="images/chmod444.png" alt="" />
+                </td>
+            	</tr>
+
+            	<tr>
+                <td>
+                <b>Rechte auf das Verzeichnis <i>userfiles</i> festlegen</b><br /><br />
+                Setzen Sie die Rechte des Verzeichnisses <i>userfiles</i> auf LESEN/SCHREIBEN/AUSF&Uuml;HREN f&uuml;r <b>alle</b> Nutzer.
+                Unter Linux/Unix-Systemen entspricht dies dem Wert 777 (chmod 777).
+                <br /><br /><br />
+                Auf Windows-Server-Systemen mu&szlig; Vollzugriff auf das Verzeichnis <i>userfiles</i> festgelegt werden.
+                </td>
+                <td>
+                <img align="right" src="images/chmod777.png" alt="" />
+                </td>
+            	</tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+      <!-- a hack //-->
+      <input type="image" src="images/blind.gif" width="1" height="1" />
+      <input type="submit" name="BackBtn" value="&lt Zur&uuml;ck" class="FormButton" />
+      &nbsp;<input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+      &nbsp;<input type="submit" name="JumpToNextBtn" value="Das Setzen der Rechte &uuml;berspringen (kritisch!)" class="FormButton" />
+
+      </form>
+      

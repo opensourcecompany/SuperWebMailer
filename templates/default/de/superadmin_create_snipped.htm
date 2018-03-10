@@ -1,0 +1,49 @@
+      <form method="post" action="./superadmincreate.php">
+
+      <fieldset>
+      <legend>Willkommen bei PRODUCTAPPNAME</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">PRODUCTAPPNAME wurde das erste Mal ausgef&uuml;hrt oder es ist kein Nutzer eingerichtet.<br /><br />
+                Der Benutzername f&uuml;r den ersten Nutzer ist immer <b>superadmin</b> das Kennwort kann frei vergeben werden.
+                Das Kennwort sollte <b>sicher</b> sein, da der SuperAdministrator f&uuml;r die Einrichtung der Administratoren der Empf&auml;ngerlisten zust&auml;ndig ist.<br /><br />
+                <br />
+                </td>
+              </tr>
+              <tr>
+                <td class="LabelColumn">Benutzername
+                </td>
+                <td><input type="text" id="Username" name="Username" value="superadmin" disabled="disabled" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="LabelColumn" valign="top">Kennwort
+                </td>
+                <td><input type="password" id="Password" name="Password" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="LabelColumn" valign="top">Kennwort wiederholen
+                </td>
+                <td><input type="password" id="PasswordAgain" name="PasswordAgain" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="LabelColumn" valign="top">Sprache der Oberfl&auml;che / Language of interface
+                </td>
+                <td>
+                <select name="Language" size="1">
+                <SHOW:LANGUAGE>
+                </SHOW:LANGUAGE>
+                </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          
+      </fieldset>
+
+      <br />
+
+     <input type="submit" name="SubmitBtn" value="Nutzer erstellen" class="FormButton" />
+
+      </form>

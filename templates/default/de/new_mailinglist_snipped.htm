@@ -1,0 +1,117 @@
+      <form id="Empf&auml;ngerlisteditForm" name="Empf&auml;ngerlisteditForm" method="post" action="./mailinglistcreate.php" onsubmit="CheckAndRemoveCriticalChars('Empf&auml;ngerlisteditForm')">
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <span class="Backlink"><br /><a href="./browsemailinglists.php" onclick="document.Empf&auml;ngerlisteditForm.action='./browsemailinglists.php';document.Empf&auml;ngerlisteditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie Ihrer Empf&auml;ngerliste einen eindeutigen Namen z.B. Technik. Optional k&ouml;nnen Sie eine Beschreibung angeben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Allgemein</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn">Name der Empf&auml;ngerliste
+                </td>
+                <td><input type="text" id="Name" name="Name" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="LabelColumn" valign="top">Beschreibung (optional)
+                </td>
+                <td><textarea id="Description" name="Description" rows="3" cols="50"></textarea></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Es ist empfehlenswert jede Anmeldung &uuml;ber das Doube-Opt-In Verfahren best&auml;tigen zu lassen, um eine rechtlich einwandfreie Empf&auml;ngerliste zu erhalten. Die Best&auml;tigungs-E-Mail sollte dabei im Text-Format erstellt werden, um die Erkennung als Spam-E-Mail zuvermeiden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Anmeldung (Opt-In)</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn">Art der Anmeldung
+                </td>
+                <td><select id="SubscriptionType" name="SubscriptionType" onchange="DisableControl(document.getElementById('SubscriptionType').selectedIndex == 1, document.getElementById('OptInConfirmationMailFormat'), document.getElementById('OptInConfirmationMailFormatLabel'))">
+                    <option value="SingleOptIn">Einfache Anmeldung ohne Best&auml;tigungs-E-Mail (Single Opt-In)</option>
+                    <option value="DoubleOptIn">Anmeldung mit Best&auml;tigung (Double Opt-In, Klick auf Link in Best&auml;tigungs-E-Mail notwendig)</option>
+                  </select></td>
+              </tr>
+              <tr>
+                <td class="LabelColumn">&nbsp;
+                </td>
+                <td>
+                   <table class="InnerTable" cellspacing="0" cellpadding="0" border="0">
+                     <tbody>
+                       <tr>
+                       <td class="LabelColumn" id="OptInConfirmationMailFormatLabel" name="OptInConfirmationMailFormatLabel">
+                         Format der E-Mail
+                       </td>
+                       <td>
+                         <select id="OptInConfirmationMailFormat" name="OptInConfirmationMailFormat">
+                          <option value="PlainText">Reine Text-E-Mail</option>
+                          <option value="HTML">HTML- und Text-E-Mail (multipart E-Mail)</option>
+                        </select>
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Die Abmeldung per Single Opt-Out ist empfohlen, um einem Empf&auml;nger die M&ouml;glichkeit zu geben sich schnell abzumelden (Empfehlung durch verschiedene Webspace-Anbieter).');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                  </SHOWHIDE:TOOLTIPS>Abmeldung (Opt-Out)</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn">Art der Abmeldung
+                </td>
+                <td><select id="UnsubscriptionType" name="UnsubscriptionType" onchange="DisableControl(document.getElementById('UnsubscriptionType').selectedIndex == 1, document.getElementById('OptOutConfirmationMailFormat'), document.getElementById('OptOutConfirmationMailFormatLabel'))">
+                    <option value="SingleOptOut">Abmeldung ohne Best&auml;tigungs-E-Mail (Single Opt-Out)</option>
+                    <option value="DoubleOptOut">Abmeldung mit Best&auml;tigung (Double Opt-Out, Klick auf Link in Best&auml;tigungs-E-Mail notwendig)</option>
+                  </select></td>
+              </tr>
+              <tr>
+                <td class="LabelColumn">&nbsp;
+                </td>
+                <td>
+                   <table class="InnerTable" cellspacing="0" cellpadding="0" border="0">
+                     <tbody>
+                       <tr>
+                       <td class="LabelColumn" id="OptOutConfirmationMailFormatLabel" name="OptOutConfirmationMailFormatLabel">
+                         Format der E-Mail
+                       </td>
+                       <td>
+                         <select id="OptOutConfirmationMailFormat" name="OptOutConfirmationMailFormat">
+                          <option value="PlainText">Reine Text-E-Mail</option>
+                          <option value="HTML">HTML- und Text-E-Mail (multipart E-Mail)</option>
+                        </select>
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <script language="javascript" type="text/javascript">
+        DisableControl(document.getElementById('SubscriptionType').selectedIndex == 1, document.getElementById('OptInConfirmationMailFormat'), document.getElementById('OptInConfirmationMailFormatLabel'));
+        DisableControl(document.getElementById('UnsubscriptionType').selectedIndex == 1, document.getElementById('OptOutConfirmationMailFormat'), document.getElementById('OptOutConfirmationMailFormatLabel'));
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      </script>
+      <br />
+
+     <input type="submit" name="MailingListCreateBtn" value="Neue Empf&auml;ngerliste anlegen" class="FormButton" />
+
+      </form>      

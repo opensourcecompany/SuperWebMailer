@@ -1,0 +1,319 @@
+      <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./campaignedit.php" onsubmit="return WarnOnTracking();">
+      <span class="Backlink"><br /><a href="./browsecampaigns.php" onclick="document.CampaignEditForm.action='./browsecampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="CampaignListId" id="CampaignListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel" value="7" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.CampaignEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.CampaignEditForm.submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.CampaignEditForm.submit(); return false;">Regeln</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.CampaignEditForm.submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.CampaignEditForm.submit(); return false;">Versand</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';document.CampaignEditForm.submit(); return false;">E-Mail-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='7';document.CampaignEditForm.submit(); return false;">Tracking</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';document.CampaignEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <fieldset>
+      <legend>Anonymes Tracking des E-Mailings</legend>
+      <input type="hidden" name="PersonalizeEMails" />
+      <br />
+          <IF:tracking_changeable>
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+                  <input type="checkbox" id="TrackEMailOpenings" name="TrackEMailOpenings" onclick="DisableItem('TrackEMailOpeningsImageChkBox', document.getElementById('TrackEMailOpenings').checked); DisableItem('TrackEMailOpeningsImageURL', document.getElementById('TrackEMailOpeningsImageChkBox').checked && !document.getElementById('TrackEMailOpeningsImageChkBox').disabled);" /><label for="TrackEMailOpenings">&nbsp;Anzahl E-Mail-&Ouml;ffnungen z&auml;hlen</label>
+                  <br />
+                  &nbsp;&nbsp;&nbsp;
+                  <input type="checkbox" id="TrackEMailOpeningsImageChkBox" name="TrackEMailOpeningsImageChkBox" onclick="DisableItem('TrackEMailOpeningsImageURL', document.getElementById('TrackEMailOpeningsImageChkBox').checked && !document.getElementById('TrackEMailOpeningsImageChkBox').disabled)" /><label for="TrackEMailOpeningsImageChkBox">&nbsp;Eigenes Bild aus dem E-Mail-Text f&uuml;r die Z&auml;hlung verwenden</label>
+                  <br />&nbsp;&nbsp;&nbsp;
+                  <select name="TrackEMailOpeningsImageURL" id="TrackEMailOpeningsImageURL" size="1">
+                    <option:image></option:image>
+                  </select>
+                  <br />
+                  <br />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                <input type="checkbox" id="TrackLinks" name="TrackLinks" onclick="ShowItem('LinksTable', document.getElementById('TrackLinks').checked || document.getElementById('TrackLinksByRecipient').checked );" /><label for="TrackLinks">&nbsp;Klicks auf Links z&auml;hlen</label>
+                </td>
+              </tr>
+              <tr>
+               <td>
+                <input type="checkbox" id="TrackingIPBlocking" name="TrackingIPBlocking" /><label for="TrackingIPBlocking">&nbsp;IP-Blocking verwenden</label><SHOWHIDE:TOOLTIPS>
+                            <img onmouseover="showTooltip(event, 'Verwenden Sie das IP-Blocking um eine Mehrfachz&auml;hlung in der &Ouml;ffnungsstatistik und Klicks auf Links-Statistik zu vermeiden.<br /><br />Beim Versand an gro&szlig;e Unternehmen, die nach au&szlig;en hin mit einer IP-Adresse im Internet auftreten, f&uuml;hrt dies zu einer Fehlz&auml;hlung wenn mehrere Mitarbeiter des Unternehmens angeschrieben werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                            </SHOWHIDE:TOOLTIPS>
+               </td>
+              </tr>
+              <tr>
+                <td>
+                  <br />
+                  <br />
+                  Hinweis: Hyperlinks, die in der HTML-E-Mail nicht hinter einem normalen Text ohne http://, https:// oder www. liegen, sollten nicht getrackt werden, da die E-Mail ansonsten vom E-Mail-Programm des Empf&auml;ngers als Phishing-E-Mail angesehen werden k&ouml;nnte.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </IF:tracking_changeable>
+      </fieldset>
+
+      <fieldset>
+      <legend>Personalisiertes Tracking des E-Mailings (Empf&auml;ngertracking)</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+                 <b>WICHTIGER HINWEIS</b><br /><br />Die Nutzung des direkten Empf&auml;ngertrackings kann gegen <b>Datenschutzbestimmungen</b> in Ihrem Land
+                 widersprechen. Sie m&uuml;ssen sich <b>SELBST</b> &uuml;ber die gesetzlichen Bestimmungen informieren und haften ebenfalls selbst VOLL sollte
+                 es zu etwaigen rechtlichen Ma&szlig;nahmen gegen Sie kommen.<br /><br /><br />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" id="TrackEMailOpeningsByRecipient" name="TrackEMailOpeningsByRecipient" onclick="DisableItem('TrackEMailOpeningsByRecipientImageChkBox', document.getElementById('TrackEMailOpeningsByRecipient').checked); DisableItem('TrackEMailOpeningsByRecipientImageURL', document.getElementById('TrackEMailOpeningsByRecipientImageChkBox').checked && !document.getElementById('TrackEMailOpeningsByRecipientImageChkBox').disabled);" /><label for="TrackEMailOpeningsByRecipient">&nbsp;Anzahl E-Mail-&Ouml;ffnungen z&auml;hlen</label>
+                  <br />
+                  &nbsp;&nbsp;&nbsp;
+                  <input type="checkbox" id="TrackEMailOpeningsByRecipientImageChkBox" name="TrackEMailOpeningsByRecipientImageChkBox" onclick="DisableItem('TrackEMailOpeningsByRecipientImageURL', document.getElementById('TrackEMailOpeningsByRecipientImageChkBox').checked && !document.getElementById('TrackEMailOpeningsByRecipientImageChkBox').disabled)" /><label for="TrackEMailOpeningsByRecipientImageChkBox">&nbsp;Eigenes Bild aus dem E-Mail-Text f&uuml;r die Z&auml;hlung verwenden</label>
+                  <br />&nbsp;&nbsp;&nbsp;
+                  <select name="TrackEMailOpeningsByRecipientImageURL" id="TrackEMailOpeningsByRecipientImageURL" size="1">
+                    <option:image></option:image>
+                  </select>
+                  <br />
+                  <br />
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" id="TrackLinksByRecipient" name="TrackLinksByRecipient" onclick="ShowItem('LinksTable', IsLinksTableVisible() );" /><label for="TrackLinksByRecipient">&nbsp;Klicks auf Links z&auml;hlen</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <br />
+                  <br />
+                  Hinweis: Hyperlinks, die in der HTML-E-Mail nicht hinter einem normalen Text ohne http://, https:// oder www. liegen, sollten nicht getrackt werden, da die E-Mail ansonsten vom E-Mail-Programm des Empf&auml;ngers als Phishing-E-Mail angesehen werden k&ouml;nnte.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset id="LinksTable" name="LinksTable">
+      <legend>Links, die getrackt werden sollen<SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'W&auml;hlen Sie alle Links, die getrackt werden sollen.<br />Links mit Feldern zur Personalisierung, Feldnamen in eckigen Klammern [], d&uuml;rfen nicht getrackt werden.<br />Die sichtbaren Linkbezeichnungen im E-Mail-Text selbst d&uuml;rfen keine http://-Aufrufe enthalten, ansonsten k&ouml;nnten diese E-Mails als Phishing-Versuch gedeutet werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                   </SHOWHIDE:TOOLTIPS></legend>
+      <br />
+          <table id="TableLinks" name="TableLinks" class="FixedTable">
+            <thead>
+              <tr>
+                <td>
+                  <input name="SelectAllChkBox" type="checkbox" onclick="CheckAllCheckboxes('SelectAllChkBox', 'LinksIDs[]', 'CampaignEditForm'); " />
+                </td>
+                <td>
+                 Link<SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Links, die kein H&auml;kchen besitzen, werden nicht getrackt.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                   </SHOWHIDE:TOOLTIPS>
+                </td>
+                <td>
+                 Link-Bezeichnung<SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Die Link-Bezeichnung wird in der Darstellung der Tracking-Statistik verwendet, dieser sollte daher kurz formuliert werden, um Darstellungsprobleme zu vermeiden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                   </SHOWHIDE:TOOLTIPS>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <LIST:LINKS>
+              <tr>
+                <td>
+                  <input type="checkbox" name="LinksIDs[]" id="LinksIDs[]" />
+                </td>
+                <td>
+                 <a href="[LINK_LINK]" target="_blank">[LINK_LINK]</a>
+                </td>
+                <td>
+                 <input type="text" name="LinkText[]" size="70" maxlength="255" />
+                </td>
+              </tr>
+              </LIST:LINKS>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend>Google Analytics</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+                  Mit Google Analytics lassen sich detailliert Webseiten-Zugriffe analysieren und eigene Webseitenoptimierungen &uuml;berwachen.
+                  Ebenfalls ist es m&ouml;glich in HTML-Newslettern mit Tags gekennzeichnete Links mit Google Analytics auswerten zu lassen. Zur Nutzung
+                  dieser Funktion ist ein Konto bei <A href="http://www.google.com/analytics/" target="_blank">Google Analytics</A> notwendig.
+                  <br /><br />
+                  Google Analytics ist ein Service der Google Inc., USA und kein Bestandteil der Software PRODUCTAPPNAME.
+                  <br /><br />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <input type="checkbox" id="GoogleAnalyticsActive" name="GoogleAnalyticsActive" onclick="DisableControlsById('GoogleAnalyticsActive', Array('GoogleAnalytics_utm_source', 'GoogleAnalytics_utm_medium', 'GoogleAnalytics_utm_term', 'GoogleAnalytics_utm_content', 'GoogleAnalytics_utm_campaign'  ) ); ShowItem('GoogleAnalyticsOptions', document.getElementById('GoogleAnalyticsActive').checked); " /><label for="GoogleAnalyticsActive">&nbsp;Links zur Analyse mit Google Analytics anpassen</label>
+                </td>
+              </tr>
+              <tr>
+                <td>
+
+                  <table class="InnerTable" name="GoogleAnalyticsOptions" id="GoogleAnalyticsOptions" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+
+                     <tr>
+                      <td class="StatColumn">
+                        <label for="GoogleAnalytics_utm_source">Kampagne Quelle (z.B. Newsletter):<sup>*</sup></label>
+                      </td>
+                      <td class="StatValueColumn">
+                       <input type="text" name="GoogleAnalytics_utm_source" id="GoogleAnalytics_utm_source" size="60" />
+                      </td>
+                     </tr>
+
+                     <tr>
+                      <td class="StatColumn">
+                        <label for="GoogleAnalytics_utm_medium">Kampagnenmedium (z.B. Newsletter1):<sup>*</sup></label>
+                      </td>
+                      <td class="StatValueColumn">
+                       <input type="text" name="GoogleAnalytics_utm_medium" id="GoogleAnalytics_utm_medium" size="60" />
+                      </td>
+                     </tr>
+
+                     <tr>
+                      <td class="StatColumn">
+                        <label for="GoogleAnalytics_utm_term">Kampagnenbegriff (Erkennung bezahltes Keyword):</label>
+                      </td>
+                      <td class="StatValueColumn">
+                       <input type="text" name="GoogleAnalytics_utm_term" id="GoogleAnalytics_utm_term" size="60" />
+                      </td>
+                     </tr>
+
+                     <tr>
+                      <td class="StatColumn">
+                        <label for="GoogleAnalytics_utm_content">Kampagnen-Content (nur f&uuml;r Anzeigen):</label>
+                      </td>
+                      <td class="StatValueColumn">
+                       <input type="text" name="GoogleAnalytics_utm_content" id="GoogleAnalytics_utm_content" size="60" />
+                      </td>
+                     </tr>
+
+
+                     <tr>
+                      <td class="StatColumn">
+                        <label for="GoogleAnalytics_utm_campaign">Kampagnenname (z.B. Aktionsname):<sup>*</sup></label>
+                      </td>
+                      <td class="StatValueColumn">
+                       <input type="text" name="GoogleAnalytics_utm_campaign" id="GoogleAnalytics_utm_campaign" size="60" />
+                      </td>
+                     </tr>
+
+                     <tr>
+                      <td colspan="2">
+                        <br />
+                        <br />
+                        Mit <sup>*</sup> gekennzeichnete Felder m&uuml;ssen ausgef&uuml;llt werden.
+                      </td>
+                     </tr>
+
+                   </tbody>
+                 </table>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" id="NextBtn" value="Speichern und Weiter &gt;" class="FormButton" />
+
+      <script type="text/javascript">
+      <!--
+        if(document.getElementById('TrackEMailOpenings')) {
+          ShowItem('LinksTable', !document.getElementById('TrackLinks').disabled && !document.getElementById('TrackLinksByRecipient').disabled && (document.getElementById('TrackLinks').checked || document.getElementById('TrackLinksByRecipient').checked) );
+          DisableItem('TrackEMailOpeningsImageChkBox', document.getElementById('TrackEMailOpenings').checked);
+          DisableItem('TrackEMailOpeningsImageURL', document.getElementById('TrackEMailOpeningsImageChkBox').checked && !document.getElementById('TrackEMailOpeningsImageChkBox').disabled);
+        }
+        DisableItem('TrackEMailOpeningsByRecipientImageChkBox', document.getElementById('TrackEMailOpeningsByRecipient').checked);
+        DisableItem('TrackEMailOpeningsByRecipientImageURL', document.getElementById('TrackEMailOpeningsByRecipientImageChkBox').checked && !document.getElementById('TrackEMailOpeningsByRecipientImageChkBox').disabled);
+        addTableRolloverEffect('TableLinks','tableRollOverEffect','tableRowClickEffect');
+
+        DisableControlsById('GoogleAnalyticsActive', Array('GoogleAnalytics_utm_source', 'GoogleAnalytics_utm_medium', 'GoogleAnalytics_utm_term', 'GoogleAnalytics_utm_content', 'GoogleAnalytics_utm_campaign'  ) );
+        ShowItem('GoogleAnalyticsOptions', document.getElementById('GoogleAnalyticsActive').checked);
+
+        function IsLinksTableVisible(){
+          if( document.getElementById('TrackLinks') )
+            return ( document.getElementById('TrackLinks').checked || document.getElementById('TrackLinksByRecipient').checked )
+          if( !document.getElementById('TrackLinks') )
+            return 1;
+        }
+        
+        function WarnOnTracking(){
+          if(document.getElementById('TrackEMailOpenings')){
+            var message1 = "";
+            if(!document.getElementById('TrackEMailOpenings').checked && document.getElementById('TrackEMailOpeningsByRecipient').checked){
+              message1 = "<b>Sie haben die Z&auml;hlung der &Ouml;ffnungen personalisiert aktiviert</b>, jedoch die anonyme Z&auml;hlung der &Ouml;ffnungen deaktiviert. Bei Anzeige der Tracking-Statistik werden die Statistiken f&uuml;r die Z&auml;hlung der <b>anonymen &Ouml;ffnungen damit leer bleiben</b> und nur die &Ouml;ffnungen der einzelnen Empf&auml;nger abrufbar sein.";
+            }
+          
+            var message2 = "";
+            if(!document.getElementById('TrackLinks').checked && document.getElementById('TrackLinksByRecipient').checked){
+              message2 = "<b>Sie haben die Z&auml;hlung der Klicks auf Hyperlinks personalisiert aktiviert</b>, jedoch die anonyme Z&auml;hlung der Klicks deaktiviert. Bei Anzeige der Tracking-Statistik werden die Statistiken f&uuml;r die Z&auml;hlung der <b>anonymen Klicks auf Hyperlinks damit leer bleiben</b> und nur die Klicks auf Hyperlinks der einzelnen Empf&auml;nger abrufbar sein.";
+            }
+            if(message1 == "" && message2 == "") return true; // no tracking
+            
+            var message = "";
+            
+            if(message1 != "")
+              message = message1;
+            if(message2 != "")
+              if(message != "")
+                message = message + "<br /><br />" + message2;
+                else
+                message = message2;
+
+            message = message + "<br /><br />M&ouml;chten Sie die Einstellungen zum Tracking wirklich in dieser Form verwenden?";
+
+            height = 218;
+            if(message1 != "" && message2 != "")
+              height = 328;
+            if(navigator.userAgent.indexOf("Firefox") < 0 && navigator.userAgent.indexOf("Netscape") < 0)
+              height -= 16;
+
+            MessageBox('Best&auml;tigung', message, 3, 500, height, 'ConfirmWarnOnTrackingEvent');
+            return false;
+
+          } else
+            return true;
+        }
+        
+        function ConfirmWarnOnTrackingEvent(value) {
+          if(value){
+            document.getElementById('CampaignEditForm').onsubmit = null;
+            document.getElementById('NextBtn').click();
+          }
+        }
+
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+      </form>

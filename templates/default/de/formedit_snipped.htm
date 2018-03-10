@@ -1,0 +1,1864 @@
+      <script type="text/javascript"  src="js/jquery-latest.min.js"></script>
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var TabListArray = Array();
+        var SubscribeInnerTabListArray = Array();
+        var UnsubscribeInnerTabListArray = Array();
+        var EditInnerTabListArray = Array();
+        var OptOutConfirmedInnerTabListArray = Array();
+        var OptInConfirmedInnerTabListArray = Array();
+
+        function DoShowFunctionsDialog(formId, formElementId, isfckeditor) {
+          FunctionsOpen(formId, formElementId, isfckeditor);
+        }
+
+        function DoShowSerialMailPreviewDialog(formId, MailTemplate) {
+          MailingListId = document.getElementById("MailingListId").value;
+          FormId = document.getElementById("FormId").value;
+          if(FormId == 0 || FormId == "") {
+            return false;
+          }
+          if(MailingListId == 0 || MailingListId == "") {
+            return false;
+          }
+
+          SerialMailPreviewOpen(MailingListId, FormId, MailTemplate);
+        }
+
+        var myBasePath='';
+
+        // default placeholders
+        var arrPlaceholderItems = new Array(
+            new Array('[PLACEHOLDER]', 'PLACEHOLDERTEXT')
+      	    );
+      	 // special placeholders subscribe
+      	 var arrSubscribePlaceholders = new Array(
+            new Array('[SUBSCRIBEPLACEHOLDER]', 'SUBSCRIBEPLACEHOLDERTEXT')
+      	 );
+      	 // special placeholders unsubscribe
+      	 var arrUnsubscribePlaceholders = new Array(
+            new Array('[UNSUBSCRIBEPLACEHOLDER]', 'UNSUBSCRIBEPLACEHOLDERTEXT')
+      	 );
+
+      	 // special placeholders for newsletter subscribe / unsubscribe
+      	 var arrNewsletterUnsubscribePlaceholders = new Array(
+            new Array('[NEWSLETTER_UNSUBSCRIBEPLACEHOLDER]', 'NEWSLETTER_UNSUBSCRIBEPLACEHOLDERTEXT')
+      	 );
+
+      	 // special placeholders edit
+      	 var arrEditPlaceholders = new Array(
+            new Array('[EDITPLACEHOLDER]', 'EDITPLACEHOLDERTEXT')
+      	 );
+
+        function ConfirmEditPagesEvent(value) {
+         if(value)
+           window.location.href="./browsepages.php";
+        }
+
+        function ConfirmEditMessagesEvent(value) {
+         if(value)
+           window.location.href="./browsemessages.php";
+        }
+
+        function ConfirmEditMTAsEvent(value) {
+         if(value)
+           window.location.href="./browsemtas.php";
+        }
+
+
+        /* from page http://blog.pothoven.net/2006/10/move-options-up-and-down-select-lists.html */
+        function moveOptionsUp(selectId) {
+           var selectList = document.getElementById(selectId);
+           var selectOptions = selectList.getElementsByTagName('option');
+           for (var i = 1; i < selectOptions.length; i++) {
+              var opt = selectOptions[i];
+              if (opt.selected) {
+                 selectList.removeChild(opt);
+                 selectList.insertBefore(opt, selectOptions[i - 1]);
+                 break; // only one
+               }
+           }
+        }
+
+        function moveOptionsDown(selectId) {
+          var selectList = document.getElementById(selectId);
+          var selectOptions = selectList.getElementsByTagName('option');
+          for (var i = selectOptions.length - 2; i >= 0; i--) {
+             var opt = selectOptions[i];
+             if (opt.selected) {
+               var nextOpt = selectOptions[i + 1];
+               opt = selectList.removeChild(opt);
+               nextOpt = selectList.replaceChild(opt, nextOpt);
+               selectList.insertBefore(nextOpt, opt);
+               break; // only one
+             }
+          }
+        }
+        //
+
+        function MoveMTA(direction) {
+          select = document.getElementById("mtas[]");
+          index = select.selectedIndex;
+          if(direction == "Up" && index < 0) return;
+          if(direction == "Down" && index > select.options.length) return;
+          if(direction == "Up")
+             moveOptionsUp("mtas[]");
+          if(direction == "Down")
+             moveOptionsDown("mtas[]");
+        }
+
+
+      //-->
+      </script>
+      <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+      <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
+
+      <div class="spacerborder">
+        <form method="post" id="FormEditForm" name="FormEditForm" action="./formedit.php" onsubmit="CheckAndRemoveCriticalChars('FormEditForm')">
+          <input type="hidden" id="MailingListId" name="MailingListId" />
+          <input type="hidden" id="FormId" name="FormId" />
+          <input type="hidden" id="SubscriptionType" name="SubscriptionType" />
+          <input type="hidden" id="UnsubscriptionType" name="UnsubscriptionType" />
+          <input type="hidden" name="TargetGroupsSupport" id="TargetGroupsSupport" value="1" />
+
+          <span class="Backlink"><a href="./browseforms.php?MailingListId=">Zur&uuml;ck</a></span><br />
+          <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+
+                  <!-- ##### TabView - START -->
+                  <div id="dhtmlgoodies_tabView">
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Allgemein');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie dem An-/Abmeldeformular einen eindeutigen Namen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Allgemein</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Name des An-/Abmeldeformulars
+                                </td>
+                                <td><input type="text" id="Name" name="Name" maxlength="128" size="50" /></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      <fieldset>
+                      <legend>
+                      <SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Ein Captcha ist eine kleine Grafik mit einem Wort, welches vor dem Absenden eines HTML-Formulars eingegeben werden muss. Es kann so ein automatisches Ausf&uuml;llen und Absenden des Formulars durch Spambots verhindert werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>Sicherheit</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">&nbsp;
+                                </td>
+                                <td>
+                                  <input type="radio" id="UseCaptcha0" name="UseACaptcha" value="0" onclick="ShowHidereCAPTACHKeys()" /><label for="UseCaptcha0">&nbsp;Kein Captcha verwenden</label>
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">&nbsp;
+                                </td>
+                                <td>
+                                  <input type="radio" id="UseCaptcha1" name="UseACaptcha" value="1" onclick="ShowHidereCAPTACHKeys()" /><label for="UseCaptcha1">&nbsp;Internes Captcha verwenden</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'PHP mit GDLib ist f&uuml;r diese Funktion erforderlich.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                              </tr>
+                              
+                              <tr>
+                                <td class="MessageDescriptionColumn">&nbsp;
+                                </td>
+                                <td>
+                                  <input type="radio" id="UseCaptcha2" name="UseACaptcha" value="2" onclick="ShowHidereCAPTACHKeys()" /><label for="UseCaptcha2">&nbsp;Google reCAPTCHA verwenden</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Es ist eine Anmeldung unter http://www.google.com/recaptcha notwendig, nach Anmeldung erhalten Sie die notwendigen Schl&uuml;ssel.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>
+                                   <br /> <br />
+                                   <span id="reCAPTACHKeys">
+                                     <table class="InnerTable" cellspacing="0" cellpadding="0" border="0">
+                                       <tbody>
+                                        <tr>
+                                         <td class="LabelColumn">
+                                           Websiteschl&uuml;ssel(&Ouml;ffentlicher Schl&uuml;ssel):
+                                         </td>
+                                         <td>
+                                           <input type="text" name="PublicReCaptchaKey" size="60" />
+                                        </td>
+                                        </tr>
+
+                                        <tr>
+                                         <td class="LabelColumn">
+                                           Geheimer Schl&uuml;ssel (Privater Schl&uuml;ssel):
+                                         </td>
+                                         <td>
+                                           <input type="text" name="PrivateReCaptchaKey" size="60" />
+                                        </td>
+                                        </tr>
+
+                                      </tbody>
+                                     </table>
+                                   </span>
+                                </td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      <fieldset>
+                      <legend>
+                      <SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Bei Verwendung des internen Formulars f&uuml;r die An-/Abmeldungen bzw. zur &Auml;nderung der Newsletter-Anmeldung kann das Layout des Formulars nicht angepasst werden.<br />Zur Anpassung des Formulars k&ouml;nnen Sie die Dateien default_subscribeunsubscribe_page.htm, default_edit_page.htm und default_errorpage.htm aus dem Verzeichnis %TEMPLATES_DIR% in ein neues Unterverzeichnis der PRODUCTAPPNAME-Installation kopieren, das Layout anpassen und danach den Verzeichnisnamen hier angeben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>Eigenes Layout f&uuml;r das interne An-/Abmelde-/&Auml;ndern-Formular</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Verzeichnisname (nur f&uuml;r Profis!)
+                                </td>
+                                <td>
+                                  <input type="text" name="UserDefinedFormsFolder" id="UserDefinedFormsFolder" size="50" maxlength="255" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      <fieldset>
+                      <legend>
+                      <SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Sollte auf dem Webspace gleichzeitig eine andere Domain konnektiert sein, dann k&ouml;nnen Sie hier den http(s)://-Aufruf mit dem anderen Domainnamen angeben, so dass dieser im An-/Abmeldeformular und f&uuml;r die Links in den E-Mails selbst verwendet wird.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>Alternativer http(s)://-Aufruf f&uuml;r Anmeldungen/Abmeldungen</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">http(s)://-Aufruf (nur f&uuml;r Profis!)
+                                </td>
+                                <td>
+                                  <input type="text" name="OverrideSubUnsubURL" id="OverrideSubUnsubURL" size="50" maxlength="255" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      <IS:SWM>
+                      <fieldset>
+                      <legend>
+                      <SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Sollte auf dem Webspace gleichzeitig eine andere Domain konnektiert sein, dann k&ouml;nnen Sie hier den http(s)://-Aufruf mit dem anderen Domainnamen angeben, so dass diese f&uuml;r die Tracking-Links verwendet wird.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>Alternativer http(s)://-Aufruf f&uuml;r das Tracking</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">http(s)://-Aufruf (nur f&uuml;r Profis!)
+                                </td>
+                                <td>
+                                  <input type="text" name="OverrideTrackingURL" id="OverrideTrackingURL" size="50" maxlength="255" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      </IS:SWM>
+                      <fieldset>
+                      <legend>Informationen</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Interner Tabellenname
+                                </td>
+                                <td><SHOW:INTERNALTABLENAME></SHOW:INTERNALTABLENAME><input type="hidden" name="FormsTableName" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Erstellungsdatum des Formulars
+                                </td>
+                                <td><SHOW:CREATEDATE></SHOW:CREATEDATE><input type="hidden" name="CREATEDATE" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Ist Standardformular der Empf&auml;ngerliste <SHOW:MAILINGLISTNAME></SHOW:MAILINGLISTNAME>
+                                </td>
+                                <td><SHOW:ISDEFAULT></SHOW:ISDEFAULT></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Empf&auml;ngerliste <SHOW:MAILINGLISTNAME></SHOW:MAILINGLISTNAME> verwendet Double-Opt-In f&uuml;r die Anmeldung
+                                </td>
+                                <td><SHOW:ISDOUBLEOPTIN></SHOW:ISDOUBLEOPTIN></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Empf&auml;ngerliste <SHOW:MAILINGLISTNAME></SHOW:MAILINGLISTNAME> verwendet Double-Opt-Out f&uuml;r die Abmeldung
+                                </td>
+                                <td><SHOW:ISDOUBLEOPTOUT></SHOW:ISDOUBLEOPTOUT></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">
+                                 Verwendung des Formulars
+                                </td>
+                                <td>
+                                 <select size="3" style="width: 95%;">
+                                  <SHOW:FORMREFERENCES></SHOW:FORMREFERENCES>
+                                 </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Ausgaben');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die Sprache und Oberfl&auml;che/Theme, die f&uuml;r dieses Formular verwendet werden sollen.<br />Sie k&ouml;nnen eigene Meldungstexte, ebenfalls in unterschiedlichen Sprachen, definieren in dem Sie im Men&uuml; &quot;Einstellungen&quot; auf &quot;Meldungstexte&quot; klicken.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>Sprache und Oberfl&auml;che</legend>
+                       <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Sprache
+                                </td>
+                                <td><select name="Language" size="1">
+                                   <SHOW:LANGUAGE>
+                                   </SHOW:LANGUAGE>
+                                   </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Oberfl&auml;che/Theme
+                                </td>
+                                <td><select name="ThemesId" size="1">
+                                   <SHOW:THEMES>
+                                   </SHOW:THEMES>
+                                   </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die Meldungstexte, die f&uuml;r dieses Formular verwendet werden sollen.<br />Sie k&ouml;nnen eigene Meldungstexte, ebenfalls in unterschiedlichen Sprachen, definieren in dem Sie im Men&uuml; &quot;Einstellungen&quot; auf &quot;Meldungstexte&quot; klicken.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>Meldungstexte</legend>
+                       <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                               <td colspan="2" style="text-align: right">
+                                <a href="./browsemessages.php" onclick="MessageBox('Best&auml;tigung', 'Alle ver&auml;nderten Einstellungen auf diesen Seite(n) gehen verloren.<br /><br />M&ouml;chten Sie jetzt wirklich neue Meldungstexte definieren?', 3, 320, 160, 'ConfirmEditMessagesEvent'); return false;">Neue Meldungen definieren</a>
+                                <br />
+                               </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Zu verwendende Meldungstexte<br />
+                                </td>
+                                <td><select id="messages_id" name="messages_id" size="1">
+                                    <SHOW:Messages>
+                                    </SHOW:Messages>
+                                  </select></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Aktivieren diese Option und definieren Sie Gr&uuml;nde f&uuml;r die Abmeldung vom Newsletter, um nach Abschluss der Abmeldung eine Umfrage durchf&uuml;hren zu lassen.<br />Beachten Sie unbedingt die Hilfe zu dieser Umfragefunktion.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>Umfrage Grund f&uuml;r Abmeldung</legend>
+                       <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                               <td colspan="2" style="text-align: left">
+                                <input type="checkbox" name="RequestReasonForUnsubscription" id="RequestReasonForUnsubscription" onclick="DisableControlsById('RequestReasonForUnsubscription', Array('ReasonsForUnsubscriptionBtn', 'ExternalReasonForUnsubscriptionScript'))" />&nbsp;<label for="RequestReasonForUnsubscription">Grund f&uuml;r Abmeldung nach erfolgreicher Abmeldung erfragen</label><br /><br />
+
+
+                                <blockquote style="margin-left: 16px;" >
+                                 <input type="button" id="ReasonsForUnsubscriptionBtn" class="FormButton" value="Gr&uuml;nde definieren..." onclick="ReasonsForUnsubscriptionOpen(document.getElementById('MailingListId').value, document.getElementById('FormId').value); return false;" />
+                                 <br /><br />
+                                 <label for="ExternalReasonForUnsubscriptionScript">Externes Script per http(s):// bei Abstimmung aufrufen</label><SHOWHIDE:TOOLTIPS>
+                                          <img onmouseover="showTooltip(event, 'Es kann ein externes eigenes Script angegeben werden, das nach Absenden der Umfrage aufgerufen wird.<br /><br />Dem Script werden per HTTP GET die Parameter MailingListId, FormId, Reason und ReasonText &uuml;bergeben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                          </SHOWHIDE:TOOLTIPS><br />
+                                 <input type="text" name="ExternalReasonForUnsubscriptionScript" size="80" maxlength="255" id="ExternalReasonForUnsubscriptionScript" />
+                                </blockquote>
+
+                               </td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die anzuzeigenden HTML-Seiten/Umleitungen.<br />Sie k&ouml;nnen eigene anzuzeigende HTML-Seiten und Umleitungen definieren in dem Sie im Men&uuml; &quot;Einstellungen&quot; auf &quot;HTML-Seiten/Umleitungen&quot; klicken.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>Anzuzeigende HTML-Seiten/Umleitungen</legend>
+                       <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+
+                              <tr>
+                                <td colspan="2" style="text-align: right">
+                                   <a href="./browsepages.php" onclick="MessageBox('Best&auml;tigung', 'Alle ver&auml;nderten Einstellungen auf diesen Seite(n) gehen verloren.<br /><br />M&ouml;chten Sie jetzt wirklich neue HTML-Seiten/Umleitungen definieren?', 3, 320, 160, 'ConfirmEditPagesEvent'); return false;">Neue Seiten/Umleitungen definieren</a>
+                                   <br />
+                                </td>
+                              </tr>
+
+                            <tr>
+                              <td class="MessageDescriptionColumn" colspan="2"><strong>Seiten f&uuml;r die Anmeldung</strong>
+                              </td>
+                            </tr>
+
+                             <tr>
+                             <td class="MessageDescriptionColumn">
+                               Fehlerseite bei Anmeldung
+                             </td>
+                             <td>
+                               <select name="SubscribeErrorPage" id="SubscribeErrorPage" size="1">
+                                  <SHOW:SubscribeErrorPage>
+                                  </SHOW:SubscribeErrorPage>
+                               </select>
+                            </td>
+                            </tr>
+                            <tr>
+                              <td class="MessageDescriptionColumn">&nbsp;
+                              </td>
+                              <td>&nbsp;
+                              </td>
+                            </tr>
+
+                             <tr>
+                             <td class="MessageDescriptionColumn" id="SubscribeAcceptedPageLabel">
+                               Seite f&uuml;r Best&auml;tigungs-E-Mail wurde nach Anmeldung versendet
+                             </td>
+                             <td>
+                               <select name="SubscribeAcceptedPage" id="SubscribeAcceptedPage" size="1">
+                                  <SHOW:SubscribeAcceptedPage>
+                                  </SHOW:SubscribeAcceptedPage>
+                              </select>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td class="MessageDescriptionColumn">&nbsp;
+                                </td>
+                                <td>&nbsp;
+                                </td>
+                            </tr>
+
+                             <tr>
+                             <td class="MessageDescriptionColumn">
+                               Seite f&uuml;r Anmeldung erfolgreich
+                             </td>
+                             <td>
+                               <select name="SubscribeConfirmationPage" id="SubscribeConfirmationPage" size="1">
+                                  <SHOW:SubscribeConfirmationPage>
+                                  </SHOW:SubscribeConfirmationPage>
+                              </select>
+                            </td>
+                            </tr>
+
+                            <tr>
+                                <td class="MessageDescriptionColumn">&nbsp;
+                                </td>
+                                <td>&nbsp;
+                                </td>
+                            </tr>
+
+                            <tr>
+                              <td class="MessageDescriptionColumn" colspan="2"><strong>Seiten f&uuml;r die Abmeldung</strong>
+                              </td>
+                            </tr>
+
+                             <tr>
+                             <td class="MessageDescriptionColumn">
+                               Fehlerseite bei Abmeldung
+                             </td>
+                             <td>
+                               <select name="UnsubscribeErrorPage" id="UnsubscribeErrorPage" size="1">
+                                  <SHOW:UnsubscribeErrorPage>
+                                  </SHOW:UnsubscribeErrorPage>
+                              </select>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td class="MessageDescriptionColumn">&nbsp;
+                                </td>
+                                <td>&nbsp;
+                                </td>
+                            </tr>
+
+                             <tr>
+                             <td class="MessageDescriptionColumn">
+                               Anzeige Zwischenseite nach Klick auf Abmeldelink in einer E-Mail
+                             </td>
+                             <td>
+                               <select name="UnsubscribeBridgePage" id="UnsubscribeBridgePage" size="1">
+                                  <option value="0">Keine anzeigen</option>
+                                  <SHOW:UnsubscribeBridgePage>
+                                  </SHOW:UnsubscribeBridgePage>
+                              </select>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td class="MessageDescriptionColumn">&nbsp;
+                                </td>
+                                <td>&nbsp;
+                                </td>
+                            </tr>
+
+                             <tr>
+                             <td class="MessageDescriptionColumn" id="UnsubscribeAcceptedPageLabel">
+                               Seite f&uuml;r Best&auml;tigungs-E-Mail wurde nach Abmeldung versendet
+                             </td>
+                             <td>
+                               <select name="UnsubscribeAcceptedPage" id="UnsubscribeAcceptedPage" size="1">
+                                  <SHOW:UnsubscribeAcceptedPage>
+                                  </SHOW:UnsubscribeAcceptedPage>
+                              </select>
+                            </td>
+                            </tr>
+                            <tr>
+                                <td class="MessageDescriptionColumn">&nbsp;
+                                </td>
+                                <td>&nbsp;
+                                </td>
+                            </tr>
+
+                             <tr>
+                             <td class="MessageDescriptionColumn">
+                               Seite f&uuml;r Abmeldung erfolgreich
+                             </td>
+                             <td>
+                               <select name="UnsubscribeConfirmationPage" id="UnsubscribeConfirmationPage" size="1">
+                                  <SHOW:UnsubscribeConfirmationPage>
+                                  </SHOW:UnsubscribeConfirmationPage>
+                              </select>
+                            </td>
+                            </tr>
+
+                             <tr>
+                             <td class="MessageDescriptionColumn">
+                               Seite f&uuml;r Umfrage nach Abmeldung abgeschlossen
+                             </td>
+                             <td>
+                               <select name="RFUSurveyConfirmationPage" id="RFUSurveyConfirmationPage" size="1">
+                                  <SHOW:RFUSurveyConfirmationPage>
+                                  </SHOW:RFUSurveyConfirmationPage>
+                              </select>
+                            </td>
+                            </tr>
+
+                            <tr>
+                                <td class="MessageDescriptionColumn">&nbsp;
+                                </td>
+                                <td>&nbsp;
+                                </td>
+                            </tr>
+
+                            <tr>
+                              <td class="MessageDescriptionColumn" colspan="2"><strong>Seiten f&uuml;r die &Auml;nderung</strong>
+                              </td>
+                            </tr>
+
+
+                             <tr>
+                             <td class="MessageDescriptionColumn">
+                               Fehlerseite bei &Auml;nderung
+                             </td>
+                             <td>
+                               <select name="EditErrorPage" id="EditErrorPage" size="1">
+                                  <SHOW:EditErrorPage>
+                                  </SHOW:EditErrorPage>
+                              </select>
+                            </td>
+                            </tr>
+
+                             <tr>
+                             <td class="MessageDescriptionColumn" id="EditAcceptedPageLabel">
+                               Seite f&uuml;r Best&auml;tigungs-E-Mail wurde nach &Auml;nderung versendet
+                             </td>
+                             <td>
+                               <select name="EditAcceptedPage" id="EditAcceptedPage" size="1">
+                                  <SHOW:EditAcceptedPage>
+                                  </SHOW:EditAcceptedPage>
+                              </select>
+                            </td>
+                            </tr>
+
+                             <tr>
+                             <td class="MessageDescriptionColumn">
+                               Seite f&uuml;r &Auml;nderung erfolgreich
+                             </td>
+                             <td>
+                               <select name="EditConfirmationPage" id="EditConfirmationPage" size="1">
+                                  <SHOW:EditConfirmationPage>
+                                  </SHOW:EditConfirmationPage>
+                              </select>
+                            </td>
+                            </tr>
+
+                             <tr>
+                             <td class="MessageDescriptionColumn">
+                               Seite f&uuml;r &Auml;nderung verworfen
+                             </td>
+                             <td>
+                               <select name="EditRejectPage" id="EditRejectPage" size="1">
+                                  <SHOW:EditRejectPage>
+                                  </SHOW:EditRejectPage>
+                              </select>
+                            </td>
+                            </tr>
+
+                            </tbody>
+                          </table>
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Felder');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie wie Empf&auml;ngergruppen im Formular gehandhabt werden sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>Empf&auml;ngergruppen</legend>
+                      <br />
+                        <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                          <tbody>
+                             <tr>
+                              <td colspan="2">
+                                <input type="radio" id="GroupsOption1" name="GroupsOption" value="1" onclick="DisableItem('groups_id', document.FormEditForm.GroupsOption[2].checked); DisableItem('GroupsAsCheckBoxes', document.FormEditForm.GroupsOption[1].checked); DisableItem('GroupsAsMandatoryField', document.FormEditForm.GroupsOption[1].checked);" /><label for="GroupsOption1">&nbsp;Eintragung in bestehende Gruppen nicht erlaubt</label>
+                              </td>
+                             </tr>
+                             <tr>
+                              <td colspan="2">
+                                <input type="radio" id="GroupsOption2" name="GroupsOption" value="2" onclick="DisableItem('groups_id', document.FormEditForm.GroupsOption[2].checked); DisableItem('GroupsAsCheckBoxes', document.FormEditForm.GroupsOption[1].checked); DisableItem('GroupsAsMandatoryField', document.FormEditForm.GroupsOption[1].checked);" /><label for="GroupsOption2">&nbsp;Eintragung in alle bestehenden Gruppen erlaubt</label>
+                              </td>
+                             </tr>
+                             <tr>
+                              <td colspan="2">
+                               <input type="radio" id="GroupsOption3" name="GroupsOption" value="3" onclick="DisableItem('groups_id', document.FormEditForm.GroupsOption[2].checked); DisableItem('GroupsAsCheckBoxes', document.FormEditForm.GroupsOption[1].checked); DisableItem('GroupsAsMandatoryField', document.FormEditForm.GroupsOption[1].checked);" /><label for="GroupsOption3">&nbsp;Eintragung ohne Nutzereingriff immer in folgende Gruppe&nbsp;</label>
+                               <select size="1" id="groups_id" name="groups_id">
+                                 <SHOW:GROUPS>
+                                 </SHOW:GROUPS>
+                               </select>
+                              </td>
+                             </tr>
+                             <tr>
+                              <td colspan="2">
+                                &nbsp;
+                              </td>
+                             </tr>
+                             <tr>
+                              <td colspan="2">
+                                <input type="checkbox" id="GroupsAsCheckBoxes" name="GroupsAsCheckBoxes" /><label for="GroupsAsCheckBoxes">&nbsp;Gruppen als Kontrollk&auml;stchen, ansonsten als Liste zeigen.</label>
+                              </td>
+                             </tr>
+                             <tr>
+                              <td colspan="2">
+                                <input type="checkbox" id="GroupsAsMandatoryField" name="GroupsAsMandatoryField" /><label for="GroupsAsMandatoryField">&nbsp;Eintragung in mindestens eine Gruppe soll Pflichtfeld sein.</label>
+                              </td>
+                             </tr>
+                          </tbody>
+                        </table>
+                      </fieldset>
+                      <br />
+                      <fieldset>
+
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die Felder, die im Formular erscheinen und welche davon Pflichtfelder sein sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>Formular-Felder</legend>
+                      <br />
+                        <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                    	    <colgroup>
+                      	    <col style="width:20%; vertical-align:middle">
+                      	    <col style="width:20%;">
+                      	    <col style="width:16px; ">
+                      	    <col style="width:20%; vertical-align:middle">
+                      	    <col style="width:20%;">
+                    	    </colgroup>
+                          <tbody>
+                           <TABLE:ROW>
+                      	    <tr>
+                      	      <td class="LabelColumn">
+                       	      <!--FIELD1-->
+                             </td>
+                      	      <td>
+                      	        <!--VALUE1-->
+                      	      </td>
+                      	      <td>
+                      	      &nbsp;</td>
+                      	      <td class="LabelColumn">
+                              <!--FIELD2-->
+                             </td>
+                      	      <td>
+                       	      <!--VALUE2-->
+                      	      </td>
+                        	  </tr>
+                           </TABLE:ROW>
+                          </tbody>
+                        </table>
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+
+                   <FormEMailAddresses>
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('E-Mail-Versand');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie mindestens Absender-E-Mail-Adresse und angezeigter Absender-Name an. Die anderen Optionen sind optional.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>E-Mail-Adressen f&uuml;r den E-Mail-Versand</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Absender E-Mail-Adresse
+                                </td>
+                                <td><input type="text" id="SenderFromAddress" name="SenderFromAddress" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Angezeigter Absender-Name
+                                </td>
+                                <td><input type="text" id="SenderFromName" name="SenderFromName" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Antwort-E-Mail-Adresse (Reply-to)
+                                </td>
+                                <td><input type="text" id="ReplyToEMailAddress" name="ReplyToEMailAddress" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">E-Mail-Adresse f&uuml;r die Return-Path-Angabe
+                                </td>
+                                <td><input type="text" id="ReturnPathEMailAddress" name="ReturnPathEMailAddress" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Sichtbare Kopien-Empf&auml;nger (Cc)<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie eine oder mehrere E-Mail-Adressen mit Komma (,) getrennt an, die eine sichtbare Kopie(Cc) erhalten sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td><input type="text" id="CcEMailAddresses" name="CcEMailAddresses" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Unsichtbare Blindkopien-<br />Empf&auml;nger (BCc)<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie eine oder mehrere E-Mail-Adressen mit Komma (,) getrennt an, die eine unsichtbare Blindkopie(BCc) erhalten sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td><input type="text" id="BCcEMailAddresses" name="BCcEMailAddresses" size="50" /></td>
+                              </tr>
+                              <tr><td>&nbsp;</td></tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Jede Empf&auml;ngerliste muss eine Versandvariante zugewiesen bekommen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Versandvariante (MTA) der Empf&auml;ngerliste</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Versandvarianten
+                                <br /><a href="./browsemtas.php" onclick="MessageBox('Best&auml;tigung', 'Alle ver&auml;nderten Einstellungen auf diesen Seite(n) gehen verloren.<br /><br />M&ouml;chten Sie jetzt wirklich neue Versandvarianten definieren?', 3, 320, 160, 'ConfirmEditMTAsEvent'); return false;">(Neue Versandvariante definieren)</a>
+                                </td>
+                                <td>
+                                <select name="mtas[]" id="mtas[]" size="1">
+                                   <SHOW:MTAS>
+                                   </SHOW:MTAS>
+                                </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+                  	</FormEMailAddresses>
+
+                   <OptInConfirmation>
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('E-Mail zur Anmeldung');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <span id="OptInConfirmation">
+                      <fieldset>
+                      <legend>Inhaltsangaben
+                         <input type="image" onclick="DoShowSerialMailPreviewDialog('FormEditForm', 'OptInConfirmation'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
+                      </legend>
+                        <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+
+                              <tr>
+                               <td class="MessageDescriptionColumn" id="OptInConfirmationMailFormatLabel" name="OptInConfirmationMailFormatLabel">
+                                 Format der E-Mail
+                               </td>
+                               <td>
+                                 <select id="OptInConfirmationMailFormat" name="OptInConfirmationMailFormat" size="1" onchange="ShowHideEMailTexts()">
+                                  <option value="PlainText">Reine Text-E-Mail</option>
+                                  <option value="HTML">HTML- und Text-E-Mail (multipart E-Mail)</option>
+                                </select>
+                               </td>
+                              </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">Codierung</td>
+                                <td valign="top">
+                                <select name="OptInConfirmationMailEncoding" size="1">
+                                <option value="iso-8859-1">Normal/Europa (iso-8859-1)</option>
+                                <option value="utf-8">UTF-8</option>
+                                <MAILENCODINGS></MAILENCODINGS>
+                                </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Priorit&auml;t</td>
+                                <td valign="top">
+                                <select name="OptInConfirmationMailPriority" size="1">
+                                  <option value="Low">Niedrig</option>
+                                  <option value="Normal">Normal</option>
+                                  <option value="High">Hoch</option>
+                                </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend>Betreff der E-Mail</legend>
+                        <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="middle">
+                                <select size="1" id="SubscribeSubjectPlaceHoldersCB" onchange="InsertFieldValue('SubscribeSubjectPlaceHoldersCB', 'OptInConfirmationMailSubject')">
+                                  <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                </select>&nbsp;<input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptInConfirmationMailSubject', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" />
+                                <p>&nbsp;</p>
+                                <input type="text" name="OptInConfirmationMailSubject" id="OptInConfirmationMailSubject" size="100" style="width: 99%;" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <!-- ##### InnerSpacer - START -->
+                      <div class="spacerborder">
+                      <!-- ##### InnerTabView - START -->
+                      <div id="dhtmlgoodies_SubscribeHTMLTexttabView">
+
+                      <!-- ####### InnerTAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        SubscribeInnerTabListArray.push('E-Mail im HTML-Format');
+                      //-->
+                      </script>
+           	          <div class="dhtmlgoodies_aTab">
+                        <br />
+                          <table class="EditorTable" cellspacing="0" cellpadding="0" border="0" id="OptInConfirmationHTML">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="top"><span id="OptInConfirmationMailHTMLTextWarnLabel" style="display: none;"  class="missingvaluebackground">Der HTML-Teil der E-Mail muss einen Text enthalten.</span>
+                                <textarea name="OptInConfirmationMailHTMLText" id="OptInConfirmationMailHTMLText" style="width: 100%; height: 568px"></textarea>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </div>
+                      <!-- ####### Inner TAB END -->
+                      <!-- ####### Inner TAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        SubscribeInnerTabListArray.push('E-Mail im Text-Format');
+
+                      //-->
+                      </script>
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+                         <table class="EditorTable" cellspacing="0" cellpadding="0" border="0" id="OptInConfirmationPlainText">
+                           <tbody>
+                             <tr>
+                               <td colspan="2" valign="middle">
+                                 <select size="1" id="SubscribePlainTextPlaceHoldersCB" onchange="InsertFieldValue('SubscribePlainTextPlaceHoldersCB', 'OptInConfirmationMailPlainText')">
+                                   <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                 </select>&nbsp;<input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptInConfirmationMailPlainText', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" />
+                                 <p>&nbsp;</p>
+                                 <textarea name="OptInConfirmationMailPlainText" id="OptInConfirmationMailPlainText" style="width: 99%; height: 568px"></textarea>
+                               </td>
+                             </tr>
+                           </tbody>
+                         </table>
+                     </div>
+                     <!-- ####### Inner TAB END -->
+                     </div>
+                     <!-- ##### InnerTabView - END -->
+                     <!-- ##### InnerSpacer - END -->
+                     </div>
+
+                      </span>
+                   </div>
+                  	<!-- ####### TAB END -->
+                  	</OptInConfirmation>
+
+                  	<OptOutConfirmation>
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('E-Mail zur Abmeldung');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <span id="OptOutConfirmation">
+                      <fieldset>
+                      <legend>Inhaltsangaben
+                         <input type="image" onclick="DoShowSerialMailPreviewDialog('FormEditForm', 'OptOutConfirmation'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
+                      </legend>
+                        <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                               <td class="MessageDescriptionColumn" id="OptOutConfirmationMailFormatLabel" name="OptOutConfirmationMailFormatLabel">
+                                 Format der E-Mail
+                               </td>
+                               <td>
+                                 <select id="OptOutConfirmationMailFormat" name="OptOutConfirmationMailFormat" size="1" onchange="ShowHideEMailTexts()">
+                                  <option value="PlainText">Reine Text-E-Mail</option>
+                                  <option value="HTML">HTML- und Text-E-Mail (multipart E-Mail)</option>
+                                </select>
+                               </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Codierung</td>
+                                <td valign="top">
+                                <select name="OptOutConfirmationMailEncoding" size="1">
+                                <option value="iso-8859-1">Normal/Europa (iso-8859-1)</option>
+                                <option value="utf-8">UTF-8</option>
+                                <MAILENCODINGS></MAILENCODINGS>
+                                </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Priorit&auml;t</td>
+                                <td valign="top">
+                                <select name="OptOutConfirmationMailPriority" size="1">
+                                  <option value="Low">Niedrig</option>
+                                  <option value="Normal">Normal</option>
+                                  <option value="High">Hoch</option>
+                                </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend>Betreff der E-Mail</legend>
+                        <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="middle">
+                                <select size="1" id="UnsubscribeSubjectPlaceHoldersCB" onchange="InsertFieldValue('UnsubscribeSubjectPlaceHoldersCB', 'OptOutConfirmationMailSubject')">
+                                  <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptOutConfirmationMailSubject', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" /><p>&nbsp;</p>
+                                <input type="text" name="OptOutConfirmationMailSubject" id="OptOutConfirmationMailSubject" size="100" style="width: 99%;" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <!-- ##### InnerSpacer - START -->
+                      <div class="spacerborder">
+                      <!-- ##### InnerTabView - START -->
+                      <div id="dhtmlgoodies_UnsubscribeHTMLTexttabView">
+
+                      <!-- ####### InnerTAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        UnsubscribeInnerTabListArray.push('E-Mail im HTML-Format');
+                      //-->
+                      </script>
+           	          <div class="dhtmlgoodies_aTab">
+                        <br />
+                          <table class="EditorTable" cellspacing="0" cellpadding="0" border="0" id="OptOutConfirmationHTML">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="top"><span id="OptOutConfirmationMailHTMLTextWarnLabel" style="display: none;" class="missingvaluebackground">Der HTML-Teil der E-Mail muss einen Text enthalten.</span>
+                                <textarea name="OptOutConfirmationMailHTMLText" id="OptOutConfirmationMailHTMLText" style="width: 100%; height: 568px"></textarea>
+
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </div>
+                      <!-- ####### Inner TAB END -->
+                      <!-- ####### Inner TAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        UnsubscribeInnerTabListArray.push('E-Mail im Text-Format');
+
+                      //-->
+                      </script>
+                    	<div class="dhtmlgoodies_aTab">
+                        <br />
+                          <table class="EditorTable" cellspacing="0" cellpadding="0" border="0"  id="OptOutConfirmationPlainText">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="middle">
+                                 <select size="1" id="UnsubscribePlainTextPlaceHoldersCB" onchange="InsertFieldValue('UnsubscribePlainTextPlaceHoldersCB', 'OptOutConfirmationMailPlainText')">
+                                   <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                 </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptOutConfirmationMailPlainText', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" /><p>&nbsp;<p>
+                                 <textarea name="OptOutConfirmationMailPlainText" id="OptOutConfirmationMailPlainText" style="width: 99%; height: 568px"></textarea>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                     </div>
+                     <!-- ####### Inner TAB END -->
+                     </div>
+                     <!-- ##### InnerTabView - END -->
+                     <!-- ##### InnerSpacer - END -->
+                     </div>
+                     </span>
+                  	</div>
+                  	<!-- ####### TAB END -->
+                  	</OptOutConfirmation>
+
+
+                   <EditConfirmation>
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('E-Mail zur &Auml;nderung');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend>Best&auml;tigungs-E-Mail nach &Auml;nderung der E-Mail-Adresse</legend>
+                       <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                               <td colspan="2">
+                                  <img src="images/icon_information.gif" alt="" border="0" width="24" height="24" style="text-align: right;" />&nbsp;Diese E-Mail mit Best&auml;tigungslink wird nur nach &Auml;nderung der E-Mail-Adresse versendet.
+                               </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      <span id="EditConfirmation">
+                      <fieldset>
+                      <legend>Inhaltsangaben
+                         <input type="image" onclick="DoShowSerialMailPreviewDialog('FormEditForm', 'EditConfirmation'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
+                      </legend>
+                        <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+
+                              <tr>
+                               <td class="MessageDescriptionColumn" id="EditConfirmationMailFormatLabel" name="EditConfirmationMailFormatLabel">
+                                 Format der E-Mail
+                               </td>
+                               <td>
+                                 <select id="EditConfirmationMailFormat" name="EditConfirmationMailFormat" size="1" onchange="ShowHideEMailTexts()">
+                                  <option value="PlainText">Reine Text-E-Mail</option>
+                                  <option value="HTML">HTML- und Text-E-Mail (multipart E-Mail)</option>
+                                </select>
+                               </td>
+                              </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">Codierung</td>
+                                <td valign="top">
+                                <select name="EditConfirmationMailEncoding" size="1">
+                                <option value="iso-8859-1">Normal/Europa (iso-8859-1)</option>
+                                <option value="utf-8">UTF-8</option>
+                                <MAILENCODINGS></MAILENCODINGS>
+                                </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Priorit&auml;t</td>
+                                <td valign="top">
+                                <select name="EditConfirmationMailPriority" size="1">
+                                  <option value="Low">Niedrig</option>
+                                  <option value="Normal">Normal</option>
+                                  <option value="High">Hoch</option>
+                                </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend>Betreff der E-Mail</legend>
+                        <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="middle">
+                                <select size="1" id="EditSubjectPlaceHoldersCB" onchange="InsertFieldValue('EditSubjectPlaceHoldersCB', 'EditConfirmationMailSubject')">
+                                  <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                </select>&nbsp;<input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'EditConfirmationMailSubject', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" />
+                                <p>&nbsp;</p>
+                                <input type="text" name="EditConfirmationMailSubject" id="EditConfirmationMailSubject" size="100" style="width: 99%;" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <!-- ##### InnerSpacer - START -->
+                      <div class="spacerborder">
+                      <!-- ##### InnerTabView - START -->
+                      <div id="dhtmlgoodies_EditHTMLTexttabView">
+
+                      <!-- ####### InnerTAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        EditInnerTabListArray.push('E-Mail im HTML-Format');
+                      //-->
+                      </script>
+           	          <div class="dhtmlgoodies_aTab">
+                        <br />
+                          <table class="EditorTable" cellspacing="0" cellpadding="0" border="0" id="EditConfirmationHTML">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="top"><span id="EditConfirmationMailHTMLTextWarnLabel" style="display: none;"  class="missingvaluebackground">Der HTML-Teil der E-Mail muss einen Text enthalten.</span>
+                                <textarea name="EditConfirmationMailHTMLText" id="EditConfirmationMailHTMLText" style="width: 100%; height: 486px"></textarea>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </div>
+                      <!-- ####### Inner TAB END -->
+                      <!-- ####### Inner TAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        EditInnerTabListArray.push('E-Mail im Text-Format');
+
+                      //-->
+                      </script>
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+                         <table class="EditorTable" cellspacing="0" cellpadding="0" border="0" id="EditConfirmationPlainText">
+                           <tbody>
+                             <tr>
+                               <td colspan="2" valign="middle">
+                                 <select size="1" id="EditPlainTextPlaceHoldersCB" onchange="InsertFieldValue('EditPlainTextPlaceHoldersCB', 'EditConfirmationMailPlainText')">
+                                   <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                 </select>&nbsp;<input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'EditConfirmationMailPlainText', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" />
+                                 <p>&nbsp;</p>
+                                 <textarea name="EditConfirmationMailPlainText" id="EditConfirmationMailPlainText" style="width: 99%; height: 486px"></textarea>
+                               </td>
+                             </tr>
+                           </tbody>
+                         </table>
+                     </div>
+                     <!-- ####### Inner TAB END -->
+                     </div>
+                     <!-- ##### InnerTabView - END -->
+                     <!-- ##### InnerSpacer - END -->
+                     </div>
+
+                      </span>
+                   </div>
+                  	<!-- ####### TAB END -->
+                  	</EditConfirmation>
+
+
+                   <OptInConfirmed>
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('E-Mail nach Anmeldung');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Sie k&ouml;nnen optional nach erfolgreicher Anmeldung zur Empf&auml;ngerliste eine Best&auml;tigungs-E-Mail versenden lassen.<br />Die E-Mail wird bei Nutzung des Double-Opt-In-Verfahrens erst nach dem Klick auf den Best&auml;tigungslink versendet.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Best&auml;tigungs-E-Mail nach erfolgreicher Anmeldung</legend>
+                       <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                               <td colspan="2">
+                                  <input type="checkbox" name="SendOptInConfirmedMail" id="SendOptInConfirmedMail" value="1" onclick="ShowItem('OptInConfirmed', document.getElementById('SendOptInConfirmedMail').checked);" /><label for="SendOptInConfirmedMail">&nbsp;Best&auml;tigungs-E-Mail nach erfolgreicher Anmeldung versenden</label>
+                               </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      <span id="OptInConfirmed">
+                      <fieldset>
+                      <legend>Inhaltsangaben
+                         <input type="image" onclick="DoShowSerialMailPreviewDialog('FormEditForm', 'OptInConfirmed'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
+                      </legend>
+                        <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+
+                              <tr>
+                               <td class="MessageDescriptionColumn" id="OptInConfirmedMailFormatLabel" name="OptInConfirmedMailFormatLabel">
+                                 Format der E-Mail
+                               </td>
+                               <td>
+                                 <select id="OptInConfirmedMailFormat" name="OptInConfirmedMailFormat" size="1" onchange="ShowHideEMailTexts()">
+                                  <option value="PlainText">Reine Text-E-Mail</option>
+                                  <option value="HTML">HTML- und Text-E-Mail (multipart E-Mail)</option>
+                                </select>
+                               </td>
+                              </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">Codierung</td>
+                                <td valign="top">
+                                <select name="OptInConfirmedMailEncoding" size="1">
+                                <option value="iso-8859-1">Normal/Europa (iso-8859-1)</option>
+                                <option value="utf-8">UTF-8</option>
+                                <MAILENCODINGS></MAILENCODINGS>
+                                </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Priorit&auml;t</td>
+                                <td valign="top">
+                                <select name="OptInConfirmedMailPriority" size="1">
+                                  <option value="Low">Niedrig</option>
+                                  <option value="Normal">Normal</option>
+                                  <option value="High">Hoch</option>
+                                </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend>Betreff der E-Mail</legend>
+                        <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="middle">
+                                <select size="1" id="OptInConfirmedSubjectPlaceHoldersCB" onchange="InsertFieldValue('OptInConfirmedSubjectPlaceHoldersCB', 'OptInConfirmedMailSubject')">
+                                  <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptInConfirmedMailSubject', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" /><p>&nbsp;</p>
+                                <input type="text" name="OptInConfirmedMailSubject" id="OptInConfirmedMailSubject" size="100" style="width: 99%;" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <!-- ##### InnerSpacer - START -->
+                      <div class="spacerborder">
+                      <!-- ##### InnerTabView - START -->
+                      <div id="dhtmlgoodies_OptInConfirmedHTMLTexttabView">
+
+                      <!-- ####### InnerTAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        OptInConfirmedInnerTabListArray.push('E-Mail im HTML-Format');
+                      //-->
+                      </script>
+           	          <div class="dhtmlgoodies_aTab">
+                        <br />
+                          <table class="EditorTable" cellspacing="0" cellpadding="0" border="0" id="OptInConfirmedHTML">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="top"><span id="OptInConfirmedMailHTMLTextWarnLabel" style="display: none;"  class="missingvaluebackground">Der HTML-Teil der E-Mail muss einen Text enthalten.</span>
+                                <textarea name="OptInConfirmedMailHTMLText" id="OptInConfirmedMailHTMLText" style="width: 100%; height: 486px"></textarea>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </div>
+                      <!-- ####### Inner TAB END -->
+                      <!-- ####### Inner TAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        OptInConfirmedInnerTabListArray.push('E-Mail im Text-Format');
+
+                      //-->
+                      </script>
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+                         <table class="EditorTable" cellspacing="0" cellpadding="0" border="0" id="OptInConfirmedPlainText">
+                           <tbody>
+                             <tr>
+                               <td colspan="2" valign="middle">
+                                 <select size="1" id="OptInConfirmedPlainTextPlaceHoldersCB" onchange="InsertFieldValue('OptInConfirmedPlainTextPlaceHoldersCB', 'OptInConfirmedMailPlainText')">
+                                   <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                 </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptInConfirmedMailPlainText', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" /><p>&nbsp;</p>
+                                 <textarea name="OptInConfirmedMailPlainText" id="OptInConfirmedMailPlainText" style="width: 99%; height: 486px"></textarea>
+                               </td>
+                             </tr>
+                           </tbody>
+                         </table>
+                     </div>
+                     <!-- ####### Inner TAB END -->
+
+                      <!-- ####### Inner TAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        OptInConfirmedInnerTabListArray.push('Anh&auml;nge der E-Mail');
+
+                      //-->
+                      </script>
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+                         <table class="EditorTable" cellspacing="0" cellpadding="0" border="0">
+                           <tbody>
+                             <tr>
+                               <td colspan="2" valign="middle">
+
+                                 <div class="scrollbox" name="OptInConfirmedAttachmentsScrollbox" id="OptInConfirmedAttachmentsScrollbox">
+                                   <OptInConfirmedAttachments>
+                                     <span class="scrollboxSpan"><input type="checkbox" name="OptInConfirmedAttachments[]" value="<AttachmentsName></AttachmentsName>" id="AttachmentsId" />&nbsp;<label for="AttachmentsId"><AttachmentsName></AttachmentsName></label><br /></span>
+                                   </OptInConfirmedAttachments>
+                                 </div>
+                                 <input type="button" class="button" name="OptInConfirmedAttachmentsUploadBtn" value="Neue Datei(en) &uuml;bertragen" onclick="AttachmentUpload('FormEditForm', 'OptInConfirmedAttachmentsScrollbox', 'OptInConfirmedAttachments[]', 'OptOutConfirmedAttachmentsScrollbox', 'OptOutConfirmedAttachments[]'); return false;" />&nbsp;&nbsp;
+                                 <input type="button" class="button" name="OptInConfirmedAttachmentsDeleteBtn" value="Datei(en) l&ouml;schen" onclick="AttachmentDelete('FormEditForm', 'OptInConfirmedAttachments[]', 'OptOutConfirmedAttachments[]'); return false;" />
+
+                               </td>
+                             </tr>
+                           </tbody>
+                         </table>
+                     </div>
+                     <!-- ####### Inner TAB END -->
+
+                     </div>
+                     <!-- ##### InnerTabView - END -->
+                     <!-- ##### InnerSpacer - END -->
+                     </div>
+
+                      </span>
+                   </div>
+                  	<!-- ####### TAB END -->
+                  	</OptInConfirmed>
+
+                  	<OptOutConfirmed>
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('E-Mail nach Abmeldung');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Sie k&ouml;nnen optional nach erfolgreicher Anmeldung zur Empf&auml;ngerliste eine Best&auml;tigungs-E-Mail versenden lassen.<br />Die E-Mail wird bei Nutzung des Double-Opt-Out-Verfahrens erst nach dem Klick auf den Best&auml;tigungslink versendet.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Best&auml;tigungs-E-Mail nach erfolgreicher Abmeldung</legend>
+                       <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                               <td colspan="2">
+                                  <input type="checkbox" name="SendOptOutConfirmedMail" id="SendOptOutConfirmedMail" value="1" onclick="ShowItem('OptOutConfirmed', document.getElementById('SendOptOutConfirmedMail').checked);" /><label for="SendOptOutConfirmedMail">&nbsp;Best&auml;tigungs-E-Mail nach erfolgreicher Abmeldung versenden</label>
+                               </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      <span id="OptOutConfirmed">
+                      <fieldset>
+                      <legend>Inhaltsangaben
+                         <input type="image" onclick="DoShowSerialMailPreviewDialog('FormEditForm', 'OptOutConfirmed'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
+                      </legend>
+                        <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                               <td class="MessageDescriptionColumn" id="OptOutConfirmedMailFormatLabel" name="OptOutConfirmedMailFormatLabel">
+                                 Format der E-Mail
+                               </td>
+                               <td>
+                                 <select id="OptOutConfirmedMailFormat" name="OptOutConfirmedMailFormat" size="1" onchange="ShowHideEMailTexts()">
+                                  <option value="PlainText">Reine Text-E-Mail</option>
+                                  <option value="HTML">HTML- und Text-E-Mail (multipart E-Mail)</option>
+                                </select>
+                               </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Codierung</td>
+                                <td valign="top">
+                                <select name="OptOutConfirmedMailEncoding" size="1">
+                                <option value="iso-8859-1">Normal/Europa (iso-8859-1)</option>
+                                <option value="utf-8">UTF-8</option>
+                                <MAILENCODINGS></MAILENCODINGS>
+                                </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Priorit&auml;t</td>
+                                <td valign="top">
+                                <select name="OptOutConfirmedMailPriority" size="1">
+                                  <option value="Low">Niedrig</option>
+                                  <option value="Normal">Normal</option>
+                                  <option value="High">Hoch</option>
+                                </select>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend>Betreff der E-Mail</legend>
+                        <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="middle">
+                                <select size="1" id="OptOutConfirmedSubjectPlaceHoldersCB" onchange="InsertFieldValue('OptOutConfirmedSubjectPlaceHoldersCB', 'OptOutConfirmedMailSubject')">
+                                  <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptOutConfirmedMailSubject', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" /><p>&nbsp;</p>
+                                <input type="text" name="OptOutConfirmedMailSubject" id="OptOutConfirmedMailSubject" size="100" style="width: 99%;" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <!-- ##### InnerSpacer - START -->
+                      <div class="spacerborder">
+                      <!-- ##### InnerTabView - START -->
+                      <div id="dhtmlgoodies_OptOutConfirmedHTMLTexttabView">
+
+                      <!-- ####### InnerTAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        OptOutConfirmedInnerTabListArray.push('E-Mail im HTML-Format');
+                      //-->
+                      </script>
+           	          <div class="dhtmlgoodies_aTab">
+                        <br />
+                          <table class="EditorTable" cellspacing="0" cellpadding="0" border="0" id="OptOutConfirmedHTML">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="top"><span id="OptOutConfirmedMailHTMLTextWarnLabel" style="display: none;" class="missingvaluebackground">Der HTML-Teil der E-Mail muss einen Text enthalten.</span>
+                                <textarea name="OptOutConfirmedMailHTMLText" id="OptOutConfirmedMailHTMLText" cols="100" rows="10" style="width: 100%; height: 486px"></textarea>
+
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </div>
+                      <!-- ####### Inner TAB END -->
+                      <!-- ####### Inner TAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        OptOutConfirmedInnerTabListArray.push('E-Mail im Text-Format');
+
+                      //-->
+                      </script>
+                    	<div class="dhtmlgoodies_aTab">
+                        <br />
+                          <table class="EditorTable" cellspacing="0" cellpadding="0" border="0"  id="OptOutConfirmedPlainText">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="middle">
+                                 <select size="1" id="OptOutConfirmedPlainTextPlaceHoldersCB" onchange="InsertFieldValue('OptOutConfirmedPlainTextPlaceHoldersCB', 'OptOutConfirmedMailPlainText')">
+                                   <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                 </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptOutConfirmedMailPlainText', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" /><p>&nbsp;<p>
+                                 <textarea name="OptOutConfirmedMailPlainText" id="OptOutConfirmedMailPlainText" style="width: 99%; height: 486px"></textarea>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                     </div>
+                     <!-- ####### Inner TAB END -->
+
+
+                      <!-- ####### Inner TAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        OptOutConfirmedInnerTabListArray.push('Anh&auml;nge der E-Mail');
+
+                      //-->
+                      </script>
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+                         <table class="EditorTable" cellspacing="0" cellpadding="0" border="0">
+                           <tbody>
+                             <tr>
+                               <td colspan="2" valign="middle">
+                                 <div class="scrollbox" name="OptOutConfirmedAttachmentsScrollbox" id="OptOutConfirmedAttachmentsScrollbox">
+                                   <OptOutConfirmedAttachments>
+                                     <span class="scrollboxSpan"><input type="checkbox" name="OptOutConfirmedAttachments[]" value="<AttachmentsName></AttachmentsName>" id="AttachmentsId" />&nbsp;<label for="AttachmentsId"><AttachmentsName></AttachmentsName></label><br /></span>
+                                   </OptOutConfirmedAttachments>
+                                 </div>
+                                 <input type="button" class="button" name="OptOutConfirmedAttachmentsUploadBtn" value="Neue Datei(en) &uuml;bertragen" onclick="AttachmentUpload('FormEditForm', 'OptOutConfirmedAttachmentsScrollbox', 'OptOutConfirmedAttachments[]', 'OptInConfirmedAttachmentsScrollbox', 'OptInConfirmedAttachments[]'); return false;" />&nbsp;&nbsp;
+                                 <input type="button" class="button" name="OptOutConfirmedAttachmentsDeleteBtn" value="Datei(en) l&ouml;schen" onclick="AttachmentDelete('FormEditForm', 'OptOutConfirmedAttachments[]', 'OptInConfirmedAttachments[]'); return false;" />
+                               </td>
+                             </tr>
+                           </tbody>
+                         </table>
+                     </div>
+                     <!-- ####### Inner TAB END -->
+
+                     </div>
+                     <!-- ##### InnerTabView - END -->
+                     <!-- ##### InnerSpacer - END -->
+                     </div>
+                     </span>
+                  	</div>
+                  	<!-- ####### TAB END -->
+                  	</OptOutConfirmed>
+
+                  </div>
+
+                  <br />
+                  <br />
+
+
+                  <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+
+
+                  <script type="text/javascript">
+
+                  window.onload = function()
+                  {
+                   var sBasePath = myBasePath + 'ckeditor/';
+
+                   /////////////////////////////////////////////////////////////////////
+                   if( document.getElementById('OptInConfirmationMailHTMLText') ) {
+
+                     CKEDITOR.config.BasePath	= sBasePath;
+
+                     CKEDITOR.replace('OptInConfirmationMailHTMLText',
+                      {
+                        customConfig : myBasePath + 'plugins/swm_sml_ckeditor_config.js',
+                        toolbar : 'MyDefaultToolbar',
+                        width : '100%',
+                        height: 464
+                      }
+                     );
+
+                  	}
+
+
+                   /////////////////////////////////////////////////////////////////////
+                   if( document.getElementById('OptOutConfirmationMailHTMLText') ) {
+
+                     CKEDITOR.config.BasePath	= sBasePath;
+
+                     CKEDITOR.replace('OptOutConfirmationMailHTMLText',
+                      {
+                        customConfig : myBasePath + 'plugins/swm_sml_ckeditor_config.js',
+                        toolbar : 'MyDefaultToolbar',
+                        width : '100%',
+                        height: 464
+                      }
+                     );
+
+                  	}
+                   /////////////////////////////////////////////////////////////////////
+
+                   /////////////////////////////////////////////////////////////////////
+                   if( document.getElementById('EditConfirmationMailHTMLText') ) {
+
+                     CKEDITOR.config.BasePath	= sBasePath;
+
+                     CKEDITOR.replace('EditConfirmationMailHTMLText',
+                      {
+                        customConfig : myBasePath + 'plugins/swm_sml_ckeditor_config.js',
+                        toolbar : 'MyDefaultToolbar',
+                        width : '100%',
+                        height: 402
+                      }
+                     );
+
+                  	}
+
+
+                   /////////////////////////////////////////////////////////////////////
+                   if( document.getElementById('OptInConfirmedMailHTMLText') ) {
+
+                     CKEDITOR.config.BasePath	= sBasePath;
+
+                     CKEDITOR.replace('OptInConfirmedMailHTMLText',
+                      {
+                        customConfig : myBasePath + 'plugins/swm_sml_ckeditor_config.js',
+                        toolbar : 'MyDefaultToolbar',
+                        width : '100%',
+                        height: 402
+                      }
+                     );
+
+                  	}
+
+
+                   /////////////////////////////////////////////////////////////////////
+                   if( document.getElementById('OptOutConfirmedMailHTMLText') ) {
+
+                     CKEDITOR.config.BasePath	= sBasePath;
+
+                     CKEDITOR.replace('OptOutConfirmedMailHTMLText',
+                      {
+                        customConfig : myBasePath + 'plugins/swm_sml_ckeditor_config.js',
+                        toolbar : 'MyDefaultToolbar',
+                        width : '100%',
+                        height: 402
+                      }
+                     );
+
+                  	}
+                   /////////////////////////////////////////////////////////////////////
+
+                  }
+
+                  	</script>
+
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                    initTabs('dhtmlgoodies_tabView', TabListArray, 0, 924, 1340);
+                    addScrollboxRolloverEffect('OptOutConfirmedAttachmentsScrollbox','scrollboxRollOverEffect', null);
+                    addScrollboxRolloverEffect('OptInConfirmedAttachmentsScrollbox','scrollboxRollOverEffect', null);
+                    
+                    var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+
+                    // passt nicht hin!!
+                    if(TabListArray.length > 8 && w < 1000){
+                      document.open;
+                      document.write("<style>");
+                      for(var i=0; i<TabListArray.length;i++)
+                        document.write("#tabTabdhtmlgoodies_tabView_" + i + " {font-size: 0.81em;}");
+                      document.write("</style>");
+                      document.close;
+                    }
+
+
+                    if(SubscribeInnerTabListArray.length){
+                      initTabs('dhtmlgoodies_SubscribeHTMLTexttabView', SubscribeInnerTabListArray, 0, 894, 648);
+                      AddAutoUpdateTextPart('dhtmlgoodies_SubscribeHTMLTexttabView', 'OptInConfirmationMailFormat', 'OptInConfirmationMailHTMLText', 'OptInConfirmationMailPlainText');
+                    }
+                    if(UnsubscribeInnerTabListArray.length){
+                      initTabs('dhtmlgoodies_UnsubscribeHTMLTexttabView', UnsubscribeInnerTabListArray, 0, 894, 648);
+                      AddAutoUpdateTextPart('dhtmlgoodies_UnsubscribeHTMLTexttabView', 'OptOutConfirmationMailFormat', 'OptOutConfirmationMailHTMLText', 'OptOutConfirmationMailPlainText');
+                    }
+                    if(EditInnerTabListArray.length){
+                      initTabs('dhtmlgoodies_EditHTMLTexttabView', EditInnerTabListArray, 0, 894, 566);
+                      AddAutoUpdateTextPart('dhtmlgoodies_EditHTMLTexttabView', 'EditConfirmationMailFormat', 'EditConfirmationMailHTMLText', 'EditConfirmationMailPlainText');
+                    }
+                    if(OptInConfirmedInnerTabListArray.length){
+                      initTabs('dhtmlgoodies_OptInConfirmedHTMLTexttabView', OptInConfirmedInnerTabListArray, 0, 894, 566);
+                      AddAutoUpdateTextPart('dhtmlgoodies_OptInConfirmedHTMLTexttabView', 'OptInConfirmedMailFormat', 'OptInConfirmedMailHTMLText', 'OptInConfirmedMailPlainText');
+                    }
+                    if(OptOutConfirmedInnerTabListArray.length){
+                      initTabs('dhtmlgoodies_OptOutConfirmedHTMLTexttabView', OptOutConfirmedInnerTabListArray, 0, 894, 566);
+                      AddAutoUpdateTextPart('dhtmlgoodies_OptOutConfirmedHTMLTexttabView', 'OptOutConfirmedMailFormat', 'OptOutConfirmedMailHTMLText', 'OptOutConfirmedMailPlainText');
+                    }
+
+                    function html_entity_decode( string ) {
+                        var ret, tarea = document.createElement('textarea');
+                        tarea.innerHTML = string;
+                        ret = tarea.value;
+                        try {tarea.removeNode(false);}catch(e) {}
+                        return ret;
+                    }
+
+                    function FillComboBoxes() {
+                        var CBs = Array (
+                            'SubscribeSubjectPlaceHoldersCB',
+                            'UnsubscribeSubjectPlaceHoldersCB',
+                            'SubscribePlainTextPlaceHoldersCB',
+                            'UnsubscribePlainTextPlaceHoldersCB',
+
+                            'EditSubjectPlaceHoldersCB',
+                            'EditPlainTextPlaceHoldersCB',
+
+                            'OptInConfirmedSubjectPlaceHoldersCB',
+                            'OptOutConfirmedSubjectPlaceHoldersCB',
+                            'OptInConfirmedPlainTextPlaceHoldersCB',
+                            'OptOutConfirmedPlainTextPlaceHoldersCB'
+                        )
+
+          	            for(j=0; j<CBs.length; j++) {
+                            var CB = document.getElementById(CBs[j]);
+                            if(CB == null) continue;
+                            while (CB.length > 1)
+                               CB.options[CB.length] = null;
+
+                            if ( (CBs[j] == 'SubscribeSubjectPlaceHoldersCB') || (CBs[j] == 'SubscribePlainTextPlaceHoldersCB')
+                               )
+                               for(var i=0; i<arrSubscribePlaceholders.length; i++){
+                                 var newOption = new Option(html_entity_decode(arrSubscribePlaceholders[i][1]), arrSubscribePlaceholders[i][0], false, false);
+                                 CB.options[CB.length] = newOption;
+                               }
+
+                            if ( (CBs[j] == 'UnsubscribeSubjectPlaceHoldersCB') || (CBs[j] == 'UnsubscribePlainTextPlaceHoldersCB')
+                               )
+                               for(var i=0; i<arrUnsubscribePlaceholders.length; i++){
+                                 var newOption = new Option(html_entity_decode(arrUnsubscribePlaceholders[i][1]), arrUnsubscribePlaceholders[i][0], false, false);
+                                 CB.options[CB.length] = newOption;
+                               }
+
+                            if ( (CBs[j] == 'EditSubjectPlaceHoldersCB') || (CBs[j] == 'EditPlainTextPlaceHoldersCB')
+                               )
+                               for(var i=0; i<arrEditPlaceholders.length; i++){
+                                 var newOption = new Option(html_entity_decode(arrEditPlaceholders[i][1]), arrEditPlaceholders[i][0], false, false);
+                                 CB.options[CB.length] = newOption;
+                               }
+
+                            for(var i=0; i<arrPlaceholderItems.length; i++){
+                              var newOption = new Option(html_entity_decode(arrPlaceholderItems[i][1]), arrPlaceholderItems[i][0], false, false);
+                              CB.options[CB.length] = newOption;
+                            }
+
+                            if ( (CBs[j] == 'OptInConfirmedSubjectPlaceHoldersCB') || (CBs[j] == 'OptInConfirmedPlainTextPlaceHoldersCB')
+                               )
+                               for(var i=0; i<arrNewsletterUnsubscribePlaceholders.length; i++){
+                                 var newOption = new Option(html_entity_decode(arrNewsletterUnsubscribePlaceholders[i][1]), arrNewsletterUnsubscribePlaceholders[i][0], false, false);
+                                 CB.options[CB.length] = newOption;
+                               }
+                        }
+                    }
+
+                    FillComboBoxes();
+
+                    DisableItem('groups_id', document.FormEditForm.GroupsOption[2].checked);
+                    DisableItem('GroupsAsCheckBoxes', document.FormEditForm.GroupsOption[1].checked);
+                    DisableItem('GroupsAsMandatoryField', document.FormEditForm.GroupsOption[1].checked);
+
+                    if(document.FormEditForm.groups_id.length == 0) {
+                      DisableControlsArray(false, Array(document.FormEditForm.GroupsOption[1], document.FormEditForm.GroupsOption[2]), Array());
+                    }
+
+                  -->
+                  </script>
+
+                  <script language="javascript" type="text/javascript">
+                  <!--
+                    DisableControlsArray(document.getElementById('SubscriptionType').value == "DoubleOptIn", Array( document.getElementById('SubscribeAcceptedPage'), document.getElementById('EditAcceptedPage') ), Array( document.getElementById('SubscribeAcceptedPageLabel'), document.getElementById('EditAcceptedPageLabel') ) );
+                    DisableControlsArray(document.getElementById('UnsubscriptionType').value == "DoubleOptOut", Array( document.getElementById('UnsubscribeAcceptedPage') ), Array( document.getElementById('UnsubscribeAcceptedPageLabel') ) );
+
+                    DisableControlsById('RequestReasonForUnsubscription', Array('ReasonsForUnsubscriptionBtn', 'ExternalReasonForUnsubscriptionScript'));
+
+                    ShowItem('OptInConfirmed', document.getElementById('SendOptInConfirmedMail').checked);
+                    ShowItem('OptOutConfirmed', document.getElementById('SendOptOutConfirmedMail').checked);
+                    ShowHideEMailTexts();
+
+
+                    function ShowNATextOnTab(TabId, Page, fieldId) {
+                      var NA="Angabe nicht notwendig";
+
+                      A = document.getElementById('tabView' + TabId + '_' + Page);
+                      if(A == null) return;
+                      tabSpanId = 'tabView' + TabId + '_' + Page + '_NAspan';
+                      tabSpan = document.getElementById(tabSpanId);
+                      if (document.getElementById(fieldId).style.display == 'none') {
+                         if(tabSpan == null)
+                            A.innerHTML = '<span id="' + tabSpanId + '">' + NA + '</span>' + A.innerHTML;
+                            else
+                            tabSpan.style.display = '';
+                         showTab(TabId, 1); // show text tab
+                      } else {
+                        if(tabSpan != null)
+                           tabSpan.style.display = 'none';
+                      }
+                    }
+
+                    function ShowHideEMailTexts() {
+
+
+                      if(document.getElementById('OptInConfirmationMailFormat') != null)
+                        ShowItem('OptInConfirmationHTML', document.getElementById('OptInConfirmationMailFormat').selectedIndex == 1 && document.getElementById('SubscriptionType').value == "DoubleOptIn" );
+                      if(document.getElementById('OptOutConfirmationMailFormat') != null)
+                        ShowItem('OptOutConfirmationHTML', document.getElementById('OptOutConfirmationMailFormat').selectedIndex == 1 && document.getElementById('UnsubscriptionType').value == "DoubleOptOut" );
+
+                      if(document.getElementById('EditConfirmationMailFormat') != null)
+                        ShowItem('EditConfirmationHTML', document.getElementById('EditConfirmationMailFormat').selectedIndex == 1 && document.getElementById('SubscriptionType').value == "DoubleOptIn" );
+
+                      if(document.getElementById('OptInConfirmedMailFormat') != null)
+                        ShowItem('OptInConfirmedHTML', document.getElementById('OptInConfirmedMailFormat').selectedIndex == 1  );
+                      if(document.getElementById('OptOutConfirmedMailFormat') != null)
+                        ShowItem('OptOutConfirmedHTML', document.getElementById('OptOutConfirmedMailFormat').selectedIndex == 1  );
+
+                      // HTML subscribe
+                      ShowNATextOnTab('dhtmlgoodies_SubscribeHTMLTexttabView', 0, 'OptInConfirmationHTML');
+
+                      // HTML unsubscribe
+                      ShowNATextOnTab('dhtmlgoodies_UnsubscribeHTMLTexttabView', 0, 'OptOutConfirmationHTML');
+
+                      // HTML edit
+                      ShowNATextOnTab('dhtmlgoodies_EditHTMLTexttabView', 0, 'EditConfirmationHTML');
+
+                      // HTML OptInConfirmedHTML
+                      ShowNATextOnTab('dhtmlgoodies_OptInConfirmedHTMLTexttabView', 0, 'OptInConfirmedHTML');
+
+                      // HTML OptOutConfirmedHTML
+                      ShowNATextOnTab('dhtmlgoodies_OptOutConfirmedHTMLTexttabView', 0, 'OptOutConfirmedHTML');
+
+                    }
+                    
+                    function ShowHidereCAPTACHKeys(){
+                      var ShowIt = (document.getElementById('UseCaptcha2') != null && document.getElementById('UseCaptcha2').checked);
+                      ShowItem('reCAPTACHKeys', ShowIt );
+                    }
+                    
+                    ShowHidereCAPTACHKeys();
+
+
+                  	//AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+                  -->
+                  </script>
+
+                  <!-- ##### TabView - END -->
+
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                <br />
+                <input type="submit" name="FormEditBtn" value="&Auml;nderungen speichern" class="FormButton" />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </form>
+      </div>
+

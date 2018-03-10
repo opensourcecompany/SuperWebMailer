@@ -1,0 +1,204 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link type="text/css" rel="stylesheet" href="../CSS/layout.css">
+<meta name="MS-HKWD" content="API zur Manipulation der Daten verwenden">
+<meta name="MS-HKWD" content="SOAP API">
+<meta name="MS-HKWD" content="XML API">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - API zur Manipulation der Daten verwenden,SOAP API,XML API API(SOAP Webservice) zur Manipulation der Daten verwenden</title>
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,API zur Manipulation der Daten verwenden,SOAP API,XML API"><meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - API zur Manipulation der Daten verwenden,SOAP API,XML API API(SOAP Webservice) zur Manipulation der Daten verwenden API zur Manipulation der Daten verwenden,SOAP API,XML API"><meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script LANGUAGE="JavaScript" SRC="jscript.js"></script>
+<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/soap_api.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+
+<body>
+
+<h1>API (SOAP Webservice) zur Manipulation der Daten verwenden</h1>
+<p>Per SOAP Webservice können etwaige gespeicherte Daten abgerufen bzw.
+gespeicherte Daten manipuliert werden. Für viele Programmiersprachen sind
+vorgefertigte SOAP-Bibliotheken verfügbar. Die Grundlage für SOAP ist eine
+WSDL-Datei, welche alle Funktionen der API beschreibt.</p>
+<p><b>Siehe dazu auch:</b><br>
+<a href="json_api.htm">API mit JavaScript Object Notation (JSON) nutzen</a></p>
+<p>&nbsp;</p>
+<p><b>Voraussetzung für den Einsatz der API<br>
+</b>Die API kann nur mit PHP 5 oder neuer verwendet werden, PHP 4 wird nicht
+unterstützt.</p>
+<p>&nbsp;</p>
+<p><b>Aufruf des SOAP Webservices<br>
+</b>Den SOAP Webservice rufen Sie über http://&lt;ihre
+_domain&gt;/&lt;installations_verzeichnis&gt;/api/api.php im Browser bzw. im
+eigenen Script mit Hilfe des SOAP Clients auf. Im Browser werden als
+HTML-Variante alle verfügbaren Funktionen und notwendigen Parameter der API
+dargestellt. Beachten Sie zu den einzelnen Funktionen unbedingt die
+Dokumentation zur jeweiligen Funktion.</p>
+<p>&nbsp;</p>
+<p><b>Authentifizierung beim SOAP Webservice<br>
+</b>Für die Authentifizierung wird ein API Key benötigt, diesen finden Sie
+unter Menü Benutzer - Eigenes Konto ändern.<br>
+<b>Hinweis:</b> Nur die Nutzertypen SuperAdmin und Admin verfügen über einen
+API Key, normale Nutzer dürfen nicht per API zugreifen.<br>
+</p>
+<p>Die Authentifizierung erfolgt über einen SOAP Header, der Name des Header
+lautet <b>APIToken</b>. Nur durch korrekte Übergabe des API Key bei jedem
+Aufruf wird ein Zugriff auf die gespeicherten Daten erlaubt.</p>
+<p>Der API Key selbst erlaubt nur den Zugriff auf die Daten des SuperAdmin oder
+Admins selbst, nicht auf andere Admin-Nutzer.</p>
+<p>&nbsp;</p>
+<p><b>Zeichen-Codierung der Daten<br>
+</b>Alle Daten werden UTF-8 codiert zurückgegeben bzw. müssen mit der
+Codierung UTF-8 übergeben werden, ansonsten kann es zu Fehlern kommen bzw.
+Umlaute/Sonderzeichen werden nicht korrekt gespeichert.</p>
+<p>&nbsp;</p>
+<p><b>Datentypen<br>
+</b>Folgende Datentypen werden verwendet:</p>
+<div align="left">
+  <table border="0" width="800">
+    <tr>
+      <td width="50%"><b>XML Schema Datentyp</b></td>
+      <td width="50%"><b>Datentyp in PHP und anderen Programmiersprachen</b></td>
+    </tr>
+    <tr>
+      <td width="50%">xsd:string</td>
+      <td width="50%">string</td>
+    </tr>
+    <tr>
+      <td width="50%">xsd:int</td>
+      <td width="50%">integer</td>
+    </tr>
+    <tr>
+      <td width="50%">xsd:float</td>
+      <td width="50%">float</td>
+    </tr>
+    <tr>
+      <td width="50%">xsd:boolean</td>
+      <td width="50%">boolean</td>
+    </tr>
+    <tr>
+      <td width="50%">xsd:double</td>
+      <td width="50%">double</td>
+    </tr>
+    <tr>
+      <td width="50%">xsd:Array</td>
+      <td width="50%">array</td>
+    </tr>
+    <tr>
+      <td width="50%">xsd:datetime</td>
+      <td width="50%">datetime</td>
+    </tr>
+  </table>
+</div>
+<p>&nbsp;</p>
+<p><b>Definierte Klassen</b></p>
+<table border="0" width="800">
+  <tr>
+    <td width="50%"><b>Klassenname</b></td>
+    <td width="50%"><b>Beschreibung</b></td>
+  </tr>
+  <tr>
+    <td width="50%">api_Common</td>
+    <td width="50%">Enthält grundlegende Funktionen, die teilweise nur als
+      Nutzer SuperAdmin aufgerufen werden können.</td>
+  </tr>
+  <tr>
+    <td width="50%">api_Mailinglists</td>
+    <td width="50%">Enthält Funktionen zur Manipulation von Empfängerlisten.</td>
+  </tr>
+  <tr>
+    <td width="50%">api_Recipients</td>
+    <td width="50%">Funktionen zur Manipulation der Empfänger in den
+      Empfängerlisten.</td>
+  </tr>
+  <tr>
+    <td width="50%">api_Users</td>
+    <td width="50%">Enthält Funktionen zum Anlegen und Entfernen von Nutzern.</td>
+  </tr>
+  <tr>
+    <td width="50%">api_DistributionLists</td>
+    <td width="50%">Enthält Funktionen für die Verteilerlisten.
+      <p>&nbsp;</p>
+      <p>Nur nutzbar mit SuperMailingList Professional, SuperWebMailer
+      Professional und SuperWebMailer Enterprise.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="100%" colspan="2">Nur SuperWebMailer</td>
+  </tr>
+  <tr>
+    <td width="50%">api_Campaigns</td>
+    <td width="50%">Enthält Funktionen für das Erstellen, Ändern und Abrufen
+      von Statistiken für E-Mailings.
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="50%">api_FUResponders</td>
+    <td width="50%">Enthält Funktionen für das Erstellen, Ändern und Abrufen
+      von Statistiken für Folow-Up-Auto-Responder.
+      <p>Nicht in SuperWebMailer Basic nutzbar.</p>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Beispiel für den Aufruf des Webservice</b></p>
+<p>Im api-Verzeichnis finden Sie die Datei <b>nusoap_sample.php</b> diese
+verwendet die nusoap-Bibliothek, welche ebenfalls zur Realisierung des
+SOAP-Servers verwendet wird.</p>
+<p>Einfaches Beispiel in PHP zur Bestimmung der API Version</p>
+<blockquote>
+  <p><font face="Courier New">&lt;?php</font></p>
+  <p><font face="Courier New">require_once(&quot;nusoap/lib/nusoap.php&quot;);<br>
+  </font></p>
+  <p><font face="Courier New"># url to api.php<br>
+  $api = 'http://&lt;ihre
+  _domain&gt;/&lt;installations_verzeichnis&gt;/api/api.php';<br>
+  </font></p>
+  <p><font face="Courier New"># set your api key here<br>
+  $apikey = 'api key here';<br>
+  <br>
+  $client = new nusoap_client($api);<br>
+  $client-&gt;soap_defencoding = 'UTF-8'; # use UTF-8!<br>
+  $err = $client-&gt;getError();<br>
+  if ($err) {<br>
+  echo '&lt;h2&gt;Constructor error&lt;/h2&gt;&lt;pre&gt;' . $err .
+  '&lt;/pre&gt;';<br>
+  }<br>
+  <br>
+  # set APIToken<br>
+  $client-&gt;setHeaders(array('APIToken' =&gt; $apikey));<br>
+  </font></p>
+  <p><font face="Courier New"># get API version<br>
+  $params = array(); # no params<br>
+  $result = $client-&gt;call('api_Common.api_getAPIVersion', $params, '', '',
+  false, true);<br>
+  </font></p>
+  <p><font face="Courier New">if($client-&gt;fault)<br>
+  &nbsp;print_r($result);<br>
+  &nbsp;else<br>
+  &nbsp; if($client-&gt;getError())<br>
+  &nbsp;&nbsp; print $client-&gt;getError();<br>
+  &nbsp;&nbsp; else</font><font face="Courier New"><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var_dump($result);<br>
+  </font><font face="Courier New">?&gt;</font></p>
+</blockquote>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><b>Siehe dazu auch:</b><br>
+<a href="json_api.htm">API mit JavaScript Object Notation (JSON) nutzen</a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

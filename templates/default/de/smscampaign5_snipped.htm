@@ -1,0 +1,104 @@
+      <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+      <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
+
+      <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./smscampaignedit.php">
+      <span class="Backlink"><br /><a href="./browsesmscampaigns.php" onclick="document.CampaignEditForm.action='./browsesmscampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="CampaignListId" id="CampaignListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel"  value="5" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.CampaignEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.CampaignEditForm.submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.CampaignEditForm.submit(); return false;">Regeln</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.CampaignEditForm.submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.CampaignEditForm.submit(); return false;">Versand</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';document.CampaignEditForm.submit(); return false;">SMS-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';document.CampaignEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie Ihre SMSout-Zugangsdaten korrekt ein. Sollten Sie bisher &uuml;ber keinen SMSout-Account verf&uuml;gen, dann k&ouml;nnen Sie sich unter www.smsout.de anmelden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>SMSout.de Zugangsdaten</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+               <tr>
+                 <td class="MessageDescriptionColumn">SMSout.de Benutzername
+                 </td>
+                 <td><input type="text" id="SMSoutUsername" name="SMSoutUsername" maxlength="128" size="50" /></td>
+               </tr>
+               <tr>
+                 <td class="MessageDescriptionColumn">SMSout.de Passwort
+                 </td>
+                 <td><input type="password" id="SMSoutPassword" name="SMSoutPassword" maxlength="128" size="50" /></td>
+               </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die gew&uuml;nschte Versandvariante, Informationen finden Sie unter www.smsout.de.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Versandvariante der SMS</legend>
+      <br />
+         <IF:CANCHANGESMSSENDVARIANT>
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="MessageDescriptionColumn" valign="top">Versandvariante
+                <br />
+                </td>
+                <td>
+
+                 <input type="radio" name="SMSSendVariant" value="1" id="SMSType1" />&nbsp;<label for="SMSType1">ohne Absender-Handynummer</label><br /><br />
+                 <input type="radio" name="SMSSendVariant" value="2" id="SMSType2" />&nbsp;<label for="SMSType2">ohne Absender-Handynummer mit Antwort-Option</label><br /><br />
+                 <input type="radio" name="SMSSendVariant" value="3" id="SMSType3" />&nbsp;<label for="SMSType3">mit Absender</label><br /><br />
+                 <input type="radio" name="SMSSendVariant" value="5" id="SMSType5" />&nbsp;<label for="SMSType5">SMS mit Statusbericht (nur Deutschland)</label><br /><br />
+                 <input type="radio" name="SMSSendVariant" value="6" id="SMSType6" />&nbsp;<label for="SMSType6">Verkettete &quot;Maxi&quot;-SMS mit eigenem Absender mit bis zu 1560 Zeichen (nur D, A, CH)</label><br /><br />
+                 <div style="font-size: 8pt;">
+                   <b>Wichtiger Hinweis</b>
+                   Maxi-SMS werden technisch bedingt nach 153 Zeichen zerteilt und mit einem Code versehen, so dass das Mobiltelefon die Zusammengeh&ouml;rigkeit erkennt.
+                   Es werden dabei pro 153 Zeichen die Kosten f&uuml;r eine neue SMS mit eigenem Absender berechnet.
+                 </div>
+
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn" valign="top">
+                  &nbsp;
+                </td>
+                <td>
+                  &nbsp;
+                  <input type="hidden" name="MaxSMSToProcess" style="text-align: right" size="3" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+         </IF:CANCHANGESMSSENDVARIANT>
+      </fieldset>
+
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Speichern und Weiter &gt;" class="FormButton" />
+
+      <script type="text/javascript">
+      <!--
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+      </form>

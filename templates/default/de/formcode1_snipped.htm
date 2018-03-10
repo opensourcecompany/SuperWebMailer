@@ -1,0 +1,72 @@
+      <form id="HTMLForm" name="HTMLForm" method="post" action="./formcode.php">
+      <input type="hidden" name="MailingListId" />
+      <input type="hidden" name="FormId" />
+      <span class="Backlink"><br /><a href="./browseforms.php?MailingListId=">Zur&uuml;ck</a></span>
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie den gew&uuml;nschten Formulartyp.<br />Verwenden Sie das An-/Abmeldeformular um Besuchern Ihrer Webseite die M&ouml;glichkeit zu geben sich an Ihrer Empf&auml;ngerliste anzumelden.<br /> Das &Auml;ndern-Formular kann in die eigene Webseite integriert werden damit bestehende Mitglieder der Empf&auml;ngerliste &Auml;nderungen der pers&auml;nlichen Daten mitteilen k&auml;nnen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Einstellungen zur Formularerstellung</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn">Typ des Formulars
+                </td>
+                <td>
+                  <input type="radio" id="FormType0" name="FormType" value="SubUnSub" /><label for="FormType0">&nbsp;An-/Abmelde-Formular</label><br />
+
+                  <input type="radio" id="FormType2" name="FormType" value="SubSub" /><label for="FormType2">&nbsp;Reines Anmelde-Formular</label><br />
+                  <input type="radio" id="FormType3" name="FormType" value="UnSub" /><label for="FormType3">&nbsp;Reines Abmelde-Formular</label><br />
+
+                  <input type="radio" id="FormType1" name="FormType" value="Edit" /><label for="FormType1">&nbsp;&Auml;ndern-Formular</label>
+                </td>
+              </tr>
+              <tr>
+                <td class="LabelColumn">&nbsp;
+                </td>
+                <td>
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td class="LabelColumn" valign="top">
+                  Formularintegration
+                </td>
+                <td>
+                  <input type="radio" id="InternalForm0" name="InternalForm" value="1" onclick="DisableItem('ExternalFormEncoding', document.HTMLForm.InternalForm[1].checked);" /><label for="InternalForm0">&nbsp;Integriertes PRODUCTAPPNAME-Formular als Link in der eigenen Webpr&auml;senz verwenden</label><br />
+                  <input type="radio" id="InternalForm1" name="InternalForm" value="2" onclick="DisableItem('ExternalFormEncoding', document.HTMLForm.InternalForm[1].checked);" /><label for="InternalForm1">&nbsp;HTML-Code des Formulars in die eigene Webpr&auml;senz integrieren</label><br />
+                  
+                  <table class="InnerTable" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                     <tr>
+                      <td>
+                       <SHOWHIDE:TOOLTIPS>
+                       <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die korrekte Zeichenkodierung Ihrer Webseite ansonsten werden Umlaute und Sonderzeichen nicht korrekt in die Datenbank &uuml;bernommen.<br /><br />Um festzustellen welche Zeichenkodierung Ihre Webseite verwenden, &ouml;ffnen Sie diese in Ihrem Browser und w&auml;hlen Sie im Men&uuml; Ansicht - Codierung(Internet Explorer) oder Zeichenkodierung(Firefox).<br />Ist die Zeichenkodierung nicht in der untenstehenden Liste aufgef&uuml;hrt dann w&auml;hlen Sie \'Normal/Europa (iso-8859-1)\'.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                       </SHOWHIDE:TOOLTIPS>Zeichenkodierung der eigenen Webseite<br />
+                      </td>
+                      <td>
+                       <select name="ExternalFormEncoding" id="ExternalFormEncoding" size="1">
+                         <option value="iso-8859-1">Normal/Europa (iso-8859-1)</option>
+                         <option value="utf-8">UTF-8</option>
+                         <MAILENCODINGS></MAILENCODINGS>
+                       </select>
+                     </td>
+                     </tr>
+                   </tbody>
+                 </table>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <script language="javascript" type="text/javascript">
+        DisableItem('ExternalFormEncoding', document.HTMLForm.InternalForm[1].checked);
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      </script>
+      <br />
+
+     <input type="submit" name="HTMLFormNextBtn" value="Weiter >" class="FormButton" />
+
+      </form>      

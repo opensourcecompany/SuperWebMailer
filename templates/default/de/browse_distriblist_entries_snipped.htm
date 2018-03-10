@@ -1,0 +1,231 @@
+<div class="spacerborder">
+  <form name="BrowseDistribListsEntriesForm" id="BrowseDistribListsEntriesForm" method="post" action="./browsedistriblists_entries.php">
+
+  <input type="hidden" name="OneDLEAction" id="OneDLEAction" value="" />
+  <input type="hidden" name="OneDLEId" id="OneDLEId" value="" />
+  <input type="hidden" name="OneDistribListId" id="OneDistribListId"  />
+  <input type="hidden" name="MailingListId" id="MailingListId"  />
+  <input type="hidden" name="FormId" id="FormId"  />
+
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function SetListId(ASender, AFormID) {
+      if(ASender.name == "SpamTest" || ASender.name == "TestMail") {
+        ResponderPreviewOpenResponder("", "", "DistributionList", document.getElementById("OneDistribListId").value, ASender.value, ASender.name);
+        return false;
+      }
+
+      if(ASender.name == "PreviewDLE") {
+        SerialMailPreviewOpenResponder(document.getElementById("MailingListId").value, document.getElementById("FormId").value, "DistributionList", document.getElementById("OneDistribListId").value, ASender.value);
+        return false;
+      }
+
+      var AForm = document.getElementById(AFormID);
+      var OneDLEAction = document.getElementById('OneDLEAction');
+      var OneDLEId = document.getElementById('OneDLEId');
+      OneDLEAction.value = ASender.name;
+      OneDLEId.value = ASender.value;
+      document.getElementById('DLEsActions').selectedIndex = 0;
+      return true;
+    }
+
+    function DoListActionChange(ASender, AFormID, ShowMessageBox) {
+      var AForm = document.getElementById(AFormID);
+    }
+
+    function CheckboxClicked() {
+     DisableItem('DLEsActions', GetCheckedCount('DLEsIDs[]', 'BrowseDistribListsEntriesForm') > 0 );
+     DoListActionChange( document.getElementById('DLEsActions'), 'BrowseDistribListsEntriesForm', false);
+     ShowItem('ListActionSubmitBtn', (document.getElementById('DLEsActions').selectedIndex != 0) && ( document.getElementById('DLEsActions').disabled == false ) ) ;
+    }
+
+    function ConfirmDeleteDLEEvent(value) {
+      if(value)
+        document.getElementById('BrowseDistribListsEntriesForm').submit();
+        else {
+          document.getElementById('OneDLEAction').value = "";
+          document.getElementById('OneDLEId').value = "";
+        }
+
+    }
+
+    function ConfirmListActionEvent(value) {
+      if(value)
+        document.getElementById('BrowseDistribListsEntriesForm').submit();
+    }
+
+    function ConfirmListAction() {
+      AOption = document.getElementById("DLEsActions").options[ document.getElementById("DLEsActions").selectedIndex ];
+
+      if(AOption.value == "RemoveDLEs") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> E-Mails dauerhaft l&ouml;schen?', 3, 320, 130, 'ConfirmListActionEvent');
+        return false;
+      }
+      return true;
+    }
+
+    function ConfirmCancelDLEEvent(value) {
+      if(value)
+        document.getElementById('BrowseDistribListsEntriesForm').submit();
+        else {
+          document.getElementById('OneDLEAction').value = "";
+          document.getElementById('OneDLEId').value = "";
+        }
+    }
+
+  //-->
+  </script>
+
+  <table class="FixedTable">
+    <tbody>
+      <tr>
+        <td>
+         <span style="float: right; margin-right: 0pt">
+         <a class="Backlink" href="./browsedistriblists.php">Zur&uuml;ck zur &Uuml;bersicht der Verteilerlisten</a>
+         </span>
+         <p>
+         <a href="javascript:void(0);" class="Backlink" onclick="ShowHideItem('ShowHideFilterBox')">Filter anzeigen / nicht anzeigen</a>
+      			<div id="ShowHideFilterBox">
+      			Suche nach:&nbsp;<input type="text" name="DLEsSearchFor" size="32" />&nbsp;im Feld:&nbsp;
+            <select size="1" name="DLEsfieldname">
+             <option value="SearchFor_id">ID</option>
+             <option value="SearchFor_MailSubject">Betreff</option>
+             <option value="SearchFor_DistribSenderEMailAddress">Versender</option>
+             <option value="SearchFor_All">Alle Felder</option>
+            </select>
+      			<br /><br />
+      			Sortiere Liste nach:&nbsp;
+            <select size="1" name="DLEssortfieldname">
+               <option value="SortCreateDate">Erstellungsdatum</option>
+               <option value="SortMailSubject">Betreff</option>
+               <option value="SortDistribSenderEMailAddress">Versender</option>
+               <option value="Sortid">ID</option>
+               <option value="SortSentDate">Versendet</option>
+            </select>&nbsp;<select size="1" name="DLEssortorder"><option value="descending">absteigend</option><option value="ascending">aufsteigend</option></select>
+      			<br />
+         <br />
+      			Zeige:&nbsp;<input type="text" name="DLEsItemsPerPage" size="4" style="text-align:right" />&nbsp;Eintr&auml;ge&nbsp;pro&nbsp;Seite
+      			<br />
+         <br />
+         <div style="float:right"><input type="submit" name="FilterApplyBtn" value="&Uuml;bernehmen" /></div>
+         <input type="checkbox" name="DLEsSaveFilter" value="true" />&nbsp;Filter zur n&auml;chsten Verwendung speichern
+         </div>
+         </p>
+        </td>
+      </tr>
+      <tr>
+      <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+      </tr>
+    </tbody>
+  </table>
+  <script language="JavaScript">
+  <!--
+    ShowHideItem('ShowHideFilterBox');
+  //-->
+  </script>
+  <table id="TableDLEs" name="TableDLEs" class="FixedTable">
+  	<thead>
+  		<tr>
+  			<td class="NoWrap" width="1%"><input name="SelectAllChkBox" type="checkbox" onclick="CheckAllCheckboxes('SelectAllChkBox', 'DLEsIDs[]', 'BrowseDistribListsEntriesForm'); CheckboxClicked();" /></td>
+  			<td class="NoWrap" width="2%" onclick="SortOnClick('Sortid', 'DLEssortfieldname', 'DLEssortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">ID</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" style="width:auto;" onclick="SortOnClick('SortCreateDate', 'DLEssortfieldname', 'DLEssortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">Erstellungsdatum</td>
+  			<td class="NoWrap" style="width:auto;" onclick="SortOnClick('SortDistribSenderEMailAddress', 'DLEssortfieldname', 'DLEssortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">Versender</td>
+  			<td class="NoWrap" style="width:auto;" onclick="SortOnClick('SortMailSubject', 'DLEssortfieldname', 'DLEssortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">Betreff der Nachricht</td>
+  			<td class="NoWrap" style="width:auto;" onclick="SortOnClick('SortSentDate', 'DLEssortfieldname', 'DLEssortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">Versendet</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="15%">Aktionen</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td><input name="DLEsIDs[]" type="checkbox" onclick="CheckboxClicked()" /></td>
+  			<td class="NoWrapAlignRight"><LIST:ID></LIST:ID></td>
+  			<td>&nbsp;</td>
+  			<td class="NoWrap"><LIST:CREATEDATE></LIST:CREATEDATE></td>
+  			<td><LIST:DISTRIBSENDEREMAILADDRESS></LIST:DISTRIBSENDEREMAILADDRESS></td>
+  			<td><LIST:SUBJECT></LIST:SUBJECT></td>
+  			<td class="NoWrap"><LIST:SENTTIME></LIST:SENTTIME></td>
+  			<td>&nbsp;</td>
+  			<td>
+  			    <input type="image" src="images/serialmailpreview.gif" width="16" height="16" name="PreviewDLE" onclick="SetListId(this, 'BrowseDistribListsEntriesForm'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Zeigt die E-Mail in der Serienmailvorschau.');return false" />&nbsp;
+  			    <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteDLE" onclick="SetListId(this, 'BrowseDistribListsEntriesForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich diese E-Mail dauerhaft l&ouml;schen?', 3, 320, 130, 'ConfirmDeleteDLEEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht die E-Mail dauerhaft.');return false" />
+         <IS:SWM>
+         <input type="image" src="images/spamtest16.gif" width="16" height="16" name="SpamTest" onclick="return SetListId(this, 'BrowseDistribListsEntriesForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Spam-Test durchf&uuml;hren');return false" />&nbsp;
+         </IS:SWM>
+  			    <input type="image" src="images/mail_send_test.gif" width="16" height="16" name="TestMail" onclick="return SetListId(this, 'BrowseDistribListsEntriesForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Test-E-Mail versenden');return false" />&nbsp;
+
+         <IS:SENDING>
+  			    <input type="image" src="images/cross16.gif" width="16" height="16" name="CancelDLE" onclick="SetListId(this, 'BrowseDistribListsEntriesForm'); MessageBox('Best&auml;tigung', 'Dies bricht den Versand der E-Mail in dieser Verteilerliste ab. Sie k&ouml;nnen den Versand <b>nicht</b> wieder aufnehmen.<br /><br />M&ouml;chten Sie wirklich den Versand jetzt abbrechen?', 3, 340, 170, 'ConfirmCancelDLEEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Bricht den Versand ab.');return false" />
+         </IS:SENDING>
+
+  			    <input type="image" src="images/resend_link16.gif" width="16" height="16" name="ResendConfirmationLink" onclick="return SetListId(this, 'BrowseDistribListsEntriesForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Best&auml;tigungslink nochmals versenden');return false" />&nbsp;
+
+  			    <input type="image" src="images/sentmails16.gif" width="16" height="16" name="DistribListsSendLog" onclick="SetListId(this, 'BrowseDistribListsEntriesForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Versandprotokoll der E-Mail anzeigen');return false" />&nbsp;
+         <IS:SWM>
+         <input type="image" src="images/statistics.gif" width="16" height="16" name="DistribListsTrackingStat" onclick="SetListId(this, 'BrowseDistribListsEntriesForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Tracking-Statistik der E-Mail anzeigen');return false" />&nbsp;
+         </IS:SWM>
+
+		    </td>
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+  	</table>
+
+ 	 <table class="FixedTable">
+ 	 <thead></thead>
+ 	 <tbody></tbody>
+  	<tfoot>
+
+  		<tr>
+  		  <td>
+   		  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+   		  <tr>
+   		  <td style="width:1%; white-space:nowrap; ">
+     		  Selektierte:&nbsp;
+   		  </td>
+   		  <td style="width:70%; white-space:nowrap; ">
+       		  <select name="DLEsActions" id="DLEsActions" size="1" onchange="DoListActionChange(this, 'BrowseDistribListsEntriesForm', false); ShowItem('ListActionSubmitBtn', (document.getElementById('DLEsActions').selectedIndex != 0) && ( document.getElementById('DLEsActions').disabled == false ) ); ">
+         		  <option value="doNothing">Aktion w&auml;hlen</option>
+         		  <option value="RemoveDLEs">L&ouml;scht die gew&auml;hlte(n) E-Mail(s)</option>
+       		  </select>
+       		  <input type="submit" name="ListActionSubmitBtn" id="ListActionSubmitBtn" value="Ausf&uuml;hren" onclick="return ConfirmListAction()" />
+   		  </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+       			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'BrowseDistribListsEntriesForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'BrowseDistribListsEntriesForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'BrowseDistribListsEntriesForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'BrowseDistribListsEntriesForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  Seite:&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <select name="DLEsPageSelected" id="DLEsPageSelected" size="1" style="min-width:30pt ! important;" onchange="document.BrowseDistribListsEntriesForm.submit()">
+                <OPTION:PAGES>
+                <option>1</option>
+                </OPTION:PAGES>
+         			  </select>
+        </td>
+       	</tr>
+       	</table>
+  			</td>
+  		</tr>
+
+  	</tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableDLEs','tableRollOverEffect',null);
+  AddTableDblClickEvent('TableDLEs');
+  DoListActionChange(document.getElementById("DLEsActions"), 'BrowseDistribListsEntriesForm', false);
+  CheckboxClicked();
+  ShowItem('ListActionSubmitBtn', (document.getElementById('DLEsActions').selectedIndex != 0) && ( document.getElementById('DLEsActions').disabled == false ) ) ;
+  DisableItem('DLEsActions', GetCheckedCount('DLEsIDs[]', 'BrowseDistribListsEntriesForm') > 0 );
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

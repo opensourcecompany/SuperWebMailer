@@ -1,0 +1,11 @@
+Hallo,
+
+an die Verteilerliste "[DISTRIBLISTNAME]" wurde eine E-Mail mit Betreff "[SUBJECT]" von der E-Mail-Adresse [FROMADDRESS] gesendet. 
+
+Für den Versand der E-Mail an alle Empfänger der zugewiesenen Empfängerliste klicken Sie auf folgenden Link:
+
+[CONFIRMATIONLINK]
+
+
+Mit freundlichen Grüßen
+

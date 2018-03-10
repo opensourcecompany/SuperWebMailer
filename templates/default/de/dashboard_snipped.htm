@@ -1,0 +1,226 @@
+      <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="js/canvasjs/excanvas.min.js"></script><![endif]-->
+      <script type="text/javascript" src="js/canvasjs/canvasjs.min.js"></script>
+
+      <script type="text/javascript">
+        window.onload = function () {
+
+             CanvasJS.addColorSet("subunsubColorSet",
+                  [
+                  "#00FFFF",
+                  "#0099FF",
+                  "#FF3399",
+                  "#FF3300",
+                  "#000000"
+                 ]);
+
+
+             CanvasJS.addColorSet("lastmailingColorSet",
+                  [
+                  "#0099FF",
+                  "#CC0000",
+                  "#000000"
+                 ]);
+
+             /* addCultureInfo */
+
+
+             var subunsubchart = new CanvasJS.Chart("SUBUNSUBCHART", {
+
+               backgroundColor: "#FFFFFF",
+
+               animationEnabled: true,
+
+               exportEnabled: true,
+
+               culture: "en",
+               creditText: "",
+
+               colorSet:  "subunsubColorSet",
+
+               theme: "theme1",
+
+               title:{
+                 text: "SUBUNSUBCHARTTITLE",
+                 fontSize: 12,
+                 fontFamily: "arial, tahoma,verdana",
+                 fontColor: "black"
+               },
+
+               legend:{
+                 fontSize: 10,
+                 fontFamily: "arial, tahoma,verdana",
+                 fontColor: "black"
+               },
+
+               axisX:{
+                 title: "SUBUNSUBCHARTAXISXTITLE",
+                 titleFontSize: 10,
+                 labelFontSize: 12,
+                 labelAngle: -30
+               },
+
+               axisY:{
+                 title: "SUBUNSUBCHARTAXISYTITLE",
+                 titleFontSize: 10,
+                 labelFontSize: 12,
+                 minimum: 0,
+                 gridThickness: 1
+                 /*SUBUNSUBCHARTINTERVAL, interval: 1 SUBUNSUBCHARTINTERVAL*/
+               },
+
+               toolTip:{
+                 enabled: true,
+                 borderColor: "black",
+                 shared: true
+               },
+
+               data: /* SUBUNSUBCHART_DATA */
+
+           });
+
+
+           var lastmailingchart = new CanvasJS.Chart("MAILINGCHART", {
+
+             backgroundColor: "#FFFFFF",
+
+             animationEnabled: true,
+
+             exportEnabled: true,
+
+             culture: "en",
+
+             colorSet:  "lastmailingColorSet",
+
+             theme: "theme1",
+
+             title:{
+               text: "LASTMAILINGCHARTTITLE",
+               fontSize: 12,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             toolTip:{
+               enabled: true,
+               borderColor: "black",
+               shared: false
+             },
+
+             data: [
+             {
+              type: "doughnut",
+              startAngle: -90,
+              showInLegend: false,
+              indexLabelFontSize: 12,
+              dataPoints: /* MAILINGCHART_DATA */
+             }
+             ]
+
+         });
+
+         subunsubchart.render();
+         lastmailingchart.render();
+        }
+      </script>
+
+      <table class="FormTable" style="width:100%;margin-left:0pt;" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+          <tr>
+          <td style="vertical-align: top">
+
+          <fieldset>
+          <legend>Empf&auml;ngerlisten</legend>
+          <br />
+              <table class="FormTable" style="width:100%;" cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                  <tr>
+                    <td class="StatColumn" style="width: 50%">Anzahl Empf&auml;ngerlisten</td>
+                    <td><MAILINGLIST:TOTAL></MAILINGLIST:TOTAL></td>
+                  </tr>
+                  <tr>
+                    <td class="StatColumn">Aktive Empf&auml;nger</td>
+                    <td><LIST:TOTALACTIVE></LIST:TOTALACTIVE></td>
+                  </tr>
+                  <tr>
+                    <td class="StatColumn">&nbsp;&nbsp;davon unbest&auml;tigte Anmeldungen</td>
+                    <td><LIST:TOTALOPTINUNCONFIRMED></LIST:TOTALOPTINUNCONFIRMED></td>
+                  </tr>
+                  <tr>
+                    <td class="StatColumn">&nbsp;&nbsp;davon unbest&auml;tigte Abmeldungen</td>
+                    <td><LIST:TOTALOPTOUTUNCONFIRMED></LIST:TOTALOPTOUTUNCONFIRMED></td>
+                  </tr>
+                  <tr>
+                    <td class="StatColumn">Inaktive Empf&auml;nger</td>
+                    <td><LIST:TOTALINACTIVE></LIST:TOTALINACTIVE></td>
+                  </tr>
+                  <tr>
+                    <td class="StatColumn">Empf&auml;nger in Blocklisten</td>
+                    <td><LIST:RECIPIENTSINBLACKLIST></LIST:RECIPIENTSINBLACKLIST></td>
+                  </tr>
+                  <tr>
+                    <td colspan="2">&nbsp;</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <table class="FormTable" style="width:100%;" cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                  <tr>
+                    <td>
+                      <div id="SUBUNSUBCHART" style="width: 100%; height: 400px;"></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+          </fieldset>
+
+      </td>
+      <td style="vertical-align: top">
+         <fieldset>
+         <legend>Letztes E-Mailing (<MAILING:ENDSENTDATETIME></MAILING:ENDSENTDATETIME>)</legend>
+         <br />
+             <table class="FormTable" style="width:100%;margin-left:0pt" cellspacing="0" cellpadding="0" border="0">
+               <tbody>
+                 <tr>
+                   <td class="StatColumn">Name</td>
+                   <td><MAILING:NAME></MAILING:NAME></td>
+                 </tr>
+                 <tr>
+                   <td class="StatColumn">Erfolgreich versendet</td>
+                   <td><MAILING:SENTSUCC></MAILING:SENTSUCC></td>
+                 </tr>
+                 <tr>
+                   <td class="StatColumn">Nicht erfolgreich</td>
+                   <td><MAILING:SENTFAILED></MAILING:SENTFAILED></td>
+                 </tr>
+                 <tr>
+                   <td class="StatColumn">Bounces</td>
+                   <td>Hard <MAILING:HARDBOUNCES></MAILING:HARDBOUNCES> / Soft <MAILING:SOFTBOUNCES></MAILING:SOFTBOUNCES></td>
+                 </tr>
+                 <tr>
+                   <td colspan="2">&nbsp;</td>
+                 </tr>
+                 <tr>
+                   <td colspan="2">&nbsp;</td>
+                 </tr>
+                 <tr>
+                   <td colspan="2">&nbsp;</td>
+                 </tr>
+               </tbody>
+             </table>
+             <table class="FormTable" style="width:100%;" cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                  <tr>
+                    <td>
+                      <div id="MAILINGCHART" style="width: 100%; height: 400px;"></div>
+                    </td>
+                  </tr>
+                </tbody>
+             </table>
+         </fieldset>
+      </td>
+      </tr>
+      </tbody>
+      </table>
+      <br />
+

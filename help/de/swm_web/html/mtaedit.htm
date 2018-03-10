@@ -1,0 +1,423 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link type="text/css" rel="stylesheet" href="../CSS/layout.css">
+<meta name="MS-HKWD" content="Versandvarianten bearbeiten">
+<meta name="MS-HKWD" content="PHP mail()">
+<meta name="MS-HKWD" content="SMTP">
+<meta name="MS-HKWD" content="SMTP MX">
+<meta name="MS-HKWD" content="sendmail">
+<meta name="MS-HKWD" content="Postausgangsserver">
+<meta name="MS-HKWD" content="Server für Newsletter Versand">
+<meta name="MS-HKWD" content="E-Mail-Versand über Server durchführen">
+<meta name="MS-HKWD" content="E-Mail-Versand limitieren">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Versandvarianten bearbeiten,PHP mail(),SMTP,SMTP MX,sendmail,Postausgangsserver,Server für Newsletter Versand,E-Mail-Versand über Server durchführen,E-Mail-Versand limitieren Versandvarianten bearbeiten</title>
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,Versandvarianten bearbeiten,PHP mail(),SMTP,SMTP MX,sendmail,Postausgangsserver,Server für Newsletter Versand,E-Mail-Versand über Server durchführen,E-Mail-Versand limitieren"><meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Versandvarianten bearbeiten,PHP mail(),SMTP,SMTP MX,sendmail,Postausgangsserver,Server für Newsletter Versand,E-Mail-Versand über Server durchführen,E-Mail-Versand limitieren Versandvarianten bearbeiten Versandvarianten bearbeiten,PHP mail(),SMTP,SMTP MX,sendmail,Postausgangsserver,Server für Newsletter Versand,E-Mail-Versand über Server durchführen,E-Mail-Versand limitieren"><meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script LANGUAGE="JavaScript" SRC="jscript.js"></script>
+<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/mtaedit.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+
+<body>
+
+<h1>Versandvarianten bearbeiten</h1>
+<p>Nutzen Sie die verschiedenen Versandvarianten um E-Mails z.B. bei Anmeldung
+oder Abmeldung von einer Empfängerliste versenden zu lassen. Als Standard
+vordefiniert sind die Versandvarianten &quot;Standard PHP mail()&quot; und
+&quot;Standard SMTP Direct (MX)&quot;. Die Versandvariante &quot;Standard PHP
+mail()&quot;&nbsp; sollte auf jedem Webserver verwendet werden können.
+Verwenden Sie die Variante &quot;Standard SMTP Direct (MX)&quot; um E-Mails
+direkt an den Server des Empfängers ausliefern zu lassen. Diese Variante sollte
+nicht verwendet werden, da der Server des Empfängers nicht immer erreichbar
+sein muss.</p>
+<p><img border="0" src="../images/mtas.png" width="950" height="856"></p>
+<p>&nbsp;</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">Name der Versandvariante</td>
+    <td width="72%">Vergeben Sie einen eindeutigen Namen für die
+      Versandvariante.
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Typ der Versandvariante</td>
+    <td width="72%">Wählen Sie den Typ der Versandvariante. Je nach gewählten
+      Typ der Versandvariante sind verschiedene weitere Parameter notwendig bzw.
+      änderbar.
+      <p>Zur Verfügung stehen:</p>
+      <table border="0" width="80%">
+        <tr>
+          <td width="50%" valign="top">PHP mail()</td>
+          <td width="50%">Verwendet die in PHP integrierte PHP mail()-Funktion
+            für den E-Mail-Versand.
+            <p>Einige Angaben wie z.B. &quot;E-Mail-Adresse für die
+            Return-Path-Angabe&quot; für den Versand einer E-Mail, sind bei
+            Verwendung dieser Versandvariante wirkunglos, d.h. der Server setzt
+            selbständig Standard-Angaben ein.</p>
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="50%" valign="top">Versand über
+            Postausgangsserver/SMTP-Server</td>
+          <td width="50%">Verwendet einen Postausgangsserver/SMTP-Server für
+            den Versand der E-Mails.
+            <p>Diese Variante kann nur verwendet werden, wenn der Webserver auf
+            den angegebenen Postausgangsserver zugreifen kann (Port 25 offen).</p>
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="50%" valign="top">Direkt an den Server des Empfängers
+            (SMTP/MX)</td>
+          <td width="50%">Versendet die E-Mails direkt an den Server des
+            Empfängers.
+            <p>Diese Variante kann nur verwendet werden, wenn der Webserver
+            über Port 25 auf den Zielserver zugreifen kann. Es ist nicht
+            empfohlen diese Variante zu verwenden, da der Zielserver nicht immer
+            erreichbar sein muss. Es sollten die Varianten PHP mail() oder
+            Versand über Postausgangsserver/SMTP-Server verwendet werden.</p>
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="50%" valign="top">sendmail verwenden</td>
+          <td width="50%">Ist auf dem Webserver das Programm sendmail
+            installiert, dann kann diese Variante verwendet werden.
+            <p>Verwenden Sie diese Variante nur, wenn Sie das
+            sendmail-Verzeichnis und Parameter kennen.</p>
+            <p>&nbsp;</td>
+        </tr>
+      </table>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Limit der Versandvariante</td>
+    <td width="72%">Das angegebene Limit wird beim Versand von <a href="campaignedit.htm">E-Mailings</a>
+      berücksichtigt, falls mehrere Versandvarianten gewählt und mit einem
+      Limit versehen sind. Geben Sie einen Wert von 0 an, um die Versandvariante
+      nicht zu limitieren.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Absender-E-Mail-Adresse für die Versandvariante</td>
+    <td width="72%">Erfordert der Server eine spezielle Absender-E-Mail-Adresse
+      um E-Mails zu versenden, dann kann diese hier definiert werden. Diese
+      Angabe hat Vorrang vor allem Absender-E-Mail-Adressen, die Sie für
+      Formulare, Mailings und Responder definieren.
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="100%" colspan="2"><b>Einstellungen für den Versand per PHP
+      mail()</b></td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Zusatzparameter z.B. -f &lt;E-Mail-Adresse&gt;</td>
+    <td width="72%">Diese Angabe kann für die PHP mail() Anweisung notwendig
+      sein, falls der E-Mail-Versand verweigert wird. In den FAQ Ihres
+      Webpräsenzanbieters werden Sie Informationen finden, falls ein
+      Zusatzparameter notwendig ist.
+      <p>Die definierten Zusatzparameter werden nur verwendet, wenn der PHP Safe
+      mode deaktiviert ist.</p>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="100%" colspan="2"><b>Einstellungen für den Versand über
+      Postausgangsserver/SMTP-Server</b></td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">SMTP HELO Name</td>
+    <td width="72%">Geben Sie den SMTP HELO Namen ein, dieser wird beim
+      Verbindungsaufbau zum Server verwendet. Dieser Name muss eine gültige
+      Domain sein.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Mehrere E-Mails während einer Verbindung zum SMTP-Server
+      versenden</td>
+    <td width="72%">Aktivieren Sie diese Einstellung, damit über eine
+      hergestellte SMTP-Verbindung mehrere E-Mails versendet werden sollen. Die
+      Empfehlung ist die Einstellungen zu deaktivieren, auch wenn dadurch durch
+      das Script sehr viele TCP/IP-Verbindungen hergestellte werden.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Pipelining verwenden</td>
+    <td width="72%">Pipelining ist eine spezielle Art der Kommunikation um an
+      den Server mehrere Anweisungen zu senden und nicht auf eine Antwort zu
+      warten. Es ist empfehlenswert diese Einstellung zu deaktivieren, da es
+      schwer ist etwaige Kommunikationsfehler zu finden.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Zeitüberschreitung/Timeout</td>
+    <td width="72%">Geben Sie an wann bei Nicht-Reaktion des Zielservers die
+      Verbindung abgebrochen werden soll. Die Standard-Einstellung ist 0, d.h.
+      es wird niemals die Verbindung abgebrochen.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Name des Postausgangsservers/SMTP-Servers</td>
+    <td width="72%">Geben Sie den Namen des Postausgangsservers/SMTP-Servers
+      korrekt ein. Der Name kann ein auslösbarer Name z.B. mx.freenet.de oder
+      eine IP-Adresse sein.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Server erfordert eine sichere Verbindung (SSL)</td>
+    <td width="72%">Aktivieren Sie diese Einstellung, wenn der Server eine
+      sichere und verschlüsselte Verbindung erfordert. Diese Funktion sollte
+      nicht verwendet werden, da der Verbindungsaufbau längere Zeit benötigt.
+      <p>Hinweis:<br>
+      Diese Funktion ist erst ab PHP 4.3 und aktivierten OpenSSL nutzbar.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Ports des Postausgangsservers/SMTP-Servers</td>
+    <td width="72%">Ändern Sie die Angabe des Ports nur, falls Ihr Provider
+      einen anderen Port vorgibt. Der Standard-Port ist 25.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Authentifizierung beim Postausgangsservers/SMTP-Servers
+      notwendig</td>
+    <td width="72%">Aktivieren Sie diese Einstellung zur Aktivierung der
+      SMTP-Authentifizierung und geben Sie Benutzername/Kontoname und Passwort
+      für ein Postfach beim Provider korrekt ein. Bei Verwendung von externen
+      Servern ist diese Angabe meistens erforderlich.
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="100%" colspan="2"><b>Einstellungen für den Versand per sendmail</b></td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">sendmail Verzeichnis</td>
+    <td width="72%">Geben Sie das Verzeichnis und Dateinamen zum Programm
+      sendmail an.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">sendmail Parameter</td>
+    <td width="72%">Geben Sie die notwendigen sendmail-Parameter ein.
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="100%" colspan="2"><b>Pause während des Versands von mehreren
+      E-Mails</b></td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Nach jeder E-Mail X ms warten.</td>
+    <td width="72%">Während des Versands per CronJob wird nach jeder E-Mail die
+      angegebene Zeit gewartet. Verwenden Sie diese Einstellung nur, falls der
+      Versandserver dies erfordert.
+      <p>Die Verwendung dieser Funktion kann zum Scriptabbruch führen, falls
+      die Scriptlaufzeit abgelaufen ist.</p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="100%" colspan="2"><b>Benutzerdefinierte E-Mail-Header-Felder</b>
+      <p>Die Definition eigener E-Mail-Header-Felder ist eine Profi-Funktion,
+      die fehlerhafte Verwendung dieser Funktion kann zu Darstellungsfehlern
+      beim E-Mail-Empfänger oder zur Erkennung als Spam führen.</p>
+      <p>Für jede Versandvariante müssen einzeln die E-Mail-Header definiert
+      werden, diese werden danach für jede versendete E-Mail mit dieser
+      Versandvariante verwendet.</p>
+      <p>Informationen zum Aufbau von E-Mails und Spezifikation von
+      E-Mail-Headern finden Sie im <a href="http://tools.ietf.org/html/rfc5322" target="_blank">RFC
+      5322</a>.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Neues Feld/Feld ändern</td>
+    <td width="72%">Fügt ein neues E-Mail-Header-Feld hinzu bzw. ändert das
+      gewählte Feld.
+      <p>Geben Sie RFC-konform eine Bezeichnung des Header-Felds ein. Das
+      E-Mail-Header-Feld darf nicht die Zeichen Leerzeichen, &quot;, ', :, &lt;,
+      &gt; und \ enthalten. Nicht verwendet werden dürfen die
+      E-Mail-Header-Felder: BCc, Cc, Content-Class, Content-Transfer-Encoding,
+      Content-Type, Date, DomainKey-Signature, From, Importance, In-Reply-To,
+      List-Id, List-Unsubscribe, Message-Id, MIME-Version, Priority, Received,
+      References, Reply-To, Return-Path, Sender, Status, Subject, Thread-Index,
+      Thread-Topic, To, UIDL, X-ClientAddr, X-ID, X-Loop, X-Mailer,
+      X-Mailer-Version, X-MIME-Autoconverted, X-MimeOLE, X-MS-Has-Attach,
+      X-MSMail-Priority, X-MSMail-Priority, X-MS-TNEF-Correlator,
+      X-OriginalArrivalTime, X-Originating-Email, X-Originating-IP, X-Priority,
+      X-Sender, X-Spam-Checker-Version, X-Spam-Level, X-Spam-Status,
+      X-TOI-MSGID, X-UIDL</p>
+      <p>Als Inhalt des E-Mail-Header-Felds können beliebige Zeichenketten oder
+      Platzhalter eingesetzt werden. Werden beim Versand einer E-Mail
+      Zeilenumbrüche im Inhalt des E-Mail-Header-Felds gefunden, dann werden
+      diese komplett entfernt.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Feld löschen</td>
+    <td width="72%">Löscht den gewählten Eintrag.
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="100%" colspan="2"><b>E-Mails eine digitale Signatur hinzufügen
+      (S/MIME)</b>
+      <p>Für die Nutzung dieser Funktion sind die entsprechenden Zertfikate
+      notwendig.</p>
+      <p>&nbsp;</p>
+      <p><b>Die Verwendung dieser Option führt zu einer höheren Serverlast,
+      Vergrößerung der E-Mails und damit zu einer Verlängerung der
+      Versandzeit.</b></p>
+      <p>&nbsp;</p>
+      <p>Hinweise:</p>
+      <ul>
+        <li>Im PHP müssen die OpenSSL-Funktionen aktiviert sein, ansonsten ist
+          eine Nutzung unmöglich.</li>
+        <li>Zur Erzeugung der S/MIME-Signatur müssen temporäre Dateien
+          erstellt werden. Diese Dateien werden immer im userfiles/&lt;id des
+          nutzer&gt;/export-Verzeichnis erstellt. In diesem Verzeichnis muss
+          genügend freier Speicherplatz verfügbar sein, ebenso müssen die
+          Lese-/Schreibrechte korrekt gesetzt werden.</li>
+      </ul>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Schlägt Signierung fehl, E-Mail unsigniert versenden.</td>
+    <td width="72%">Aktivieren Sie diese Einstellung, um die E-Mail unsigniert
+      versenden zu lassen, falls bei der Signatur-Erzeugung Fehler auftreten.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Signierte E-Mails als Klartext-E-Mails versenden.</td>
+    <td width="72%">Versendet die E-Mails als Klartext-E-Mails, so dass diese
+      ebenfalls von älteren E-Mail-Programmen, ohne S/MIME-Unterstützung,
+      dargestellt werden.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">S/MIME-Zertifikat öffentlicher Schlüssel</td>
+    <td width="72%">Geben Sie den öffentlichen Schlüssel des Zertifikats an.
+      <p>Hinweis: Es ist ebenfalls möglich ein <b>absolutes</b> Verzeichnis und
+      Dateinamen für das Zertifikat anzugeben, es <b>muss</b> vor dem
+      Verzeichnis file:// angegeben werden. z.B. Datei <font face="Courier New">cert.crt</font>
+      liegt im absoluten Verzeichnis <font face="Courier New">/home/srv/www/certs/cert.crt</font>,
+      dann geben Sie <font face="Courier New">file:///home/srv/www/certs/cert.crt</font>
+      an.</p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">S/MIME-Zertifikat privater Schlüssel</td>
+    <td width="72%">Geben Sie den privaten Schlüssel an.
+      <p>Hinweis: Es ist ebenfalls möglich ein <b>absolutes</b> Verzeichnis und
+      Dateinamen für das Zertifikat anzugeben, es <b>muss</b> vor dem
+      Verzeichnis file:// angegeben werden. z.B. Datei <font face="Courier New">cert.pem</font>
+      liegt im absoluten Verzeichnis <font face="Courier New">/home/srv/www/certs/cert.pem</font>,
+      dann geben Sie <font face="Courier New">file:///home/srv/www/certs/cert.pem</font>
+      an.</p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Passwort für privaten Schlüssel</td>
+    <td width="72%">Geben Sie das Passwort für den privaten Schlüssel an. Die
+      Angabe des Passworts ist ein Pflichtfeld.
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="100%" colspan="2"><b>E-Mails eine DomainKey-/DKIM-Signatur
+      hinzufügen</b>
+      <p>Für die Nutzung dieser Funktion ist das entsprechende Zertfikat
+      notwendig, ebenfalls müssen die DNS-Einträge der Domain korrekt gesetzt
+      werden.</p>
+      <p>&nbsp;</p>
+      <p><b>Die Verwendung dieser Option führt zu einer höheren Serverlast,
+      Vergrößerung der E-Mails und damit zu einer Verlängerung der
+      Versandzeit.</b></p>
+      <p>&nbsp;</p>
+      <p>Hinweise:</p>
+      <ul>
+        <li>Im PHP müssen die OpenSSL-Funktionen aktiviert sein, ansonsten ist
+          eine Nutzung unmöglich.</li>
+        <li>Die Option &quot;DomainKey-Signatur hinzufügen&quot; sollte nicht
+          mit PHP mail() verwendet werden, da beim Versand per PHP mail() die
+          Reihenfolge der E-Mail-Header nicht festgelegt werden kann, dies ist
+          jedoch notwendig um den DomainKey-Eintrag an die erste Stelle, lt.
+          RFC, zu setzen.</li>
+      </ul>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Schlägt Signierung fehl, E-Mail unsigniert versenden.</td>
+    <td width="72%">Aktivieren Sie diese Einstellung, um die E-Mail unsigniert
+      versenden zu lassen, falls bei der Signatur-Erzeugung Fehler auftreten.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">DKIM-Signatur hinzufügen.</td>
+    <td width="72%">Erzeugt den DKIM-Header und fügt diesen zum E-Mail-Header
+      hinzu.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">DomainKey-Signatur hinzufügen.</td>
+    <td width="72%">Erzeugt den DomainKey-Header und fügt diesen zum
+      E-Mail-Header hinzu.
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">DomainKeys/DKIM Selektor</td>
+    <td width="72%">Geben Sie den DomainKeys/DKIM Selektor an.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">DomainKeys/DKIM Privater Schlüssel</td>
+    <td width="72%">Geben Sie den privaten Schlüssel an.
+      <p>Hinweis: Es ist ebenfalls möglich ein <b>absolutes</b> Verzeichnis und
+      Dateinamen für das Zertifikat anzugeben, es <b>muss</b> vor dem
+      Verzeichnis file:// angegeben werden. z.B. Datei <font face="Courier New">cert.pem</font>
+      liegt im absoluten Verzeichnis <font face="Courier New">/home/srv/www/certs/cert.pem</font>,
+      dann geben Sie <font face="Courier New">file:///home/srv/www/certs/cert.pem</font>
+      an.</p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Passwort für privaten Schlüssel</td>
+    <td width="72%">Geben Sie das Passwort für den privaten Schlüssel an. Die
+      Angabe des Passworts ist optional.
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</body>
+
+</html>

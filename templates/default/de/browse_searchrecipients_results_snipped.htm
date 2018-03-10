@@ -1,0 +1,147 @@
+<div class="spacerborder">
+  <form name="SearchRecipientsForm" id="SearchRecipientsForm" method="post" action="./browsesearchrecipients_results.php">
+
+  <input type="hidden" name="OneMailingListAction" id="OneMailingListAction" value="" />
+  <input type="hidden" name="OneMailingListId" id="OneMailingListId" value="" />
+  <input type="hidden" name="searchoptions" id="searchoptions" />
+
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function SetListId(ASender, AFormID) {
+      var AForm = document.getElementById(AFormID);
+      var OneMailingListAction = document.getElementById('OneMailingListAction');
+      var OneMailingListId = document.getElementById('OneMailingListId');
+      OneMailingListAction.value = ASender.name;
+      OneMailingListId.value = ASender.value;
+      document.getElementById('MailingListActions').selectedIndex = 0;
+      return true;
+    }
+
+    function ConfirmDeleteListEvent(value) {
+      if(value)
+        document.getElementById('SearchRecipientsForm').submit();
+        else {
+          document.getElementById('OneMailingListAction').value = "";
+          document.getElementById('OneMailingListId').value = "";
+        }
+
+    }
+
+    function CheckboxClicked() {
+     DisableItem('MailingListActions', GetCheckedCount('MailingListIDs[]', 'SearchRecipientsForm') > 0 );
+     ShowItem('ListActionSubmitBtn', (document.getElementById('MailingListActions').selectedIndex != 0) && ( document.getElementById('MailingListActions').disabled == false ) ) ;
+    }
+
+    function ConfirmListActionEvent(value) {
+      if(value)
+        document.getElementById('SearchRecipientsForm').submit();
+    }
+
+    function ConfirmListAction() {
+      AOption = document.getElementById("MailingListActions").options[ document.getElementById("MailingListActions").selectedIndex ];
+      if(AOption.value == "RemoveRecipients" ) {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle</b> gefundenen Empf&auml;nger in den gew&auml;hlten Empf&auml;ngerlisten dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmListActionEvent');
+        return false;
+      }
+      return true;
+    }
+
+  -->
+  </script>
+
+  <table class="FixedTable">
+    <tbody>
+      <tr>
+        <td>
+         <span style="float: right; margin-right: 0pt"><a class="Backlink" href="./searchrecipients.php" onclick="document.getElementById('OneMailingListAction').value='ModifySearchParams'; document.getElementById('SearchRecipientsForm').submit(); return false;">Suche modifizieren</a>&nbsp;<a class="Backlink" href="./searchrecipients.php">Neue Suche</a></span>
+        </td>
+      </tr>
+      <tr>
+      <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table id="TableSearchRecipientsResults" name="TableSearchRecipientsResults" class="FixedTable">
+  	<thead>
+  		<tr>
+  			<td class="NoWrap" width="5%"><input name="SelectAllChkBox" type="checkbox" onclick="CheckAllCheckboxes('SelectAllChkBox', 'MailingListIDs[]', 'SearchRecipientsForm'); CheckboxClicked();" /></td>
+  			<td class="NoWrapAlignCenter" width="5%">ID</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="40%">Name der Empf&auml;ngerliste</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrapAlignCenter" width="25%">Suchergebnis</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="23%">Aktionen</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td><input name="MailingListIDs[]" type="checkbox" onclick="CheckboxClicked()" /></td>
+  			<td class="NoWrapAlignRight"><LIST:ID></LIST:ID></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:NAME></LIST:NAME></td>
+  			<td>&nbsp;</td>
+  			<td class="AlignRight"><LIST:FINDCOUNT></LIST:FINDCOUNT>&nbsp;Treffer</td>
+  			<td>&nbsp;</td>
+  			<td>
+  			    <input type="image" src="images/whohasclicked16.gif" width="16" height="16" name="ShowFoundRecipients" onclick="SetListId(this, 'SearchRecipientsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Zeigt die gefundenen Empf&auml;nger.');return false" />&nbsp;
+         <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteFoundRecipients" onclick="SetListId(this, 'SearchRecipientsForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich die gefundenen Empf&auml;nger dauerhaft aus dieser Empf&auml;ngerliste l&ouml;schen?', 3, 320, 120, 'ConfirmDeleteListEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht die gefundenen Empf&auml;nger aus der Empf&auml;ngerliste.');return false;" />
+		    </td>
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+  </table>
+
+  <table class="FixedTable">
+  	<tfoot>
+  		<tr>
+  		  <td colspan="7">
+    		  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    		  <tr>
+    		  <td style="width:1%; white-space:nowrap; ">
+      		  Selektierte:&nbsp;
+    		  </td>
+    		  <td style="width:70%; white-space:nowrap; ">
+        		  <select name="MailingListActions" id="MailingListActions" size="1" onchange="ShowItem('ListActionSubmitBtn', (document.getElementById('MailingListActions').selectedIndex != 0) && ( document.getElementById('MailingListActions').disabled == false ) ); ">
+          		  <option value="doNothing">Aktion w&auml;hlen</option>
+          		  <option value="RemoveRecipients">Gefundene Empf&auml;nger l&ouml;schen</option>
+        		  </select>
+        		  <input type="submit" name="ListActionSubmitBtn" id="ListActionSubmitBtn" value="Ausf&uuml;hren" onclick="return ConfirmListAction()" />
+    		  </td>
+     			<td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'SearchRecipientsForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'SearchRecipientsForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'SearchRecipientsForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'SearchRecipientsForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  Seite:&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.SearchRecipientsForm.submit()">
+                <OPTION:PAGES>
+                <option>1</option>
+                </OPTION:PAGES>
+         			  </select>
+        </td>
+        </tr>
+        </table>
+  			</td>
+  		</tr>
+  	
+  	</tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableSearchRecipientsResults','tableRollOverEffect','tableRowClickEffect');
+  CheckboxClicked();
+  ShowItem('ListActionSubmitBtn', (document.getElementById('MailingListActions').selectedIndex != 0) && ( document.getElementById('MailingListActions').disabled == false ) ) ;
+  DisableItem('MailingListActions', GetCheckedCount('MailingListIDs[]', 'SearchRecipientsForm') > 0 );
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

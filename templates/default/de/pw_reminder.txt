@@ -1,0 +1,15 @@
+Hallo [USERNAME],
+
+Ihre Zugangsdaten lauten
+
+Benutzername: [USERNAME]
+Kennwort: [PASSWORD]
+
+
+
+Mit freundlichen Grüßen
+
+
+
+IP-Adresse bei Anforderung der Zugangsdaten: [IP]
+Browser: [UserAgent]

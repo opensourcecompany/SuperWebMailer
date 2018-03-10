@@ -1,0 +1,79 @@
+      <form id="ImportForm" name="ImportForm" method="post" action="./importrecipientsmysql.inc.php">
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+      <input type="hidden" name="MailingListName" id="MailingListName" />
+      <input type="hidden" name="step" id="step" value="1" />
+
+      <span class="Backlink"><br /><a href="./importrecipients.php">Zur&uuml;ck</a></span>
+      <fieldset>
+      <legend>Import von Empf&auml;ngern</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="ImportColumn">Typ der Datenbank
+                </td>
+                <td>
+                  <select name="DBType" id="DBType" size="1" onchange="SetLabels()">
+                    <option value="MYSQL">MySQL</option>
+                    <option value="MSSQL">Microsoft SQL</option>
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="ImportColumn"><span id="Label1"></span>-Servername
+                </td>
+                <td>
+                <input type="text" name="MySQLServerName" size="30" />
+                </td>
+              </tr>
+
+              <tr>
+                <td class="ImportColumn"><span id="Label2"></span>-Benutzername
+                </td>
+                <td>
+                <input type="text" name="MySQLUsername" size="30" />
+                </td>
+              </tr>
+
+              <tr>
+                <td class="ImportColumn"><span id="Label3"></span>-Passwort
+                </td>
+                <td>
+                <input type="password" name="MySQLPassword" size="30" />
+                </td>
+              </tr>
+
+              <tr>
+                <td class="ImportColumn"><span id="Label4"></span>-Datenbank-Name
+                </td>
+                <td>
+                <input type="text" name="MySQLDatabase" size="30" />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+
+      <script language="JavaScript">
+      <!--
+        function SetLabels(){
+          var Labels = Array("Label1", "Label2", "Label3", "Label4");
+          DBType = document.forms.ImportForm.elements.DBType.options[ document.forms.ImportForm.elements.DBType.selectedIndex ].text;
+          for(var i=0; i<Labels.length; i++)
+             if( typeof(document.getElementById(Labels[i]).innerText) != "undefined" )
+               document.getElementById(Labels[i]).innerText = DBType;
+               else
+               document.getElementById(Labels[i]).textContent = DBType;
+        }
+        SetLabels();
+        
+      //-->
+      </script>
+      <noscript></noscript>
+
+      </form>      
+      

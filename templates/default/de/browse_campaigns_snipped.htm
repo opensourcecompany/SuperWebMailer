@@ -1,0 +1,236 @@
+<div class="spacerborder">
+  <form name="CampaignsListsForm" id="CampaignsListsForm" method="post" action="./browsecampaigns.php">
+  <input type="hidden" name="OneCampaignListAction" id="OneCampaignListAction" value="" />
+  <input type="hidden" name="OneCampaignListId" id="OneCampaignListId" value="" />
+
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function SetListId(ASender, AFormID) {
+      if(ASender.name == "SpamTest" || ASender.name == "TestMail") {
+        ResponderPreviewOpenResponder("", "", "Campaign", ASender.value, "", ASender.name);
+        return false;
+      }
+      if(ASender.name == "PostTwitterTweet"){
+        ShowTwitterPostDlg(ASender.value);
+        return false;
+      }
+      if(ASender.name == "PostFacebookMessage"){
+        ShowFacebookPostDlg(ASender.value);
+        return false;
+      }
+      var AForm = document.getElementById(AFormID);
+      var OneCampaignListAction = document.getElementById('OneCampaignListAction');
+      var OneCampaignListId = document.getElementById('OneCampaignListId');
+      OneCampaignListAction.value = ASender.name;
+      OneCampaignListId.value = ASender.value;
+      document.getElementById('CampaignListActions').selectedIndex = 0;
+      return true;
+    }
+
+    function ConfirmDeleteEvent(value) {
+      if(value)
+        document.getElementById('CampaignsListsForm').submit();
+        else {
+          document.getElementById('OneCampaignListAction').value = "";
+          document.getElementById('OneCampaignListId').value = "";
+        }
+    }
+
+    function ConfirmCancelEMailingEvent(value) {
+      if(value)
+        document.getElementById('CampaignsListsForm').submit();
+        else {
+          document.getElementById('OneCampaignListAction').value = "";
+          document.getElementById('OneCampaignListId').value = "";
+        }
+    }
+    
+    function ConfirmContinueEMailingEvent(value) {
+      if(value)
+        document.getElementById('CampaignsListsForm').submit();
+        else {
+          document.getElementById('OneCampaignListAction').value = "";
+          document.getElementById('OneCampaignListId').value = "";
+        }
+    }
+
+    function DoListActionChange(ASender, AFormID) {
+      var AForm = document.getElementById(AFormID);
+    }
+
+    function CheckboxClicked() {
+     DisableItem('CampaignListActions', GetCheckedCount('CampaignIDs[]', 'CampaignsListsForm') > 0 );
+     ShowItem('ListActionSubmitBtn', (document.getElementById('CampaignListActions').selectedIndex != 0) && ( document.getElementById('CampaignListActions').disabled == false ) ) ;
+    }
+
+    function ConfirmListAction() {
+      return true;
+    }
+
+    function ConfirmListActionEvent(value) {
+      if(value)
+        document.getElementById('CampaignsListsForm').submit();
+    }
+
+    function ConfirmListAction() {
+      AOption = document.getElementById("CampaignListActions").options[ document.getElementById("CampaignListActions").selectedIndex ];
+      if(AOption.value == "RemoveCampaigns" ) {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle</b> gew&auml;hlten E-Mailings dauerhaft l&ouml;schen?', 3, 320, 130, 'ConfirmListActionEvent');
+        return false;
+      }
+
+      return true;
+    }
+
+  //-->
+  </script>
+
+  <table class="FixedTable">
+    <tbody>
+      <tr>
+        <td>
+         <span style="float: right; margin-right: 0pt"><a class="Backlink" href="./campaigncreate.php" name="NewCampaign" id="NewCampaign">Neues E-Mailing</a>&nbsp;&nbsp;<a class="Backlink" href="./browsenas.php" name="NewsletterArchive" id="NewsletterArchive">Newsletter-Archive</a></span>
+         <p>
+         <a href="javascript:void(0);" class="Backlink" onclick="ShowHideItem('ShowHideFilterBox')">Filter anzeigen / nicht anzeigen</a>
+      			<div id="ShowHideFilterBox">
+      			Suche nach:&nbsp;<input type="text" name="SearchFor" size="32" />&nbsp;im Feld:&nbsp;<select size="1" name="fieldname"><option value="SearchForid">ID</option><option value="SearchForName">Name</option><option value="SearchForDescription">Beschreibung</option></select>
+      			<br /><br />
+      			Sortiere Liste nach:&nbsp;<select size="1" name="sortfieldname"><option value="SortName">Name</option><option value="SortMailingListName">Empf&auml;ngerliste</option><option value="Sortid">ID</option></select>&nbsp;<select size="1" name="sortorder"><option value="descending">absteigend</option><option value="ascending">aufsteigend</option></select>
+      			<br />
+         <br />
+      			Zeige:&nbsp;<input type="text" name="ItemsPerPage" size="4" style="text-align:right" />&nbsp;Eintr&auml;ge&nbsp;pro&nbsp;Seite
+      			<br />
+         <br />
+         <div style="float:right"><input type="submit" name="FilterApplyBtn" value="&Uuml;bernehmen" /></div>
+         <input type="checkbox" name="SaveFilter" value="true" />&nbsp;Filter zur n&auml;chsten Verwendung speichern
+         </div>
+         </p>
+        </td>
+      </tr>
+      <tr>
+      <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+      </tr>
+    </tbody>
+  </table>
+  <script language="JavaScript">
+  <!--
+    ShowHideItem('ShowHideFilterBox');
+  //-->
+  </script>
+  <table id="TableCampaignsLists" name="TableCampaignsLists" class="FixedTable">
+  	<thead>
+  		<tr>
+  			<td class="NoWrap" width="5%"><input name="SelectAllChkBox" type="checkbox" onclick="CheckAllCheckboxes('SelectAllChkBox', 'CampaignIDs[]', 'CampaignsListsForm'); CheckboxClicked();" /></td>
+  			<td class="NoWrapAlignCenter" width="5%" onclick="SortOnClick('Sortid', 'sortfieldname', 'sortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">ID</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="22%" onclick="SortOnClick('SortName', 'sortfieldname', 'sortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">Bezeichnung</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="22%" onclick="SortOnClick('SortMailingListName', 'sortfieldname', 'sortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">Empf&auml;ngerliste</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="15%">Versendet</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="30%">Aktionen</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td><input name="CampaignIDs[]" type="checkbox" onclick="CheckboxClicked()" /></td>
+  			<td class="NoWrapAlignRight"><LIST:ID></LIST:ID></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:NAME></LIST:NAME></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:MAILINGLISTNAME></LIST:MAILINGLISTNAME></td>
+  			<td>&nbsp;</td>
+  			<td class="NoWrap"><LIST:LASTSENT></LIST:LASTSENT></td>
+  			<td>&nbsp;</td>
+  			<td>
+  			    <input type="image" src="images/edit.gif" width="16" height="16" name="EditCampaignProperties" onclick="SetListId(this, 'CampaignsListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'&Auml;ndern des E-Mailings');return false" />&nbsp;
+         <CAN:DELETE>
+  			    <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteCampaign" onclick="SetListId(this, 'CampaignsListsForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich das E-Mailing dauerhaft l&ouml;schen?', 3, 320, 130, 'ConfirmDeleteEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht das E-Mailing dauerhaft.');return false" />
+         </CAN:DELETE>
+
+         <IS:LIVESENDING>
+  			    <input type="image" src="images/play_blue16.gif" width="16" height="16" name="ContinueCampaign" onclick="SetListId(this, 'CampaignsListsForm'); MessageBox('Best&auml;tigung', 'Dies setzt den Versand des E-Mailings fort.<br />Sollte ein anderer Nutzer ebenfalls das E-Mailing fortsetzen, dann k&ouml;nnte es zum <b>Doppelversand</b> kommen.<br /><br />M&ouml;chten Sie wirklich den Versand des E-Mailings fortsetzen?', 3, 340, 190, 'ConfirmContinueEMailingEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Setzt den Versand des E-Mailings fort.');return false" />
+         </IS:LIVESENDING>
+
+         <IS:SENDING>
+  			    <input type="image" src="images/cross16.gif" width="16" height="16" name="CancelCampaign" onclick="SetListId(this, 'CampaignsListsForm'); MessageBox('Best&auml;tigung', 'Dies bricht den Versand des E-Mailings ab. Sie k&ouml;nnen den Versand <b>nicht</b> wieder aufnehmen.<br /><br />M&ouml;chten Sie wirklich den Versand des E-Mailings jetzt abbrechen?', 3, 340, 170, 'ConfirmCancelEMailingEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Bricht den Versand des E-Mailings ab.');return false" />
+         </IS:SENDING>
+
+         <SETUP:COMPLETE>
+  			    <input type="image" src="images/spamtest16.gif" width="16" height="16" name="SpamTest" onclick="return SetListId(this, 'CampaignsListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Spam-Test durchf&uuml;hren');return false" />&nbsp;
+  			    <input type="image" src="images/mail_send_test.gif" width="16" height="16" name="TestMail" onclick="return SetListId(this, 'CampaignsListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Test-E-Mail versenden');return false" />&nbsp;
+         </SETUP:COMPLETE>
+
+  			    <input type="image" src="images/sentmails16.gif" width="16" height="16" name="CampaignsSendLog" onclick="SetListId(this, 'CampaignsListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Versandprotokoll des E-Mailings');return false" />&nbsp;
+  			    <input type="image" src="images/statistics.gif" width="16" height="16" name="CampaignsTrackingStat" onclick="SetListId(this, 'CampaignsListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Tracking-Statistik des E-Mailings');return false" />&nbsp;
+
+  			    <input type="image" src="images/twitter.gif" width="16" height="16" name="PostTwitterTweet" onclick="return SetListId(this, 'CampaignsListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Erm&ouml;glicht das Posten eines Twitter-Tweets mit Verweis auf den letzten Versandeintrag des E-Mailings');return false" />&nbsp;
+  			    <input type="image" src="images/facebook.gif" width="16" height="16" name="PostFacebookMessage" onclick="return SetListId(this, 'CampaignsListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Erm&ouml;glicht das Posten einer Facebook-Status-Message mit Verweis auf den letzten Versandeintrag des E-Mailings');return false" />&nbsp;
+		    </td>
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+  </table>
+
+  <table class="FixedTable">
+  	<thead>
+  	</thead>
+  	<tbody>
+  	</tbody>
+
+  	<tfoot>
+
+  		<tr>
+  		  <td colspan="8">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    		  <tr>
+    		  <td style="width:1%; white-space:nowrap;">
+      		  Selektierte:&nbsp;
+    		  </td>
+    		  <td style="width:60%; white-space:nowrap; ">
+        		  <select name="CampaignListActions" id="CampaignListActions" size="1" onchange="DoListActionChange(this, 'CampaignsListsForm'); ShowItem('ListActionSubmitBtn', (document.getElementById('CampaignListActions').selectedIndex != 0) && ( document.getElementById('CampaignListActions').disabled == false ) ); ">
+          		  <option value="doNothing">Aktion w&auml;hlen</option>
+          		  <option value="RemoveCampaigns">E-Mailing(s) l&ouml;schen</option>
+          		  <option value="DuplicateCampaigns">E-Mailing-Einstellungen duplizieren</option>
+        		  </select>
+        		  <input type="submit" name="ListActionSubmitBtn" id="ListActionSubmitBtn" value="Ausf&uuml;hren" onclick="return ConfirmListAction()" />
+    		  </td>
+     			<td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'CampaignsListsForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'CampaignsListsForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'CampaignsListsForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'CampaignsListsForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  Seite:&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.CampaignsListsForm.submit()">
+                <OPTION:PAGES>
+                <option>1</option>
+                </OPTION:PAGES>
+         			  </select>
+        </td>
+       	</tr>
+       	</table>
+  			</td>
+  		</tr>
+
+  	</tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableCampaignsLists','tableRollOverEffect','tableRowClickEffect');
+  AddTableDblClickEvent('TableCampaignsLists');
+  DoListActionChange(document.getElementById("CampaignListActions"), 'CampaignsListsForm');
+  CheckboxClicked();
+  ShowItem('ListActionSubmitBtn', (document.getElementById('CampaignListActions').selectedIndex != 0) && ( document.getElementById('CampaignListActions').disabled == false ) ) ;
+  DisableItem('CampaignListActions', GetCheckedCount('CampaignIDs[]', 'CampaignsListsForm') > 0 );
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

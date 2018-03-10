@@ -1,0 +1,62 @@
+<html>
+<head>
+<title></title>
+<meta name="generator" content="Edit4Win">
+
+<script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+
+<script language="JavaScript">
+<!--
+   var APIToken = "12345789";
+   var host = "http://localhost";
+   var path_api_json_php = "/swm/api/api_json.php";
+
+
+   function TestRequest(){
+
+      var data = {api_Common__api_getAPIVersion: JSON.stringify( {} ) };
+
+      // SAMPLE 2 var data = {api_Common__api_getRecipientsFieldnames: JSON.stringify( {apiLanguageCode: "de"} ) };
+
+      // JQuery decoded values itself when content-type is application/json
+      $.ajax({
+        url: host + path_api_json_php,
+        cache: false,
+        type: "post",
+        headers: {"APIToken": APIToken},
+        data: data,
+        success: function(data) {
+          if(data.error == null) { // check for errors
+              if(typeof data !== "object")
+                alert("Success return value: " + data)
+                else{
+                 // for SAMPLE 2 api_Common__api_getRecipientsFieldnames
+                 var s = "";
+                 for (var key in data) {
+                   s = s + "\r\n" + data[key].fieldname;
+                 }
+                 alert("Success return value: " + s);
+                }
+            }
+            else
+            alert("Failed:" + data.error + " " + data.error_code)
+        },
+        error: function(data) {
+          alert("Failed: " + data.status + " " + data.statusText);
+        }
+      });
+
+   }
+
+
+//-->
+</script>
+
+
+</head>
+<body>
+
+<input type="button" name="test" value="Test" onclick="TestRequest()">
+
+</body>
+</html>

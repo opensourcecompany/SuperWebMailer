@@ -1,0 +1,23 @@
+;iso8859-1, color: #4297D7
+[text_empty_line]=Leerzeile
+[2offers_oneheadline_text_image_link]=2 Angebote, 1 ‹berschrift, Text, Bild und Link
+[2offers_oneheadline_text_link]=2 Angebote, 1 ‹berschrift, Text und Link
+[2offers_twoheadlines_text_image_link]=2 Angebote, 2 ‹berschriften, Text, Bild und Link
+[2offers_twoheadlines_text_link]=2 Angebote, 2 ‹berschriften, Text und Link
+[articel_bigimage_left_text_right]=Groﬂes Bild links, Text rechts
+[articel_bigimage_right_text_left]=Groﬂes Bild rechts, Text links
+[article_entry_image]=Bild und Text darunter
+[article_entry_image_left]=Text und Bild links
+[article_entry_image_right]=Text und Bild rechts
+[headline_text_link]=‹berschrift, Text und Link
+[hr]=horizontale Linie
+[image]=Bild
+[link]=Hyperlink
+[linked_headline_text]=Verlinkte ‹berschrift und Text
+[tableofcontents]=Inhaltsverzeichnis
+[text_multiline]=Text, mehrzeilig
+[text_singleline]=Text, einzeilig
+[text_headline]=‹berschrift
+[list_unordered]=Liste als Aufz‰hlung
+[list_ordered]=Liste mit Nummerierung
+[socialmediashare]=Social media Leiste

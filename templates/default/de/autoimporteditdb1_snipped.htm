@@ -1,0 +1,112 @@
+      <div class="spacerborder">
+      <span class="Backlink"><a href="./browseautoimports.php">Zur&uuml;ck</a></span><br />
+      <br />
+
+      <form id="ImportForm" name="ImportForm" method="post" action="./autoimportedit.php">
+      <input type="hidden" name="AutoImportId" />
+      <input type="hidden" name="step" id="step" value="1" />
+
+      <input type="hidden" name="Name" />
+      <input type="hidden" name="ImportOption" id="ImportOption" />
+
+      <fieldset id="DBImport" name="DBImport">
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die zu importierende Tabelle und weitere Einstellunngen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Einstellungen f&uuml;r den Import von Empf&auml;ngern aus externer Datenbank</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="MessageDescriptionColumn">Zu importierende Tabelle
+                </td>
+                <td>
+                <select size="1" name="SQLTableName" id="SQLTableName">
+                  <OPTION:SQLTABLENAME>
+                  </OPTION:SQLTABLENAME>
+                </select>
+                <br />
+                <br />
+                </td>
+              </tr>
+
+              <tr>
+                <td class="MessageDescriptionColumn">&nbsp;</td>
+                <td>&nbsp;
+                </td>
+              </tr>
+
+              <tr>
+                <td class="MessageDescriptionColumn">Erweiterter Import<SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie &quot;Alles importieren&quot; um alle Datens&auml;tze aus der Tabelle importieren zu lassen.<br />W&auml;hlen Sie &quot;Teilweise importieren&quot; und geben Sie eine eigene SQL-Anweisung korrekt ein, um nur Datens&auml;tze importieren zu lassen, auf die eine bestimmte Bedingung zutrifft.<br />Hinweis: Die SQL-Anweisung darf <b>NICHT</b> die LIMIT Funktion enthalten.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS></td>
+                <td>
+                 <br />
+                 <input type="radio" name="SQLExtImport" value="1" id="SQLExtImport1" onclick="DisableControlsArray(document.getElementsByName('SQLExtImport')[1].checked == true, Array(document.getElementById('SQLImportSQLQuery')), Array(document.getElementById('SQLImportSQLQueryLabel')) )" /><label for="SQLExtImport1">&nbsp;Alles importieren</label>
+                 <br />
+                 <input type="radio" name="SQLExtImport" value="2" id="SQLExtImport2" onclick="DisableControlsArray(document.getElementsByName('SQLExtImport')[1].checked == true, Array(document.getElementById('SQLImportSQLQuery')), Array(document.getElementById('SQLImportSQLQueryLabel')) )" /><label for="SQLExtImport2">&nbsp;Teilweise importieren</label>
+                 <br />
+                 <br />
+                 <span name="SQLImportSQLQueryLabel" id="SQLImportSQLQueryLabel">SQL-Anweisung:</span><br />
+                 <textarea name="SQLImportSQLQuery" id="SQLImportSQLQuery" cols="80" rows="8"></textarea>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="MessageDescriptionColumn">&nbsp;</td>
+                <td>&nbsp;
+                </td>
+              </tr>
+
+              <tr>
+                <td class="MessageDescriptionColumn">Weitere Optionen</td>
+                <td>
+                 <br />
+                 <input type="text" name="ImportLines" id="ImportLines" size="3" style="text-align: right;" /><label for="ImportLines">&nbsp;Datens&auml;tze auf einmal importieren</label>
+                 <br />
+                 <br />
+                 <input type="checkbox" name="RemoveSpaces" id="RemoveSpaces" value="1" /><label for="RemoveSpaces">&nbsp;Etwaige f&uuml;hrende/nachfolgende Leerzeichen entfernen</label>
+                 <br />
+                 <input type="checkbox" name="IsUTF8" id="IsUTF8" value="1" /><label for="IsUTF8">&nbsp;Die Daten der Tabelle sind <b>UTF-8</b> codiert</label>
+                 <br />
+                 <input type="checkbox" name="ImportBlockedRecipients" id="ImportBlockedRecipients" value="1" /><label for="ImportBlockedRecipients">&nbsp;Empf&auml;nger, die sich in den Blocklisten befinden, ebenfalls importieren</label>
+                 <br />
+                 <input type="checkbox" name="CreateErrorLog" id="CreateErrorLog" value="1" /><label for="CreateErrorLog">&nbsp;Fehlerprotokoll als Datei erstellen</label>
+                 <br />
+                 <br />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn"><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Aktivieren Sie diese Einstellung damit an jeden importierten Empf&auml;nger eine E-Mail mit dem Best&auml;tigungslink zur Aufnahme in die Empf&auml;ngerliste gesendet wird. Der Empf&auml;nger ist damit erst aktiv wenn der Best&auml;tigungslink angeklickt worden ist.<br />Hinweis: Empf&auml;nger in Blocklisten erhalten nat&uuml;rlich keine E-Mail mit Best&auml;tigungslink.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Double-Opt-In</td>
+                <td>
+                 <input type="checkbox" name="SendOptInEMail" id="SendOptInEMail" value="1" /><label for="SendOptInEMail">&nbsp;E-Mail mit Best&auml;tigungslink versenden (nicht mehr als 100 Zeilen importieren lassen)</label>
+                 <br />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+
+      </form>
+
+
+      <script type="text/javascript">
+
+
+        if(document.getElementsByName('ExtImport'))
+          DisableControlsArray(document.getElementsByName('SQLExtImport')[1].checked == true, Array(document.getElementById('SQLImportSQLQuery')), Array(document.getElementById('SQLImportSQLQueryLabel')) );
+
+
+       //AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+       /////////////////////////////////////////////////////////////////////
+
+
+      	</script>
+
+      </div>

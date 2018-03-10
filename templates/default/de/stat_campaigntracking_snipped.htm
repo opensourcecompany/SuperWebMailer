@@ -1,0 +1,1384 @@
+      <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="js/canvasjs/excanvas.min.js"></script><![endif]-->
+      <script type="text/javascript" src="js/canvasjs/canvasjs.min.js"></script>
+      <script type="text/javascript" src="js/jquery-latest.min.js"></script>
+
+
+      <style type="text/css">
+      <!--
+      div.scroll {
+      height: 200px;
+      width: 98%;
+      overflow: auto;
+      border:1px dotted #BABABA;
+      background-color: #FFFFFF;
+      padding: 8px;
+      }
+      div.scroll_countries {
+      height: 192px;
+      width: 100%;
+      overflow: auto;
+      border:0px dotted #BABABA;
+      background-color: #FFFFFF;
+      padding: 0px;
+      padding-top: 8px;
+      }
+      -->
+      </style>
+      
+      
+      <script type="text/javascript">
+
+        var openingschartsummary;
+        var openingcharttime;
+        var openingchartdate;
+        var linkcharttopx;
+
+
+        function getAllButtonElementsWithAttribute(attribute)
+        {
+          var matchingElements = [];
+          var allElements = document.getElementsByTagName('BUTTON');
+          for (var i = 0, n = allElements.length; i < n; i++)
+          {
+            if (allElements[i].getAttribute(attribute))
+            {
+              // Element exists with attribute. Add to array.
+              matchingElements.push(allElements[i]);
+            }
+          }
+          return matchingElements;
+        }
+
+        var PreventSubmitHandler = function (eventObject) {
+            if (eventObject.preventDefault) {
+                eventObject.preventDefault();
+            } else if (window.event) /* for ie */ {
+                window.event.returnValue = false;
+            }
+            return true;
+        };
+
+        window.onload = function () {
+
+           CanvasJS.addColorSet("chartdefaultColorSet",
+                [
+                "#1941A5",
+                "#AFD8F8",
+                "#F6BD0F",
+                "#8BBA00",
+                "#A66EDD",
+                "#F984A1",
+                "#CCCC00",
+                "#999999",
+                "#0099CC",
+                "#FF0000",
+                "#006F00",
+                "#0099FF",
+                "#FF66CC",
+                "#669966",
+                "#7C7CB4",
+                "#FF9933",
+                "#9900FF",
+                "#99FFCC",
+                "#CCCCFF",
+                "#669900"
+               ]);
+
+           CanvasJS.addColorSet("openingsColorSet",
+                [
+                "#0099FF",
+                "#000000",
+                "#CCCC00"
+               ]);
+
+           CanvasJS.addColorSet("openingsTimeColorSet",
+                [
+                "#0099FF"
+               ]);
+
+           /* addCultureInfo */
+
+
+           openingschartsummary = new CanvasJS.Chart("OPENINGCHART_SUMMARY", {
+
+             backgroundColor: "#FFFFFF",
+
+             animationEnabled: true,
+
+             exportEnabled: true,
+
+             culture: "en",
+
+             colorSet:  "openingsColorSet",
+
+             theme: "theme1",
+
+             title:{
+               text: "OPENINGCHART_SUMMARYTITLE",
+               fontSize: 12,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             toolTip:{
+               enabled: false,
+               borderColor: "black",
+               shared: false
+             },
+
+             data: [
+             {
+              type: "doughnut",
+              //startAngle: -90,
+              showInLegend: false,
+              indexLabelFontSize: 12,
+              dataPoints: /* OPENINGCHART_SUMMARY_DATA */
+             }
+             ]
+
+         });
+
+
+           openingcharttime = new CanvasJS.Chart("OPENINGCHART_TIME", {
+
+             backgroundColor: "#FFFFFF",
+
+             animationEnabled: true,
+
+             exportEnabled: true,
+
+             culture: "en",
+             creditText: "",
+
+             colorSet:  "openingsTimeColorSet",
+
+             theme: "theme1",
+
+             title:{
+               text: "OPENINGCHART_TIMETITLE",
+               fontSize: 12,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             legend:{
+               fontSize: 10,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             axisX:{
+               title: "OPENINGCHART_TIMEAXISXTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               labelAngle: 90,
+               interval: 1
+             },
+
+             axisY:{
+               title: "OPENINGCHART_TIMEAXISYTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               minimum: 0,
+               gridThickness: 1
+               /*OPENINGCHART_TIME_INTERVAL, interval: 1 OPENINGCHART_TIME_INTERVAL*/
+             },
+
+             toolTip:{
+               enabled: true,
+               borderColor: "black",
+               shared: false
+             },
+
+             data: /* OPENINGCHART_TIME_DATA */
+
+         });
+
+
+           openingchartdate = new CanvasJS.Chart("OPENINGCHART_DATE", {
+
+             backgroundColor: "#FFFFFF",
+
+             animationEnabled: true,
+
+             exportEnabled: true,
+
+             culture: "en",
+             creditText: "",
+
+             colorSet: "chartdefaultColorSet",
+
+             theme: "theme1",
+
+             title:{
+               text: "OPENINGCHART_DATETITLE",
+               fontSize: 12,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             legend:{
+               fontSize: 10,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             axisX:{
+               title: "OPENINGCHART_DATEAXISXTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               labelAngle: -90,
+               interval: 1
+             },
+
+             axisY:{
+               title: "OPENINGCHART_DATEAXISYTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               minimum: 0,
+               gridThickness: 1
+               /*OPENINGCHART_DATE_INTERVAL, interval: 1 OPENINGCHART_DATE_INTERVAL*/
+             },
+
+             toolTip:{
+               enabled: true,
+               borderColor: "black",
+               shared: false
+             },
+
+             data: /* OPENINGCHART_DATE_DATA */
+
+         });
+
+           linkcharttopx = new CanvasJS.Chart("LINKCHART_TOPX", {
+
+             backgroundColor: "#FFFFFF",
+
+             animationEnabled: true,
+
+             exportEnabled: true,
+
+             culture: "en",
+             creditText: "",
+
+             colorSet: "chartdefaultColorSet",
+
+             theme: "theme1",
+
+             title:{
+               text: "LINKCHART_TOPXTITLE",
+               fontSize: 12,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             axisX:{
+               title: "LINKCHART_TOPXAXISXTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               gridThickness: 1,
+               interval: 1
+             },
+
+             axisY:{
+               title: "LINKCHART_TOPXAXISYTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               minimum: 0,
+               gridThickness: 1
+             },
+
+             toolTip:{
+               enabled: true,
+               borderColor: "black",
+               shared: false
+             },
+
+             data: [
+             {
+              type: "bar",
+              showInLegend: false,
+              dataPoints: /* LINKCHART_TOPX_DATA */
+             }
+             ]
+
+         });
+
+         openingschartsummary.render();
+         openingcharttime.render();
+         openingchartdate.render();
+         linkcharttopx.render();
+
+
+         // prevent submitting form by clicking on menu/options button of chart
+         var buttons = getAllButtonElementsWithAttribute("state");
+         for(var i=0; i<buttons.length; i++){
+             if (buttons[i].addEventListener) {
+                 buttons[i].addEventListener("click", PreventSubmitHandler, false);
+             } else if (buttons[i].attachEvent) {
+                 buttons[i].attachEvent("onclick", PreventSubmitHandler);
+             }
+         }
+
+
+        } // window.onload
+
+      </script>
+
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var TabListArray = Array();
+        var OpeningsInnerTabListArray = Array();
+        var LinksInnerTabListArray = Array();
+
+       function SetListId(ASender, AFormID) {
+         var AForm = document.getElementById(AFormID);
+         var OneTrackingListAction = document.getElementById('OneTrackingListAction');
+         var OneTrackingListId = document.getElementById('OneTrackingListId');
+         OneTrackingListAction.value = ASender.name;
+         OneTrackingListId.value = ASender.value;
+         CampaignId = document.getElementById('CampaignId').value;
+         SendStatId = document.getElementById('SendStatId').value;
+         ResponderType = document.getElementById('ResponderType').value;
+         var date = new Date();
+
+         if(ASender.name == 'WhoHasOpenedBtn') {
+            window.open('./stat_campaigntracking_recipients.php?ResponderType='+ResponderType+'&TrackingType=Openers&CampaignId='+CampaignId+'&SendStatId='+SendStatId + '&nocache=' + date.getTime(), 'CampaignRTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=no,location=no,modal=yes');
+            return false;
+         }
+
+         if(ASender.name == 'WhoHasClickedBtn') {
+            window.open('./stat_campaigntracking_recipients.php?ResponderType='+ResponderType+'&TrackingType=Clicks&CampaignId='+CampaignId+'&SendStatId='+SendStatId+'&LinkId='+ASender.value + '&nocache=' + date.getTime(), 'CampaignRTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=no,location=no,modal=yes');
+            return false;
+         }
+
+         return true;
+       }
+
+       function ConfirmRemoveSendEntry(){
+          MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich den Versandeintrag, Tracking-Statistik und E-Mail-Text dauerhaft l&ouml;schen?<br /><br /><b>Hinweis:</b> Nach dem L&ouml;schen des Eintrags werden getrackte Links und der Browserlink im Newsletter nicht mehr funktionieren. Ebenfalls wird der Eintrag im Newsletter-Archiv gel&ouml;scht.', 3, 580, 180, 'ConfirmRemoveSendEntryEvent');
+          return false;
+       }
+
+       function ConfirmRemoveSendEntryEvent(value){
+         if(value) {
+           document.getElementById('RemoveSendEntry').onclick = null;
+           document.getElementById('RemoveSendEntry').click();
+         }
+       }
+
+      //-->
+      </script>
+
+
+      <div class="spacerborder">
+        <form method="post" id="TrackingStatForm" name="TrackingStatForm" action="stat_campaigntracking.php">
+          <input type="hidden" name="CampaignId" id="CampaignId" />
+          <input type="hidden" name="SendStatId" id="SendStatId" />
+          <input type="hidden" name="ResponderType" id="ResponderType" />
+
+          <input type="hidden" name="OneTrackingListAction" id="OneTrackingListAction" value="" />
+          <input type="hidden" name="OneTrackingListId" id="OneTrackingListId" value="" />
+
+
+          <span class="Backlink"><span style="float: right; margin-right: 0pt"><a href="./stat_campaigntracking.php?PrintVersion=PrintVersion&CampaignId=CampaignId&SendStatId=SendStatId&ResponderType=ResponderType" target="_blank">Druckversion</a></span><a href="./browsecampaigns.php">Zur&uuml;ck</a></span><br />
+          <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+
+                  <!-- ##### TabView - START -->
+                  <div id="dhtmlgoodies_tabView">
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('&Uuml;bersicht');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+
+                    <fieldset>
+                      <legend>Informationen zum E-Mailing</legend>
+                      <br />
+                      <table class="FormTable">
+                        <tbody>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              ID des E-Mailings
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <CAMPAIGNID></CAMPAIGNID>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Name des E-Mailings
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <CAMPAIGNNAME></CAMPAIGNNAME>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Erstellt am
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <CREATEDATE></CREATEDATE>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Versendet am
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENTDATE></SENTDATE>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              E-Mail-Format
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <MAILFORMAT></MAILFORMAT>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Betreff der E-Mail
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <MAILSUBJECT></MAILSUBJECT>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Anh&auml;nge der E-Mail
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <ATTACHMENTS></ATTACHMENTS>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              IP-Blocking aktiv
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <IPBLOCKING></IPBLOCKING>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </fieldset>
+
+                    <fieldset>
+                      <legend>Informationen zum Versand</legend>
+                      <br />
+                      <table class="FormTable">
+                        <tbody>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              ID der Versendung
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENTSTATID></SENTSTATID>
+                              <CAN_REMOVE_SENDSTATID>
+                              <input type="image" src="images/delete.gif" name="RemoveSendEntry" id="RemoveSendEntry" width="16" height="16" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Versandeintrag, Tracking-Statistik und E-Mail-Text dauerhaft l&ouml;schen.<br /><br /><b>Hinweis:</b> Nach dem L&ouml;schen des Eintrags werden getrackte Links und der Browserlink im Newsletter nicht mehr funktionieren. Ebenfalls wird der Eintrag im Newsletter-Archiv gel&ouml;scht.');return false" onclick="ConfirmRemoveSendEntry(); return false;" />
+                              </CAN_REMOVE_SENDSTATID>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="2">
+                              &nbsp;
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Versand begonnen
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENDING:START></SENDING:START>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Versand beendet
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENDING:END></SENDING:END>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Versanddauer
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENDING:DURATION></SENDING:DURATION>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              &nbsp;
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              &nbsp;
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Anzahl E-Mail-Empf&auml;nger
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <RECIPIENTSCOUNT></RECIPIENTSCOUNT>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              &nbsp;
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              &nbsp;
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Erfolgreich versendet
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENTCOUNTSUCC></SENTCOUNTSUCC>&nbsp;(<SENTCOUNTSUCCPERCENT></SENTCOUNTSUCCPERCENT>)
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Nicht erfolgreich versendet
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENTCOUNTFAILED></SENTCOUNTFAILED>&nbsp;(<SENTCOUNTFAILEDPERCENT></SENTCOUNTFAILEDPERCENT>)
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              M&ouml;glicherweise versendet<SHOWHIDE:TOOLTIPS>
+                                    <img onmouseover="showTooltip(event, 'Wird der Versand per CronJob verwendet, dann k&ouml;nnte es zum Scriptabbruch in dem Moment kommen, in dem gerade die E-Mail an den Mailserver &uuml;bermittelt wird. Der Status des Versands der E-Mail ist damit nicht bestimmbar. Ist diese Angabe hoch, dann sollte unter Men&uuml; Einstellungen - Optionen, Registerkarte E-Mail-Versand die Anzahl zu versendender E-Mails verringert werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                    </SHOWHIDE:TOOLTIPS>
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SENTCOUNTPOSSIBLYSENT></SENTCOUNTPOSSIBLYSENT>&nbsp;(<SENTCOUNTPOSSIBLYSENTPERCENT></SENTCOUNTPOSSIBLYSENTPERCENT>)
+                            </td>
+                          </tr>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              &nbsp;
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              &nbsp;
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Anzahl unzustellbare E-Mails (Hard bounces)
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <HARDBOUNCESCOUNT></HARDBOUNCESCOUNT>&nbsp;(<HARDBOUNCESCOUNTPERCENT></HARDBOUNCESCOUNTPERCENT>)
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Undefinierte R&uuml;ckl&auml;ufer (Soft bounces)
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SOFTBOUNCESCOUNT></SOFTBOUNCESCOUNT>&nbsp;(<SOFTBOUNCESCOUNTPERCENT></SOFTBOUNCESCOUNTPERCENT>)
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              &nbsp;
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              &nbsp;
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Anzahl Abmeldungen
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <UNSUBSCRIBESCOUNT></UNSUBSCRIBESCOUNT>&nbsp;(<UNSUBSCRIBESCOUNTPERCENT></UNSUBSCRIBESCOUNTPERCENT>)
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              &nbsp;
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              &nbsp;
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Anzahl &Ouml;ffnungen
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <OPENINGSCOUNT></OPENINGSCOUNT>&nbsp;(<OPENINGSRATE></OPENINGSRATE>)
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Summe Klicks auf Hyperlinks
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SUMLINKCLICKS></SUMLINKCLICKS>
+                            </td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('&Ouml;ffnungsstatistik');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+
+                      <!-- ##### InnerSpacer - START -->
+                      <div class="spacerborder">
+                      <!-- ##### InnerTabView - START -->
+                      <div id="dhtmlgoodies_OpeningstabView">
+
+                      <!-- ####### InnerTAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        OpeningsInnerTabListArray.push('Gesamt');
+                      //-->
+                      </script>
+           	          <div class="dhtmlgoodies_aTab">
+                        <br />
+
+                        <table class="FormTable">
+                          <tbody>
+                           <tr>
+                             <td colspan="2">
+                                <div style="width: 100%; height: 600px;">
+                                  <div id="OPENINGCHART_SUMMARY" style="margin: 0px auto; height: 600px;"></div>
+                                </div>
+                             </td>
+                           </tr>
+                          </tbody>
+                        </table>
+
+                      </div>
+                      <!-- ####### Inner TAB END -->
+                      <!-- ####### Inner TAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        OpeningsInnerTabListArray.push('Zeitpunkt (kumuliert)');
+
+                      //-->
+                      </script>
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+
+                        <table class="FormTable">
+                          <tbody>
+                           <tr>
+                             <td colspan="2">
+                             <div style="width: 100%; height: 600px;">
+                               <div id="OPENINGCHART_TIME" style="height: 600px;"></div>
+                              </div>
+                             </td>
+                           </tr>
+                          </tbody>
+                        </table>
+
+                     </div>
+                     <!-- ####### Inner TAB END -->
+
+                      <!-- ####### Inner TAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        OpeningsInnerTabListArray.push('Nach Datum der &Ouml;ffnung');
+
+                      //-->
+                      </script>
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+
+                        <table class="FormTable">
+                          <tbody>
+                           <tr>
+                             <td colspan="2">
+                             <div style="width: 100%; height: 600px;">
+                               <div id="OPENINGCHART_DATE" style="height: 600px;"></div>
+                             </div>
+                             </td>
+                           </tr>
+                          </tbody>
+                        </table>
+
+                     </div>
+                     <!-- ####### Inner TAB END -->
+
+                      <!-- ####### Inner TAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        OpeningsInnerTabListArray.push('Geo-Targeting');
+
+                      //-->
+                      </script>
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+
+                        <NoGoogleMaps>
+                        <table class="FormTable">
+                          <tbody>
+                           <tr><td colspan="2"><GoogleDeveloperPublicKeyMissing></GoogleDeveloperPublicKeyMissing></td></tr>
+                           <tr>
+                             <td colspan="2">
+                               Karte:<br />
+                               <select name="OpeningsCard" id="OpeningsCard" size="1" onchange="ReloadOpeningsIFrame(this)">
+                                 <option value="world">Welt</option>
+                                 <option value="europe">Europa</option>
+                                 <option value="germany">Deutschland</option>
+                               </select><br /><br />
+                               <iframe width="100%" height="480" border="0" marginheight="0" marginwidth="0" frameborder="0" name="OpeningsIframe" id="OpeningsIframe"></iframe>
+                             </td>
+                           </tr>
+                          </tbody>
+                        </table>
+                        </NoGoogleMaps>
+
+                        <GoogleMaps>
+                        <table class="FormTable">
+                          <tbody>
+                           <tr>
+                             <td colspan="2">
+                               <GeoLiteCityDatMissing></GeoLiteCityDatMissing>
+                               <GoogleDeveloperPublicKeyMissing></GoogleDeveloperPublicKeyMissing>
+
+                               <div id="OpeningsGoogleMap" style="width: 100%; height: 550px;"></div>
+
+                             </td>
+                           </tr>
+                          </tbody>
+                        </table>
+                        </GoogleMaps>
+
+                        <div class="scroll_countries">
+                        <table class="FixedTable" name="OpeningsByCountryTable" id="OpeningsByCountryTable" style="width: 100% ! important;">
+                           <thead>
+                           <tr>
+                             <td style="width: 60%">
+                               Top 10 L&auml;nder mit der h&ouml;chsten &Ouml;ffnungsrate
+                             </td>
+                             <td style="width: 40%">
+                               Anzahl &Ouml;ffnungen
+                             </td>
+                           </tr>
+                           </thead>
+                           <tbody>
+                           <Openings:Line>
+                           <tr>
+                             <td>
+                               <Openings:CountryName></Openings:CountryName>
+                             </td>
+                             <td>
+                               <Openings:Count></Openings:Count>
+                             </td>
+                           </tr>
+                           </Openings:Line>
+                           </tbody>
+                        </table>
+                        </div>
+
+                     </div>
+                     <!-- ####### Inner TAB END -->
+                     </div>
+                     <!-- ##### InnerTabView - END -->
+                     <!-- ##### InnerSpacer - END -->
+                     </div>
+
+                     <br /><br /><br />
+
+                    <fieldset>
+                      <br />
+                      <table class="FormTable">
+                        <tbody>
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Anzahl E-Mail-Empf&auml;nger
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <RECIPIENTSCOUNT></RECIPIENTSCOUNT>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Anzahl &Ouml;ffnungen <info:ipblocking></info:ipblocking>
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <OPENINGSCOUNT></OPENINGSCOUNT>
+
+                              <IF:RECIPIENTOPENINGTRACKING>
+                             			<td>
+                                  <input type="image" src="images/whohasclicked16.gif" width="16" height="16" name="WhoHasOpenedBtn" id="WhoHasOpenedBtn" value="-1" onclick="return SetListId(this, 'TrackingStatForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Wer hat die E-Mail ge&ouml;ffnet?');return false" /><span onclick="document.getElementById('WhoHasOpenedBtn').click();" style="cursor:pointer;">&nbsp;Wer hat die E-Mail ge&ouml;ffnet?</span>
+                          		    </td>
+                              </IF:RECIPIENTOPENINGTRACKING>
+
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              &Ouml;ffnungsrate
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <OPENINGSRATE></OPENINGSRATE>
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Anzahl unzustellbare E-Mails (Hard bounces)
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <HARDBOUNCESCOUNT></HARDBOUNCESCOUNT>&nbsp;(<HARDBOUNCESCOUNTPERCENT></HARDBOUNCESCOUNTPERCENT>)
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td class="CampaignStatColumn">
+                              Undefinierte R&uuml;ckl&auml;ufer (Soft bounces)
+                            </td>
+                            <td class="CampaignStatValueColumn">
+                              <SOFTBOUNCESCOUNT></SOFTBOUNCESCOUNT>&nbsp;(<SOFTBOUNCESCOUNTPERCENT></SOFTBOUNCESCOUNTPERCENT>)
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="2">
+                              &nbsp;
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Klicks auf Hyperlinks');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+
+                      <!-- ##### InnerSpacer - START -->
+                      <div class="spacerborder">
+                      <!-- ##### InnerTabView - START -->
+                      <div id="dhtmlgoodies_LinkstabView">
+
+                      <!-- ####### Inner TAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        LinksInnerTabListArray.push('Klicks auf Hyperlinks');
+
+                      //-->
+                      </script>
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+
+                        <table class="FormTable">
+                          <tbody>
+                           <tr>
+                             <td colspan="2">
+                               <div style="width: 100%; height: 600px;">
+                                 <div id="LINKCHART_TOPX" style="height: 600px;margin: 0px auto"></div>
+                               </div>
+                             </td>
+                           </tr>
+                          </tbody>
+                        </table>
+
+                     </div>
+                     <!-- ####### Inner TAB END -->
+
+                      <!-- ####### Inner TAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        LinksInnerTabListArray.push('Overlay');
+
+                      //-->
+                      </script>
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+
+                        <table class="FormTable">
+                          <tbody>
+                           <tr>
+                             <td colspan="2" nowrap="nowrap">
+                               <div style="text-align: right">
+                                <input type="button" class="button" value="Alle zeigen" onclick="window.frames['html_iframe'].overlay_showAll(true); return true;"  />&nbsp;<input type="button" class="button" value="Alle verbergen" onclick="window.frames['html_iframe'].overlay_showAll(false); return true;" />
+                                <br /><br />
+                               </div>
+                               <iframe id="html_iframe" name="html_iframe" width="100%" height="720" src="stat_campaign_overlay.php" frameborder="0" style="border-style:dotted; border-width:1px;"></iframe>
+
+                             </td>
+                           </tr>
+                          </tbody>
+                        </table>
+
+                     </div>
+                     <!-- ####### Inner TAB END -->
+                      <!-- ####### Inner TAB START -->
+                      <script language="JavaScript" type="text/javascript">
+                      <!--
+                        LinksInnerTabListArray.push('Geo-Targeting');
+
+                      //-->
+                      </script>
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+
+                        <NoGoogleMaps>
+                        <table class="FormTable">
+                          <tbody>
+                           <tr><td colspan="2"><GoogleDeveloperPublicKeyMissing></GoogleDeveloperPublicKeyMissing></td></tr>
+                           <tr>
+                             <td colspan="2">
+                               <select name="LinksCard" id="LinksCard" size="1" onchange="ReloadLinksIFrame(this)">
+                                 <option value="world">Welt</option>
+                                 <option value="europe">Europa</option>
+                                 <option value="germany">Deutschland</option>
+                               </select><br /><br />
+                               <iframe width="100%" height="480" border="0" marginheight="0" marginwidth="0" frameborder="0" name="LinksIframe" id="LinksIframe"></iframe>
+                             </td>
+                           </tr>
+                          </tbody>
+                        </table>
+                        </NoGoogleMaps>
+
+                        <GoogleMaps>
+                        <table class="FormTable">
+                          <tbody>
+                           <tr>
+                             <td colspan="2">
+                               <GeoLiteCityDatMissing></GeoLiteCityDatMissing>
+                               <GoogleDeveloperPublicKeyMissing></GoogleDeveloperPublicKeyMissing>
+
+                               <div id="LinksGoogleMap" style="width: 100%; height: 550px;"></div>
+
+                             </td>
+                           </tr>
+                          </tbody>
+                        </table>
+                        </GoogleMaps>
+
+                        <div class="scroll_countries">
+                        <table class="FixedTable" name="ClicksByCountryTable" id="ClicksByCountryTable" style="width: 100% ! important;">
+                           <thead>
+                           <tr>
+                             <td style="width: 60%">
+                               Top 10 L&auml;nder mit der h&ouml;chsten Klickrate
+                             </td>
+                             <td style="width: 40%">
+                               Anzahl Klicks
+                             </td>
+                           </tr>
+                           </thead>
+                           <tbody>
+                           <Clicks:Line>
+                           <tr>
+                             <td>
+                               <Clicks:CountryName></Clicks:CountryName>
+                             </td>
+                             <td>
+                               <Clicks:Count></Clicks:Count>
+                             </td>
+                           </tr>
+                           </Clicks:Line>
+                           </tbody>
+                        </table>
+                        </div>
+
+                     </div>
+                     <!-- ####### Inner TAB END -->
+                     </div>
+                     <!-- ##### InnerTabView - END -->
+                     <!-- ##### InnerSpacer - END -->
+                     </div>
+
+                     <br /><br /><br />
+
+
+                      <fieldset>
+                      <legend>Alle angeklickten Hyperlinks <info:ipblocking></info:ipblocking></legend>
+                      <br />
+                          <div class="scroll">
+
+                               <table id="TableHyperLinksList" name="TableHyperLinksList" class="FixedTable" style="width: 97% ! important">
+                               	<thead>
+                               		<tr>
+                               			<td class="NoWrapAlignCenter" width="5%">ID</td>
+                               			<td class="NoWrap" width="1%">&nbsp;</td>
+                               			<td class="NoWrap" width="50%">Link</td>
+                               			<td class="NoWrap" width="1%">&nbsp;</td>
+                               			<td class="NoWrap" width="15%">Klicks</td>
+                               			<td class="NoWrap" width="1%">&nbsp;</td>
+                                  <IF:RECIPIENTLINKTRACKING>
+                               			<td class="NoWrap" width="25%">Wer hat geklickt?</td>
+                                  </IF:RECIPIENTLINKTRACKING>
+                               		</tr>
+                               	</thead>
+                               	<tbody>
+                                 <HYPERLINKLIST:ENTRY>
+                               		<tr>
+                               			<td class="NoWrapAlignRight"><LIST:ID></LIST:ID></td>
+                               			<td>&nbsp;</td>
+                               			<td><LIST:LINK></LIST:LINK></td>
+                               			<td>&nbsp;</td>
+                               			<td class="NoWrap"><LIST:CLICKS></LIST:CLICKS></td>
+                               			<td>&nbsp;</td>
+                                  <IF:RECIPIENTLINKTRACKING>
+                                 			<td class="NoWrapAlignCenter">
+                                      <input type="image" src="images/whohasclicked16.gif" width="16" height="16" name="WhoHasClickedBtn" onclick="return SetListId(this, 'TrackingStatForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Wer hat auf den Link geklickt?');return false" />&nbsp;
+                              		    </td>
+                                  </IF:RECIPIENTLINKTRACKING>
+                               		</tr>
+                                 </HYPERLINKLIST:ENTRY>
+                               	</tbody>
+                                <tfoot>
+                                </tfoot>
+                               </table>
+                               
+                          </div>
+                      </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('User agents');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+
+                    <fieldset>
+                      <legend>Am h&auml;ufigsten verwendete E-Mail-Programme/Browser</legend>
+                      <br />
+                      <table class="FixedTable" style="width: 99% ! important;" name="EMAILCLIENT_STAT" id="EMAILCLIENT_STAT">
+                        <thead>
+                          <tr>
+                            <td style="width: 400px;">
+                              E-Mail-Programm/Browser
+                            </td>
+                            <td>
+                              Anzahl
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <EMAILCLIENT_STAT>
+                          <tr>
+                            <td>
+                              <img src="EMAILCLIENT_ICON" alt="&lt;EMAILCLIENT_NAME&gt;&lt;/EMAILCLIENT_NAME&gt;" border="0" width="16" height="16" />&nbsp;<EMAILCLIENT_NAME></EMAILCLIENT_NAME>
+                            </td>
+                            <td>
+                              <EMAILCLIENT_COUNT></EMAILCLIENT_COUNT>
+                            </td>
+                          </tr>
+                          </EMAILCLIENT_STAT>
+                          <tr>
+                            <td>
+                              &nbsp;
+                            </td>
+                            <td>
+                              &nbsp;
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                    </fieldset>
+
+                    <fieldset>
+                      <legend>Am h&auml;ufigsten verwendete Betriebssysteme</legend>
+                      <br />
+                      <table class="FixedTable" style="width: 99% ! important;" name="OS_STAT" id="OS_STAT">
+                        <thead>
+                          <tr>
+                            <td style="width: 400px;">
+                              Betriebssystem
+                            </td>
+                            <td>
+                              Anzahl
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <OS_STAT>
+                          <tr>
+                            <td>
+                              <img src="OS_ICON" alt="&lt;OS_NAME&gt;&lt;/OS_NAME&gt;" border="0" width="16" height="16" />&nbsp;<OS_NAME></OS_NAME>
+                            </td>
+                            <td>
+                              <OS_COUNT></OS_COUNT>
+                            </td>
+                          </tr>
+                          </OS_STAT>
+                          <tr>
+                            <td>
+                              &nbsp;
+                            </td>
+                            <td>
+                              &nbsp;
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                    </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                  </div>
+
+                  <br />
+                  <br />
+
+
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                    initTabs('dhtmlgoodies_tabView', TabListArray, 0, 924, 1160);
+                    initTabs('dhtmlgoodies_OpeningstabView', OpeningsInnerTabListArray, 0, 900, 800);
+                    initTabs('dhtmlgoodies_LinkstabView', LinksInnerTabListArray, 0, 900, 800);
+
+                    if(document.getElementById("OpeningsByCountryTable") !== null)
+                      addTableRolloverEffect('OpeningsByCountryTable','tableRollOverEffect','');
+                    if(document.getElementById("ClicksByCountryTable") !== null)
+                      addTableRolloverEffect('ClicksByCountryTable','tableRollOverEffect','');
+
+                    addTableRolloverEffect('TableHyperLinksList','tableRollOverEffect','');
+                    addTableRolloverEffect('EMAILCLIENT_STAT','tableRollOverEffect','');
+                    addTableRolloverEffect('OS_STAT','tableRollOverEffect','');
+
+                  -->
+                  </script>
+
+                  <NoGoogleMaps>
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                    function ReloadOpeningsIFrame(CB) {
+                      var url = "./stat_campaigntracking_iframe_geo.php?ShowOpenings=1";
+                      url = url + "&CampaignId=" + document.getElementById("CampaignId").value;
+                      url = url + "&SendStatId=" + document.getElementById("SendStatId").value;
+                      url = url + "&ResponderType=" + document.getElementById("ResponderType").value;
+                      if(CB == null)
+                         CB = document.getElementById("OpeningsCard");
+                      url = url + '&Card=' + CB.options[CB.selectedIndex].value;
+                      var date = new Date();
+                      url = url + '&nocache=' + date.getTime();
+
+                      document.getElementById("OpeningsIframe").src = url;
+                    }
+
+                    function ReloadLinksIFrame(CB) {
+                      var url = "./stat_campaigntracking_iframe_geo.php?ShowLinks=1";
+                      url = url + "&CampaignId=" + document.getElementById("CampaignId").value;
+                      url = url + "&SendStatId=" + document.getElementById("SendStatId").value;
+                      url = url + "&ResponderType=" + document.getElementById("ResponderType").value;
+                      if(CB == null)
+                         CB = document.getElementById("LinksCard");
+                      url = url + '&Card=' + CB.options[CB.selectedIndex].value;
+                      var date = new Date();
+                      url = url + '&nocache=' + date.getTime();
+
+                      document.getElementById("LinksIframe").src = url;
+                    }
+
+                    ReloadOpeningsIFrame(null);
+                    ReloadLinksIFrame(null);
+                  -->
+                  </script>
+                  </NoGoogleMaps>
+
+
+                  <GoogleMaps>
+                  <script src="http://maps.googleapis.com/maps/api/js?key=<GoogleDeveloperPublicKey>&sensor=false"></script>
+                  <script language="javascript" type="text/javascript">
+                  <!--
+                    var OpeningsDataLoaded = false;
+                    var LinksDataLoaded = false;
+
+                    var imageRed = 'images/mm_20_red.png'; // http://labs.google.com/ridefinder/images/mm_20_red.png
+                    var imageBlue = 'images/mm_20_blue.png'; // http://labs.google.com/ridefinder/images/mm_20_blue.png
+
+                    var DefaultLatlng = new google.maps.LatLng(52.5243700, 13.4105300); // default Berlin
+                    var DefaultZoom = 5;
+
+                    var mapProp = {center: DefaultLatlng,
+                                   zoom: DefaultZoom,
+                                   mapTypeId: google.maps.MapTypeId.ROADMAP
+                                  };
+
+
+                    if(document.getElementById("OpeningsGoogleMap"))
+                       var OpeningsGoogleMap = new google.maps.Map(document.getElementById("OpeningsGoogleMap"), mapProp);
+                    if(document.getElementById("LinksGoogleMap"))
+                       var LinksGoogleMap = new google.maps.Map(document.getElementById("LinksGoogleMap"), mapProp);
+
+                    function load_geodata(url, map, openings){
+                     var date = new Date();
+                     var nocache = date.getTime() / 1000;
+                     $.ajaxSetup({ cache: false });
+
+                    	jQuery.get(url + "&nocache=" + nocache, "", function(text){
+                        var data = $.parseJSON(text);
+                        //var data = JSON.parse(text);
+
+                        if(data){
+                          for(var i=0; i<data.length; i++){
+
+                             var aLatlng = new google.maps.LatLng(parseFloat(data[i]["latitude"]), parseFloat(data[i]["longitude"]));
+                             var image = imageBlue;
+                             var animation = google.maps.Animation.DROP;
+                             if(data[i]["image"] == "red"){ //myself
+                               var image = imageRed;
+                               DefaultLatlng = null;
+                               DefaultLatlng = new google.maps.LatLng(parseFloat(data[i]["latitude"]), parseFloat(data[i]["longitude"]));
+                               animation = google.maps.Animation.BOUNCE;
+                             }
+
+                             var marker = new google.maps.Marker({
+                                   position: aLatlng,
+                                   map: map,
+                                   title: data[i]["title"],
+                                   icon: image,
+                                   animation: animation
+                               });
+                             marker.setMap(map);
+
+                          }
+                        } //if
+
+                    	});
+
+                     if(openings)
+                       OpeningsDataLoaded = true;
+                       else
+                       LinksDataLoaded = true;
+
+                    }
+
+                    function initializegeodata() {
+                      var url = "./stat_campaigntracking_geo.php?ShowOpenings=1";
+                      url = url + "&CampaignId=" + document.getElementById("CampaignId").value;
+                      url = url + "&SendStatId=" + document.getElementById("SendStatId").value;
+                      url = url + "&ResponderType=" + document.getElementById("ResponderType").value;
+                      if(document.getElementById("OpeningsGoogleMap"))
+                         load_geodata(url, OpeningsGoogleMap, true);
+
+
+                      var url = "./stat_campaigntracking_geo.php?ShowLinks=1";
+                      url = url + "&CampaignId=" + document.getElementById("CampaignId").value;
+                      url = url + "&SendStatId=" + document.getElementById("SendStatId").value;
+                      url = url + "&ResponderType=" + document.getElementById("ResponderType").value;
+                      if(document.getElementById("LinksGoogleMap"))
+                         load_geodata(url, LinksGoogleMap, false);
+
+                    }
+
+                    if(document.getElementById("OpeningsGoogleMap") || document.getElementById("LinksGoogleMap"))
+                       google.maps.event.addDomListener(window, 'load', initializegeodata);
+
+                    // resize problems on tabs
+                    if(document.getElementById("OpeningsGoogleMap")){
+                      $('#tabTabdhtmlgoodies_tabView_1, #tabTabdhtmlgoodies_OpeningstabView_3').on('click', function(){
+                        google.maps.event.trigger(OpeningsGoogleMap, 'resize');
+                        OpeningsGoogleMap.setZoom(DefaultZoom);
+                        OpeningsGoogleMap.setCenter(DefaultLatlng);
+                        /*if(OpeningsDataLoaded)
+                          $(this).off('click');*/
+                      });
+                    }
+
+                    if(document.getElementById("LinksGoogleMap")){
+                      $('#tabTabdhtmlgoodies_tabView_2, #tabTabdhtmlgoodies_LinkstabView_2').on('click', function(){
+                        google.maps.event.trigger(LinksGoogleMap, 'resize');
+                        LinksGoogleMap.setZoom(DefaultZoom);
+                        LinksGoogleMap.setCenter(DefaultLatlng);
+                        /*if(LinksDataLoaded)
+                          $(this).off('click');*/
+                      });
+                    }
+
+                      $('#tabTabdhtmlgoodies_tabView_1, #tabTabdhtmlgoodies_OpeningstabView_0').on('click', function(){
+                        openingschartsummary.render();
+                      });
+
+                      $('#tabTabdhtmlgoodies_tabView_2, #tabTabdhtmlgoodies_LinkstabView_0').on('click', function(){
+                        linkcharttopx.render();
+                      });
+
+                      $('#tabTabdhtmlgoodies_OpeningstabView_1, #tabTabdhtmlgoodies_OpeningstabView_1').on('click', function(){
+                        openingcharttime.render();
+                      });
+
+                      $('#tabTabdhtmlgoodies_OpeningstabView_2, #tabTabdhtmlgoodies_OpeningstabView_2').on('click', function(){
+                        openingchartdate.render();
+                      });
+
+                  -->
+                  </script>
+                  </GoogleMaps>
+
+
+                  <script language="javascript" type="text/javascript">
+                  <!--
+
+                  	//AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+                  -->
+                  </script>
+
+                  <!-- ##### TabView - END -->
+
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+          <br style="clear:both;" />
+        </form>
+      </div>

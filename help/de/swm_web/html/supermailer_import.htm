@@ -1,0 +1,97 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link type="text/css" rel="stylesheet" href="../CSS/layout.css">
+<meta name="MS-HKWD" content="Import der Empfänger in die Newsletter Software SuperMailer">
+<meta name="MS-HKWD" content="Import der Newsletter-Empfänger">
+<meta name="MS-HKWD" content="Newsletter-Empfänger importieren">
+<meta name="MS-HKWD" content="Empfänger für Newsletter Versand importieren">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Import der Empfänger in die Newsletter Software SuperMailer,Import der Newsletter-Empfänger,Newsletter-Empfänger importieren,Empfänger für Newsletter Versand importieren Import der Empfänger in die Newsletter Software SuperMailer</title>
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,Import der Empfänger in die Newsletter Software SuperMailer,Import der Newsletter-Empfänger,Newsletter-Empfänger importieren,Empfänger für Newsletter Versand importieren"><meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Import der Empfänger in die Newsletter Software SuperMailer,Import der Newsletter-Empfänger,Newsletter-Empfänger importieren,Empfänger für Newsletter Versand importieren Import der Empfänger in die Newsletter Software SuperMailer Import der Empfänger in die Newsletter Software SuperMailer,Import der Newsletter-Empfänger,Newsletter-Empfänger importieren,Empfänger für Newsletter Versand importieren"><meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script LANGUAGE="JavaScript" SRC="jscript.js"></script>
+<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/supermailer_import.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+
+<body>
+
+<h1>Import der Empfänger in die <a href="http://www.supermailer.de/" target="_blank">Newsletter
+Software SuperMailer</a></h1>
+<p>&nbsp;</p>
+<p>Für den Import der Empfänger in SuperMailer öffnen Sie den Import-Dialog,
+wählen Sie &quot;aus SuperMailingList&quot; und geben Sie den HTTP-Aufruf des
+Export-Scripts, Benutzername und Passwort eine Nutzers an. Der HTTP-Aufruf des
+Scripts ist <b>immer</b> http://&lt;Ihre Domain&gt;/&lt;supermailinglist/superwebmailer
+installationsverzeichnis&gt;/supermailer_import.php . Z.B. <em><a href="http://www.supermailinglist.de/mailinglisten_verwaltung_demo/supermailer_import.php">http://www.supermailinglist.de/mailinglisten_verwaltung_demo/supermailer_import.php</a></em></p>
+<p>&nbsp;</p>
+<p><img border="0" src="../images/sml.png" width="545" height="397"></p>
+<ol>
+  <li>Wählen Sie die Empfängerliste (Mailingliste), aus der die Empfänger
+    importiert werden sollen.
+  <li>Wurden Gruppen angelegt, dann können Sie eine Zuordnung der
+    SuperMailingList/SuperWebMailer-Gruppe zur SuperMailer-Gruppe festlegen.
+    Setzen Sie das Häkchen vor der SuperMailingList/SuperWebMailer-Gruppe und
+    ordnen Sie die SuperMailer-Gruppe zu. Sollen keine Gruppenzuordnungen
+    importiert werden, dann setzen Sie kein Häkchen, es werden dann alle
+    Empfänger in die gerade <b>gewählte</b> Empfängergruppe importiert.
+  <li>Wählen Sie &quot;Alle Felder importieren. Bestehende Empfängerlisten
+    werden vor dem Import gelöscht&quot;, um alle SuperMailingList/SuperWebMailer-Felder
+    importieren zu lassen. Es werden dabei <b>alle</b> bestehenden Empfänger
+    gelöscht. Mit der Variante &quot;Nur bestimmte Feldinhalte
+    importieren&quot; können Sie eine Feldzuordnung durchführen und damit Ihre
+    bestehende Empfängerliste erhalten.</li>
+</ol>
+<p>&nbsp;</p>
+<p><b>Empfehlung zur gemeinsamen Nutzung von SuperMailer und SuperMailingList</b></p>
+<ul>
+  <li>Geben Sie den Empfängerlisten in SuperMailingList immer Namen <b>ohne</b>
+    Sonderzeichen, Umlauten und Leerzeichen.
+  <li>Verwenden Sie <b>keine</b> Gruppen innerhalb einer Empfängerliste in
+    SuperMailingList.
+  <li>Legen Sie im SuperMailer Empfängergruppen an, die den <b>gleichen Namen</b>
+    wie die definierten Empfängerliste(n) in SuperMailingList besitzen (keine
+    Sonderzeichen, Umlaute und Leerzeichen verwenden). Der gleiche Name ist
+    wichtig um den Abmeldelink leichter verwenden zu können.
+  <li>Wählen Sie im SuperMailer die entsprechende Empfängergruppe und
+    importieren Sie danach die Empfänger aus SuperMailingList aus der
+    entsprechenden Empfängerliste.</li>
+</ul>
+<p>&nbsp;</p>
+<p><u>Abmeldelink</u></p>
+<p>Verwenden Sie die Abmeldelinks vom Newsletter im HTML und Text-Format, die in
+SuperMailingList/SuperWebMailer unter Webseite - An-/Abmeldeformulare angezeigt
+werden. Den Abmeldelink (HTML- und Text-Variante) tragen Sie im SuperMailer
+Menü Projekt - Abmeldelink ein. Modifizieren Sie den Abmeldelink, so dass beim
+Script-Parameter ML= die Empfängergruppe von SuperMailer, Platzhalter
+[Empfängergruppe] verwendet wird.</p>
+<p>z.B. Angezeigter Abmeldelink in SuperMailingList/SuperWebMailer für die
+Empfängerliste Demo_Empfängerliste_mit_Gruppen unter Angabe des Gruppennamens
+und Übergabe der E-Mail-Adresse</p>
+<p><i>Wenn Sie diesen Newsletter nicht mehr erhalten wollen, dann klicken Sie
+auf diesen Link http://www.supermailinglist.de/mailinglisten_verwaltung_demo/nlu.php?ML=<b>Demo_Empfängerliste_mit_Gruppen</b>&amp;F=1&amp;EMail=[EMail]</i></p>
+<p>&nbsp;</p>
+<p>Nach Modifikation des Links</p>
+<p><i>Wenn Sie diesen Newsletter nicht mehr erhalten wollen, dann klicken Sie
+auf diesen Link http://www.supermailinglist.de/mailinglisten_verwaltung_demo/nlu.php?ML=<b>[Empfängergruppe]</b>&amp;F=1&amp;EMail=[EMail]</i></p>
+<p>&nbsp;</p>
+<p>Fügen Sie den Platzhalter [AbmeldeLink] im Newsletter-Text (HTML- und
+Text-Teil der E-Mail) ein. SuperMailer wird automatisch den korrekten Link im
+Newsletter anzeigen und der Empfänger kann sich von der jeweiligen
+Empfängerliste abmelden.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

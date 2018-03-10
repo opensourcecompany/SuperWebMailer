@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title></title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+div.scroll_message {
+height: 222px;
+width: 644px;
+overflow: auto;
+border:0px dotted #BABABA;
+background-color: #FFFFFF;
+padding: 8px;
+}
+
+-->
+</style>
+
+
+<script language="JavaScript">
+<!--
+
+        function ConfirmAction() {
+          MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich die Nachricht dauerhaft l&ouml;schen?', 3, 320, 100, 'ConfirmDeleteActionEvent');
+          return false;
+        }
+
+        function ConfirmDeleteActionEvent(value) {
+          if(value) {
+            document.getElementById('OneLocalMessageAction').value='DeleteLocalMessage';
+            document.getElementById('ReadLocalMessageForm').submit();
+          }
+        }
+
+//-->
+</script>
+<noscript></noscript>
+
+</head>
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+        <table style="width: 100%">
+          <tr>
+            <td style="width: 95%;" nowrap="nowrap">
+              <LABEL:PAGETOPIC></LABEL:PAGETOPIC><br /><br />
+            </td>
+            <td style="width: 5%;">
+              <input type="hidden" name="HelpTopic" id="HelpTopic" />
+              &nbsp;
+            </td>
+          </tr>
+        </table>
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+
+   <div class="container">
+      <SHOWHIDE:ERRORTOPIC>
+        <div class="errortopic">
+        <LABEL:ERRORMESSAGETEXT></LABEL:ERRORMESSAGETEXT>
+        </div>
+      </SHOWHIDE:ERRORTOPIC>
+
+      <form id="ReadLocalMessageForm" name="ReadLocalMessageForm" method="post" action="./newlocalmessage.php">
+      <input type="hidden" name="OneLocalMessageId" id="OneLocalMessageId" />
+      <input type="hidden" name="OneLocalMessageAction" value="SendMessage" />
+
+
+      <table class="FixedTable">
+        <tbody>
+          <tr>
+            <td style="width: 10%">Von
+            </td>
+            <td style="width: 90%">
+               <LIST:FROM_USERS_ID></LIST:FROM_USERS_ID>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="width: 10%">An
+            </td>
+            <td style="width: 90%">
+               <input type="text" name="to_user" size="60" />
+            </td>
+          </tr>
+
+          <tr>
+            <td style="width: 10%">Betreff
+            </td>
+            <td style="width: 90%">
+               <input type="text" name="message_subject" size="60" />
+            </td>
+          </tr>
+
+          <tr>
+           <td colspan="2">&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <p>&nbsp;</p>
+      <table class="FixedTable">
+      	<tbody>
+       	<tr>
+         <td colspan="2" style="width: 100%">
+           <textarea name="LocalMessage" cols="106" rows="10"></textarea>
+         </td>
+        </tr>
+      	</tbody>
+      	</table>
+      <br />
+      <input type="submit" name="BackBtn" value="Abbrechen" class="FormButton" />&nbsp;&nbsp;
+      <input type="submit" id="SendLocalMessageBtn" name="SendLocalMessageBtn" value="Nachricht versenden" class="FormButton" />
+
+      </form>      
+
+      <script type="text/javascript">
+      <!--
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+   </div>
+
+
+</div>
+
+
+</body>
+
+</html>
+

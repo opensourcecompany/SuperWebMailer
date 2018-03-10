@@ -1,0 +1,52 @@
+      <form id="InstallForm" name="InstallForm" method="post" action="./install.php">
+      <input type="hidden" name="step" value="3" />
+      <input type="hidden" name="WebsiteURL" />
+      <input type="hidden" name="InstallPath" />
+      <input type="hidden" name="ScriptBaseURL" />
+      <input type="hidden" name="BasePath" />
+      <input type="hidden" name="Language" />
+      <fieldset>
+      <legend>PRODUCTAPPNAME - Zugangsdaten f&uuml;r den Datenbankzugriff</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+            	<tr>
+                <td class="InstallDescriptionColumn">Datenbankservername:
+                <img onmouseover="showTooltip(event, 'Geben Sie den Datenbankservernamen ein. Der Servername kann localhost sein, wenn sich die MySQL-Datenbank auf dem gleichen Server wie der Webserver selbst befindet. Bei Webhostern handelt es sich meistens um einen externen Server mit einem Namen wie z.B. dbXXXX. Informationen erhalten Sie von Ihrem Webhoster.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                </td>
+                <td class="InstallValueColumn">
+                <input type="text" name="DatabaseHostname" size="50" />
+                </td>
+            	</tr>
+            	<tr>
+                <td class="InstallDescriptionColumn">Name der Datenbank</td>
+                <td class="InstallValueColumn">
+                <input type="text" name="DatabaseName" size="50" /></td>
+            	</tr>
+            	<tr>
+                <td class="InstallDescriptionColumn">Datenbank-Benutzername</td>
+                <td class="InstallValueColumn">
+                <input type="text" name="DatabaseUsername" size="50" /></td>
+            	</tr>
+            	<tr>
+                <td class="InstallDescriptionColumn">Datenbank-Password</td>
+                <td class="InstallValueColumn">
+                <input type="text" name="DatabasePassword" size="50" /></td>
+            	</tr>
+            	<tr>
+                <td class="InstallDescriptionColumn">Optionaler Tabellenpr&auml;fix
+                <img onmouseover="showTooltip(event, 'Sie k&ouml;nnen einen Tabellenpr&auml;fix angeben, um Ordnung in der Datenbank selbst zu schaffen. Der Tabellenpr&auml;fix darf nur die Zeichen A-Z, _, und die Ziffern 0-9 enthalten.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                </td>
+                <td class="InstallValueColumn">
+                <input type="text" name="DatabaseTablePrefix" size="50" /></td>
+            	</tr>
+            </tbody>
+          </table>
+      </fieldset>
+      <!-- a hack //-->
+      <input type="image" src="images/blind.gif" width="1" height="1" />
+      <input type="submit" name="BackBtn" value="&lt Zur&uuml;ck" class="FormButton" />
+      &nbsp;<input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+
+      </form>
+      

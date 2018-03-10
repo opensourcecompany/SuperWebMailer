@@ -1,0 +1,217 @@
+      <div class="spacerborder">
+      <span class="Backlink"></span><br />
+
+      <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="js/canvasjs/excanvas.min.js"></script><![endif]-->
+      <script type="text/javascript" src="js/canvasjs/canvasjs.min.js"></script>
+
+      <script type="text/javascript">
+
+        window.onload = function () {
+
+           CanvasJS.addColorSet("chartdefaultColorSet",
+                [
+                "#1941A5",
+                "#AFD8F8",
+                "#F6BD0F",
+                "#8BBA00",
+                "#A66EDD",
+                "#F984A1",
+                "#CCCC00",
+                "#999999",
+                "#0099CC",
+                "#FF0000",
+                "#006F00",
+                "#0099FF",
+                "#FF66CC",
+                "#669966",
+                "#7C7CB4",
+                "#FF9933",
+                "#9900FF",
+                "#99FFCC",
+                "#CCCCFF",
+                "#669900"
+               ]);
+
+           /* addCultureInfo */
+
+
+           var charttop20 = new CanvasJS.Chart("CHARTTOP20", {
+
+             backgroundColor: "#FFFFFF",
+
+             animationEnabled: true,
+
+             exportEnabled: true,
+
+             culture: "en",
+             creditText: "",
+
+             theme: "theme1",
+
+             colorSet: "chartdefaultColorSet",
+
+             title:{
+               text: "CHARTTOP20TITLE",
+               fontSize: 12,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             axisX:{
+               title: "CHARTTOP20AXISXTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               gridThickness: 1,
+               interval: 1
+             },
+
+             axisY:{
+               title: "CHARTTOP20AXISYTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               minimum: 0,
+               gridThickness: 1,
+               labelAngle: -30
+             },
+
+             toolTip:{
+               enabled: true,
+               borderColor: "black",
+               shared: false
+             },
+
+             data: [
+             {
+              type: "bar",
+              showInLegend: false,
+              dataPoints: /* CHARTTOP20_DATA */
+             }
+             ]
+
+         });
+
+
+         charttop20.render();
+        }
+
+      </script>
+
+      <fieldset>
+      <legend>Gesamtstatistik f&uuml;r alle Empf&auml;ngerlisten</legend>
+      <br />
+          <table class="FormTable" style="width:80%;margin-left:32pt" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="StatColumn">Anzahl Empf&auml;nger gesamt
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:TOTAL></LIST:TOTAL></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Anzahl aktive und best&auml;tigte Empf&auml;nger
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:CONFIRMEDACTIVESUBSCRIBTIONS></LIST:CONFIRMEDACTIVESUBSCRIBTIONS></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Anzahl inaktive und best&auml;tigte Empf&auml;nger
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:CONFIRMEDINACTIVESUBSCRIBTIONS></LIST:CONFIRMEDINACTIVESUBSCRIBTIONS></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Unbest&auml;tigte Anmeldungen
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:UNCONFIRMEDSUBSCRIBTIONS></LIST:UNCONFIRMEDSUBSCRIBTIONS></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Unbest&auml;tigte Abmeldungen
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:UNCONFIRMEDUNSUBSCRIBTIONS></LIST:UNCONFIRMEDUNSUBSCRIBTIONS></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Anzahl Empf&auml;nger in lokaler Blockliste
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:RECIPIENTSINBLACKLIST></LIST:RECIPIENTSINBLACKLIST></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Aktive Empf&auml;nger mit Status &quot;permanent unzustellbar&quot;
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:BOUNCEDACTIVE></LIST:BOUNCEDACTIVE></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Inaktive Empf&auml;nger mit Status &quot;permanent unzustellbar&quot;
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:BOUNCEDINACTIVE></LIST:BOUNCEDINACTIVE></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend>Empf&auml;ngerlisten im Detail</legend>
+			      <br />
+							  <table class="FixedTable" id="TableMailLists" name="TableMailLists">
+							  	<thead>
+							  		<tr>
+							  			<td class="NoWrap" width="25%" style="font-size: 8pt">Empf&auml;ngerliste</td>
+							  			<td style="width: 8px"><img src="images/blind.gif" with="8" height="1" /></td>
+							  			<td class="AlignRight" style="width: auto; font-size: 8pt">aktive</td>
+							  			<td style="width: 8px"><img src="images/blind.gif" with="8" height="1" /></td>
+							  			<td class="AlignRight" style="width: auto; font-size: 8pt">inaktive</td>
+							  			<td style="width: 8px"><img src="images/blind.gif" with="8" height="1" /></td>
+							  			<td class="AlignRight" style="width: auto; font-size: 8pt">Anmeldungen<br />unbest&auml;tigt</td>
+							  			<td style="width: 8px"><img src="images/blind.gif" with="8" height="1" /></td>
+							  			<td class="AlignRight" style="width: auto; font-size: 8pt">Abmeldungen<br />unbest&auml;tigt</td>
+							  			<td style="width: 8px"><img src="images/blind.gif" with="8" height="1" /></td>
+							  			<td class="AlignRight" style="width: auto; font-size: 8pt">Empf&auml;nger in<br />lokaler Blockliste</td>
+							  			<td style="width: 8px"><img src="images/blind.gif" with="8" height="1" /></td>
+							  			<td class="AlignRight" style="width: auto; font-size: 8pt">Status &quot;permanent<br />unzustellbar&quot;</td>
+							  		</tr>
+							  	</thead>
+							  	<tbody>
+							    <LIST:ENTRY>
+							  		<tr>
+							  			<td style="font-size: 8pt"><a href="mailinglistsubunsubstat.php?showsubunsubstat=1&MailingListId=<MLID>" title="An/Abmeldestatistik"><LIST:NAME></LIST:NAME></a></td>
+							  			<td style="width: 8px"><img src="images/blind.gif" with="8" height="1" /></td>
+							  			<td class="AlignRight"><LIST:TOTALACTIVE></LIST:TOTALACTIVE></td>
+							  			<td style="width: 8px"><img src="images/blind.gif" with="8" height="1" /></td>
+							  			<td class="AlignRight"><LIST:TOTALINACTIVE></LIST:TOTALINACTIVE></td>
+							  			<td style="width: 8px"><img src="images/blind.gif" with="8" height="1" /></td>
+							  			<td class="AlignRight"><LIST:UNCONFIRMEDSUBSCRIBTIONS></LIST:UNCONFIRMEDSUBSCRIBTIONS></td>
+							  			<td style="width: 8px"><img src="images/blind.gif" with="8" height="1" /></td>
+							  			<td class="AlignRight"><LIST:UNCONFIRMEDUNSUBSCRIBTIONS></LIST:UNCONFIRMEDUNSUBSCRIBTIONS></td>
+							  			<td style="width: 8px"><img src="images/blind.gif" with="8" height="1" /></td>
+							  			<td class="AlignRight"><LIST:RECIPIENTSINBLACKLIST></LIST:RECIPIENTSINBLACKLIST></td>
+							  			<td style="width: 8px"><img src="images/blind.gif" with="8" height="1" /></td>
+							  			<td class="AlignRight"><LIST:BOUNCES></LIST:BOUNCES></td>
+							  		</tr>
+							    </LIST:ENTRY>
+							  	</tbody>
+							  	<tfoot>
+							  	</tfoot>
+							  </table>
+
+      </fieldset>
+
+      <fieldset>
+      <legend>E-Mail-Provider Top 20 f&uuml;r alle Empf&auml;ngerlisten</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                  <div style="width: 100%; height: 850px; margin: 0px auto">
+                    <div id="CHARTTOP20" style="margin: 0px auto; height: 850px;"></div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <script type="text/javascript">
+      <!--
+        addTableRolloverEffect('TableMailLists','tableRollOverEffect','tableRowClickEffect');
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+      </div>

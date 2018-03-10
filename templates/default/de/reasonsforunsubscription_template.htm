@@ -1,0 +1,54 @@
+<form method="post" action="./reasonsforunsubscription_vote.php">
+  <input type="hidden" name="MailingListId" />
+  <input type="hidden" name="FormId" />
+  <!--MEMBERSRECORD/-->
+  <table border="0" cellpadding="0" cellspacing="1" width="100%" class="reasonsforunsubscription">
+    <REASONSFORUNSUBSCRIPTION_ROW>
+    <tr class="reasonsforunsubscription_row">
+      <td width="10%" style="width: auto; max-width: 10%; text-align: center; vertical-align: middle;" class="reasonsforunsubscription_col1"><REASONSFORUNSUBSCRIPTION_COL1></REASONSFORUNSUBSCRIPTION_COL1></td>
+      <td width="90%" style="width: auto; max-width: 99%;" class="reasonsforunsubscription_col2"><REASONSFORUNSUBSCRIPTION_COL2></REASONSFORUNSUBSCRIPTION_COL2></td>
+    </tr>
+    </REASONSFORUNSUBSCRIPTION_ROW>
+  </table>
+  <p>&nbsp;</p>
+  <input type="submit" value="Absenden" id="SubmitBtn" />
+</form>
+
+<script language="JavaScript">
+<!--
+  function EnableDisableReasonsForUnsubscripeControls(element){
+
+    var checkedcount = 0;
+    if(element){
+      checkedcount = element.checked ? 1 : 0;
+      var id = element.id;
+      id = id.substr(id.indexOf('_'));
+      if(document.getElementById("ReasonText" + id)){
+         document.getElementById("ReasonText" + id).disabled = !element.checked;
+         if(element.checked && document.getElementById("ReasonText" + id).value == "")
+            checkedcount = 0;
+      }
+    }
+
+    var radiobuttons = document.getElementsByTagName('input');
+
+    for(var i = 0; i<radiobuttons.length; i++){
+      if(radiobuttons[i].type != "radio" || (element && radiobuttons[i].id == element.id)) continue;
+      if(radiobuttons[i].checked) checkedcount++;
+
+      var id = radiobuttons[i].id;
+      id = id.substr(id.indexOf('_'));
+      if(document.getElementById("ReasonText" + id)){
+         document.getElementById("ReasonText" + id).disabled = !radiobuttons[i].checked;
+         if(radiobuttons[i].checked && document.getElementById("ReasonText" + id).value.length < 3)
+           checkedcount = 0;
+      }
+    }
+
+    document.getElementById("SubmitBtn").disabled = checkedcount == 0;
+  }
+
+  EnableDisableReasonsForUnsubscripeControls(null);
+//-->
+</script>
+<noscript></noscript>

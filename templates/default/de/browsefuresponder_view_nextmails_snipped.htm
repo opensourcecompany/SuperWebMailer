@@ -1,0 +1,220 @@
+<div class="spacerborder">
+  <form name="FUNextMailsForm" id="FUNextMailsForm" method="post" action="./browsefuresponders_nextmails.php">
+  <input type="hidden" name="FURespondersId" id="FURespondersId" />
+
+  <input type="hidden" name="OneRecipientAction" id="OneRecipientAction" value="" />
+  <input type="hidden" name="OneRecipientId" id="OneRecipientId" value="" />
+
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function SetListId(ASender, AFormID) {
+      var AForm = document.getElementById(AFormID);
+      var OneRecipientAction = document.getElementById('OneRecipientAction');
+      var OneRecipientId = document.getElementById('OneRecipientId');
+      OneRecipientAction.value = ASender.name;
+      OneRecipientId.value = ASender.value;
+      return true;
+    }
+
+
+    function DoListActionChange(ASender, AFormID, AElementID, AElement1ID, ShowMessageBox) {
+      var AForm = document.getElementById(AFormID);
+      var AElement = document.getElementById(AElementID);
+      var AElement1 = document.getElementById(AElement1ID);
+
+      if ( ( (ASender.options[ASender.selectedIndex].value == "SetNewFUMMessage")  ) && (ASender.disabled == false) ) {
+         AElement.style.display = "";
+         if(ShowMessageBox)
+           MessageBox('Information', 'Bitte w&auml;hlen Sie neben dieser Auswahlbox die Folge-E-Mail aus und klicken Sie auf "Ausf&uuml;hren".', 0, 320, 130, '');
+         }
+        else
+         AElement.style.display = "none";
+
+      if ( ( (ASender.options[ASender.selectedIndex].value == "SetLastSentMessageDateTime")  ) && (ASender.disabled == false) ) {
+         AElement1.style.display = "";
+         if(ShowMessageBox)
+           MessageBox('Information', 'Bitte w&auml;hlen Sie neben dieser Auswahlbox das letzte Versanddatum aus und klicken Sie auf "Ausf&uuml;hren".', 0, 320, 130, '');
+         }
+        else
+         AElement1.style.display = "none";
+    }
+
+    function CheckboxClicked() {
+     DisableItem('RecipientsActions', GetCheckedCount('RecipientsIDs[]', 'FUNextMailsForm') > 0 );
+     ShowItem('ListActionSubmitBtn', (document.getElementById('RecipientsActions').selectedIndex != 0) && ( document.getElementById('RecipientsActions').disabled == false ) ) ;
+    }
+
+    function ConfirmListActionEvent(value) {
+      if(value)
+        document.getElementById('FUNextMailsForm').submit();
+    }
+
+    function ConfirmListAction() {
+      AOption = document.getElementById("RecipientsActions").options[ document.getElementById("RecipientsActions").selectedIndex ];
+
+      return true;
+    }
+
+  //-->
+  </script>
+
+
+  <script language="javascript" type="text/javascript" src="js/dhtmlgoodies_calendar.js" /></script>
+ 	<link type="text/css" rel="stylesheet" href="css/dhtmlgoodies_calendar.css" media="screen" />
+  <script language="JavaScript">
+  <!--
+    ChangeLanguageCode("de");
+    // german ever dd.mm.yyyy, others must be ever yyyy-mm-dd the php script doesn't support other formats
+  //-->
+  </script>
+
+  <!-- dummy for FF, GC, Opera //-->
+  <div style="height:0px; width:0px; position:absolute; overflow:hidden">
+      <input type="submit" />
+  </div>
+
+  <table class="FixedTable">
+    <tbody>
+      <tr>
+        <td>
+         <span style="float: right; margin-right: 0pt">
+         <a class="Backlink" href="./browsefuresponders.php">Zur&uuml;ck zur Follow-Up-Responder-&Uuml;bersicht</a>
+         </span>
+         <p>
+         <a href="javascript:void(0);" class="Backlink" onclick="ShowHideItem('ShowHideFilterBox')">Filter anzeigen / nicht anzeigen</a>
+      			<div id="ShowHideFilterBox">
+      			Suche nach:&nbsp;<input type="text" name="RcptsSearchFor" size="32" />&nbsp;im Feld:&nbsp;
+            <select size="1" name="Rcptsfieldname">
+             <option value="SearchForid">ID</option>
+             <option value="SearchForu_LastName">Name</option>
+             <option value="SearchForu_FirstName">Vorname</option>
+             <option value="SearchForu_EMail">E-Mail</option>
+             <option value="SearchForAll">Alle Felder</option>
+            </select>
+      			<br /><br />
+      			Sortiere Liste nach:&nbsp;
+            <select size="1" name="Rcptssortfieldname">
+               <option value="SortEMail">E-Mail</option>
+               <option value="Sortid">ID</option>
+            </select>&nbsp;<select size="1" name="Rcptssortorder"><option value="descending">absteigend</option><option value="ascending">aufsteigend</option></select>
+      			<br />
+         <br />
+      			Zeige:&nbsp;<input type="text" name="RcptsItemsPerPage" size="4" style="text-align:right" />&nbsp;Eintr&auml;ge&nbsp;pro&nbsp;Seite
+      			<br />
+         <br />
+         <div style="float:right"><input type="submit" name="FilterApplyBtn" value="&Uuml;bernehmen" /></div>
+         &nbsp;
+         </div>
+         </p>
+        </td>
+      </tr>
+      <tr>
+      <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+      </tr>
+    </tbody>
+  </table>
+  <script language="JavaScript">
+  <!--
+    ShowHideItem('ShowHideFilterBox');
+  //-->
+  </script>
+  <table id="TableFUNextMails" name="TableFUNextMails" class="FixedTable">
+  	<thead>
+  		<tr>
+  			<td class="NoWrap" width="1%"><input name="SelectAllChkBox" type="checkbox" onclick="CheckAllCheckboxes('SelectAllChkBox', 'RecipientsIDs[]', 'FUNextMailsForm'); CheckboxClicked();" /></td>
+  			<td class="NoWrap" width="5%">ID</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" style="width:auto;">E-Mail</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" style="15%">Letzter Versand</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" style="15%">N&auml;chster Versand</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" style="width:auto;">Folge-E-Mail</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td><input name="RecipientsIDs[]" type="checkbox" onclick="CheckboxClicked()" /></td>
+  			<td class="NoWrapAlignRight"><LIST:ID></LIST:ID></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:MEMBERIMAGE></LIST:MEMBERIMAGE>&nbsp;<LIST:EMAIL></LIST:EMAIL></td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap"><LIST:LASTEMAILSENTDATETIME></LIST:LASTEMAILSENTDATETIME></td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap"><LIST:NEXTEMAILSENDDATETIME></LIST:NEXTEMAILSENDDATETIME></td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td style="text-align: left"><LIST:NEXTFUEMAILNAME></LIST:NEXTFUEMAILNAME></td>
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+  	</table>
+
+ 	 <table class="FixedTable">
+ 	 <thead></thead>
+ 	 <tbody></tbody>
+  	<tfoot>
+
+  		<tr>
+  		  <td>
+   		  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+   		  <tr>
+   		  <td style="width:1%; white-space:nowrap;">
+     		  Selektierte:&nbsp;
+   		  </td>
+   		  <td style="width:70%; white-space:nowrap;">
+       		  <select name="RecipientsActions" id="RecipientsActions" size="1" onchange="DoListActionChange(this, 'FUNextMailsForm', 'SetNewFUMMessageList', 'SetLastSentMessageDate', true); ShowItem('ListActionSubmitBtn', (document.getElementById('RecipientsActions').selectedIndex != 0) && ( document.getElementById('RecipientsActions').disabled == false ) ); ">
+         		  <option value="doNothing">Aktion w&auml;hlen</option>
+             <option value="SetNewFUMMessage">Folge-E-Mail zuweisen</option>
+             <if:timebased_FUM>
+         		  <option value="SetLastSentMessageDateTime">Datum des letzten Versands &auml;ndern</option>
+             </if:timebased_FUM>
+       		  </select>
+           <select name="SetNewFUMMessageList" id="SetNewFUMMessageList" size="1" style="width: 240px">
+          		  <FUMMails></FUMMails>
+          	</select>
+          	<span id="SetLastSentMessageDate">
+             &nbsp;
+             <input type="text" name="SentMessageDateTime" id="SentMessageDateTime" maxlength="20" size="20" readonly="readonly" />
+             <input type="image" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum und Uhrzeit w&auml;hlen" onclick="displayCalendar(document.getElementById('SentMessageDateTime'),'dd.mm.yyyy hh:ii',this, true); return false;" />
+           </span>
+           &nbsp;
+       		  <input type="submit" name="ListActionSubmitBtn" id="ListActionSubmitBtn" value="Ausf&uuml;hren" onclick="return ConfirmListAction()" />
+   		  </td>
+        <td style="text-align:right; width:1%; white-space:nowrap;">
+       			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'FUNextMailsForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'FUNextMailsForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'FUNextMailsForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'FUNextMailsForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap;">
+         			  Seite:&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap;">
+         			  <select name="RcptsPageSelected" id="RcptsPageSelected" size="1" style="min-width:30pt ! important;" onchange="document.FUNextMailsForm.submit()">
+                <OPTION:PAGES>
+                <option>1</option>
+                </OPTION:PAGES>
+         			  </select>
+        </td>
+       	</tr>
+       	</table>
+  			</td>
+  		</tr>
+
+  	</tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableFUNextMails','tableRollOverEffect','tableRowClickEffect');
+  CheckboxClicked();
+  DisableItem('RecipientsActions', GetCheckedCount('RecipientsIDs[]', 'FUNextMailsForm') > 0 );
+  ShowItem('ListActionSubmitBtn', (document.getElementById('RecipientsActions').selectedIndex != 0) && ( document.getElementById('RecipientsActions').disabled == false ) ) ;
+  DoListActionChange(document.getElementById('RecipientsActions'), 'FUNextMailsForm', 'SetNewFUMMessageList', 'SetLastSentMessageDate', true);
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

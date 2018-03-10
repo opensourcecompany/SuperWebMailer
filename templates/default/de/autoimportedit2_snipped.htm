@@ -1,0 +1,164 @@
+      <style type="text/css">
+      <!--
+        .import_select {max-width: 250px}
+      -->
+      </style>
+      <div class="spacerborder">
+      <span class="Backlink"><a href="./browseautoimports.php">Zur&uuml;ck</a></span><br />
+      <br />
+
+      <form id="ImportForm" name="ImportForm" method="post" action="./autoimportedit.php">
+      <input type="hidden" name="AutoImportId" />
+      <input type="hidden" name="step" id="step" value="2" />
+      <input type="hidden" name="Name" />
+      <input type="hidden" name="ImportOption" id="ImportOption" />
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Legen Sie die Zuordnung der Datenbankfelder zu den zu importierenden Daten fest.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Feldzuordnung Datenbankfelder zu den zu importierenden Daten</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+      	    <colgroup>
+        	    <col style="width:20%; vertical-align:middle">
+        	    <col style="width:20%;">
+        	    <col style="width:16px; ">
+        	    <col style="width:20%; vertical-align:middle">
+        	    <col style="width:20%;">
+      	    </colgroup>
+            <tbody>
+             <TABLE:ROW>
+        	    <tr>
+        	      <td class="LabelColumn">
+         	      <!--FIELD1-->
+               </td>
+        	      <td>
+        	        <!--VALUE1-->
+        	      </td>
+        	      <td>
+        	      &nbsp;</td>
+        	      <td class="LabelColumn">
+                <!--FIELD2-->
+               </td>
+        	      <td>
+         	      <!--VALUE2-->
+        	      </td>
+          	  </tr>
+             </TABLE:ROW>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Legen Sie fest wie die zu importierenden Empf&auml;nger etwaigen Gruppen zugeordnet werden sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Gruppenzuordnung festlegen</legend>
+      <br />
+        <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+          <tbody>
+             <tr>
+              <td colspan="2">
+                <input type="radio" name="GroupsOption" value="1" id="GroupsOption1" onclick="DisableItem('groups_id', document.ImportForm.GroupsOption[2].checked);DisableItem('ImportGroupField', document.ImportForm.GroupsOption[1].checked);" /><label for="GroupsOption1">&nbsp;Keine Gruppenzuordnung verwenden</label>
+              </td>
+             </tr>
+             <tr>
+              <td colspan="2">
+                <input type="radio" name="GroupsOption" value="2" id="GroupsOption2" onclick="DisableItem('groups_id', document.ImportForm.GroupsOption[2].checked);DisableItem('ImportGroupField', document.ImportForm.GroupsOption[1].checked);" /><label for="GroupsOption2">&nbsp;Gruppenname &uuml;bernehmen aus Feld&nbsp;</label>
+                <select size="1" id="ImportGroupField" name="ImportGroupField">
+                  <SHOW:IMPORTFIELD>
+                  </SHOW:IMPORTFIELD>
+                </select>
+              </td>
+             </tr>
+             <tr>
+              <td colspan="2">
+               <input type="radio" name="GroupsOption" value="3" id="GroupsOption3" onclick="DisableItem('groups_id', document.ImportForm.GroupsOption[2].checked);DisableItem('ImportGroupField', document.ImportForm.GroupsOption[1].checked);" /><label for="GroupsOption3">&nbsp;Import in folgende Gruppe&nbsp;</label>
+               <select size="1" id="groups_id" name="groups_id">
+                 <SHOW:GROUPS>
+                 </SHOW:GROUPS>
+               </select>
+              </td>
+             </tr>
+          </tbody>
+        </table>
+      </fieldset>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Legen Sie fest wie mit bestehenden Empf&auml;ngern beim Import verfahren werden soll.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Erweiterte Import-Einstellungen</legend>
+      <br />
+        <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+          <tbody>
+
+             <tr>
+              <td style="vertical-align: middle">
+                <input type="checkbox" name="RemoveRecipientFromGroups" value="1" id="RemoveRecipientFromGroups" />
+              </td>
+              <td>&nbsp;</td>
+              <td width="99%">
+                <label for="RemoveRecipientFromGroups">Gruppenzuordnung des Empf&auml;ngers vor dem Import komplett aufheben</label>
+              </td>
+             </tr>
+
+             <tr>
+              <td style="vertical-align: middle">
+                &nbsp;
+              </td>
+              <td>&nbsp;</td>
+              <td width="99%">
+                &nbsp;
+              </td>
+             </tr>
+
+             <tr>
+              <td style="vertical-align: middle">
+                <input type="radio" name="ExImportOption" value="1" id="ExImportOption1" />
+              </td>
+              <td>&nbsp;</td>
+              <td width="99%">
+                <label for="ExImportOption1">Neue Empf&auml;nger hinzuf&uuml;gen, bei bestehenden Empf&auml;ngern zus&auml;tzlich die Gruppe zuordnen, falls eine Gruppenzuordnung festgelegt worden ist.</label>
+              </td>
+             </tr>
+             <tr>
+              <td style="vertical-align: middle">
+                <input type="radio" name="ExImportOption" value="2" id="ExImportOption2" />
+              </td>
+              <td>&nbsp;</td>
+              <td width="99%">
+                <label for="ExImportOption2">Neue Empf&auml;nger hinzuf&uuml;gen, Daten und Gruppenzuordnung der bestehenden Empf&auml;nger nicht ver&auml;ndern.</label>
+              </td>
+             </tr>
+             <tr>
+              <td style="vertical-align: middle">
+                <input type="radio" name="ExImportOption" value="3" id="ExImportOption3" />
+              </td>
+              <td>&nbsp;</td>
+              <td width="99%">
+                <label for="ExImportOption3">Neue Empf&auml;nger hinzuf&uuml;gen, Daten der bestehenden Empf&auml;nger durch die importierten nicht leeren Daten &uuml;berschreiben und zus&auml;tzlich die Gruppe zuordnen, falls eine Gruppenzuordnung festgelegt worden ist.</label>
+              </td>
+             </tr>
+          </tbody>
+        </table>
+      </fieldset>
+
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+
+      </form>
+
+
+      <script type="text/javascript">
+
+        DisableItem('groups_id', document.ImportForm.GroupsOption[2].checked);
+        DisableItem('ImportGroupField', document.ImportForm.GroupsOption[1].checked);
+
+       //AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+       /////////////////////////////////////////////////////////////////////
+
+
+      	</script>
+
+      </div>

@@ -1,0 +1,827 @@
+      <script language="javascript" type="text/javascript" src="js/dhtmlgoodies_calendar.js" /></script>
+     	<link type="text/css" rel="stylesheet" href="css/dhtmlgoodies_calendar.css" media="screen" />
+      <script language="JavaScript">
+      <!--
+        ChangeLanguageCode("de");
+        // german ever dd.mm.yyyy, others must be ever yyyy-mm-dd the php script doesn't support other formats
+      //-->
+      </script>
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var TabListArray = Array();
+      //-->
+      </script>
+      <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+
+      <style type="text/css">
+      <!--
+        input[type=text] {width: 98%}
+      -->
+      </style>
+
+      <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
+      <div class="spacerborder">
+        <form method="post" id="RecipientEditForm" name="RecipientEditForm" action="./recipientedit.php">
+          <input type="hidden" name="OneMailingListId" />
+          <input type="hidden" name="RecipientId" />
+          <input type="hidden" name="RcptsPageSelected" />
+          <input type="hidden" name="EditPage" value="1" />
+          <input type="hidden" name="searchoptions" id="searchoptions" />
+
+          <span class="Backlink"><a href="./browsercpts.php" onclick="document.RecipientEditForm.action='./browsercpts.php';document.RecipientEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+          <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+
+                  <!-- ##### TabView - START -->
+                  <div id="dhtmlgoodies_tabView">
+
+                    <!-- ####### TAB START --> 
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Informationen');
+                    //-->  
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                  	 <fieldset>
+                  	  <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                  	    <tbody>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      Tabellen-ID</td>
+                  	      <td>
+                         <ENTRY:ID>
+                         </ENTRY:ID>
+                         <br />
+                         <br />
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      Letzte &Auml;nderung des Empf&auml;ngers</td>
+                  	      <td>
+                         <ENTRY:LastChangeDate>
+                         </ENTRY:LastChangeDate>
+                         <br />
+                         <br />
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      Eindeutiger Schl&uuml;ssel, derzeit</td>
+                  	      <td>
+                         <ENTRY:IDENTSTRING>
+                         </ENTRY:IDENTSTRING>
+                         <br />
+                         <br />
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      Anmeldestatus</td>
+                  	      <td>
+                         <ENTRY:SubscriptionStatus>
+                         </ENTRY:SubscriptionStatus>
+                         <InactiveStatus_Remove>
+                         <br /><input type="checkbox" id="ResetInactiveStatus" name="ResetInactiveStatus" value="Active" onclick="if (document.getElementById('ResetInactiveStatus').checked) alert('Klicken Sie auf \'' + document.getElementById('RecipientEditBtn').value + '\' um die &Auml;nderung zu speichern.')" /><label for="ResetInactiveStatus">&nbsp;Empf&auml;nger aktivieren</label>
+                         </InactiveStatus_Remove>
+                         <ActiveStatus_Remove>
+                         <br /><input type="checkbox" id="SetInactiveStatus" name="SetInactiveStatus" value="Inactive" onclick="if (document.getElementById('SetInactiveStatus').checked) alert('Klicken Sie auf \'' + document.getElementById('RecipientEditBtn').value + '\' um die &Auml;nderung zu speichern.')" /><label for="SetInactiveStatus">&nbsp;Empf&auml;nger deaktivieren</label>
+                         </ActiveStatus_Remove>
+                         <br />
+                         <br />
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      Anmeldedatum/-zeit</td>
+                  	      <td>
+                         <ENTRY:DateOfSubscription>
+                         </ENTRY:DateOfSubscription>
+                         <br />
+                         <br />
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      Datum/Uhrzeit des Klicks auf Best&auml;tigungs-Link</td>
+                  	      <td>
+                         <ENTRY:DateOfOptInConfirmation>
+                         </ENTRY:DateOfOptInConfirmation>
+                         <br />
+                         <br />
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      IP-Adresse bei Klick auf Best&auml;tigungs-Link</td>
+                  	      <td>
+                         <ENTRY:IPOnSubscription>
+                         </ENTRY:IPOnSubscription>
+                         <br />
+                         <br />
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      Zuletzt E-Mail gesendet</td>
+                  	      <td>
+                         <ENTRY:DateOfLastEMailSent>
+                         </ENTRY:DateOfLastEMailSent>
+                         <br />
+                         <br />
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      Bounce-Status</td>
+                  	      <td>
+                         <ENTRY:BounceStatus>
+                         </ENTRY:BounceStatus>
+                         <BounceStatus_Remove>
+                         <br /><input type="checkbox" id="ResetBounceState" name="ResetBounceState" value="Remove" onclick="if (document.getElementById('ResetBounceState').checked) alert('Klicken Sie auf \'' + document.getElementById('RecipientEditBtn').value + '\' um die &Auml;nderung zu speichern.')" /><label for="ResetBounceState">&nbsp;Bounce-Status zur&uuml;cksetzen</label>
+                         </BounceStatus_Remove>
+                         <br />
+                         <br />
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      Ist in lokaler Blockliste?</td>
+                  	      <td>
+                         <ENTRY:IsInLocalBlocklist>
+                         </ENTRY:IsInLocalBlocklist>
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      Ist in globaler Blockliste?</td>
+                  	      <td>
+                         <ENTRY:IsInGlobalBlocklist>
+                         </ENTRY:IsInGlobalBlocklist>
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      Ist in ECG-Liste?</td>
+                  	      <td>
+                         <ENTRY:IsInECGList>
+                         </ENTRY:IsInECGList>
+                  	      </td>
+                    	  </tr>
+                    	  </tbody>
+                  	  </table>
+                  	 </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+                  	<!-- ####### TAB START --> 
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Allgemein');
+                    //-->  
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                  	 <fieldset>
+                  	  <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                  	    <colgroup>
+                    	    <col style="width:25%; vertical-align:middle">
+                    	    <col style="width:24%;">
+                    	    <col style="width:16px; ">
+                    	    <col style="width:25%; vertical-align:middle">
+                    	    <col style="width:24%;">
+                  	    </colgroup>
+                  	    <tbody>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_EMail"><label_u_EMail></label_u_EMail></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" id="u_EMail" name="u_EMail" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_EMailFormat"><label_u_EMailFormat></label_u_EMailFormat></label>
+                         </td>
+                  	      <td>
+                  	      <select name="u_EMailFormat" id="u_EMailFormat">
+                  	          <option value="HTML">HTML</option>
+                							      <option value="PlainText">nur Text</option>
+                  	      </select>
+                  	      </td>
+                    	  </tr>
+
+                    	  <tr>
+                  	      <td class="LabelColumn" style="vertical-align: middle;">
+                         <label for="u_Salutation"><label_u_Salutation></label_u_Salutation></label>
+                  	      </td>
+                  	      <td>
+                    	      <input type="text" maxlength="255" size="30" name="u_Salutation" id="u_Salutation" />
+                  	      </td>
+                  	      <td>
+                  	      &nbsp;
+                  	      </td>
+                  	      <td class="LabelColumn" style="vertical-align: middle;">
+                  	      <label for="u_Birthday"><label_u_Birthday></label_u_Birthday></label>
+                  	      </td>
+                  	      <td>
+                             <input type="checkbox" id="u_BirthdaySet" name="u_BirthdaySet" onclick="DisableControlsArray(document.getElementById('u_BirthdaySet').checked, Array(document.getElementById('u_Birthday'), document.getElementById('u_BirthdayButton')), Array())" /><label for="u_BirthdaySet">&nbsp;Datum angeben</label><br />
+                             <input type="text" name="u_Birthday" id="u_Birthday" maxlength="10" size="10" style="width:auto" />
+                             <input type="image" name="u_BirthdayButton" id="u_BirthdayButton" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum w&auml;hlen" onclick="displayCalendar(document.getElementById('u_Birthday'),'dd.mm.yyyy',this); return false;" />
+                  	      </td>
+                    	  </tr>
+
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_Profession"><label_u_Profession></label_u_Profession></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" id="u_Profession" name="u_Profession" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                         &nbsp;
+                         </td>
+                  	      <td>
+                  	      &nbsp;
+                  	      </td>
+                    	  </tr>
+
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_FirstName"><label_u_FirstName></label_u_FirstName></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_FirstName" id="u_FirstName" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                         <label for="u_Gender"><label_u_Gender></label_u_Gender></label>
+                         </td>
+                  	      <td>
+                  	      <select name="u_Gender" id="u_Gender">
+                    	      <option value="undefined">--</option>
+                    	      <option value="m">m&auml;nnlich</option>
+                    	      <option value="w">weiblich</option>
+                  	      </select>
+                          </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_MiddleName"><label_u_MiddleName></label_u_MiddleName></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_MiddleName" id="u_MiddleName" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_MessengerICQ"><label_u_MessengerICQ></label_u_MessengerICQ></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_MessengerICQ" id="u_MessengerICQ" /></td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_LastName"><label_u_LastName></label_u_LastName></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_LastName" id="u_LastName" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                         <label for="u_MessengerMSN"><label_u_MessengerMSN></label_u_MessengerMSN></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_MessengerMSN" id="u_MessengerMSN" /></td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_CellNumber"><label_u_CellNumber></label_u_CellNumber></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_CellNumber" id="u_CellNumber" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                         <label for="u_MessengerYAHOO"><label_u_MessengerYAHOO></label_u_MessengerYAHOO></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_MessengerYAHOO" id="u_MessengerYAHOO" /></td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      &nbsp;</td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_MessengerAOL"><label_u_MessengerAOL></label_u_MessengerAOL></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_MessengerAOL" id="u_MessengerAOL" /></td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      </td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_MessengerOther"><label_u_MessengerOther></label_u_MessengerOther></label>
+                          </td>
+                  	      <td valign="top">
+                  	      <input type="text" maxlength="255" size="30" name="u_MessengerOther" id="u_MessengerOther" /></td>
+                    	  </tr>
+
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_Language"><label_u_Language></label_u_Language></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_Language" id="u_Language" /></td>
+                  	      <td>&nbsp;
+                  	      </td>
+                  	      <td class="LabelColumn">
+                         &nbsp;
+                         </td>
+                  	      <td>
+                  	      &nbsp;</td>
+                    	  </tr>
+
+                  	    <tr>
+                  	      <td colspan="4">
+                  	      &nbsp;</td>
+                    	  </tr>
+
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_Username"><label_u_Username></label_u_Username></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_Username" id="u_Username" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                         &nbsp;
+                         </td>
+                  	      <td>
+                  	      &nbsp;</td>
+                    	  </tr>
+
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_Password"><label_u_Password></label_u_Password></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_Password" id="u_Password" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      &nbsp;
+                         </td>
+                  	      <td>
+                  	      &nbsp;</td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      <br />
+                  	      <label for="GroupsScrollbox">Zuordnung zu Empf&auml;ngergruppe(n)</label><br /></td>
+                  	      <td colspan="3">
+                  	      <br />
+
+                          <div class="scrollbox" style="height: 150px" name="GroupsScrollbox" id="GroupsScrollbox">
+                            <SHOW:GROUPS>
+                              <span class="scrollboxSpan"><input type="checkbox" name="Groups[]" value="<GroupsId></GroupsId>" id="GroupsLabelId" />&nbsp;<label for="GroupsLabelId"><GroupsName></GroupsName></label><br /></span>
+                            </SHOW:GROUPS>
+                          </div>
+
+                         </td>
+                    	  </tr>
+                    	  </tbody>
+                  	  </table>
+                  	 </fieldset>
+                  	
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                    <!-- ####### TAB START --> 
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Privat');
+                    //-->  
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                  	 <fieldset>
+                  	  <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                  	    <colgroup>
+                    	    <col style="width:25%; vertical-align:middle">
+                    	    <col style="width:24%;">
+                    	    <col style="width:16px; ">
+                    	    <col style="width:25%; vertical-align:middle">
+                    	    <col style="width:24%;">
+                  	    </colgroup>
+                  	    <tbody>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_PrivateStreet"><label_u_PrivateStreet></label_u_PrivateStreet></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_PrivateStreet" id="u_PrivateStreet" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                         <label for="u_PrivateTelephone"><label_u_PrivateTelephone></label_u_PrivateTelephone></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_PrivateTelephone" id="u_PrivateTelephone" /></td>
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_PrivateZIPCode"><label_u_PrivateZIPCode></label_u_PrivateZIPCode></label>&nbsp;und&nbsp;<label for="u_PrivateCity"><label_u_PrivateCity></label_u_PrivateCity></label>
+                         </td>
+                  	      <td>
+                           <table style="width: 100%;"  cellspacing="0" cellpadding="0" border="0">
+                           <tr>
+                             <td style="width: 25%"><input type="text" maxlength="64" size="4" name="u_PrivateZIPCode" id="u_PrivateZIPCode" style="width: 90%; padding-right: 0px; padding-left: 0px;" /></td>
+                             <td style="width: 75%"><input type="text" maxlength="255" size="19" name="u_PrivateCity" id="u_PrivateCity" style="width: 99%; padding-right: 0px; padding-left: 0px; margin: 0px" /></td>
+                           </tr>
+                           </table>
+                         </td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_PrivateFax"><label_u_PrivateFax></label_u_PrivateFax></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_PrivateFax" id="u_PrivateFax" /></td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_PrivateState"><label_u_PrivateState></label_u_PrivateState></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_PrivateState" id="u_PrivateState" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      &nbsp;</td>
+                  	      <td>
+                  	      &nbsp;</td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_PrivateCountry"><label_u_PrivateCountry></label_u_PrivateCountry></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_PrivateCountry" id="u_PrivateCountry" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      &nbsp;</td>
+                  	      <td>
+                  	      &nbsp;</td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      &nbsp;</td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_PrivateWebsite"><label_u_PrivateWebsite></label_u_PrivateWebsite></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_PrivateWebsite" id="u_PrivateWebsite" /></td>
+                    	  </tr>
+                    	  </tbody>
+                  	  </table>
+                  	 </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+                    <!-- ####### TAB START --> 
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Gesch&auml;ftlich');
+                    //-->  
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                  	 <fieldset>
+                  	  <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                  	    <colgroup>
+                    	    <col style="width:25%; vertical-align:middle">
+                    	    <col style="width:24%;">
+                    	    <col style="width:16px; ">
+                    	    <col style="width:25%; vertical-align:middle">
+                    	    <col style="width:24%;">
+                  	    </colgroup>
+                  	    <tbody>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_Firm"><label_u_Firm></label_u_Firm></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_Firm" id="u_Firm" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_BusinessTelephone"><label_u_BusinessTelephone></label_u_BusinessTelephone></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_BusinessTelephone" id="u_BusinessTelephone" /></td>
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_BusinessStreet"><label_u_BusinessStreet></label_u_BusinessStreet></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_BusinessStreet" id="u_BusinessStreet" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                         <label for="u_BusinessFax"><label_u_BusinessFax></label_u_BusinessFax></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_BusinessFax" id="u_BusinessFax" /></td>
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_BusinessZIPCode"><label_u_BusinessZIPCode></label_u_BusinessZIPCode></label>&nbsp;und&nbsp;<label for="u_BusinessCity"><label_u_BusinessCity></label_u_BusinessCity></label>
+                         </td>
+                  	      <td>
+                           <table style="width: 100%;"  cellspacing="0" cellpadding="0" border="0">
+                           <tr>
+                             <td style="width: 25%"><input type="text" maxlength="64" size="4" name="u_BusinessZIPCode" id="u_BusinessZIPCode" style="width: 90%; padding-right: 0px; padding-left: 0px;" /></td>
+                             <td style="width: 75%"><input type="text" maxlength="255" size="19" name="u_BusinessCity" id="u_BusinessCity" style="width: 99%; padding-right: 0px; padding-left: 0px; margin: 0px" /></td>
+                           </tr>
+                           </table>
+                         </td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                         <label for="u_BusinessPosition"><label_u_BusinessPosition></label_u_BusinessPosition></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_BusinessPosition" id="u_BusinessPosition" /></td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_BusinessState"><label_u_BusinessState></label_u_BusinessState></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_BusinessState" id="u_BusinessState" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                         <label for="u_BusinessDepartment"><label_u_BusinessDepartment></label_u_BusinessDepartment></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_BusinessDepartment" id="u_BusinessDepartment" /></td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_BusinessCountry"><label_u_BusinessCountry></label_u_BusinessCountry></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_BusinessCountry" id="u_BusinessCountry" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      &nbsp;</td>
+                  	      <td>
+                  	      &nbsp;</td>
+                    	  </tr>
+
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_CustomerNo"><label_u_CustomerNo></label_u_CustomerNo></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_CustomerNo" id="u_CustomerNo" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                         <label for="u_BusinessWebsite"><label_u_BusinessWebsite></label_u_BusinessWebsite></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_BusinessWebsite" id="u_BusinessWebsite" /></td>
+                    	  </tr>
+                    	  </tbody>
+                  	  </table>
+                  	 </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+                    <!-- ####### TAB START --> 
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Kommentare');
+                    //-->  
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                  	 <fieldset>
+                  	  <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                  	    <tbody>
+                  	    <tr>
+                  	      <td colspan="2">
+                  	      <label for="u_Comments"><label_u_Comments></label_u_Comments></label><br />
+                  	      <textarea name="u_Comments" id="u_Comments" cols="132" rows="15" style="width: 98%"></textarea></td>
+                    	  </tr>
+                    	  </tbody>
+                  	  </table>
+                  	 </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+                    <!-- ####### TAB START --> 
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Benutzerdefinierte&nbsp;Felder');
+                    //-->  
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                  	 <fieldset>
+                  	  <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                  	    <colgroup>
+                    	    <col style="width:25%; vertical-align:middle">
+                    	    <col style="width:24%;">
+                    	    <col style="width:16px; ">
+                    	    <col style="width:25%; vertical-align:middle">
+                    	    <col style="width:24%;">
+                  	    </colgroup>
+                  	    <tbody>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_UserFieldString1"><label_u_UserFieldString1></label_u_UserFieldString1></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_UserFieldString1" id="u_UserFieldString1" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                         <label for="u_UserFieldString2"><label_u_UserFieldString2></label_u_UserFieldString2></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_UserFieldString2" id="u_UserFieldString2" /></td>
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_UserFieldString3"><label_u_UserFieldString3></label_u_UserFieldString3></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" maxlength="255" size="30" name="u_UserFieldString3" id="u_UserFieldString3" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      &nbsp;</td>
+                  	      <td>
+                  	      &nbsp;</td>
+                    	  </tr>
+                    	  <tr>
+                         <td colspan="4">
+                         &nbsp;
+                         </td>
+                       </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_UserFieldInt1"><label_u_UserFieldInt1></label_u_UserFieldInt1></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" style="text-align: right" maxlength="255" size="30" name="u_UserFieldInt1" id="u_UserFieldInt1" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      <label for="u_UserFieldInt2"><label_u_UserFieldInt2></label_u_UserFieldInt2></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" style="text-align: right" maxlength="255" size="30" name="u_UserFieldInt2" id="u_UserFieldInt2" /></td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_UserFieldInt3"><label_u_UserFieldInt3></label_u_UserFieldInt3></label>
+                         </td>
+                  	      <td>
+                  	      <input type="text" style="text-align: right" maxlength="255" size="30" name="u_UserFieldInt3" id="u_UserFieldInt3" /></td>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      &nbsp;</td>
+                  	      <td>
+                  	      &nbsp;</td>
+                    	  </tr>
+                    	  <tr>
+                         <td colspan="4">
+                         &nbsp;
+                         </td>
+                       </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_UserFieldBool1"><label_u_UserFieldBool1></label_u_UserFieldBool1></label>
+                         </td>
+                  	      <td>
+                  	      <select name="u_UserFieldBool1" id="u_UserFieldBool1">
+                    	      <option value="0">FALSCH</option>
+                    	      <option value="1">WAHR</option>
+                  	      </select>
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                         <label for="u_UserFieldBool2"><label_u_UserFieldBool2></label_u_UserFieldBool2></label>
+                         </td>
+                  	      <td>
+                  	      <select name="u_UserFieldBool2" id="u_UserFieldBool2">
+                    	      <option value="0">FALSCH</option>
+                    	      <option value="1">WAHR</option>
+                  	      </select>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                         <label for="u_UserFieldBool3"><label_u_UserFieldBool3></label_u_UserFieldBool3></label>
+                         </td>
+                  	      <td>
+                  	      <select name="u_UserFieldBool3" id="u_UserFieldBool3">
+                    	      <option value="0">FALSCH</option>
+                    	      <option value="1">WAHR</option>
+                  	      </select>
+
+                  	      <td>
+                  	      &nbsp;</td>
+                  	      <td class="LabelColumn">
+                  	      &nbsp;</td>
+                  	      <td>
+                  	      &nbsp;</td>
+                    	  </tr>
+                    	  </tbody>
+                  	  </table>
+                  	 </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+                  	
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('History versendete E-Mails');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                  	 <fieldset>
+                  	  <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                  	    <tbody>
+                  	    <tr>
+                  	      <td style="text-align: center;">
+                           <textarea name="MailLog" cols="132" rows="28" readonly="readonly" style="width: 98%;"></textarea>
+                           <br />
+                           <br />
+                           <div style="float: left;">
+                             <input type="checkbox" id="ClearMailLog" name="ClearMailLog" value="1" /><label for="ClearMailLog">&nbsp;History der versendeten E-Mails l&ouml;schen</label>
+                           </div>
+                  	      </td>
+                    	  </tr>
+                    	  </tbody>
+                  	  </table>
+                  	 </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+                  	
+                  </div>
+
+                  <br />
+                  <br />
+
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                    initTabs('dhtmlgoodies_tabView', TabListArray, 0, 924, 635);
+                    addScrollboxRolloverEffect('GroupsScrollbox','scrollboxRollOverEffect', null);
+                    //NOTISNEW
+                    deleteTab(TabListArray[0],0,'dhtmlgoodies_tabView');
+                    ///NOTISNEW
+                    DisableControlsArray(document.getElementById('u_BirthdaySet').checked, Array(document.getElementById('u_Birthday'), document.getElementById('u_BirthdayButton')), Array());
+                    //AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+                  --> 
+                  </script>
+
+                  <!-- ##### TabView - END -->
+
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                <br />
+                <input type="submit" id="RecipientEditBtn" name="RecipientEditBtn" value="&Auml;nderungen speichern" class="FormButton" />
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+
+        </form> 
+      </div>
+

@@ -1,0 +1,108 @@
+      <script language="javascript" type="text/javascript" src="js/dhtmlgoodies_calendar.js" /></script>
+     	<link type="text/css" rel="stylesheet" href="css/dhtmlgoodies_calendar.css" media="screen" />
+      <script language="JavaScript">
+      <!--
+        ChangeLanguageCode("de");
+        // german ever dd.mm.yyyy hh:ii, others must be ever yyyy-mm-dd hh:ii the php script doesn't support other formats
+      //-->
+      </script>
+
+      <form id="SplitTestEditForm" name="SplitTestEditForm" method="post" action="./splittestedit.php">
+      <span class="Backlink"><br /><a href="./browsesplittests.php" onclick="document.SplitTestEditForm.action='./browsesplittests.php';document.SplitTestEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="SplitTestListId" id="SplitTestListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel" value="4" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.SplitTestEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.SplitTestEditForm.submit(); return false;">E-Mailings</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.SplitTestEditForm.submit(); return false;">Einstellungen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.SplitTestEditForm.submit(); return false;">Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.SplitTestEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie an wann Ihr A/B Split Test versendet werden soll. Sollte nur die Variante zum Speichern des A/B Split Tests w&auml;hlbar sein, dann muss ein berechtigter Nutzer oder Administrator den E-Mail-Versand ansto&szlig;en.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Planung des Versands des A/B Split Tests</legend>
+      <br />
+          <IF_CAN_CHANGE_TIMING>
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+                  <input type="radio" name="SendScheduler" value="SaveOnly" onclick="ShowTimingOptions()" id="SendScheduler0" /><label for="SendScheduler0">&nbsp;A/B Split Test nur speichern</label>
+                  <SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Der A/B Split Test wird nur geplant, Sie k&ouml;nnen sp&auml;ter durch &Auml;ndern des A/B Split Tests den E-Mail-Versand-Zeitpunkt festlegen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>
+                  <IF_HAS_SENDING_RIGHTS>
+                  <br />
+                  <input type="radio" name="SendScheduler" value="SendImmediately" onclick="ShowTimingOptions()" id="SendScheduler2" /><label for="SendScheduler2">&nbsp;A/B Split Test nach Speicherung der Einstellungen versenden (CronJob)</label>
+                  <SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Nach Beendigung des Assistanten werden die E-Mails sofort versendet. (CronJobs erforderlich)');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS><br />
+                  <input type="radio" name="SendScheduler" value="SendInFutureOnce" onclick="ShowTimingOptions()" id="SendScheduler3" /><label for="SendScheduler3">&nbsp;A/B Split Test zu einem sp&auml;teren Zeitpunkt versenden (CronJob)</label>
+                  <SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Verwenden Sie diese Variante um den A/B Split Test zu einem bestimmten Datum und Uhrzeit versenden zu lassen (CronJobs erforderlich).');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS><br />
+                  </IF_HAS_SENDING_RIGHTS>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </IF_CAN_CHANGE_TIMING>
+      </fieldset>
+
+      <fieldset name="SendInFutureOnce" id="SendInFutureOnce">
+      <legend>Zeitpunkt des einmaligen E-Mail-Versands festlegen</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+                   Datum und Uhrzeit:<br />
+                   <input type="text" name="SendInFutureOnceDateTime" id="SendInFutureOnceDateTime" maxlength="20" size="20" readonly="readonly" />
+                   <input type="image" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum und Uhrzeit w&auml;hlen" onclick="displayCalendar(document.getElementById('SendInFutureOnceDateTime'),'dd.mm.yyyy hh:ii',this, true); return false;" />
+                   <br />
+                   <br />
+                   <br />
+                   Hinweis: Wird ein Datum oder Uhrzeit in der Vergangenheit festgelegt, dann werden die E-Mails sofort versendet.
+                   <br />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Speichern und Weiter &gt;" class="FormButton" />
+
+      <script type="text/javascript">
+      <!--
+
+        function ShowTimingOptions() {
+          // campaign is sending or user has no rights
+          if(document.SplitTestEditForm.SendScheduler == null || document.SplitTestEditForm.SendScheduler[2] == null) {
+            ShowItem("SendInFutureOnce", false);
+            return false;
+          }
+          ShowItem("SendInFutureOnce", document.SplitTestEditForm.SendScheduler[2].checked == true);
+        }
+        ShowTimingOptions();
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+      </form>

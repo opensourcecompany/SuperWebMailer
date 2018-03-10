@@ -1,0 +1,42 @@
+      <form id="InstallForm" name="InstallForm" method="post" action="./install.php">
+      <input type="hidden" name="step" value="7" />
+      <input type="hidden" name="Language" />
+      <fieldset>
+      <legend>PRODUCTAPPNAME - SuperAdministrator anlegen</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                Der SuperAdministrator ist der wichtigste Nutzer von PRODUCTAPPNAME. Mit Hilfe des SuperAdministrators m&uuml;ssen neue Administratoren
+                der Empf&auml;ngerlisten angelegt werden.
+                <br /><br />
+                Der Benutzername f&uuml;r den Nutzer SuperAdministrator ist immer <b>superadmin</b> das Kennwort kann frei vergeben werden. Das Kennwort selbst
+                sollte <b>sicher</b> sein.<br /><br />
+                <br />
+                </td>
+              </tr>
+              <tr>
+                <td class="LabelColumn">Benutzername
+                </td>
+                <td><input type="text" id="Username" name="Username" value="superadmin" disabled="disabled" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="LabelColumn" valign="top">Kennwort
+                </td>
+                <td><input type="password" id="Password" name="Password" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="LabelColumn" valign="top">Kennwort wiederholen
+                </td>
+                <td><input type="password" id="PasswordAgain" name="PasswordAgain" maxlength="128" size="50" /></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+      <!-- a hack //-->
+      <input type="image" src="images/blind.gif" width="1" height="1" />
+      <input type="submit" name="BackBtn" value="&lt Zur&uuml;ck" class="FormButton" />
+      &nbsp;<input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+      </form>
+      

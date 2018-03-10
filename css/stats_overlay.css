@@ -1,0 +1,22 @@
+.overlay_stat_frame{
+ /* see help.css #dhtmlgoodies_tooltip */
+	background-color: #FFFFCC;
+	border:1px solid #000;
+	position:absolute;
+	display:none;
+	z-index:20000;
+	padding:2px;
+}
+
+.overlay_stat_button{
+	position:absolute;
+	margin-left:-25px;
+	text-decoration:none;
+	z-index:20000;
+	background:url(../images/stats_hyperlink24.gif) center center no-repeat;
+}
+
+.overlay_stat_link_hover:hover, .overlay_stat_link_active {
+	background:	#FFFFCC;
+ text-decoration: none;
+}

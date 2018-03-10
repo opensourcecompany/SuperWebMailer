@@ -1,0 +1,32 @@
+      <form method="post" action="./login.php">
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie Ihren Benutzernamen und Kennwort ein.<br>Sollten Sie Ihre Zugangsdaten vergessen haben, dann klicken Sie auf <b>Zugangsdaten vergessen</b>.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Bitte geben Sie Ihre Anmeldeinformationen ein</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn">Benutzername
+                </td>
+                <td><input type="text" id="Username" name="Username" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="LabelColumn" valign="top">Kennwort
+                </td>
+                <td><input type="password" id="Password" name="Password" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td colspan="2"><a href="pw_reminder.php">Zugangsdaten vergessen</a></td>
+              </tr>
+            </tbody>
+          </table>
+          
+      </fieldset>
+
+      <br />
+
+     <input type="submit" name="SubmitBtn" value="Anmelden" class="FormButton" />
+
+      </form>

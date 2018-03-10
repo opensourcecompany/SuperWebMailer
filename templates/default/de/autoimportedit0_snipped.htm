@@ -1,0 +1,267 @@
+      <div class="spacerborder">
+      <span class="Backlink"><a href="./browseautoimports.php">Zur&uuml;ck</a></span><br />
+      <br />
+
+      <form id="ImportForm" name="ImportForm" method="post" action="./autoimportedit.php" enctype="multipart/form-data">
+      <input type="hidden" name="AutoImportId" />
+      <input type="hidden" name="step" id="step" value="0" />
+      <input type="hidden" name="MAX_FILE_SIZE" />
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie der Importvariante eine eindeutige Bezeichnung.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Allgemein</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="MessageDescriptionColumn">Bezeichnung der Importvariante
+                </td>
+                <td><input type="text" id="Name" name="Name" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Automatischen Import aktivieren/deaktivieren
+                </td>
+                <td><input type="checkbox" id="IsActive" name="IsActive" /><label for="IsActive">&nbsp;Automatischer Import ist aktiv</label></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie den Zeitpunkt f&uuml;r den Import der Empf&auml;nger.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Zeitpunkt f&uuml;r den automatischen Import</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="MessageDescriptionColumn" valign="top">
+                  Neue Empf&auml;nger importieren...
+                </td>
+
+                <td valign="top">
+                  &nbsp;
+                </td>
+              </tr>
+
+              <tr>
+                <td class="MessageDescriptionColumn" valign="top">
+                  &nbsp;
+                </td>
+
+                <td valign="top">
+                  <input type="radio" name="ImportScheduler" value="ImportAtDay" onclick="ImportSchedulerChange();" />&nbsp;<span id="ImportAtDayLabel">jeden <select name="ImportDayNames" size="1" id="ImportDayNames"><OPTION:DAYNAME></OPTION:DAYNAME></select></span>
+                  <br /><br />
+                  <input type="radio" name="ImportScheduler" value="ImportOnceAMonth" onclick="ImportSchedulerChange();" />&nbsp;<span id="ImportOnceAMonthLabel">jeden <select name="ImportMonthDay" size="1" id="ImportMonthDay"><OPTION:MONTHDAY></OPTION:MONTHDAY></select> des Monats.</span>
+                  <br /><br />
+                </td>
+              </tr>
+
+              <tr>
+                <td class="MessageDescriptionColumn" valign="top">
+                Uhrzeit
+                </td>
+                <td valign="top">
+                  <select name="ImportHour" size="1">
+                    <LIST:HOUR></LIST:HOUR>
+                  </select>
+                  <select name="ImportMinute" size="1">
+                    <LIST:MINUTE></LIST:MINUTE>
+                  </select>&nbsp;Uhr&nbsp;oder sp&auml;ter
+                  <br /><br />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die Empf&auml;ngerliste, in welche die Empf&auml;nger importiert werden sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Empf&auml;ngerliste f&uuml;r den Import</legend>
+      <br />
+      <br />
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+          <tr>
+            <td class="MessageDescriptionColumn">Empf&auml;ngerliste
+            </td>
+            <td><select name="maillists_id" size="1">
+                <SHOW:MAILINGLISTS>
+                </SHOW:MAILINGLISTS>
+                </select>
+                <br /><br />
+            </td>
+          </tr>
+          <tr>
+            <td class="MessageDescriptionColumn">&nbsp;
+            </td>
+            <td>
+                <input type="checkbox" id="RemoveAllRecipients" name="RemoveAllRecipients" /><label for="RemoveAllRecipients">&nbsp;Vor dem Import alle bestehenden Empf&auml;nger <b>dauerhaft</b> l&ouml;schen</label>
+                <br /><br />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </fieldset>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie eine der Importvariante.<br /><br />Zur Einrichtung des automatischen Imports muss bei Auswahl &quot;Aus CSV-Datei&quot; die Datei auf dem Server existieren, optional k&ouml;nnen Sie diese auf den Server &uuml;bertragen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Quelle f&uuml;r den automatischen Import von Empf&auml;ngern</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="MessageDescriptionColumn">Quelle w&auml;hlen
+                </td>
+                <td class="MessageValueColumn">
+                
+                  <table border="0" cellpadding="0" cellspacing="0" style="width: 99%;">
+                    <tr>
+                      <td style="vertical-align: top; "><input type="radio" name="ImportOption" value="ImportCSV" id="ImportOption0" onclick="ImportOptionClick();" /></td>
+                      <td>&nbsp;</td>
+                      <td width="99%"><label for="ImportOption0">Aus CSV-Datei (Text mit Trennzeichen) importieren,<br /><b>Datei muss auf dem Server existieren</b></label></td>
+                    </tr>
+                    <tr>
+                      <td style="vertical-align: top; "><input type="radio" name="ImportOption" value="ImportDB" id="ImportOption1" onclick="ImportOptionClick();" /></td>
+                      <td>&nbsp;</td>
+                      <td width="99%"><label for="ImportOption1">Aus externer Datenbank importieren</label></td>
+                    </tr>
+                  </table>
+                
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <fieldset id="CSVImportfieldset" name="CSVImportfieldset">
+      <legend>Optionaler Upload einer CSV-Datei</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="MessageDescriptionColumn">Hinweis
+                </td>
+                <td>Die zu importierende Datei muss eine Textdatei (CSV-Datei / Text mit Trennzeichen) mit festen Aufbau sein. Die Datei darf eine Gr&ouml;&szlig;e von upload_max_filesize nicht &uuml;berschreiten.<br />Sie k&ouml;nnen ebenfalls per FTP in das Verzeichnis
+				            /userfiles/import die Datei &uuml;bertragen, danach einfach auf "Weiter" klicken und importieren lassen.<br /><br />
+                </td>
+              </tr>
+              <tr>
+                <td class="MessageValueColumn">Datei<SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie die Datei an, die importiert werden soll.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>
+                </td>
+                <td><input type="file" id="file1" name="file1" size="50" /></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset id="DBImportfieldset" name="DBImportfieldset">
+      <legend>Zugangsdaten f&uuml;r den Import aus einer Datenbank</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="MessageDescriptionColumn">Typ der Datenbank
+                </td>
+                <td>
+                  <select name="DBType" id="DBType" size="1" onchange="SetLabels()">
+                    <option value="MYSQL">MySQL</option>
+                    <option value="MSSQL">Microsoft SQL</option>
+                  </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="MessageDescriptionColumn"><span id="Label1"></span>-Servername
+                </td>
+                <td>
+                <input type="text" name="SQLServerName" size="30" />
+                </td>
+              </tr>
+
+              <tr>
+                <td class="MessageDescriptionColumn"><span id="Label4"></span>-Datenbank-Name
+                </td>
+                <td>
+                <input type="text" name="SQLDatabase" size="30" />
+                </td>
+              </tr>
+
+              <tr>
+                <td class="MessageDescriptionColumn"><span id="Label2"></span>-Benutzername
+                </td>
+                <td>
+                <input type="text" name="SQLUsername" size="30" />
+                </td>
+              </tr>
+
+              <tr>
+                <td class="MessageDescriptionColumn"><span id="Label3"></span>-Passwort
+                </td>
+                <td>
+                <input type="password" name="SQLPassword" size="30" />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+
+      </form>
+
+
+      <script type="text/javascript">
+      <!--
+
+        function SetLabels(){
+          var Labels = Array("Label1", "Label2", "Label3", "Label4");
+          var DBType = document.forms.ImportForm.elements.DBType.options[ document.forms.ImportForm.elements.DBType.selectedIndex ].text;
+          for(var i=0; i<Labels.length; i++)
+             if( typeof(document.getElementById(Labels[i]).innerText) != "undefined" )
+               document.getElementById(Labels[i]).innerText = DBType;
+               else
+               document.getElementById(Labels[i]).textContent = DBType;
+        }
+        SetLabels();
+
+        function ImportOptionClick(){
+         ShowItem("DBImportfieldset", document.getElementById("ImportOption1").checked);
+         ShowItem("CSVImportfieldset", document.getElementById("ImportOption0").checked);
+
+        }
+        ImportOptionClick();
+
+
+        function ImportSchedulerChange() {
+           if( document.getElementsByName("ImportScheduler")[0].checked ) {
+             DisableControlsArray(document.getElementsByName("ImportScheduler")[0].checked, Array( document.getElementById('ImportDayNames') ), Array( document.getElementById('ImportAtDayLabel') ));
+             DisableControlsArray(!document.getElementsByName("ImportScheduler")[0].checked, Array( document.getElementById('ImportMonthDay') ), Array( document.getElementById('ImportOnceAMonthLabel') ));
+           }
+
+           if( document.getElementsByName("ImportScheduler")[1].checked ) {
+             DisableControlsArray(document.getElementsByName("ImportScheduler")[1].checked, Array( document.getElementById('ImportMonthDay') ), Array( document.getElementById('ImportOnceAMonthLabel') ));
+             DisableControlsArray(!document.getElementsByName("ImportScheduler")[1].checked, Array( document.getElementById('ImportDayNames') ), Array( document.getElementById('ImportAtDayLabel')  ));
+           }
+        }
+
+        ImportSchedulerChange();
+
+       //AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+       /////////////////////////////////////////////////////////////////////
+
+       //-->
+      	</script>
+
+      </div>

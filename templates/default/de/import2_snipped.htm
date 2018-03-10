@@ -1,0 +1,81 @@
+      <form id="ImportForm" name="ImportForm" method="post" action="./importrecipients.php">
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+      <input type="hidden" name="MailingListName" id="MailingListName" />
+      <input type="hidden" name="GroupsOption" />
+      <input type="hidden" name="ImportGroupField" />
+      <input type="hidden" name="groups_id" />
+      <input type="hidden" name="ExImportOption" />
+      <input type="hidden" name="RemoveRecipientFromGroups" />
+      <input type="hidden" name="step" id="step" value="2" />
+
+      <span class="Backlink"><br /><a href="./importrecipients.php">Zur&uuml;ck</a></span>
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die zu importierende Datei und geben Sie das Trennzeichen an. Beispiel, sind einzelnen Daten mit Komma (,) getrennt, dann geben Sie das Komma (,) als Trennzeichen an.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Einstellungen f&uuml;r den Import von Empf&auml;ngern</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="ImportColumn">Zu importierende Datei
+                </td>
+                <td>
+                <select size="1" name="ImportFilename" id="ImportFilename">
+                <OPTION:FILENAME>
+                </OPTION:FILENAME>
+                </select>
+                <input type="checkbox" name="RemoveFile" id="RemoveFile" value="1" /><label for="RemoveFile">&nbsp;Datei nach Import l&ouml;schen</label>
+                <br />
+                <br />
+                </td>
+              </tr>
+              <tr>
+                <td class="ImportColumn"><label for="Separator">Trennzeichen
+                zwischen den Feldern</label></td>
+                <td><input type="text" id="Separator" name="Separator" size="5" /></td>
+              </tr>
+              <tr>
+                <td class="ImportColumn">&nbsp;</td>
+                <td>&nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td class="ImportColumn">Weitere Optionen</td>
+                <td>
+                 <br />
+                 <input type="text" name="ImportLines" id="ImportLines" size="3" style="text-align: right;" /><label for="ImportLines">&nbsp;Zeilen auf einmal importieren</label>
+                 <br />
+                 <br />
+                 <input type="checkbox" name="Header1Line" id="Header1Line" value="1" /><label for="Header1Line">&nbsp;In der ersten Zeile befindet sich eine Kopfzeile mit den Feldnamen</label>
+                 <br />
+                 <input type="checkbox" name="RemoveQuotes" id="RemoveQuotes" value="1" /><label for="RemoveQuotes">&nbsp;Etwaige Anf&uuml;hrungszeichen entfernen</label>
+                 <br />
+                 <input type="checkbox" name="RemoveSpaces" id="RemoveSpaces" value="1" /><label for="RemoveSpaces">&nbsp;Etwaige f&uuml;hrende/nachfolgende Leerzeichen entfernen</label>
+                 <br />
+                 <input type="checkbox" name="IsUTF8" id="IsUTF8" value="1" /><label for="IsUTF8">&nbsp;Die Datei ist bereits <b>UTF-8</b> codiert</label>
+                 <br />
+                 <input type="checkbox" name="ImportBlockedRecipients" id="ImportBlockedRecipients" value="1" /><label for="ImportBlockedRecipients">&nbsp;Empf&auml;nger, die sich in den Blocklisten befinden, ebenfalls importieren</label>
+                 <br />
+                 <input type="checkbox" name="CreateErrorLog" id="CreateErrorLog" value="1" /><label for="CreateErrorLog">&nbsp;Fehlerprotokoll als Datei erstellen</label>
+                 <br />
+                 <br />
+                </td>
+              </tr>
+              <tr>
+                <td class="ImportColumn"><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Aktivieren Sie diese Einstellung damit an jeden importierten Empf&auml;nger eine E-Mail mit dem Best&auml;tigungslink zur Aufnahme in die Empf&auml;ngerliste gesendet wird. Der Empf&auml;nger ist damit erst aktiv wenn der Best&auml;tigungslink angeklickt worden ist.<br />Hinweis: Empf&auml;nger in Blocklisten erhalten nat&uuml;rlich keine E-Mail mit Best&auml;tigungslink.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Double-Opt-In</td>
+                <td>
+                 <input type="checkbox" name="SendOptInEMail" id="SendOptInEMail" value="1" /><label for="SendOptInEMail">&nbsp;E-Mail mit Best&auml;tigungslink versenden (nicht mehr als 100 Zeilen importieren lassen)</label>
+                 <br />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+
+      </form>      

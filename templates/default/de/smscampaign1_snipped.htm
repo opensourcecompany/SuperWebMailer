@@ -1,0 +1,127 @@
+  <script type="text/javascript"  src="js/jquery-latest.min.js"></script>
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function load_forms(){
+     var date = new Date();
+     var nocache = date.getTime() / 1000;
+     $("#Loading").show();
+     $("#formsList").hide();
+     $.ajaxSetup({ cache: false });
+
+    	jQuery.get('ajax_getforms.php' + "?nocache=" + nocache + '&MailingListId=' + $("#maillists_id").val(), "", function(data){
+    	   $("#formsList").html( data );
+    	});
+
+     $("#Loading").hide();
+     $("#formsList").show();
+    }
+
+  //-->
+  </script>
+      <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./smscampaignedit.php" onsubmit="CheckAndRemoveCriticalChars('CampaignEditForm')">
+      <span class="Backlink"><br /><a href="./browsesmscampaigns.php" onclick="document.CampaignEditForm.action='./browsesmscampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="CampaignListId" id="CampaignListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel" value="1" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.CampaignEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.CampaignEditForm.submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.CampaignEditForm.submit(); return false;">Regeln</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.CampaignEditForm.submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.CampaignEditForm.submit(); return false;">Versand</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';document.CampaignEditForm.submit(); return false;">SMS-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';document.CampaignEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <fieldset>
+      <legend>Hinweis</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+                  F&uuml;r den Versand von Serien-SMS/Massen-SMS ist ein Konto beim SMS-Dienstleister <a href="http://www.smsout.de/" target="_blank">SMSout.de</a> notwendig, es kann kein anderer Anbieter verwendet werden.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie Ihrer SMS-Kampagne einen eindeutigen Namen z.B. Kunden-SMS. Optional k&ouml;nnen Sie eine Beschreibung angeben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Allgemein</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn">Name der SMS-Kampagne
+                </td>
+                <td><input type="text" id="Name" name="Name" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="LabelColumn" valign="top">Beschreibung (optional)
+                </td>
+                <td><textarea id="Description" name="Description" rows="3" cols="50"></textarea></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die Empf&auml;ngerliste, an welche die SMS versendet werden soll. Es werden nur SMS an die Empf&auml;nger gesendet, bei denen im Feld Mobilfunknummer eine g&uuml;ltige Mobilfunknummer hinterlegt ist.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                  </SHOWHIDE:TOOLTIPS>Empf&auml;ngerliste f&uuml;r den Versand der SMS</legend>
+      <br />
+         <IF:CANCHANGEMAILINGLIST>
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+
+              <tr>
+                <td class="LabelColumn">Empf&auml;ngerliste
+                </td>
+                <td><select name="maillists_id" size="1">
+                    <SHOW:MailingLists>
+                    </SHOW:MailingLists>
+                    </select>
+                    <br /><br />
+                    <b>ACHTUNG: Das &Auml;ndern der Empf&auml;ngerliste auf eine andere Empf&auml;ngerliste f&uuml;hrt zum L&ouml;schen der gespeicherten Statistik dieser SMS-Kampagne.</b>
+                    <br /><br />
+                </td>
+              </tr>
+
+              <tr>
+                <td class="LabelColumn">Formular f&uuml;r die Abmeldung/&Auml;nderung<SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie das An-/Abmeldeformular, das f&uuml;r das Abmelde- und &Auml;nderungsformular verwendet werden soll. Diese Einstellung ist bei Verwendung von mehreren Sprachen f&uuml;r die Empf&auml;nger einer Empf&auml;ngerliste wichtig.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                  </SHOWHIDE:TOOLTIPS>
+                </td>
+                <td><select name="forms_id" size="1" id="formsList">
+                    <SHOW:Forms>
+                    </SHOW:Forms>
+                    </select>
+                		  <span id="Loading" style="visibility:hidden; display: none"><img src="images/loading.gif" height="16" width="16" /></span>
+                    <br /><br />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+         </IF:CANCHANGEMAILINGLIST>
+      </fieldset>
+
+     <input type="submit" name="NextBtn" value="Speichern und Weiter &gt;" class="FormButton" />
+
+      </form>      

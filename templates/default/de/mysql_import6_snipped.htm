@@ -1,0 +1,33 @@
+      <form id="ImportForm" name="ImportForm" method="post" action="./browsercpts.php">
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+      <input type="hidden" name="MailingListName" id="MailingListName" />
+      <input type="hidden" name="DBType" id="DBType" />
+      <input type="hidden" name="step" id="step" value="5" />
+
+      <fieldset>
+      <legend>Import abgeschlossen</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+        	    <tr>
+        	    <td>
+             Der Import wurde abgeschlossen.<br /><br />
+             Die Tabelle enthielt <IMPORT:FILECOUNT></IMPORT:FILECOUNT> Datens&auml;tze, davon wurden <IMPORT:IMPORTCOUNT></IMPORT:IMPORTCOUNT> Empf&auml;nger ohne Duplikate importiert.
+             <IF:ERRORLOG>
+             <br />
+             <br />
+             <a href="ERROR_LOGFILENAME" target="_blank">Fehlerprotokolldatei anzeigen</a>
+             </IF:ERRORLOG>
+             <br />
+             <br />
+             <input type="submit" name="ShowMailingList" value="Empf&auml;ngerliste anschauen" />
+             <br />
+             <br />
+        	    </td>
+          	  </tr>
+             </TABLE:ROW>
+            </tbody>
+          </table>
+      </fieldset>
+
+      </form>

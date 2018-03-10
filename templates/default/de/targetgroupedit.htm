@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title></title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+        <table style="width: 100%">
+          <tr>
+            <td style="width: 95%;">
+              <LABEL:PAGETOPIC></LABEL:PAGETOPIC><br /><br />
+            </td>
+            <td style="width: 5%;vertical-align:top" nowrap="nowrap">
+              <input type="hidden" name="HelpTopic" id="HelpTopic" />
+              <a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)"><img src="images/help_icon.gif" width="16" height="16" alt="Hilfe" style="text-align: left;" /></a>&nbsp;<a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)">Hilfe</a>&nbsp;
+            </td>
+          </tr>
+        </table>
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+
+   <div class="container">
+      <SHOWHIDE:ERRORTOPIC>
+        <div class="errortopic">
+        <LABEL:ERRORMESSAGETEXT></LABEL:ERRORMESSAGETEXT>
+        </div>
+      </SHOWHIDE:ERRORTOPIC>
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var TabListArray = Array();
+
+        // default placeholders
+        var arrPlaceholderItems = new Array(
+            new Array('[PLACEHOLDER]', 'PLACEHOLDERTEXT')
+      	    );
+
+        var myBasePath='';
+
+      //-->
+      </script>
+
+      <form id="TextBlockListsForm" name="TextBlockListsForm" method="post" action="./targetgroupedit.php">
+      <input type="hidden" name="OneTargetGroupId" id="OneTargetGroupId" />
+
+      <table class="FixedTable">
+        <tbody>
+          <tr>
+            <td class="LabelColumn">Name der Zielgruppe
+            </td>
+            <td style="width: 70%">
+               <input type="text" id="Name" name="Name" maxlength="128" size="50" onkeypress="CheckRequiredFields()" onkeydown="CheckRequiredFields()" onkeyup="CheckRequiredFields()" onmouseup="CheckRequiredFields()" onchange="CheckRequiredFields()" />
+            </td>
+          </tr>
+          <tr>
+           <td colspan="2">&nbsp;</td>
+          </tr>
+          <tr>
+            <td class="LabelColumn">&nbsp;</td>
+            <td style="width: 70%">
+             &nbsp;
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="FixedTable">
+        <thead>
+        		<tr>
+        			<td class="NoWrap" width="25%" colspan="2">&nbsp;Der Empf&auml;nger ist in der Zielgruppe enthalten, WENN</td>
+        			<td class="NoWrap" width="25%">&nbsp;</td>
+        			<td class="NoWrap" width="25%">&nbsp;</td>
+        		</tr>
+        </thead>
+        <tbody>
+
+        		<tr>
+        			<td class="NoWrap" width="25%"><span id="condlabel1">Verkn&uuml;pfung<SHOWHIDE:TOOLTIPS>
+                                    <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die Verkn&uuml;pfung zwischen den Bedingungen. Die Auswahl \'--\' f&uuml;hrt zum Ignorieren der Bedingung.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                    </SHOWHIDE:TOOLTIPS></span></td>
+        			<td class="NoWrap" width="25%"><span id="condlabel2">Feld<SHOWHIDE:TOOLTIPS>
+                                    <img onmouseover="showTooltip(event, 'W&auml;hlen Sie das Feld dessen Inhalt mit der Vergleichszeichenkette verglichen werden soll.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                    </SHOWHIDE:TOOLTIPS></span></td>
+        			<td class="NoWrap" width="25%"><span id="condlabel3">Vergleichsoperator<SHOWHIDE:TOOLTIPS>
+                                    <img onmouseover="showTooltip(event, 'W&auml;hlen Sie einen der Vergleichsoperatoren. Die Nutzung des Vergleichs mit regul&auml;ren Ausdr&uuml;cken erfordert Kenntnisse der Angaben, Infos finden Sie im Internet unter http:/www.php.net.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                    </SHOWHIDE:TOOLTIPS></span></td>
+        			<td class="NoWrap" width="25%"><span id="condlabel4">Vergleichszeichenkette</span></td>
+        		</tr>
+
+          <tr>
+            <td>
+              &nbsp;
+            </td>
+            <td>
+             <select size="1" name="fieldname[0]" id="fieldname_0" onchange="CheckRequiredFields()">
+               <fieldnames></fieldnames>
+             </select>
+            </td>
+            <td>
+               <select size="1" name="operator[0]" id="operator_0" onchange="CheckRequiredFields()">
+                 <option value="eq">=</option>
+                 <option value="neq">&lt;&gt;</option>
+                 <option value="lt">&lt;</option>
+                 <option value="gt">&gt;</option>
+                 <option value="eq_num">= (num)</option>
+                 <option value="neq_num">&lt;&gt; (num)</option>
+                 <option value="lt_num">&lt; (num)</option>
+                 <option value="gt_num">&gt; (num)</option>
+                 <option value="contains"><contains></contains></option>
+                 <option value="contains_not"><contains_not></contains_not></option>
+                 <option value="starts_with"><starts_with></starts_with></option>
+                 <option value="REGEXP"><REGEXP></REGEXP></option>
+               </select>
+            </td>
+            <td>
+              <input name="comparestring[0]" id="comparestring_0" type="text" size="30" style="max-width: 180px" />
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4">
+              &nbsp;
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <select size="1" name="logicalop[1]" id="logicalop_1" onchange="DisableControlsArray(document.getElementById('logicalop_1').selectedIndex > 0, Array(document.getElementById('fieldname_1'), document.getElementById('operator_1'), document.getElementById('comparestring_1') ), Array());">
+                <option value="--">--</option>
+                <option value="AND">UND</option>
+                <option value="OR">ODER</option>
+              </select>
+            </td>
+            <td>
+             <select size="1" name="fieldname[1]" id="fieldname_1" onchange="CheckRequiredFields()">
+               <fieldnames></fieldnames>
+             </select>
+            </td>
+            <td>
+               <select size="1" name="operator[1]" id="operator_1" onchange="CheckRequiredFields()">
+                 <option value="eq">=</option>
+                 <option value="neq">&lt;&gt;</option>
+                 <option value="lt">&lt;</option>
+                 <option value="gt">&gt;</option>
+                 <option value="eq_num">= (num)</option>
+                 <option value="neq_num">&lt;&gt; (num)</option>
+                 <option value="lt_num">&lt; (num)</option>
+                 <option value="gt_num">&gt; (num)</option>
+                 <option value="contains"><contains></contains></option>
+                 <option value="contains_not"><contains_not></contains_not></option>
+                 <option value="starts_with"><starts_with></starts_with></option>
+                 <option value="REGEXP"><REGEXP></REGEXP></option>
+               </select>
+            </td>
+            <td>
+              <input name="comparestring[1]" id="comparestring_1" type="text" size="30" style="max-width: 180px" />
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4">
+              &nbsp;
+            </td>
+          </tr>
+
+          <tr>
+            <td>
+              <select size="1" name="logicalop[2]" id="logicalop_2" onchange="DisableControlsArray(document.getElementById('logicalop_2').selectedIndex > 0, Array(document.getElementById('fieldname_2'), document.getElementById('operator_2'), document.getElementById('comparestring_2') ), Array());">
+                <option value="--">--</option>
+                <option value="AND">UND</option>
+                <option value="OR">ODER</option>
+              </select>
+            </td>
+            <td>
+             <select size="1" name="fieldname[2]" id="fieldname_2" onchange="CheckRequiredFields()">
+               <fieldnames></fieldnames>
+             </select>
+            </td>
+            <td>
+               <select size="1" name="operator[2]" id="operator_2" onchange="CheckRequiredFields()">
+                 <option value="eq">=</option>
+                 <option value="neq">&lt;&gt;</option>
+                 <option value="lt">&lt;</option>
+                 <option value="gt">&gt;</option>
+                 <option value="eq_num">= (num)</option>
+                 <option value="neq_num">&lt;&gt; (num)</option>
+                 <option value="lt_num">&lt; (num)</option>
+                 <option value="gt_num">&gt; (num)</option>
+                 <option value="contains"><contains></contains></option>
+                 <option value="contains_not"><contains_not></contains_not></option>
+                 <option value="starts_with"><starts_with></starts_with></option>
+                 <option value="REGEXP"><REGEXP></REGEXP></option>
+               </select>
+            </td>
+            <td>
+              <input name="comparestring[2]" id="comparestring_2" type="text" size="30" style="max-width: 180px" />
+            </td>
+          </tr>
+          <tr>
+            <td colspan="4">
+              &nbsp;
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+
+
+      <input type="submit" id="SaveBtn" name="SaveBtn" value="Speichern" class="FormButton" />
+      &nbsp;
+      <input type="submit" name="CancelBtn" value="Abbrechen" class="FormButton" />
+      
+      </form>      
+
+
+      <script type="text/javascript">
+      <!--
+
+        function CheckRequiredFields() {
+
+         var OK = document.getElementById('Name').value != '';
+         document.getElementById('SaveBtn').disabled = !OK;
+         
+         DisableControlsArray(document.getElementById('logicalop_1').selectedIndex > 0, Array(document.getElementById('fieldname_1'), document.getElementById('operator_1'), document.getElementById('comparestring_1') ), Array());
+         DisableControlsArray(document.getElementById('logicalop_2').selectedIndex > 0, Array(document.getElementById('fieldname_2'), document.getElementById('operator_2'), document.getElementById('comparestring_2') ), Array());
+        }
+
+        CheckRequiredFields();
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+   </div>
+
+</div>
+
+
+</body>
+
+</html>
+

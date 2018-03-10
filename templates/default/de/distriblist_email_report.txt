@@ -1,0 +1,24 @@
+Report für den Versand der Verteilerliste "<DISTRIBLIST_NAME></DISTRIBLIST_NAME>"
+
+Informationen zum Versand
+=========================
+
+Betreff der E-Mail: <MAILSUBJECT></MAILSUBJECT>
+Anzahl E-Mail-Empfänger: <RECIPIENTSCOUNT></RECIPIENTSCOUNT>
+Erfolgreich versendet: <SENTCOUNTSUCC></SENTCOUNTSUCC>
+Nicht erfolgreich versendet: <SENTCOUNTFAILED></SENTCOUNTFAILED>
+Versand begonnen: <SENDING:START></SENDING:START>
+Versand beendet: <SENDING:END></SENDING:END>
+Versanddauer: <SENDING:DURATION></SENDING:DURATION>
+
+Bei PRODUCTAPPNAME SCRIPTBASEURL jetzt anmelden.
+
+
+
+
+powered by PRODUCTAPPNAME PRODUCTURL
+
+
+
+
+-

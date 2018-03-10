@@ -1,0 +1,42 @@
+      <div class="spacerborder">
+        <span class="Backlink"></span>
+        <form method="post" id="MailingListSelectForm" name="MailingListSelectForm">
+          <input type="hidden" name="action" />
+          <input type="hidden" name="MailingListSelectForm" value="MailingListSelectForm" />
+          <fieldset>
+          <legend>Empf&auml;ngerliste w&auml;hlen</legend>
+          <br />
+          <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                Bitte w&auml;hlen Sie die zu bearbeitende Empf&auml;ngerliste.<br /><br />
+                </td>
+              </tr>
+              <tr>
+                <td class="LabelColumn">Empf&auml;ngerliste
+                </td>
+                <td><select name="OneMailingListId" size="1">
+                    <SHOW:MailingLists>
+                    </SHOW:MailingLists>
+                    </select>
+                    <br /><br />
+                </td>
+              </tr>
+              <tr>
+                <td class="LabelColumn">&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>
+                <input type="submit" name="NextBtn" value="Weiter" class="FormButton" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </fieldset>
+          <br style="clear:both;" />
+        </form> 
+      </div>
+

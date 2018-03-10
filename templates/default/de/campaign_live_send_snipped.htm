@@ -1,0 +1,179 @@
+      <form id="CampaignSendForm" name="CampaignSendForm" method="post" action="./campaignlivesend.php">
+         <input type="hidden" name="CampaignListId" />
+         <input type="hidden" name="CurrentSendId" />
+         <input type="hidden" name="TwitterUpdateState" />
+         <input type="hidden" name="TwitterUpdateErrorText" />
+
+         <fieldset>
+           <legend>Ausf&uuml;hrung des E-Mail-Versands</legend>
+           <br />
+           <table class="FormTable">
+             <tbody>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Anzahl E-Mail-Empf&auml;nger
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <RECIPIENTSCOUNT></RECIPIENTSCOUNT>
+                 </td>
+               </tr>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Erfolgreich versendet
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <SENTCOUNTSUCC></SENTCOUNTSUCC>
+                 </td>
+               </tr>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Nicht erfolgreich versendet
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <SENTCOUNTFAILED></SENTCOUNTFAILED>
+                 </td>
+               </tr>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Versand begonnen
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <SENDING:START></SENDING:START>
+                 </td>
+               </tr>
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Bisherige Versanddauer
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <SENDING:DURATION></SENDING:DURATION>
+                 </td>
+               </tr>
+
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Gesch&auml;tztes Ende des Versands
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <SENDING:ESTENDTIME></SENDING:ESTENDTIME>
+                 </td>
+               </tr>
+
+               <!--
+               <tr>
+                 <td class="CampaignStatColumn">
+                   Twitter Update
+                 </td>
+                 <td class="CampaignStatValueColumn">
+                   <SENDING:TWITTER_UPDATE></SENDING:TWITTER_UPDATE>
+                 </td>
+               </tr>
+               -->
+
+             </tbody>
+           </table>
+
+           <br />
+
+         </fieldset>
+
+
+         <script language="JavaScript">
+         <!--
+
+         	function highlightTableRow(obj)
+         	{
+         	 while(obj != null && obj.tagName != 'SPAN')
+         	   obj = obj.parentNode;
+
+           var rows = obj.getElementsByTagName('DIV');
+           for(var no=0;no<rows.length;no++){
+             rows[no].className="tableRollOverEffect";
+           }
+         	}
+
+
+         	function resetRowStyle(obj)
+         	{
+         	 while(obj != null && obj.tagName != 'SPAN')
+         	   obj = obj.parentNode;
+
+           var rows = obj.getElementsByTagName('DIV');
+           for(var no=0;no<rows.length;no++){
+             rows[no].className="";
+           }
+         	}
+
+          function SubmitForm() {
+            document.CampaignSendForm.submit();
+          }
+
+
+          // only for IE
+          document.onreadystatechange = function()
+          {
+           if (document.readyState == 'complete')
+            {
+               if(document.getElementById("idRefresh") == null) { // file not loaded completly?
+                  setTimeout("SubmitForm()", 10);
+               }
+
+            }
+          }
+
+         //-->
+         </script>
+         <noscript>
+          Es ist kein JavaScript aktiviert, klicken Sie auf die nachfolgende Schaltfl&auml;che um den E-Mail-Versand nach dem Laden der Seite fortzusetzen.<br /><br />
+          <input type="submit" value="N&auml;chste E-Mails versenden" class="FormButton" />
+         </noscript>
+
+         <br />
+         <fieldset>
+           <legend>E-Mail-Versand bei Script-Abbruch fortsetzen</legend>
+           <br />
+           <table class="FormTable">
+             <tbody>
+               <tr>
+                 <td>
+                    Sollte es zu einem Script-Abbruch kommen &quot;Maximum execution time of X seconds exceeded&quot;, dann klicken Sie
+                    auf nachfolgende Schaltfl&auml;che um den E-Mail-Versand fortzusetzen.<br /><br />
+                    <img src="images/icon_warning.gif" width="24" height="24" alt="" style="align: left;" />&nbsp;Klicken Sie <b>nur auf die Schaltfl&auml;che</b> bei einem Script-Abbruch, ansonsten k&ouml;nnte es zu einer Doppelversendung kommen.
+                    <br /><br />
+                    <input type="submit" value="N&auml;chste E-Mails versenden" class="FormButton" />
+                 </td>
+               </tr>
+             </tbody>
+           </table>
+         </fieldset>
+
+         <br /><br />
+
+         <div id="tableDiv">
+            <div id="tableDivheadcol1"><b>Empf&auml;nger-Id</b></div>
+            <div id="tableDivheadcol2"><b>E-Mail-Adresse</b></div>
+            <div id="tableDivheadcol3"><b>Status</b></div>
+
+            <!--SPACER//-->
+            <input type="hidden" name="SendDone" />
+
+            <LIST:ENTRY>
+            <span>
+            <div id="tableDivcol1" onmouseover="highlightTableRow(this)" onmouseout="resetRowStyle(this)"><LIST:ID></LIST:ID>&nbsp;</div>
+            <div id="tableDivcol2" onmouseover="highlightTableRow(this)" onmouseout="resetRowStyle(this)">&nbsp;<LIST:EMAIL></LIST:EMAIL></div>
+            <div id="tableDivcol3" onmouseover="highlightTableRow(this)" onmouseout="resetRowStyle(this)"><LIST:STATUS></LIST:STATUS></div>
+            </span>
+            </LIST:ENTRY>
+
+         </div>
+
+
+         <script type="text/javascript" name="idRefresh" id="idRefresh">
+         <!--
+           //AUTO_SCRIPT_CODE_PLACEHOLDER//
+           /* firefox problems */
+           setTimeout("SubmitForm()", 10);
+         //-->
+         </script>
+      </form>
+

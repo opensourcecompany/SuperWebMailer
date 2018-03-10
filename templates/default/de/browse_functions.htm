@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title></title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+        <table style="width: 100%">
+          <tr>
+            <td style="width: 95%;">
+              <LABEL:PAGETOPIC></LABEL:PAGETOPIC><br /><br />
+            </td>
+            <td style="width: 5%;vertical-align:top" nowrap="nowrap">
+              <input type="hidden" name="HelpTopic" id="HelpTopic" />
+              <a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)"><img src="images/help_icon.gif" width="16" height="16" alt="Hilfe" style="text-align: left;" /></a>&nbsp;<a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)">Hilfe</a>&nbsp;
+            </td>
+          </tr>
+        </table>
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+
+   <div class="container">
+      <SHOWHIDE:ERRORTOPIC>
+        <div class="errortopic">
+        <LABEL:ERRORMESSAGETEXT></LABEL:ERRORMESSAGETEXT>
+        </div>
+      </SHOWHIDE:ERRORTOPIC>
+
+      <HAS_SOURCEELEMENT>
+
+      <ISNOTFCKEDITOR>
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        SourceElement = parent.document.forms['FORMNAME'].FORMFIELD;
+        IsFCK = false;
+      //-->
+      </script>
+      </ISNOTFCKEDITOR>
+
+      <ISFCKEDITOR>
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var SourceCKEditor = "SourceCKEditor";
+        if(SourceCKEditor != "")
+           var oEditor	= parent.CKEDITOR.instances[SourceCKEditor];
+        if(oEditor == undefined)
+           for(var i in parent.CKEDITOR.instances) {
+              var oEditor	= parent.CKEDITOR.instances[i];
+              break;
+           }
+
+        IsFCK = oEditor != undefined;
+      //-->
+      </script>
+      </ISFCKEDITOR>
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        function PasteText(aText) {
+          var input = SourceElement;
+          input.focus();
+          /* für Internet Explorer */
+          if(typeof parent.document.selection != 'undefined') {
+            /* Einfügen des Formatierungscodes */
+            var range = parent.document.selection.createRange();
+            var insText = range.text;
+            range.text = insText + aText;
+            /* Anpassen der Cursorposition */
+            range = parent.document.selection.createRange();
+            if (insText.length == 0) {
+              range.move('character', -aText.length);
+            } else {
+              range.moveStart('character', insText.length + aText.length);
+            }
+            range.select();
+          }
+          /* für neuere auf Gecko basierende Browser */
+          else if(typeof input.selectionStart != 'undefined')
+          {
+            /* Einfügen des Formatierungscodes */
+            var start = input.selectionStart;
+            var end = input.selectionEnd;
+            var insText = input.value.substring(start, end);
+            input.value = input.value.substr(0, start) + insText + aText + input.value.substr(end);
+            /* Anpassen der Cursorposition */
+            var pos;
+            if (insText.length == 0) {
+              pos = start + aText.length;
+            } else {
+              pos = start + aText.length + insText.length;
+            }
+            input.selectionStart = pos;
+            input.selectionEnd = pos;
+          }
+          /* für die übrigen Browser */
+          else
+          {
+          }
+        }
+
+        function InsertValue(value) {
+          if(!IsFCK)
+            PasteText(value);
+            else {
+              oEditor.focus();
+              oEditor.fire( 'saveSnapshot' );
+              oEditor.insertHtml(value);
+              oEditor.fire( 'saveSnapshot' );
+              oEditor.fire("blur");
+            }
+        }
+
+      //-->
+      </script>
+      </HAS_SOURCEELEMENT>
+
+      <form id="FunctionListsForm" name="FunctionListsForm" method="post" action="./browsefunctions.php">
+      <input type="hidden" name="OneFunctionId" id="OneFunctionId" value="" />
+      <input type="hidden" name="OneFunctionAction" id="OneFunctionAction" value="" />
+      <input type="hidden" name="_FORMNAME" />
+      <input type="hidden" name="_FORMFIELD" />
+      <input type="hidden" name="_IsFCKEditor" />
+
+      <script language="javascript" type="text/javascript">
+      <!--
+        InsertSymbol = '<img src="images/paste.gif" width="16" height="16" />';
+        
+        function SetListId(ASender, AFormID) {
+          var AForm = document.getElementById(AFormID);
+          var OneFunctionAction = document.getElementById('OneFunctionAction');
+          var OneFunctionId= document.getElementById('OneFunctionId');
+          OneFunctionAction .value = ASender.name;
+          OneFunctionId.value = ASender.value;
+          return true;
+        }
+    
+        function CheckboxClicked() {
+         DisableItem('FunctionActions', GetCheckedCount('FunctionIDs[]', 'FunctionListsForm') > 0 );
+         ShowItem('ListActionSubmitBtn', (document.getElementById('FunctionActions').selectedIndex != 0) && ( document.getElementById('FunctionActions').disabled == false ) ) ;
+        }
+
+        function ConfirmDeleteEvent(value) {
+          if(value)
+            document.getElementById('FunctionListsForm').submit();
+            else {
+              document.getElementById('OneFunctionAction').value = "";
+              document.getElementById('OneFunctionId').value = "";
+            }
+        }
+    
+
+        function ConfirmListAction() {
+          if(document.getElementById("FunctionActions").selectedIndex == 1) {
+            MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Funktionen dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmListActionEvent');
+            return false;
+          }
+          return true;
+        }
+
+        function ConfirmListActionEvent(value) {
+          if(value)
+            document.getElementById('FunctionListsForm').submit();
+        }
+
+
+      //-->
+      </script>
+
+      <table class="FixedTable">
+        <tbody>
+          <tr>
+            <td>
+             <span style="float: right; margin-right: 0pt"><a class="Backlink" href="./browsefunctionparams.php" name="NewForm" id="NewForm">Neue Funktion erstellen</a></span>
+            </td>
+          </tr>
+          <tr>
+          <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table id="TableFunctionsLists" name="TableFunctionsLists" class="FixedTable">
+      	<thead>
+      		<tr>
+      			<td class="NoWrap" width="1%"><input name="SelectAllChkBox" type="checkbox" onclick="CheckAllCheckboxes('SelectAllChkBox', 'FunctionIDs[]', 'FunctionListsForm'); CheckboxClicked();" /></td>
+      			<td class="NoWrapAlignCenter" width="2%">ID</td>
+      			<td class="NoWrap" width="1%">&nbsp;</td>
+      			<td class="NoWrap" width="width:auto;">Bezeichnung</td>
+      			<td class="NoWrap" width="1%">&nbsp;</td>
+      			<td class="NoWrapAlignRight" width="min-width:10%">Aktionen<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Zur &Uuml;bernahme des Funktionsnamens in den Betreff oder Text der E-Mail klicken Sie einfach auf das Symbol ' + InsertSymbol);return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS></td>
+      		</tr>
+      	</thead>
+      	<tbody>
+        <LIST:ENTRY>
+      		<tr>
+      			<td><input name="FunctionIDs[]" type="checkbox" onclick="CheckboxClicked()" /></td>
+      			<td class="NoWrapAlignRight"><LIST:ID></LIST:ID></td>
+      			<td>&nbsp;</td>
+      			<td><LIST:NAME></LIST:NAME></td>
+      			<td>&nbsp;</td>
+      			<td class="NoWrapAlignRight">
+      			    <input type="image" src="images/edit.gif" width="16" height="16" name="EditFunctionProperties" onclick="SetListId(this, 'FunctionListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'&Auml;ndern der Funktion');return false" />&nbsp;
+             <CAN:DELETE>
+             <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteFunction" onclick="SetListId(this, 'FunctionListsForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich die Funktion dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmDeleteEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht die Funktion dauerhaft.');return false" />&nbsp;
+             </CAN:DELETE>
+             <HAS_SOURCEELEMENT>
+      			    &nbsp;&nbsp;
+      			    <input type="image" src="images/paste.gif" width="16" height="16" name="ApplyFunction" onclick="InsertValue(this.value); parent.closeDialog(); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'&Uuml;bernimmt die Funktion in den Betreff oder Text der Nachricht.');return false" />&nbsp;
+      			    </HAS_SOURCEELEMENT>
+    		    </td>
+      		</tr>
+        </LIST:ENTRY>
+      	</tbody>
+      	</table>
+    
+   	  <table class="FixedTable">
+   	  <thead></thead>
+   	  <tbody></tbody>
+    	<tfoot>
+  		<tr>
+  		  <td>
+   		  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+   		  <tr>
+   		  <td style="width:1%; white-space:nowrap; ">
+     		  Selektierte:&nbsp;
+   		  </td>
+   		  <td style="width:70%; white-space:nowrap; ; text-align: left">
+       		  <select name="FunctionActions" id="FunctionActions" size="1" onchange="ShowItem('ListActionSubmitBtn', (document.getElementById('FunctionActions').selectedIndex != 0) && ( document.getElementById('FunctionActions').disabled == false ) ) ;">
+         		  <option value="doNothing">Aktion w&auml;hlen</option>
+             <CAN:DELETE>
+             <option value="RemoveFunctions">L&ouml;sche die gew&auml;hlten Funktionen</option>
+             </CAN:DELETE>
+       		  </select>
+       		  <input type="submit" name="ListActionSubmitBtn" id="ListActionSubmitBtn" value="Ausf&uuml;hren" onclick="return ConfirmListAction()" />
+   		  </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+       			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'FunctionListsForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'FunctionListsForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'FunctionListsForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'FunctionListsForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  Seite:&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <select name="FunctionsPageSelected" id="FunctionsPageSelected" size="1" style="min-width:30pt ! important;" onchange="document.FunctionListsForm.submit()">
+                <OPTION:PAGES>
+                <option>1</option>
+                </OPTION:PAGES>
+         			  </select>
+        </td>
+       	</tr>
+       	</table>
+  			</td>
+  		</tr>
+
+    
+      	</tfoot>
+      </table>
+
+      <input type="button" name="CloseBtn" value="Schlie&szlig;en" class="FormButton" onclick="parent.closeDialog();" />
+
+      </form>      
+
+      <script type="text/javascript">
+      <!--
+        addTableRolloverEffect('TableFunctionsLists','tableRollOverEffect','tableRowClickEffect');
+        AddTableDblClickEvent('TableFunctionsLists');
+        CheckboxClicked();
+        ShowItem('ListActionSubmitBtn', (document.getElementById('FunctionActions').selectedIndex != 0) && ( document.getElementById('FunctionActions').disabled == false ) ) ;
+        DisableItem('FunctionActions', GetCheckedCount('FunctionIDs[]', 'FunctionListsForm') > 0 );
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+   </div>
+
+
+</div>
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title></title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+        <table style="width: 100%">
+          <tr>
+            <td style="width: 95%;">
+              <LABEL:PAGETOPIC></LABEL:PAGETOPIC><br /><br />
+            </td>
+            <td style="width: 5%;vertical-align:top" nowrap="nowrap">
+              &nbsp;
+            </td>
+          </tr>
+        </table>
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+
+   <div class="container">
+      <SHOWHIDE:ERRORTOPIC>
+        <div class="errortopic">
+        <LABEL:ERRORMESSAGETEXT></LABEL:ERRORMESSAGETEXT>
+        </div>
+      </SHOWHIDE:ERRORTOPIC>
+
+      <form name="TwitterTweetForm" id="TwitterTweetForm" method="post" action="./show_twitterpostdlg.php">
+      <input type="hidden" name="CampaignId" id="CampaignId" />
+      <input type="hidden" name="SendStatId" id="SendStatId" />
+
+      <fieldset>
+      <legend>Inhalt des Twitter Tweets</legend>
+      <br />
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+          <tr>
+            <td colspan="2">
+            
+              <textarea id="twittertweet" name="twittertweet" onchange="twittertweetchange()" onblur="twittertweetchange()" onfocus="twittertweetchange()" onclick="twittertweetchange()" onkeyup="twittertweetchange()" onkeypress="return twittertweetkeypress()" onkeydown="return twittertweetkeypress()" onmouseup="twittertweetchange()" cols="100" rows="10"></textarea>
+              <br />
+              <br />
+              Hinweis: Verwenden Sie nur die verk&uuml;rzte URL in Ihrem Twitter Tweet.
+              <br /><br />
+            </td>
+          </tr>
+          <tr>
+            <td width="20%">
+              Eingegebene Zeichen&nbsp;
+            </td>
+            <td width="80%">
+              <input type="text" id="Chars" name="Chars" size="4" disabled="disabled" style="text-align: right" /> von <span name="CharsLabel" id="CharsLabel">140</span> Zeichen
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2"><br />
+              <input type="submit" name="SubmitBtn" value="Twitter Tweat absenden" class="FormButton" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </fieldset>
+
+
+      <input type="button" name="CloseBtn" value="Abbrechen/Schlie&szlig;en" class="FormButton" onclick="window.close();" />
+
+      </form>      
+
+      <script type="text/javascript">
+      <!--
+
+          function twittertweetchange() {
+          document.TwitterTweetForm.Chars.value = document.TwitterTweetForm.twittertweet.value.length;
+          ShowChars();
+          return true;
+        }
+
+        function ShowChars() {
+          maxsmslen = 140;
+          document.getElementById("CharsLabel").innerHTML = maxsmslen;
+        }
+
+        function twittertweetkeypress(evt) {
+          twittertweetchange();
+        }
+
+        twittertweetchange();
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+   </div>
+
+
+</div>
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,38 @@
+      <form id="MLRemoveRecipientsForm" name="MLRemoveRecipientsForm" method="post" action="./ml_remove_recipients_by_blocklists.php">
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+      <input type="hidden" name="MailingListName" id="MailingListName" />
+      <input type="hidden" name="step" id="step" value="3" />
+      <input type="hidden" name="RemoveRecipientsByLocalBlocklist" />
+      <input type="hidden" name="RemoveRecipientsByGlobalBlocklist" />
+      <input type="hidden" name="RemoveRecipientsByLocalDomainBlocklist" />
+      <input type="hidden" name="RemoveRecipientsByGlobalDomainBlocklist" />
+      <input type="hidden" name="RemoveRecipientsByECGlist" />
+
+      <span class="Backlink"><br /><a href="./ml_remove_recipients_by_blocklists.php">Zur&uuml;ck</a></span>
+      <fieldset>
+      <legend>Einstellungen f&uuml;r das Entfernen der Empf&auml;nger vollst&auml;ndig</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+        	    <tr>
+        	    <td>
+        	    Die Einstellungen f&uuml;r das Entfernen der Empf&auml;nger anhand der Blocklisten aus der Empf&auml;ngerliste '%MAILINGLISTNAME%' sind jetzt
+             vollst&auml;ndig.<br /><br />
+             Klicken Sie auf "Entfernen durchf&uuml;hren" um den Vorgang zu beginnen.
+             <br /><br />
+             Hinweise:
+             <ul>
+              <li>Je nach Anzahl Empf&auml;ngern in den Blocklisten und der Empf&auml;ngerliste kann dies eine gewisse Zeit in Anspruch nehmen.</li>
+              <li>Die gel&ouml;schten Empf&auml;nger k&ouml;nnen <b>nicht</b> gespeichert oder wiederhergestellt werden.</li>
+             </ul>
+             <br /><br />
+        	    </td>
+          	  </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="DoBtn" value="Entfernen durchf&uuml;hren" class="FormButton" />
+
+      </form>      

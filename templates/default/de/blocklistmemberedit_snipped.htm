@@ -1,0 +1,30 @@
+      <div class="spacerborder">
+      <span class="Backlink"><a href="./browseblmembers.php">Zur&uuml;ck</a></span><br />
+      <br />
+      <form method="post" action="./blocklistmemberedit.php">
+      <input type="hidden" name="action" id="action" />
+      <input type="hidden" name="MemberId" />
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie die zu blockierende E-Mail-Adresse ein. An diese E-Mail-Adresse wird danach keine E-Mail versendet werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>E-Mail-Adresse f&uuml;r Blockliste</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn">E-Mail-Adresse
+                </td>
+                <td><input type="text" id="u_EMail" name="u_EMail" maxlength="128" size="80" /></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+     <input type="submit" name="MemberSaveBtn" value="&Auml;nderungen speichern" class="FormButton" />
+
+      </form>
+      </div>
+

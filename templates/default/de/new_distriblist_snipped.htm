@@ -1,0 +1,85 @@
+      <script language="JavaScript">
+      <!--
+              function ConfirmEditInboxesEvent(value) {
+               if(value)
+                 window.location.href="./browseinboxes.php";
+              }
+      //-->
+      </script>
+      <noscript></noscript>
+      <form id="DistribListEditForm" name="DistribListEditForm" method="post" action="./distriblistcreate.php" onsubmit="CheckAndRemoveCriticalChars('DistribListEditForm')">
+      <span class="Backlink"><br /><a href="./browsedistriblists.php" onclick="document.DistribListEditForm.action='./browsedistriblists.php';document.DistribListEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <br />
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie Ihrer Verteilerliste einen eindeutigen Namen z.B. Kunden-Verteilerliste. Optional k&ouml;nnen Sie eine Beschreibung angeben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Allgemein</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn">Name der Verteilerliste
+                </td>
+                <td><input type="text" id="Name" name="Name" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="LabelColumn" valign="top">Beschreibung (optional)
+                </td>
+                <td><textarea id="Description" name="Description" rows="3" cols="50"></textarea></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die Empf&auml;ngerliste, an welche die E-Mails der Verteilerliste versendet werden sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                  </SHOWHIDE:TOOLTIPS>Empf&auml;ngerliste f&uuml;r den Versand der E-Mails der Verteilerliste</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+
+              <tr>
+                <td class="LabelColumn">Empf&auml;ngerliste
+                </td>
+                <td><select name="maillists_id" size="1">
+                    <SHOW:MailingLists>
+                    </SHOW:MailingLists>
+                    </select>
+                    <br /><br />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Jeder Verteilerliste muss ein Posteingangsserver f&uuml;r den Abruf der E-Mail zugewiesen werden, welche an alle Empf&auml;nger der Empf&auml;ngerliste versendet werden soll.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Posteingangsserver/Postfach der Verteilerliste</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn" valign="top">Postfach
+                <br /><a href="./browseinboxes.php" onclick="MessageBox('Best&auml;tigung', 'Alle ver&auml;nderten Einstellungen auf diesen Seite(n) gehen verloren.<br /><br />M&ouml;chten Sie jetzt wirklich neue Posteingangsserver definieren?', 3, 320, 160, 'ConfirmEditInboxesEvent'); return false;">(Neue Postf&auml;cher definieren)</a>
+                </td>
+                <td>
+                <select name="inboxes_id" id="inboxes_id" size="1">
+                   <SHOW:INBOXES>
+                   </SHOW:INBOXES>
+                </select>
+                <br /><br />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+     <input type="submit" name="DistribListCreateBtn" value="Neue Verteilerliste anlegen" class="FormButton" />
+
+      </form>      

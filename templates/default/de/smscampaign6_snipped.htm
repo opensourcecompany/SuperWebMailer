@@ -1,0 +1,241 @@
+      <div class="spacerborder">
+      <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./smscampaignedit.php" onsubmit="CheckAndRemoveCriticalChars('CampaignEditForm');">
+      <span class="Backlink"><br /><a href="./browsesmscampaigns.php" onclick="document.CampaignEditForm.action='./browsesmscampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="MailingListId" id="MailingListId" />
+      <input type="hidden" name="FormId" id="FormId" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="CampaignListId" id="CampaignListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel" value="6" />
+      <input type="hidden" name="maxsmslen" id="maxsmslen" />
+
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var InnerTabListArray = Array();
+
+        function DoShowFunctionsDialog(formId, formElementId, isfckeditor) {
+          FunctionsOpen(formId, formElementId, isfckeditor);
+        }
+
+        // default placeholders
+        var arrPlaceholderItems = new Array(
+            new Array('[PLACEHOLDER]', 'PLACEHOLDERTEXT')
+      	    );
+
+
+
+      //-->
+      </script>
+
+      <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+      <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.CampaignEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.CampaignEditForm.submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.CampaignEditForm.submit(); return false;">Regeln</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.CampaignEditForm.submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.CampaignEditForm.submit(); return false;">Versand</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';document.CampaignEditForm.submit(); return false;">SMS-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';document.CampaignEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+          <tr>
+            <td>
+            
+              <fieldset>
+              <legend>SMS-Kampagne</legend>
+              <br />
+                  <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                      <tr>
+                        <td>
+                          <label for="SMSCampaignName">Optional, Name der SMSout SMS-Kampagne:</label><br />
+                          <input type="text" name="SMSCampaignName" id="SMSCampaignName" size="80" maxlength="255" />
+
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </fieldset>
+
+            </td>
+          </tr>
+          <tr>
+            <td>
+
+              <fieldset>
+              <legend>Text der SMS</legend>
+              <br />
+                  <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                      <tr>
+                        <td>
+
+                          <select size="1" id="PlainTextPlaceHoldersCB" onchange="InsertFieldValue('PlainTextPlaceHoldersCB', 'SMSText')">
+                            <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                          </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('CampaignEditForm', 'SMSText', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" />&nbsp;
+                           &nbsp;<input type="image" src="images/btnTemplates.gif" onclick="TemplatesSelectDlgOpen('CampaignEditForm', 'SMSText', false); return false;" alt="E-Mail-Vorlagen" title="E-Mail-Vorlagen" style="vertical-align:bottom" /><p>&nbsp;
+                          </p>
+                          <textarea name="SMSText" id="SMSText" style="width: 874px; height: 150px" onblur="smstextchange()" onfocus="smstextchange()" onclick="smstextchange()" onkeyup="smstextchange()" onkeypress="return smstextkeypress()" onkeydown="return smstextkeypress()" onmouseup="smstextchange()" onchange="smstextchange()"></textarea>
+                          <br />
+                          <p>Eingegebene Zeichen:<br>
+                          <input type="text" name="smstextlength" id="smstextlength" size="7" disabled="disabled" value="160" style="text-align: right" />
+                          von <input type="text" name="maxsmstextlength" id="maxsmstextlength" size="7" disabled="disabled" value="160" style="text-align: right; font-weight: bold" />
+                          </p>
+
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </fieldset>
+
+
+              <br />
+              <br />
+
+
+
+              <script language="JavaScript" type="text/javascript">
+              <!--
+
+                function html_entity_decode( string ) {
+                    var ret, tarea = document.createElement('textarea');
+                    tarea.innerHTML = string;
+                    ret = tarea.value;
+                    return ret;
+                }
+
+                function FillComboBoxes() {
+                    CBs = Array (
+                        'PlainTextPlaceHoldersCB'
+                    )
+
+      	            for(j=0; j<CBs.length; j++) {
+                        CB = document.getElementById(CBs[j]);
+                        if(CB == null) continue;
+                        while (CB.length > 1)
+                           CB.options[CB.length] = null;
+
+
+                        for(i=0; i<arrPlaceholderItems.length; i++){
+                          newOption = new Option(html_entity_decode(arrPlaceholderItems[i][1]), arrPlaceholderItems[i][0], false, false);
+                          CB.options[CB.length] = newOption;
+                        }
+
+
+                    }
+                }
+
+                FillComboBoxes();
+
+              -->
+              </script>
+
+              <script language="javascript" type="text/javascript">
+              <!--
+               function smstextchange() {
+                 maxsmslen = document.CampaignEditForm.maxsmslen.value;
+                 if(maxsmslen <= 0)
+                   maxsmslen=160;
+
+                 document.CampaignEditForm.smstextlength.value=document.CampaignEditForm.SMSText.value.length;
+                 allsmsdataOK();
+                 PageModified=true;
+                 return true;
+               }
+
+               function smstextkeypress(evt) {
+                 evt = (evt) ? evt : ((event) ? event : null);
+                 smstextchange();
+                 maxsmslen = document.CampaignEditForm.maxsmslen.value;
+                 if(maxsmslen <= 0)
+                   maxsmslen=160;
+                 if(document.CampaignEditForm.SMSText.value.length >= maxsmslen) {
+                   if(evt){
+                     if(evt.keyCode < 65)
+                       return true;
+                       else
+                       return true;
+                   }
+                   return true;
+                 }
+                 return true;
+               }
+
+               function allsmsdataOK(){
+                maxsmslen = document.CampaignEditForm.maxsmslen.value;
+                if(maxsmslen <= 0)
+                  maxsmslen=160;
+                document.CampaignEditForm.maxsmstextlength.value=maxsmslen;
+
+
+                OK = true;
+                if (document.CampaignEditForm.SMSText.value.length == 0) {
+                  OK = false;
+                }
+
+
+                if(OK == false)
+                  document.CampaignEditForm.NextBtn.disabled = true;
+                  else
+                  document.CampaignEditForm.NextBtn.disabled = false;
+
+               }
+
+              //-->
+              </script>
+
+            </td>
+          </tr>
+
+
+        </tbody>
+      </table>
+
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Speichern und Weiter &gt;" class="FormButton" onclick="PageModified=false;" />
+
+
+      <script language="javascript" type="text/javascript">
+      <!--
+
+       smstextchange();
+
+       var PageModified=false;
+
+       window.onbeforeunload = function (e) {
+           var e = e || window.event;
+           var warntext='Dokument wurde ge&auml;ndert ohne die &Auml;nderungen zu speichern.';
+
+           if (PageModified) {
+             // For IE and Firefox prior to version 4
+             if (e) {
+                 e.returnValue = html_entity_decode(warntext);
+             }
+
+             // For Safari
+             return html_entity_decode(warntext);
+           }
+       }
+
+      	//AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+      -->
+      </script>
+
+      </form>
+      </div>

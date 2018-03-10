@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link type="text/css" rel="stylesheet" href="../CSS/layout.css">
+<meta name="MS-HKWD" content="Bounce-Management">
+<meta name="MS-HKWD" content="Rückläufer E-Mails">
+<meta name="MS-HKWD" content="automatisch unzustellbare E-Mails abrufen">
+<meta name="MS-HKWD" content="Bounce E-Mails">
+<meta name="MS-HKWD" content="Hard Bounce E-Mails">
+<meta name="MS-HKWD" content="Soft Bounce E-Mails">
+<meta name="MS-HKWD" content="unzustellbare E-Mails">
+<meta name="MS-HKWD" content="Löschen von nicht-zustellbaren E-Mails">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Bounce-Management,Rückläufer E-Mails,automatisch unzustellbare E-Mails abrufen,Bounce E-Mails,Hard Bounce E-Mails,Soft Bounce E-Mails,unzustellbare E-Mails,Löschen von nicht-zustellbaren E-Mails Bounce-Management</title>
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,Bounce-Management,Rückläufer E-Mails,automatisch unzustellbare E-Mails abrufen,Bounce E-Mails,Hard Bounce E-Mails,Soft Bounce E-Mails,unzustellbare E-Mails,Löschen von nicht-zustellbaren E-Mails"><meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Bounce-Management,Rückläufer E-Mails,automatisch unzustellbare E-Mails abrufen,Bounce E-Mails,Hard Bounce E-Mails,Soft Bounce E-Mails,unzustellbare E-Mails,Löschen von nicht-zustellbaren E-Mails Bounce-Management Bounce-Management,Rückläufer E-Mails,automatisch unzustellbare E-Mails abrufen,Bounce E-Mails,Hard Bounce E-Mails,Soft Bounce E-Mails,unzustellbare E-Mails,Löschen von nicht-zustellbaren E-Mails"><meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script LANGUAGE="JavaScript" SRC="jscript.js"></script>
+<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/bouncemanagement.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+
+<body>
+
+<h1>Bounce-Management</h1>
+<p>Mit Hilfe des automatischen Bounce-Management-Systems können nicht
+zustellbare E-Mails (Hard bounces) aus den definierten Postfächern ausgelesen
+und verarbeitet werden.</p>
+<p>&nbsp;</p>
+<p><b>Soft Bounce und Hard Bounce E-Mails</b></p>
+<p>E-Mails, die tatsächlich nicht zustellbar sind z.B. Mailbox existiert nicht
+mehr werden als Hard bounce E-Mails bezeichnet. Hingegen E-Mails, die temporär
+nicht zustellbar sind z.B. Mailbox ist voll oder Autoresponder-Meldungen werden
+als Soft bounces bezeichnet.</p>
+<p>&nbsp;</p>
+<p><b>Einrichtung des Abrufs von Bounce-E-Mails</b></p>
+<p>Zur Einrichtung der automatischen Erkennung von Bounce-E-Mails muss <a href="browseinboxes.htm">ein
+Postfach</a> definiert und der <a href="browsemailinglists.htm">jeweiligen
+Empf&auml;ngerliste</a> zugewiesen werden. Zusätzlich <b>muss</b> das <a href="settings_cron.htm">CronJob-Script</a>
+korrekt ausgeführt werden, da das CronJob-Script die Bounce-E-Mails aus den
+Postfächern abrufen wird.</p>
+<p>Hinweis: Nur wenn das definierte Postfach einer Empf&auml;ngerliste zugewiesen ist,
+wird es bearbeitet.</p>
+<p><b>Vorgehensweise beim E-Mail-Versand mit einer externen Newsletter Software
+z.B. <a href="http://www.supermailer.de" target="_blank">SuperMailer</a></b></p>
+<ul>
+  <li>Importieren Sie die Empfänger der Empf&auml;ngerliste in die Newsletter
+    Software, z.B. SuperMailer per <a href="supermailer_import.htm">Direkt-Import</a>.</li>
+  <li>Definieren Sie als Absender-E-Mail-Adresse des Newsletters die
+    E-Mail-Adresse des Postfachs, welches Sie der Empf&auml;ngerliste zugewiesen haben.</li>
+  <li>Versenden Sie den Newsletter</li>
+  <li><b>Rufen Sie die E-Mails nicht </b>aus dem definierten Postfach ab, das <a href="settings_cron.htm">CronJob-Script
+    </a>wird das im definierten Zeitabstand tun, die Bounce-E-Mails selbständig
+    bestimmen und die Empfänger aus der Empf&auml;ngerliste löschen oder deaktivieren
+    (anhängig von den <a href="settings_preferences.htm">Einstellungen</a>).</li>
+  <li>Etwa 7 Tage nach dem Newsletter-Versand können die verbleibenden E-Mails,
+    Soft bounce oder Autoresponder-E-Mails aus dem Postfach abgerufen werden.</li>
+</ul>
+<p>&nbsp;</p>
+<p><b>Vorgehensweise beim E-Mail-Versand mit der <a href="http://www.superwebmailer.de" target="_blank">PHP
+Newsletter Software SuperWebMailer</a></b></p>
+<ul>
+  <li>Erstellen Sie ein neues E-Mailing.</li>
+  <li>Gegen Sie als Absender-E-Mail-Adresse und E-Mail-Adresse für die
+    Return-Path-Angabe die E-Mail-Adresse des Postfachs an, welches Sie der
+    Empf&auml;ngerliste zugewiesen haben.</li>
+  <li>Lassen Sie SuperWebMailer das E-Mailing live oder mit Hilfe des <a href="settings_cron.htm">CronJob-Scripts</a>
+    versenden.</li>
+  <li><b>Rufen Sie die E-Mails nicht </b>aus dem definierten Postfach ab, das <a href="settings_cron.htm">CronJob-Script</a>
+    wird das im definierten Zeitabstand tun, die Bounce-E-Mails selbständig
+    bestimmen und die Empfänger aus der Empf&auml;ngerliste löschen oder deaktivieren
+    (anhängig von den <a href="settings_preferences.htm">Einstellungen</a>).</li>
+  <li>Etwa 7 Tage nach dem Newsletter-Versand können die verbleibenden E-Mails,
+    Soft bounce oder Autoresponder-E-Mails aus dem Postfach abgerufen werden.</li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

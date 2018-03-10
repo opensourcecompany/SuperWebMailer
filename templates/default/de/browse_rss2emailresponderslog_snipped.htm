@@ -1,0 +1,222 @@
+<div class="spacerborder">
+
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function SetListId(ASender, AFormID) {
+      var AForm = document.getElementById(AFormID);
+      var OneRSS2EMailresponderLogAction = document.getElementById('OneRSS2EMailresponderLogAction');
+      var OneRSS2EMailresponderLogId = document.getElementById('OneRSS2EMailresponderLogId');
+      OneRSS2EMailresponderLogAction.value = ASender.name;
+      OneRSS2EMailresponderLogId.value = ASender.value;
+      return true;
+    }
+
+    function CheckboxClicked() {
+     DisableItem('LogsActions', GetCheckedCount('LogIDs[]', 'RSS2EMailresponderLogForm') > 0 );
+     ShowItem('ListActionSubmitBtn', (document.getElementById('LogsActions').selectedIndex != 0) && ( document.getElementById('LogsActions').disabled == false ) ) ;
+    }
+
+
+    function ConfirmDeleteLogEntryEvent(value) {
+      if(value)
+        document.getElementById('RSS2EMailresponderLogForm').submit();
+        else {
+          document.getElementById('OneRSS2EMailresponderLogAction').value = "";
+          document.getElementById('OneRSS2EMailresponderLogId').value = "";
+        }
+
+    }
+
+    function ConfirmListActionEvent(value) {
+      if(value)
+        document.getElementById('RSS2EMailresponderLogForm').submit();
+    }
+
+    function ConfirmListAction() {
+      AOption = document.getElementById("LogsActions").options[ document.getElementById("LogsActions").selectedIndex ];
+
+      if(AOption.value == "RemoveEntries") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Eintr&auml;ge dauerhaft l&ouml;schen?', 3, 320, 130, 'ConfirmListActionEvent');
+        return false;
+      }
+      if(AOption.value == "SendAgain") {
+        MessageBox('Best&auml;tigung', 'Der nochmalige Versand wird nur bei fehlgeschlagenen &Uuml;bermittlungen nochmals durchgef&uuml;hrt.<br />Es werden dabei nur die RSS-Feed-Eintr&auml;ge versendet, die bei der letzten RSS-Feed-Pr&uuml;fung f&uuml;r den Empf&auml;nger als neu im RSS-Feed gefunden worden sind.<br /><br />M&ouml;chten Sie wirklich die gew&auml;hlten E-Mails nochmals versenden lassen?', 3, 320, 240, 'ConfirmListActionEvent');
+        return false;
+      }
+      return true;
+    }
+
+    function ConfirmSendFormEvent(){
+      document.getElementById('OneRSS2EMailresponderLogAction').value = "SendAgain";
+      document.getElementById('RSS2EMailresponderLogForm').submit();
+      
+      return true;
+    }
+
+  //-->
+  </script>
+
+  <form name="RSS2EMailresponderLogForm" id="RSS2EMailresponderLogForm" method="post" action="./stat_rss2emailresponderlog.php">
+  <input type="hidden" name="RSS2EMailresponderId" id="RSS2EMailresponderId" />
+   
+  <input type="hidden" name="OneRSS2EMailresponderLogAction" id="OneRSS2EMailresponderLogAction" value="" />
+  <input type="hidden" name="OneRSS2EMailresponderLogId" id="OneRSS2EMailresponderLogId" value="" />
+
+  <script language="javascript" type="text/javascript" src="js/dhtmlgoodies_calendar.js" /></script>
+ 	<link type="text/css" rel="stylesheet" href="css/dhtmlgoodies_calendar.css" media="screen" />
+  <script language="JavaScript">
+  <!--
+    ChangeLanguageCode("de");
+    // german ever dd.mm.yyyy, others must be ever yyyy-mm-dd the php script doesn't support other formats
+  //-->
+  </script>
+
+  <span class="Backlink"><a href="./browserss2emailresponders.php">Zur&uuml;ck</a></span><br />
+  <fieldset>
+  <legend>Anzeige-Periode</legend>
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+          <tr>
+            <td style="width: 30%">
+              <br />
+              Zeige die Aktivit&auml;ten vom&nbsp;
+            </td>
+            <td style="width: 70%">
+              <br />
+             <input type="text" name="startdate" id="startdate" maxlength="10" size="10" readonly />
+             <input type="image" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum w&auml;hlen" onclick="displayCalendar(document.getElementById('startdate'),'dd.mm.yyyy',this); return false;" />
+             &nbsp;bis&nbsp;<input type="text" name="enddate" id="enddate" maxlength="10" size="10" />
+             <input type="image" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum w&auml;hlen" onclick="displayCalendar(document.getElementById('enddate'),'dd.mm.yyyy',this); return false;" />&nbsp;
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%">
+              Anzahl anzuzeigende Eintr&auml;ge
+            </td>
+            <td style="width: 70%">
+              <input type="text" name="ItemsPerPage" size="3" style="text-align: right"  />
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%">
+              Zeige
+            </td>
+            <td style="width: 70%">
+              <select name="ShowItems" size="1">
+                <option value="AllItems">Alle Eintr&auml;ge</option>
+                <option value="OnlySentItems">Nur erfolgreiche &Uuml;bermittlungen</option>
+                <option value="OnlyFailedItems">Nur fehlgeschlagene &Uuml;bermittlungen</option>
+                <option value="OnlyPossiblySentItems">Nur f&uuml;r m&ouml;glicherweise versendete E-Mails</option>
+                <option value="OnlyToSendItems">Nur f&uuml;r Versand vorgesehene</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="width: 100%">
+              <br />
+              <input type="submit" name="StatRefresh" value="Aktualisieren" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </fieldset>
+
+  <table id="TableRSS2EMailresponderLogLists" name="TableRSS2EMailresponderLogLists" class="FixedTable" style="width: 99% !important; margin-left: 5px">
+  	<thead>
+  		<tr>
+     <td class="NoWrap" width="1%"><input name="SelectAllChkBox" type="checkbox" onclick="CheckAllCheckboxes('SelectAllChkBox', 'LogIDs[]', 'RSS2EMailresponderLogForm'); CheckboxClicked();" /></td>
+     <td class="NoWrap" width="20%">Datum</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="30%">E-Mail-Adresse</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="28%">E-Mail-Betreff</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="12%">Status</td>
+  			<td class="NoWrap" width="7%">&nbsp;</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td><input name="LogIDs[]" type="checkbox" onclick="CheckboxClicked()" /></td>
+  			<td><LIST:SENTDATE></LIST:SENTDATE></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:EMAIL></LIST:EMAIL></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:SUBJECT></LIST:SUBJECT></td>
+  			<td>&nbsp;</td>
+  			<td>
+       <a href="#" onclick="ShowModalDialog('./stat_rss2emailresponderlog.php?Result_id=&RSS2EMailresponderId=', 720, 300); return false;"><LIST:STATUS></LIST:STATUS></a>
+     </td>
+     <td>
+			    <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteLogEntry" onclick="SetListId(this, 'RSS2EMailresponderLogForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich diesen Eintrag dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmDeleteLogEntryEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht den Eintrag dauerhaft.');return false" />&nbsp;
+			    <input type="image" src="images/outbox16.gif" width="16" height="16" name="SendAgain" onclick="SetListId(this, 'RSS2EMailresponderLogForm'); MessageBox('Hinweis', 'Die E-Mail wird nochmals an den Empf&auml;nger gesendet. Es werden dabei nur die RSS-Feed-Eintr&auml;ge versendet, die bei der letzten RSS-Feed-Pr&uuml;fung f&uuml;r den Empf&auml;nger als neu im RSS-Feed gefunden worden sind.', 1, 320, 170, 'ConfirmSendFormEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'E-Mail nochmals versenden.');return false" />
+     </td>
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+  </table>
+
+  <table class="FixedTable" style="width: 99% !important; margin-left: 5px">
+  	<thead>
+  	</thead>
+  	<tbody>
+  	</tbody>
+  	<tfoot>
+
+  		<tr>
+  		  <td colspan="9">
+    		  <table border="0" cellpadding="0" cellspacing="0" style="width:100%">
+    		  <tr>
+      		  <td style="width:1%; white-space:nowrap; ">
+        		  Selektierte:&nbsp;
+      		  </td>
+      		  <td style="width:60%; white-space:nowrap; ">
+          		  <select name="LogsActions" id="LogsActions" size="1" onchange="ShowItem('ListActionSubmitBtn', (document.getElementById('LogsActions').selectedIndex != 0) && ( document.getElementById('LogsActions').disabled == false ) ); ">
+            		  <option value="doNothing">Aktion w&auml;hlen</option>
+            		  <option value="RemoveEntries">L&ouml;scht die gew&auml;hlten Eintr&auml;ge</option>
+            		  <option value="SendAgain">Fehlgeschlagene E-Mails nochmals versenden</option>
+          		  </select>
+          		  <input type="submit" name="ListActionSubmitBtn" id="ListActionSubmitBtn" value="Ausf&uuml;hren" onclick="return ConfirmListAction()" />
+      		  </td>
+
+       		  <td style="width:100%; white-space:nowrap;">
+           		  &nbsp;
+       		  </td>
+        			<td style="text-align:right; width:1%; white-space:nowrap; ">
+            			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'RSS2EMailresponderLogForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+            			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'RSS2EMailresponderLogForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+            			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'RSS2EMailresponderLogForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+            			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'RSS2EMailresponderLogForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+           </td>
+           <td style="text-align:right; width:1%; white-space:nowrap; ">
+            			  Seite:&nbsp;
+           </td>
+           <td style="text-align:right; width:1%; white-space:nowrap; ">
+            			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.RSS2EMailresponderLogForm.submit()">
+                   <OPTION:PAGES>
+                   <option>1</option>
+                   </OPTION:PAGES>
+            			  </select>
+           </td>
+       	</tr>
+       	</table>
+  			</td>
+  		</tr>
+
+  	</tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableRSS2EMailresponderLogLists','tableRollOverEffect','tableRowClickEffect');
+
+  CheckboxClicked();
+  ShowItem('ListActionSubmitBtn', (document.getElementById('LogsActions').selectedIndex != 0) && ( document.getElementById('LogsActions').disabled == false ) ) ;
+  DisableItem('LogsActions', GetCheckedCount('LogIDs[]', 'RSS2EMailresponderLogForm') > 0 );
+
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

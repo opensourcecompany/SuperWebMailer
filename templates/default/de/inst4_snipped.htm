@@ -1,0 +1,36 @@
+      <form id="InstallForm" name="InstallForm" method="post" action="./install.php">
+      <input type="hidden" name="step" value="4" />
+      <input type="hidden" name="Language" />
+      <fieldset>
+      <legend>PRODUCTAPPNAME - Eingabe der Produktregistrierung</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+            	<tr>
+                <td class="MessageDescriptionColumn">Lizenznehmer:
+                <img onmouseover="showTooltip(event, 'Geben Sie den Lizenznehmer so wie in der E-Mail/Brief angegeben unter Beachtung der <b>Gro&szlig;-/Kleinschreibung</b> korrekt ein.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                </td>
+                <td class="MessageValueColumn">
+                <input type="text" name="RegName" size="50" />
+                </td>
+            	</tr>
+            	<tr>
+                <td class="InstallDescriptionColumn">Lizenznummer:
+                <img onmouseover="showTooltip(event, 'Geben Sie die Lizenznummer so wie in der E-Mail/Brief angegeben unter Beachtung der <b>Gro&szlig;-/Kleinschreibung</b> korrekt ein.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                </td>
+                <td class="InstallValueColumn">
+                <input type="text" name="RegNumber" size="50" /></td>
+            	</tr>
+            </tbody>
+          </table>
+      </fieldset>
+      <!-- <input type="submit" name="BackBtn" value="&lt Zur&uuml;ck" class="FormButton" /> no back //-->
+      <!-- a hack //-->
+      <input type="image" src="images/blind.gif" width="1" height="1" />
+      &nbsp;<input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+      <MANUAL>
+      &nbsp;<input type="submit" name="ManualBtn" value="Manuelle Verifizierung der Lizenz vornehmen" class="FormButton" />
+      </MANUAL>
+
+      </form>
+      

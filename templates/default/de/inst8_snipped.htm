@@ -1,0 +1,62 @@
+      <form id="InstallForm" name="InstallForm" method="post" action="./install.php">
+      <input type="hidden" name="step" value="8" />
+      <input type="hidden" name="Language" />
+      <fieldset>
+      <legend>PRODUCTAPPNAME - Ersten Administrator anlegen</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                Es kann jetzt der erste Administrator angelegt werden. Jeder Administrator besitzt eigene zugeordnete Empf&auml;ngerlisten und kann eigene Nutzer erstellen, die
+                diese Empf&auml;ngerlisten verwalten d&uuml;rfen.<br /><br />
+                Sollten Sie Alleinnutzer des Systems sein, dann verwenden Sie in Zukunft immer zur Anmeldung bei PRODUCTAPPNAME die Zugangsdaten dieses Administrators.
+                <br /><br />
+                Weitere Administratoren mit eigenen Empf&auml;ngerlisten k&ouml;nnen Sie sp&auml;ter als SuperAdministrator selbst anlegen.
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Benutzername<sup>*</sup>
+                </td>
+                <td><input type="text" id="Username" name="Username" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn" valign="top">Kennwort<sup>*</sup>
+                </td>
+                <td><input type="password" id="Password" name="Password" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn" valign="top">Kennwort wiederholen<sup>*</sup>
+                </td>
+                <td><input type="password" id="PasswordAgain" name="PasswordAgain" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn" valign="top">E-Mail-Adresse<sup>*</sup> <img onmouseover="showTooltip(event, 'Die Angabe der E-Mail-Adresse ist notwendig um dem Nutzer das Kennwort zusenden zu k&ouml;nnen, falls er es vergessen hat.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                </td>
+                <td><input type="text" id="EMail" name="EMail" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Vorname
+                </td>
+                <td><input type="text" id="FirstName" name="FirstName" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="MessageDescriptionColumn">Nachname
+                </td>
+                <td><input type="text" id="LastName" name="LastName" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td colspan="2">Angaben mit <sup>*</sup> sind Pflichtangaben.</td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+      <!-- a hack //-->
+      <input type="image" src="images/blind.gif" width="1" height="1" />
+      <input type="submit" name="BackBtn" value="&lt Zur&uuml;ck" class="FormButton" />
+      &nbsp;<input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+      </form>
+      

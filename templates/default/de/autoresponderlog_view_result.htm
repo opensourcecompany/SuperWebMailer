@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title>Versandprotokoll des Autoresponders %NAME% - Status</title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+      Versandprotokoll des Autoresponders %NAME% - Status
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+   
+   <div class="container">
+
+        <div class="errortopic" id="errortopic" style="display: none">
+        <span id="ERRORMESSAGETEXT"></span>
+        </div>
+
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+       <tbody>
+
+        <tr>
+         <td class="NoWrap" width="20%">
+           Datum:
+         </td>
+         <td>
+          <LIST:SENTDATE></LIST:SENTDATE>
+         </td>
+        </tr>
+
+        <tr>
+         <td class="NoWrap" width="20%">
+           E-Mail-Adresse:
+         </td>
+         <td>
+          <LIST:EMAIL></LIST:EMAIL>
+         </td>
+        </tr>
+
+        <tr>
+         <td class="NoWrap" width="20%">
+           E-Mail-Betreff:
+         </td>
+         <td>
+          <LIST:SUBJECT></LIST:SUBJECT>
+         </td>
+        </tr>
+
+        <tr>
+         <td valign="top" class="NoWrap" width="20%">
+           Status:
+         </td>
+         <td>
+          <LIST:STATUS></LIST:STATUS>
+         </td>
+        </tr>
+
+        <tr>
+         <td valign="top" class="NoWrap" width="20%">
+           Statustext:
+         </td>
+         <td>
+          <RESULTTEXT></RESULTTEXT>
+         </td>
+        </tr>
+
+        <tr>
+         <td colspan="2">
+           <hr noshade="noshade" style="width: 100%; border:dotted #BABABA 1px; " />
+           <input type="button" name="CloseBtn" value="Schlie&szlig;en" class="FormButton" onclick="parent.closeDialog();" />
+           <br />
+         </td>
+        </tr>
+       </tbody>
+      </table>
+
+   </div>
+</div>
+
+</body>
+
+</html>

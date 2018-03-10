@@ -1,0 +1,207 @@
+      <script language="javascript" type="text/javascript" src="js/dhtmlgoodies_calendar.js" /></script>
+     	<link type="text/css" rel="stylesheet" href="css/dhtmlgoodies_calendar.css" media="screen" />
+      <script language="JavaScript">
+      <!--
+        ChangeLanguageCode("de");
+        // german ever dd.mm.yyyy hh:ii, others must be ever yyyy-mm-dd hh:ii the php script doesn't support other formats
+      //-->
+      </script>
+
+      <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./smscampaignedit.php">
+      <span class="Backlink"><br /><a href="./browsesmscampaigns.php" onclick="document.CampaignEditForm.action='./browsesmscampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="CampaignListId" id="CampaignListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel"  value="4" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.CampaignEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.CampaignEditForm.submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.CampaignEditForm.submit(); return false;">Regeln</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.CampaignEditForm.submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.CampaignEditForm.submit(); return false;">Versand</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';document.CampaignEditForm.submit(); return false;">SMS-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';document.CampaignEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <fieldset>
+      <legend>Statusreport</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td><input type="checkbox" id="SendReportToYourSelf" name="SendReportToYourSelf" /><label for="SendReportToYourSelf">&nbsp;Statusreport an Ihre E-Mail-Adresse <b>[EMAILADDRESS]</b> senden</label>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" id="SendReportToListAdmin" name="SendReportToListAdmin" /><label for="SendReportToListAdmin">&nbsp;Statusreport an den Administrator der Empf&auml;ngerliste senden</label>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" id="SendReportToMailingListUsers" name="SendReportToMailingListUsers" /><label for="SendReportToMailingListUsers">&nbsp;Statusreport an alle zugewiesenen Nutzer der Empf&auml;ngerliste senden</label>
+                </td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" id="SendReportToEMailAddress" name="SendReportToEMailAddress" onclick="DisableControl( document.getElementById('SendReportToEMailAddress').checked, document.getElementById('SendReportToEMailAddressEMailAddress'), null); if(document.getElementById('SendReportToEMailAddress').checked) document.getElementById('SendReportToEMailAddressEMailAddress').focus();" /><label for="SendReportToEMailAddress">&nbsp;Statusreport an folgende E-Mail-Adresse senden</label>&nbsp;
+                <input type="text" name="SendReportToEMailAddressEMailAddress" id="SendReportToEMailAddressEMailAddress" size="30" maxlength="255" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie an wann die SMS versendet werden sollen. Sollte nur die Variante zum Speichern der SMS-Kampagne w&auml;hlbar sein, dann muss ein berechtigter Nutzer oder Administrator den SMS-Versand ansto&szlig;en.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Planung des SMS-Versands</legend>
+      <br />
+          <IF_CAN_CHANGE_TIMING>
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+                  <input type="radio" name="SendScheduler" value="SaveOnly" onclick="ShowTimingOptions()" id="SendScheduler0" /><label for="SendScheduler0">&nbsp;SMS-Kampagne nur speichern</label>
+                  <SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Die SMS-Kampagne wird nur geplant, Sie k&ouml;nnen sp&auml;ter durch &Auml;ndern der SMS-Kampagne den SMS-Versand-Zeitpunkt festlegen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>
+                  <IF_HAS_SENDING_RIGHTS>
+                  <br />
+                  <input type="radio" name="SendScheduler" value="SendManually" onclick="ShowTimingOptions()" id="SendScheduler1" /><label for="SendScheduler1">&nbsp;SMS-Kampagne sofort live versenden</label>
+                  <SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Die SMS-Kampagne wird nach Speicherung der Einstellungen sofort live in diesem Browser-Fenster versendet.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS><br />
+                  <input type="radio" name="SendScheduler" value="SendImmediately" onclick="ShowTimingOptions()" id="SendScheduler2" /><label for="SendScheduler2">&nbsp;SMS-Kampagne nach Speicherung der Einstellungen versenden (CronJob)</label>
+                  <SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Nach Beendigung des Assistanten werden die SMS sofort versendet. (CronJobs erforderlich)');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS><br />
+                  <input type="radio" name="SendScheduler" value="SendInFutureOnce" onclick="ShowTimingOptions()" id="SendScheduler3" /><label for="SendScheduler3">&nbsp;SMS-Kampagne zu einem sp&auml;teren Zeitpunkt versenden (CronJob)</label>
+                  <SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Verwenden Sie diese Variante um die SMS-Kampagne zu einem bestimmten Datum und Uhrzeit versenden zu lassen (CronJobs erforderlich).');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS><br />
+                  <input type="radio" name="SendScheduler" value="SendInFutureMultiple" onclick="ShowTimingOptions()" id="SendScheduler4" /><label for="SendScheduler4">&nbsp;SMS-Kampagne mehrfach versenden (CronJob)</label>
+                  <SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Die SMS-Kampagne wird mehrfach zu den definierten Zeitpunkten versendet (CronJobs erforderlich).');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS><br />
+                  </IF_HAS_SENDING_RIGHTS>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </IF_CAN_CHANGE_TIMING>
+      </fieldset>
+
+      <fieldset name="SendInFutureOnce" id="SendInFutureOnce">
+      <legend>Zeitpunkt des einmaligen SMS-Versands festlegen</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+                   Datum und Uhrzeit:<br />
+                   <input type="text" name="SendInFutureOnceDateTime" id="SendInFutureOnceDateTime" maxlength="20" size="20" readonly="readonly" />
+                   <input type="image" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum und Uhrzeit w&auml;hlen" onclick="displayCalendar(document.getElementById('SendInFutureOnceDateTime'),'dd.mm.yyyy hh:ii',this, true); return false;" />
+                   <br />
+                   <br />
+                   <br />
+                   Hinweis: Wird ein Datum oder Uhrzeit in der Vergangenheit festgelegt, dann werden die SMS sofort versendet.
+                   <br />
+                   <br />
+                   <br />
+                   <br />
+                   <br />
+                   <br />
+                   <br />
+                   <br />
+                   <br />
+                   <br />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset name="SendInFutureMultiple" id="SendInFutureMultiple">
+      <legend>Zeitpunkte f&uuml;r den mehrmaligen SMS-Versand festlegen</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="4">
+                  Sende die SMS<SHOWHIDE:TOOLTIPS>
+                   <img onmouseover="showTooltip(event, 'Legen Sie die Uhrzeit f&uuml;r den SMS-Versand so fest, so dass der Versand an alle SMS-Empf&auml;nger m&ouml;glich ist. Planen Sie z.B. einen gro&szlig;en SMS-Versand f&uuml;r einen Mittwoch um 23:59 Uhr und das Script schafft die Abarbeitung der zu versendenden nicht, dann k&ouml;nnte es sein, das nur ein Teil der SMS versendet wird, da der n&auml;chste Tag ein Donnerstag ist.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                   </SHOWHIDE:TOOLTIPS>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="4">
+                   um&nbsp;
+                   <input type="text" name="SendInFutureMultipleTime" id="SendInFutureMultipleTime" maxlength="8" size="8" />&nbsp;Uhr
+                </td>
+              </tr>
+              <tr>
+                <td style="width: 1%">
+                   <br />
+                   <select name="SendInFutureMultipleDays[]" id="SendInFutureMultipleDays" size="12" multiple="multiple">
+                     <SendInFutureMultipleDays></SendInFutureMultipleDays>
+                   </select>&nbsp;ODER&nbsp;
+                </td>
+                <td style="width: 1%">
+                   <br />
+                   <select name="SendInFutureMultipleDayNames[]" id="SendInFutureMultipleDayNames" size="12" multiple="multiple">
+                     <SendInFutureMultipleDayNames></SendInFutureMultipleDayNames>
+                   </select>&nbsp;
+                </td>
+                <td style="width: 1%">
+                   <br />
+                   <select name="SendInFutureMultipleMonths[]" id="SendInFutureMultipleMonths" size="12" multiple="multiple">
+                     <SendInFutureMultipleMonths></SendInFutureMultipleMonths>
+                   </select>&nbsp;
+                </td>
+                <td style="width: 100%">
+                   <br />
+                </td>
+              </tr>
+              <tr>
+                <td colspan="4">
+                  <br /><br />
+                  Mit Strg-(Ctrl) und Umsch-(Shift) Taste k&ouml;nnen mehrere Listeneintr&auml;ge gew&auml;hlt werden.<br /><br />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Speichern und Weiter &gt;" class="FormButton" />
+
+      <script type="text/javascript">
+      <!--
+        function ShowTimingOptions() {
+          // campaign is sending or user has no rights
+          if(document.CampaignEditForm.SendScheduler == null || document.CampaignEditForm.SendScheduler[3] == null) {
+            ShowItem("SendInFutureOnce", false);
+            ShowItem("SendInFutureMultiple", false);
+            return false;
+          }
+          ShowItem("SendInFutureOnce", document.CampaignEditForm.SendScheduler[3].checked == true);
+          ShowItem("SendInFutureMultiple", document.CampaignEditForm.SendScheduler[4].checked == true);
+        }
+        ShowTimingOptions();
+        DisableControl( document.getElementById('SendReportToEMailAddress').checked, document.getElementById('SendReportToEMailAddressEMailAddress'), null);
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+      </form>

@@ -1,0 +1,242 @@
+      <div class="spacerborder">
+      <span class="Backlink"></span><br />
+      <script language="javascript" type="text/javascript" src="js/dhtmlgoodies_calendar.js" /></script>
+     	<link type="text/css" rel="stylesheet" href="css/dhtmlgoodies_calendar.css" media="screen" />
+
+      <!--[if lt IE 9]><script language="javascript" type="text/javascript" src="js/canvasjs/excanvas.min.js"></script><![endif]-->
+      <script type="text/javascript" src="js/canvasjs/canvasjs.min.js"></script>
+
+      <script type="text/javascript">
+
+        window.onload = function () {
+
+
+           CanvasJS.addColorSet("chartdefaultColorSet",
+                [
+                "#1941A5",
+                "#AFD8F8",
+                "#F6BD0F",
+                "#8BBA00",
+                "#A66EDD",
+                "#F984A1",
+                "#CCCC00",
+                "#999999",
+                "#0099CC",
+                "#FF0000",
+                "#006F00",
+                "#0099FF",
+                "#FF66CC",
+                "#669966",
+                "#7C7CB4",
+                "#FF9933",
+                "#9900FF",
+                "#99FFCC",
+                "#CCCCFF",
+                "#669900"
+               ]);
+
+           /* addCultureInfo */
+
+
+           var sentmails = new CanvasJS.Chart("SENTMAILSCHART", {
+
+             backgroundColor: "#FFFFFF",
+
+             animationEnabled: true,
+
+             exportEnabled: true,
+
+             culture: "en",
+             creditText: "",
+
+             theme: "theme1",
+
+             colorSet: "chartdefaultColorSet",
+
+             title:{
+               text: "SENTMAILSTITLE",
+               fontSize: 12,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             axisX:{
+               title: "SENTMAILSAXISXTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               gridThickness: 1,
+               interval: 1
+             },
+
+             axisY:{
+               title: "SENTMAILSAXISYTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               minimum: 0,
+               gridThickness: 1
+               /*SENTMAILSCHARTINTERVAL, interval: 1 SENTMAILSCHARTINTERVAL*/
+             },
+
+             toolTip:{
+               enabled: true,
+               borderColor: "black",
+               shared: false
+             },
+
+             data: [
+             {
+              type: "bar",
+              showInLegend: false,
+              dataPoints: /* SENTMAILS_DATA */
+             }
+             ]
+
+         });
+
+
+         sentmails.render();
+        }
+
+      </script>
+
+
+      <script language="JavaScript">
+      <!--
+        ChangeLanguageCode("de");
+        // german ever dd.mm.yyyy, others must be ever yyyy-mm-dd the php script doesn't support other formats
+      //-->
+      </script>
+
+      <form method="post" name="SentMailsStatForm" action="./stat_sentmails.php">
+      <fieldset>
+      <legend>Anzeige-Periode</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">Zeige die Aktivit&auml;ten vom&nbsp;
+                <input type="text" name="startdate" id="startdate" maxlength="10" size="10" readonly />
+                <input type="image" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum w&auml;hlen" onclick="displayCalendar(document.getElementById('startdate'),'dd.mm.yyyy',this); return false;" />
+                &nbsp;bis&nbsp;<input type="text" name="enddate" id="enddate" maxlength="10" size="10" />
+                <input type="image" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum w&auml;hlen" onclick="displayCalendar(document.getElementById('enddate'),'dd.mm.yyyy',this); return false;" />&nbsp;
+                <input type="submit" name="StatRefresh" value="Aktualisieren" />
+
+               <script language="JavaScript">
+               <!--
+                 // Firefox problems with DHTML layer of calendar
+                 var BrowserName = navigator.appName;
+                 if(BrowserName == "Firefox" || BrowserName == "Netscape")
+                   document.write("<br /><br /><br /><br /><br /><br /><br /><br />");
+               //-->
+               </script>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+      </form>
+
+      <fieldset>
+      <legend>Statistik &uuml;ber alle versendeten E-Mails in der gew&auml;hlten Periode</legend>
+      <br />
+          <table class="FormTable" style="width:80%;margin-left:32pt" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl E-Mails gesamt
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:SUMMAILSSENT></LIST:SUMMAILSSENT></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl Test-E-Mails
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:SUMTESTEMAILCOUNT></LIST:SUMTESTEMAILCOUNT></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl Informations-E-Mails
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:SUMADMINNOTIFYMAILCOUNT></LIST:SUMADMINNOTIFYMAILCOUNT></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl Best&auml;tigungs-E-Mails zur Anmeldung
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:SUMOPTINCONFIRMATIONMAILCOUNT></LIST:SUMOPTINCONFIRMATIONMAILCOUNT></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl E-Mails nach erfolgreicher Anmeldung
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:SUMOPTINCONFIRMEDMAILCOUNT></LIST:SUMOPTINCONFIRMEDMAILCOUNT></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl Best&auml;tigungs-E-Mails zur Abmeldung
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:SUMOPTOUTCONFIRMATIONMAILCOUNT></LIST:SUMOPTOUTCONFIRMATIONMAILCOUNT></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl E-Mails nach erfolgreicher Abmeldung
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:SUMOPTOUTCONFIRMEDMAILCOUNT></LIST:SUMOPTOUTCONFIRMEDMAILCOUNT></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl Best&auml;tigungs-E-Mails nach &Auml;nderung
+                </td>
+                <td style="text-align: right; margin-right:8pt;"><LIST:SUMEDITCONFIRMATIONMAILCOUNT></LIST:SUMEDITCONFIRMATIONMAILCOUNT></td>
+              </tr>
+              <IS:SWM>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl E-Mails durch Autoresponder versendet
+                </td>
+                <td style="text-align: right; margin-right:8pt; vertical-align: top"><LIST:SUMAUTORESPONDEREMAILCOUNT></LIST:SUMAUTORESPONDEREMAILCOUNT></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl E-Mails durch Geburtstags-Responder versendet
+                </td>
+                <td style="text-align: right; margin-right:8pt; vertical-align: top"><LIST:SUMBIRTHDAYRESPONDEREMAILCOUNT></LIST:SUMBIRTHDAYRESPONDEREMAILCOUNT></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl E-Mails durch RSS2EMail-Responder versendet
+                </td>
+                <td style="text-align: right; margin-right:8pt; vertical-align: top"><LIST:SUMRSS2EMAILRESPONDEREMAILCOUNT></LIST:SUMRSS2EMAILRESPONDEREMAILCOUNT></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl E-Mails durch Follow-Up-Responder versendet
+                </td>
+                <td style="text-align: right; margin-right:8pt; vertical-align: top"><LIST:SUMFOLLOWUPRESPONDEREMAILCOUNT></LIST:SUMFOLLOWUPRESPONDEREMAILCOUNT></td>
+              </tr>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl E-Mails durch E-Mailings versendet
+                </td>
+                <td style="text-align: right; margin-right:8pt; vertical-align: top"><LIST:SUMCAMPAIGNEMAILCOUNT></LIST:SUMCAMPAIGNEMAILCOUNT></td>
+              </tr>
+              </IS:SWM>
+              <tr>
+                <td class="CampaignStatColumn">Anzahl E-Mails durch Verteilerlisten versendet
+                </td>
+                <td style="text-align: right; margin-right:8pt; vertical-align: top"><LIST:SUMDISTRIBLISTEMAILCOUNT></LIST:SUMDISTRIBLISTEMAILCOUNT></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend>Chart f&uuml;r die Periode</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                 <div id="SENTMAILSCHART" style="width: 100%; height: 600px;margin: 0px auto"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+     <script language="JavaScript">
+     <!--
+     //AUTO_SCRIPT_CODE_PLACEHOLDER//
+     //-->
+     </script>
+
+     </div>
+      

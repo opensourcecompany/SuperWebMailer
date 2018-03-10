@@ -1,0 +1,114 @@
+      <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+      <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
+
+      <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./smscampaignedit.php">
+      <span class="Backlink"><br /><a href="./browsesmscampaigns.php" onclick="document.CampaignEditForm.action='./browsesmscampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="CampaignListId" id="CampaignListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel" value="2" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.CampaignEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.CampaignEditForm.submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.CampaignEditForm.submit(); return false;">Regeln</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.CampaignEditForm.submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.CampaignEditForm.submit(); return false;">Versand</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';document.CampaignEditForm.submit(); return false;">SMS-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';document.CampaignEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die Empf&auml;ngergruppen, an welche die SMS versendet werden sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Empf&auml;ngergruppen der Empf&auml;ngerliste</legend>
+      <br />
+          <IF_CAN_CHANGE_GROUPS>
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                <input type="radio" id="GroupsOption1" name="GroupsOption" value="1" onclick="EnableDisableItems();" />&nbsp;<label for="GroupsOption1">An alle Empf&auml;nger der Empf&auml;ngerliste versenden</label>
+                <br />
+                </td>
+              </tr>
+
+              <tr>
+               <td colspan="2">
+                <input type="radio" id="GroupsOption2" name="GroupsOption" value="2" onclick="EnableDisableItems();" />&nbsp;<label for="GroupsOption2">Nur an Empf&auml;nger in diesen Empf&auml;ngergruppen der Empf&auml;ngerliste versenden</label>
+                <br /><br />
+                 <div class="scrollbox" style="margin-left: 20px; width: 528px; height: 150px" name="GroupsScrollbox" id="GroupsScrollbox">
+                   <SHOW:GROUPS>
+                     <span class="scrollboxSpan"><input type="checkbox" name="groups[]" value="<GroupsId></GroupsId>" id="GroupsLabelId" />&nbsp;<label for="GroupsLabelId"><GroupsName></GroupsName></label><br /></span>
+                   </SHOW:GROUPS>
+                 </div>
+                 <br />
+               </td>
+              </tr>
+
+              <tr>
+               <td>&nbsp;&nbsp;</td>
+               <td>
+                <span id="NotInGroupsScrollboxLabel"><input type="checkbox" name="NotInGroupsChkBox" id="NotInGroupsChkBox" onclick="ShowItem('NotInGroupsScrollbox', document.CampaignEditForm.NotInGroupsChkBox.checked && !document.CampaignEditForm.NotInGroupsChkBox.disabled);" />&nbsp;<label for="NotInGroupsChkBox">Jedoch nicht an Empf&auml;nger versenden, die sich in diesen Empf&auml;ngergruppen befinden</label></span>
+                <br /><br />
+                 <div class="scrollbox" style="margin-left: 20px; width: 514px; height: 150px" name="NotInGroupsScrollbox" id="NotInGroupsScrollbox">
+                   <SHOW:NOTINGROUPS>
+                     <span class="scrollboxSpan"><input type="checkbox" name="notingroups[]" value="<GroupsId></GroupsId>" id="NotInGroupsLabelId" />&nbsp;<label for="NotInGroupsLabelId"><GroupsName></GroupsName></label><br /></span>
+                   </SHOW:NOTINGROUPS>
+                 </div>
+                 <br />
+                 <br />
+               </td>
+              </tr>
+
+              <tr>
+               <td colspan="2">
+                  <b>Hinweis:</b> Die Verwendung von Empf&auml;ngergruppen bei h&ouml;heren Empf&auml;ngerzahlen ist nicht empfehlenswert, da die
+                  Serverbelastung beim Versand der SMS an ein oder mehrere Empf&auml;ngergruppen sehr hoch ist.
+               </td>
+              </tr>
+            </tbody>
+          </table>
+          </IF_CAN_CHANGE_GROUPS>
+      </fieldset>
+
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Speichern und Weiter &gt;" class="FormButton" />
+
+      <script type="text/javascript">
+      <!--
+        function EnableDisableItems(){
+          DisableItem('GroupsScrollbox', document.CampaignEditForm.GroupsOption[1].checked);
+          DisableItem('NotInGroupsScrollbox', document.CampaignEditForm.GroupsOption[1].checked);
+          DisableItem('NotInGroupsScrollboxLabel', document.CampaignEditForm.GroupsOption[1].checked);
+          DisableControlsById('GroupsOption2', Array('NotInGroupsChkBox'));
+          ShowItem('NotInGroupsScrollbox', document.CampaignEditForm.NotInGroupsChkBox.checked && !document.CampaignEditForm.NotInGroupsChkBox.disabled);
+        }
+
+        if(document.CampaignEditForm.GroupsOption == null) {
+          DisableItem('GroupsScrollbox', false);
+          DisableItem('NotInGroupsScrollbox', false);
+          DisableItem('NotInGroupsScrollboxLabel', false);
+        }else {
+          EnableDisableItems();
+        }
+        if(document.getElementById("GroupsScrollbox")) {
+          addScrollboxRolloverEffect('GroupsScrollbox','scrollboxRollOverEffect', null);
+          addScrollboxRolloverEffect('NotInGroupsScrollbox','scrollboxRollOverEffect', null);
+        }
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+      </form>

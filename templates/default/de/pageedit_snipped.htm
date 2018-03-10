@@ -1,0 +1,148 @@
+      <div class="spacerborder">
+      <span class="Backlink"><a href="./browsepages.php">Zur&uuml;ck</a></span><br />
+      <br />
+      <form method="post" action="./pageedit.php">
+      <input type="hidden" name="PageId" />
+      <IF:NOTCANCHANGE>
+      <input type="hidden" name="PageType" />
+      </IF:NOTCANCHANGE>
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var TabListArray = Array();
+        
+        function DoShowFunctionsDialog() {
+          alert("funktionen");
+        }
+
+
+        var myBasePath='';
+       
+        // default placeholders
+        var arrPlaceholderItems = new Array(
+            new Array('[PLACEHOLDER]', 'PLACEHOLDERTEXT')
+      	    );
+
+      //-->
+      </script>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie der HTML-Seite eine eindeutige Bezeichnung und w&auml;hlen Sie den Typ der Seite, der in der Empf&auml;ngerliste verwendet werden soll.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Allgemein</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn">Name der HTML-Seite/Umleitung
+                </td>
+                <td><input type="text" id="Name" name="Name" maxlength="128" size="80" /></td>
+              </tr>
+              <tr>
+                <td class="LabelColumn" valign="top">Typ der Seite/Umleitung
+                </td>
+                <td>
+                <select size="1" name="Type" id="Type">
+                   <option value="Subscribe">Anmeldeseite</option>
+                   <option value="SubscribeConfirmation">Best&auml;tigungslink bei Anmeldung versendet</option>
+                   <option value="Unsubscribe">Abmeldeseite</option>
+                   <option value="UnsubscribeConfirmation">Best&auml;tigungslink bei Abmeldung versendet</option>
+                   <option value="UnsubscribeBridge">Zwischenseite nach Klick auf Abmeldelink</option>
+                   <option value="Error">Fehlerseite</option>
+                   <option value="Edit">&Auml;nderungsseite</option>
+                   <option value="EditConfirmation">Best&auml;tigungslink bei &Auml;nderung versendet</option>
+                   <option value="EditReject">&Auml;nderung verworfen</option>
+                   <option value="EditError">&Auml;nderung Fehlerseite</option>
+                   <option value="RFUSurveyConfirmation">Umfrage nach Abmeldung abgeschlossen</option>
+                </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie eine URL f&uuml;r die Umleitung an, damit diese bei einer An-/Abmeldung oder im Fehlerfall angezeigt wird.<br />Lassen Sie die URL frei und geben Sie Text ein, der angezeigt werden soll, sobald eine An-/Abmeldung erfolgt. Als Platzhalter im Text k&ouml;nnen die Angaben [ERRORPAGEMESSAGE] auf einer Fehlerseite oder [PAGEMESSAGE] verwendet werden.<br /><br />Verwenden Sie <b>keine</b> Umleitung f&uuml;r die Zwischenseite nach Klick auf den Abmeldelink in einer E-Mail, ansonsten funktioniert die Abmeldung wom&ouml;glich nicht mehr korrekt.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Umleitung oder HTML-Seite definieren</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="LabelColumn">URL f&uuml;r die Umleitung (Angabe mit http://)
+                </td>
+                <td><input type="text" id="RedirectURL" name="RedirectURL" maxlength="255" size="80" onchange="DisableControl(document.getElementById('RedirectURL').value.trim() != '' && document.getElementById('Type').selectedIndex != 4, document.getElementById('ForceRedirect'), document.getElementById('ForceRedirectLabel'));" onkeyup="DisableControl(document.getElementById('RedirectURL').value.trim() != '' && document.getElementById('Type').selectedIndex != 4, document.getElementById('ForceRedirect'), document.getElementById('ForceRedirectLabel'));" />
+                 <br />
+                 <input type="checkbox" name="ForceRedirect" id="ForceRedirect" />&nbsp;<label for="ForceRedirect" id="ForceRedirectLabel">Echte Umleitung durchf&uuml;hren</label><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Wird eine echte Umleitung durchgef&uuml;hrt, dann werden Fehlermeldungen ([ERRORPAGEMESSAGE]) und Meldungstexte ([PAGEMESSAGE]) nicht in der jeweilige Seite angezeigt, sondern als GET-Parameter ERRORPAGEMESSAGE= und PAGEMESSAGE= &uuml;bergeben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>
+                </td>
+              </tr>
+              <tr>
+                <td class="LabelColumn">&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="LabelColumn"><b>ODER</b></td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="LabelColumn">&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="LabelColumn">HTML-Seite erstellen</td>
+                <td>&nbsp;</td>
+              </tr>
+            </tbody>
+          </table>
+          <br />
+          <table class="EditorTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2" valign="top"><span id="HTMLPageWarnLabel" style="display: none;" class="missingvaluebackground">Es muss ein Text angegeben werden.<br /><br /></span>
+                <textarea name="HTMLPage" id="HTMLPage" cols="100" rows="10" style="width:100%; height: 320px"></textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <br />
+
+
+      <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+      
+      
+      <script type="text/javascript">
+      
+      window.onload = function()
+      {
+       var sBasePath = myBasePath + 'ckeditor/';
+
+       CKEDITOR.config.BasePath	= sBasePath ;
+
+       CKEDITOR.replace('HTMLPage',
+        {
+          customConfig : myBasePath + 'plugins/swm_sml_ckeditor_config.js',
+          toolbar : 'MyDefaultToolbar',
+          width : '100%',
+          height: 386
+        }
+       );
+
+       DisableControl(document.getElementById('RedirectURL').value.trim() != '' && document.getElementById('Type').selectedIndex != 4, document.getElementById('ForceRedirect'), document.getElementById('ForceRedirectLabel'));
+
+       //AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+       /////////////////////////////////////////////////////////////////////
+      	
+      }
+      
+      	</script>
+
+     <input type="submit" name="SubmitBtn" value="&Auml;nderungen speichern" class="FormButton" />
+
+      </form>
+      </div>
+

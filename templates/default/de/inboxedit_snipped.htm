@@ -1,0 +1,128 @@
+      <div class="spacerborder">
+      <span class="Backlink"><a href="./browseinboxes.php">Zur&uuml;ck</a></span><br />
+      <br />
+      <form method="post" action="./inboxedit.php" name="InboxEditForm" id="InboxEditForm">
+      <input type="hidden" name="InboxId">
+
+      <fieldset>
+      <legend>Allgemein</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="StatColumn">Bezeichnung des Posteingangsservers
+                </td>
+                <td><input type="text" id="Name" name="Name" maxlength="128" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn" valign="top">Typ des Posteingangsservers
+                </td>
+                <td>
+                <select size="1" name="InboxType" id="InboxType" onchange="ChangeControls()">
+                   <option value="pop3">POP3</option>
+                   <option value="imap">IMAP4</option>
+                </select>
+                </td>
+              </tr>
+              <tr>
+                <td class="StatColumn" valign="top">E-Mail-Adresse
+                </td>
+                <td>
+                  <input type="text" id="EMailAddress" name="EMailAddress" maxlength="128" size="50" />
+                </td>
+              </tr>
+              <tr>
+                <td class="StatColumn" valign="top">E-Mails auf dem Server belassen
+                </td>
+                <td>
+                  <input type="checkbox" id="LeaveMessagesInInbox" name="LeaveMessagesInInbox" maxlength="128" size="50" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset>
+      <legend>Zugangsdaten</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="StatColumn">Servername
+                </td>
+                <td><input type="text" id="Servername" name="Servername" maxlength="255" size="50" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Server erfordert eine sichere Verbindung (SSL)<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Der Zugriff &uuml;ber eine sichere Verbindung (SSL) funktioniert nur mit PHP 4.3 oder neuer und aktivierter OpenSSL-Unterst&uuml;tzung.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                </td>
+                <td><input type="checkbox" id="SSL" name="SSL" onchange="ChangeControls()" onclick="ChangeControls()" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">
+                Port
+                </td>
+                <td><input type="text" id="Serverport" name="Serverport" maxlength="5" size="4" style="text-align: right" onblur="if( (document.getElementById('Serverport').value == 995 || document.getElementById('Serverport').value == 993) && !document.getElementById('SSL').checked) document.getElementById('SSL').checked=true;" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Benutzername
+                </td>
+                <td><input type="text" id="Username" name="Username" size="50"  /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn">Kennwort
+                </td>
+                <td><input type="password" id="Password" name="Password" maxlength="255" size="50" /></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <IF:EXISTS>
+      <fieldset>
+      <legend>Verwendung des Postfachs/Posteingangsservers</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <LIST:USAGE>
+              <tr>
+                <td colspan="2">
+                  <USAGE_NAME></USAGE_NAME>
+                </td>
+              </tr>
+              </LIST:USAGE>
+            </tbody>
+          </table>
+      </fieldset>
+      </IF:EXISTS>
+
+   <br />
+
+
+     <input type="submit" name="SubmitBtn" value="&Auml;nderungen speichern" class="FormButton" />
+
+      </form>
+      </div>
+
+
+     <script type="text/javascript">
+
+
+       function ChangeControls() {
+         Type = document.getElementById('InboxType');
+         SSL = document.getElementById('SSL');
+         if(Type.value == "pop3")
+           if(!SSL.checked)
+             document.getElementById('Serverport').value = "110";
+             else
+             document.getElementById('Serverport').value = "995";
+         if(Type.value == "imap")
+           if(!SSL.checked)
+             document.getElementById('Serverport').value = "143";
+             else
+             document.getElementById('Serverport').value = "993";
+       }
+       
+       //AUTO_SCRIPT_CODE_PLACEHOLDER//
+    	</script>

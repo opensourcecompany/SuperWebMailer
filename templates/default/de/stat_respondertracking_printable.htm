@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title></title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="js/canvasjs/excanvas.min.js"></script><![endif]-->
+<script type="text/javascript" src="js/canvasjs/canvasjs.min.js"></script>
+
+
+      <style type="text/css">
+      <!--
+        h1, h2, h3, body {font-family: Arial, Verdana, Helvetica}
+
+        media all {
+        	.page-break	{ display: none; }
+        }
+
+        @media print {
+        	.page-break	{ display: block; page-break-after: always }
+        }
+
+        .CampaignStatColumn {
+           width: 400px;
+           text-align: left;
+           vertical-align: top;
+        }
+      -->
+      </style>
+
+</head>
+
+
+<body>
+
+
+
+      <script type="text/javascript">
+
+        window.onload = function () {
+
+           CanvasJS.addColorSet("chartdefaultColorSet",
+                [
+                "#1941A5",
+                "#AFD8F8",
+                "#F6BD0F",
+                "#8BBA00",
+                "#A66EDD",
+                "#F984A1",
+                "#CCCC00",
+                "#999999",
+                "#0099CC",
+                "#FF0000",
+                "#006F00",
+                "#0099FF",
+                "#FF66CC",
+                "#669966",
+                "#7C7CB4",
+                "#FF9933",
+                "#9900FF",
+                "#99FFCC",
+                "#CCCCFF",
+                "#669900"
+               ]);
+
+           CanvasJS.addColorSet("openingsTimeColorSet",
+                [
+                "#0099FF"
+               ]);
+
+           /* addCultureInfo */
+
+
+           var openingcharttime = new CanvasJS.Chart("OPENINGCHART_TIME", {
+
+             backgroundColor: "#FFFFFF",
+
+             animationEnabled: true,
+
+             exportEnabled: false,
+
+             culture: "en",
+             creditText: "",
+
+             colorSet:  "openingsTimeColorSet",
+
+             theme: "theme1",
+
+             width: 840,
+             height: 600,
+
+             title:{
+               text: "OPENINGCHART_TIMETITLE",
+               fontSize: 12,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             legend:{
+               fontSize: 10,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             axisX:{
+               title: "OPENINGCHART_TIMEAXISXTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               labelAngle: 90,
+               interval: 1
+             },
+
+             axisY:{
+               title: "OPENINGCHART_TIMEAXISYTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               minimum: 0,
+               gridThickness: 1
+               /*OPENINGCHART_TIME_INTERVAL, interval: 1 OPENINGCHART_TIME_INTERVAL*/
+             },
+
+             toolTip:{
+               enabled: true,
+               borderColor: "black",
+               shared: false
+             },
+
+             data: /* OPENINGCHART_TIME_DATA */
+
+         });
+
+           var linkcharttopx = new CanvasJS.Chart("LINKCHART_TOPX", {
+
+             backgroundColor: "#FFFFFF",
+
+             animationEnabled: true,
+
+             exportEnabled: false,
+
+             culture: "en",
+             creditText: "",
+
+             colorSet: "chartdefaultColorSet",
+
+             theme: "theme1",
+
+             width: 840,
+             height: 600,
+
+             title:{
+               text: "LINKCHART_TOPXTITLE",
+               fontSize: 12,
+               fontFamily: "arial, tahoma,verdana",
+               fontColor: "black"
+             },
+
+             axisX:{
+               title: "LINKCHART_TOPXAXISXTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               gridThickness: 1,
+               interval: 1
+             },
+
+             axisY:{
+               title: "LINKCHART_TOPXAXISYTITLE",
+               titleFontSize: 10,
+               labelFontSize: 12,
+               minimum: 0,
+               gridThickness: 1
+             },
+
+             toolTip:{
+               enabled: true,
+               borderColor: "black",
+               shared: false
+             },
+
+             data: [
+             {
+              type: "bar",
+              showInLegend: false,
+              dataPoints: /* LINKCHART_TOPX_DATA */
+             }
+             ]
+
+         });
+
+
+         openingcharttime.render();
+         linkcharttopx.render();
+
+
+        } // window.onload
+
+      </script>
+
+                <div class="spacerborder">
+
+                  <form name="TrackingStatForm" id="TrackingStatForm" method="post" action="">
+
+
+                  <h1><LABEL:PAGETOPIC></LABEL:PAGETOPIC></h1>
+
+                  <!-- ##### TabView - START -->
+                  <div id="dhtmlgoodies_tabView">
+
+                    <!-- ####### TAB START -->
+                    <h2>Allgemein</h2>
+
+                  	<div class="dhtmlgoodies_aTab">
+
+
+                     <h3>Informationen zum bisherigen Versand</h3>
+                     <br />
+                         <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                           <tbody>
+                             <tr>
+                               <td class="CampaignStatColumn">Name
+                               </td>
+                               <td class="CampaignStatValueColumn"><SHOW:RESPONDERNAME></SHOW:RESPONDERNAME></td>
+                             </tr>
+                             <tr>
+                               <td class="CampaignStatColumn">Erstellungsdatum
+                               </td>
+                               <td class="CampaignStatValueColumn"><SHOW:CREATEDATE></SHOW:CREATEDATE></td>
+                             </tr>
+                             <tr>
+                               <td class="CampaignStatColumn">
+                                 Zugeordnete Empf&auml;ngerliste
+                               </td>
+                               <td class="CampaignStatValueColumn">
+                                 <MAILLISTNAME></MAILLISTNAME>
+                               </td>
+                             </tr>
+                             <if:NotDistribList>
+                             <tr>
+                               <td class="CampaignStatColumn">
+                                 Anzahl E-Mail-Empf&auml;nger, derzeit
+                               </td>
+                               <td class="CampaignStatValueColumn">
+                                 <RECIPIENTSCOUNT></RECIPIENTSCOUNT>
+                               </td>
+                             </tr>
+                             </if:NotDistribList>
+                             <tr>
+                               <td colspan="2">
+                                 &nbsp;
+                               </td>
+                             </tr>
+                             <tr>
+                               <td class="CampaignStatColumn">
+                                 IP-Blocking aktiv
+                               </td>
+                               <td class="CampaignStatValueColumn">
+                                 <IPBLOCKING></IPBLOCKING>
+                               </td>
+                             </tr>
+                             <tr>
+                               <td colspan="2">
+                                 &nbsp;
+                               </td>
+                             </tr>
+                             <tr>
+                               <td class="CampaignStatColumn" valign="top">Bisher versendete E-Mails
+                               </td>
+                               <td class="CampaignStatValueColumn"><SHOW:EMAILSSENT></SHOW:EMAILSSENT></td>
+                             </tr>
+                             <if:DistribList>
+                             <tr>
+                               <td class="CampaignStatColumn" valign="top">Bisher aus dem Postfach abgerufene E-Mails
+                               </td>
+                               <td class="CampaignStatValueColumn"><SHOW:EMAILSPROCCESSED></SHOW:EMAILSPROCCESSED></td>
+                             </tr>
+                             </if:DistribList>
+                             <tr>
+                               <td colspan="2">
+                                 &nbsp;
+                               </td>
+                             </tr>
+                             <if:DistribList>
+                             <tr>
+                               <td colspan="2">
+                                 &nbsp;
+                               </td>
+                             </tr>
+                             <tr>
+                               <td class="CampaignStatColumn" valign="top">E-Mail-Betreff
+                               </td>
+                               <td class="CampaignStatValueColumn"><MAILSUBJECT></MAILSUBJECT></td>
+                             </tr>
+                             <tr>
+                               <td class="CampaignStatColumn" valign="top">E-Mail erstellt
+                               </td>
+                               <td class="CampaignStatValueColumn"><MAILCREATEDATE></MAILCREATEDATE></td>
+                             </tr>
+                             <tr>
+                               <td colspan="2">
+                                 &nbsp;
+                               </td>
+                             </tr>
+                             <tr>
+                               <td class="CampaignStatColumn">
+                                 Anzahl E-Mail-Empf&auml;nger
+                               </td>
+                               <td class="CampaignStatValueColumn">
+                                 <RECIPIENTSCOUNT></RECIPIENTSCOUNT>
+                               </td>
+                             </tr>
+                             </if:DistribList>
+                             <tr>
+                               <td class="CampaignStatColumn" valign="top">Anzahl unzustellbare E-Mails (Hard bounces)
+                               </td>
+                               <td class="CampaignStatValueColumn"><HARDBOUNCESCOUNT></HARDBOUNCESCOUNT>&nbsp;(<HARDBOUNCESCOUNTPERCENT></HARDBOUNCESCOUNTPERCENT>)</td>
+                             </tr>
+                             <tr>
+                               <td class="CampaignStatColumn" valign="top">Undefinierte R&uuml;ckl&auml;ufer (Soft bounces)
+                               </td>
+                               <td class="CampaignStatValueColumn"><SOFTBOUNCESCOUNT></SOFTBOUNCESCOUNT>&nbsp;(<SOFTBOUNCESCOUNTPERCENT></SOFTBOUNCESCOUNTPERCENT>)</td>
+                             </tr>
+                             <tr>
+                               <td class="CampaignStatColumn" valign="top">Anzahl Abmeldungen
+                               </td>
+                               <td class="CampaignStatValueColumn"><UNSUBSCRIBESCOUNT></UNSUBSCRIBESCOUNT>&nbsp;(<UNSUBSCRIBESCOUNTPERCENT></UNSUBSCRIBESCOUNTPERCENT>)</td>
+                             </tr>
+                             <if:FUResponder>
+                             <tr>
+                               <td colspan="2">
+                                 &nbsp;
+                               </td>
+                             </tr>
+                             <tr>
+                               <td class="CampaignStatColumn" valign="top">Follow-Up-E-Mail
+                               </td>
+                               <td class="CampaignStatValueColumn"><FUMMAILNAME></FUMMAILNAME></td>
+                             </tr>
+                             <tr>
+                               <td class="CampaignStatColumn" valign="top">Follow-Up-E-Mail erstellt
+                               </td>
+                               <td class="CampaignStatValueColumn"><FUMMAILCREATEDATE></FUMMAILCREATEDATE></td>
+                             </tr>
+                             </if:FUResponder>
+                             <tr>
+                               <td class="CampaignStatColumn">
+                                 &nbsp;
+                               </td>
+                               <td class="CampaignStatValueColumn">
+                                 &nbsp;
+                               </td>
+                             </tr>
+                           </tbody>
+                         </table>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+                  	
+                   <!-- ####### TAB START -->
+                   <br />
+<div class="page-break"></div>
+                    <h2>&Ouml;ffnungsstatistik</h2>
+
+                  	<div class="dhtmlgoodies_aTab">
+
+                      <!-- ##### InnerSpacer - START -->
+                      <div class="spacerborder">
+                      <!-- ##### InnerTabView - START -->
+                      <div id="dhtmlgoodies_OpeningstabView">
+
+                      <!-- ####### Inner TAB START -->
+                      <br />
+                        <h3>&Ouml;ffnungen</h3>
+
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+
+                        <table class="FormTable">
+                          <tbody>
+                           <tr>
+                             <td colspan="2">
+                              <div id="OPENINGCHART_TIME" style="width: 840px; height: 600px;"></div>
+                             </td>
+                           </tr>
+                           <tr>
+                            <td colspan="2">
+                               <br />
+                               <table class="FormTable">
+                                 <tbody>
+                                   <tr>
+                                     <td class="CampaignStatColumn">
+                                       Anzahl &Ouml;ffnungen in diesem Zeitraum <info:ipblocking></info:ipblocking>
+                                     </td>
+                                     <td class="CampaignStatValueColumn">
+                                       <OPENINGSCOUNT></OPENINGSCOUNT>
+
+                                     </td>
+                                   </tr>
+
+                                   <tr>
+                                     <td colspan="2">
+                                       &nbsp;
+                                     </td>
+                                   </tr>
+                                 </tbody>
+                               </table>
+                            </td>
+                           </tr>
+                          </tbody>
+                        </table>
+
+                     </div>
+                     <!-- ####### Inner TAB END -->
+
+                      <!-- ####### Inner TAB START -->
+                      <br />
+                        <h3>Geo-Targeting</h3>
+
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+
+                        <div class="scroll_countries">
+                        <table class="FixedTable" name="OpeningsByCountryTable" id="OpeningsByCountryTable" style="width: 97% ! important;">
+                           <thead>
+                           <tr>
+                             <td style="width: 60%">
+                               <b>Top 10 L&auml;nder mit der h&ouml;chsten &Ouml;ffnungsrate</b>
+                             </td>
+                             <td style="width: 40%">
+                               <b>Anzahl &Ouml;ffnungen</b>
+                             </td>
+                           </tr>
+                           </thead>
+                           <tbody>
+                           <Openings:Line>
+                           <tr>
+                             <td>
+                               <Openings:CountryName></Openings:CountryName>
+                             </td>
+                             <td>
+                               <Openings:Count></Openings:Count>
+                             </td>
+                           </tr>
+                           </Openings:Line>
+                           </tbody>
+                        </table>
+                        </div>
+
+                     </div>
+                     <!-- ####### Inner TAB END -->
+                     </div>
+                     <!-- ##### InnerTabView - END -->
+                     <!-- ##### InnerSpacer - END -->
+                     </div>
+
+                     <br /><br /><br />
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                    <!-- ####### TAB START -->
+                    <br />
+<div class="page-break"></div>
+                    <h2>Statistik Klicks auf Hyperlinks</h2>
+
+                  	<div class="dhtmlgoodies_aTab">
+
+                      <!-- ##### InnerSpacer - START -->
+                      <div class="spacerborder">
+                      <!-- ##### InnerTabView - START -->
+                      <div id="dhtmlgoodies_LinkstabView">
+
+                      <!-- ####### Inner TAB START -->
+                      <br />
+                        <h3>Klicks auf Hyperlinks</h3>
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+
+                        <table class="FormTable">
+                          <tbody>
+                           <tr>
+                             <td colspan="2">
+                              <div id="LINKCHART_TOPX" style="width: 840px; height: 600px;margin: 0px auto"></div>
+                             </td>
+                           </tr>
+                           <tr>
+                             <td colspan="2">
+                               <br />
+                               <h3>Alle angeklickten Hyperlinks <info:ipblocking></info:ipblocking></h3>
+                               <br />
+                                   <div class="scroll">
+
+                                        <table id="TableHyperLinksList" name="TableHyperLinksList" class="FixedTable" style="width: 97% ! important">
+                                        	<thead>
+                                        		<tr>
+                                        			<td class="NoWrap" width="41%"><b>Link</b></td>
+                                        			<td class="NoWrap" width="1%">&nbsp;</td>
+                                        			<td class="NoWrap" width="41%"><b>Beschreibung</b></td>
+                                        			<td class="NoWrap" width="1%">&nbsp;</td>
+                                        			<td class="NoWrap" width="15%"><b>Klicks</b></td>
+                                        			<td class="NoWrap" width="1%">&nbsp;</td>
+                                        		</tr>
+                                        	</thead>
+                                        	<tbody>
+                                          <HYPERLINKLIST:ENTRY>
+                                        		<tr>
+                                        			<td><LIST:LINK_HREF></LIST:LINK_HREF></td>
+                                        			<td>&nbsp;</td>
+                                        			<td><LIST:LINK_DESC></LIST:LINK_DESC></td>
+                                        			<td>&nbsp;</td>
+                                        			<td class="NoWrap"><LIST:CLICKS></LIST:CLICKS></td>
+                                        			<td>&nbsp;</td>
+                                        		</tr>
+                                          </HYPERLINKLIST:ENTRY>
+                                        	</tbody>
+                                         <tfoot>
+                                         </tfoot>
+                                        </table>
+
+                                   </div>
+
+                             </td>
+                           </tr>
+                          </tbody>
+                        </table>
+
+                     </div>
+                     <!-- ####### Inner TAB END -->
+
+                      <!-- ####### Inner TAB START -->
+                      <br />
+
+                        <h3>Geo-Targeting</h3>
+
+                    	<div class="dhtmlgoodies_aTab">
+                       <br />
+
+                        <div class="scroll_countries">
+                        <table class="FixedTable" name="ClicksByCountryTable" id="ClicksByCountryTable" style="width: 97% ! important;">
+                           <thead>
+                           <tr>
+                             <td style="width: 60%">
+                               <b>Top 10 L&auml;nder mit der h&ouml;chsten Klickrate</b>
+                             </td>
+                             <td style="width: 40%">
+                               <b>Anzahl Klicks</b>
+                             </td>
+                           </tr>
+                           </thead>
+                           <tbody>
+                           <Clicks:Line>
+                           <tr>
+                             <td>
+                               <Clicks:CountryName></Clicks:CountryName>
+                             </td>
+                             <td>
+                               <Clicks:Count></Clicks:Count>
+                             </td>
+                           </tr>
+                           </Clicks:Line>
+                           </tbody>
+                        </table>
+                        </div>
+
+                     </div>
+                     <!-- ####### Inner TAB END -->
+                     </div>
+                     <!-- ##### InnerTabView - END -->
+                     <!-- ##### InnerSpacer - END -->
+                     </div>
+
+                     <br /><br /><br />
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                    <!-- ####### TAB START -->
+                    <br />
+<div class="page-break"></div>
+                      <h2>User agents</h2>
+                  	<div class="dhtmlgoodies_aTab">
+
+                      <h3>Am h&auml;ufigsten verwendete E-Mail-Programme/Browser</h3>
+                      <br />
+                      <table class="FixedTable" style="width: 97% ! important;" name="EMAILCLIENT_STAT" id="EMAILCLIENT_STAT">
+                        <thead>
+                          <tr>
+                            <td style="width: 400px;">
+                              <b>E-Mail-Programm/Browser</b>
+                            </td>
+                            <td>
+                              <b>Anzahl</b>
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <EMAILCLIENT_STAT>
+                          <tr>
+                            <td>
+                              <img src="EMAILCLIENT_ICON" alt="&lt;EMAILCLIENT_NAME&gt;&lt;/EMAILCLIENT_NAME&gt;" border="0" width="16" height="16" />&nbsp;<EMAILCLIENT_NAME></EMAILCLIENT_NAME>
+                            </td>
+                            <td>
+                              <EMAILCLIENT_COUNT></EMAILCLIENT_COUNT>
+                            </td>
+                          </tr>
+                          </EMAILCLIENT_STAT>
+                          <tr>
+                            <td>
+                              &nbsp;
+                            </td>
+                            <td>
+                              &nbsp;
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+
+                      <h3>Am h&auml;ufigsten verwendete Betriebssysteme</h3>
+                      <br />
+                      <table class="FixedTable" style="width: 97% ! important;" name="OS_STAT" id="OS_STAT">
+                        <thead>
+                          <tr>
+                            <td style="width: 400px;">
+                              <b>Betriebssystem</b>
+                            </td>
+                            <td>
+                              <b>Anzahl</b>
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <OS_STAT>
+                          <tr>
+                            <td>
+                              <img src="OS_ICON" alt="&lt;OS_NAME&gt;&lt;/OS_NAME&gt;" border="0" width="16" height="16" />&nbsp;<OS_NAME></OS_NAME>
+                            </td>
+                            <td>
+                              <OS_COUNT></OS_COUNT>
+                            </td>
+                          </tr>
+                          </OS_STAT>
+                          <tr>
+                            <td>
+                              &nbsp;
+                            </td>
+                            <td>
+                              &nbsp;
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                  </div>
+
+                  <br />
+                  <br />
+
+                  <!-- ##### TabView - END -->
+
+
+
+
+                  </form>
+                  <br />
+                </div>
+                <script type="text/javascript">
+                <!--
+
+                  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+                //-->
+                </script>
+</body>
+</html>

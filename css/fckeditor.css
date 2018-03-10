@@ -1,0 +1,22 @@
+/*  FCKResourceTable */
+	.FCKResourceTable {
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-weight:  normal;
+  font-size: 9pt;
+		border:0px
+		width: 100% ! important;
+	}
+
+	.FCKResourceTable .tableRollOverEffect{
+		background-color:#dff1ff;
+		color:#000000;
+		cursor: default;
+	}
+
+	.FCKResourceTable .tableRowClickEffect{
+		background-color:#7795BD;
+		color:#FFFFFF;
+		cursor: default;
+	}
+
+/*  FCKResourceTable end */

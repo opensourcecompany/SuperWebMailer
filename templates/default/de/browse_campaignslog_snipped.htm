@@ -1,0 +1,358 @@
+<div class="spacerborder">
+
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function SetListId(ASender, AFormID) {
+      var AForm = document.getElementById(AFormID);
+      var OneCampaignLogAction = document.getElementById('OneCampaignLogAction');
+      var OneCampaignLogId = document.getElementById('OneCampaignLogId');
+      OneCampaignLogAction.value = ASender.name;
+      OneCampaignLogId.value = ASender.value;
+      return true;
+    }
+
+    function CheckboxClicked() {
+     DisableItem('LogsActions', GetCheckedCount('LogIDs[]', 'CampaignLogForm') > 0 );
+     ShowItem('ListActionSubmitBtn', (document.getElementById('LogsActions').selectedIndex != 0) && ( document.getElementById('LogsActions').disabled == false ) ) ;
+    }
+
+
+    function ConfirmDeleteLogEntryEvent(value) {
+      if(value)
+        document.getElementById('CampaignLogForm').submit();
+        else {
+          document.getElementById('OneCampaignLogAction').value = "";
+          document.getElementById('OneCampaignLogId').value = "";
+        }
+
+    }
+
+    function ConfirmListActionEvent(value) {
+      if(value)
+        document.getElementById('CampaignLogForm').submit();
+    }
+
+    function ConfirmListAction() {
+      AOption = document.getElementById("LogsActions").options[ document.getElementById("LogsActions").selectedIndex ];
+
+      if(AOption.value == "RemoveEntries") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Eintr&auml;ge dauerhaft l&ouml;schen?', 3, 320, 130, 'ConfirmListActionEvent');
+        return false;
+      }
+      if(AOption.value == "SendAgain") {
+        var ConfirmText = 'Der nochmalige Versand wird nur bei fehlgeschlagenen &Uuml;bermittlungen nochmals durchgef&uuml;hrt.<br /><br />M&ouml;chten Sie wirklich die gew&auml;hlten E-Mails nochmals versenden lassen?';
+        var SentEntryTextNotEqualToCampaignsText = '<b>WARNUNG:</b> Der f&uuml;r das E-Mailing hinterlegte E-Mail-Inhalt entspricht NICHT dem Inhalt der E-Mail, welcher urspr&uuml;nglich mit diesem Versandeintrag versendet worden ist, es w&uuml;rde daher der derzeit hinterlegte Inhalt nochmals versendet werden.';
+        if(document.getElementById("SentEntryTextEqualToCampaignsText").value == "1")
+           MessageBox('Best&auml;tigung', ConfirmText, 3, 320, 180, 'ConfirmListActionEvent');
+        if(document.getElementById("SentEntryTextEqualToCampaignsText").value == "0") {
+           MessageBox('Best&auml;tigung', ConfirmText + '<br /><br />' + SentEntryTextNotEqualToCampaignsText, 3, 380, 280, 'ConfirmListActionEvent');
+        }
+        return false;
+      }
+      return true;
+    }
+
+    function ConfirmRemoveSendEntry(){
+       MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich den Versandeintrag, Tracking-Statistik und E-Mail-Text dauerhaft l&ouml;schen?<br /><br /><b>Hinweis:</b> Nach dem L&ouml;schen des Eintrags werden getrackte Links und der Browserlink im Newsletter nicht mehr funktionieren. Ebenfalls wird der Eintrag im Newsletter-Archiv gel&ouml;scht.', 3, 580, 180, 'ConfirmRemoveSendEntryEvent');
+       return false;
+    }
+
+    function ConfirmRemoveSendEntryEvent(value){
+      if(value) {
+        document.getElementById('RemoveSendEntry').onclick = null;
+        document.getElementById('RemoveSendEntry').click();
+      }
+    }
+
+  //-->
+  </script>
+
+  <form name="CampaignLogForm" id="CampaignLogForm" method="post" action="./stat_campaignlog.php">
+  <input type="hidden" name="CampaignId" id="CampaignId" />
+  <input type="hidden" name="SendStatId" id="SendStatId" />
+
+  <input type="hidden" name="OneCampaignLogAction" id="OneCampaignLogAction" value="" />
+  <input type="hidden" name="OneCampaignLogId" id="OneCampaignLogId" value="" />
+
+  <input type="hidden" name="SentEntryTextEqualToCampaignsText" id="SentEntryTextEqualToCampaignsText" />
+
+  <script language="javascript" type="text/javascript" src="js/dhtmlgoodies_calendar.js" /></script>
+ 	<link type="text/css" rel="stylesheet" href="css/dhtmlgoodies_calendar.css" media="screen" />
+  <script language="JavaScript">
+  <!--
+    ChangeLanguageCode("de");
+    // german ever dd.mm.yyyy, others must be ever yyyy-mm-dd the php script doesn't support other formats
+  //-->
+  </script>
+
+  <!-- dummy for FF, GC, Opera //-->
+  <div style="height:0px; width:0px; position:absolute; overflow:hidden">
+      <input type="submit" />
+  </div>
+
+  <span class="Backlink"><a href="./browsecampaigns.php">Zur&uuml;ck</a></span><br />
+
+
+  <fieldset>
+    <legend>Informationen zum Versand</legend>
+    <br />
+    <table class="FormTable">
+      <tbody>
+        <tr>
+          <td class="CampaignStatColumn">
+            Anzahl E-Mail-Empf&auml;nger
+          </td>
+          <td class="CampaignStatValueColumn">
+            <RECIPIENTSCOUNT></RECIPIENTSCOUNT>
+          </td>
+        </tr>
+        <tr>
+          <td class="CampaignStatColumn">
+            Erfolgreich versendet
+          </td>
+          <td class="CampaignStatValueColumn">
+            <SENTCOUNTSUCC></SENTCOUNTSUCC>&nbsp;(<SENTCOUNTSUCCPERCENT></SENTCOUNTSUCCPERCENT>)
+          </td>
+        </tr>
+        <tr>
+          <td class="CampaignStatColumn">
+            Nicht erfolgreich versendet
+          </td>
+          <td class="CampaignStatValueColumn">
+            <SENTCOUNTFAILED></SENTCOUNTFAILED>&nbsp;(<SENTCOUNTFAILEDPERCENT></SENTCOUNTFAILEDPERCENT>)
+          </td>
+        </tr>
+
+        <tr>
+          <td class="CampaignStatColumn">
+            M&ouml;glicherweise versendet<SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Wird der Versand per CronJob verwendet, dann k&ouml;nnte es zum Scriptabbruch in dem Moment kommen, in dem gerade die E-Mail an den Mailserver &uuml;bermittelt wird. Der Status des Versands der E-Mail ist damit nicht bestimmbar. Ist diese Angabe hoch, dann sollte unter Men&uuml; Einstellungen - Optionen, Registerkarte E-Mail-Versand die Anzahl zu versendender E-Mails verringert werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>
+          </td>
+          <td class="CampaignStatValueColumn">
+            <SENTCOUNTPOSSIBLYSENT></SENTCOUNTPOSSIBLYSENT>&nbsp;(<SENTCOUNTPOSSIBLYSENTPERCENT></SENTCOUNTPOSSIBLYSENTPERCENT>)
+          </td>
+        </tr>
+
+        <tr>
+          <td class="CampaignStatColumn">
+            Hard bounces
+          </td>
+          <td class="CampaignStatValueColumn">
+            <HARDBOUNCES></HARDBOUNCES>&nbsp;(<HARDBOUNCESPERCENT></HARDBOUNCESPERCENT>)
+          </td>
+        </tr>
+
+        <tr>
+          <td class="CampaignStatColumn">
+            Abmeldungen
+          </td>
+          <td class="CampaignStatValueColumn">
+            <UNSUBSCRIBES></UNSUBSCRIBES>&nbsp;(<UNSUBSCRIBESPERCENT></UNSUBSCRIBESPERCENT>)
+          </td>
+        </tr>
+
+        <tr>
+          <td class="CampaignStatColumn">
+            Versand begonnen
+          </td>
+          <td class="CampaignStatValueColumn">
+            <SENDING:START></SENDING:START>
+          </td>
+        </tr>
+        <tr>
+          <td class="CampaignStatColumn">
+            Versand beendet
+          </td>
+          <td class="CampaignStatValueColumn">
+            <SENDING:END></SENDING:END>
+          </td>
+        </tr>
+        <tr>
+          <td class="CampaignStatColumn">
+            Versanddauer
+          </td>
+          <td class="CampaignStatValueColumn">
+            <SENDING:DURATION></SENDING:DURATION>
+          </td>
+        </tr>
+<!--
+        <tr>
+          <td class="CampaignStatColumn">
+            Twitter Update
+          </td>
+          <td class="CampaignStatValueColumn">
+            <SENDING:TWITTER_UPDATE></SENDING:TWITTER_UPDATE>
+          </td>
+        </tr>
+//-->
+
+        <tr>
+          <td class="CampaignStatColumn">
+            L&ouml;schen des Versandeintrags
+          </td>
+          <td class="CampaignStatValueColumn">
+
+            <CAN_REMOVE_SENDSTATID>
+            <input type="image" src="images/delete.gif" name="RemoveSendEntry" id="RemoveSendEntry" width="16" height="16"
+            onmouseout="hideTooltip()"
+            onmouseover="showTooltip(event,'Versandeintrag, Tracking-Statistik und E-Mail-Text dauerhaft l&ouml;schen.<br /><br /><b>Hinweis:</b> Nach dem L&ouml;schen des Eintrags werden getrackte Links und der Browserlink im Newsletter nicht mehr funktionieren. Ebenfalls wird der Eintrag im Newsletter-Archiv gel&ouml;scht.');return false;"
+            onclick="ConfirmRemoveSendEntry(); return false;"
+            />
+            </CAN_REMOVE_SENDSTATID>
+
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </fieldset>
+
+  <fieldset>
+  <legend>Anzeige des Versandprotokolls</legend>
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+          <tr>
+            <td style="width: 30%">
+              <br />
+              Zeige die Aktivit&auml;ten vom&nbsp;
+            </td>
+            <td style="width: 70%">
+              <br />
+             <input type="text" name="startdate" id="startdate" maxlength="10" size="10" readonly="readonly" />
+             <input type="image" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum w&auml;hlen" onclick="displayCalendar(document.getElementById('startdate'),'dd.mm.yyyy',this); return false;"  />
+             &nbsp;bis&nbsp;<input type="text" name="enddate" id="enddate" maxlength="10" size="10"  />
+             <input type="image" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum w&auml;hlen" onclick="displayCalendar(document.getElementById('enddate'),'dd.mm.yyyy',this); return false;"  />&nbsp;
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%">
+              Anzahl anzuzeigende Eintr&auml;ge
+            </td>
+            <td style="width: 70%">
+              <input type="text" name="ItemsPerPage" size="3" style="text-align: right" />
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%">
+              Zeige
+            </td>
+            <td style="width: 70%">
+              <select name="ShowItems" size="1">
+                <option value="AllItems">Alle Eintr&auml;ge</option>
+                <option value="OnlySentItems">Nur erfolgreiche &Uuml;bermittlungen</option>
+                <option value="OnlyFailedItems">Nur fehlgeschlagene &Uuml;bermittlungen</option>
+                <option value="OnlyPossiblySentItems">Nur f&uuml;r m&ouml;glicherweise versendete E-Mails</option>
+                <option value="OnlyToSendItems">Nur f&uuml;r Versand vorgesehene</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="width: 100%">
+              <br />
+              <input type="submit" name="StatRefresh" value="Aktualisieren" />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </fieldset>
+
+  <table id="TableCampaignLogLists" name="TableCampaignLogLists" class="FixedTable" style="width: 99% !important; margin-left: 5px">
+  	<thead>
+  		<tr>
+     <td class="NoWrap" width="1%"><input name="SelectAllChkBox" type="checkbox" onclick="CheckAllCheckboxes('SelectAllChkBox', 'LogIDs[]', 'CampaignLogForm'); CheckboxClicked();" /></td>
+     <td class="NoWrap" width="20%">Datum</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="30%">E-Mail-Adresse</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="28%">E-Mail-Betreff</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="12%">Status</td>
+  			<td class="NoWrap" width="7%">&nbsp;</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td><input name="LogIDs[]" type="checkbox" onclick="CheckboxClicked()" /></td>
+  			<td><LIST:SENTDATE></LIST:SENTDATE></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:EMAIL></LIST:EMAIL></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:SUBJECT></LIST:SUBJECT></td>
+  			<td>&nbsp;</td>
+  			<td>
+       <a href="#" onclick="ShowModalDialog('./stat_campaignlog.php?Result_id=&CampaignId=&SendStatId=', 720, 300); return false;"><LIST:STATUS></LIST:STATUS></a>
+     </td>
+     <td>
+			    <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteLogEntry" onclick="SetListId(this, 'CampaignLogForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich diesen Eintrag dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmDeleteLogEntryEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht den Eintrag dauerhaft.');return false" />&nbsp;
+			    <input type="image" src="images/outbox16.gif" width="16" height="16" name="SendAgain" onclick="SetListId(this, 'CampaignLogForm'); return true" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'E-Mail nochmals versenden.');return false" />
+     </td>
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+  </table>
+
+  <table class="FixedTable" style="width: 99% !important; margin-left: 5px">
+  	<thead>
+  	</thead>
+  	<tbody>
+  	</tbody>
+  	<tfoot>
+
+  		<tr>
+  		  <td colspan="9">
+    		  <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+    		  <tr>
+      		  <td style="width:1%; white-space:nowrap; ">
+        		  Selektierte:&nbsp;
+      		  </td>
+      		  <td style="width:60%; white-space:nowrap; ">
+          		  <select name="LogsActions" id="LogsActions" size="1" onchange="ShowItem('ListActionSubmitBtn', (document.getElementById('LogsActions').selectedIndex != 0) && ( document.getElementById('LogsActions').disabled == false ) ); ">
+            		  <option value="doNothing">Aktion w&auml;hlen</option>
+            		  <option value="RemoveEntries">L&ouml;scht die gew&auml;hlten Eintr&auml;ge</option>
+            		  <option value="SendAgain">Fehlgeschlagene E-Mails nochmals versenden</option>
+          		  </select>
+          		  <input type="submit" name="ListActionSubmitBtn" id="ListActionSubmitBtn" value="Ausf&uuml;hren" onclick="return ConfirmListAction()" />
+      		  </td>
+
+       		  <td style="width:100%; white-space:nowrap;">
+           		  &nbsp;
+       		  </td>
+        			<td style="text-align:right; width:1%; white-space:nowrap; ">
+            			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'CampaignLogForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+            			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'CampaignLogForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+            			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'CampaignLogForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+            			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'CampaignLogForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+           </td>
+           <td style="text-align:right; width:1%; white-space:nowrap; ">
+            			  Seite:&nbsp;
+           </td>
+           <td style="text-align:right; width:1%; white-space:nowrap; ">
+            			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.CampaignLogForm.submit()">
+                   <OPTION:PAGES>
+                   <option>1</option>
+                   </OPTION:PAGES>
+            			  </select>
+           </td>
+       	</tr>
+       	</table>
+  			</td>
+  		</tr>
+
+  	</tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableCampaignLogLists','tableRollOverEffect','tableRowClickEffect');
+
+  CheckboxClicked();
+  ShowItem('ListActionSubmitBtn', (document.getElementById('LogsActions').selectedIndex != 0) && ( document.getElementById('LogsActions').disabled == false ) ) ;
+  DisableItem('LogsActions', GetCheckedCount('LogIDs[]', 'CampaignLogForm') > 0 );
+
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

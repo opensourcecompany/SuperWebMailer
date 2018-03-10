@@ -1,0 +1,376 @@
+<script type="text/javascript" src="js/jquery-latest.min.js"></script>
+<div class="spacerborder">
+  <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+  <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
+
+  <form name="EditRecipientsForm" id="EditRecipientsForm" method="post" action="./browsercpts.php">
+
+  <input type="hidden" name="OneRecipientAction" id="OneRecipientAction" value="" />
+  <input type="hidden" name="OneRecipientId" id="OneRecipientId" value="" />
+  <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+
+  <input type="hidden" name="searchoptions" id="searchoptions" />
+
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function load_mailinglists(){
+     if($('#DestMailingList option').size() != 0) return; // is loaded?
+     var date = new Date();
+     var nocache = date.getTime() / 1000;
+     $("#Loading").show();
+     $.ajaxSetup({ cache: false });
+
+    	jQuery.get('ajax_getmailinglists.php' + "?nocache=" + nocache + '&IgnoreList=' + $("#OneMailingListId").val(), "", function(data){
+    	   $("#DestMailingList").html( data );
+    	});
+
+     $("#Loading").hide();
+    }
+
+    function load_groups(){
+     if($('#Groups option').size() != 0) return; // is loaded?
+     var date = new Date();
+     var nocache = date.getTime() / 1000;
+     $("#Loading").show();
+     $.ajaxSetup({ cache: false });
+
+    	jQuery.get('ajax_getgroups.php' + "?nocache=" + nocache + '&OneMailingListId=' + $("#OneMailingListId").val(), "", function(data){
+
+    	   $("#Groups").html( data );
+    	});
+
+     $("#Loading").hide();
+    }
+
+    function SetListId(ASender, AFormID) {
+      var AForm = document.getElementById(AFormID);
+      var OneRecipientAction = document.getElementById('OneRecipientAction');
+      var OneRecipientId = document.getElementById('OneRecipientId');
+      OneRecipientAction.value = ASender.name;
+      OneRecipientId.value = ASender.value;
+      document.getElementById('RecipientsActions').selectedIndex = 0;
+      return true;
+    }
+
+    function DoListActionChange(ASender, AFormID, AElementID, AElement2ID, ShowMessageBox) {
+      var AForm = document.getElementById(AFormID);
+      var AElement = document.getElementById(AElementID);
+      var AElement2 = document.getElementById(AElement2ID);
+
+      if ( ( (ASender.options[ASender.selectedIndex].value == "MoveRecipients") || (ASender.options[ASender.selectedIndex].value == "CopyRecipients") ) && (ASender.disabled == false) ) {
+         load_mailinglists();
+         AElement.style.display = "";
+         if(ShowMessageBox)
+           MessageBox('Information', 'Bitte w&auml;hlen Sie neben dieser Auswahlbox die Ziel-Empf&auml;ngerliste aus und klicken Sie auf "Ausf&uuml;hren".', 0, 320, 120, '');
+         }
+        else
+         AElement.style.display = "none";
+
+      if ( ( (ASender.options[ASender.selectedIndex].value == "AssignToGroups") || (ASender.options[ASender.selectedIndex].value == "AssignToGroupsAdditionally") ) && (ASender.disabled == false) ) {
+         load_groups();
+         AElement2.style.display = "";
+         if(ShowMessageBox)
+           MessageBox('Information', 'Bitte w&auml;hlen Sie neben dieser Auswahlbox die Gruppen aus und klicken Sie auf "Ausf&uuml;hren".', 0, 320, 120, '');
+      }
+        else
+          AElement2.style.display = "none";
+
+    }
+
+    function CheckboxClicked() {
+     DisableItem('RecipientsActions', GetCheckedCount('RecipientsIDs[]', 'EditRecipientsForm') > 0 );
+     DoListActionChange( document.getElementById('RecipientsActions'), 'EditRecipientsForm', 'DestMailingList', 'Groups', false);
+     ShowItem('ListActionSubmitBtn', (document.getElementById('RecipientsActions').selectedIndex != 0) && ( document.getElementById('RecipientsActions').disabled == false ) ) ;
+    }
+
+    function ConfirmDeleteRecipientEvent(value) {
+      if(value)
+        document.getElementById('EditRecipientsForm').submit();
+        else {
+          document.getElementById('OneRecipientAction').value = "";
+          document.getElementById('OneRecipientId').value = "";
+        }
+
+    }
+
+    function ConfirmListActionEvent(value) {
+      if(value)
+        document.getElementById('EditRecipientsForm').submit();
+    }
+
+    function ConfirmListAction() {
+      AOption = document.getElementById("RecipientsActions").options[ document.getElementById("RecipientsActions").selectedIndex ];
+
+      if(AOption.value == "RemoveRecipients") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Empf&auml;nger dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmListActionEvent');
+        return false;
+      }
+      if(AOption.value == "MoveRecipients") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Empf&auml;nger in die gew&auml;hlte Empf&auml;ngerliste verschieben?', 3, 320, 120, 'ConfirmListActionEvent');
+        return false;
+      }
+      if(AOption.value == "CopyRecipients") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Empf&auml;nger in die gew&auml;hlte Empf&auml;ngerliste kopieren?', 3, 320, 120, 'ConfirmListActionEvent');
+        return false;
+      }
+      if(AOption.value == "AddRecipientToLocalBlacklist") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Empf&auml;nger in die lokale Blockliste aufnehmen?<br /><br />An diese Empf&auml;nger kann danach in dieser Empf&auml;ngerliste <b>keine</b> E-Mail mehr versendet werden.', 3, 320, 200, 'ConfirmListActionEvent');
+        return false;
+      }
+      if(AOption.value == "AddRecipientToGlobalBlacklist") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Empf&auml;nger in die globale Blockliste aufnehmen?<br /><br />An diese Empf&auml;nger kann danach in <b>keiner</b> der Empf&auml;ngerlisten eine E-Mail versendet werden.', 3, 320, 200, 'ConfirmListActionEvent');
+        return false;
+      }
+      if(AOption.value == "ResetInactiveState") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich die <b>gew&auml;hlten</b> Empf&auml;nger wieder f&uuml;r den E-Mail-Versand aktivieren?', 3, 320, 120, 'ConfirmListActionEvent');
+        return false;
+      }
+      if(AOption.value == "SetInactiveState") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich die <b>gew&auml;hlten</b> Empf&auml;nger f&uuml;r den E-Mail-Versand deaktivieren? Die Empf&auml;nger erhalten danach <b>keine</b> E-Mails mehr.', 3, 320, 150, 'ConfirmListActionEvent');
+        return false;
+      }
+      if(AOption.value == "ResetBounceState") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich f&uuml;r <b>alle gew&auml;hlten</b> Empf&auml;nger den Bounce-Status auf "zustellbar" und den Bounce-Z&auml;hler auf 0 zur&uuml;cksetzen?', 3, 320, 150, 'ConfirmListActionEvent');
+        return false;
+      }
+      if(AOption.value == "SetSubscribedState") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich f&uuml;r <b>alle gew&auml;hlten</b> Empf&auml;nger den Anmelde-Status auf "angemeldet" &auml;ndern?<br /><br />Hinweis: Dies ist rechtlich mehr als bedenklich.', 3, 320, 180, 'ConfirmListActionEvent');
+        return false;
+      }
+
+      return true;
+    }
+
+  //-->
+  </script>
+
+<style type="text/css">
+<!--
+
+* html body{
+ overflow:hidden;
+ }
+
+.scrollRcptList{
+	overflow:auto;
+	margin:0;
+ padding:0px;
+ padding-top:5px;
+ padding-bottom:5px;
+ border:0;
+	text-align:justify;
+	
+	overflow-y: hidden;
+	overflow-x: hidden,scroll;
+}
+-->
+</style>
+
+<!--[if gt IE 8]>
+
+<style type="text/css">
+<!--
+
+/* IE 9 needs ever visible scrollbar*/
+.scrollRcptList{
+	overflow-y: hidden;
+	overflow-x: scroll;
+}
+-->
+</style>
+
+<![endif]-->
+
+
+  <table class="FixedTable">
+    <tbody>
+      <tr>
+        <td>
+         <span style="float: right; margin-right: 0pt">
+         <a class="Backlink" href="./browsesearchrecipients_results.php" onclick="document.EditRecipientsForm.action='./browsesearchrecipients_results.php';document.EditRecipientsForm.submit(); return false;">Zur&uuml;ck zum Ergebnis der Suche</a>&nbsp;
+         <a class="Backlink" href="./searchrecipients.php?ModifySearchParams=1" onclick="document.EditRecipientsForm.action='./searchrecipients.php?ModifySearchParams=1';document.EditRecipientsForm.submit(); return false;">Suche modifizieren</a>&nbsp;
+         <a class="Backlink" href="./recipientedit.php" onclick="document.EditRecipientsForm.action='./recipientedit.php';document.EditRecipientsForm.submit(); return false;">Neuen Empf&auml;nger anlegen</a>&nbsp;
+         <a class="Backlink" href="./importrecipients.php" onclick="document.EditRecipientsForm.action='./importrecipients.php';document.EditRecipientsForm.submit(); return false;">Empf&auml;nger importieren</a>&nbsp;
+         <a class="Backlink" href="./exportrecipients.php" onclick="document.EditRecipientsForm.action='./exportrecipients.php';document.EditRecipientsForm.submit(); return false;">Empf&auml;nger exportieren</a>
+         </span>
+         <p>
+         <a href="javascript:void(0);" class="Backlink" onclick="ShowHideItem('ShowHideFilterBox')">Filter <b><IF:FILTER_ACTIVE>(aktiv)</IF:FILTER_ACTIVE><IF:FILTER_INACTIVE>(inaktiv)</IF:FILTER_INACTIVE></b> anzeigen / nicht anzeigen</a>
+      			<div id="ShowHideFilterBox">
+      			
+      			
+         <input type="checkbox" name="ShowOnlyRecipientsInGroups" id="ShowOnlyRecipientsInGroups" onclick="DisableItem('GroupsScrollbox', document.getElementById('ShowOnlyRecipientsInGroups').checked);DisableItem('MemberInGroupExistsNotExists', document.getElementById('ShowOnlyRecipientsInGroups').checked);" />&nbsp;<label for="ShowOnlyRecipientsInGroups">Zeige Empf&auml;nger, die sich in diesen Gruppen <select name="MemberInGroupExistsNotExists" id="MemberInGroupExistsNotExists"><option value="MemberInGroupExists">befinden</option><option value="MemberInGroupNotExists">nicht befinden</option></select>:</label>
+                 <div class="scrollbox" style="margin-left: 20px; width: 452px; height: 50px" name="GroupsScrollbox" id="GroupsScrollbox">
+                   <SHOW:SHOWONLYRECIPIENTSINGROUPS>
+                     <span class="scrollboxSpan"><input type="checkbox" name="ShowOnlyRecipientsGroups[]" value="<GroupsId></GroupsId>" id="GroupsLabelId" />&nbsp;<label for="GroupsLabelId"><GroupsName></GroupsName></label><br /></span>
+                   </SHOW:SHOWONLYRECIPIENTSINGROUPS>
+                 </div>
+      			<br /><br />
+      			Suche nach:&nbsp;<input type="text" name="RcptsSearchFor" size="32" />&nbsp;im Feld:&nbsp;
+            <select size="1" name="Rcptsfieldname">
+             <option value="SearchForid">ID</option>
+             <searchforfieldnames></searchforfieldnames>
+             <option value="SearchForx_GroupName">Gruppenname</option>
+             <option value="SearchForAll">Alle Felder</option>
+            </select>
+      			<br /><br />
+      			Sortiere Liste nach:&nbsp;
+            <select size="1" name="Rcptssortfieldname">
+               <option value="Sortid">ID</option>
+               <sortforfieldnames></sortforfieldnames>
+               <option value="Sortbouncestatus">Bounce-Status</option>
+               <option value="SortActiveStatus">Aktiviert/Deaktiviert</option>
+               <option value="SortSubscriptionStatus">Anmeldestatus</option>
+            </select>&nbsp;<select size="1" name="Rcptssortorder"><option value="descending">absteigend</option><option value="ascending">aufsteigend</option></select>
+      			<br />
+         <br />
+      			Zeige:&nbsp;<input type="text" name="RcptsItemsPerPage" size="4" style="text-align:right" />&nbsp;Eintr&auml;ge&nbsp;pro&nbsp;Seite
+      			<br />
+      			<br />
+         <div style="float:right">&nbsp;<input type="button" name="RcptsColumnsBtn" value=" Anzuzeigende Spalten... " onclick="ShowRcptsColumnsDlg(); document.getElementById('RecipientsActions').selectedIndex = 0; document.getElementById('RecipientsActions').onchange(); return false;" />&nbsp;<input type="submit" name="FilterApplyBtn" value=" &Uuml;bernehmen " onclick="document.getElementById('RecipientsActions').selectedIndex = 0; document.getElementById('RecipientsActions').onchange();" /></div>
+         <input type="checkbox" name="RcptsSaveFilter" value="true" id="RcptsSaveFilter" />&nbsp;<label for="RcptsSaveFilter">Filter zur n&auml;chsten Verwendung speichern</label>
+         </div>
+         </p>
+        </td>
+      </tr>
+      <tr>
+      <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+      </tr>
+    </tbody>
+  </table>
+  <script language="JavaScript">
+  <!--
+    ShowHideItem('ShowHideFilterBox');
+  //-->
+  </script>
+  <div class="scrollRcptList" id="scrollRcptList">
+  <table id="TableRecipients" name="TableRecipients" class="FixedTable">
+  	<thead>
+  		<tr>
+  			<td class="NoWrap" width="1%"><input name="SelectAllChkBox" type="checkbox" onclick="CheckAllCheckboxes('SelectAllChkBox', 'RecipientsIDs[]', 'EditRecipientsForm'); CheckboxClicked();" /></td>
+  			<td class="NoWrap" width="5%" onclick="SortOnClick('Sortid', 'Rcptssortfieldname', 'Rcptssortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">ID</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+
+     <HEAD:ACTIONS>
+     			<td class="NoWrapAlignRight" width="5%">Aktionen</td>
+        <HEAD:ACTIONS_SPACER>
+       			<td class="NoWrap" width="1%">&nbsp;</td>
+        </HEAD:ACTIONS_SPACER>
+     </HEAD:ACTIONS>
+
+     <HEAD:COLUMNDESCRIPTION>
+    			<td class="NoWrap" onclick="SortOnClick('Sort<sortforfieldname>', 'Rcptssortfieldname', 'Rcptssortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';"><HEAD:COLUMNNAME></HEAD:COLUMNNAME></td>
+     </HEAD:COLUMNDESCRIPTION>
+
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td><input name="RecipientsIDs[]" type="checkbox" onclick="CheckboxClicked()" /></td>
+  			<td class="NoWrapAlignRight"><LIST:ID></LIST:ID></td>
+  			<td>&nbsp;</td>
+
+     <BODY:ENTRIES>
+       <BODY:ACTIONS>
+       			<td class="NoWrap" width="5%">
+       			    <input type="image" src="images/edit.gif" width="16" height="16" name="EditRecipientProperties" onclick="SetListId(this, 'EditRecipientsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Erm&ouml;glicht das &Auml;ndern des Empf&auml;ngers.');return false" />&nbsp;
+       			    <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteRecipient" onclick="SetListId(this, 'EditRecipientsForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich diesen Empf&auml;nger dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmDeleteRecipientEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht den Empf&auml;nger dauerhaft.');return false" />
+     		   </td>
+          <BODY:ACTIONS_SPACER>
+          			<td class="NoWrap" width="1%">&nbsp;</td>
+          </BODY:ACTIONS_SPACER>
+       </BODY:ACTIONS>
+
+       <BODY:FIELD>
+      			<td style="word-break: normal"><LIST:FIELDNAME></LIST:FIELDNAME></td>
+       </BODY:FIELD>
+
+       <BODY:EMAILFIELD>
+      			<td class="NoWrap"><LIST:MEMBERIMAGE></LIST:MEMBERIMAGE>&nbsp;<LIST:BOUNCEIMAGE></LIST:BOUNCEIMAGE>&nbsp;<LIST:U_EMAIL></LIST:U_EMAIL></td>
+       </BODY:EMAILFIELD>
+     </BODY:ENTRIES>
+
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+
+  	</table>
+  </div>
+
+ 	 <table class="FixedTable" style="width: 100%">
+ 	 <thead></thead>
+ 	 <tbody></tbody>
+  	<tfoot>
+
+  		<tr>
+  		  <td>
+   		  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+   		  <tr>
+   		  <td style="width:2%; white-space:nowrap;">
+     		  Selektierte:&nbsp;
+   		  </td>
+   		  <td style="width:70%; white-space:nowrap; text-align: left">
+       		  <select name="RecipientsActions" id="RecipientsActions" size="1" onchange="DoListActionChange(this, 'EditRecipientsForm', 'DestMailingList', 'Groups', true); ShowItem('ListActionSubmitBtn', (document.getElementById('RecipientsActions').selectedIndex != 0) && ( document.getElementById('RecipientsActions').disabled == false ) ); ">
+         		  <option value="doNothing">Aktion w&auml;hlen</option>
+         		  <option value="RemoveRecipients">L&ouml;scht die gew&auml;hlten Empf&auml;nger</option>
+         		  <option value="MoveRecipients">Verschieben in Liste...</option>
+         		  <option value="CopyRecipients">Kopieren in Liste...</option>
+         		  <option value="AddRecipientToLocalBlacklist">In lokale Blockliste aufnehmen</option>
+         		  <option value="AddRecipientToGlobalBlacklist">In globale Blockliste aufnehmen</option>
+         		  <option value="AssignToGroups">Gruppe(n) zuordnen</option>
+         		  <option value="AssignToGroupsAdditionally">Zus&auml;tzliche Gruppe(n) zuordnen</option>
+         		  <option value="ResetInactiveState">Deaktivierte Empf&auml;nger aktivieren</option>
+         		  <option value="SetInactiveState">Aktive Empf&auml;nger deaktivieren</option>
+         		  <option value="ResetBounceState">Bounce-Status zur&uuml;cksetzen</option>
+         		  <option value="SetSubscribedState">Anmeldestatus auf &quot;angemeldet&quot; setzen</option>
+       		  </select>
+       		  <select name="DestMailingList" id="DestMailingList" size="1" style="visibility: none; width: 250px;">
+          		  <!-- MAILINGLISTS //-->
+       		  </select>
+       		  <select name="Groups[]" id="Groups" size="5" multiple="multiple" style="width: 250px; visibility: none;">
+             <!-- GROUPS //-->
+       		  </select>&nbsp;
+       		  <span id="Loading" style="visibility:hidden; display: none"><img src="images/loading.gif" height="16" width="16" /></span>
+       		  <input type="submit" name="ListActionSubmitBtn" id="ListActionSubmitBtn" value="Ausf&uuml;hren" onclick="return ConfirmListAction()" />
+   		  </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+       			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'EditRecipientsForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'EditRecipientsForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'EditRecipientsForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+       			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'EditRecipientsForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  Seite:&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <select name="RcptsPageSelected" id="RcptsPageSelected" size="1" style="min-width:30pt ! important;" onchange="document.EditRecipientsForm.submit()">
+                <OPTION:PAGES>
+                <option>1</option>
+                </OPTION:PAGES>
+         			  </select>
+        </td>
+       	</tr>
+       	</table>
+  			</td>
+  		</tr>
+
+  	</tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableRecipients','tableRollOverEffect','tableRowClickEffect');
+  AddTableDblClickEvent('TableRecipients');
+  DoListActionChange(document.getElementById("RecipientsActions"), 'EditRecipientsForm', 'DestMailingList', 'Groups', false);
+  CheckboxClicked();
+  ShowItem('ListActionSubmitBtn', (document.getElementById('RecipientsActions').selectedIndex != 0) && ( document.getElementById('RecipientsActions').disabled == false ) ) ;
+  DisableItem('RecipientsActions', GetCheckedCount('RecipientsIDs[]', 'EditRecipientsForm') > 0 );
+
+  DisableItem('GroupsScrollbox', document.getElementById('ShowOnlyRecipientsInGroups').checked);
+  DisableItem('MemberInGroupExistsNotExists', document.getElementById('ShowOnlyRecipientsInGroups').checked);
+
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

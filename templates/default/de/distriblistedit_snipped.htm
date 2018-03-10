@@ -1,0 +1,1430 @@
+      <script type="text/javascript" src="js/jquery-latest.min.js"></script>
+      <script language="javascript" type="text/javascript">
+      <!--
+
+        function load_forms(){
+         var date = new Date();
+         var nocache = date.getTime() / 1000;
+         $("#Loading").show();
+         $("#formsList").hide();
+         $.ajaxSetup({ cache: false });
+
+        	jQuery.get('ajax_getforms.php' + "?nocache=" + nocache + '&MailingListId=' + $("#maillists_id").val(), "", function(data){
+        	   $("#formsList").html( data );
+        	});
+
+         $("#Loading").hide();
+         $("#formsList").show();
+        }
+
+      //-->
+      </script>
+      <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+      <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var TabListArray = Array();
+        var TabList1Array = Array();
+
+        // default placeholders
+        var arrPlaceholderItems = new Array(
+            new Array('[PLACEHOLDER]', 'PLACEHOLDERTEXT')
+      	    );
+
+        // confirmation/info mail placeholders
+        var arrDistribListConfInfoPlaceholderItems = new Array(
+            new Array('[CONFINFOPLACEHOLDER]', 'CONFINFOPLACEHOLDERTEXT')
+      	    );
+
+        var myBasePath='';
+
+        function ConfirmEditInboxesEvent(value) {
+         if(value)
+           window.location.href="./browseinboxes.php";
+        }
+
+        function ConfirmEditMTAsEvent(value) {
+         if(value)
+           window.location.href="./browsemtas.php";
+        }
+
+        function ConfirmEditMailinglistsEvent(value) {
+         if(value)
+           window.location.href="./browsemailinglists.php";
+        }
+
+        // Firefox fix it returns also textnodes
+        function GetNextNodeSibling(node) {
+        	var n = node;
+        	do n = n.nextSibling;
+        	while (n && n.nodeType != 1);
+        	return n;
+        }
+
+        function GetPreviousNodeSibling(node) {
+        	var p = node;
+        	do p = p.previousSibling;
+        	while (p && p.nodeType != 1);
+        	return p;
+        }
+
+        function MTAClick(o, MTAsScrollboxid) {
+          var MTAsScrollbox = document.getElementById(MTAsScrollboxid);
+          p = o;
+          while(p != null && p.tagName != "SPAN")
+             p = p.parentNode;
+          if(p == null) {
+             document.getElementById("MTAUp").disabled = true;
+             document.getElementById("MTADown").disabled = true;
+             return false;
+          }
+          if(GetPreviousNodeSibling(p) == null)
+             document.getElementById("MTAUp").disabled = true;
+             else {
+             document.getElementById("MTAUp").disabled = false;
+             }
+          if(GetNextNodeSibling(p) == null)
+             document.getElementById("MTADown").disabled = true;
+             else
+             document.getElementById("MTADown").disabled = false;
+        }
+
+
+        function MoveMTA(direction, MTAsScrollboxid) {
+          // disabled because DOM is slow
+          document.getElementById("MTAUp").disabled = true;
+          document.getElementById("MTADown").disabled = true;
+
+          var MTAsScrollbox = document.getElementById(MTAsScrollboxid);
+          p = MTAsScrollbox.firstChild;
+          while(p != null & p.className != "scrollboxclickEffect") {
+            p = p.nextSibling;
+          }
+          if(p == null) {
+            MTAClick(p, MTAsScrollboxid);
+            return false;
+          }
+
+          if(direction == "Up" && GetPreviousNodeSibling(p) == null) return;
+          if(direction == "Down" && GetNextNodeSibling(p) == null) return;
+
+          if(direction == "Up") {
+             prevP = GetPreviousNodeSibling(p);
+             MTAsScrollbox.removeChild(p);
+             MTAsScrollbox.insertBefore(p, prevP);
+             MTAClick(p, MTAsScrollboxid);
+          }
+          if(direction == "Down") {
+             nextP = GetNextNodeSibling(p);
+             MTAsScrollbox.removeChild(p);
+             nextP = MTAsScrollbox.replaceChild(p, nextP);
+             MTAsScrollbox.insertBefore(nextP, p);
+             MTAClick(p, MTAsScrollboxid);
+          }
+
+        }
+        //
+
+      //-->
+      </script>
+
+      <div class="spacerborder">
+        <form method="post" id="DistribListEditForm" name="DistribListEditForm" action="./distriblistedit.php" onsubmit="CheckAndRemoveCriticalChars('DistribListEditForm'); SelectAllEMailAddresses();">
+          <input type="hidden" id="DistribListId" name="DistribListId" />
+          <input type="hidden" id="EMailsSent" name="EMailsSent" />
+          <input type="hidden" name="PersonalizeEMails" />
+
+          <span class="Backlink"><a href="./browsedistriblists.php">Zur&uuml;ck</a></span><br />
+          <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+
+                  <!-- ##### TabView - START -->
+                  <div id="dhtmlgoodies_tabView">
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Allgemein');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie der Verteilerliste einen eindeutigen Namen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Allgemein</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="Name">Name der Verteilerliste</label>
+                                </td>
+                                <td><input type="text" id="Name" name="Name" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Beschreibung (optional)
+                                </td>
+                                <td><textarea id="Description" name="Description" rows="3" cols="52"></textarea></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Verteilerliste aktivieren/deaktivieren
+                                </td>
+                                <td><input type="checkbox" id="IsActive" name="IsActive" /><label for="IsActive">&nbsp;Verteilerliste ist aktiv</label></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend><img src="images/icon_warning.gif" width="24" heigth="24" border="0" alt="" /> Sicherheit</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td colspan="2">
+                                  <input type="checkbox" id="SendConfirmationRequired" name="SendConfirmationRequired" onclick="DisableControlsById('SendConfirmationRequired', Array('SendConfirmationRequiredSenderAdmin1', 'SendConfirmationRequiredSenderAdmin2' ) ); DisableControlsById('SendConfirmationRequiredSenderAdmin2', Array('SendInfoMailToSender') );" />&nbsp;<label for="SendConfirmationRequired">E-Mail mit Best&auml;tigungslink f&uuml;r den Start des E-Mail-Versands versenden.</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Versendet eine E-Mail mit Best&auml;tigungslink an den Absender der E-Mail, welcher die E-Mail an die Verteilerliste gesendet hat, oder an die E-Mail-Adresse des Admins. Erst durch Klick auf diesen Link wird der E-Mail-Versand begonnen. (EMPFOHLEN!)');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                  <br />
+                                  <br />
+                                  <div style="margin-left: 20px">
+                                    <input type="radio" name="SendConfirmationRequiredSenderAdmin" value="1" id="SendConfirmationRequiredSenderAdmin1" onclick="DisableControlsById('SendConfirmationRequiredSenderAdmin2', Array('SendInfoMailToSender') );" /><label for="SendConfirmationRequiredSenderAdmin1">&nbsp;Best&auml;tigungslink an den Versender der E-Mail versenden</label><br />
+                                    <input type="radio" name="SendConfirmationRequiredSenderAdmin" value="2" id="SendConfirmationRequiredSenderAdmin2" onclick="DisableControlsById('SendConfirmationRequiredSenderAdmin2', Array('SendInfoMailToSender') );" /><label for="SendConfirmationRequiredSenderAdmin2">&nbsp;Best&auml;tigungslink an den Admin versenden</label><br />
+                                    <div style="margin-left: 20px">
+                                      <input type="checkbox" name="SendInfoMailToSender" id="SendInfoMailToSender" /><label for="SendInfoMailToSender">&nbsp;Informations-E-Mail an den Versender der E-Mail senden</label>
+                                    </div>
+                                  </div>
+
+                                <br /><br /></td>
+                              </tr>
+
+                              <tr>
+                                <td colspan="2">
+                                   <input type="radio" name="AcceptAllSenderEMailAddresses" value="1" id="AcceptAllSenderEMailAddresses1" onclick="AcceptAllSenderEMailAddressesClick();" /><label for="AcceptAllSenderEMailAddresses1">&nbsp;E-Mails von allen Absender-E-Mail-Adressen f&uuml;r den Verteiler akzeptieren</label><br />
+                                   <input type="radio" name="AcceptAllSenderEMailAddresses" value="2" id="AcceptAllSenderEMailAddresses3" onclick="AcceptAllSenderEMailAddressesClick();" /><label for="AcceptAllSenderEMailAddresses3">&nbsp;E-Mails nur von Absender-E-Mail-Adressen f&uuml;r den Verteiler akzeptieren, die sich in der Empf&auml;ngerliste befinden</label><br />
+                                   <input type="radio" name="AcceptAllSenderEMailAddresses" value="0" id="AcceptAllSenderEMailAddresses2" onclick="AcceptAllSenderEMailAddressesClick();" /><label for="AcceptAllSenderEMailAddresses2">&nbsp;E-Mails nur von diesen Absender-E-Mail-Adressen f&uuml;r den Verteiler akzeptieren</label>
+                                   <br /><br />
+                                   <select name="AcceptSenderEMailAddresses[]" id="AcceptSenderEMailAddresses[]" multiple="multiple" style="min-width: 800px" size="10" onchange="AcceptAllSenderEMailAddressesClick();" onclick="AcceptAllSenderEMailAddressesClick();">
+                                     <SHOW:SenderEMailAddresses>
+                                     </SHOW:SenderEMailAddresses>
+                                   </select><br /><br />
+                                   <input type="button" id="AddEMailBtn" value="Neue E-Mail-Adresse(n)" onclick="AddEMail(); return false;" />
+                                   <input type="button" id="EditEMailBtn" value="E-Mail-Adresse &auml;ndern" onclick="EditEMail(); return false;" />
+                                   <input type="button" id="RemoveEMailBtn" value="E-Mail-Adresse(n) l&ouml;schen" onclick="RemoveEMails(); return false;" />
+
+                                </td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend>Statusreport nach Versand der E-Mails</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td><input type="checkbox" id="SendReportToDistribSenderEMailAddress" name="SendReportToDistribSenderEMailAddress" /><label for="SendReportToDistribSenderEMailAddress">&nbsp;Statusreport an den Versender der E-Mail an diesen Verteiler senden</label>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><input type="checkbox" id="SendReportToYourSelf" name="SendReportToYourSelf" /><label for="SendReportToYourSelf">&nbsp;Statusreport an Ihre E-Mail-Adresse <b>[EMAILADDRESS]</b> senden</label>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><input type="checkbox" id="SendReportToListAdmin" name="SendReportToListAdmin" /><label for="SendReportToListAdmin">&nbsp;Statusreport an den Administrator der Empf&auml;ngerliste senden</label>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><input type="checkbox" id="SendReportToMailingListUsers" name="SendReportToMailingListUsers" /><label for="SendReportToMailingListUsers">&nbsp;Statusreport an alle zugewiesenen Nutzer der Empf&auml;ngerliste senden</label>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><input type="checkbox" id="SendReportToEMailAddress" name="SendReportToEMailAddress" onclick="DisableControl( document.getElementById('SendReportToEMailAddress').checked, document.getElementById('SendReportToEMailAddressEMailAddress'), null); if(document.getElementById('SendReportToEMailAddress').checked) document.getElementById('SendReportToEMailAddressEMailAddress').focus();" /><label for="SendReportToEMailAddress">&nbsp;Statusreport an folgende E-Mail-Adresse senden</label>&nbsp;
+                                <input type="text" name="SendReportToEMailAddressEMailAddress" id="SendReportToEMailAddressEMailAddress" size="30" maxlength="255" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <p>&nbsp;</p>
+
+                      <fieldset>
+                      <legend>Informationen</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Erstellungsdatum der Verteilerliste
+                                </td>
+                                <td><SHOW:CREATEDATE></SHOW:CREATEDATE><input type="hidden" name="CREATEDATE" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Bisher versendete E-Mails
+                                </td>
+                                <td><SHOW:EMAILSSENT></SHOW:EMAILSSENT></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('E-Mail-Verarbeitung');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Jeder Verteilerliste muss ein Posteingangsserver f&uuml;r den Abruf der E-Mail zugewiesen werden, welche an alle Empf&auml;nger der Empf&auml;ngerliste versendet werden soll.<br /><br />Mit Semikolon(;) getrennt k&ouml;nnen Teilzeichenketten als Bedingung f&uuml;r die Filterung der E-Mails angegeben werden.<br /><br />Geben Sie ebenfalls die maximale Anzahl E-Mails an, die abgerufen und beantwortet werden sollen. Ist die Anzahl zu hoch eingestellt, dann k&ouml;nnte es zum Abbruch des Scripts f&uuml;hren.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Posteingangsserver/Postfach der Verteilerliste</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Posteingangsserver/Postfach
+                                <br /><a href="./browseinboxes.php" onclick="MessageBox('Best&auml;tigung', 'Alle ver&auml;nderten Einstellungen auf diesen Seite(n) gehen verloren.<br /><br />M&ouml;chten Sie jetzt wirklich neue Posteingangsserver definieren?', 3, 320, 160, 'ConfirmEditInboxesEvent'); return false;">(Neue Postf&auml;cher definieren)</a>
+                                </td>
+                                <td>
+                                <select name="inboxes_id" id="inboxes_id" size="1">
+                                   <SHOW:INBOXES>
+                                   </SHOW:INBOXES>
+                                </select>
+                                <br /><br />
+
+                                <input type="checkbox" name="LeaveMessagesInInbox" id="LeaveMessagesInInbox" />&nbsp;<label for="LeaveMessagesInInbox">Nachrichten im Postfach belassen</label>
+                                <br />
+                                <input type="checkbox" name="IgnoreHeaderXLoop" id="IgnoreHeaderXLoop" /><label for="IgnoreHeaderXLoop">&nbsp;E-Mails mit X-Loop Header-Feld ignorieren (empfohlen)</label>
+                                <br /><br />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Nur E-Mails mit diesen Text(en) im Betreff f&uuml;r diese Verteilerliste beachten
+                                </td>
+                                <td>
+                                <input type="text" name="DistribListSubjects" size="80" />
+                                <br /><br />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Maximale Anzahl E-Mails, die abgerufen werden sollen
+                                </td>
+                                <td>
+                                <input type="text" name="MaxEMailsToProcess" size="3" style="text-align: right" />
+                                <br /><br />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Jeder Verteilerliste muss eine Empf&auml;ngerliste zugewiesen werden, die Empf&auml;nger der Empf&auml;ngerliste werden die E-Mails des Verteilers erhalten.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Empf&auml;ngerliste f&uuml;r die Verteilerliste</legend>
+                      <br />
+                          <IF_CAN_CHANGE_MAILINGLIST>
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">
+                                <a href="./browsemailinglists.php" onclick="MessageBox('Best&auml;tigung', 'Alle ver&auml;nderten Einstellungen auf diesen Seite(n) gehen verloren.<br /><br />M&ouml;chten Sie jetzt wirklich neue Empf&auml;ngerlisten definieren?', 3, 320, 160, 'ConfirmEditMailinglistsEvent'); return false;">(Neue Empf&auml;ngerliste definieren)</a>
+                                </td>
+                                <td valign="top">
+                                  <select name="maillists_id" id="maillists_id" size="1" onchange="document.getElementById('GroupsOption1').checked = true; EnableDisableItems(); load_groups(true); EnableDisableItems(); load_forms(); ShowHideSenderEMailAddresses();">
+                                     <SHOW:MAILINGLISTS>
+                                     </SHOW:MAILINGLISTS>
+                                  </select>
+                                  <br /><br />
+                                  <b>ACHTUNG: Das &Auml;ndern der Empf&auml;ngerliste auf eine andere Empf&auml;ngerliste f&uuml;hrt zum L&ouml;schen der gespeicherten Statistik dieser Verteilerliste.</b>
+                                  <br /><br />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Formular f&uuml;r die Abmeldung/&Auml;nderung<SHOWHIDE:TOOLTIPS>
+                                 <img onmouseover="showTooltip(event, 'W&auml;hlen Sie das An-/Abmeldeformular, das f&uuml;r das Abmelde- und &Auml;nderungsformular verwendet werden soll. Diese Einstellung ist bei Verwendung von mehreren Sprachen f&uuml;r die Empf&auml;nger einer Empf&auml;ngerliste wichtig.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                 </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td><select name="forms_id" size="1" id="formsList">
+                                    <SHOW:Forms>
+                                    </SHOW:Forms>
+                                    </select>
+                                		  <span id="Loading" style="visibility:hidden; display: none"><img src="images/loading.gif" height="16" width="16" /></span>
+                                    <br /><br />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td colspan="2">&nbsp;
+                                  <br />
+                                </td>
+                              </tr>
+
+
+                            </tbody>
+                          </table>
+                          </IF_CAN_CHANGE_MAILINGLIST>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die Empf&auml;ngergruppen, an welche die E-Mails versendet werden sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Empf&auml;ngergruppen der Empf&auml;ngerliste</legend>
+                      <br />
+                          <IF_CAN_CHANGE_GROUPS>
+                          <span id="Loading" style="visibility:hidden; display: none"><img src="images/loading.gif" height="16" width="16" /></span>
+
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td colspan="2">
+                                <input type="radio" id="GroupsOption1" name="GroupsOption" value="1" onclick="EnableDisableItems();" />&nbsp;<label for="GroupsOption1">An alle Empf&auml;nger der Empf&auml;ngerliste versenden</label>
+                                <br />
+                                </td>
+                              </tr>
+
+                              <tr>
+                               <td colspan="2">
+                                <input type="radio" id="GroupsOption2" name="GroupsOption" value="2" onclick="EnableDisableItems();" />&nbsp;<label for="GroupsOption2">Nur an Empf&auml;nger in diesen Empf&auml;ngergruppen der Empf&auml;ngerliste versenden</label>
+                                <br /><br />
+                                 <div class="scrollbox" style="margin-left: 20px; width: 528px; height: 60px" name="GroupsScrollbox" id="GroupsScrollbox">
+                                   <SHOW:GROUPS>
+                                     <span class="scrollboxSpan"><input type="checkbox" name="groups[]" value="<GroupsId></GroupsId>" id="GroupsLabelId" />&nbsp;<label for="GroupsLabelId"><GroupsName></GroupsName></label><br /></span>
+                                   </SHOW:GROUPS>
+                                 </div>
+                                 <br />
+                               </td>
+                              </tr>
+
+                              <tr>
+                               <td>&nbsp;&nbsp;</td>
+                               <td>
+                                <span id="NotInGroupsScrollboxLabel"><input type="checkbox" name="NotInGroupsChkBox" id="NotInGroupsChkBox" onclick="ShowItem('NotInGroupsScrollbox', document.DistribListEditForm.NotInGroupsChkBox.checked && !document.DistribListEditForm.NotInGroupsChkBox.disabled);" />&nbsp;<label for="NotInGroupsChkBox">Jedoch nicht an Empf&auml;nger versenden, die sich in diesen Empf&auml;ngergruppen befinden</label></span>
+                                <br /><br />
+                                 <div class="scrollbox" style="margin-left: 20px; width: 514px; height: 60px" name="NotInGroupsScrollbox" id="NotInGroupsScrollbox">
+                                   <SHOW:NOTINGROUPS>
+                                     <span class="scrollboxSpan"><input type="checkbox" name="notingroups[]" value="<GroupsId></GroupsId>" id="NotInGroupsLabelId" />&nbsp;<label for="NotInGroupsLabelId"><GroupsName></GroupsName></label><br /></span>
+                                   </SHOW:NOTINGROUPS>
+                                 </div>
+                                 <br />
+                                 <br />
+                               </td>
+                              </tr>
+
+                              <tr>
+                               <td colspan="2">
+                                  <b>Hinweis:</b> Die Verwendung von Empf&auml;ngergruppen bei h&ouml;heren Empf&auml;ngerzahlen ist nicht empfehlenswert, da die
+                                  Serverbelastung beim Versand des Newsletters an ein oder mehrere Empf&auml;ngergruppen sehr hoch ist.
+                               </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          </IF_CAN_CHANGE_GROUPS>
+                      </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('E-Mail-Versand');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <IF:CANCHANGEEMAILADDRESSES>
+                      <fieldset id="CANCHANGEEMAILADDRESSES">
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'F&uuml;r den Versand der E-Mails wird der Absender der E-Mail verwendet, welche an den Verteiler gesendet wurde. Sollen andere Absenderangaben verwendet werden, dann geben Sie diese hier an.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>E-Mail-Adressen f&uuml;r den E-Mail-Versand</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+
+                              <tr>
+                                <td colspan="2">
+                                  <input type="checkbox" id="OverwriteSenderAddress" name="OverwriteSenderAddress" onclick="ActivateDeactivateSenderAddresses();" /><label for="OverwriteSenderAddress">&nbsp;Beim Versand der E-Mails Absenderangaben durch diese Angaben &uuml;berschreiben</label>
+                                </td>
+                              </tr>
+
+                              <tr><td colspan="2">&nbsp;</td></tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="SenderFromAddress">Absender E-Mail-Adresse</label>
+                                </td>
+                                <td><input type="text" id="SenderFromAddress" name="SenderFromAddress" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="SenderFromName">Angezeigter Absender-Name</label>
+                                </td>
+                                <td><input type="text" id="SenderFromName" name="SenderFromName" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="ReplyToEMailAddress">Antwort-E-Mail-Adresse (Reply-to)</label>
+                                </td>
+                                <td><input type="text" id="ReplyToEMailAddress" name="ReplyToEMailAddress" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr><td colspan="2">&nbsp;</td></tr>
+
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      </IF:CANCHANGEEMAILADDRESSES>
+
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Der Betreff der E-Mail, die an die Verteilerliste gesendet wurde, kann beim Versand an alle Empf&auml;nger der Empf&auml;ngerliste modifiziert werden. Es ist m&ouml;glich beliebigen zus&auml;tzlichen Text anzugeben oder Platzhalter einzuf&uuml;gen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Modifikation des Betreffs der E-Mail</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+
+                              <tr>
+                                <td colspan="2">
+                                  <input type="checkbox" id="ModifyEMailSubject" name="ModifyEMailSubject" onclick="ActivateDeactivateModifyEMailSubject();" /><label for="ModifyEMailSubject">&nbsp;Beim Versand der E-Mails Betreff der E-Mail wie folgt modifizieren</label>
+                                </td>
+                              </tr>
+
+                              <tr><td colspan="2">&nbsp;</td></tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="ModifiedEMailSubject">Betreff der E-Mail</label>
+                                </td>
+                                <td>
+                                   <input type="text" id="ModifiedEMailSubject" name="ModifiedEMailSubject" maxlength="255" size="100" />
+                                   <br />
+                                   <select name="ModifiedEMailSubjectPlaceHoldersCB" id="ModifiedEMailSubjectPlaceHoldersCB" size="1" onchange="InsertFieldValue('ModifiedEMailSubjectPlaceHoldersCB', 'ModifiedEMailSubject')">
+                                     <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                   </select>
+                                </td>
+                              </tr>
+
+                              <tr><td colspan="2">&nbsp;</td></tr>
+
+                              <tr><td colspan="2"><input type="checkbox" id="DontModifyEMailSubjectOnReFw" name="DontModifyEMailSubjectOnReFw" /><label for="DontModifyEMailSubjectOnReFw">&nbsp;Betreff der E-Mail bei Antworten und Weiterleitungen nicht modifizieren</label></td></tr>
+
+                              <tr><td colspan="2">&nbsp;</td></tr>
+
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend>Optionale Parameter f&uuml;r den E-Mail-Versand</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">
+                                  <label for="MailPreHeaderText">Pre-Header</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Der Pre-Header/Vorschautext ist ein Text der von verschiedenen E-Mail-Programmen, z.B. Outlook, GoogleMail oder Thunderbird, in der E-Mail-Vorschau neuer E-Mails direkt unter oder neben dem E-Mail-Betreff angezeigt wird. Dieser Text kann, neben dem Betreff der E-Mail, verwendet werden, um den Empf&auml;nger des Newsletters zu motivieren Ihre E-Mail zu &ouml;ffnen.<br />Die L&auml;nge dieses Texts sollte zwischen 85 und 100 Zeichen liegen, l&auml;ngere Texte werden m&ouml;glicherweise abgeschnitten dargestellt.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS><br />
+                                </td>
+                                <td>
+                                  <input type="text" name="MailPreHeaderText" id="MailPreHeaderText" size="100" />
+                                  <select name="MailPreHeaderTextPlaceHoldersCB" id="MailPreHeaderTextPlaceHoldersCB" size="1" onchange="InsertFieldValue('MailPreHeaderTextPlaceHoldersCB', 'MailPreHeaderText')">
+                                     <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                  </select>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">
+                                  <label for="NoEMailToDistribSenderEMailAddress">Versender-E-Mail-Adresse beim Versand ausschlie&szlig;en</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Die Versender-E-Mail-Adresse wird beim Versand der Verteilerliste ausgeschlossen. Der Versender erh&auml;lt damit nicht seine eigene E-Mail.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                 <br />
+                                </td>
+                                <td><input type="checkbox" name="NoEMailToDistribSenderEMailAddress" id="NoEMailToDistribSenderEMailAddress" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">
+                                  <label for="AddXLoop">X-Loop Header-Feld beim Versand einer E-Mail hinzuf&uuml;gen (empfohlen)</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Der Mail-Looping-Schutz dient dazu Mailschleifen zu vermeiden, d.h. E-Mails von anderen Respondern werden nicht beantwortet, da es ansonsten zu unendlich vielen versendeten E-Mails kommen kann.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                 <br />
+                                </td>
+                                <td><input type="checkbox" name="AddXLoop" id="AddXLoop" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Lesebest&auml;tigung anfordern<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Fordert eine Lesebest&auml;tigung an. Nicht jeder Server oder E-Mail-Programm unterst&uuml;tzt diese Funktion. Beim Versand sehr vieler E-Mails kann diese Funktion Ihren eigenen Mailserver stark belasten, da viele E-Mails mit der Lesebest&auml;tigung zur&uuml;ckgesendet werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td><input type="checkbox" id="ReturnReceipt" name="ReturnReceipt" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="ReturnPathEMailAddress">E-Mail-Adresse f&uuml;r die Return-Path-Angabe</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie eine E-Mail-Adresse f&uuml;r die Zustellung unzustellbarer E-Mails an.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td><input type="text" id="ReturnPathEMailAddress" name="ReturnPathEMailAddress" maxlength="128" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Sichtbare Kopien-Empf&auml;nger (Cc)<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie eine oder mehrere E-Mail-Adressen mit Komma (,) getrennt an, die eine sichtbare Kopie(Cc) erhalten sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td><input type="text" id="CcEMailAddresses" name="CcEMailAddresses" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Unsichtbare Blindkopien-<br />Empf&auml;nger (BCc)<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie eine oder mehrere E-Mail-Adressen mit Komma (,) getrennt an, die eine unsichtbare Blindkopie(BCc) erhalten sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td><input type="text" id="BCcEMailAddresses" name="BCcEMailAddresses" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">
+                                  List-Unsubscribe-Header-Feld in die E-Mails f&uuml;r die Abmeldung einf&uuml;gen<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Das List-Unsubscribe Feld mit dem Abmeldelink kann in den unsichtbaren Header der E-Mail aufgenommen werden, so dass bei diversen webbasierten Anbietern z.B. Microsoft Hotmail eine direkte Abmeldung vom Newsletter oberhalb der angezeigten E-Mail mit einem Klick m&ouml;glich ist.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td valign="top">
+                                  <input type="checkbox" name="AddListUnsubscribe" id="AddListUnsubscribe" /><label for="AddListUnsubscribe">&nbsp;List-Unsubscribe-Header-Feld hinzuf&uuml;gen</label>
+                                </td>
+                              </tr>
+                              <tr><td colspan="2">&nbsp;</td></tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                     <fieldset>
+                     <legend><SHOWHIDE:TOOLTIPS>
+                                 <img onmouseover="showTooltip(event, 'Jeder Verteilerliste muss zumindest eine Versandvariante zugewiesen werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                 </SHOWHIDE:TOOLTIPS>Versandvariante (MTAs) der Verteilerliste</legend>
+                     <br />
+                        <IF:CANCHANGEMTA>
+                         <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                           <tbody>
+                             <tr>
+                               <td class="MessageDescriptionColumn" valign="top">Versandvariante
+                               <br /><a href="./browsemtas.php" onclick="MessageBox('Best&auml;tigung', 'Alle ver&auml;nderten Einstellungen auf diesen Seite(n) gehen verloren.<br /><br />M&ouml;chten Sie jetzt wirklich neue Versandvarianten definieren?', 3, 320, 160, 'ConfirmEditMTAsEvent'); return false;">(Neue Versandvariante definieren)</a>
+                               </td>
+                               <td>
+                                  <div class="scrollbox" style=" width: 368px; height: 150px" name="MTAsScrollbox" id="MTAsScrollbox">
+                                    <SHOW:MTAS>
+                                      <span class="scrollboxSpan"><input type="checkbox" name="mtas[]" value="<MTAId></MTAId>" id="MTAsLabelId" onclick="MTAClick(this, 'MTAsScrollbox');" />&nbsp;<label for="MTAsLabelId"><MTAName></MTAName></label><br /></span>
+                                    </SHOW:MTAS>
+                                  </div>
+                               </td>
+                             </tr>
+                             <tr>
+                               <td class="MessageDescriptionColumn" valign="top">
+                                 Anordnung der Versandvarianten
+                                </td>
+                               <td>
+                                 <input class="FormButton" type="button" name="MTAUp" id="MTAUp" value="Nach oben" onclick="MoveMTA('Up', 'MTAsScrollbox');" />
+                                 &nbsp;
+                                 <input class="FormButton" type="button" name="MTADown" id="MTADown" value="Nach unten" onclick="MoveMTA('Down', 'MTAsScrollbox');" />
+                               </td>
+                             </tr>
+                             <tr>
+                               <td class="MessageDescriptionColumn" valign="top">
+                                 &nbsp;
+                               </td>
+                               <td>
+                                 &nbsp;
+                               </td>
+                             </tr>
+                             <tr>
+                               <td class="MessageDescriptionColumn" valign="top">Anzahl E-Mails, die auf einmal f&uuml;r den Versand vorbereitet werden sollen<SHOWHIDE:TOOLTIPS>
+               				                                  <img onmouseover="showTooltip(event, 'Geben Sie an wie viele E-Mails auf einmal bei einer Pr&uuml;fung der Verteilerliste durch das CronJob-Script f&uuml;r den Versand vorbereitet werden sollen. Ist die Anzahl zu hoch eingestellt, dann kann es zum Script-Abbruch und damit zum Nicht-Versand kommen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+               				                                  </SHOWHIDE:TOOLTIPS>
+                               </td>
+                               <td>
+                                 <input type="text" name="MaxEMailsToSend" style="text-align: right" size="3" />
+                               <br />
+                               </td>
+                             </tr>
+                           </tbody>
+                         </table>
+                        </IF:CANCHANGEMTA>
+                     </fieldset>
+
+                   </div>
+                  	<!-- ####### TAB END -->
+
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Signatur');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+
+                      <fieldset>
+                       <legend>Signatur/Fu&szlig;zeile</legend>
+                       <br />
+
+                       <table class="FormTable">
+                         <tbody>
+                           <tr>
+                             <td>
+                               <input type="checkbox" name="AddSignature" id="AddSignature" onclick="ShowItem('dhtmlgoodies_tabView1', document.getElementById('AddSignature').checked );" /><label for="AddSignature">&nbsp;Jeder zu versendenden E-Mail eine Signatur hinzuf&uuml;gen</label>
+                               <br />
+                               <br />
+                             </td>
+                           </tr>
+                           <tr>
+                             <td style="padding-left: 16px;">
+
+
+                               <!-- ##### TabView - START -->
+                               <div id="dhtmlgoodies_tabView1">
+
+                                 <!-- ####### TAB START -->
+                                 <script language="JavaScript" type="text/javascript">
+                                 <!--
+                                   TabList1Array.push('HTML-Variante');
+                                 //-->
+                                 </script>
+                               	<div class="dhtmlgoodies_aTab">
+
+
+                                    <div style="margin-top: 8px; height: 50px">
+                                    <span style="text-align:center; vertical-align: top">
+                                    <select size="1" id="PlaceHoldersCB" onchange="InsertFieldValue('PlaceHoldersCB', 'SignatureHTMLText')">
+                                      <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                    </select>
+                                    <input type="button" value="CKeditor anzeigen" class="FormButton" id="LoadFCKEditorBtn" onclick="LoadFCKEditor()" />
+                                    <input type="button" value="CKeditor verbergen" class="FormButton" id="HideFCKEditorBtn" onclick="HideFCKEditor()" />
+                                    </span>
+                                    <br />
+                                    <br />
+                                    </div>
+
+                                    <textarea name="SignatureHTMLText" id="SignatureHTMLText" style="width: 99%; height: 377px" rows="19"></textarea>
+
+
+                               	</div>
+                               	<!-- ####### TAB END -->
+
+
+                                 <!-- ####### TAB START -->
+                                 <script language="JavaScript" type="text/javascript">
+                                 <!--
+                                   TabList1Array.push('Text-Variante');
+                                 //-->
+                                 </script>
+                               	<div class="dhtmlgoodies_aTab">
+
+                                    <div style="margin-top: 8px; height: 50px">
+                                    <span style="text-align:center; vertical-align: top">
+                                    <select size="1" id="PlaceHoldersCB1" onchange="InsertFieldValue('PlaceHoldersCB1', 'SignaturePlainText')">
+                                      <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                    </select>
+                                    <input type="button" value="dummybutton" class="FormButton" style="visibility: hidden;" />
+                                    </span>
+                                    <br />
+                                    <br />
+                                    </div>
+
+                                    <textarea name="SignaturePlainText" id="SignaturePlainText" style="width: 99%; height: 377px" rows="19"></textarea>
+
+
+                               	</div>
+                               	<!-- ####### TAB END -->
+                               </div>
+                               <!-- ##### TabView dhtmlgoodies_tabView1 - END -->
+                               <br style="clear:both;" />
+                                <br />
+                                <br />
+
+                             </td>
+
+                           </tr>
+                         </tbody>
+                       </table>
+                      </fieldset>
+
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('E-Mail-Texte');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+
+                      <fieldset>
+                      <legend>E-Mail mit Best&auml;tigungslink f&uuml;r den Start des Versands</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="top">
+                                Betreff&nbsp;&nbsp;&nbsp;<select size="1" id="DistribListConfirmationLinkMailSubjectPlaceHoldersCB" style="margin-bottom: 8px;" onchange="InsertFieldValue('DistribListConfirmationLinkMailSubjectPlaceHoldersCB', 'DistribListConfirmationLinkMailSubject')">
+                                 <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                </select><br />
+                                <input type="text" name="DistribListConfirmationLinkMailSubject" id="DistribListConfirmationLinkMailSubject" size="80" style="width: 874px;" />
+                                <br /><br /><br />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="2" valign="top">
+                                E-Mail-Text&nbsp;&nbsp;&nbsp;<select size="1" id="DistribListConfirmationLinkMailPlainTextPlaceHoldersCB" style="margin-bottom: 8px;" onchange="InsertFieldValue('DistribListConfirmationLinkMailPlainTextPlaceHoldersCB', 'DistribListConfirmationLinkMailPlainText')">
+                                 <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                </select><br />
+                                <textarea name="DistribListConfirmationLinkMailPlainText" id="DistribListConfirmationLinkMailPlainText" style="width: 874px; height: 200px;"></textarea>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend>Info-E-Mail f&uuml;r den Versender der E-Mail, dass eine Admin-Freigabe erfolgen muss</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="top">
+                                Betreff&nbsp;&nbsp;&nbsp;<select size="1" id="DistribListSenderInfoMailSubjectPlaceHoldersCB" style="margin-bottom: 8px;" onchange="InsertFieldValue('DistribListSenderInfoMailSubjectPlaceHoldersCB', 'DistribListSenderInfoMailSubject')">
+                                 <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                </select><br />
+                                <input type="text" name="DistribListSenderInfoMailSubject" id="DistribListSenderInfoMailSubject" size="80" style="width: 874px;" />
+                                <br /><br /><br />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="2" valign="top">
+                                E-Mail-Text&nbsp;&nbsp;&nbsp;<select size="1" id="DistribListSenderInfoMailPlainTextPlaceHoldersCB" style="margin-bottom: 8px;" onchange="InsertFieldValue('DistribListSenderInfoMailPlainTextPlaceHoldersCB', 'DistribListSenderInfoMailPlainText')">
+                                 <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                </select><br />
+                                <textarea name="DistribListSenderInfoMailPlainText" id="DistribListSenderInfoMailPlainText" style="width: 874px; height: 200px;"></textarea>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend>Info-E-Mail f&uuml;r den Versender der E-Mail, dass die Admin-Freigabe erfolgte</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td colspan="2" valign="top">
+                                Betreff&nbsp;&nbsp;&nbsp;<select size="1" id="DistribListSenderInfoConfirmMailSubjectPlaceHoldersCB" style="margin-bottom: 8px;" onchange="InsertFieldValue('DistribListSenderInfoConfirmMailSubjectPlaceHoldersCB', 'DistribListSenderInfoConfirmMailSubject')">
+                                 <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                </select><br />
+                                <input type="text" name="DistribListSenderInfoConfirmMailSubject" id="DistribListSenderInfoConfirmMailSubject" size="80" style="width: 874px;" />
+                                <br /><br /><br />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="2" valign="top">
+                                E-Mail-Text&nbsp;&nbsp;&nbsp;<select size="1" id="DistribListSenderInfoConfirmMailPlainTextPlaceHoldersCB" style="margin-bottom: 8px;" onchange="InsertFieldValue('DistribListSenderInfoConfirmMailPlainTextPlaceHoldersCB', 'DistribListSenderInfoConfirmMailPlainText')">
+                                 <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                </select><br />
+                                <textarea name="DistribListSenderInfoConfirmMailPlainText" id="DistribListSenderInfoConfirmMailPlainText" style="width: 874px; height: 200px;"></textarea>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                   <IS:SWM>
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Tracking');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+
+                       <fieldset>
+                       <legend>Anonymes Tracking der E-Mails</legend>
+                       <br />
+                           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                             <tbody>
+                               <tr>
+                                 <td>
+                                   <input type="checkbox" id="TrackEMailOpenings" name="TrackEMailOpenings" /><label for="TrackEMailOpenings">&nbsp;Anzahl E-Mail-&Ouml;ffnungen z&auml;hlen</label>
+                                 </td>
+                               </tr>
+                               <tr>
+                                 <td>
+                                 <input type="checkbox" id="TrackLinks" name="TrackLinks" /><label for="TrackLinks">&nbsp;Klicks auf Links z&auml;hlen</label>
+                                 </td>
+                               </tr>
+                               <tr>
+                                <td>
+                                 <input type="checkbox" id="TrackingIPBlocking" name="TrackingIPBlocking" /><label for="TrackingIPBlocking">&nbsp;IP-Blocking verwenden</label><SHOWHIDE:TOOLTIPS>
+                                             <img onmouseover="showTooltip(event, 'Verwenden Sie das IP-Blocking um eine Mehrfachz&auml;hlung in der &Ouml;ffnungsstatistik und Klicks auf Links-Statistik zu vermeiden.<br /><br />Beim Versand an gro&szlig;e Unternehmen, die nach au&szlig;en hin mit einer IP-Adresse im Internet auftreten, f&uuml;hrt dies zu einer Fehlz&auml;hlung wenn mehrere Mitarbeiter des Unternehmens angeschrieben werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                             </SHOWHIDE:TOOLTIPS>
+                                </td>
+                               </tr>
+                               <tr>
+                                 <td>
+                                   <br />
+                                   <br />
+                                   Hinweis: Hyperlinks, die in der HTML-E-Mail nicht hinter einem normalen Text ohne http://, https:// oder www. liegen, werden nicht getrackt, da die E-Mail ansonsten vom E-Mail-Programm des Empf&auml;ngers als Phishing-E-Mail angesehen werden k&ouml;nnte.
+                                 </td>
+                               </tr>
+                             </tbody>
+                           </table>
+                       </fieldset>
+
+                       <fieldset>
+                       <legend>Personalisiertes Tracking der E-Mails (Empf&auml;ngertracking)</legend>
+                       <br />
+                           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                             <tbody>
+                               <tr>
+                                 <td>
+                                  <b>WICHTIGER HINWEIS</b><br /><br />Die Nutzung des direkten Empf&auml;ngertrackings kann gegen <b>Datenschutzbestimmungen</b> in Ihrem Land
+                                  widersprechen. Sie m&uuml;ssen sich <b>SELBST</b> &uuml;ber die gesetzlichen Bestimmungen informieren und haften ebenfalls selbst VOLL sollte
+                                  es zu etwaigen rechtlichen Ma&szlig;nahmen gegen Sie kommen.<br /><br />
+                                 </td>
+                               </tr>
+                               <tr>
+                                 <td>
+                                   <input type="checkbox" id="TrackEMailOpeningsByRecipient" name="TrackEMailOpeningsByRecipient" /><label for="TrackEMailOpeningsByRecipient">&nbsp;Anzahl E-Mail-&Ouml;ffnungen z&auml;hlen</label>
+                                 </td>
+                               </tr>
+                               <tr>
+                                 <td><input type="checkbox" id="TrackLinksByRecipient" name="TrackLinksByRecipient" /><label for="TrackLinksByRecipient">&nbsp;Klicks auf Links z&auml;hlen</label>
+                                 </td>
+                               </tr>
+                               <tr>
+                                 <td>
+                                   <br />
+                                   <br />
+                                   Hinweis: Hyperlinks, die in der HTML-E-Mail nicht hinter einem normalen Text ohne http://, https:// oder www. liegen, werden nicht getrackt, da die E-Mail ansonsten vom E-Mail-Programm des Empf&auml;ngers als Phishing-E-Mail angesehen werden k&ouml;nnte.
+                                 </td>
+                               </tr>
+                             </tbody>
+                           </table>
+                       </fieldset>
+
+                       <fieldset>
+                       <legend>Google Analytics</legend>
+                       <br />
+                           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                             <tbody>
+                               <tr>
+                                 <td>
+                                   Mit Google Analytics lassen sich detailliert Webseiten-Zugriffe analysieren und eigene Webseitenoptimierungen &uuml;berwachen.
+                                   Ebenfalls ist es m&ouml;glich in HTML-Newslettern mit Tags gekennzeichnete Links mit Google Analytics auswerten zu lassen. Zur Nutzung
+                                   dieser Funktion ist ein Konto bei <A href="http://www.google.com/analytics/" target="_blank">Google Analytics</A> notwendig.
+                                   <br /><br />
+                                   Google Analytics ist ein Service der Google Inc., USA und kein Bestandteil der Software PRODUCTAPPNAME.
+                                   <br /><br />
+                                 </td>
+                               </tr>
+                               <tr>
+                                 <td>
+                                   <input type="checkbox" id="GoogleAnalyticsActive" name="GoogleAnalyticsActive" onclick="DisableControlsById('GoogleAnalyticsActive', Array('GoogleAnalytics_utm_source', 'GoogleAnalytics_utm_medium', 'GoogleAnalytics_utm_term', 'GoogleAnalytics_utm_content', 'GoogleAnalytics_utm_campaign'  ) );" /><label for="GoogleAnalyticsActive">&nbsp;Links zur Analyse mit Google Analytics anpassen</label>
+                                 </td>
+                               </tr>
+                               <tr>
+                                 <td>
+
+                                   <table class="InnerTable" cellspacing="0" cellpadding="0" border="0">
+                                     <tbody>
+
+                                      <tr>
+                                       <td class="StatColumn">
+                                         <label for="GoogleAnalytics_utm_source">Kampagne Quelle (z.B. Newsletter):<sup>*</sup></label>
+                                       </td>
+                                       <td class="StatValueColumn">
+                                        <input type="text" name="GoogleAnalytics_utm_source" id="GoogleAnalytics_utm_source" size="60" />
+                                       </td>
+                                      </tr>
+
+                                      <tr>
+                                       <td class="StatColumn">
+                                         <label for="GoogleAnalytics_utm_medium">Kampagnenmedium (z.B. Newsletter1):<sup>*</sup></label>
+                                       </td>
+                                       <td class="StatValueColumn">
+                                        <input type="text" name="GoogleAnalytics_utm_medium" id="GoogleAnalytics_utm_medium" size="60" />
+                                       </td>
+                                      </tr>
+
+                                      <tr>
+                                       <td class="StatColumn">
+                                         <label for="GoogleAnalytics_utm_term">Kampagnenbegriff (Erkennung bezahltes Keyword):</label>
+                                       </td>
+                                       <td class="StatValueColumn">
+                                        <input type="text" name="GoogleAnalytics_utm_term" id="GoogleAnalytics_utm_term" size="60" />
+                                       </td>
+                                      </tr>
+
+                                      <tr>
+                                       <td class="StatColumn">
+                                         <label for="GoogleAnalytics_utm_content">Kampagnen-Content (nur f&uuml;r Anzeigen):</label>
+                                       </td>
+                                       <td class="StatValueColumn">
+                                        <input type="text" name="GoogleAnalytics_utm_content" id="GoogleAnalytics_utm_content" size="60" />
+                                       </td>
+                                      </tr>
+
+
+                                      <tr>
+                                       <td class="StatColumn">
+                                         <label for="GoogleAnalytics_utm_campaign">Kampagnenname (z.B. Aktionsname):<sup>*</sup></label>
+                                       </td>
+                                       <td class="StatValueColumn">
+                                        <input type="text" name="GoogleAnalytics_utm_campaign" id="GoogleAnalytics_utm_campaign" size="60" />
+                                       </td>
+                                      </tr>
+
+                                    </tbody>
+                                  </table>
+
+                                 </td>
+                               </tr>
+                               <tr>
+                                 <td>
+                                   <br />
+                                   <br />
+                                     Mit <sup>*</sup> gekennzeichnete Felder m&uuml;ssen ausgef&uuml;llt werden.
+                                 </td>
+                               </tr>
+                             </tbody>
+                           </table>
+                       </fieldset>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+                   </IS:SWM>
+
+                  </div>
+
+                  <br />
+                  <br />
+
+
+
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                    initTabs('dhtmlgoodies_tabView', TabListArray, 0, "100%", 1490);
+
+                    function html_entity_decode( string ) {
+                        var ret, tarea = document.createElement('textarea');
+                        tarea.innerHTML = string;
+                        ret = tarea.value;
+                        return ret;
+                    }
+
+                    function FillComboBoxes() {
+                        var CBs = Array (
+                            'ModifiedEMailSubjectPlaceHoldersCB',
+                            'MailPreHeaderTextPlaceHoldersCB',
+                            'PlaceHoldersCB',
+                            'PlaceHoldersCB1'
+                        )
+
+          	            for(var j=0; j<CBs.length; j++) {
+                            CB = document.getElementById(CBs[j]);
+                            if(CB == null) continue;
+                            while (CB.length > 1)
+                               CB.options[CB.length - 1] = null;
+
+
+                            for(var i=0; i<arrPlaceholderItems.length; i++){
+                              if(j<2 && arrPlaceholderItems[i][0].indexOf('Link') > 0) continue; // No Unsubscribe/Edit link
+                              newOption = new Option(html_entity_decode(arrPlaceholderItems[i][1]), arrPlaceholderItems[i][0], false, false);
+                              CB.options[CB.length] = newOption;
+                            }
+
+                        }
+                    }
+
+                    function FillDistribListConfInfoComboBoxes() {
+                        var CBs = Array (
+                            'DistribListConfirmationLinkMailSubjectPlaceHoldersCB',
+                            'DistribListConfirmationLinkMailPlainTextPlaceHoldersCB',
+                            'DistribListSenderInfoMailSubjectPlaceHoldersCB',
+                            'DistribListSenderInfoMailPlainTextPlaceHoldersCB',
+                            'DistribListSenderInfoConfirmMailSubjectPlaceHoldersCB',
+                            'DistribListSenderInfoConfirmMailPlainTextPlaceHoldersCB'
+                        )
+
+          	            for(var j=0; j<CBs.length; j++) {
+                            CB = document.getElementById(CBs[j]);
+                            if(CB == null) continue;
+                            while (CB.length > 1)
+                               CB.options[CB.length - 1] = null;
+
+
+                            for(var i=0; i<arrDistribListConfInfoPlaceholderItems.length; i++){
+                              if( (j == 0 || j > 1) && i == arrDistribListConfInfoPlaceholderItems.length - 1) continue;
+                              newOption = new Option(html_entity_decode(arrDistribListConfInfoPlaceholderItems[i][1]), arrDistribListConfInfoPlaceholderItems[i][0], false, false);
+                              CB.options[CB.length] = newOption;
+                            }
+
+                        }
+                    }
+
+                    $(document).ready(function(){
+                      FillComboBoxes();
+                      FillDistribListConfInfoComboBoxes();
+                    })
+
+                  -->
+                  </script>
+
+                  <script language="javascript" type="text/javascript">
+                  <!--
+
+                   DisableControlsById('GoogleAnalyticsActive', Array('GoogleAnalytics_utm_source', 'GoogleAnalytics_utm_medium', 'GoogleAnalytics_utm_term', 'GoogleAnalytics_utm_content', 'GoogleAnalytics_utm_campaign'  ) );
+
+
+                   DisableControlsById('SendConfirmationRequired', Array('SendConfirmationRequiredSenderAdmin1', 'SendConfirmationRequiredSenderAdmin2' ) );
+
+                   DisableControlsById('SendConfirmationRequiredSenderAdmin2', Array('SendInfoMailToSender' ) );
+
+                   function ActivateDeactivateSenderAddresses(){
+                     if(document.getElementById('OverwriteSenderAddress') == null) return;
+                     DisableItem('SenderFromAddress', document.getElementById('OverwriteSenderAddress').checked);
+                     DisableItem('SenderFromName', document.getElementById('OverwriteSenderAddress').checked);
+                     DisableItem('ReplyToEMailAddress', document.getElementById('OverwriteSenderAddress').checked);
+                   }
+
+                   function ActivateDeactivateModifyEMailSubject(){
+                     if(document.getElementById('ModifyEMailSubject') == null) return;
+                     DisableItem('ModifiedEMailSubjectPlaceHoldersCB', document.getElementById('ModifyEMailSubject').checked);
+                     DisableItem('ModifiedEMailSubject', document.getElementById('ModifyEMailSubject').checked);
+                     DisableItem('DontModifyEMailSubjectOnReFw', document.getElementById('ModifyEMailSubject').checked);
+                   }
+
+
+                   function EnableDisableItems(){
+                     DisableItem('GroupsScrollbox', document.DistribListEditForm.GroupsOption[1].checked);
+                     DisableItem('NotInGroupsScrollbox', document.DistribListEditForm.GroupsOption[1].checked);
+                     DisableItem('NotInGroupsScrollboxLabel', document.DistribListEditForm.GroupsOption[1].checked);
+                     DisableControlsById('GroupsOption2', Array('NotInGroupsChkBox'));
+                     ShowItem('NotInGroupsScrollbox', document.DistribListEditForm.NotInGroupsChkBox.checked && !document.DistribListEditForm.NotInGroupsChkBox.disabled);
+                   }
+
+                   if(document.DistribListEditForm.GroupsOption == null) {
+                     DisableItem('GroupsScrollbox', false);
+                     DisableItem('NotInGroupsScrollbox', false);
+                     DisableItem('NotInGroupsScrollboxLabel', false);
+                   }else {
+                     EnableDisableItems();
+                   }
+                   if(document.getElementById("GroupsScrollbox")) {
+                     addScrollboxRolloverEffect('GroupsScrollbox','scrollboxRollOverEffect', null);
+                     addScrollboxRolloverEffect('NotInGroupsScrollbox','scrollboxRollOverEffect', null);
+                   }
+
+
+                   function load_groups(forceReload){
+                    if(!document.getElementById('GroupsScrollbox')) return;
+                    if($("#GroupsScrollbox").html().trim() != "" && !forceReload) return;
+                    var date = new Date();
+                    var nocache = date.getTime() / 1000;
+                    $("#Loading").show();
+                    $.ajaxSetup({ cache: false });
+
+                   	jQuery.get('ajax_getgroups.php' + "?Plain=1&nocache=" + nocache + '&OneMailingListId=' + $("#maillists_id").val(), "", function(data){
+
+
+                     var html = "";
+
+                     var items = data.split("\r\n");
+
+                     for(var i=0; i<items.length && items.length > 1; i++){
+                       var GroupsId = items[i].split("=")[0];
+                       var GroupsName = items[i].split("=")[1];
+                       var GroupsLabelId = "groupchkbox_" + GroupsId;
+                       if(!GroupsName) continue;
+                       var disabled = "";
+                       if(document.DistribListEditForm.GroupsOption[0].checked)
+                          disabled="disabled";
+                       var line = '<span class="scrollboxSpan"><input type="checkbox" name="groups[]" value="<GroupsId></GroupsId>" id="GroupsLabelId" disabled="' + disabled + '" />&nbsp;<label for="GroupsLabelId"><GroupsName></GroupsName></label><br /></span>';
+                       line = line.replace(/\<GroupsId\>\<\/GroupsId\>/g, GroupsId);
+                       line = line.replace(/GroupsLabelId/g, GroupsLabelId);
+                       line = line.replace(/\<GroupsName\>\<\/GroupsName\>/g, GroupsName);
+                       html += line;
+                     }
+                     $("#GroupsScrollbox").html(html);
+                     
+                     var html = "";
+                     for(var i=0; i<items.length && items.length > 1; i++){
+                       var GroupsId = items[i].split("=")[0];
+                       var GroupsName = items[i].split("=")[1];
+                       var GroupsLabelId = "groupchkbox_" + GroupsId;
+                       if(!GroupsName) continue;
+                       var disabled = "";
+                       if(document.DistribListEditForm.GroupsOption[0].checked)
+                          disabled="disabled";
+                       var line = '<span class="scrollboxSpan"><input type="checkbox" name="notingroups[]" value="<GroupsId></GroupsId>" id="NotInGroupsLabelId" disabled="' + disabled + '" />&nbsp;<label for="NotInGroupsLabelId"><GroupsName></GroupsName></label><br /></span>';
+                       line = line.replace(/\<GroupsId\>\<\/GroupsId\>/g, GroupsId);
+                       line = line.replace(/GroupsLabelId/g, GroupsLabelId);
+                       line = line.replace(/\<GroupsName\>\<\/GroupsName\>/g, GroupsName);
+                       html += line;
+                     }
+                     $("#NotInGroupsScrollbox").html(html);
+
+                     if(document.getElementById('GroupsOption1'))
+                       if(items.length > 1)
+                        DisableItem("GroupsOption2", true)
+                        else
+                        DisableItem("GroupsOption2", false);
+
+                   	});
+
+                    $("#Loading").hide();
+                   }
+                   load_groups(false);
+
+
+                   if(document.getElementById('MTAsScrollbox') != null) {
+                     addScrollboxRolloverEffect('MTAsScrollbox','scrollboxRollOverEffect', 'scrollboxclickEffect');
+                     MTAClick(null, 'MTAsScrollbox');
+                   }
+
+                   ActivateDeactivateSenderAddresses();
+                   ActivateDeactivateModifyEMailSubject();
+
+                   function AddEMailpromptCallbackEvent(Apply, value){
+                     if(!Apply) return;
+                     if(value == null) return;
+
+                     var Groups = document.getElementById("AcceptSenderEMailAddresses[]");
+
+                     value = value.replace(/,/, "\r\n");
+                     value = value.replace(/;/, "\r\n");
+                     var values = value.split(/\r|\n/);
+
+                     for(var n=0; n<values.length; n++){
+
+                       var newGroupName = values[n].trim();
+                       if(newGroupName == "") continue;
+
+                       newGroupName = newGroupName.replace(/,/, '');
+                       newGroupName = newGroupName.replace(/;/, '');
+
+                       if(!newGroupName.isEmail()){
+                         alert("Die E-Mail-Adresse " + newGroupName + " ist fehlerhaft!");
+                         continue;
+                       }
+
+                       Exists = false;
+                       for(var i=0; i<Groups.options.length; i++) {
+                          if(Groups.options[i].text == newGroupName) {
+                             Exists = true;
+                             break;
+                          }
+                       }
+
+                       if(Exists)
+                         alert("Es existiert bereits die E-Mail-Adresse " + newGroupName);
+                         else {
+                            newOption = new Option(newGroupName, newGroupName, false, true);
+                            Groups.options[Groups.options.length] = newOption;
+                         }
+
+                     }
+
+                     AcceptAllSenderEMailAddressesClick();
+
+                   }
+
+                   function AddEMail() {
+                      MessagePromptMultiLine("Neue E-Mail-Adresse(n)", "Geben Sie die neue(n) E-Mail-Adresse(n) ein:", "", 400, 150, "AddEMailpromptCallbackEvent");
+                   }
+
+                   function EditEMailpromptCallbackEvent(Apply, value){
+                     if(!Apply) return;
+                     if(value == null) return;
+
+                     var Groups = document.getElementById("AcceptSenderEMailAddresses[]");
+                     var option = null;
+                     for(i=Groups.options.length - 1; i>=0; i--) {
+                       if(Groups.options[i].selected) {
+                         option = Groups.options[i];
+                         break;
+                       }
+                     }
+
+                     var newGroupName = value;
+
+                     newGroupName = newGroupName.replace(/,/, '');
+                     if(newGroupName == option.text) return;
+
+                     if(!newGroupName.isEmail()){
+                       alert("Die E-Mail-Adresse ist fehlerhaft!");
+                       return false;
+                     }
+
+                     Exists = false;
+                     for(i=0; i<Groups.options.length; i++) {
+                        if(Groups.options[i].text == newGroupName) {
+                           Exists = true;
+                           break;
+                        }
+                     }
+
+                     if(Exists)
+                       alert("Es existiert bereits diese E-Mail-Adresse.");
+                       else {
+                          option.text = newGroupName;
+                            option.value = newGroupName;
+                       }
+                     AcceptAllSenderEMailAddressesClick();
+
+                   }
+
+                   function EditEMail() {
+
+                      var Groups = document.getElementById("AcceptSenderEMailAddresses[]");
+                      var option = null;
+                      for(i=Groups.options.length - 1; i>=0; i--) {
+                        if(Groups.options[i].selected) {
+                          option = Groups.options[i];
+                          break;
+                        }
+                      }
+                      if(option == null) return;
+
+                      MessagePrompt("E-Mail-Adresse", "E-Mail-Adresse bearbeiten:", option.text, 300, 150, "EditEMailpromptCallbackEvent");
+
+                   }
+
+                   function RemoveEMails() {
+                      var Groups = document.getElementById("AcceptSenderEMailAddresses[]");
+                      for(var i=Groups.options.length - 1; i>=0; i--) {
+                           if(!Groups.options[i].selected) continue;
+                           Groups.options[i] = null;
+                        }
+                      AcceptAllSenderEMailAddressesClick();
+                   }
+                   // onformsubmit select all!
+                   function SelectAllEMailAddresses() {
+                      var emails = document.getElementById("AcceptSenderEMailAddresses[]");
+                      for(i=emails.options.length - 1; i>=0; i--) {
+                        emails.options[i].selected = true;
+                      }
+                   }
+
+
+                   String.prototype.isEmail = function () {
+                     var validmailregex = /^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9_](?:[a-zA-Z0-9_\-](?!\.)){0,61}[a-zA-Z0-9_]?\.)+[a-zA-Z0-9_](?:[a-zA-Z0-9_\-](?!$)){0,61}[a-zA-Z0-9_]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/
+                     return validmailregex.test(this);
+                   }
+
+                   function AcceptAllSenderEMailAddressesClick(){
+                     document.getElementById("AcceptSenderEMailAddresses[]").disabled = !document.getElementById("AcceptAllSenderEMailAddresses2").checked;
+                     document.getElementById('AddEMailBtn').disabled = !document.getElementById("AcceptAllSenderEMailAddresses2").checked;
+                     document.getElementById('EditEMailBtn').disabled = !document.getElementById("AcceptAllSenderEMailAddresses2").checked || (document.getElementById('AcceptSenderEMailAddresses[]').value == '');
+                     document.getElementById('RemoveEMailBtn').disabled = !document.getElementById("AcceptAllSenderEMailAddresses2").checked || (document.getElementById('AcceptSenderEMailAddresses[]').value == '');
+                   }
+
+                   AcceptAllSenderEMailAddressesClick();
+
+                   DisableControl( document.getElementById('SendReportToEMailAddress').checked, document.getElementById('SendReportToEMailAddressEMailAddress'), null);
+
+
+                   ShowHideSenderEMailAddresses();
+
+                   function ShowHideSenderEMailAddresses(){
+                      if(document.getElementById('maillists_id') == null) return;
+                      if(document.getElementById('CANCHANGEEMAILADDRESSES') == null) return;
+                      var date = new Date();
+                      var nocache = date.getTime() / 1000;
+                      $.ajaxSetup({ cache: false });
+
+                     	jQuery.get('ajax_ccea.php' + "?&nocache=" + nocache + '&OneMailingListId=' + $("#maillists_id").val(), "", function(data){
+                       if(data == "0")
+                         ShowItem('CANCHANGEEMAILADDRESSES', false);
+                         else
+                         ShowItem('CANCHANGEEMAILADDRESSES', true);
+                      })
+
+
+                   }
+
+                   //AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+
+                  -->
+                  </script>
+
+                  <!-- ##### TabView - END -->
+
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                <br />
+                <input type="submit" name="DistribListEditBtn" value="&Auml;nderungen speichern" class="FormButton" />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </form>
+      </div>
+
+      <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+
+
+      <script language="JavaScript">
+      <!--
+
+         function LoadFCKEditor()
+          {
+
+            /////////////////////////////////////////////////////////////////////
+
+              if( document.getElementById('SignatureHTMLText') ) {
+
+                 ShowCKEditor('SignatureHTMLText', "100%", 240, 'MyDefaultToolbar', false);
+
+
+                 DisableItem("PlaceHoldersCB", false);
+                 DisableItem("LoadFCKEditorBtn", false);
+                 DisableItem("HideFCKEditorBtn", true);
+
+              }
+         	}
+
+          function HideFCKEditor(){
+             var fieldId = "SignatureHTMLText";
+             var formId = "DistribListEditForm";
+             var textarea = document.forms[formId].elements[fieldId];
+
+
+
+             if (HideCKEditor(fieldId))
+             {
+                DisableItem("PlaceHoldersCB", true);
+                DisableItem("LoadFCKEditorBtn", true);
+                DisableItem("HideFCKEditorBtn", false);
+                document.getElementById(fieldId).focus(); // IE bug no no input focus
+             }
+          }
+
+          /////////////////////////////////////////////////////////////////////
+
+          initTabs('dhtmlgoodies_tabView1', TabList1Array, 0, "100%", 460);
+
+          DisableItem("LoadFCKEditorBtn", true);
+          DisableItem("HideFCKEditorBtn", false);
+
+          ShowItem('dhtmlgoodies_tabView1', document.getElementById('AddSignature').checked );
+
+      //-->
+      </script>
+

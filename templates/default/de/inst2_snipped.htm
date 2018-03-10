@@ -1,0 +1,62 @@
+      <form id="InstallForm" name="InstallForm" method="post" action="./install.php">
+      <input type="hidden" name="step" value="2" />
+      <input type="hidden" name="Language" />
+      <fieldset>
+      <legend>PRODUCTAPPNAME - Verzeichnisse festlegen</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+            	<tr>
+                <td colspan="2">Das Installationsscript hat versucht die Verzeichnisangaben selbst&auml;ndig zu bestimmen. Bitte pr&uuml;fen Sie genau diese Angaben auf Richtigkeit, ansonsten wird die Ausf&uuml;hrung dieses Scriptpakets fehlschlagen.
+                  <br />
+                  <br />
+                  <br />
+                </td>
+             </tr>
+             <RIGHTS>
+            	<tr>
+                <td colspan="2">
+                  Pr&uuml;fen Sie die Rechte auf die Dateien config_db.inc.php und config_paths.inc.php im Verzeichnis in dem sich ebenfalls dieses Script befindet.
+                  Unter Linux/Unix-Systemen m&uuml;ssen die Rechte der beiden Dateien auf 777 (ALLE LESEN, ALLE SCHREIBEN, ALLE AUSF&Uuml;HREN, chmod 777) gesetzt werden.
+                  <br />
+                  <a href="images/chmod777.png" target="_blank">Beispiel f&uuml;r das Festlegen der Rechte einer Datei mit dem FTP-Programm auf Linux-Systemen</a>
+                  <br />
+                  Auf Windows-Servern m&uuml;ssen die Rechte so gesetzt werden, damit die Datei ge&auml;ndert werden kann (Vollzugriff empfehlenswert).
+                  <br />
+                  <br />
+                  <br />
+                </td>
+             </tr>
+             </RIGHTS>
+            	<tr>
+                <td class="InstallDescriptionColumn">http://-Aufruf Ihrer Webseite:
+                <img onmouseover="showTooltip(event, 'Geben Sie den Aufruf Ihrer Webseite ein, so als w&uuml;rden Sie im Browser Ihre eigene Webseite aufrufen, z.B. http://www.supermailinglist.de/.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+				            </td>
+                <td class="InstallValueColumn">
+                <input type="text" name="WebsiteURL" size="50" />
+                </td>
+            	<tr>
+                <td class="InstallDescriptionColumn">http://-Aufruf des Verzeichnisses mit diesem Script:
+                <img onmouseover="showTooltip(event, 'Das komplette Scriptpaket sollte per FTP in ein eigenes Verzeichnis Ihrer Webpr&auml;senz &uuml;bertragen werden. Geben Sie den http://-Aufruf dieses Verzeichnisses an. Der http://-Aufruf entspricht dem Aufruf dieses Scripts install.php jedoch <b>ohne</b> dem Scriptnamen install.php z.B. http://www.supermailinglist.de/sml/ .');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+				            </td>
+                <td class="InstallValueColumn">
+                <input type="text" name="ScriptBaseURL" size="50" /></td>
+            	</tr>
+            	<tr>
+                <td class="InstallDescriptionColumn">Script-Server-Verzeichnis ab dem <b>Root-Verzeichnis</b>:
+                <img onmouseover="showTooltip(event, 'Geben Sie das Verzeichnis ab dem Root-Verzeichnis des Webservers an. Sollten Sie die Angabe nicht wissen, dann rufen Sie phpinfo() auf oder Fragen Sie Ihren Webspaceprovider nach der korrekten Angabe. Bei der Angabe DOCUMENT_ROOT sollte im Normalfall der Verzeichnisname stehen. <b>F&uuml;gen Sie zum Verzeichnisnamen das Verzeichnis des Scriptpakets hinzu.</b> z.B. /kunden/www/vhosts/supermailinglist.de/httpdocs/sml/');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                <br /><br /><a href="phpinfo.php" target="_blank">phpinfo() aufrufen</a>
+				            </td>
+                <td class="InstallValueColumn">
+                <input type="text" name="InstallPath" size="50" /></td>
+            	</tr>
+            </tbody>
+          </table>
+      </fieldset>
+      <!-- a hack //-->
+      <input type="image" src="images/blind.gif" width="1" height="1" />
+      <input tabindex="3" type="submit" name="BackBtn" value="&lt Zur&uuml;ck" class="FormButton" />
+      &nbsp;<input tabindex="2" type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+
+      </form>
+      

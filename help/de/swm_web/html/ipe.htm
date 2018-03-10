@@ -1,0 +1,300 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link type="text/css" rel="stylesheet" href="../CSS/layout.css">
+<meta name="MS-HKWD" content="Tags zur Verwendung im Assistenten (Inplace Editor) in E-Mail-Vorlagen definieren">
+<meta name="MS-HKWD" content="Tags zur Verwendung im Assistenten in Newsletter Vorlagen definieren">
+<meta name="MS-HKWD" content="Newsletter Vorlage">
+<meta name="MS-HKWD" content="Tags zur Verwendung im Wizard">
+<meta name="MS-HKWD" content="Newsletter Blöcke">
+<meta name="MS-HKWD" content="Blöcke in Newslettern definieren">
+<meta name="MS-HKWD" content="Blöcke in Newslettern definieren">
+<meta name="MS-HKWD" content="Inplace Editor">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer -
+Tags zur Verwendung im Assistenten (Inplace Editor) in E-Mail-Vorlagen
+definieren,Tags zur Verwendung im Assistenten in Newsletter Vorlagen
+definieren,Newsletter Vorlage,Tags zur Verwendung im Wizard,Newsletter
+Blöcke,Blöcke in Newslettern definieren,Blöcke in Newslettern
+definieren,Inplace Editor Tags zur Verwendung im Assistenten (Inplace Editor) in
+E-Mail-Vorlagen / Newsletter Vorlagen definieren</title>
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,Tags zur Verwendung im Assistenten (Inplace Editor) in E-Mail-Vorlagen definieren,Tags zur Verwendung im Assistenten in Newsletter Vorlagen definieren,Newsletter Vorlage,Tags zur Verwendung im Wizard,Newsletter Blöcke,Blöcke in Newslettern definieren,Blöcke in Newslettern definieren,Inplace Editor">
+<meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Tags zur Verwendung im Assistenten (Inplace Editor) in E-Mail-Vorlagen definieren,Tags zur Verwendung im Assistenten in Newsletter Vorlagen definieren,Newsletter Vorlage,Tags zur Verwendung im Wizard,Newsletter Blöcke,Blöcke in Newslettern definieren,Blöcke in Newslettern definieren,Inplace Editor Tags zur Verwendung im Assistenten (Inplace Editor) in E-Mail-Vorlagen /
+Newsletter Vorlagen definieren Tags zur Verwendung im Assistenten (Inplace Editor) in E-Mail-Vorlagen definieren,Tags zur Verwendung im Assistenten in Newsletter Vorlagen definieren,Newsletter Vorlage,Tags zur Verwendung im Wizard,Newsletter Blöcke,Blöcke in Newslettern definieren,Blöcke in Newslettern definieren,Inplace Editor">
+<meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script LANGUAGE="JavaScript" SRC="jscript.js"></script>
+<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/ipe.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style type="text/css">
+
+.auto-style1 {
+	font-family: "Courier New", Courier, monospace;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Tags zur Verwendung im Assistenten (Inplace Editor) in E-Mail-Vorlagen /
+Newsletter Vorlagen definieren</h1>
+<p>&nbsp;</p>
+<p>Bei der Erstellung von E-Mailings kann der Assistent verwendet werden, um
+einen E-Mail-Inhalt zu erstellen. Mit dem Assistenten muss der Nutzer kein
+Layout im integrierten WYSIWYG-Editor selbst erstellen, sondern verwendet eine
+vorgefertigte E-Mail Vorlage und füllt diese mit Inhalten. Diese vorfertigte
+E-Mail-Vorlage besteht aus normalen HTML, jedoch mit speziellen Tags, die die
+Bearbeitung ermöglichen. Beispiele für diese speziellen E-Mail-Vorlagen finden
+Sie unter Menü E-Mailings - E-Mail-Vorlagen oder im Verzeichnis
+newsletter_templates (Dateien Wizard-Sample*).</p>
+<p>&nbsp;</p>
+<p><b>Tags</b></p>
+<p>&nbsp;</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">&lt;singleline&gt;&lt;/singleline&gt;</td>
+    <td width="72%">Ermöglicht es dem Nutzer den enthaltenen einzeiligen Text
+      zu ändern. Ein etwaiger Vorgabetexte darf keine HTML-Formatierungen
+      enthalten, es muss eine reine einzeilige Zeichenkette sein.
+      <p>Mit dem zusätzlichen Attribut tableofcontentstitle=&quot;true&quot;
+      können Sie den Assistenten anweisen einen anklickbaren Eintrag im
+      Inhaltsverzeichnis zu erzeugen, falls ein Inhaltsverzeichnis-Tag enthalten
+      ist.</p>
+      <p>Geben Sie das Attribut label=&quot;beliebiger einzeiliger Text&quot;
+      an, so dass im Bearbeitungsdialog dieser Text als Feldbezeichner für das
+      Eingabefeld angezeigt wird.</p>
+      <p>Beispiele:</p>
+      <p><font face="Courier New">&lt;h1&gt;&lt;singleline&gt;Überschrift&lt;/singleline&gt;&lt;/h1&gt;</font></p>
+      <p><font face="Courier New">&lt;h1&gt;&lt;singleline
+      tableofcontentstitle=&quot;true&quot;&gt;Überschrift, die ebenfalls im
+      Inhaltsverzeichnis angezeigt wird&lt;/singleline&gt;&lt;/h1&gt;</font></p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">&lt;multiline&gt;&lt;/multiline&gt;</td>
+    <td width="72%">Ermöglicht es dem Nutzer formatierten mehrzeiligen Text
+      einzugeben bzw. den Text zu ändern. Dem Nutzer wird bei Bearbeitung des
+      Textbereichs der WYSIWYG-Editor mit verminderten Umfang dargestellt.
+      <p>Geben Sie das Attribut label=&quot;beliebiger einzeiliger Text&quot;
+      an, so dass im Bearbeitungsdialog dieser Text als Feldbezeichner für das
+      Eingabefeld angezeigt wird.</p>
+      <p>Beispiel:</p>
+      <p><font face="Courier New">&lt;multiline&gt;</font></p>
+      <p><font face="Courier New">&nbsp;&lt;div&gt;Mehrzeiliger
+      Text&lt;br&gt;&lt;br&gt;der ebenfalls &lt;b&gt;formatiert&lt;/b&gt; werden
+      kann.&lt;/div&gt;</font></p>
+      <p><font face="Courier New">&lt;/multiline&gt;</font></p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">&lt;tableofcontents&gt;&lt;/tableofcontents&gt;
+      <p>&nbsp;</td>
+    <td width="72%">Fügt an dieser Stelle das Inhaltsverzeichnis üblicherweise
+      in Listenform ein. Die Einträge des Inhaltsverzeichnisses müssen mit <font face="Courier New">&lt;tableofcontentstitle&gt;&lt;/tableofcontentstitle&gt;</font>
+      gekennzeichnet werden. Alle Bezeichnungen der Inhaltsverzeichniseinträge
+      werden aus <font face="Courier New">&lt;singleline&gt;&lt;/singleline&gt;</font>
+      mit Attribut <font face="Courier New">tableofcontentstitle=&quot;true&quot;
+      </font>Einträgen übernommen.
+      <br><br>Optional:<br>Geben Sie beim Tag &lt;tableofcontents&gt; oder &lt;tableofcontentstitle&gt; 
+	die Attribute class=&quot;&quot; und/oder style=&quot;&quot; an, um die Einträge des 
+	Inhaltsverzeichnisses zu formatieren.&nbsp;
+      <p>&nbsp;</p>
+      <p>Beispiel:</p>
+      <p><font face="Courier New">&lt;h2&gt;Inhalt&lt;/h2&gt;<br>
+      &lt;ul&gt;<br>
+      &lt;tableofcontents&gt;<br>
+      &lt;li&gt;<br>
+      &nbsp; &lt;tableofcontentstitle /&gt;<br>
+      &lt;/li&gt;<br>
+      &lt;/tableofcontents&gt;<br>
+      &lt;/ul&gt;</font><br>
+      </p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">&lt;repeater&gt;&lt;/repeater&gt;</td>
+    <td width="72%">Kennzeichnet einen wiederholbaren Block, der ebenfalls
+      verschoben werden kann. Klickt der Nutzer im Assistenten auf &quot;Neues
+      Standard-Element&quot;, dann wird dieser Block erneut darunter eingefügt.
+      Ein repeater-Block kann Elemente mit Tags &lt;singleline&gt;,
+      &lt;multiline&gt; oder &lt;tableofcontents&gt; und alle anderen
+      HTML-Elemente enthalten.
+      <p>Fügen Sie das Attribut editable=&quot;true&quot; optional hinzu, damit
+      der Nutzer den CSS-Style des Blocks anpassen kann.</p>
+      <p>Geben Sie das Attribut label=&quot;beliebiger einzeiliger Text&quot;
+      an, damit anstelle der Schaltflächen-Bezeichnung &quot;Neues
+      Standard-Element&quot; der eigene Text angezeigt wird.</p>
+      <p>&nbsp;</p>
+      <p>Beispiel:</p>
+      <p><font face="Courier New">&lt;h2&gt;Inhalt&lt;/h2&gt;<br>
+      &lt;ul&gt;<br>
+      &lt;tableofcontents&gt;<br>
+      &lt;li&gt;<br>
+      &nbsp; &lt;tableofcontentstitle /&gt;<br>
+      &lt;/li&gt;<br>
+      &lt;/tableofcontents&gt;<br>
+      &lt;/ul&gt;</font></p>
+      <p><font face="Courier New"><b>&lt;repeater&gt;</b></font></p>
+      <p><font face="Courier New">&lt;h1&gt;&lt;singleline
+      tableofcontentstitle=&quot;true&quot;&gt;Überschrift, die ebenfalls im
+      Inhaltsverzeichnis angezeigt wird&lt;/singleline&gt;&lt;/h1&gt;</font></p>
+      <p><font face="Courier New">&lt;div&gt;</font></p>
+      <p><font face="Courier New">&lt;multiline&gt;</font></p>
+      <p><font face="Courier New">&nbsp;&lt;div&gt;Mehrzeiliger
+      Text&lt;br&gt;&lt;br&gt;der ebenfalls &lt;b&gt;formatiert&lt;/b&gt; werden
+      kann.&lt;/div&gt;</font></p>
+      <p><font face="Courier New">&lt;/multiline&gt;</font></p>
+      <p><font face="Courier New">&lt;img
+      src=&quot;http://www.superwebmailer.de/images/swm.gif&quot; /&gt;</font></p>
+      <p><font face="Courier New">&lt;/div&gt;</font></p>
+      <p><font face="Courier New"><b>&lt;/repeater&gt;</b></font></p>
+      <p>&nbsp;</p>
+      <p>Hinweise:</p>
+      <ul>
+        <li>Ein Block muss immer um Blockelemente oder innerhalb eines
+          Blockelements angegeben werden, ansonsten könnte durch Verschieben
+          des Blocks der HTML-Code fehlerhaft werden.</li>
+        <li>Bei Newsletter Layouts in Tabellenform, müssen entweder komplette
+          Tabellen oder Inhalte in Zellen durch den repeater-Block umschlossen
+          werden. Tabellenzellen oder Tabellenzeilen sollten nicht mit dem
+          repeater-Tag gekennzeichnet werden, da beim Verschieben oder
+          Hinzufügen eines Elements die Tabellendefinition zerstört werden
+          könnte.</li>
+      </ul>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Attribute für bestimmte HTML-Elemente</b></p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">img</td>
+    <td width="72%">Fügen Sie das Attribut editable=&quot;true&quot; hinzu,
+      damit der Nutzer das Bild gegen ein anderes Bild tauschen kann. Geben Sie
+      im img-Tag Höhe/Breite an, dann wird das durch den Nutzer eingefügte
+      Bild automatisch auf diese Höhe/Breite verkleinert dargestellt. Wird
+      keine Höhe/Breite angegeben, dann wird das Bild in seiner
+      Original-Größe dargestellt.
+      <p>Geben Sie das Attribut label=&quot;beliebiger einzeiliger Text&quot;
+      an, so dass im Bearbeitungsdialog dieser Text als Feldbezeichner für das
+      Eingabefeld angezeigt wird.</p>
+      <p>Hinweis: Befindet sich dieser HTML-Tag innerhalb eines
+      &lt;multiline&gt;-Tags dann wird das Attribut editable=&quot;true&quot;
+      ignoriert und damit die Bearbeitung des Elements direkt im WYSIWYG-Editor
+      ermöglicht.</p>
+      <p>Beispiel:</p>
+      <p><font face="Courier New">&lt;img
+      src=&quot;http://www.superwebmailer.de/images/swm.gif&quot;
+      editable=&quot;true&quot; /&gt;</font></p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">hr</td>
+    <td width="72%">Fügen Sie das Attribut editable=&quot;true&quot; hinzu,
+      damit der Nutzer die Eigenschaften der horizontalen Line ändern kann.
+      <p>Geben Sie das Attribut label=&quot;beliebiger einzeiliger Text&quot;
+      an, so dass im Bearbeitungsdialog dieser Text als Feldbezeichner für das
+      Eingabefeld angezeigt wird.</p>
+      <p>Hinweis: Befindet sich dieser HTML-Tag innerhalb eines
+      &lt;multiline&gt;-Tags dann wird das Attribut editable=&quot;true&quot;
+      ignoriert und damit die Bearbeitung des Elements direkt im WYSIWYG-Editor
+      ermöglicht.</p>
+      <p>Beispiel:</p>
+      <p><font face="Courier New">&lt;hr editable=&quot;true&quot; /&gt;</font></p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">a</td>
+    <td width="72%">Fügen Sie das Attribut editable=&quot;true&quot; hinzu,
+      damit der Nutzer das Ziel des Hyperlinks und den sichtbaren Link-Text
+      ändern kann.
+      <p>Geben Sie das Attribut label=&quot;beliebiger einzeiliger Text&quot;
+      an, so dass im Bearbeitungsdialog dieser Text als Feldbezeichner für das
+      Eingabefeld angezeigt wird.</p>
+      <p>Hinweis: Befindet sich dieser HTML-Tag innerhalb eines
+      &lt;multiline&gt;-Tags dann wird das Attribut editable=&quot;true&quot;
+      ignoriert und damit die Bearbeitung des Elements direkt im WYSIWYG-Editor
+      ermöglicht.</p>
+      <p>Beispiel:</p>
+      <p><font face="Courier New">&lt;a
+      href=&quot;http://www.superwebmailer.de&quot;
+      editable=&quot;true&quot;&gt;SuperWebMailer Webseite&lt;/a&gt;</font></p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">ul oder ol</td>
+    <td width="72%">Fügen Sie das Attribut editable=&quot;true&quot; hinzu,
+      damit der Nutzer die einzelnen Listelemente und die Aufzählungszeichen
+      der Liste ändern kann.
+      <p>Geben Sie das Attribut label=&quot;beliebiger einzeiliger Text&quot;
+      an, so dass im Bearbeitungsdialog dieser Text als Feldbezeichner für das
+      Eingabefeld angezeigt wird.</p>
+      <p>Hinweis: Befindet sich dieser HTML-Tag innerhalb eines
+      &lt;multiline&gt;-Tags dann wird das Attribut editable=&quot;true&quot;
+      ignoriert und damit die Bearbeitung des Elements direkt im WYSIWYG-Editor
+      ermöglicht.</p>
+      <p>Beispiel:</p>
+      <p><font face="Courier New">&lt;ol editable=&quot;true&quot;&gt;<br>
+      </font><font face="Courier New">&nbsp;&lt;li&gt;Eintrag 1&lt;/li&gt;<br>
+      &nbsp;&lt;li&gt;Eintrag 2&lt;/li&gt;<br>
+      &lt;/ol&gt;</font></p>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p><strong>Zielgruppen vordefinieren</strong></p>
+<p>In der E-Mail-Vorlage kann das Attribut <span class="auto-style1">
+target_groups=&quot;</span>zielgruppe1 zielgruppe2...&quot; zur Anzeige nur für eine
+bestimmte <a href="targetgroupsedit.htm">Zielgruppe</a> für jeden HTML-Tag
+vordefiniert werden. Sollte das Attribut für ein bearbeitbares Element
+vordefiniert werden, dann kann der Nutzer die Zielgruppenvorgabe per Mausklick
+später im Assistenten ändern. <br><strong>Hinweis:</strong> Die Schaltfläche zum
+Ändern der Zielgruppe wird nur im Assistenten angezeigt, wenn auch Zielgruppen
+definiert wurden.</p>
+<p>&nbsp;</p>
+<p><strong>Hinweise</strong></p>
+<ul>
+  <li>Der HTML-Code einer Vorlage für den Assistenten muss syntaktisch korrekt
+    sein, dies bedeutet:
+    <ul>
+      <li>Alle HTML-Tags müssen in korrekter Reihenfolge geschlossen werden.</li>
+      <li>Bestimmte HTML-Tags dürfen lt. HTML-Standard nicht in anderen Tags
+        enthalten sein z.B. ein div-Tag darf nicht in einem p-Tag enthalten
+        sein. Sollten die Regeln des HTML-Standards nicht befolgt werden,
+        könnte der Browser dies bei der Bearbeitung durch den Assistenten
+        anpassen, damit wird das Layout möglicherweise unbrauchbar.</li>
+      <li>Treten während der Bearbeitung im Assistenten Fehler bei der
+        Darstellung auf oder Elemente sind nicht mehr bearbeitbar, dann sollten
+        div-Blöcke um die Elemente gesetzt werden z.B. anstatt<br>
+        <br>
+        <font face="Courier New">&lt;a
+        href=&quot;http://www.superwebmailer.de&quot;
+        editable=&quot;true&quot;&gt;SuperWebMailer Webseite&lt;/a&gt;</font><br>
+        <br>
+        verwenden<br>
+        <br>
+        <font face="Courier New">&lt;div&gt;&lt;a
+        href=&quot;http://www.superwebmailer.de&quot;
+        editable=&quot;true&quot;&gt;SuperWebMailer
+        Webseite&lt;/a&gt;&lt;/div&gt;</font></li>
+    </ul>
+  </li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><b>Siehe dazu auch</b></p>
+<p><a href="fckeditor.htm">WYSIWYG HTML-Editor verwenden</a></p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

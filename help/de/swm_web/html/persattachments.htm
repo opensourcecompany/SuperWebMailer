@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link type="text/css" rel="stylesheet" href="../CSS/layout.css">
+<meta name="MS-HKWD" content="PHP Newsletter Software SuperWebMailer">
+<meta name="MS-HKWD" content="Personalisierte Anhänge">
+<meta name="MS-HKWD" content="Anhänge, personalisiert">
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer, Personalisierte Anhänge, Anhänge, personalisiert">
+<meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script LANGUAGE="JavaScript" SRC="jscript.js"></script>
+<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/persattachments.htm">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Personalisierte Anhänge</title>
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+
+<h1>Personalisierte Anhänge</h1>
+<p>Personalisierte Anhänge für <a href="campaignedit.htm">E-Mailings</a> oder <a href="fumailedit.htm">E-Mails
+eines Follow-Up-Responders</a> ermöglichen es jedem Empfänger einen anderen
+Dateianhang zu zusenden. Die Datei selbst muss auf dem Server im Verzeichnis
+userfiles/&lt;id des admin-nutzers&gt;/file durch SuperWebMailer <b>auffindbar
+und lesbar</b> sein.</p>
+<p>Hinweis: Der Versand von personalisierten Anhänge erzeugt eine höhere
+Serverlast, verwenden Sie personalisierte Anhänge daher nur, um jedem
+Empfänger andere Dateianhänge zu zusenden!</p>
+<p>&nbsp;</p>
+<p><b>Personalisierte Anhänge erstellen</b></p>
+<p><img border="0" src="../images/persattachment.png" alt="Personalisierter Anhang" width="684" height="430"></p>
+<ol>
+  <li>Klicken Sie auf &quot;Neuer Anhang&quot;, um einen neuen personalisierten
+    Anhang zu erstellen.</li>
+  <li>Geben Sie im Feld &quot;Bildung des Dateinamens für den personalisierten
+    Anhang (mit Dateierweiterung)&quot; an, wie der Dateiname inklusive
+    Dateierweiterung des personalisierten Anhangs zusammengestellt werden soll.
+    Wählen Sie im Auswahlfeld &quot;Feld zum Einfügen wählen&quot; ein oder
+    mehrere Felder der Empfängerliste als Platzhalter aus.</li>
+  <li>Es ist optional möglich einen Dateinamen anzugeben, der anstatt des
+    Dateinamens aus dem Feld &quot;Bildung des Dateinamens für den
+    personalisierten Anhang (mit Dateierweiterung)&quot; dem Empfänger der
+    E-Mail angezeigt werden soll.<br>
+    Hinweis: Die Dateierweiterung muss korrekt sein, damit die Datei beim
+    Empfänger mit dem korrekten Programm angezeigt oder geöffnet wird. Es
+    sollten keine Umlaute oder Sonderzeichen im Dateinamen verwendet werden, da
+    dies unter den unterschiedlichen Betriebssystemen zu Öffnungs- oder
+    Dateispeicherfehlern führen kann.</li>
+  <li>Klicken Sie auf &quot;Speichern&quot;, um den Anhang zu übernehmen.</li>
+</ol>
+<p>Im obigen Screenshot würden die Anhänge für den jeweiligen Empfänger im
+Anhänge-Verzeichnis anhand der ID des Empfängers gesucht werden, z.B. 1.pdf,
+2.pdf usw..</p>
+<p>&nbsp;</p>
+<p>Hinweise:</p>
+<ul>
+  <li>Dateien können mit dem Filemanager oder per FTP auf den Server
+    übertragen werden, sollten mehrere verschiedene Dateien übertragen werden,
+    dann ist der FTP-Upload empfehlenswert.</li>
+  <li>Während des E-Mail-Versands wird im angezeigten absoluten Verzeichnis
+    nach der Datei gesucht und geprüft ob die Datei lesbar ist. Sollte die
+    Datei nicht existieren oder nicht lesbar sein, dann wird die E-Mail an den
+    Empfänger, abhängig von der Einstellung &quot;E-Mail bei nicht
+    existierenden Datei(en) ohne Anhänge versenden&quot;, ohne Anhang
+    versendet.</li>
+  <li>Sollten Sie ein Unterverzeichnis verwenden wollen, dann muss sich das
+    Unterverzeichnis unter dem absoluten Verzeichnis file für Anhänge
+    befinden. Unterverzeichnisse müssen mit Slash (/) angegeben werden,
+    verwenden Sie unter Windows-Systemen nicht den Backslash (\). Der
+  Unterverzeichnisname kann ebenfalls aus Platzhaltern bestehen, wählen Sie dazu
+  das entsprechende Feld aus der Auswahlliste aus.</li>
+  <li>Geben Sie im Feld &quot;Bildung des Dateinamens&quot; einen * bzw.
+  Unterverzeichnis/* an, um alle Dateien im jeweiligen Verzeichnis, ohne etwaige
+  Unterverzeichnisse, per E-Mail an den Empfänger versenden zu lassen. Es werden
+  dabei alle lesbaren Dateien versendet. Es ist <strong>nicht</strong> möglich
+  Dateien per Wildcard-Maske, z.B. *.pdf, versenden zu lassen, nur das
+  Wildcard-Zeichen * für alle Dateien ist erlaubt.</li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

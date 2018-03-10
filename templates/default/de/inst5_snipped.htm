@@ -1,0 +1,74 @@
+      <form id="InstallForm" name="InstallForm" method="post" action="./install.php">
+      <input type="hidden" name="step" value="5" />
+      <input type="hidden" name="Language" />
+      <fieldset>
+      <legend>PRODUCTAPPNAME - CronJobs/Geplante Aufgaben</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+            	<tr>
+                <td>Es ist empfehlenswert CronJobs/Geplante Aufgaben zu verwenden, um in regelm&auml;&szlig;igen Abst&auml;nden die Datenbank aufzur&auml;umen, d.h.
+                    nicht best&auml;tigte Anmeldungen und Abmeldungen, sowie alte Log-Eintr&auml;ge aus der Datenbank zu entfernen. Ebenfalls k&ouml;nnen unzustellbare E-Mails
+                    aus den definierten Postf&auml;chern abgerufen und mit den definierten Empf&auml;ngerlisten abgeglichen werden.<br />
+                    Zur Durchf&uuml;hrung dieser
+                    Aufgabe muss das Script<br /><br /><pre><crons_php></pre><br />in regelm&auml;&szlig;igen Abst&auml;nden aufgerufen werden. Empfehlenswert ist der Aufruf einmal pro Minute,
+                    das Script pr&uuml;ft dabei selbst ob etwaige Aufgaben erledigt werden m&uuml;ssen.
+                </td>
+            	</tr>
+            </tbody>
+          </table>
+      </fieldset>
+      
+      <br />
+    		<fieldset>
+      <legend>Wie CronJobs ausf&uuml;hren?</legend>
+      <table class="FormTable">
+        <tbody>
+          <tr>
+            <td>
+              <br />
+    										<p>Es stehen diese 4 Varianten zur Verf&uuml;gung:</p>
+              <br />
+              <blockquote style="margin-left: 8px">
+              <p>1. CronJob-Eintrag (unter Windows Aufgabenplanung) auf dem Server erstellen</p>
+    										<p>Erstellen Sie einen neuen CrobJob-Eintrag (unter Windows Aufgabenplanung) mit Aufruf des Scripts<br /><br /><pre><crons_php></pre><br /><br />
+              Der Aufruf sollte einmal pro Minute aber sp&auml;testens einmal pro Stunde durchgef&uuml;hrt werden, so dass die notwendigen Aufgaben ausf&uuml;hrt werden k&ouml;nnen.
+              <br />
+              <a href="images/plesk_task.png" target="_blank">Beispiel f&uuml;r eine geplante Aufgabe/CronJob in Plesk&trade; mit Ausf&uuml;hrung einmal pro Minute</a>
+              </p>
+              <br /><br />
+    										<p>2. Verwendung eines externen CronJob-Diensts</p>
+    										<p>Sie k&ouml;nnen einen externen CronJob-Dienst verwenden, welches das Script<br /><br /><pre><crons_php></pre><br />in regelm&auml;&szlig;igen Abst&auml;nden aufruft.</p>
+              <br /><br />
+    										<p>3. Einf&uuml;gen des Scriptaufrufs in die eigene Webseite</p>
+    										<p>F&uuml;gen Sie den folgenden JavaScript-Code in Ihre Webseite (z.B. Startseite der Webpr&auml;senz) ein. Jedesmal wenn ein Besucher die Webseite aufruft wird das CronJob-Script ausgef&uuml;hrt.</p>
+										<textarea cols="90" rows="11" style="background-color:#CCCCCC; font-family:'Courier New', Courier; padding: 4px;" readonly="readonly">
+&lt;script type=&quot;text/javascript&quot; language=&quot;javascript&quot;&gt;
+&lt;!--
+ var date = new Date();
+ var URL = '<crons_php>';
+ var RandomString = date.getTime();
+ document.write('&lt;img src=&quot;' + URL + '?' + RandomString+ '&quot; width=&quot;1&quot; height=&quot;1&quot; border=&quot;0&quot; alt=&quot;&quot;');
+//--&gt;
+&lt;/script&gt;
+          </textarea>
+              <br /><br />
+    										<p>4. Manuelles Ausf&uuml;hren des CronJob-Scripts (nicht empfohlen)</p>
+    										<p>Klicken Sie sp&auml;ter, nach der Anmeldung, bei PRODUCTAPPNAME im Men&uuml; Einstellungen auf &quot;Geplante Aufgaben&quot;, auf der angezeigten Seite klicken Sie auf &quot;CronJobs jetzt manuell ausf&uuml;hren&quot; um das CronJob-Script manuell auszuf&uuml;hren.</p>
+              </blockquote>
+            </td>
+          </tr>
+          <tr>
+          <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+          </tr>
+        </tbody>
+      </table>
+      </fieldset>
+
+      <!-- a hack //-->
+      <input type="image" src="images/blind.gif" width="1" height="1" />
+
+      <!-- <input type="submit" name="BackBtn" value="&lt Zur&uuml;ck" class="FormButton" /> no back //-->
+      &nbsp;<input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+      </form>
+      

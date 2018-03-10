@@ -1,0 +1,95 @@
+      <form id="SplitTestEditForm" name="SplitTestEditForm" method="post" action="./splittestedit.php">
+      <span class="Backlink"><br /><a href="./browsesplittests.php" onclick="document.SplitTestEditForm.action='./browsesplittests.php';document.SplitTestEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="SplitTestListId" id="SplitTestListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel" value="3" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.SplitTestEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.SplitTestEditForm.submit(); return false;">E-Mailings</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.SplitTestEditForm.submit(); return false;">Einstellungen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.SplitTestEditForm.submit(); return false;">Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.SplitTestEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die E-Mailings, welche f&uuml;r den Split Test versendet werden sollen. Es werden nur E-Mailings dargestellt, f&uuml;r welche das Tracking aktiviert und die mit dem Versandstatus &quot;Nur Speichern&quot; angelegt worden sind.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Einstellungen f&uuml;r den A/B Split Test</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <IF_CAN_CHANGE_SETTINGS>
+              <tr>
+               <td>
+                 <label for="WinnerType">&quot;Gewinner&quot; des A/B Split Test bestimmen anhand der</label>
+                 <select name="WinnerType" size="1" id="WinnerType">
+                     <option value="WinnerOpens">&Ouml;ffnungen der E-Mail</option>
+                     <option value="WinnerClicks">Klicks auf Hyperlinks in der E-Mail</option>
+                 </select>.
+                 <br />
+                 <br />
+               </td>
+              </tr>
+
+              <tr>
+               <td>
+                 <input type="radio" name="TestType" value="TestSendToAllMembers" id="TestType1" />&nbsp;<label for="TestType1">Versand an alle Empf&auml;nger der Empf&auml;ngerliste</label>&nbsp;<SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'z.B. enth&auml;lt die Empf&auml;ngerliste 100 Empf&auml;nger und es wurden 2 E-Mailings gew&auml;hlt, dann wird an 50 zuf&auml;llig ausgew&auml;hlte Empf&auml;nger das erste E-Mailing und an die &uuml;brigen 50 Empf&auml;nger das zweite E-Mailing versendet.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>
+                 <blockquote style="margin-left: 14pt;">
+                  Die Empf&auml;nger der Empf&auml;ngerliste werden zuf&auml;llig ausgew&auml;hlt und in gleichen Gruppen mit den gew&auml;hlten E-Mailings gesendet.
+                 </blockquote>
+                 <br />
+                 <input type="radio" name="TestType" value="TestSendToListPercentage" id="TestType2" />&nbsp;<label for="TestType2">Versand an einen Teil der Empf&auml;nger der Empf&auml;ngerliste, anschlie&szlig;end wird die &quot;Gewinner&quot;-E-Mail an die &uuml;brigen Empf&auml;nger gesendet</label>&nbsp;<SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'z.B. enth&auml;lt die Empf&auml;ngerliste 100 Empf&auml;nger, es wurden 2 E-Mailings gew&auml;hlt und ein Prozentsatz von 10% angegeben, dann werden 5 Empf&auml;nger E-Mailing 1 und 5 Empf&auml;nger E-Mailing 2 erhalten.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>
+                  <br />
+                  <blockquote style="margin-left: 14pt;">
+                  <label for="ListPercentage">Die E-Mailings sollen an</label> <input type="text" name="ListPercentage" id="ListPercentage" size="4" maxlength="4" style="text-align: right" /><label for="ListPercentage">% der Liste gesendet werden.</label>
+                  <br />
+                  <label for="SendAfterInterval">Das &quot;Gewinner&quot; E-Mailing soll nach</label> <input type="text" name="SendAfterInterval" id="SendAfterInterval" size="4" maxlength="4" style="text-align: right" />&nbsp;<select name="SendAfterIntervalType" id="SendAfterIntervalType" size="1">
+                     <option value="Minute">Minute(n)</option>
+                     <option value="Hour">Stunde(n)</option>
+                     <option value="Day">Tage(n)</option>
+                     </select><label for="SendAfterIntervalType"> an die restlichen Empf&auml;nger der Empf&auml;ngerliste gesendet werden.</label>
+                  </blockquote>
+                  <br />
+                 <br />
+               </td>
+              </tr>
+
+              <tr>
+               <td>
+                 Das Resultat kann anschlie&szlig;end auf der Statistik-Seite betrachtet werden.
+               </td>
+              </tr>
+              </IF_CAN_CHANGE_SETTINGS>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Speichern und Weiter &gt;" class="FormButton" />
+
+      <script type="text/javascript">
+      <!--
+        if(document.getElementById("EMailingsScrollbox"))
+          addScrollboxRolloverEffect('EMailingsScrollbox','scrollboxRollOverEffect', null);
+        
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+      </form>

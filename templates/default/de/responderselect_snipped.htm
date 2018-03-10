@@ -1,0 +1,42 @@
+      <div class="spacerborder">
+        <span class="Backlink"></span>
+        <form method="post" id="RespondersListSelectForm" name="RespondersListSelectForm">
+          <input type="hidden" name="action" />
+          <input type="hidden" name="ResponderType" />
+          <fieldset>
+          <legend><ResponderLegendLabel></ResponderLegendLabel></legend>
+          <br />
+          <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                <ResponderLabel1></ResponderLabel1><br /><br />
+                </td>
+              </tr>
+              <tr>
+                <td class="LabelColumn"><ResponderLabel2></ResponderLabel2>
+                </td>
+                <td><select name="ResponderId" size="1">
+                    <SHOW:RESPONDERS>
+                    </SHOW:RESPONDERS>
+                    </select>
+                    <br /><br />
+                </td>
+              </tr>
+              <tr>
+                <td class="LabelColumn">&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+              <tr>
+                <td>
+                <input type="submit" name="NextBtn" value="Weiter" class="FormButton" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </fieldset>
+          <br style="clear:both;" />
+        </form> 
+      </div>
+

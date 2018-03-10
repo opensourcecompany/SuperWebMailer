@@ -1,0 +1,21 @@
+Hallo [USERNAME],
+
+es wurden die Zugangsdaten für den Nutzernamen [USERNAME] angefordert.
+
+Um ein neues Passwort zugesendet zu bekommen, klicken Sie auf diesen Link:
+
+[LINK]
+
+
+
+Möchten Sie kein neues Passwort zugesendet bekommen, dann ignorieren Sie diese E-Mail.
+
+
+Mit freundlichen Grüßen
+
+
+
+
+IP-Adresse bei Anforderung der Zugangsdaten: [IP]
+Browser: [UserAgent]
+

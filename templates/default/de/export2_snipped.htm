@@ -1,0 +1,94 @@
+      <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+      <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
+      <form id="ExportForm" name="ExportForm" method="post" action="./exportrecipients.php">
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+      <input type="hidden" name="MailingListName" id="MailingListName" />
+      <input type="hidden" name="step" id="step" value="2" />
+
+      <span class="Backlink"><br /><a href="./exportrecipients.php">Zur&uuml;ck</a></span>
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie das Trennzeichen und weitere Optionen f&uuml;r den Export der Empf&auml;nger an. ');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Einstellungen f&uuml;r den Export der Empf&auml;nger</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="ImportColumn">Trennzeichen
+                zwischen den Feldern</td>
+                <td><input type="text" id="Separator" name="Separator" size="5" /></td>
+              </tr>
+              <tr>
+                <td class="ImportColumn">&nbsp;</td>
+                <td>&nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td class="ImportColumn">Weitere Optionen</td>
+                <td>
+                 <br />
+                 <input type="checkbox" name="OnlyActiveRecipients" id="OnlyActiveRecipients" value="1" /><label for="OnlyActiveRecipients">&nbsp;Nur aktive Empf&auml;nger</label>
+                 <br />
+                 <br />
+                 <input type="text" name="ExportLines" id="ExportLines" size="3" style="text-align: right;" /><label for="ExportLines">&nbsp;Zeilen auf einmal exportieren</label>
+                 <br />
+                 <br />
+                 <input type="checkbox" name="Header1Line" id="Header1Line" value="1" /><label for="Header1Line">&nbsp;In der ersten Zeile soll sich eine Kopfzeile mit den Feldnamen befinden</label>
+                 <br />
+                 <input type="checkbox" name="AddQuotes" id="AddQuotes" value="1" /><label for="AddQuotes">&nbsp;Daten in Anf&uuml;hrungszeichen setzen</label>
+                 <br />
+                 <br />
+                </td>
+              </tr>
+
+              <tr>
+                <td class="ImportColumn">Gruppen der Empf&auml;ngerliste</td>
+                <td>
+
+                 <table cellspacing="0" cellpadding="0" border="0">
+                   <tbody>
+                    <tr>
+                      <td>
+                      <input type="radio" id="GroupsOption1" name="GroupsOption" value="1" onclick="DisableItem('GroupsScrollbox', document.ExportForm.GroupsOption[1].checked); " />&nbsp;<label for="GroupsOption1">Alle Empf&auml;nger exportieren</label>
+                      <br />
+                      </td>
+                    </tr>
+                    <tr>
+                     <td>
+                      <input type="radio" id="GroupsOption2" name="GroupsOption" value="2" onclick="DisableItem('GroupsScrollbox', document.ExportForm.GroupsOption[1].checked); " />&nbsp;<label for="GroupsOption2">Nur Empf&auml;nger exportieren, die sich in einer dieser Empf&auml;ngergruppen befinden:</label>
+                      <br /><br />
+                       <div class="scrollbox" style="margin-left: 20px; width: 368px; height: 150px" name="GroupsScrollbox" id="GroupsScrollbox">
+                         <SHOW:GROUPS>
+                           <span class="scrollboxSpan"><input type="checkbox" name="groups[]" value="<GroupsId></GroupsId>" id="GroupsLabelId" />&nbsp;<label for="GroupsLabelId"><GroupsName></GroupsName></label><br /></span>
+                         </SHOW:GROUPS>
+                       </div>
+                       <br />
+                       <br />
+                     </td>
+                    </tr>
+                   </tbody>
+                 </table>
+                 
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <script type="text/javascript">
+      <!--
+        if(document.ExportForm.GroupsOption == null) {
+          DisableItem('GroupsScrollbox', false);
+        }else {
+          DisableItem('GroupsScrollbox', document.ExportForm.GroupsOption[1].checked);
+        }
+        addScrollboxRolloverEffect('GroupsScrollbox','scrollboxRollOverEffect', null);
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+
+      </form>      

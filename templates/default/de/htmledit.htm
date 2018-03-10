@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>HTML Editor</title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+      HTML-Editor
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+   
+   <div class="container">
+
+      <SHOWHIDE:ERRORTOPIC>
+        <div class="errortopic">
+        <LABEL:ERRORMESSAGETEXT></LABEL:ERRORMESSAGETEXT>
+        </div>
+      </SHOWHIDE:ERRORTOPIC>
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        SourceElement =  parent.document.forms['FORMNAME'].elements ? parent.document.forms['FORMNAME'].elements.FORMFIELD : parent.document.forms['FORMNAME'].FORMFIELD;
+
+        var myBasePath='';
+
+      //-->
+      </script>
+
+      <form id="HTMLEditForm" name="HTMLEditForm" method="post" action="">
+
+      <span class="Backlink">&nbsp;</span>
+
+
+      <textarea name="HTMLText" id="HTMLText" cols="100" rows="10" style="width:640px; height: 288px"></textarea>
+
+
+                  <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+
+                  
+                  <script type="text/javascript">
+                  
+                  window.onload = function()
+                  {
+                   document.getElementById('HTMLText').value = SourceElement.value;
+                   var sBasePath = myBasePath + 'ckeditor/';
+                  
+                   CKEDITOR.config.BasePath	= sBasePath ;
+                   CKEDITOR.config.width = 668;
+                   CKEDITOR.config.height = 230;
+
+                   CKEDITOR.replace('HTMLText',
+                    {
+                      customConfig : myBasePath + 'plugins/swm_sml_ckeditor_config.js',
+                      toolbar : 'MyDefaultSimpleToolbar',
+                      fullPage : false,
+                      width : 668,
+                      height: 230
+
+                    }
+                   );
+
+
+                  }
+                  
+                  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+                  
+                  </script>
+      <input type="button" name="OKBtn" value="&Uuml;bernehmen" class="FormButton" onclick="SourceElement.value=CKEDITOR.instances.HTMLText.getData();parent.closeDialog();" />
+      <input type="button" name="CancelBtn" value="Abbrechen" class="FormButton" onclick="parent.closeDialog();" />
+
+      </form>
+
+       <link href="css/ckeditorfix.css" rel="stylesheet" type="text/css" />
+
+   </div>
+   
+
+</div>
+
+
+</body>
+
+</html>

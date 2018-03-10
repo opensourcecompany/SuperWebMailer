@@ -1,0 +1,30 @@
+.cke_combo__format .cke_combo_text{
+width:80px !important;
+}
+
+.cke_combo__placeholdercb .cke_combo_text{
+width:140px !important;
+}
+
+.cke_combo__fontsize .cke_combo_text{
+width:60px !important;
+}
+
+.cke_combo__font .cke_combo_text{
+width:80px !important;
+}
+
+.cke_combopanel__format {
+width:190px !important;
+}
+
+.cke_combopanel__fontsize {
+width:150px !important;
+height:300px !important;
+}
+
+.cke_combopanel__placeholdercb {
+width:200px !important;
+height:250px !important;
+}
+

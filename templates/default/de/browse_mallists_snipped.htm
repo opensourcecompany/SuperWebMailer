@@ -1,0 +1,224 @@
+<script type="text/javascript" src="js/jquery-latest.min.js"></script>
+<div class="spacerborder">
+  <form name="MailingListsForm" id="MailingListsForm" method="post">
+
+  <input type="hidden" name="OneMailingListAction" id="OneMailingListAction" value="" />
+  <input type="hidden" name="OneMailingListId" id="OneMailingListId" value="" />
+
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function load_mailinglists(){
+     if($('#DestMailingList option').size() != 0) return; // is loaded?
+     var date = new Date();
+     var nocache = date.getTime() / 1000;
+     $("#Loading").show();
+     $.ajaxSetup({ cache: false });
+
+    	jQuery.get('ajax_getmailinglists.php' + "?nocache=" + nocache, "", function(data){
+    	   $("#DestMailingList").html( data );
+    	});
+
+     $("#Loading").hide();
+    }
+
+    function SetListId(ASender, AFormID) {
+      var AForm = document.getElementById(AFormID);
+      var OneMailingListAction = document.getElementById('OneMailingListAction');
+      var OneMailingListId = document.getElementById('OneMailingListId');
+      OneMailingListAction.value = ASender.name;
+      OneMailingListId.value = ASender.value;
+      document.getElementById('MailingListActions').selectedIndex = 0;
+      return true;
+    }
+
+    function DoListActionChange(ASender, AFormID, AElementID, ShowMessageBox) {
+      var AForm = document.getElementById(AFormID);
+      var AElement = document.getElementById(AElementID);
+
+      if ( ( (ASender.options[ASender.selectedIndex].value == "MoveRecipients") || (ASender.options[ASender.selectedIndex].value == "CopyRecipients") ) && (ASender.disabled == false) ) {
+         load_mailinglists();
+         AElement.style.display = "";
+         if(ShowMessageBox)
+           MessageBox('Information', 'Bitte w&auml;hlen Sie neben dieser Auswahlbox die Ziel-Empf&auml;ngerliste aus und klicken Sie auf "Ausf&uuml;hren".', 0, 320, 120, '');
+         }
+        else
+         AElement.style.display = "none";
+    }
+
+    function CheckboxClicked() {
+     DisableItem('MailingListActions', GetCheckedCount('MailingListIDs[]', 'MailingListsForm') > 0 );
+     DoListActionChange( document.getElementById('MailingListActions'), 'MailingListsForm', 'DestMailingList', false);
+     ShowItem('ListActionSubmitBtn', (document.getElementById('MailingListActions').selectedIndex != 0) && ( document.getElementById('MailingListActions').disabled == false ) ) ;
+    }
+
+    function ConfirmDeleteListEvent(value) {
+      if(value)
+        document.getElementById('MailingListsForm').submit();
+        else {
+          document.getElementById('OneMailingListAction').value = "";
+          document.getElementById('OneMailingListId').value = "";
+        }
+        
+    }
+
+    function ConfirmListActionEvent(value) {
+      if(value)
+        document.getElementById('MailingListsForm').submit();
+    }
+
+    function ConfirmListAction() {
+      AOption = document.getElementById("MailingListActions").options[ document.getElementById("MailingListActions").selectedIndex ];
+      if(AOption.value == "RemoveRecipients" ) {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle</b> Empf&auml;nger in den gew&auml;hlten Empf&auml;ngerlisten dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmListActionEvent');
+        return false;
+      }
+      if(AOption.value == "MoveRecipients") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle</b> Empf&auml;nger in den gew&auml;hlten Empf&auml;ngerlisten verschieben?<br /><br /><b>Warnung</b> Alle versendeten E-Mails und Statistiken gehen damit verloren.', 3, 320, 160, 'ConfirmListActionEvent');
+        return false;
+      }
+      if(AOption.value == "CopyRecipients") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle</b> Empf&auml;nger in den gew&auml;hlten Empf&auml;ngerlisten kopieren?<br /><br /><b>Warnung</b> Alle versendeten E-Mails und Statistiken gehen damit verloren.', 3, 320, 160, 'ConfirmListActionEvent');
+        return false;
+      }
+      if(AOption.value == "DeleteMailLists") {
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle</b> gew&auml;hlten Empf&auml;ngerlisten und <b>alle</b> darin enthaltenen Empf&auml;nger dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmListActionEvent');
+        return false;
+      }
+      if(AOption.value == "DeleteGroups") {
+        MessageBox('Best&auml;tigung', 'Sie entfernen damit jede Gruppe und Gruppenzuordnung der Empf&auml;nger, die Empf&auml;nger selbst werden damit nicht gel&ouml;scht.<br /><br />M&ouml;chten Sie wirklich <b>alle</b> Gruppen der gew&auml;hlten Empf&auml;ngerlisten dauerhaft l&ouml;schen?', 3, 320, 180, 'ConfirmListActionEvent');
+        return false;
+      }
+
+      return true;
+    }
+
+  //-->
+  </script>
+
+  <table class="FixedTable">
+    <tbody>
+      <tr>
+        <td>
+         <span style="float: right; margin-right: 0pt"><a class="Backlink" href="./mailinglistcreate.php">Neue Empf&auml;ngerliste anlegen</a></span>
+         <p>
+         <a href="javascript:void(0);" class="Backlink" onclick="ShowHideItem('ShowHideFilterBox')">Filter anzeigen / nicht anzeigen</a>
+      			<div id="ShowHideFilterBox">
+      			Suche nach:&nbsp;<input type="text" name="SearchFor" size="32" />&nbsp;im Feld:&nbsp;<select size="1" name="fieldname"><option value="SearchForid">ID</option><option value="SearchForName">Name</option><option value="SearchForDescription">Beschreibung</option></select>
+      			<br /><br />
+      			Sortiere Liste nach:&nbsp;<select size="1" name="sortfieldname"><option value="SortName">Name</option><option value="Sortid">ID</option></select>&nbsp;<select size="1" name="sortorder"><option value="descending">absteigend</option><option value="ascending">aufsteigend</option></select>
+      			<br />
+         <br />
+      			Zeige:&nbsp;<input type="text" name="ItemsPerPage" size="4" style="text-align:right" />&nbsp;Eintr&auml;ge&nbsp;pro&nbsp;Seite
+      			<br />
+         <br />
+         <div style="float:right"><input type="submit" name="FilterApplyBtn" value="&Uuml;bernehmen" onclick="document.getElementById('MailingListActions').selectedIndex = 0; document.getElementById('MailingListActions').onchange();" /></div>
+         <input type="checkbox" name="SaveFilter" id="SaveFilter" value="true" /><label for="SaveFilter">&nbsp;Filter zur n&auml;chsten Verwendung speichern</label>
+         </div>
+         </p>
+        </td>
+      </tr>
+      <tr>
+      <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+      </tr>
+    </tbody>
+  </table>
+  <script language="JavaScript">
+  <!--
+    ShowHideItem('ShowHideFilterBox');
+  //-->
+  </script>
+  <table id="TableMailLists" name="TableMailLists" class="FixedTable">
+  	<thead>
+  		<tr>
+  			<td class="NoWrap" width="5%"><input name="SelectAllChkBox" type="checkbox" onclick="CheckAllCheckboxes('SelectAllChkBox', 'MailingListIDs[]', 'MailingListsForm'); CheckboxClicked();" /></td>
+  			<td class="NoWrapAlignCenter" width="5%" onclick="SortOnClick('Sortid', 'sortfieldname', 'sortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">ID</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="40%" onclick="SortOnClick('SortName', 'sortfieldname', 'sortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">Name der Empf&auml;ngerliste</td>
+  			<td class="NoWrapAlignCenter" width="25%">Gesamt/Aktive Empf&auml;nger</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="23%">Aktionen</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td><input name="MailingListIDs[]" type="checkbox" onclick="CheckboxClicked()" /></td>
+  			<td class="NoWrapAlignRight"><LIST:ID></LIST:ID></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:NAME></LIST:NAME></td>
+  			<td class="AlignRight"><LIST:TOTAL></LIST:TOTAL> / <LIST:ACTIVE></LIST:ACTIVE></td>
+  			<td>&nbsp;</td>
+  			<td>
+  			    <input type="image" src="images/edit.gif" width="16" height="16" name="EditListProperties" onclick="SetListId(this, 'MailingListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'&Auml;ndern der Eigenschaften der Empf&auml;ngerliste');return false" />&nbsp;
+  			    <input type="image" src="images/statistics.gif" width="16" height="16" name="ListReport" onclick="SetListId(this, 'MailingListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Zeigt den Report der An-/Abmeldungen f&uuml;r diese Empf&auml;ngerliste');return false" />&nbsp;
+  			    <input type="image" src="images/usersbrowse.gif" width="16" height="16" name="BrowseRecipients" onclick="SetListId(this, 'MailingListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Zeigt die Empf&auml;nger dieser Empf&auml;ngerliste');return false" />&nbsp;
+         <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteList" onclick="SetListId(this, 'MailingListsForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich die Empf&auml;ngerliste und <b>alle</b> enthaltenden Empf&auml;nger dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmDeleteListEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht die Empf&auml;ngerliste und <b>alle</b> enthaltenen Empf&auml;nger');return false" />
+  			    <input type="image" src="images/htmlform.gif" width="16" height="16" name="ShowListForms" onclick="SetListId(this, 'MailingListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Zeigt die An-/Abmeldeformulare der Empf&auml;ngerliste');return false" />
+		    </td>
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+  </table>
+
+  <table class="FixedTable">
+  	<tfoot>
+  		<tr>
+  		  <td colspan="7">
+    		  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    		  <tr>
+    		  <td style="width:1%; white-space:nowrap; ">
+      		  Selektierte:&nbsp;
+    		  </td>
+    		  <td style="width:70%; white-space:nowrap; ">
+        		  <select name="MailingListActions" id="MailingListActions" size="1" onchange="DoListActionChange(this, 'MailingListsForm', 'DestMailingList', true); ShowItem('ListActionSubmitBtn', (document.getElementById('MailingListActions').selectedIndex != 0) && ( document.getElementById('MailingListActions').disabled == false ) ); ">
+          		  <option value="doNothing">Aktion w&auml;hlen</option>
+          		  <option value="RemoveRecipients">Alle Empf&auml;nger l&ouml;schen</option>
+          		  <option value="MoveRecipients">Empf&auml;nger verschieben in Liste...</option>
+          		  <option value="CopyRecipients">Empf&auml;nger kopieren in Liste...</option>
+          		  <option value="DeleteMailLists">Empf&auml;ngerliste(n) l&ouml;schen</option>
+          		  <option value="DuplicateMailLists">Empf&auml;ngerlisten-Einstellungen duplizieren</option>
+          		  <option value="DeleteGroups">Gruppen l&ouml;schen</option>
+        		  </select>
+        		  <select name="DestMailingList" id="DestMailingList" size="1" style="visibility: none; width: 250px;">
+          		  <!-- MAILINGLISTS //-->
+        		  </select>&nbsp;
+        		  <span id="Loading" style="visibility:hidden; display: none"><img src="images/loading.gif" height="16" width="16" /></span>
+        		  <input type="submit" name="ListActionSubmitBtn" id="ListActionSubmitBtn" value="Ausf&uuml;hren" onclick="return ConfirmListAction()" />
+    		  </td>
+     			<td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'MailingListsForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'MailingListsForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'MailingListsForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'MailingListsForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  Seite:&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.MailingListsForm.submit()">
+                <OPTION:PAGES>
+                <option>1</option>
+                </OPTION:PAGES>
+         			  </select>
+        </td>
+        </tr>
+        </table>
+  			</td>
+  		</tr>
+  	
+  	</tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableMailLists','tableRollOverEffect','tableRowClickEffect');
+  AddTableDblClickEvent('TableMailLists');
+  DoListActionChange(document.getElementById("MailingListActions"), 'MailingListsForm', 'DestMailingList', false);
+  CheckboxClicked();
+  ShowItem('ListActionSubmitBtn', (document.getElementById('MailingListActions').selectedIndex != 0) && ( document.getElementById('MailingListActions').disabled == false ) ) ;
+  DisableItem('MailingListActions', GetCheckedCount('MailingListIDs[]', 'MailingListsForm') > 0 );
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

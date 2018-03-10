@@ -1,0 +1,324 @@
+      <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+      <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
+
+      <div class="spacerborder">
+      <span class="Backlink"><a href="./browsetemplates.php">Zur&uuml;ck</a></span><br />
+      <br />
+      <form method="post" action="./templateedit.php" id="TemplatesForm" name="TemplatesForm">
+      <input type="hidden" name="TemplateId" />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="TargetGroupsSupport" id="TargetGroupsSupport" value="1" />
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var TabListArray = Array();
+
+        function DoShowFunctionsDialog(formId, formElementId, isfckeditor) {
+          FunctionsOpen(formId, formElementId, isfckeditor);
+        }
+
+        var myBasePath='';
+
+        // default placeholders
+        var arrPlaceholderItems = new Array(
+            new Array('[PLACEHOLDER]', 'PLACEHOLDERTEXT')
+      	    );
+
+      	 // special placeholders for newsletter subscribe / unsubscribe
+      	 var arrNewsletterUnsubscribePlaceholders = new Array(
+            new Array('[NEWSLETTER_UNSUBSCRIBEPLACEHOLDER]', 'NEWSLETTER_UNSUBSCRIBEPLACEHOLDERTEXT')
+      	 );
+
+
+      //-->
+      </script>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Geben Sie der E-Mail-Vorlage eine eindeutige Bezeichnung und w&auml;hlen Sie das E-Mail-Format der Vorlage.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Allgemein</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td class="MessageColumn">Name der E-Mail-Vorlage
+                </td>
+                <td><input type="text" id="Name" name="Name" maxlength="128" size="80" /></td>
+              </tr>
+              <tr>
+               <td class="MessageColumn">
+                 Format der E-Mail-Vorlage
+               </td>
+               <td>
+                 <select id="MailFormat" name="MailFormat" size="1" onchange="ShowHideEMailTexts()">
+                  <option value="PlainText">Reine Text-E-Mail</option>
+                  <option value="HTML">Reine HTML-E-Mail</option>
+                 </select>
+               </td>
+              </tr>
+
+              <tr>
+               <td class="MessageColumn">
+                 Bearbeitung im Assistenten
+               </td>
+               <td>
+                 <input type="checkbox" name="IsWizardable" id="IsWizardable" value="1" /><label for="IsWizardable">&nbsp;Die Vorlage kann mit dem Assistenten in einem E-Mailing verwendet werden</label><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Aktivieren Sie diese Einstellung, damit der Anwender diese Vorlage bei der Erstellung eines E-Mailings als Vorlage f&uuml;r den Assistenten verwenden kann. In dieser Vorlage m&uuml;ssen spezielle Tags eingesetzt werden, damit die Inhalte der Vorlage anpassbar werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>
+               </td>
+              </tr>
+
+              <tr>
+               <td colspan="2">
+                 <span name="AutoUpdateTextPartSpan" id="AutoUpdateTextPartSpan"><br />
+                   <input type="checkbox" id="AutoUpdateTextPart" name="AutoUpdateTextPart" value="1" />&nbsp;Text-Teil der E-Mail-Vorlage automatisch aus HTML-Teil erstellen
+                 </span>
+               </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <CAN:SHOW_USERS>
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die Nutzer, die auf die Vorlage zugreifen d&uuml;rfen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Nutzer der E-Mail-Vorlage</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">Zugriff auf E-Mail-Vorlage erlauben f&uuml;r<br />
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="2"><input type="radio" id="UsersOption1" name="UsersOption" value="0" onclick="EnableDisableItems();" />&nbsp;<label for="UsersOption1">alle Nutzer.</label><br />
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="2">
+                  <input type="radio" id="UsersOption2" name="UsersOption" value="1" onclick="EnableDisableItems();" />&nbsp;<label for="UsersOption2">nur f&uuml;r diese Nutzer:</label>
+                  <br /><br />
+                   <div class="scrollbox" style="margin-left: 20px; width: 528px; height: 100px" name="UsersScrollbox" id="UsersScrollbox">
+                   <SHOW:USERS>
+                     <span class="scrollboxSpan"><input type="checkbox" name="users_id[]" value="<UsersId></UsersId>" id="UsersLabelId" />&nbsp;<label for="UsersLabelId"><UsersName></UsersName></label><br /></span>
+                   </SHOW:USERS>
+                   </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+      </CAN:SHOW_USERS>
+
+      <!-- ##### InnerSpacer - START -->
+      <div class="spacerborder">
+      <!-- ##### InnerTabView - START -->
+      <div id="dhtmlgoodies_HTMLTexttabView">
+
+      <!-- ####### InnerTAB START -->
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        TabListArray.push('Vorlage im HTML-Format');
+      //-->
+      </script>
+      <div class="dhtmlgoodies_aTab">
+        <br />
+          <table class="EditorTable" cellspacing="0" cellpadding="0" border="0" id="HTML">
+            <tbody>
+              <tr>
+                <td colspan="2" valign="top"><span id="MailHTMLTextWarnLabel" style="display: none;"  class="missingvaluebackground">Der HTML-Teil der E-Mail muss einen Text enthalten.</span>
+                <textarea name="MailHTMLText" id="MailHTMLText" cols="100" rows="10" style="width: 100%; height: 440px"></textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </div>
+      <!-- ####### Inner TAB END -->
+      <!-- ####### Inner TAB START -->
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        TabListArray.push('Vorlage im Text-Format');
+
+      //-->
+      </script>
+    	<div class="dhtmlgoodies_aTab">
+       <br />
+         <table class="EditorTable" cellspacing="0" cellpadding="0" border="0" id="PlainText">
+           <tbody>
+             <tr>
+               <td colspan="2" valign="middle">
+                 <select size="1" id="PlainTextPlaceHoldersCB" onchange="InsertFieldValue('PlainTextPlaceHoldersCB', 'MailPlainText')">
+                   <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                 </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('TemplatesForm', 'MailPlainText', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" /><p>&nbsp;</p>
+                 <textarea name="MailPlainText" id="MailPlainText" style="width: 99%; height: 440px" onchange="PageModified=true;"></textarea>
+               </td>
+             </tr>
+           </tbody>
+         </table>
+     </div>
+     <!-- ####### Inner TAB END -->
+
+     </div>
+     <!-- ##### InnerTabView - END -->
+     </div>
+     <br />
+     <br />
+
+     <input type="submit" name="SubmitBtn" value="&Auml;nderungen speichern" class="FormButton" onclick="PageModified=false;" />
+
+     </form>
+     </div>
+
+     <br style="clear:both;" />
+
+
+                  <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+
+
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                    initTabs('dhtmlgoodies_HTMLTexttabView', TabListArray, 0, 910, 510);
+
+                    function EnableDisableItems(){
+                      DisableItem('UsersScrollbox', document.getElementById('UsersOption2').checked);
+                    }
+
+                    if(document.getElementById("UsersScrollbox")) {
+                      addScrollboxRolloverEffect('UsersScrollbox','scrollboxRollOverEffect', null);
+                      EnableDisableItems()
+                    }
+
+                    function html_entity_decode( string ) {
+                        var ret, tarea = document.createElement('textarea');
+                        tarea.innerHTML = string;
+                        ret = tarea.value;
+                        return ret;
+                    }
+
+                    function FillComboBoxes() {
+                        CBs = Array (
+                            'PlainTextPlaceHoldersCB'
+                        )
+
+          	            for(j=0; j<CBs.length; j++) {
+                            CB = document.getElementById(CBs[j]);
+                            if(CB == null) continue;
+                            while (CB.length > 1)
+                               CB.options[CB.length] = null;
+
+
+                            for(i=0; i<arrPlaceholderItems.length; i++){
+                              newOption = new Option(html_entity_decode(arrPlaceholderItems[i][1]), arrPlaceholderItems[i][0], false, false);
+                              CB.options[CB.length] = newOption;
+                            }
+
+                            if ( (CBs[j] == 'PlainTextPlaceHoldersCB')
+                               )
+                               for(i=0; i<arrNewsletterUnsubscribePlaceholders.length; i++){
+                                 newOption = new Option(html_entity_decode(arrNewsletterUnsubscribePlaceholders[i][1]), arrNewsletterUnsubscribePlaceholders[i][0], false, false);
+                                 CB.options[CB.length] = newOption;
+                               }
+                        }
+                    }
+
+                    FillComboBoxes();
+
+                  -->
+                  </script>
+
+                  <script language="javascript" type="text/javascript">
+                  <!--
+                    ShowHideEMailTexts();
+
+                    function ShowNATextOnTab(TabId, Page, fieldId) {
+                      var NA="Angabe nicht notwendig";
+
+                      A = document.getElementById('tabView' + TabId + '_' + Page);
+                      if(A == null) return;
+                      tabSpanId = 'tabView' + TabId + '_' + Page + '_NAspan';
+                      tabSpan = document.getElementById(tabSpanId);
+                      if (document.getElementById(fieldId).style.display == 'none') {
+                         if(tabSpan == null)
+                            A.innerHTML = '<span id="' + tabSpanId + '">' + NA + '</span>' + A.innerHTML;
+                            else
+                            tabSpan.style.display = '';
+                      } else {
+                        if(tabSpan != null)
+                           tabSpan.style.display = 'none';
+                      }
+
+                    }
+
+                    function ShowHideEMailTexts() {
+
+
+                      if(document.getElementById('MailFormat') != null) {
+
+                        if(document.getElementById('MailFormat').selectedIndex == 0){
+                            HideCKEditor("MailHTMLText");
+                            DisableItem("IsWizardable", false);
+                          } else {
+                            ShowCKEditor("MailHTMLText", "100%", 333, 'MyDefaultMailToolbar');
+                            DisableItem("IsWizardable", true);
+                          }
+
+                        ShowItem('HTML', document.getElementById('MailFormat').selectedIndex > 0  );
+                        ShowItem('PlainText', document.getElementById('MailFormat').selectedIndex != 1 );
+                        if( document.getElementById('MailFormat').selectedIndex  == 2)
+                           document.getElementById('AutoUpdateTextPartSpan').style.display = '';
+                           else
+                           document.getElementById('AutoUpdateTextPartSpan').style.display = 'none';
+                      }
+
+
+                      // HTML
+                      ShowNATextOnTab('dhtmlgoodies_HTMLTexttabView', 0, 'HTML');
+
+                      // TEXT
+                      ShowNATextOnTab('dhtmlgoodies_HTMLTexttabView', 1, 'PlainText');
+
+                    }
+
+
+                    var PageModified=false;
+
+                    if(CKEDITOR.instances['MailHTMLText'] != null) {
+
+
+                      CKEDITOR.on('instanceReady', function( ev ) {
+                  						CKEDITOR.instances['MailHTMLText'].on('key', function (e) {
+                          PageModified=true; e.editor.on('key', null);
+                        });
+                  				});
+
+
+                      CKEDITOR.instances['MailHTMLText'].on('blur', function(e) {
+                          if (e.editor.checkDirty()) {
+                             PageModified=true;
+                          }
+                      });
+                    }
+                    
+                    window.onbeforeunload = function (e) {
+                        var e = e || window.event;
+                        var warntext='Dokument wurde ge&auml;ndert ohne die &Auml;nderungen zu speichern.';
+                        if (PageModified) {
+                          // For IE and Firefox prior to version 4
+                          if (e) {
+                              e.returnValue = html_entity_decode(warntext);
+                          }
+
+                          // For Safari
+                          return html_entity_decode(warntext);
+                        }
+                    }
+
+                  	//AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+                  -->
+                  </script>

@@ -1,0 +1,55 @@
+      <form id="ImportForm" name="ImportForm" method="post" action="./blocklistmemberimport.php">
+      <input type="hidden" name="action" id="action" />
+      <input type="hidden" name="OneMailingListId" id="OneMailingListId" />
+      <input type="hidden" name="step" id="step" value="3" />
+      <input type="hidden" name="ImportFilename" />
+      <input type="hidden" name="Separator" />
+      <input type="hidden" name="Header1Line" />
+      <input type="hidden" name="RemoveQuotes" />
+      <input type="hidden" name="RemoveSpaces" />
+      <input type="hidden" name="RemoveFile" />
+      <input type="hidden" name="ImportLines" />
+      <input type="hidden" name="IsUTF8" />
+
+      <span class="Backlink"><br /><a href="./blocklistmemberimport.php">Zur&uuml;ck</a></span>
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Legen Sie die Zuordnung der Datenbankfelder zu den zu importierenden Daten fest.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Feldzuordnung Datenbankfelder zu den zu importierenden Daten</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+      	    <colgroup>
+        	    <col style="width:20%; vertical-align:middle">
+        	    <col style="width:20%;">
+        	    <col style="width:16px; ">
+        	    <col style="width:20%; vertical-align:middle">
+        	    <col style="width:20%;">
+      	    </colgroup>
+            <tbody>
+             <TABLE:ROW>
+        	    <tr>
+        	      <td class="LabelColumn">
+         	      <!--FIELD1-->
+               </td>
+        	      <td>
+        	        <!--VALUE1-->
+        	      </td>
+        	      <td>
+        	      &nbsp;</td>
+        	      <td class="LabelColumn">
+                <!--FIELD2-->
+               </td>
+        	      <td>
+         	      <!--VALUE2-->
+        	      </td>
+          	  </tr>
+             </TABLE:ROW>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+
+
+      </form>

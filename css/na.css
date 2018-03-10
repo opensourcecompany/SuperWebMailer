@@ -1,0 +1,6 @@
+body         { font-family: 'Segoe UI', Verdana, Arial, Helvetica; font-size: 12pt;
+               font-color: #000000; font-weight: normal; background-color: #FFFFFF }
+h1           { font-size: 14pt; }
+.years       { font-size: 12pt; font-weight: bold; font-color: #000000;}
+.nlentry     { font-size: 12pt; }
+table.bg     { background-color: #EAEAEA }

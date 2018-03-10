@@ -1,0 +1,232 @@
+      <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./smscampaignedit.php">
+      <span class="Backlink"><br /><a href="./browsesmscampaigns.php" onclick="document.CampaignEditForm.action='./browsesmscampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="CampaignListId" id="CampaignListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel" value="3" />
+      <input type="hidden" name="OneRuleAction" id="OneRuleAction" value="" />
+      <input type="hidden" name="OneRuleActionId" id="OneRuleActionId" value="" />
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.CampaignEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.CampaignEditForm.submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.CampaignEditForm.submit(); return false;">Regeln</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.CampaignEditForm.submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.CampaignEditForm.submit(); return false;">Versand</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';document.CampaignEditForm.submit(); return false;">SMS-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';document.CampaignEditForm.submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Sie k&ouml;nnen optionale Regeln definieren um nur bestimmten Zielgruppen SMS senden zu lassen.<br />Geben Sie keine Regeln an, um allen aktiven Empf&auml;ngern der Empf&auml;ngerliste eine SMS zu senden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Optionale Regeln f&uuml;r den SMS-Versand</legend>
+      <br />
+      <IF_CAN_CHANGE_RULES>
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+				        <thead>
+				      		<tr>
+				      			<td class="NoWrap" width="33%">Feld<SHOWHIDE:TOOLTIPS>
+				                                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie das Feld dessen Inhalt mit der Vergleichszeichenkette verglichen werden soll.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+				                                  </SHOWHIDE:TOOLTIPS></td>
+				      			<td class="NoWrap" width="33%">Vergleichsoperator<SHOWHIDE:TOOLTIPS>
+				                                  <img onmouseover="showTooltip(event, 'W&auml;hlen Sie einen der Vergleichsoperatoren.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+				                                  </SHOWHIDE:TOOLTIPS></td>
+				      			<td class="NoWrap" width="33%">Vergleichszeichenkette<SHOWHIDE:TOOLTIPS>
+				                                  <img onmouseover="showTooltip(event, 'Geben Sie die Vergleichszeichenkette an. Beim Vergleich mit Datumswerten <b>muss</b> das Datum im englischen Format JJJJ-MM-TT (J=Jahr, M=Monat, T=Tag) eingegeben werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+				                                  </SHOWHIDE:TOOLTIPS></td>
+				      		</tr>
+				        </thead>
+            <tbody>
+              <tr>
+
+                <td>
+                  <select name="fieldname" id="fieldname" size="1" onchange="CheckRequiredFields()">
+  		                 <option value="none">--</option>
+  		                 <fieldnames></fieldnames>
+               			</select>
+                </td>
+
+                <td>
+		               <select size="1" name="operator" id="operator" onchange="CheckRequiredFields()">
+		                 <option value="none">--</option>
+		                 <option value="eq">=</option>
+		                 <option value="neq">&lt;&gt;</option>
+		                 <option value="lt">&lt;</option>
+		                 <option value="gt">&gt;</option>
+		                 <option value="eq_num">= (num)</option>
+		                 <option value="neq_num">&lt;&gt; (num)</option>
+		                 <option value="lt_num">&lt; (num)</option>
+		                 <option value="gt_num">&gt; (num)</option>
+                   <option value="contains"><contains></contains></option>
+                   <option value="contains_not"><contains_not></contains_not></option>
+                   <option value="starts_with"><starts_with></starts_with></option>
+		               </select>
+                </td>
+
+			            <td>
+			              <input name="comparestring" id="comparestring" type="text" size="30" />
+			            </td>
+
+              </tr>
+              <tr>
+                <td colspan="3">
+                 <br />
+                 <br />
+                 Verkn&uuml;pfung mit einer weiteren Bedingung<br />
+                 <select size="1" name="logicaloperator" id="logicaloperator" onchange="CheckRequiredFields()" style="width: 220px">
+               				<option value="AND">UND</option>
+               				<option value="OR">ODER</option>
+             			 </select>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="3">
+                 <br />
+                 <br />
+                  <input name="AddRuleBtn" id="AddRuleBtn" type="submit" value="Regel hinzuf&uuml;gen" />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+
+      <fieldset>
+      <legend><SHOWHIDE:TOOLTIPS>
+                  <img onmouseover="showTooltip(event, 'Alle definierten Regeln werden paarweise verglichen, dass hei&szlig;t 2 Regeln werden immer geklammert. Ordnen Sie die Regeln daher so an, so dass Sie das gew&uuml;nschte Ergebnis erhalten.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                  </SHOWHIDE:TOOLTIPS>Definierte Regeln f&uuml;r den SMS-Versand</legend>
+      <br />
+          <table id="TableRules" name="TableRules" class="FixedTable">
+            <thead>
+              <tr>
+                <td>
+                  &nbsp;
+                </td>
+                <td>
+                 Feldname
+                </td>
+                <td>
+                 Vergleichsoperator
+                </td>
+                <td>
+                 Vergleichszeichenkette
+                </td>
+                <td>
+                 Verkn&uuml;pfung
+                </td>
+                <td>
+                  Entfernen
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <LIST:RULES>
+              <tr>
+                <td>
+                  <IF></IF>
+                </td>
+                <td>
+                 <FIELDNAME></FIELDNAME>
+                </td>
+                <td>
+                 <COMP_OPERATOR></COMP_OPERATOR>
+                </td>
+                <td>
+                 <COMP_VALUE></COMP_VALUE>
+                </td>
+                <td>
+                 <LINK_OPERATOR></LINK_OPERATOR>
+                </td>
+                <td>
+           			    <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteRule" onclick="SetListId(this, 'CampaignEditForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich diese Regel dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmDeleteRuleEntryEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht die Regel dauerhaft.');return false" />&nbsp;
+           			    <input type="image" src="images/arrow_up.gif" width="11" height="8" name="UpBtn" onclick="SetListId(this, 'CampaignEditForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Regel nach oben verschieben.');return false" />&nbsp;
+  			             <input type="image" src="images/arrow_down.gif" width="11" height="8" name="DownBtn" onclick="SetListId(this, 'CampaignEditForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Regel nach unten verschieben.');return false" />
+                </td>
+              </tr>
+              </LIST:RULES>
+
+            </tbody>
+          </table>
+      </IF_CAN_CHANGE_RULES>
+      </fieldset>
+
+      <fieldset>
+      <legend>Sch&auml;tzung der Empf&auml;ngerzahl</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+                  <strong><RECIPIENTSCOUNT></RECIPIENTSCOUNT></strong> Empf&auml;nger werden eine SMS erhalten.<br ><br />
+                  Die Empf&auml;ngerzahl kann beim Versand der SMS abweichen z.B. Neuanmeldungen/Abmeldungen von der Empf&auml;ngerliste.
+
+                  <p>
+                   <a href="javascript:void(0);" class="Backlink" onclick="ShowHideItem('ShowHideSQLBox')">SQL anzeigen / nicht anzeigen</a>
+                  			<div id="ShowHideSQLBox">
+                       <textarea name="SQL" cols="150" rows="20" readonly="readonly"><SQL></SQL></textarea>
+                     </div>
+                  </p>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" class="FormButton" />
+      <input type="submit" name="NextBtn" value="Speichern und Weiter &gt;" class="FormButton" />
+
+      <script type="text/javascript">
+      <!--
+        if(document.getElementById('TableRules'))
+          addTableRolloverEffect('TableRules','tableRollOverEffect','tableRowClickEffect');
+
+        function CheckRequiredFields() {
+         if(!document.getElementById('fieldname')) return;
+         var OK = document.getElementById('fieldname').selectedIndex > 0;
+         if(OK)
+           OK = document.getElementById('operator').selectedIndex > 0;
+         document.getElementById('AddRuleBtn').disabled = !OK;
+        }
+
+        CheckRequiredFields();
+
+				    function SetListId(ASender, AFormID) {
+				      var AForm = document.getElementById(AFormID);
+				      var OneRuleAction = document.getElementById('OneRuleAction');
+				      var OneRuleActionId = document.getElementById('OneRuleActionId');
+				      OneRuleAction.value = ASender.name;
+				      OneRuleActionId.value = ASender.value;
+				      return true;
+				    }
+
+				    function ConfirmDeleteRuleEntryEvent(value) {
+				      if(value)
+				        document.getElementById('CampaignEditForm').submit();
+				        else {
+				          document.getElementById('OneRuleAction').value = "";
+				          document.getElementById('OneRuleActionId').value = "";
+				        }
+
+				    }
+
+        ShowHideItem('ShowHideSQLBox');
+
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+      </form>

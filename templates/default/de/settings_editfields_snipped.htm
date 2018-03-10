@@ -1,0 +1,44 @@
+      <div class="spacerborder">
+      <p>
+      Dies erm&ouml;glicht das &Auml;ndern der sichtbaren Bezeichnungen der Felder in den Empf&auml;ngerlisten, die &Auml;nderung wirkt sich
+      auf alle Administratoren und Nutzer aus.
+      </p>
+      <form id="ImportForm" name="ImportForm" method="post" action="./settings_editfields.php">
+
+      <br />
+      <table class="FixedTable" cellspacing="0" cellpadding="0" border="0" name="EditFieldNames" id="EditFieldNames">
+        <thead>
+          <tr>
+    	      <td class="LabelColumn" style="width:45%; vertical-align:middle; height:28px">
+             Derzeitige Bezeichnung
+            </td>
+    	      <td style="width:55%; vertical-align:middle">
+             Neue Bezeichnung
+    	      </td>
+      	  </tr>
+      	</thead>
+        <tbody>
+         <TABLE:ROW>
+    	    <tr>
+    	      <td class="LabelColumn" style="vertical-align:middle;">
+     	      <!--FIELD-->
+           </td>
+    	      <td>
+    	        <!--VALUE-->
+    	      </td>
+      	  </tr>
+         </TABLE:ROW>
+        </tbody>
+      </table>
+
+      <br />
+      <input type="submit" name="SaveBtn" value="&Auml;nderungen speichern" class="FormButton" />
+
+
+      <script language="JavaScript">
+      <!--
+         addTableRolloverEffect('EditFieldNames','tableRollOverEffect','tableRowClickEffect');
+      //-->
+      </script>
+      </form>
+      </div>
