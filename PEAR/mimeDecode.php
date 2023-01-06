@@ -62,7 +62,7 @@
  *
  * This package depends on PEAR to raise errors.
  */
-require_once 'PEAR/PEAR_.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'PEAR_.php';
 
 
 /**
@@ -469,7 +469,7 @@ class Mail_mimeDecode extends PEAR
             foreach ($headers as $value) {
                 $hdr_name = substr($value, 0, $pos = strpos($value, ':'));
                 $hdr_value = substr($value, $pos+1);
-                if($hdr_value[0] == ' ')
+                if($hdr_value && $hdr_value[0] == ' ')
                     $hdr_value = substr($hdr_value, 1);
 
                 $return[] = array(

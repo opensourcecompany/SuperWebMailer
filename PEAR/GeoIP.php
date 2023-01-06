@@ -126,7 +126,7 @@
 
 
 
-require_once("PEAR/PEAR_.php");
+require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . "PEAR_.php");
 
 class Net_GeoIP
 {
@@ -333,7 +333,7 @@ class Net_GeoIP
 
     function __destruct()
         {
-          close;
+          $this->close();
         }
 
     function _Net_GeoIP/*__destruct*/()
@@ -690,7 +690,7 @@ class Net_GeoIP
      */
     function lookupLocation($addr)
         {
-        require_once 'PEAR/GeoIP/Location.php';
+        require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'GeoIP/Location.php';
         $ipnum = ip2long($addr);
         if ($ipnum === false) {
             return PEARraiseError("Invalid IP address: " . var_export($addr, true));

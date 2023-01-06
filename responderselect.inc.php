@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,10 +26,10 @@
   include_once("sessioncheck.inc.php");
   include_once("templates.inc.php");
 
-  if(!isset($_I0600))
-    $_I0600 = "";
+  if(!isset($_Itfj8))
+    $_Itfj8 = "";
 
-  $_IiQl1 = $_IQL81;
+  $_jfJJ0 = $_IoCo0;
   $ResponderType = "Autoresponder";
   if(isset($_GET["ResponderType"]))
     $ResponderType = $_GET["ResponderType"];
@@ -38,83 +38,83 @@
       $ResponderType = $_POST["ResponderType"];
 
   if(isset($resourcestrings[$INTERFACE_LANGUAGE]["OutqueueSource".$ResponderType]))
-    $_680oL = $resourcestrings[$INTERFACE_LANGUAGE]["OutqueueSource".$ResponderType];
+    $_flllL = $resourcestrings[$INTERFACE_LANGUAGE]["OutqueueSource".$ResponderType];
     else
-    $_680oL = "Responder";
-  if($_I0600 == "")
-    $_I0600 = $_680oL;
+    $_flllL = "Responder";
+  if($_Itfj8 == "")
+    $_Itfj8 = $_flllL;
 
-  $_jj1tl = _OAP0L($ResponderType);
-  if($_jj1tl)
-    $_IiQl1 = _OABJE($_jj1tl);
+  $_J0ifL = _LPO6C($ResponderType);
+  if($_J0ifL)
+    $_jfJJ0 = _LPLBQ($_J0ifL);
     else {
       if($ResponderType == "AutoResponder"){
-        $_IiQl1 = $_IQL81;
+        $_jfJJ0 = $_IoCo0;
       } else
       if( $ResponderType == "SplitTest") {
-          $_IiQl1 = $_IooOQ;
-          $_680oL = $resourcestrings[$INTERFACE_LANGUAGE]["001820"];
+          $_jfJJ0 = $_jJL88;
+          $_flllL = $resourcestrings[$INTERFACE_LANGUAGE]["001820"];
          } else
            if( $ResponderType == "SMSCampaign")
-              $_IiQl1 = $_IoCtL;
+              $_jfJJ0 = $_jJLLf;
 
     }
-  if($_IiQl1 == "") return false;
+  if($_jfJJ0 == "") return false;
 
-  $_IfL8I = "";
+  $_j16tj = "";
   if($OwnerUserId != 0) {
-    $_IfL8I = "LEFT JOIN `$_Q6fio` ON `$_Q6fio`.`maillists_id`=`$_IiQl1`.`maillists_id` WHERE (`$_Q6fio`.`users_id`=$UserId)";
+    $_j16tj = "LEFT JOIN `$_QlQot` ON `$_QlQot`.`maillists_id`=`$_jfJJ0`.`maillists_id` WHERE (`$_QlQot`.`users_id`=$UserId)";
     if($ResponderType == "Autoresponder")
-       $_IfL8I .= " OR (`$_IiQl1`.`maillists_id` = 0)";
+       $_j16tj .= " OR (`$_jfJJ0`.`maillists_id` = 0)";
   }
 
-  $_I8C10 = "";
+  $_jQoQi = "";
   if($ResponderType != "Autoresponder" && $ResponderType != "SplitTest" && $ResponderType != "SMSCampaign" && !empty($_GET["TrackingStatistics"])) {
-     if($_IfL8I == "")
-       $_I8C10 = "WHERE ";
+     if($_j16tj == "")
+       $_jQoQi = "WHERE ";
        else
-       $_I8C10 = " AND ";
-     $_I8C10 .= "(`TrackLinks` > 0 OR `TrackEMailOpenings` > 0 OR `TrackLinksByRecipient` > 0 OR `TrackEMailOpeningsByRecipient` > 0)";
+       $_jQoQi = " AND ";
+     $_jQoQi .= "(`TrackLinks` > 0 OR `TrackEMailOpenings` > 0 OR `TrackLinksByRecipient` > 0 OR `TrackEMailOpeningsByRecipient` > 0)";
   }
 
-  $_QJlJ0 = "SELECT `id`, `Name` FROM `$_IiQl1` $_IfL8I $_I8C10 ORDER BY `Name`";
-  $_Q60l1 = mysql_query($_QJlJ0);
-  _OAL8F($_QJlJ0);
+  $_QLfol = "SELECT `id`, `Name` FROM `$_jfJJ0` $_j16tj $_jQoQi ORDER BY `Name`";
+  $_QL8i1 = mysql_query($_QLfol);
+  _L8D88($_QLfol);
 
-  if(mysql_num_rows($_Q60l1) != 1) {
-    $_jjQIo = "";
-    while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-      $_jjQIo .= '<option value="'.$_Q6Q1C["id"].'">'.$_Q6Q1C["Name"].'</option>'.$_Q6JJJ;
+  if(mysql_num_rows($_QL8i1) != 1) {
+    $_J0iof = "";
+    while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+      $_J0iof .= '<option value="'.$_QLO0f["id"].'">'.$_QLO0f["Name"].'</option>'.$_QLl1Q;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_I0600, "", 'DISABLED', 'responderselect_snipped.htm');
-    $_QJCJi = str_replace('name="ResponderType"', 'name="ResponderType" value="'.$ResponderType.'"', $_QJCJi);
-    $_QJCJi = _OPR6L($_QJCJi, "<SHOW:RESPONDERS>", "</SHOW:RESPONDERS>", $_jjQIo);
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_Itfj8, "", 'DISABLED', 'responderselect_snipped.htm');
+    $_QLJfI = str_replace('name="ResponderType"', 'name="ResponderType" value="'.$ResponderType.'"', $_QLJfI);
+    $_QLJfI = _L81BJ($_QLJfI, "<SHOW:RESPONDERS>", "</SHOW:RESPONDERS>", $_J0iof);
 
-    if($_IiQl1 != $_Q6jOo) {
-       if($_IiQl1 != $_IoCtL) {
-           $_QJCJi = _OPR6L($_QJCJi, "<ResponderLegendLabel>", "</ResponderLegendLabel>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000480"], $_680oL));
+    if($_jfJJ0 != $_QLi60) {
+       if($_jfJJ0 != $_jJLLf) {
+           $_QLJfI = _L81BJ($_QLJfI, "<ResponderLegendLabel>", "</ResponderLegendLabel>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000480"], $_flllL));
          }
          else
-         $_QJCJi = _OPR6L($_QJCJi, "<ResponderLegendLabel>", "</ResponderLegendLabel>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000489"], $_680oL));
+         $_QLJfI = _L81BJ($_QLJfI, "<ResponderLegendLabel>", "</ResponderLegendLabel>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000489"], $_flllL));
 
-       if($_IiQl1 == $_QoOft)
-         $_QJCJi = _OPR6L($_QJCJi, "<ResponderLabel1>", "</ResponderLabel1>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["002663"], $_680oL));
+       if($_jfJJ0 == $_IjC0Q)
+         $_QLJfI = _L81BJ($_QLJfI, "<ResponderLabel1>", "</ResponderLabel1>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["002663"], $_flllL));
        else
-         $_QJCJi = _OPR6L($_QJCJi, "<ResponderLabel1>", "</ResponderLabel1>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000481"], $_680oL));
-       $_QJCJi = _OPR6L($_QJCJi, "<ResponderLabel2>", "</ResponderLabel2>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000482"], $_680oL));
+         $_QLJfI = _L81BJ($_QLJfI, "<ResponderLabel1>", "</ResponderLabel1>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000481"], $_flllL));
+       $_QLJfI = _L81BJ($_QLJfI, "<ResponderLabel2>", "</ResponderLabel2>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000482"], $_flllL));
     }else {
-      $_QJCJi = _OPR6L($_QJCJi, "<ResponderLegendLabel>", "</ResponderLegendLabel>", $resourcestrings[$INTERFACE_LANGUAGE]["000483"]);
-      $_QJCJi = _OPR6L($_QJCJi, "<ResponderLabel1>", "</ResponderLabel1>", $resourcestrings[$INTERFACE_LANGUAGE]["000484"]);
-      $_QJCJi = _OPR6L($_QJCJi, "<ResponderLabel2>", "</ResponderLabel2>", $resourcestrings[$INTERFACE_LANGUAGE]["000485"]);
+      $_QLJfI = _L81BJ($_QLJfI, "<ResponderLegendLabel>", "</ResponderLegendLabel>", $resourcestrings[$INTERFACE_LANGUAGE]["000483"]);
+      $_QLJfI = _L81BJ($_QLJfI, "<ResponderLabel1>", "</ResponderLabel1>", $resourcestrings[$INTERFACE_LANGUAGE]["000484"]);
+      $_QLJfI = _L81BJ($_QLJfI, "<ResponderLabel2>", "</ResponderLabel2>", $resourcestrings[$INTERFACE_LANGUAGE]["000485"]);
     }
 
-    print $_QJCJi;
+    print $_QLJfI;
   } else {
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    $_POST['ResponderId'] = $_Q6Q1C["id"];
-    mysql_free_result($_Q60l1);
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    $_POST['ResponderId'] = $_QLO0f["id"];
+    mysql_free_result($_QL8i1);
   }
 
 ?>

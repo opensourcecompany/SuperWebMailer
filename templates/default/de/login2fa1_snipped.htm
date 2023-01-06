@@ -1,0 +1,56 @@
+      <form method="post" action="./login.php">
+      <input type="hidden" name="2fa" value="1" />
+      <input type="hidden" name="SecurityToken" />
+
+      <IF:NEWSECRET>
+      <fieldset>
+      <legend>2-Faktor-Authentisierung - Secret/Seed</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                  Nutzen Sie die App Google Authenticator und scannen Sie den QR-Code mit Ihrem mobilen Ger&auml;t oder geben Sie das Secret/Seed manuell ein.
+                  <br /><br />
+                  <b>Wichtig</b>&nbsp;Das Secret/Seed wird nicht erneut angezeigt. Sollten Sie es vergessen, dann k&ouml;nnen Sie sich nicht mehr anmelden. Wenden
+                  Sie sich an Ihren SuperAdmin/Administrator falls Sie es vergessen haben.<br /><br />
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <img src="%QRCODEURL%" alt="%SECRET%" border="0" />
+                </td>
+              </tr>
+              <tr>
+                <td class="LabelColumn" valign="top"><pre style="font-weight: bold; font-size: 16px">%SECRET%</pre>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+      </IF:NEWSECRET>
+
+      <fieldset>
+      <legend>2-Faktor-Authentisierung - Verifikation Ihrer Anmeldung</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">Geben Sie das Einmal-Passwort (OTP) ein.<br /><br />
+                </td>
+              </tr>
+              <tr>
+                <td class="LabelColumn"><label for="VerCode">Einmal-Passwort</label>
+                </td>
+                <td><input type="text" id="VerCode" name="VerCode" maxlength="128" size="50" /></td>
+              </tr>
+            </tbody>
+          </table>
+          
+      </fieldset>
+
+      <br />
+
+     <input type="submit" name="SubmitBtn" value="Anmelden" class="FormButton" />
+
+      </form>

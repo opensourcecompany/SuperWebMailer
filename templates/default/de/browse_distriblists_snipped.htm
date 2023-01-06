@@ -18,7 +18,7 @@
 
     function ConfirmDeleteEvent(value) {
       if(value)
-        document.getElementById('DistribListsForm').submit();
+        $('#DistribListsForm').submit();
         else {
           document.getElementById('OneDistribListAction').value = "";
           document.getElementById('OneDistribListId').value = "";
@@ -27,7 +27,7 @@
 
     function ConfirmCancelDistribListEvent(value) {
       if(value)
-        document.getElementById('DistribListsForm').submit();
+        $('#DistribListsForm').submit();
         else {
           document.getElementById('OneDistribListAction').value = "";
           document.getElementById('OneDistribListId').value = "";
@@ -36,7 +36,7 @@
     
     function ConfirmContinueEMailingEvent(value) {
       if(value)
-        document.getElementById('DistribListsForm').submit();
+        $('#DistribListsForm').submit();
         else {
           document.getElementById('OneDistribListAction').value = "";
           document.getElementById('OneDistribListId').value = "";
@@ -58,7 +58,7 @@
 
     function ConfirmListActionEvent(value) {
       if(value)
-        document.getElementById('DistribListsForm').submit();
+        $('#DistribListsForm').submit();
     }
 
     function ConfirmListAction() {
@@ -112,11 +112,15 @@
   			<td class="NoWrap" width="5%"><input name="SelectAllChkBox" type="checkbox" onclick="CheckAllCheckboxes('SelectAllChkBox', 'DistribListIDs[]', 'DistribListsForm'); CheckboxClicked();" /></td>
   			<td class="NoWrapAlignCenter" width="5%" onclick="SortOnClick('Sortid', 'sortfieldname', 'sortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">ID</td>
   			<td class="NoWrap" width="1%">&nbsp;</td>
-  			<td class="NoWrap" width="45%" onclick="SortOnClick('SortName', 'sortfieldname', 'sortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">Bezeichnung</td>
+  			<td class="NoWrap" width="25%" onclick="SortOnClick('SortName', 'sortfieldname', 'sortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">Bezeichnung</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="16%">Empf&auml;ngerliste</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="12%">Aktiv</td>
   			<td class="NoWrap" width="1%">&nbsp;</td>
   			<td class="NoWrap" width="15%">Versendet</td>
   			<td class="NoWrap" width="1%">&nbsp;</td>
-  			<td class="NoWrap" width="30%">Aktionen</td>
+  			<td class="NoWrap" width="22%">Aktionen</td>
   		</tr>
   	</thead>
   	<tbody>
@@ -126,6 +130,10 @@
   			<td class="NoWrapAlignRight"><LIST:ID></LIST:ID></td>
   			<td>&nbsp;</td>
   			<td><LIST:NAME></LIST:NAME></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:MAILINGLISTNAME></LIST:MAILINGLISTNAME></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:ACTIVE></LIST:ACTIVE></td>
   			<td>&nbsp;</td>
   			<td class="NoWrap"><LIST:LASTSENT></LIST:LASTSENT></td>
   			<td>&nbsp;</td>
@@ -184,7 +192,7 @@
          			  Seite:&nbsp;
         </td>
         <td style="text-align:right; width:1%; white-space:nowrap; ">
-         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.DistribListsForm.submit()">
+         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="$('#DistribListsForm').submit();">
                 <OPTION:PAGES>
                 <option>1</option>
                 </OPTION:PAGES>
@@ -207,6 +215,7 @@
   CheckboxClicked();
   ShowItem('ListActionSubmitBtn', (document.getElementById('DistribListActions').selectedIndex != 0) && ( document.getElementById('DistribListActions').disabled == false ) ) ;
   DisableItem('DistribListActions', GetCheckedCount('DistribListIDs[]', 'DistribListsForm') > 0 );
+  InsertLoadingStatusOnSubmit();
   //AUTO_SCRIPT_CODE_PLACEHOLDER//
 //-->
 </script>

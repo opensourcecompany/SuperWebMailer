@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2014 Mirko Boeer                         #
+#               Copyright © 2007 - 2019 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -29,11 +29,11 @@
   include_once("templates.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeMailingListBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeMailingListBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
@@ -43,23 +43,30 @@
   if(!isset($OneMailingListId))
     return;
 
-  if(!_OCJCC($OneMailingListId)){
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-    $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-    print $_QJCJi;
+  if(!_LAEJL($OneMailingListId)){
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+    print $_QLJfI;
     exit;
   }
 
-  $_QJLLO=0;
-  $_QJlJ0 = "SELECT AllowOverrideSenderEMailAddressesWhileMailCreating FROM $_Q60QL WHERE id=".intval($OneMailingListId);
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1) ) {
-    $_QJLLO = $_Q6Q1C["AllowOverrideSenderEMailAddressesWhileMailCreating"];
-    mysql_free_result($_Q60l1);
+  if(!_LJBLD()){
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]." - Csrf");
+    print $_QLJfI;
+    exit;
   }
 
-  SetHTMLHeaders($_Q6QQL);
+  $_QLftI=0;
+  $_QLfol = "SELECT AllowOverrideSenderEMailAddressesWhileMailCreating FROM $_QL88I WHERE id=".intval($OneMailingListId);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1) ) {
+    $_QLftI = $_QLO0f["AllowOverrideSenderEMailAddressesWhileMailCreating"];
+    mysql_free_result($_QL8i1);
+  }
+
+  SetHTMLHeaders($_QLo06);
   // return 1 or 0
-  print $_QJLLO;
+  print $_QLftI;
 ?>

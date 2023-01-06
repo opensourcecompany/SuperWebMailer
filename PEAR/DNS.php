@@ -42,11 +42,12 @@
 
 /* Include information {{{ */
 
-    require_once("PEAR/DNS/Header.php");
-    require_once("PEAR/DNS/Question.php");
-    require_once("PEAR/DNS/Packet.php");
-    require_once("PEAR/DNS/Resolver.php");
-    require_once("PEAR/DNS/RR.php");
+    $path = dirname(__FILE__) . DIRECTORY_SEPARATOR;
+    require_once($path . "DNS/Header.php");
+    require_once($path . "DNS/Question.php");
+    require_once($path . "DNS/Packet.php");
+    require_once($path . "DNS/Resolver.php");
+    require_once($path . "DNS/RR.php");
 
 /* }}} */
 /* GLOBAL VARIABLE definitions {{{ */

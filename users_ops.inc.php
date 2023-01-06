@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2014 Mirko Boeer                         #
+#               Copyright © 2007 - 2019 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -28,14 +28,14 @@
     exit;
 
   if(!defined("API")) {
-    $_fjfo1 = array();
+    $_8L6tI = array();
 
     if ( isset($_POST["OneUserId"]) && $_POST["OneUserId"] != "" && intval($_POST["OneUserId"]) != 0 )
-        $_fjfo1[] = intval($_POST["OneUserId"]);
+        $_8L6tI[] = intval($_POST["OneUserId"]);
         else
         if ( isset($_POST["UsersIDs"]) ){
           foreach($_POST["UsersIDs"] as $key) {
-            $_fjfo1[] = intval($key);
+            $_8L6tI[] = intval($key);
           }
         }
 
@@ -43,61 +43,61 @@
     if  ( ( isset($_POST["UsersActions"]) && $_POST["UsersActions"] == "RemoveUsers" ) ||
        ( isset($_POST["OneUserAction"]) && $_POST["OneUserAction"] == "DeleteUser" )
        ) {
-            if(isset($_QtIiC))
-              unset($_QtIiC);
-            $_QtIiC = array();
-            _L6OBB($_fjfo1, $_QtIiC);
+            if(isset($_IQ0Cj))
+              unset($_IQ0Cj);
+            $_IQ0Cj = array();
+            _J68QL($_8L6tI, $_IQ0Cj);
       }
   }
 
   // we don't check for errors here
- function _L6OBB($_fjfo1, &$_QtIiC) {
-    global $_Q8f1L, $_QLtQO, $_Q6fio, $_Io680, $_Q6ftI;
-    global $OwnerUserId, $UserId, $_Q61I1;
-    for($_Q6llo=0; $_Q6llo<count($_fjfo1); $_Q6llo++) {
-      $_fjfo1[$_Q6llo] = intval($_fjfo1[$_Q6llo]);
+ function _J68QL($_8L6tI, &$_IQ0Cj) {
+    global $_I18lo, $_IfOtC, $_QlQot, $_jJtt8, $_Ql18I;
+    global $OwnerUserId, $UserId, $_QLttI;
+    for($_Qli6J=0; $_Qli6J<count($_8L6tI); $_Qli6J++) {
+      $_8L6tI[$_Qli6J] = intval($_8L6tI[$_Qli6J]);
       // TableLocalUserMessages
-      $_QJlJ0 = "DELETE FROM `$_Io680` WHERE `From_users_id`=$_fjfo1[$_Q6llo] OR `To_users_id`=$_fjfo1[$_Q6llo]";
-      mysql_query($_QJlJ0, $_Q61I1);
+      $_QLfol = "DELETE FROM `$_jJtt8` WHERE `From_users_id`=$_8L6tI[$_Qli6J] OR `To_users_id`=$_8L6tI[$_Qli6J]";
+      mysql_query($_QLfol, $_QLttI);
 
       // Admin, remove tables
       if($OwnerUserId == 0) {
-        $_QJlJ0 = "SELECT * FROM `$_Q8f1L` WHERE id=".$_fjfo1[$_Q6llo];
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        _OAL8F($_QJlJ0);
-        $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-        if(!$_Q6Q1C) continue;
-        mysql_free_result($_Q60l1);
+        $_QLfol = "SELECT * FROM `$_I18lo` WHERE id=".$_8L6tI[$_Qli6J];
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        _L8D88($_QLfol);
+        $_QLO0f = mysql_fetch_assoc($_QL8i1);
+        if(!$_QLO0f) continue;
+        mysql_free_result($_QL8i1);
 
-        foreach($_Q6Q1C as $key => $_Q6ClO) {
+        foreach($_QLO0f as $key => $_QltJO) {
           if(strpos($key, "TableName") === false) continue; // only Tables!!
-          if($_Q6ClO != "") {
-            _OBOAB($_Q6ClO);
+          if($_QltJO != "") {
+            _LP1AQ($_QltJO);
 
-            $_QJlJ0 = "DROP TABLE IF EXISTS `$_Q6ClO`";
-            mysql_query($_QJlJ0, $_Q61I1);
-            if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+            $_QLfol = "DROP TABLE IF EXISTS `$_QltJO`";
+            mysql_query($_QLfol, $_QLttI);
+            if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
           }
         }
       }
 
       // Delete User
-      $_QJlJ0 = "DELETE FROM `$_Q8f1L` WHERE id=".$_fjfo1[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM `$_I18lo` WHERE id=".$_8L6tI[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
 
-      $_QJlJ0 = "DELETE FROM `$_QLtQO` WHERE users_id=".$_fjfo1[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM `$_IfOtC` WHERE users_id=".$_8L6tI[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
 
-      $_QJlJ0 = "DELETE FROM `$_Q6fio` WHERE users_id=".$_fjfo1[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM `$_QlQot` WHERE users_id=".$_8L6tI[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
 
-      if(defined("SWM") && $_Q6ftI != "") {
-        $_QJlJ0 = "DELETE FROM `$_Q6ftI` WHERE users_id=".$_fjfo1[$_Q6llo];
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      if(defined("SWM") && $_Ql18I != "") {
+        $_QLfol = "DELETE FROM `$_Ql18I` WHERE users_id=".$_8L6tI[$_Qli6J];
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
       }
 
 

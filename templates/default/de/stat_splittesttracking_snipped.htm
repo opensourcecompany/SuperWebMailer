@@ -42,7 +42,7 @@
             CampaignId = value.substring(0, value.indexOf("-")  );
             SendStatId = value.substring(value.indexOf("-") + 1);
 
-            window.open('./stat_campaigntracking_recipients.php?ResponderType='+ResponderType+'&TrackingType=Openers&CampaignId='+CampaignId+'&SendStatId='+SendStatId + '&nocache=' + date.getTime(), 'CampaignRTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=no,location=no,modal=yes');
+            openWindowWithPost('./stat_campaigntracking_recipients.php?ResponderType='+ResponderType+'&TrackingType=Openers&CampaignId='+CampaignId+'&SendStatId='+SendStatId + '&nocache=' + date.getTime(), {}, 'CampaignRTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=no,location=no,modal=yes');
             return false;
          }
 

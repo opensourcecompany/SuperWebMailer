@@ -27,78 +27,78 @@
   include_once("templates.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeMailingListBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeMailingListBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  $_I0600 = "";
-  if (count($_POST) != 0) {
+  $_Itfj8 = "";
+  if (count($_POST) > 1) {
       if( isset($_POST["FilterApplyBtn"]) ) {
         // Filter
       }
 
-    $_I680t = !isset($_POST["MailingListActions"]);
-    if(!$_I680t) {
+    $_Ilt8t = !isset($_POST["MailingListActions"]);
+    if(!$_Ilt8t) {
       if( isset($_POST["OneMailingListAction"]) && $_POST["OneMailingListAction"] != "" )
-        $_I680t = true;
-      if($_I680t) {
-        if( !( isset($_POST["OneMailingListId"]) && $_POST["OneMailingListId"] != "")  )
-           $_I680t = false;
+        $_Ilt8t = true;
+      if($_Ilt8t) {
+        if( !( isset($_POST["OneMailingListId"]) && $_POST["OneMailingListId"] > 0)  )
+           $_Ilt8t = false;
       }
     }
 
-    if(  !$_I680t && isset($_POST["MailingListActions"]) ) {
+    if(  !$_Ilt8t && isset($_POST["MailingListActions"]) ) {
         // nur hier die Listenaktionen machen
         if($_POST["MailingListActions"] == "DeleteMailLists") {
 
           if($OwnerUserId != 0) {
-            if(!$_QJojf["PrivilegeMailingListRemove"]) {
-              $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-              $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-              print $_QJCJi;
+            if(!$_QLJJ6["PrivilegeMailingListRemove"]) {
+              $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+              $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+              print $_QLJfI;
               exit;
             }
           }
 
           include_once("mailinglist_ops.inc.php");
 
-          if(count($_QtIiC) > 0)
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000023"].join("<br />", $_QtIiC);
+          if(count($_IQ0Cj) > 0)
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000023"].join("<br />", $_IQ0Cj);
           else
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000022"];
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000022"];
         }
 
         if($_POST["MailingListActions"] == "RemoveRecipients") {
 
           if($OwnerUserId != 0) {
-            if(!$_QJojf["PrivilegeRecipientRemove"]) {
-              $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-              $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-              print $_QJCJi;
+            if(!$_QLJJ6["PrivilegeRecipientRemove"]) {
+              $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+              $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+              print $_QLJfI;
               exit;
             }
           }
 
           include_once("mailinglist_ops.inc.php");
 
-          if(count($_QtIiC) > 0)
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000035"].join("<br />", $_QtIiC);
+          if(count($_IQ0Cj) > 0)
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000035"].join("<br />", $_IQ0Cj);
           else
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000034"];
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000034"];
         }
 
         if($_POST["MailingListActions"] == "MoveRecipients") {
 
           if($OwnerUserId != 0) {
-            if(!$_QJojf["PrivilegeRecipientEdit"] || !$_QJojf["PrivilegeRecipientRemove"]) {
-              $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-              $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-              print $_QJCJi;
+            if(!$_QLJJ6["PrivilegeRecipientEdit"] || !$_QLJJ6["PrivilegeRecipientRemove"]) {
+              $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+              $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+              print $_QLJfI;
               exit;
             }
           }
@@ -106,19 +106,19 @@
           include_once("mailinglist_ops.inc.php");
 
           // show now the list
-          if(count($_IoO1t) > 0)
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000038"].join("<br />", $_IoO1t);
+          if(count($_jJi11) > 0)
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000038"].join("<br />", $_jJi11);
           else
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000037"];
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000037"];
         }
 
         if($_POST["MailingListActions"] == "CopyRecipients") {
 
           if($OwnerUserId != 0) {
-            if(!$_QJojf["PrivilegeRecipientEdit"]) {
-              $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-              $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-              print $_QJCJi;
+            if(!$_QLJJ6["PrivilegeRecipientEdit"]) {
+              $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+              $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+              print $_QLJfI;
               exit;
             }
           }
@@ -126,19 +126,19 @@
           include_once("mailinglist_ops.inc.php");
 
           // show now the list
-          if(count($_IoO1t) > 0)
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000040"].join("<br />", $_IoO1t);
+          if(count($_jJi11) > 0)
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000040"].join("<br />", $_jJi11);
           else
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000039"];
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000039"];
         }
 
         if($_POST["MailingListActions"] == "DeleteGroups") {
 
           if($OwnerUserId != 0) {
-            if(!$_QJojf["PrivilegeRecipientEdit"]) {
-              $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-              $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-              print $_QJCJi;
+            if(!$_QLJJ6["PrivilegeRecipientEdit"]) {
+              $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+              $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+              print $_QLJfI;
               exit;
             }
           }
@@ -146,19 +146,19 @@
           include_once("mailinglist_ops.inc.php");
 
           // show now the list
-          if(count($_QtIiC) > 0)
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000093"].join("<br />", $_QtIiC);
+          if(count($_IQ0Cj) > 0)
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000093"].join("<br />", $_IQ0Cj);
           else
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000092"];
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000092"];
         }
 
         if($_POST["MailingListActions"] == "DuplicateMailLists") {
 
           if($OwnerUserId != 0) {
-            if(!$_QJojf["PrivilegeMailingListCreate"]) {
-              $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-              $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-              print $_QJCJi;
+            if(!$_QLJJ6["PrivilegeMailingListCreate"]) {
+              $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+              $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+              print $_QLJfI;
               exit;
             }
           }
@@ -166,10 +166,10 @@
           include_once("mailinglist_ops.inc.php");
 
           // show now the list
-          if(count($_QtIiC) > 0)
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000099"].join("<br />", $_QtIiC);
+          if(count($_IQ0Cj) > 0)
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000099"].join("<br />", $_IQ0Cj);
           else
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000098"];
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000098"];
         }
     }
 
@@ -198,10 +198,10 @@
        if($_POST["OneMailingListAction"] == "DeleteList") {
 
           if($OwnerUserId != 0) {
-            if(!$_QJojf["PrivilegeMailingListRemove"]) {
-              $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-              $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-              print $_QJCJi;
+            if(!$_QLJJ6["PrivilegeMailingListRemove"]) {
+              $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+              $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+              print $_QLJfI;
               exit;
             }
           }
@@ -209,378 +209,378 @@
          include_once("mailinglist_ops.inc.php");
 
          // show now the list
-         if(count($_QtIiC) > 0)
-           $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000023"].join("<br />", $_QtIiC);
+         if(count($_IQ0Cj) > 0)
+           $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000023"].join("<br />", $_IQ0Cj);
          else
-           $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000022"];
+           $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000022"];
        }
      }
   }
 
   // set saved values
-  if (count($_POST) == 0 || isset($_POST["EditPage"]) ) {
+  if ( count($_POST) <= 1 || isset($_POST["EditPage"]) ) {
     include_once("savedoptions.inc.php");
-    $_IoOtl = _LQB6D("BrowseMailinglistFilter");
-    $_QllO8 = @unserialize($_IoOtl);
-    if( $_IoOtl != "" && $_QllO8 !== false ) {
-      $_POST = array_merge($_POST, $_QllO8);
+    $_jJi61 = _JOO1L("BrowseMailinglistFilter");
+    $_I016j = @unserialize($_jJi61);
+    if( $_jJi61 != "" && $_I016j !== false ) {
+      $_POST = array_merge($_POST, $_I016j);
     }
   }
 
   // default SQL query
-  $_QJlJ0 = "SELECT DISTINCT {} FROM $_Q60QL";
+  $_QLfol = "SELECT DISTINCT {} FROM $_QL88I";
   if($OwnerUserId == 0) // ist es ein Admin?
-     $_QJlJ0 .= " WHERE (users_id=$UserId)";
+     $_QLfol .= " WHERE (users_id=$UserId)";
      else {
-      $_QJlJ0 .= " LEFT JOIN $_Q6fio ON $_Q60QL.id=$_Q6fio.maillists_id WHERE (".$_Q6fio.".users_id=$UserId) AND ($_Q60QL.users_id=$OwnerUserId)";
+      $_QLfol .= " LEFT JOIN $_QlQot ON $_QL88I.id=$_QlQot.maillists_id WHERE (".$_QlQot.".users_id=$UserId) AND ($_QL88I.users_id=$OwnerUserId)";
      }
 
   // List of MailingLists SQL query
-  $_Q68ff = str_replace("{}", "id, Name", $_QJlJ0);
-  $_Q68ff .= " ORDER BY Name ASC";
+  $_QlI6f = str_replace("{}", "id, Name", $_QLfol);
+  $_QlI6f .= " ORDER BY Name ASC";
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000016"].$resourcestrings[$INTERFACE_LANGUAGE]["EntryCount"], $_I0600, 'browsemailinglists', 'browse_mallists_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000016"].$resourcestrings[$INTERFACE_LANGUAGE]["EntryCount"], $_Itfj8, 'browsemailinglists', 'browse_mallists_snipped.htm');
 
-  $_QJCJi = _OJ1JB($_QJlJ0, $_Q68ff, $_QJCJi);
+  $_QLJfI = _L1FFD($_QLfol, $_QlI6f, $_QLJfI);
 
   // privilegs
   if($OwnerUserId != 0) {
-    $_Q6ICj = substr($_QJCJi, strpos($_QJCJi, '<div class="PageContainer">'));
-    $_IIf8o = substr($_QJCJi, 0, strpos($_QJCJi, '<div class="PageContainer">') - 1);
+    $_QLoli = substr($_QLJfI, strpos($_QLJfI, '<div class="PageContainer">'));
+    $_ICIIQ = substr($_QLJfI, 0, strpos($_QLJfI, '<div class="PageContainer">') - 1);
 
-    $_QJojf = _OBOOC($UserId);
+    $_QLJJ6 = _LPALQ($UserId);
 
-    if(!$_QJojf["PrivilegeMailingListCreate"]) {
-      $_Q6ICj = _LJ6RJ($_Q6ICj, "mailinglistcreate.php");
-      $_Q6ICj = _LJRLJ($_Q6ICj, "DuplicateMailLists");
+    if(!$_QLJJ6["PrivilegeMailingListCreate"]) {
+      $_QLoli = _JJC0E($_QLoli, "mailinglistcreate.php");
+      $_QLoli = _JJCRD($_QLoli, "DuplicateMailLists");
     }
-    if(!$_QJojf["PrivilegeMailingListEdit"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "EditListProperties");
-      $_Q6ICj = _LJRLJ($_Q6ICj, "DuplicateMailLists");
-    }
-
-    if(!$_QJojf["PrivilegeMailingListRemove"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "DeleteList");
-      $_Q6ICj = _LJRLJ($_Q6ICj, "DeleteMailLists");
-    }
-    if(!$_QJojf["PrivilegeRecipientBrowse"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "BrowseRecipients");
+    if(!$_QLJJ6["PrivilegeMailingListEdit"]) {
+      $_QLoli = _JJC1E($_QLoli, "EditListProperties");
+      $_QLoli = _JJCRD($_QLoli, "DuplicateMailLists");
     }
 
-    if(!$_QJojf["PrivilegeRecipientRemove"]) {
-      $_Q6ICj = _LJRLJ($_Q6ICj, "RemoveRecipients");
-      $_Q6ICj = _LJRLJ($_Q6ICj, "MoveRecipients");
+    if(!$_QLJJ6["PrivilegeMailingListRemove"]) {
+      $_QLoli = _JJC1E($_QLoli, "DeleteList");
+      $_QLoli = _JJCRD($_QLoli, "DeleteMailLists");
     }
-    if(!$_QJojf["PrivilegeRecipientEdit"]) {
-      $_Q6ICj = _LJRLJ($_Q6ICj, "CopyRecipients");
-    }
-    if(!$_QJojf["PrivilegeRecipientCreate"]) {
-      $_Q6ICj = _LJRLJ($_Q6ICj, "CopyRecipients");
-      $_Q6ICj = _LJRLJ($_Q6ICj, "MoveRecipients");
-    }
-    if(!$_QJojf["PrivilegeMLSubUnsubStatBrowse"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "ListReport");
-    }
-    if(!$_QJojf["PrivilegeFormBrowse"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "ShowListForms");
+    if(!$_QLJJ6["PrivilegeRecipientBrowse"]) {
+      $_QLoli = _JJC1E($_QLoli, "BrowseRecipients");
     }
 
-    $_QJCJi = $_IIf8o.$_Q6ICj;
+    if(!$_QLJJ6["PrivilegeRecipientRemove"]) {
+      $_QLoli = _JJCRD($_QLoli, "RemoveRecipients");
+      $_QLoli = _JJCRD($_QLoli, "MoveRecipients");
+    }
+    if(!$_QLJJ6["PrivilegeRecipientEdit"]) {
+      $_QLoli = _JJCRD($_QLoli, "CopyRecipients");
+    }
+    if(!$_QLJJ6["PrivilegeRecipientCreate"]) {
+      $_QLoli = _JJCRD($_QLoli, "CopyRecipients");
+      $_QLoli = _JJCRD($_QLoli, "MoveRecipients");
+    }
+    if(!$_QLJJ6["PrivilegeMLSubUnsubStatBrowse"]) {
+      $_QLoli = _JJC1E($_QLoli, "ListReport");
+    }
+    if(!$_QLJJ6["PrivilegeFormBrowse"]) {
+      $_QLoli = _JJC1E($_QLoli, "ShowListForms");
+    }
+
+    $_QLJfI = $_ICIIQ.$_QLoli;
   }
 
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 
 
-  function _OJ1JB($_QJlJ0, $_Q68ff, $_Q6ICj) {
-    global $UserId, $_Q60QL, $_Q8f1L, $_Q6jOo, $_IQL81, $_QCLCI, $_IIl8O,
-           $_IoOLJ, $_I0f8O, $_IooOQ, $_IoCtL, $_QoOft, $resourcestrings, $INTERFACE_LANGUAGE, $_Q61I1;
-    $_I61Cl = array();
+  function _L1FFD($_QLfol, $_QlI6f, $_QLoli) {
+    global $UserId, $_QL88I, $_I18lo, $_QLi60, $_IoCo0, $_I616t, $_ICo0J,
+           $_jJLQo, $_ItfiJ, $_jJL88, $_jJLLf, $_IjC0Q, $resourcestrings, $INTERFACE_LANGUAGE, $_QLttI;
+    $_Il0o6 = array();
 
     // Searchstring
     if( isset( $_POST["SearchFor"] ) && ($_POST["SearchFor"] != "") ) {
-    $_I61Cl["SearchFor"] = $_POST["SearchFor"];
-    $_I6oQj = TablePrefix."maillists.`Name`";
+    $_Il0o6["SearchFor"] = $_POST["SearchFor"];
+    $_IliOC = TablePrefix."maillists.`Name`";
       if( isset( $_POST["fieldname"] ) && ($_POST["fieldname"] != "") ) {
-        $_I61Cl["fieldname"] = $_POST["fieldname"];
+        $_Il0o6["fieldname"] = $_POST["fieldname"];
         if ($_POST["fieldname"] == "SearchForid")
-          $_I6oQj = TablePrefix."maillists.id";
+          $_IliOC = TablePrefix."maillists.id";
         if ($_POST["fieldname"] == "SearchForName")
-          $_I6oQj = TablePrefix."maillists.`Name`";
+          $_IliOC = TablePrefix."maillists.`Name`";
         if ($_POST["fieldname"] == "SearchForDescription")
-          $_I6oQj = TablePrefix."maillists.`Description`";
+          $_IliOC = TablePrefix."maillists.`Description`";
       }
 
-      $_QJlJ0 .= " AND ($_I6oQj LIKE "._OPQLR("%".trim($_POST["SearchFor"])."%").")";
+      $_QLfol .= " AND ($_IliOC LIKE "._LRAFO("%".trim($_POST["SearchFor"])."%").")";
     } else {
-      $_I61Cl["SearchFor"] = "";
-      $_I61Cl["fieldname"] = "SearchForName";
+      $_Il0o6["SearchFor"] = "";
+      $_Il0o6["fieldname"] = "SearchForName";
     }
 
     // wie viele pro Seite?
-    $_I6Q68 = 20;
+    $_Il1jO = 20;
     if(isset($_POST["ItemsPerPage"])) {
-       $_QllO8 = intval($_POST["ItemsPerPage"]);
-       if ($_QllO8 <= 0) $_QllO8 = 20;
-       $_I6Q68 = $_QllO8;
+       $_I016j = intval($_POST["ItemsPerPage"]);
+       if ($_I016j <= 0) $_I016j = 20;
+       $_Il1jO = $_I016j;
     }
-    $_I61Cl["ItemsPerPage"] = $_I6Q68;
+    $_Il0o6["ItemsPerPage"] = $_Il1jO;
 
-    $_IJQQI = 0;
+    $_Iil6i = 0;
     if ( (!isset($_POST['PageSelected'])) || ($_POST['PageSelected'] == 0) )
-      $_I6Q6O = 1;
+      $_IlQQ6 = 1;
       else
-      $_I6Q6O = intval($_POST['PageSelected']);
+      $_IlQQ6 = intval($_POST['PageSelected']);
 
     // zaehlen wie viele es sind
-    $_I6Qfj = 0;
-    $_QtjtL = $_QJlJ0;
-    $_QtjtL = str_replace('{}', 'COUNT(id)', $_QtjtL);
-    $_Q60l1 = mysql_query($_QtjtL, $_Q61I1);
-    _OAL8F($_QtjtL);
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_I6Qfj = $_Q6Q1C[0];
-    $_I6IJ8 = $_I6Qfj / $_I6Q68;
-    $_I6IJ8 = ceil($_I6IJ8);
-    if(intval($_I6IJ8 * $_I6Q68) - $_I6Q68 > $_I6Qfj)
-       if($_I6IJ8 > 1) $_I6IJ8--;
-    $_Q6ICj = str_replace ('%RECIPIENTCOUNT%', $_I6Qfj, $_Q6ICj);
+    $_IlQll = 0;
+    $_QLlO6 = $_QLfol;
+    $_QLlO6 = str_replace('{}', 'COUNT(id)', $_QLlO6);
+    $_QL8i1 = mysql_query($_QLlO6, $_QLttI);
+    _L8D88($_QLlO6);
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_IlQll = $_QLO0f[0];
+    $_IlILC = $_IlQll / $_Il1jO;
+    $_IlILC = ceil($_IlILC);
+    if(intval($_IlILC * $_Il1jO) - $_Il1jO > $_IlQll)
+       if($_IlILC > 1) $_IlILC--;
+    $_QLoli = str_replace ('%RECIPIENTCOUNT%', $_IlQll, $_QLoli);
 
     if( isset( $_POST["OneMailingListId"] ) && ($_POST["OneMailingListId"] == "Top") )
-       $_I6Q6O = 1;
+       $_IlQQ6 = 1;
     if( isset( $_POST["OneMailingListId"] ) && ($_POST["OneMailingListId"] == "Prev") )
-       $_I6Q6O = $_I6Q6O - 1;
+       $_IlQQ6 = $_IlQQ6 - 1;
     if( isset( $_POST["OneMailingListId"] ) && ($_POST["OneMailingListId"] == "Next") )
-       $_I6Q6O = $_I6Q6O + 1;
+       $_IlQQ6 = $_IlQQ6 + 1;
     if( isset( $_POST["OneMailingListId"] ) && ($_POST["OneMailingListId"] == "End") )
-       $_I6Q6O = $_I6IJ8;
+       $_IlQQ6 = $_IlILC;
 
-    if ( ($_I6Q6O > $_I6IJ8) || ($_I6Q6O <= 0) )
-       $_I6Q6O = 1;
+    if ( ($_IlQQ6 > $_IlILC) || ($_IlQQ6 <= 0) )
+       $_IlQQ6 = 1;
 
-    $_IJQQI = ($_I6Q6O - 1) * $_I6Q68;
+    $_Iil6i = ($_IlQQ6 - 1) * $_Il1jO;
 
-    $_Q6i6i = "";
-    for($_Q6llo=1; $_Q6llo<=$_I6IJ8; $_Q6llo++)
-      if($_Q6llo != $_I6Q6O)
-       $_Q6i6i .= "<option>$_Q6llo</option>";
+    $_QlOjt = "";
+    for($_Qli6J=1; $_Qli6J<=$_IlILC; $_Qli6J++)
+      if($_Qli6J != $_IlQQ6)
+       $_QlOjt .= "<option>$_Qli6J</option>";
        else
-       $_Q6i6i .= '<option selected="selected">'.$_Q6llo.'</option>';
+       $_QlOjt .= '<option selected="selected">'.$_Qli6J.'</option>';
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<OPTION:PAGES>", "</OPTION:PAGES>", $_Q6i6i);
+    $_QLoli = _L81BJ($_QLoli, "<OPTION:PAGES>", "</OPTION:PAGES>", $_QlOjt);
 
     // Nav-Buttons
-    $_I6ICC = "";
-    if($_I6Q6O == 1) {
-      $_I6ICC .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
+    $_Iljoj = "";
+    if($_IlQQ6 == 1) {
+      $_Iljoj .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
     }
-    if ( ($_I6Q6O == $_I6IJ8) || ($_I6Qfj == 0) ) {
-      $_I6ICC .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
+    if ( ($_IlQQ6 == $_IlILC) || ($_IlQll == 0) ) {
+      $_Iljoj .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
     }
 
-    if($_I6Qfj == 0)
-      $_I6ICC .= "  DisableItem('PageSelected', false);\r\n";
+    if($_IlQll == 0)
+      $_Iljoj .= "  DisableItem('PageSelected', false);\r\n";
 
-    $_Q6ICj = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_I6ICC, $_Q6ICj);
+    $_QLoli = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_Iljoj, $_QLoli);
     //
 
     // Sort
-    $_I6jfj = " ORDER BY Name ASC";
+    $_IlJj8 = " ORDER BY Name ASC";
     if( isset( $_POST["sortfieldname"] ) && ($_POST["sortfieldname"] != "") ) {
-      $_I61Cl["sortfieldname"] = $_POST["sortfieldname"];
+      $_Il0o6["sortfieldname"] = $_POST["sortfieldname"];
       if($_POST["sortfieldname"] == "SortName")
-         $_I6jfj = " ORDER BY `Name`";
+         $_IlJj8 = " ORDER BY `Name`";
       if($_POST["sortfieldname"] == "Sortid")
-         $_I6jfj = " ORDER BY id";
+         $_IlJj8 = " ORDER BY id";
       if (isset($_POST["sortorder"]) ) {
-         $_I61Cl["sortorder"] = $_POST["sortorder"];
+         $_Il0o6["sortorder"] = $_POST["sortorder"];
          if($_POST["sortorder"] == "ascending")
-           $_I6jfj .= " ASC";
+           $_IlJj8 .= " ASC";
            else
-           $_I6jfj .= " DESC";
+           $_IlJj8 .= " DESC";
          }
     } else {
-      $_I61Cl["sortfieldname"] = "SortName";
-      $_I61Cl["sortorder"] = "ascending";
+      $_Il0o6["sortfieldname"] = "SortName";
+      $_Il0o6["sortorder"] = "ascending";
     }
-    $_QJlJ0 .= $_I6jfj;
+    $_QLfol .= $_IlJj8;
 
-    $_QJlJ0 .= " LIMIT $_IJQQI, $_I6Q68";
+    $_QLfol .= " LIMIT $_Iil6i, $_Il1jO";
 
-    $_QJlJ0 = str_replace('{}', 'id, Name, MaillistTableName', $_QJlJ0);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
+    $_QLfol = str_replace('{}', 'id, Name, MaillistTableName', $_QLfol);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
 
-    $_Q6tjl = "";
-    $_IIJi1 = _OP81D($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>");
-    $_IIJi1 = str_replace ('<LIST:ENTRY>', '', $_IIJi1);
-    $_IIJi1 = str_replace ('</LIST:ENTRY>', '', $_IIJi1);
+    $_QlIf1 = "";
+    $_IC1C6 = _L81DB($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>");
+    $_IC1C6 = str_replace ('<LIST:ENTRY>', '', $_IC1C6);
+    $_IC1C6 = str_replace ('</LIST:ENTRY>', '', $_IC1C6);
 
-    $_Ioi61 = array();
+    $_jJltj = array();
 
-    $_Ioi61[] = array(
-                                   "TableName" => $_Q60QL
+    $_jJltj[] = array(
+                                   "TableName" => $_QL88I
                                  );
 
-    if(_OA1LL($_IQL81)) {
-      $_Ioi61[] = array(
-                                   "TableName" => $_IQL81
-                                 );
-    }
-
-    if(_OA1LL($_QCLCI)) {
-      $_Ioi61[] = array(
-                                   "TableName" => $_QCLCI
+    if(_L8B1P($_IoCo0)) {
+      $_jJltj[] = array(
+                                   "TableName" => $_IoCo0
                                  );
     }
 
-    if(_OA1LL($_IIl8O)) {
-      $_Ioi61[] = array(
-                                   "TableName" => $_IIl8O
+    if(_L8B1P($_I616t)) {
+      $_jJltj[] = array(
+                                   "TableName" => $_I616t
                                  );
     }
 
-    if(_OA1LL($_IoOLJ)) {
-      $_Ioi61[] = array(
-                                   "TableName" => $_IoOLJ
+    if(_L8B1P($_ICo0J)) {
+      $_jJltj[] = array(
+                                   "TableName" => $_ICo0J
                                  );
     }
 
-    if(_OA1LL($_Q6jOo)) {
-      $_Ioi61[] = array(
-                                   "TableName" => $_Q6jOo
+    if(_L8B1P($_jJLQo)) {
+      $_jJltj[] = array(
+                                   "TableName" => $_jJLQo
                                  );
     }
 
-    if(_OA1LL($_I0f8O)) {
-      $_Ioi61[] = array(
-                                   "TableName" => $_I0f8O
+    if(_L8B1P($_QLi60)) {
+      $_jJltj[] = array(
+                                   "TableName" => $_QLi60
                                  );
     }
 
-    if(_OA1LL($_IooOQ)) {
-      $_Ioi61[] = array(
-                                   "TableName" => $_IooOQ
+    if(_L8B1P($_ItfiJ)) {
+      $_jJltj[] = array(
+                                   "TableName" => $_ItfiJ
                                  );
     }
 
-    if(_OA1LL($_IoCtL)) {
-      $_Ioi61[] = array(
-                                   "TableName" => $_IoCtL
+    if(_L8B1P($_jJL88)) {
+      $_jJltj[] = array(
+                                   "TableName" => $_jJL88
                                  );
     }
 
-    if(_OA1LL($_QoOft)) {
-      $_Ioi61[] = array(
-                                   "TableName" => $_QoOft
+    if(_L8B1P($_jJLLf)) {
+      $_jJltj[] = array(
+                                   "TableName" => $_jJLLf
                                  );
     }
 
-    while($_Q6Q1C=mysql_fetch_assoc($_Q60l1)) {
-      $_Q66jQ = $_IIJi1;
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:ID>", "</LIST:ID>", $_Q6Q1C["id"]);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:NAME>", "</LIST:NAME>", $_Q6Q1C["Name"]);
+    if(_L8B1P($_IjC0Q)) {
+      $_jJltj[] = array(
+                                   "TableName" => $_IjC0Q
+                                 );
+    }
+
+    while($_QLO0f=mysql_fetch_assoc($_QL8i1)) {
+      $_Ql0fO = $_IC1C6;
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:ID>", "</LIST:ID>", $_QLO0f["id"]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:NAME>", "</LIST:NAME>", $_QLO0f["Name"]);
 
       // RecipientsCount
-      $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[MaillistTableName]";
-      $_IoioQ = mysql_query($_QJlJ0, $_Q61I1);
-      $_IflL6 = mysql_fetch_row($_IoioQ);
-      mysql_free_result($_IoioQ);
+      $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[MaillistTableName]";
+      $_j60Q0 = mysql_query($_QLfol, $_QLttI);
+      $_j1881 = mysql_fetch_row($_j60Q0);
+      mysql_free_result($_j60Q0);
 
       // referenzen vorhanden?
-      $_IoL1l = 0;
-      for($_Q6llo=0; $_Q6llo<count($_Ioi61); $_Q6llo++) {
+      $_j608C = 0;
+      for($_Qli6J=0; $_Qli6J<count($_jJltj); $_Qli6J++) {
 
-        if($_Ioi61[$_Q6llo]["TableName"] == $_Q60QL){
-          $_QJlJ0 = "SELECT COUNT(*) FROM `".$_Ioi61[$_Q6llo]["TableName"]."` WHERE ";
-          $_QJlJ0 .= "`OnSubscribeAlsoAddToMailList`=$_Q6Q1C[id]";
-          $_QJlJ0 .= " OR ";
-          $_QJlJ0 .= "`OnSubscribeAlsoRemoveFromMailList`=$_Q6Q1C[id]";
-          $_QJlJ0 .= " OR ";
-          $_QJlJ0 .= "`OnUnsubscribeAlsoAddToMailList`=$_Q6Q1C[id]";
-          $_QJlJ0 .= " OR ";
-          $_QJlJ0 .= "`OnUnsubscribeAlsoRemoveFromMailList`=$_Q6Q1C[id]";
-          $_ItlJl = mysql_query($_QJlJ0, $_Q61I1);
-          _OAL8F($_QJlJ0);
-          $_IO08Q = mysql_fetch_row($_ItlJl);
-          $_IoL1l += $_IO08Q[0];
-          mysql_free_result($_ItlJl);
+        if($_jJltj[$_Qli6J]["TableName"] == $_QL88I){
+          $_QLfol = "SELECT COUNT(*) FROM `".$_jJltj[$_Qli6J]["TableName"]."` WHERE ";
+          $_QLfol .= "`OnSubscribeAlsoAddToMailList`=$_QLO0f[id]";
+          $_QLfol .= " OR ";
+          $_QLfol .= "`OnSubscribeAlsoRemoveFromMailList`=$_QLO0f[id]";
+          $_QLfol .= " OR ";
+          $_QLfol .= "`OnUnsubscribeAlsoAddToMailList`=$_QLO0f[id]";
+          $_QLfol .= " OR ";
+          $_QLfol .= "`OnUnsubscribeAlsoRemoveFromMailList`=$_QLO0f[id]";
+          $_jjJfo = mysql_query($_QLfol, $_QLttI);
+          _L8D88($_QLfol);
+          $_jj6L6 = mysql_fetch_row($_jjJfo);
+          $_j608C += $_jj6L6[0];
+          mysql_free_result($_jjJfo);
           continue;
         }
 
-        $_QJlJ0 = "SELECT COUNT(*) FROM ".$_Ioi61[$_Q6llo]["TableName"]." WHERE `maillists_id`=$_Q6Q1C[id]";
-        $_ItlJl = mysql_query($_QJlJ0);
-        _OAL8F($_QJlJ0);
-        $_IO08Q = mysql_fetch_row($_ItlJl);
-        $_IoL1l += $_IO08Q[0];
-        mysql_free_result($_ItlJl);
-        if($_IoL1l > 0) break;
-        if($_Ioi61[$_Q6llo]["TableName"] == $_QCLCI) {
-           $_QJlJ0 = "SELECT COUNT(*) FROM `".$_Ioi61[$_Q6llo]["TableName"]."` WHERE (`OnFollowUpDoneAction`=2 AND `OnFollowUpDoneCopyToMailList`=$_Q6Q1C[id]) OR (`OnFollowUpDoneAction`=3 AND `OnFollowUpDoneMoveToMailList`=$_Q6Q1C[id] ) ";
-           $_ItlJl = mysql_query($_QJlJ0);
-           _OAL8F($_QJlJ0);
-           $_IO08Q = mysql_fetch_row($_ItlJl);
-           $_IoL1l += $_IO08Q[0];
+        $_QLfol = "SELECT COUNT(*) FROM ".$_jJltj[$_Qli6J]["TableName"]." WHERE `maillists_id`=$_QLO0f[id]";
+        $_jjJfo = mysql_query($_QLfol);
+        _L8D88($_QLfol);
+        $_jj6L6 = mysql_fetch_row($_jjJfo);
+        $_j608C += $_jj6L6[0];
+        mysql_free_result($_jjJfo);
+        if($_j608C > 0) break;
+        if($_jJltj[$_Qli6J]["TableName"] == $_I616t) {
+           $_QLfol = "SELECT COUNT(*) FROM `".$_jJltj[$_Qli6J]["TableName"]."` WHERE (`OnFollowUpDoneAction`=2 AND `OnFollowUpDoneCopyToMailList`=$_QLO0f[id]) OR (`OnFollowUpDoneAction`=3 AND `OnFollowUpDoneMoveToMailList`=$_QLO0f[id] ) ";
+           $_jjJfo = mysql_query($_QLfol);
+           _L8D88($_QLfol);
+           $_jj6L6 = mysql_fetch_row($_jjJfo);
+           $_j608C += $_jj6L6[0];
         }
-        if($_IoL1l > 0) break;
+        if($_j608C > 0) break;
       }
 
       // RecipientsCount active
-      $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[MaillistTableName] WHERE IsActive=1 AND (SubscriptionStatus='Subscribed' OR SubscriptionStatus='OptOutConfirmationPending')";
-      $_IoioQ = mysql_query($_QJlJ0, $_Q61I1);
-      $_IoLQC = mysql_fetch_row($_IoioQ);
-      mysql_free_result($_IoioQ);
+      $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[MaillistTableName] WHERE IsActive=1 AND (SubscriptionStatus='Subscribed' OR SubscriptionStatus='OptOutConfirmationPending')";
+      $_j60Q0 = mysql_query($_QLfol, $_QLttI);
+      $_j60OI = mysql_fetch_row($_j60Q0);
+      mysql_free_result($_j60Q0);
 
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:TOTAL>", "</LIST:TOTAL>", $_IflL6[0]);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:ACTIVE>", "</LIST:ACTIVE>", $_IoLQC[0]);
-      $_Q66jQ = str_replace ('name="EditListProperties"', 'name="EditListProperties" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
-      $_Q66jQ = str_replace ('name="ListReport"', 'name="ListReport" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
-      $_Q66jQ = str_replace ('name="BrowseRecipients"', 'name="BrowseRecipients" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
-      if($_IoL1l == 0)
-        $_Q66jQ = str_replace ('name="DeleteList"', 'name="DeleteList" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:TOTAL>", "</LIST:TOTAL>", $_j1881[0]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:ACTIVE>", "</LIST:ACTIVE>", $_j60OI[0]);
+      $_Ql0fO = str_replace ('name="EditListProperties"', 'name="EditListProperties" value="'.$_QLO0f["id"].'"', $_Ql0fO);
+      $_Ql0fO = str_replace ('name="ListReport"', 'name="ListReport" value="'.$_QLO0f["id"].'"', $_Ql0fO);
+      $_Ql0fO = str_replace ('name="BrowseRecipients"', 'name="BrowseRecipients" value="'.$_QLO0f["id"].'"', $_Ql0fO);
+      if($_j608C == 0)
+        $_Ql0fO = str_replace ('name="DeleteList"', 'name="DeleteList" value="'.$_QLO0f["id"].'"', $_Ql0fO);
         else {
-         $_Q66jQ = str_replace ('src="images/delete.gif"', 'src="images/delete_disabled.gif"', $_Q66jQ);
-         $_Q66jQ = str_replace ('name="DeleteList"', 'name="DeleteList" disabled="disabled"', $_Q66jQ);
+         $_Ql0fO = str_replace ('src="images/delete.gif"', 'src="images/delete_disabled.gif"', $_Ql0fO);
+         $_Ql0fO = str_replace ('name="DeleteList"', 'name="DeleteList" disabled="disabled"', $_Ql0fO);
         }
-      $_Q66jQ = str_replace ('name="ShowListForms"', 'name="ShowListForms" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
-      $_Q66jQ = str_replace ('name="MailingListIDs[]"', 'name="MailingListIDs[]" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
-      $_Q6tjl .= $_Q66jQ;
+      $_Ql0fO = str_replace ('name="ShowListForms"', 'name="ShowListForms" value="'.$_QLO0f["id"].'"', $_Ql0fO);
+      $_Ql0fO = str_replace ('name="MailingListIDs[]"', 'name="MailingListIDs[]" value="'.$_QLO0f["id"].'"', $_Ql0fO);
+      $_QlIf1 .= $_Ql0fO;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>", $_Q6tjl);
+    $_QLoli = _L81BJ($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>", $_QlIf1);
 
     // save the filter for later use
     if(isset($_POST["SaveFilter"])) {
-       $_I61Cl["SaveFilter"] = $_POST["SaveFilter"];
+       $_Il0o6["SaveFilter"] = $_POST["SaveFilter"];
        include_once("savedoptions.inc.php");
-       _LQC66("BrowseMailinglistFilter", serialize($_I61Cl) );
+       _JOOFF("BrowseMailinglistFilter", serialize($_Il0o6) );
     }
 
-    $_Q6ICj = _OPFJA(array(), $_I61Cl, $_Q6ICj);
+    $_QLoli = _L8AOB(array(), $_Il0o6, $_QLoli);
 
 /*    // Mailinglisten Liste
-    $_Q60l1 = mysql_query($_Q68ff);
-    $_Q6tjl = "";
-    if($_Q60l1) {
-      while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-        $_Q6tjl .= sprintf('<option value="%d">%s</option>'."\r\n", $_Q6Q1C["id"], $_Q6Q1C["Name"]);
+    $_QL8i1 = mysql_query($_QlI6f);
+    $_QlIf1 = "";
+    if($_QL8i1) {
+      while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+        $_QlIf1 .= sprintf('<option value="%d">%s</option>'."\r\n", $_QLO0f["id"], $_QLO0f["Name"]);
       }
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
     }
-    $_Q6ICj = _OPR6L($_Q6ICj, "<OPTION:MAILINGLISTS>", "</OPTION:MAILINGLISTS>", $_Q6tjl);*/
+    $_QLoli = _L81BJ($_QLoli, "<OPTION:MAILINGLISTS>", "</OPTION:MAILINGLISTS>", $_QlIf1);*/
 
 
-    return $_Q6ICj;
+    return $_QLoli;
   }
 
 ?>

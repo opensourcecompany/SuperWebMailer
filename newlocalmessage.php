@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -30,9 +30,9 @@
   include_once("htmltools.inc.php");
 
   // Boolean fields of form
-  $_I01C0 = Array ();
+  $_ItI0o = Array ();
 
-  $_I01lt = Array ();
+  $_ItIti = Array ();
 
   if(isset($_POST["BackBtn"])) {
     if( isset($_POST["OneLocalMessageId"]) )
@@ -50,17 +50,17 @@
      unset( $_POST["OneLocalMessageAction"] );
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeLocalMessageCreate"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeLocalMessageCreate"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
   // Template
-  $_I0600 = "";
+  $_Itfj8 = "";
 
   if(isset($_POST['SendLocalMessageBtn'])) { // Senden?
     if(empty($_POST["message_subject"]))
@@ -69,71 +69,71 @@
        $errors[] = "to_user";
 
     if(!empty($_POST["to_user"])) {
-      $_QJlJ0 = "SELECT `Username`, `id` FROM `$_Q8f1L` WHERE `Username`="._OPQLR($_POST["to_user"]);
-      $_Q60l1 = mysql_query($_QJlJ0);
-      _OAL8F($_QJlJ0);
-      if(mysql_num_rows($_Q60l1) == 0) {
+      $_QLfol = "SELECT `Username`, `id` FROM `$_I18lo` WHERE `Username`="._LRAFO($_POST["to_user"]);
+      $_QL8i1 = mysql_query($_QLfol);
+      _L8D88($_QLfol);
+      if(mysql_num_rows($_QL8i1) == 0) {
          $errors[] = "to_user";
-         $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001118"];
+         $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001118"];
       } else {
-        $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-        $_JOj86 = $_Q6Q1C["id"];
+        $_QLO0f = mysql_fetch_assoc($_QL8i1);
+        $_6lJol = $_QLO0f["id"];
       }
 
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
     }
 
     if(empty($_POST["LocalMessage"]))
       $errors[] = "LocalMessage";
   } else {
-    $_QJlJ0 = "SELECT `From_users_id`, `MessageSubject`, `MessageText` FROM `$_Io680` WHERE id=$OneLocalMessageId AND `To_users_id`=$UserId";
-    $_Q60l1 = mysql_query($_QJlJ0);
-    if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-       $_Io6iJ = array();
-       $_POST["to_user"] = _OELDQ($_Q6Q1C["From_users_id"], $_Io6iJ);
-       $_POST["message_subject"] = "Re: ".$_Q6Q1C["MessageSubject"];
-       if( strpos($_Q6Q1C["MessageText"], "<br") !== false || strpos($_Q6Q1C["MessageText"], "<p") !== false || strpos($_Q6Q1C["MessageText"], "<a") !== false || strpos($_Q6Q1C["MessageText"], "<div") !== false || strpos($_Q6Q1C["MessageText"], "<html") !== false )
-          $_POST["LocalMessage"] = _ODQAB($_Q6Q1C["MessageText"]);
+    $_QLfol = "SELECT `From_users_id`, `MessageSubject`, `MessageText` FROM `$_jJtt8` WHERE id=$OneLocalMessageId AND `To_users_id`=$UserId";
+    $_QL8i1 = mysql_query($_QLfol);
+    if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+       $_jJO6I = array();
+       $_POST["to_user"] = _LDAF0($_QLO0f["From_users_id"], $_jJO6I);
+       $_POST["message_subject"] = "Re: ".$_QLO0f["MessageSubject"];
+       if( strpos($_QLO0f["MessageText"], "<br") !== false || strpos($_QLO0f["MessageText"], "<p") !== false || strpos($_QLO0f["MessageText"], "<a") !== false || strpos($_QLO0f["MessageText"], "<div") !== false || strpos($_QLO0f["MessageText"], "<html") !== false )
+          $_POST["LocalMessage"] = _LBDA8($_QLO0f["MessageText"]);
           else {
-            $_POST["LocalMessage"] = $_Q6Q1C["MessageText"];
-            $_Q8otJ = explode("\n", $_POST["LocalMessage"]);
+            $_POST["LocalMessage"] = $_QLO0f["MessageText"];
+            $_I1OoI = explode("\n", $_POST["LocalMessage"]);
           }
        $_POST["LocalMessage"] = wordwrap( $_POST["LocalMessage"], 70, "\n" );
-       $_Q8otJ = explode("\n", $_POST["LocalMessage"]);
-       for($_Q6llo=0; $_Q6llo<count($_Q8otJ); $_Q6llo++)
-          $_Q8otJ[$_Q6llo] = "> ".$_Q8otJ[$_Q6llo];
-       $_POST["LocalMessage"] = implode("\n", $_Q8otJ);
-       mysql_free_result($_Q60l1);
+       $_I1OoI = explode("\n", $_POST["LocalMessage"]);
+       for($_Qli6J=0; $_Qli6J<count($_I1OoI); $_Qli6J++)
+          $_I1OoI[$_Qli6J] = "> ".$_I1OoI[$_Qli6J];
+       $_POST["LocalMessage"] = implode("\n", $_I1OoI);
+       mysql_free_result($_QL8i1);
     }
   }
 
   if(count($errors) == 0 && isset($_POST['SendLocalMessageBtn']) ) {
-    if(_OELQQ($UserId, $_JOj86, $_POST["message_subject"], $_POST["LocalMessage"])) {
-      $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001120"];
+    if(_LDADP($UserId, $_6lJol, $_POST["message_subject"], $_POST["LocalMessage"])) {
+      $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001120"];
       if( isset($_POST["OneLocalMessageId"]) )
          unset($_POST["OneLocalMessageId"]);
       include_once("browselocalmessages.php");
       exit;
     } else {
       $errors[] = "LocalMessage";
-      $_I0600 = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001119"], mysql_error($_Q61I1));
+      $_Itfj8 = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001119"], mysql_error($_QLttI));
     }
   }
 
   if( $OneLocalMessageId == 0 )
-     $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["001116"], $_I0600, 'browselocalmessages', 'new_localmessage.htm');
+     $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["001116"], $_Itfj8, 'browselocalmessages', 'new_localmessage.htm');
      else
-     $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["001117"], $_I0600, 'browselocalmessages', 'new_localmessage.htm');
+     $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["001117"], $_Itfj8, 'browselocalmessages', 'new_localmessage.htm');
 
-  $_Io6iJ = array();
-  $_QJCJi = _OPR6L($_QJCJi, "<LIST:FROM_USERS_ID>", "</LIST:FROM_USERS_ID>", _OELDQ($UserId, $_Io6iJ));
+  $_jJO6I = array();
+  $_QLJfI = _L81BJ($_QLJfI, "<LIST:FROM_USERS_ID>", "</LIST:FROM_USERS_ID>", _LDAF0($UserId, $_jJO6I));
 
   if(count($errors) > 0) {
-      if($_I0600 == "")
-        $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000020"];
+      if($_Itfj8 == "")
+        $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000020"];
     }
 
-  $_QJCJi = _OPFJA($errors, $_POST, $_QJCJi);
+  $_QLJfI = _L8AOB($errors, $_POST, $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 ?>

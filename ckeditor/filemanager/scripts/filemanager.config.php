@@ -1,4 +1,28 @@
 <?php
+  $path = realpath(dirname(__FILE__));
+  if($path === false)
+     $path = "";
+  $path = str_replace( '\\', '/', $path);
+  if(substr($path, strlen($path), 1) <> '/')
+    $path .= "/";
+
+  $p = explode("/", $path);
+
+  $p = array_slice($p, 0, count($p) - 4); // 3x .. und 1x ""
+  $path = implode("/", $p);
+  if($path == "")
+     $path = "./../../../";
+  if(substr($path, strlen($path), 1) <> '/')
+    $path .= "/";
+
+  define("ISFROMCKFILEMANAGER", true);
+
+  if ( ! ( ( include "./../../../sessioncheck.inc.php" ) ) ) {
+     if ( ! ( ( include $path."sessioncheck.inc.php" ) ) ) {
+        include_once("../../sessioncheck.inc.php");
+     }
+  }
+
   // Prevent the browser from caching the result.
   // Date in the past
   @header('Expires: Mon, 26 Jul 1997 05:00:00 GMT') ;
@@ -37,33 +61,10 @@ var lang = 'php'; // options: php, jsp, lasso, asp, cfm // we are looking for co
 // Set this to the directory you wish to manage.
 //var fileRoot = '/' + am + 'userfiles/';
 
+var SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME = 'smlswmFMCsrfToken';
 
 <?php
 // M.B.
-$path = realpath(dirname(__FILE__));
-if($path === false)
-   $path = "";
-$path = str_replace( '\\', '/', $path);
-if(substr($path, strlen($path), 1) <> '/')
-  $path .= "/";
-
-$p = explode("/", $path);
-
-$p = array_slice($p, 0, count($p) - 4); // 3x .. und 1x ""
-$path = implode("/", $p);
-if($path == "")
-   $path = "./../../../";
-if(substr($path, strlen($path), 1) <> '/')
-  $path .= "/";
-
-define("ISFROMCKFILEMANAGER", true);
-
-if ( ! ( ( include "./../../../sessioncheck.inc.php" ) ) ) {
-   if ( ! ( ( include $path."sessioncheck.inc.php" ) ) ) {
-      include_once("../../sessioncheck.inc.php");
-   }
-}
-
 global $Config;
 $Config['UserFilesPath'] = "";
 

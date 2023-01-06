@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,149 +26,172 @@
   include_once("templates.inc.php");
   include_once("defaulttexts.inc.php");
 
-  function _OF6RB($_j8O8t,$_QfJI8,$_QCoLj,$_Qf1i1,$_ILOjO=0, &$_j88of, &$_j8t8L)
+  function _LFOAO($_J60tC,$_I06t6,$_IJL6o,$_I0QjQ,$_6foIt, &$_JJl1I, &$_J600J)
   {
-     global $_jJtt0;
-     $_JJtoO = "";
-     if (empty($_QfJI8))
-         $_QfJI8 = 'GET';
-     $_QfJI8 = strtoupper($_QfJI8);
-     $_QCioi = fsockopen($_j8O8t, 80, $_j88of, $_j8t8L, 20);
-     if(!$_QCioi) {
+     global $_JQjlt;
+
+     $_JJl1I = 0;
+     $_J600J = "";
+
+     if(function_exists("openssl_pkcs7_sign") && function_exists("openssl_get_privatekey")){
+        $_6fiLj = DoHTTPRequest($_J60tC, $_I06t6, $_IJL6o, $_I0QjQ, $_JQjlt, 443, false, "", "", $_JJl1I, $_J600J);
+     }else{
+        $_6fiLj = DoHTTPRequest($_J60tC, $_I06t6, $_IJL6o, $_I0QjQ, $_JQjlt, 80, false, "", "", $_JJl1I, $_J600J);
+     }
+
+     if(($_JJl1I == 0 || $_JJl1I == 200)  && $_6fiLj != ""){
+       if( strpos($_6fiLj, "\r\n\r\n") !== false)
+         $_6fiLj=substr($_6fiLj, strpos($_6fiLj, "\r\n\r\n") + 4);
+         else
+         if( strpos($_6fiLj, "\n\n") !== false)
+            $_6fiLj=substr($_6fiLj, strpos($_6fiLj, "\n\n") + 2);
+
+       return $_6fiLj;
+     }
+
+     $_6fiLj = "";
+     if (empty($_I06t6))
+         $_I06t6 = 'GET';
+     $_I06t6 = strtoupper($_I06t6);
+     $_I60fo = fsockopen($_J60tC, 80, $_JJl1I, $_J600J, 20);
+     if(!$_I60fo) {
        return "ERROR";
      }
 
-     if ($_QfJI8 == 'GET')
-         $_QCoLj .= '?' . $_Qf1i1;
-     fputs($_QCioi, "$_QfJI8 $_QCoLj HTTP/1.0\r\n");
-     fputs($_QCioi, "Host: $_j8O8t\r\n");
-     fputs($_QCioi, "Content-type: application/x-www-form-urlencoded\r\n");
-     fputs($_QCioi, "Content-length: " . strlen($_Qf1i1) . "\r\n");
-     if ($_ILOjO)
-             fputs($_QCioi, "User-Agent: MSIE\r\n");
+     if ($_I06t6 == 'GET')
+         $_IJL6o .= '?' . $_I0QjQ;
+     fputs($_I60fo, "$_I06t6 $_IJL6o HTTP/1.0\r\n");
+     fputs($_I60fo, "Host: $_J60tC\r\n");
+     fputs($_I60fo, "Content-type: application/x-www-form-urlencoded\r\n");
+     fputs($_I60fo, "Content-length: " . strlen($_I0QjQ) . "\r\n");
+     if ($_6foIt)
+             fputs($_I60fo, "User-Agent: $_6foIt\r\n");
              else
-             fputs($_QCioi, "User-Agent: $_jJtt0\r\n");
-     fputs($_QCioi, "Connection: close\r\n\r\n");
-     if ($_QfJI8 == 'POST')
-             fputs($_QCioi, $_Qf1i1);
+             fputs($_I60fo, "User-Agent: $_JQjlt\r\n");
+     fputs($_I60fo, "Connection: close\r\n\r\n");
+     if ($_I06t6 == 'POST')
+             fputs($_I60fo, $_I0QjQ);
 
-     while (!feof($_QCioi))
-             $_JJtoO .= fgets($_QCioi,128);
-     if( strpos($_JJtoO, "\r\n\r\n") !== false)
-       $_JJtoO=substr($_JJtoO, strpos($_JJtoO, "\r\n\r\n") + 4);
+     while (!feof($_I60fo))
+             $_6fiLj .= fgets($_I60fo,128);
+     if( strpos($_6fiLj, "\r\n\r\n") !== false)
+       $_6fiLj=substr($_6fiLj, strpos($_6fiLj, "\r\n\r\n") + 4);
        else
-       if( strpos($_JJtoO, "\n\n") !== false)
-          $_JJtoO=substr($_JJtoO, strpos($_JJtoO, "\n\n") + 2);
-     fclose($_QCioi);
-     return $_JJtoO;
+       if( strpos($_6fiLj, "\n\n") !== false)
+          $_6fiLj=substr($_6fiLj, strpos($_6fiLj, "\n\n") + 2);
+     fclose($_I60fo);
+     return $_6fiLj;
  }
 
- function _OFR0F($_JttQ1, $_Jttii, &$_I0600, &$_JtffC) {
-   global $AppName, $resourcestrings, $_JftOi, $INTERFACE_LANGUAGE, $_JfOii, $_jJO6j, $_jJo1i;
-   $_JtffC = false;
+ function _LFOFL($_6Ci1L, $_6Cijo, &$_Itfj8, &$_6CCQt) {
+   global $AppName, $resourcestrings, $_6OOCJ, $INTERFACE_LANGUAGE, $_6OiII, $_JQJll, $_JQ6CI;
+   $_6CCQt = false;
 
-   if(strlen($_Jttii) != $_jJO6j - 108)
+   if(strlen($_6Cijo) != $_JQJll - 108)
      return false;
-   if (!preg_match('/[A-Z]/', $_Jttii{0}))
+   if (!preg_match('/[A-Z]/', $_6Cijo[0]))
      return false;
-   if (!preg_match('/[A-Z]/', $_Jttii{6}))
+   if (!preg_match('/[A-Z]/', $_6Cijo[6]))
      return false;
-   if (!preg_match('/[A-Z]/', $_Jttii{ strlen($_Jttii) - 1 }))
+   if (!preg_match('/[A-Z]/', $_6Cijo[ strlen($_6Cijo) - 1 ]))
      return false;
 
-   $_JtffC = false;
+   $_6CCQt = false;
 
    if ( (!isset($REMOTE_ADDR)) || ($REMOTE_ADDR == "") )
-      $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
-   $_Qf1i1 = "Program=$AppName&Name1=$_JttQ1&Code=$_Jttii&AppName=$AppName&IP=$REMOTE_ADDR&Lang=$INTERFACE_LANGUAGE";
+      $REMOTE_ADDR = getOwnIP(false);
+   $_I0QjQ = "Program=$AppName&Name1=$_6Ci1L&Code=$_6Cijo&AppName=$AppName&IP=$REMOTE_ADDR&Lang=$INTERFACE_LANGUAGE";
 
-   $_Q60l1=_OF6RB($_JftOi, "POST", "/".$_JfOii."/swm_codecheck.php", $_Qf1i1, 0, $_j88of, $_j8t8L);
-   if($_Q60l1 == "ERROR") {
-     if($_j8t8L == "")
-       $_j8t8L = "unknown";
-     $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090201"] . " $_j88of: $_j8t8L";
-     $_JtffC = true;
+   if(defined("SWM"))
+     $_QL8i1 = _LFOAO($_6OOCJ, "POST", "/".$_6OiII."/swm_codecheck.php", $_I0QjQ, 0, $_JJl1I, $_J600J);
+     else
+     $_QL8i1 = _LFOAO($_6OOCJ, "POST", "/".$_6OiII."/sml_codecheck.php", $_I0QjQ, 0, $_JJl1I, $_J600J);
+   if($_QL8i1 == "ERROR") {
+     if($_J600J == "")
+       $_J600J = "unknown";
+     $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090201"] . " $_JJl1I: $_J600J";
+     $_6CCQt = true;
      return false;
    }
-   if($_Q60l1 == "") {
-     $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090201"] . " EMPTY RESULT";
-     $_JtffC = true;
+   if($_QL8i1 == "") {
+     $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090201"] . " EMPTY RESULT";
+     $_6CCQt = true;
      return false;
    }
 
-   $_Q8COf = intval($_Q60l1);
-   switch ($_Q8COf) {
-     case $_jJo1i:
-       $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090201"].$resourcestrings[$INTERFACE_LANGUAGE]["090202"];
-       $_JtffC = true;
+   $_I1o8o = intval($_QL8i1);
+   switch ($_I1o8o) {
+     case $_JQ6CI:
+       $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090201"].$resourcestrings[$INTERFACE_LANGUAGE]["090202"];
+       $_6CCQt = true;
        break;
-     case $_jJo1i - 1:
-       $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090201"].$resourcestrings[$INTERFACE_LANGUAGE]["090203"];
+     case $_JQ6CI - 1:
+       $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090201"].$resourcestrings[$INTERFACE_LANGUAGE]["090203"];
        break;
-     case $_jJo1i - 2:
-       $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090201"].$resourcestrings[$INTERFACE_LANGUAGE]["090204"];
-       $_JtffC = true;
+     case $_JQ6CI - 2:
+       $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090201"].$resourcestrings[$INTERFACE_LANGUAGE]["090204"];
+       $_6CCQt = true;
        break;
-     case $_jJO6j: return true; break;
+     case $_JQJll: return true; break;
      default:
-       $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090201"].$resourcestrings[$INTERFACE_LANGUAGE]["090205"];
-       $_JtffC = true;
+       $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090201"].$resourcestrings[$INTERFACE_LANGUAGE]["090205"];
+       $_6CCQt = true;
    }
 
    return false;
  }
 
- function _OFR1B(&$_JtO0o) {
-  global $_Q88iO, $_QoJ8j, $_Q61I1;
-  $_JtO0o = "";
+ function _LFLD0(&$_6Cif6) {
+  global $_I1O0i, $_Ij6Lj, $_QLttI;
+  $_6Cif6 = "";
 
-  if(!$_Q61I1){
-    $_JtO0o = "<br />There is no active MySQL server connection this maybe a PHP opcache problem. Wait 2-3 minutes and try again or close browser and restart installation process.";
+  if(!$_QLttI){
+    $_6Cif6 = "<br />There is no active MySQL server connection this maybe a PHP opcache problem. Wait 2-3 minutes and try again or close browser and restart installation process.";
     return false;
   }
 
-  if (!preg_match('/[A-Z]/', $_POST["RegNumber"]{0}))
+  if (!preg_match('/[A-Z]/', $_POST["RegNumber"][0]))
     return false;
-  if (!preg_match('/[A-Z]/', $_POST["RegNumber"]{6}))
+  if (!preg_match('/[A-Z]/', $_POST["RegNumber"][6]))
     return false;
 
-  $_ji6CJ = mysql_query("SELECT COUNT(*) FROM `$_Q88iO`", $_Q61I1);
-  $_Q6Q1C = mysql_fetch_row($_ji6CJ);
-  mysql_free_result($_ji6CJ);
-  if($_Q6Q1C[0] == 0) {
-    $_QJlJ0 = "INSERT INTO `$_Q88iO` SET `id`=1, `ScriptVersion`="._OPQLR($_QoJ8j);
-    mysql_query($_QJlJ0, $_Q61I1);
-    if(mysql_error($_Q61I1) != "") {
-      $_JtO0o = "SQL error: ".mysql_error($_Q61I1);
+  $_Ji0IC = mysql_query("SELECT COUNT(*) FROM `$_I1O0i`", $_QLttI);
+  $_QLO0f = mysql_fetch_row($_Ji0IC);
+  mysql_free_result($_Ji0IC);
+  if($_QLO0f[0] == 0) {
+    $_QLfol = "INSERT INTO `$_I1O0i` SET `id`=1, `ScriptVersion`="._LRAFO($_Ij6Lj);
+    mysql_query($_QLfol, $_QLttI);
+    if(mysql_error($_QLttI) != "") {
+      $_6Cif6 = "SQL error: ".mysql_error($_QLttI);
       return false;
     }
   }
 
-  $_Q8otJ = array (
+  $_I1OoI = array (
         "DashboardDate" => time(),
         "DashboardUser" => trim($_POST["RegName"]),
         "DashboardTag" => trim($_POST["RegNumber"]),
         "UpdateDate" => 0
         );
 
-  $_QJlJ0 = "UPDATE `$_Q88iO` SET `Dashboard`="._OPQLR(serialize($_Q8otJ)).", `ScriptVersion`="._OPQLR($_QoJ8j)." WHERE `id`=1";
-  mysql_query($_QJlJ0, $_Q61I1);
-  if(mysql_error($_Q61I1) != "") {
-    $_JtO0o = "SQL error: ".mysql_error($_Q61I1);
+  $_QLfol = "UPDATE `$_I1O0i` SET `Dashboard`="._LRAFO(serialize($_I1OoI)).", `ScriptVersion`="._LRAFO($_Ij6Lj)." WHERE `id`=1";
+  mysql_query($_QLfol, $_QLttI);
+  if(mysql_error($_QLttI) != "") {
+    $_6Cif6 = "SQL error: ".mysql_error($_QLttI);
     return false;
   }
 
   return true;
  }
 
- function _OFRED($_Jl1J6, $_Jl1tj) {
-   $_JlQji = '';
-   for ($_Q6llo=0; $_Q6llo<strlen($_Jl1tj); $_Q6llo++) {
-     if (preg_match('/[0-9]/', $_Jl1tj{$_Q6llo}))
-        $_JlQji = $_Jl1tj{$_Q6llo}.$_JlQji;
+ function _LFJJE($_fJf8C, $_fJ88Q) {
+   $_6j11L = '';
+   for ($_Qli6J=0; $_Qli6J<strlen($_fJ88Q); $_Qli6J++) {
+     if (preg_match('/[0-9]/', $_fJ88Q[$_Qli6J]))
+        $_6j11L = $_fJ88Q[$_Qli6J].$_6j11L;
    }
-   $_JlQf6 = intval($_Jl1J6{0}) - 1;
-   return substr($_JlQji, $_JlQf6) == substr($_Jl1J6, 1);
+   $_fJ8OL = intval($_fJf8C[0]) - 1;
+   return substr($_6j11L, $_fJ8OL) == substr($_fJf8C, 1);
  }
 
 

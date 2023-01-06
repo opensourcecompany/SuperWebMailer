@@ -20,7 +20,7 @@
 
     function ConfirmDeleteListEvent(value) {
       if(value)
-        document.getElementById('SearchRecipientsForm').submit();
+        $("#SearchRecipientsForm").submit();
         else {
           document.getElementById('OneMailingListAction').value = "";
           document.getElementById('OneMailingListId').value = "";
@@ -35,7 +35,7 @@
 
     function ConfirmListActionEvent(value) {
       if(value)
-        document.getElementById('SearchRecipientsForm').submit();
+        $("#SearchRecipientsForm").submit();
     }
 
     function ConfirmListAction() {
@@ -121,7 +121,7 @@
          			  Seite:&nbsp;
         </td>
         <td style="text-align:right; width:1%; white-space:nowrap; ">
-         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.SearchRecipientsForm.submit()">
+         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="$('#SearchRecipientsForm').submit();">
                 <OPTION:PAGES>
                 <option>1</option>
                 </OPTION:PAGES>
@@ -142,6 +142,7 @@
   CheckboxClicked();
   ShowItem('ListActionSubmitBtn', (document.getElementById('MailingListActions').selectedIndex != 0) && ( document.getElementById('MailingListActions').disabled == false ) ) ;
   DisableItem('MailingListActions', GetCheckedCount('MailingListIDs[]', 'SearchRecipientsForm') > 0 );
+  InsertLoadingStatusOnSubmit();
   //AUTO_SCRIPT_CODE_PLACEHOLDER//
 //-->
 </script>

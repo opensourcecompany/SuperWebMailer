@@ -16,7 +16,7 @@
 /**
  * IMAPProtocol.php holds protocol implementation for IMAP.php
  */
-require_once 'PEAR/IMAPProtocol.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'IMAPProtocol.php';
 
 
 /**
@@ -40,14 +40,16 @@ class Net_IMAP extends Net_IMAPProtocol
      * @param string $host           The server to connect to.
      * @param int    $port           The port to connect to.
      * @param bool   $enableSTARTTLS Enable STARTTLS support
+     * @param int    $timeout        timeout
      * @param string $encoding       Character encoding
      */
     function __construct($host = 'localhost',
                       $port = 143,
                       $enableSTARTTLS = true,
+                      $timeout = 15,
                       $encoding = 'ISO-8859-1')
     {
-        $this->Net_IMAPProtocol();
+        parent::__construct($timeout);
         // M.B. $ret             = $this->connect($host, $port, $enableSTARTTLS);
         $this->_encoding = $encoding;
     }
@@ -55,9 +57,10 @@ class Net_IMAP extends Net_IMAPProtocol
     function Net_IMAP($host = 'localhost',
                       $port = 143,
                       $enableSTARTTLS = true,
+                      $timeout = 15,
                       $encoding = 'ISO-8859-1')
     {
-        self::__construct($host, $port, $enableSTARTTLS, $encoding);
+        self::__construct($host, $port, $enableSTARTTLS, $timeout, $encoding);
      }
 
 

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -33,22 +33,22 @@ class api_Files extends api_base {
 
   // @access private
   // from filemanager.config.php
-  var $_QC8o1 = '.(7z|aiff|asf|avi|bmp|csv|doc|docx|fla|flv|gif|gz|gzip|jpeg|jpg|mid|mov|mp3|mp4|mpc|mpeg|mpg|ods|odt|pdf|png|ppt|pptx|pxd|qt|ram|rar|rm|rmi|rmvb|rtf|sdc|sitd|swf|sxc|sxw|tar|tgz|tif|tiff|txt|vsd|wav|wma|wmv|xls|xlsx|xml|zip)$';
-  var $_QCt11 = '.(jpg|jpeg|gif|png)$';
+  var $_IJttt = '.(7z|aiff|asf|avi|bmp|csv|doc|docx|fla|flv|gif|gz|gzip|jpeg|jpg|mid|mov|mp3|mp4|mpc|mpeg|mpg|ods|odt|pdf|png|ppt|pptx|pxd|qt|ram|rar|rm|rmi|rmvb|rtf|sdc|sitd|swf|sxc|sxw|tar|tgz|tif|tiff|txt|vsd|wav|wma|wmv|xls|xlsx|xml|zip)$';
+  var $_IJtio = '.(jpg|jpeg|gif|png)$';
 
  /**
   * file extension
   *
-  * @param string $_QCttf
-  * @param string $_QCOIO
+  * @param string $_IJOfj
+  * @param string $_IJoJt
   * @return boolean
   * @access private
   */
 
- function _internalCheckFileExtension($_QCttf, $_QCOIO){
-   $_QCOoI = substr( $_QCttf, ( strrpos($_QCttf, '.')  ) ) ;
-   $_QCOoI = strtolower( $_QCOoI ) ;
-   if(!preg_match("/".$_QCOIO."/", $_QCOoI))
+ function _internalCheckFileExtension($_IJOfj, $_IJoJt){
+   $_IJC01 = substr( $_IJOfj, ( strrpos($_IJOfj, '.')  ) ) ;
+   $_IJC01 = strtolower( $_IJC01 ) ;
+   if(!preg_match("/".$_IJoJt."/", $_IJC01))
      return false;
      else
      return true;
@@ -63,29 +63,29 @@ class api_Files extends api_base {
   * @access public
   */
  function api_listImagesByFileName($apiSubdir) {
-   global $_QCo6j;
+   global $_IJi8f, $_QLo06;
 
-   $_QCoLj = $_QCo6j;
+   $_IJL6o = $_IJi8f;
    if(!empty($apiSubdir)) {
      $apiSubdir = str_replace('.', '', $apiSubdir);
-     $_Q6i6i = strpos($apiSubdir, "/");
-     if($_Q6i6i !== false && $_Q6i6i == 0)
+     $_QlOjt = strpos($apiSubdir, "/");
+     if($_QlOjt !== false && $_QlOjt == 0)
        $apiSubdir = substr($apiSubdir, 1);
-     $_QCoLj .= $apiSubdir;
+     $_IJL6o .= $apiSubdir;
    }
 
 
-   $_Q6LIL = array();
-   $_QCC8C = opendir ( _OBLCO($_QCoLj) );
-   while (false !== ($_Q6lfJ = readdir($_QCC8C))) {
-     if (!is_dir( _OBLDR($_QCoLj).$_Q6lfJ) && $_Q6lfJ != "." && $_Q6lfJ != ".." && $_Q6lfJ != "index.php") {
-       $_Q6lfJ = utf8_encode($_Q6lfJ);
-       $_Q6LIL[] = $_Q6lfJ;
+   $_QlooO = array();
+   $_IJljf = opendir ( _LPBCC($_IJL6o) );
+   while (false !== ($_QlCtl = readdir($_IJljf))) {
+     if (!is_dir( _LPC1C($_IJL6o).$_QlCtl) && $_QlCtl != "." && $_QlCtl != ".." && $_QlCtl != "index.php") {
+       $_QlCtl = htmlspecialchars($_QlCtl, ENT_COMPAT, $_QLo06);
+       $_QlooO[] = $_QlCtl;
      }
    }
-   closedir($_QCC8C);
+   closedir($_IJljf);
 
-   return $_Q6LIL;
+   return $_QlooO;
  }
 
  /**
@@ -99,22 +99,22 @@ class api_Files extends api_base {
   * @access public
   */
  function api_removeImageByFileName($apiFileName, $apiSubdir) {
-   global $_QCo6j;
+   global $_IJi8f;
 
-   if(!$this->_internalCheckFileExtension($apiFileName, $this->_QCt11)){
+   if(!$this->_internalCheckFileExtension($apiFileName, $this->_IJtio)){
      return $this->api_Error("Invalid file extension.");
    }
 
-   $_QCoLj = $_QCo6j;
+   $_IJL6o = $_IJi8f;
    if(!empty($apiSubdir)) {
      $apiSubdir = str_replace('.', '', $apiSubdir);
-     $_Q6i6i = strpos($apiSubdir, "/");
-     if($_Q6i6i !== false && $_Q6i6i == 0)
+     $_QlOjt = strpos($apiSubdir, "/");
+     if($_QlOjt !== false && $_QlOjt == 0)
        $apiSubdir = substr($apiSubdir, 1);
-     $_QCoLj .= $apiSubdir;
+     $_IJL6o .= $apiSubdir;
    }
 
-   return unlink(_OBLDR($_QCoLj).$apiFileName);
+   return unlink(_LPC1C($_IJL6o).$apiFileName);
  }
 
  /**
@@ -130,27 +130,27 @@ class api_Files extends api_base {
   * @access public
 	 */
  function api_uploadImage($apiFileName, $apiSubdir, $apiImageContentb64) {
-   global $_QCo6j;
+   global $_IJi8f;
 
-   if(!$this->_internalCheckFileExtension($apiFileName, $this->_QCt11)){
+   if(!$this->_internalCheckFileExtension($apiFileName, $this->_IJtio)){
      return $this->api_Error("Invalid file extension.");
    }
 
-   $_QCoLj = $_QCo6j;
+   $_IJL6o = $_IJi8f;
    if(!empty($apiSubdir)) {
      $apiSubdir = str_replace('.', '', $apiSubdir);
-     $_Q6i6i = strpos($apiSubdir, "/");
-     if($_Q6i6i !== false && $_Q6i6i == 0)
+     $_QlOjt = strpos($apiSubdir, "/");
+     if($_QlOjt !== false && $_QlOjt == 0)
        $apiSubdir = substr($apiSubdir, 1);
-     $_QCoLj .= $apiSubdir;
+     $_IJL6o .= $apiSubdir;
    }
 
-   $_QCioi = fopen(_OBLDR($_QCoLj).$apiFileName, "wb");
-   if($_QCioi === false)
+   $_I60fo = fopen(_LPC1C($_IJL6o).$apiFileName, "wb");
+   if($_I60fo === false)
      return false;
-   if(fwrite($_QCioi, base64_decode($apiImageContentb64)) === false)
+   if(fwrite($_I60fo, base64_decode($apiImageContentb64)) === false)
      return false;
-   fclose($_QCioi);
+   fclose($_I60fo);
    return true;
  }
 
@@ -166,23 +166,23 @@ class api_Files extends api_base {
   * @access public
 	 */
  function api_getImage($apiFileName, $apiSubdir) {
-   global $_QCo6j;
+   global $_IJi8f;
 
-   if(!$this->_internalCheckFileExtension($apiFileName, $this->_QCt11)){
+   if(!$this->_internalCheckFileExtension($apiFileName, $this->_IJtio)){
      return $this->api_Error("Invalid file extension.");
    }
 
-   $_QCoLj = $_QCo6j;
+   $_IJL6o = $_IJi8f;
    if(!empty($apiSubdir)) {
      $apiSubdir = str_replace('.', '', $apiSubdir);
-     $_Q6i6i = strpos($apiSubdir, "/");
-     if($_Q6i6i !== false && $_Q6i6i == 0)
+     $_QlOjt = strpos($apiSubdir, "/");
+     if($_QlOjt !== false && $_QlOjt == 0)
        $apiSubdir = substr($apiSubdir, 1);
-     $_QCoLj .= $apiSubdir;
+     $_IJL6o .= $apiSubdir;
    }
 
-   $_QJCJi = file_get_contents(_OBLDR($_QCoLj).$apiFileName);
-   return base64_encode($_QJCJi);
+   $_QLJfI = file_get_contents(_LPC1C($_IJL6o).$apiFileName);
+   return base64_encode($_QLJfI);
  }
 
  /**
@@ -196,29 +196,29 @@ class api_Files extends api_base {
   * @access public
   */
  function api_listFilesByFileName($apiSubdir) {
-   global $_QOCJo;
+   global $_IIlfi;
 
-   $_QCoLj = $_QOCJo;
+   $_IJL6o = $_IIlfi;
    if(!empty($apiSubdir)) {
      $apiSubdir = str_replace('.', '', $apiSubdir);
-     $_Q6i6i = strpos($apiSubdir, "/");
-     if($_Q6i6i !== false && $_Q6i6i == 0)
+     $_QlOjt = strpos($apiSubdir, "/");
+     if($_QlOjt !== false && $_QlOjt == 0)
        $apiSubdir = substr($apiSubdir, 1);
-     $_QCoLj .= $apiSubdir;
+     $_IJL6o .= $apiSubdir;
    }
 
 
-   $_Q6LIL = array();
-   $_QCC8C = opendir ( _OBLCO($_QCoLj) );
-   while (false !== ($_Q6lfJ = readdir($_QCC8C))) {
-     if (!is_dir( _OBLDR($_QCoLj).$_Q6lfJ) && $_Q6lfJ != "." && $_Q6lfJ != ".." && $_Q6lfJ != "index.php") {
-       $_Q6lfJ = utf8_encode($_Q6lfJ);
-       $_Q6LIL[] = $_Q6lfJ;
+   $_QlooO = array();
+   $_IJljf = opendir ( _LPBCC($_IJL6o) );
+   while (false !== ($_QlCtl = readdir($_IJljf))) {
+     if (!is_dir( _LPC1C($_IJL6o).$_QlCtl) && $_QlCtl != "." && $_QlCtl != ".." && $_QlCtl != "index.php") {
+       $_QlCtl = utf8_encode($_QlCtl);
+       $_QlooO[] = $_QlCtl;
      }
    }
-   closedir($_QCC8C);
+   closedir($_IJljf);
 
-   return $_Q6LIL;
+   return $_QlooO;
  }
 
  /**
@@ -232,22 +232,22 @@ class api_Files extends api_base {
   * @access public
   */
  function api_removeFileByFileName($apiFileName, $apiSubdir) {
-   global $_QOCJo;
+   global $_IIlfi;
 
-   if(!$this->_internalCheckFileExtension($apiFileName, $this->_QC8o1)){
+   if(!$this->_internalCheckFileExtension($apiFileName, $this->_IJttt)){
      return $this->api_Error("Invalid file extension.");
    }
 
-   $_QCoLj = $_QOCJo;
+   $_IJL6o = $_IIlfi;
    if(!empty($apiSubdir)) {
      $apiSubdir = str_replace('.', '', $apiSubdir);
-     $_Q6i6i = strpos($apiSubdir, "/");
-     if($_Q6i6i !== false && $_Q6i6i == 0)
+     $_QlOjt = strpos($apiSubdir, "/");
+     if($_QlOjt !== false && $_QlOjt == 0)
        $apiSubdir = substr($apiSubdir, 1);
-     $_QCoLj .= $apiSubdir;
+     $_IJL6o .= $apiSubdir;
    }
 
-   return unlink(_OBLDR($_QCoLj).$apiFileName);
+   return unlink(_LPC1C($_IJL6o).$apiFileName);
  }
 
  /**
@@ -263,27 +263,27 @@ class api_Files extends api_base {
   * @access public
 	 */
  function api_uploadFile($apiFileName, $apiSubdir, $apiFileContentb64) {
-   global $_QOCJo;
+   global $_IIlfi;
 
-   if(!$this->_internalCheckFileExtension($apiFileName, $this->_QC8o1)){
+   if(!$this->_internalCheckFileExtension($apiFileName, $this->_IJttt)){
      return $this->api_Error("Invalid file extension.");
    }
 
-   $_QCoLj = $_QOCJo;
+   $_IJL6o = $_IIlfi;
    if(!empty($apiSubdir)) {
      $apiSubdir = str_replace('.', '', $apiSubdir);
-     $_Q6i6i = strpos($apiSubdir, "/");
-     if($_Q6i6i !== false && $_Q6i6i == 0)
+     $_QlOjt = strpos($apiSubdir, "/");
+     if($_QlOjt !== false && $_QlOjt == 0)
        $apiSubdir = substr($apiSubdir, 1);
-     $_QCoLj .= $apiSubdir;
+     $_IJL6o .= $apiSubdir;
    }
 
-   $_QCioi = fopen(_OBLDR($_QCoLj).$apiFileName, "wb");
-   if($_QCioi === false)
+   $_I60fo = fopen(_LPC1C($_IJL6o).$apiFileName, "wb");
+   if($_I60fo === false)
      return false;
-   if(fwrite($_QCioi, base64_decode($apiFileContentb64)) === false)
+   if(fwrite($_I60fo, base64_decode($apiFileContentb64)) === false)
      return false;
-   fclose($_QCioi);
+   fclose($_I60fo);
    return true;
  }
 
@@ -299,23 +299,23 @@ class api_Files extends api_base {
   * @access public
 	 */
  function api_getFile($apiFileName, $apiSubdir) {
-   global $_QOCJo;
+   global $_IIlfi;
 
-   if(!$this->_internalCheckFileExtension($apiFileName, $this->_QC8o1)){
+   if(!$this->_internalCheckFileExtension($apiFileName, $this->_IJttt)){
      return $this->api_Error("Invalid file extension.");
    }
 
-   $_QCoLj = $_QOCJo;
+   $_IJL6o = $_IIlfi;
    if(!empty($apiSubdir)) {
      $apiSubdir = str_replace('.', '', $apiSubdir);
-     $_Q6i6i = strpos($apiSubdir, "/");
-     if($_Q6i6i !== false && $_Q6i6i == 0)
+     $_QlOjt = strpos($apiSubdir, "/");
+     if($_QlOjt !== false && $_QlOjt == 0)
        $apiSubdir = substr($apiSubdir, 1);
-     $_QCoLj .= $apiSubdir;
+     $_IJL6o .= $apiSubdir;
    }
 
-   $_QJCJi = file_get_contents(_OBLDR($_QCoLj).$apiFileName);
-   return base64_encode($_QJCJi);
+   $_QLJfI = file_get_contents(_LPC1C($_IJL6o).$apiFileName);
+   return base64_encode($_QLJfI);
  }
 
 

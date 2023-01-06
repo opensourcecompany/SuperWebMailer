@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,305 +26,305 @@
   include_once("recipients_ops.inc.php");
   include_once("dbimporthelper.inc.php");
 
-  function _O6D8Q(&$_j6O8O){
-    global $_Q61I1;
+  function _LL1JL(&$_JIfo0){
+    global $_QLttI;
     global $UserId, $OwnerUserId, $Username, $UserType, $AccountType, $INTERFACE_STYLE, $INTERFACE_THEMESID, $INTERFACE_LANGUAGE;
-    global $resourcestrings, $_Q8f1L, $_Q60QL, $_Q880O, $_QLo0Q;
-    global $_jji0C;
-    global $_I0f8O;
+    global $resourcestrings, $_I18lo, $_QL88I, $_I1tQf, $_Ifi1J;
+    global $_J1t6J;
+    global $_ItfiJ;
 
-    $_j6O8O = "Auto importing recipients starts...<br />";
-    $_j6CCl = 0;
+    $_JIfo0 = "Auto importing recipients starts...<br />";
+    $_JIlit = 0;
 
-    $_QJlJ0 = "SELECT * FROM $_Q8f1L WHERE UserType='Admin' AND IsActive>0";
-    $_Q8to6 = mysql_query($_QJlJ0, $_Q61I1);
-    while($_Q8to6 && $_Q6Q1C = mysql_fetch_assoc($_Q8to6) ) {
-      _OPQ6J();
-      $UserId = $_Q6Q1C["id"];
+    $_QLfol = "SELECT * FROM $_I18lo WHERE UserType='Admin' AND IsActive>0";
+    $_I1OQL = mysql_query($_QLfol, $_QLttI);
+    while($_I1OQL && $_QLO0f = mysql_fetch_assoc($_I1OQL) ) {
+      _LRCOC();
+      $UserId = $_QLO0f["id"];
       $OwnerUserId = 0;
-      $Username = $_Q6Q1C["Username"];
-      $UserType = $_Q6Q1C["UserType"];
-      $AccountType = $_Q6Q1C["AccountType"];
-      $INTERFACE_THEMESID = $_Q6Q1C["ThemesId"];
-      $INTERFACE_LANGUAGE = $_Q6Q1C["Language"];
+      $Username = $_QLO0f["Username"];
+      $UserType = $_QLO0f["UserType"];
+      $AccountType = $_QLO0f["AccountType"];
+      $INTERFACE_THEMESID = $_QLO0f["ThemesId"];
+      $INTERFACE_LANGUAGE = $_QLO0f["Language"];
 
-      _OP10J($INTERFACE_LANGUAGE);
+      _LRPQ6($INTERFACE_LANGUAGE);
 
-      _LQLRQ($INTERFACE_LANGUAGE);
+      _JQRLR($INTERFACE_LANGUAGE);
 
-      $_QJlJ0 = "SELECT Theme FROM $_Q880O WHERE id=$INTERFACE_THEMESID";
-      $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q8OiJ = mysql_fetch_row($_Q8Oj8);
-      $INTERFACE_STYLE = $_Q8OiJ[0];
-      mysql_free_result($_Q8Oj8);
+      $_QLfol = "SELECT Theme FROM $_I1tQf WHERE id=$INTERFACE_THEMESID";
+      $_I1O6j = mysql_query($_QLfol, $_QLttI);
+      $_I1OfI = mysql_fetch_row($_I1O6j);
+      $INTERFACE_STYLE = $_I1OfI[0];
+      mysql_free_result($_I1O6j);
 
-      _OP0D0($_Q6Q1C);
+      _LR8AP($_QLO0f);
 
-      _OP0AF($UserId);
+      _LRRFJ($UserId);
 
-      $_QJlJ0 = "SELECT $_I0f8O.* ";
+      $_QLfol = "SELECT $_ItfiJ.* ";
 
-      $_QJlJ0 .= "FROM $_I0f8O";
+      $_QLfol .= "FROM $_ItfiJ";
 
-      $_QJlJ0 .= " WHERE ($_I0f8O.IsActive=1 AND ";
-      $_QJlJ0 .= " ( (CURRENT_TIME() > $_I0f8O.ImportTime AND IF(LastImportDate <> '0000-00-00 00:00:00', TO_DAYS(NOW()) <> TO_DAYS(LastImportDate), 1) ) OR $_I0f8O.LastImportDone = 0) )";
-      $_QJlJ0 .= " AND ( ";
+      $_QLfol .= " WHERE ($_ItfiJ.IsActive=1 AND ";
+      $_QLfol .= " ( (CURRENT_TIME() > $_ItfiJ.ImportTime AND IF(LastImportDate <> '0000-00-00 00:00:00', TO_DAYS(NOW()) <> TO_DAYS(LastImportDate), 1) ) OR $_ItfiJ.LastImportDone = 0) )";
+      $_QLfol .= " AND ( ";
 
-      $_QJlJ0 .= " ( $_I0f8O.ImportScheduler = 'ImportAtDay' AND ($_I0f8O.ImportDayNames='every day' OR $_I0f8O.ImportDayNames=CAST(WEEKDAY(NOW()) AS CHAR) ) ) ";
+      $_QLfol .= " ( $_ItfiJ.ImportScheduler = 'ImportAtDay' AND ($_ItfiJ.ImportDayNames='every day' OR $_ItfiJ.ImportDayNames=CAST(WEEKDAY(NOW()) AS CHAR) ) ) ";
 
-      $_QJlJ0 .= " OR ";
+      $_QLfol .= " OR ";
 
-      $_QJlJ0 .= " ( $_I0f8O.ImportScheduler = 'ImportOnceAMonth' AND CAST(DAYOFMONTH(NOW()) AS CHAR) = $_I0f8O.ImportMonthDay ) ";
+      $_QLfol .= " ( $_ItfiJ.ImportScheduler = 'ImportOnceAMonth' AND CAST(DAYOFMONTH(NOW()) AS CHAR) = $_ItfiJ.ImportMonthDay ) ";
 
-      $_QJlJ0 .= " OR ";
+      $_QLfol .= " OR ";
 
-      $_QJlJ0 .= " ( $_I0f8O.LastImportDone = 0 ) "; // not completly done
+      $_QLfol .= " ( $_ItfiJ.LastImportDone = 0 ) "; // not completly done
 
-      $_QJlJ0 .= " )";
+      $_QLfol .= " )";
 
-      $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
+      $_I1O6j = mysql_query($_QLfol, $_QLttI);
 
-      if(mysql_error($_Q61I1) != "")
-        $_j6O8O .= "MySQL error while selecting data: ".mysql_error($_Q61I1);
+      if(mysql_error($_QLttI) != "")
+        $_JIfo0 .= "MySQL error while selecting data: ".mysql_error($_QLttI);
 
-      while($_Q8Oj8 && $_Q8OiJ = mysql_fetch_assoc($_Q8Oj8)) {
-         _OPQ6J();
-         $_j6O8O .= "<br /><br />Checking $_Q8OiJ[Name]...";
+      while($_I1O6j && $_I1OfI = mysql_fetch_assoc($_I1O6j)) {
+         _LRCOC();
+         $_JIfo0 .= "<br /><br />Checking $_I1OfI[Name]...";
 
-         $_QJlJ0 = "SELECT * FROM $_Q60QL WHERE id=$_Q8OiJ[maillists_id]";
-         $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-         $_Ql00j = mysql_fetch_assoc($_Q60l1);
-         $_QLI8o = $_Ql00j["FormsTableName"];
-         $FormId = $_Ql00j["forms_id"];
-         mysql_free_result($_Q60l1);
+         $_QLfol = "SELECT * FROM $_QL88I WHERE id=$_I1OfI[maillists_id]";
+         $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+         $_I80Jo = mysql_fetch_assoc($_QL8i1);
+         $_IfJoo = $_I80Jo["FormsTableName"];
+         $FormId = $_I80Jo["forms_id"];
+         mysql_free_result($_QL8i1);
 
-         $_j6ioL = array();
-         if($_Q8OiJ["SendOptInEMail"] ) {
-           $_QJlJ0 = "SELECT $_QLI8o.*, $_QLo0Q.*, $_Q880O.Theme FROM $_QLI8o LEFT JOIN $_QLo0Q ON $_QLo0Q.id=$_QLI8o.messages_id LEFT JOIN $_Q880O ON $_Q880O.id=$_QLI8o.ThemesId WHERE $_QLI8o.id=$FormId";
-           $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-           $_j6ioL = mysql_fetch_assoc($_Q60l1);
-           mysql_free_result($_Q60l1);
-           $_j6ioL["MailingListId"] = $_Ql00j["id"];
-           $_j6ioL["FormId"] = $FormId;
+         $_Jj08l = array();
+         if($_I1OfI["SendOptInEMail"] ) {
+           $_QLfol = "SELECT $_IfJoo.*, $_Ifi1J.*, $_I1tQf.Theme FROM $_IfJoo LEFT JOIN $_Ifi1J ON $_Ifi1J.id=$_IfJoo.messages_id LEFT JOIN $_I1tQf ON $_I1tQf.id=$_IfJoo.ThemesId WHERE $_IfJoo.id=$FormId";
+           $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+           $_Jj08l = mysql_fetch_assoc($_QL8i1);
+           mysql_free_result($_QL8i1);
+           $_Jj08l["MailingListId"] = $_I80Jo["id"];
+           $_Jj08l["FormId"] = $FormId;
          }
 
-         $_j6il6 = 0;
-         if($_Q8OiJ["ImportOption"] == 'ImportCSV') {
-            if($_Q8OiJ["Separator"] == '\t')
-               $_Q8OiJ["Separator"] = "\t";
+         $_Jj1f1 = 0;
+         if($_I1OfI["ImportOption"] == 'ImportCSV') {
+            if($_I1OfI["Separator"] == '\t')
+               $_I1OfI["Separator"] = "\t";
 
-            $_j6LLj = "autoimportfile_errors$_Q8OiJ[id].txt";
-            $_j6ljC = $_jji0C.$_j6LLj;
+            $_JjQjl = "autoimportfile_errors$_I1OfI[id].txt";
+            $_JjIQL = $_J1t6J.$_JjQjl;
 
-            _O6DPE($_Q8OiJ, $_Ql00j, $_j6ioL, $_j6ljC, $_j6O8O, $_j6il6);
-            $_j6O8O .= "<br /><br />$_j6il6 lines processed.";
-            $_j6CCl += $_j6il6;
+            _LL1RJ($_I1OfI, $_I80Jo, $_Jj08l, $_JjIQL, $_JIfo0, $_Jj1f1);
+            $_JIfo0 .= "<br /><br />$_Jj1f1 lines processed.";
+            $_JIlit += $_Jj1f1;
          }
 
-         if($_Q8OiJ["ImportOption"] == 'ImportDB') {
-            if(!empty($_Q8OiJ["SQLServerName"]) && $_Q8OiJ["DBType"] == "MSSQL")
-              $_Q8OiJ["SQLServerName"] = str_replace("/", "\\", $_Q8OiJ["SQLServerName"]);
-            $_j6LLj = "autoimportdb_errors$_Q8OiJ[id].txt";
-            $_j6ljC = $_jji0C.$_j6LLj;
-            _O6DDF($_Q8OiJ, $_Ql00j, $_j6ioL, $_j6ljC, $_j6O8O, $_j6il6);
-            $_j6O8O .= "<br /><br />$_j6il6 records processed.";
-            $_j6CCl += $_j6il6;
+         if($_I1OfI["ImportOption"] == 'ImportDB') {
+            if(!empty($_I1OfI["SQLServerName"]) && $_I1OfI["DBType"] == "MSSQL")
+              $_I1OfI["SQLServerName"] = str_replace("/", "\\", $_I1OfI["SQLServerName"]);
+            $_JjQjl = "autoimportdb_errors$_I1OfI[id].txt";
+            $_JjIQL = $_J1t6J.$_JjQjl;
+            _LL1P0($_I1OfI, $_I80Jo, $_Jj08l, $_JjIQL, $_JIfo0, $_Jj1f1);
+            $_JIfo0 .= "<br /><br />$_Jj1f1 records processed.";
+            $_JIlit += $_Jj1f1;
          }
 
 
       }
 
 
-      mysql_free_result($_Q8Oj8);
+      mysql_free_result($_I1O6j);
     }
-    if($_Q8to6)
-      mysql_free_result($_Q8to6);
+    if($_I1OQL)
+      mysql_free_result($_I1OQL);
 
 
-    $_j6O8O .= "<br /><br />Auto importing done.";
-    if($_j6CCl)
+    $_JIfo0 .= "<br /><br />Auto importing done.";
+    if($_JIlit)
       return true;
       else
       return -1;
   }
 
-  function _O6DPE($_jf00Q, $_Ql00j, $_jf0ii, $_j6ljC, &$_j6O8O, &$_j6il6){
-    global $_Q61I1;
-    global $resourcestrings, $INTERFACE_LANGUAGE;
-    global $_I0f8O, $_I0lQJ;
-    global $_QlQC8, $_QlIf6, $_QLI68, $_QljIQ, $_Qljli, $MailingListId;
+  function _LL1RJ($_JjI8O, $_I80Jo, $_Jjjf6, $_JjIQL, &$_JIfo0, &$_Jj1f1){
+    global $_QLttI;
+    global $resourcestrings, $INTERFACE_LANGUAGE, $_QLo06;
+    global $_ItfiJ, $_ItL8f;
+    global $_I8I6o, $_I8jjj, $_IfJ66, $_I8jLt, $_I8Jti, $MailingListId;
 
-    $_j6il6 = 0;
-    $_j6ioL = $_jf0ii;
-    $_jf0il = 0;
+    $_Jj1f1 = 0;
+    $_Jj08l = $_Jjjf6;
+    $_JjJJl = 0;
 
-    $_jf1jt = $_Ql00j["MaillistTableName"];
-    $_QlIf6 = $_Ql00j["StatisticsTableName"];
-    $_Q6t6j = $_Ql00j["GroupsTableName"];
-    $_QLI8o = $_Ql00j["FormsTableName"];
-    $_QLI68 = $_Ql00j["MailListToGroupsTableName"];
-    $FormId = $_Ql00j["forms_id"];
-    $_ItCCo = $_Ql00j["LocalBlocklistTableName"];
-    $_jf1J1 = $_Ql00j["LocalDomainBlocklistTableName"];
+    $_Jj6jC = $_I80Jo["MaillistTableName"];
+    $_I8jjj = $_I80Jo["StatisticsTableName"];
+    $_QljJi = $_I80Jo["GroupsTableName"];
+    $_IfJoo = $_I80Jo["FormsTableName"];
+    $_IfJ66 = $_I80Jo["MailListToGroupsTableName"];
+    $FormId = $_I80Jo["forms_id"];
+    $_jjj8f = $_I80Jo["LocalBlocklistTableName"];
+    $_Jj6f0 = $_I80Jo["LocalDomainBlocklistTableName"];
 
-    $_QlQC8 = $_Ql00j["MaillistTableName"];
-    $MailingListId = $_Ql00j["id"];
-    $_QljIQ = $_Ql00j["MailLogTableName"];
-    $_Qljli = $_Ql00j["EditTableName"];
+    $_I8I6o = $_I80Jo["MaillistTableName"];
+    $MailingListId = $_I80Jo["id"];
+    $_I8jLt = $_I80Jo["MailLogTableName"];
+    $_I8Jti = $_I80Jo["EditTableName"];
 
-    if($_jf00Q["LastImportDone"]){
-       $_jf00Q["LastRowCount"] = 0;
-       $_jf00Q["LastImportRowCount"] = 0;
-       $_jf00Q["LastStartPosition"] = 0;
-       $_jf00Q["LastFilePosition"] = 0;
-       $_jf00Q["LastTablePosition"] = 0;
-       $_jf00Q["LastImportDone"] = 0;
-       $_jf00Q["IsMacFile"] = 0;
-       $_jf00Q["LastImportRemoveMode"] = 0;
+    if($_JjI8O["LastImportDone"]){
+       $_JjI8O["LastRowCount"] = 0;
+       $_JjI8O["LastImportRowCount"] = 0;
+       $_JjI8O["LastStartPosition"] = 0;
+       $_JjI8O["LastFilePosition"] = 0;
+       $_JjI8O["LastTablePosition"] = 0;
+       $_JjI8O["LastImportDone"] = 0;
+       $_JjI8O["IsMacFile"] = 0;
+       $_JjI8O["LastImportRemoveMode"] = 0;
 
-       $_Q6lfJ = fopen($_I0lQJ.$_jf00Q["ImportFilename"], "r");
-       if(!$_Q6lfJ){
-         $_j6O8O .= "<br />Can't open file ".$_I0lQJ.$_jf00Q["ImportFilename"];
+       $_QlCtl = fopen($_ItL8f.$_JjI8O["ImportFilename"], "r");
+       if(!$_QlCtl){
+         $_JIfo0 .= "<br />Can't open file ".$_ItL8f.$_JjI8O["ImportFilename"];
          return false;
        }
-       $_QL8Q8 = "";
+       $_Ift08 = "";
        // mac file?
-       $_I1816 = 0;
-       while (!feof($_Q6lfJ)) {
-         $_QL8Q8 = fgetc($_Q6lfJ);
-         if($_QL8Q8 == chr(10) || $_QL8Q8 == chr(13)) {
+       $_IO88Q = 0;
+       while (!feof($_QlCtl)) {
+         $_Ift08 = fgetc($_QlCtl);
+         if($_Ift08 == chr(10) || $_Ift08 == chr(13)) {
 
-           $_I18I0 = chr(10);
-           if(!feof($_Q6lfJ))
-             $_I18I0 = fgetc($_Q6lfJ);
+           $_IOtfO = chr(10);
+           if(!feof($_QlCtl))
+             $_IOtfO = fgetc($_QlCtl);
 
-           if($_QL8Q8 == chr(13) && $_I18I0 != chr(10)) {
-             $_I1816 = 1;
+           if($_Ift08 == chr(13) && $_IOtfO != chr(10)) {
+             $_IO88Q = 1;
            }
            break;
          }
        }
-       fclose($_Q6lfJ);
-       $_jf00Q["IsMacFile"] = $_I1816;
+       fclose($_QlCtl);
+       $_JjI8O["IsMacFile"] = $_IO88Q;
 
-       if($_jf00Q["RemoveAllRecipients"])
-        $_jf00Q["LastImportRemoveMode"] = 1;
+       if($_JjI8O["RemoveAllRecipients"])
+        $_JjI8O["LastImportRemoveMode"] = 1;
 
 
-       $_QJlJ0 = "UPDATE $_I0f8O SET LastImportDate=NOW(), LastImportDone=$_jf00Q[LastImportDone], LastImportRemoveMode=$_jf00Q[LastImportRemoveMode], IsMacFile=$_jf00Q[IsMacFile], LastRowCount=$_jf00Q[LastRowCount], LastImportRowCount=$_jf00Q[LastImportRowCount], LastStartPosition=$_jf00Q[LastStartPosition], LastFilePosition=$_jf00Q[LastFilePosition], LastTablePosition=$_jf00Q[LastTablePosition]";
-       $_QJlJ0 .= " WHERE id=$_jf00Q[id]";
-       mysql_query($_QJlJ0, $_Q61I1);
+       $_QLfol = "UPDATE $_ItfiJ SET LastImportDate=NOW(), LastImportDone=$_JjI8O[LastImportDone], LastImportRemoveMode=$_JjI8O[LastImportRemoveMode], IsMacFile=$_JjI8O[IsMacFile], LastRowCount=$_JjI8O[LastRowCount], LastImportRowCount=$_JjI8O[LastImportRowCount], LastStartPosition=$_JjI8O[LastStartPosition], LastFilePosition=$_JjI8O[LastFilePosition], LastTablePosition=$_JjI8O[LastTablePosition]";
+       $_QLfol .= " WHERE id=$_JjI8O[id]";
+       mysql_query($_QLfol, $_QLttI);
     }
 
 
-    if($_jf00Q["LastImportRemoveMode"]){
-      _OPQ6J();
+    if($_JjI8O["LastImportRemoveMode"]){
+      _LRCOC();
 
-      $_j6O8O .= "<br />Removing recipients...";
+      $_JIfo0 .= "<br />Removing recipients...";
 
       while(true){
-        $_QJlJ0 = "SELECT `id` FROM `$_jf1jt` LIMIT 0, 50";
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        $_QltCO = array();
-        $_QtIiC = array();
-        while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-         $_QltCO[] = $_Q6Q1C["id"];
+        $_QLfol = "SELECT `id` FROM `$_Jj6jC` LIMIT 0, 50";
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        $_I8oIJ = array();
+        $_IQ0Cj = array();
+        while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+         $_I8oIJ[] = $_QLO0f["id"];
         }
-        mysql_free_result($_Q60l1);
-        if(count($_QltCO)){
-         _OPQ6J();
-         _L10CL($_QltCO, $_QtIiC);
-         if(count($_QtIiC)){
-            $_j6O8O .= "<br />".join("<br />", $_QtIiC);
+        mysql_free_result($_QL8i1);
+        if(count($_I8oIJ)){
+         _LRCOC();
+         _J1OQP($_I8oIJ, $_IQ0Cj);
+         if(count($_IQ0Cj)){
+            $_JIfo0 .= "<br />".join("<br />", $_IQ0Cj);
             return false;
            }
         } else{
-          $_j6O8O .= "<br />Removing recipients done.";
-          $_jf00Q["LastImportRemoveMode"] = 0;
-          $_QJlJ0 = "UPDATE `$_I0f8O` SET `LastImportRemoveMode`=$_jf00Q[LastImportRemoveMode]";
-          $_QJlJ0 .= " WHERE `id`=$_jf00Q[id]";
-          mysql_query($_QJlJ0, $_Q61I1);
+          $_JIfo0 .= "<br />Removing recipients done.";
+          $_JjI8O["LastImportRemoveMode"] = 0;
+          $_QLfol = "UPDATE `$_ItfiJ` SET `LastImportRemoveMode`=$_JjI8O[LastImportRemoveMode]";
+          $_QLfol .= " WHERE `id`=$_JjI8O[id]";
+          mysql_query($_QLfol, $_QLttI);
           break;
         }
       }
     }
 
-    if($_jf00Q["IsMacFile"])
+    if($_JjI8O["IsMacFile"])
        ini_set('auto_detect_line_endings', TRUE);
 
-    $_jf1Lf = _LQDLR("ECGListCheck");
-    $_jf0il = 0;
+    $_Jj68f = _JOLQE("ECGListCheck");
+    $_JjJJl = 0;
 
-    $_QCC8C = fopen($_I0lQJ.$_jf00Q["ImportFilename"], "r");
-    $_QLjff = fstat($_QCC8C);
-    $_Q6i6i = 0;
+    $_IJljf = fopen($_ItL8f.$_JjI8O["ImportFilename"], "r");
+    $_If61l = fstat($_IJljf);
+    $_QlOjt = 0;
 
     // spring zur fileposition
-    if($_jf00Q["LastFilePosition"] != 0) {
-        if($_jf00Q["CreateErrorLog"]){
-          $_jf0il = @fopen($_j6ljC, "a");
+    if($_JjI8O["LastFilePosition"] != 0) {
+        if($_JjI8O["CreateErrorLog"]){
+          $_JjJJl = @fopen($_JjIQL, "a");
         }
 
-        if($_jf00Q["LastFilePosition"] != 0)
-           fseek($_QCC8C, $_jf00Q["LastFilePosition"]);
+        if($_JjI8O["LastFilePosition"] != 0)
+           fseek($_IJljf, $_JjI8O["LastFilePosition"]);
 
         // sind wir fertig?
-        if($_jf00Q["LastFilePosition"] == -1 || feof($_QCC8C) || ftell($_QCC8C) >= $_QLjff["size"] ) {
-          fclose($_QCC8C);
-          if( $_jf00Q["RemoveFile"] ) {
-            if( !@unlink($_I0lQJ.$_jf00Q["ImportFilename"]) ) {
-               $_j6O8O .= "<br />Can'remove file ".$_I0lQJ.$_jf00Q["ImportFilename"];
+        if($_JjI8O["LastFilePosition"] == -1 || feof($_IJljf) || ftell($_IJljf) >= $_If61l["size"] ) {
+          fclose($_IJljf);
+          if( $_JjI8O["RemoveFile"] ) {
+            if( !@unlink($_ItL8f.$_JjI8O["ImportFilename"]) ) {
+               $_JIfo0 .= "<br />Can'remove file ".$_ItL8f.$_JjI8O["ImportFilename"];
             }
           }
 
-          $_QJlJ0 = "UPDATE $_I0f8O SET LastImportDone=1";
-          $_QJlJ0 .= " WHERE id=$_jf00Q[id]";
-          mysql_query($_QJlJ0, $_Q61I1);
+          $_QLfol = "UPDATE $_ItfiJ SET LastImportDone=1";
+          $_QLfol .= " WHERE id=$_JjI8O[id]";
+          mysql_query($_QLfol, $_QLttI);
 
-          $_j6O8O .= "<br /><br />Importing file $_I0lQJ$_jf00Q[ImportFilename] done.";
+          $_JIfo0 .= "<br /><br />Importing file $_ItL8f$_JjI8O[ImportFilename] done.";
 
           return true;
         }
 
       }
       else { // noch nie angefasst
-        if($_jf00Q["CreateErrorLog"]){
-          $_jf0il = @fopen($_j6ljC, "w");
+        if($_JjI8O["CreateErrorLog"]){
+          $_JjJJl = @fopen($_JjIQL, "w");
         }
 
         // UTF8 BOM test
-        $_I1O0j = 'ï»¿';
-        $_IJ1QJ = fread($_QCC8C, strlen($_I1O0j));
-        if($_IJ1QJ != $_I1O0j)
-          fseek($_QCC8C, 0);
+        $_IOC1j = 'ï»¿';
+        $_IiLOj = fread($_IJljf, strlen($_IOC1j));
+        if($_IiLOj != $_IOC1j)
+          fseek($_IJljf, 0);
 
         // Zeile 1 weg?
-        $_Q6i6i = 0;
-        if($_jf00Q["Header1Line"]) {
-           $_IJ1QJ = fgets($_QCC8C, 4096);
-           $_Q6i6i = 1;
+        $_QlOjt = 0;
+        if($_JjI8O["Header1Line"]) {
+           $_IiLOj = fgets($_IJljf, 4096);
+           $_QlOjt = 1;
         }
       }
 
-    if($_jf00Q["LastStartPosition"] == 0 ) {
-      $_IJQQI = $_Q6i6i;
+    if($_JjI8O["LastStartPosition"] == 0 ) {
+      $_Iil6i = $_QlOjt;
     } else {
-      $_IJQQI = $_jf00Q["LastStartPosition"];
+      $_Iil6i = $_JjI8O["LastStartPosition"];
     }
 
-    $_I16jJ = $_jf00Q["fields"];
-    if(!is_array($_I16jJ)) {
-       $_I16jJ = @unserialize($_I16jJ);
-       if($_I16jJ === false)
-         $_I16jJ = array();
+    $_IOJoI = $_JjI8O["fields"];
+    if(!is_array($_IOJoI)) {
+       $_IOJoI = @unserialize($_IOJoI);
+       if($_IOJoI === false)
+         $_IOJoI = array();
     }
 
-    _OPQ6J();
+    _LRCOC();
 
     // hier liest er die Zeilen
-    for($_Q6llo=$_IJQQI; ($_Q6llo<$_IJQQI + $_jf00Q["ImportLines"]) && !feof($_QCC8C); $_Q6llo++) {
+    for($_Qli6J=$_Iil6i; ($_Qli6J<$_Iil6i + $_JjI8O["ImportLines"]) && !feof($_IJljf); $_Qli6J++) {
 
-      $_j6il6++;
+      $_Jj1f1++;
       // reset errros
       if(isset($errors) && count($errors) > 0) {
         unset($errors);
@@ -332,615 +332,635 @@
       if( !isset($errors) )
         $errors = array();
 
-      if(isset($_Ql1O8) && count($_Ql1O8) > 0) {
-        unset($_Ql1O8);
-        $_Ql1O8 = array();
+      if(isset($_I816i) && count($_I816i) > 0) {
+        unset($_I816i);
+        $_I816i = array();
       }
-      if( !isset($_Ql1O8) )
-        $_Ql1O8 = array();
+      if( !isset($_I816i) )
+        $_I816i = array();
       //
 
-      _OPQ6J();
-      $_jf00Q["LastRowCount"]++;
-      $_IJ1QJ = fgets($_QCC8C, 4096);
+      _LRCOC();
+      $_JjI8O["LastRowCount"]++;
+      $_IiLOj = fgets($_IJljf, 4096);
       // UTF8?
-      if ( !$_jf00Q["IsUTF8"] ) {
-         $_QfoQo = utf8_encode($_IJ1QJ);
-         if($_QfoQo != "")
-           $_IJ1QJ = $_QfoQo;
+      if ( !$_JjI8O["IsUTF8"] ) {
+         $_I0Clj = utf8_encode($_IiLOj);
+         if($_I0Clj != "")
+           $_IiLOj = $_I0Clj;
       }
 
-      $_Qf1i1 = explode($_jf00Q["Separator"], $_IJ1QJ);
+      $_I0QjQ = explode($_JjI8O["Separator"], $_IiLOj);
 
-      $_jfQio = array();
-      if( $_jf00Q["GroupsOption"] == 2 ) {
-        if($_jf00Q["ImportGroupField"] < count($_Qf1i1)) {
-           $_jfQio = $_Qf1i1[$_jf00Q["ImportGroupField"]];
-           $_jfQLi = ",";
-           if($_jf00Q["Separator"] == ",")
-             $_jfQLi = ";";
-           $_jfQio = explode($_jfQLi, $_jfQio);
-           for($_jfI01=0; $_jfI01<count($_jfQio); $_jfI01++)
-             $_jfQio[$_jfI01] = str_replace(",", "", $_jfQio[$_jfI01]);
+      $_Jj6L1 = array();
+      if( $_JjI8O["GroupsOption"] == 2 ) {
+        if($_JjI8O["ImportGroupField"] < count($_I0QjQ)) {
+           $_Jj6L1 = $_I0QjQ[$_JjI8O["ImportGroupField"]];
+           if($_JjI8O["RemoveQuotes"]) {
+             $_Jj6L1 = str_replace('"', '', $_Jj6L1);
+             $_Jj6L1 = str_replace("\'", '', $_Jj6L1);
+             $_Jj6L1 = str_replace("`", '', $_Jj6L1);
+             $_Jj6L1 = str_replace("´", '', $_Jj6L1);
+           }
+           if($_JjI8O["RemoveSpaces"]) {
+            $_Jj6L1 = trim($_Jj6L1);
+           }
+           $_Jjf0J = ",";
+           if($_JjI8O["Separator"] == ",")
+             $_Jjf0J = ";";
+           $_Jj6L1 = explode($_Jjf0J, $_Jj6L1);
+           for($_JjfO0=0; $_JjfO0<count($_Jj6L1); $_JjfO0++)
+             $_Jj6L1[$_JjfO0] = str_replace(",", "", $_Jj6L1[$_JjfO0]);
         }
       }
 
-      $_QJlJ0 = "INSERT IGNORE INTO $_jf1jt SET DateOfSubscription=NOW()";
+      $_QLfol = "INSERT IGNORE INTO $_Jj6jC SET DateOfSubscription=NOW()";
 
-      $_jfIfl = false;
-      $_jfI81 = "";
-      if($_jf00Q["SendOptInEMail"]) {
-        $_jfI81 = "'OptInConfirmationPending'";
-        $_QJlJ0 .= ", SubscriptionStatus=$_jfI81";
-        $_jfIfl = true;
+      $_JjfiL = false;
+      $_Jj8iQ = "";
+      if($_JjI8O["SendOptInEMail"]) {
+        $_Jj8iQ = "'OptInConfirmationPending'";
+        $_QLfol .= ", SubscriptionStatus=$_Jj8iQ";
+        $_JjfiL = true;
         }
         else {
-          $_jfI81 = "'Subscribed'";
-          $_QJlJ0 .= ", SubscriptionStatus=$_jfI81, DateOfOptInConfirmation=NOW(), IPOnSubscription='".$resourcestrings[$INTERFACE_LANGUAGE]["000047"]."'";
+          $_Jj8iQ = "'Subscribed'";
+          $_QLfol .= ", SubscriptionStatus=$_Jj8iQ, DateOfOptInConfirmation=NOW(), IPOnSubscription='".$resourcestrings[$INTERFACE_LANGUAGE]["000047"]."'";
         }
 
-      reset($_I16jJ);
-      $_jfIi1 = "";
-      $_ILQL0 = array();
-      foreach($_I16jJ as $_I1i8O => $_IJQOL) {
-        if($_IJQOL < 0) {continue;}
-        if(is_array($_IJQOL) ){
+      reset($_IOJoI);
+      $_Jj8lt = "";
+      $_jtiJJ = array();
+      foreach($_IOJoI as $_IOLil => $_Iiloo) {
+        if($_Iiloo < 0) {continue;}
+        if(is_array($_Iiloo) ){
           continue;
          }
-        if($_IJQOL < count($_Qf1i1))
-           $_I1L81 = $_Qf1i1[$_IJQOL];
+        if($_Iiloo < count($_I0QjQ))
+           $_IOCjL = $_I0QjQ[$_Iiloo];
            else
-           $_I1L81 = "";
-        if($_jf00Q["RemoveQuotes"]) {
-          $_I1L81 = str_replace('"', '', $_I1L81);
-          $_I1L81 = str_replace("\'", '', $_I1L81);
-          $_I1L81 = str_replace("`", '', $_I1L81);
-          $_I1L81 = str_replace("´", '', $_I1L81);
+           $_IOCjL = "";
+        if($_JjI8O["RemoveQuotes"]) {
+          $_IOCjL = str_replace('"', '', $_IOCjL);
+          $_IOCjL = str_replace("\'", '', $_IOCjL);
+          $_IOCjL = str_replace("`", '', $_IOCjL);
+          $_IOCjL = str_replace("´", '', $_IOCjL);
         }
-        if($_jf00Q["RemoveSpaces"]) {
-          $_I1L81 = trim($_I1L81);
+        if($_JjI8O["RemoveSpaces"]) {
+          $_IOCjL = trim($_IOCjL);
         }
-        if(isset($_I16jJ[$_I1i8O]) && $_I1L81 != -1) {
-          if($_I1i8O == "u_EMailFormat") {
-            $_I1L81 = trim($_I1L81);
-            if($_I1L81 != 'HTML' && $_I1L81 != 'PlainText' && $_I1L81 != 'Text')
-              $_I1L81 = 'HTML';
+        if(isset($_IOJoI[$_IOLil]) && $_IOCjL != -1) {
+          if($_IOLil == "u_EMailFormat") {
+            $_IOCjL = trim($_IOCjL);
+            if($_IOCjL != 'HTML' && $_IOCjL != 'PlainText' && $_IOCjL != 'Text')
+              $_IOCjL = 'HTML';
               else
-              if($_I1L81 == 'PlainText' || $_I1L81 == 'Text')
-                $_I1L81 = 'PlainText';
-          } // if($_I1i8O == "u_EMailFormat")
-          if($_I1i8O == "u_Gender") {
-            $_I1L81 = strtolower($_I1L81);
-            $_I1L81 = trim($_I1L81);
-            if($_I1L81 != "m" && $_I1L81 != "w") {
-              $_I1L81 = substr($_I1L81, 0, 1);
-              if($_I1L81 == "f") // female
-                $_I1L81 = "w";
-              if($_I1L81 != "m" && $_I1L81 != "w") {
-                if($_I1L81 == "0")
-                   $_I1L81 = "m";
+              if($_IOCjL == 'PlainText' || $_IOCjL == 'Text')
+                $_IOCjL = 'PlainText';
+          } // if($_IOLil == "u_EMailFormat")
+          if($_IOLil == "u_Gender") {
+            $_IOCjL = strtolower($_IOCjL);
+            $_IOCjL = trim($_IOCjL);
+            if($_IOCjL != "m" && $_IOCjL != "w") {
+              $_IOCjL = substr($_IOCjL, 0, 1);
+              if($_IOCjL == "f") // female
+                $_IOCjL = "w";
+              if($_IOCjL != "m" && $_IOCjL != "w") {
+                if($_IOCjL == "0")
+                   $_IOCjL = "m";
                    else
-                   if($_I1L81 == "1")
-                      $_I1L81 = "w";
+                   if($_IOCjL == "1")
+                      $_IOCjL = "w";
                       else
-                       $_I1L81 = 'undefined';
+                       $_IOCjL = 'undefined';
               }
             }
-          } // if($_I1i8O == "u_Gender")
-          if($_I1i8O == "u_Birthday") {
-            $_I1L81 = trim($_I1L81);
-            if($_jf00Q["BirthdayDateFormat"] == "dd.mm.yyyy") {
-              $_Io01I = explode(".", $_I1L81);
-              while(count($_Io01I) < 3)
-                 $_Io01I[] = "f";
-              $_IOJ8I = $_Io01I[0];
-              $_Io0t6 = $_Io01I[1];
-              $_Io0l8 = $_Io01I[2];
+          } // if($_IOLil == "u_Gender")
+          if($_IOLil == "u_Birthday") {
+            $_IOCjL = trim($_IOCjL);
+            if($_JjI8O["BirthdayDateFormat"] == "dd.mm.yyyy") {
+              $_jJQOo = explode(".", $_IOCjL);
+              while(count($_jJQOo) < 3)
+                 $_jJQOo[] = "f";
+              $_jjOlo = $_jJQOo[0];
+              $_jJIft = $_jJQOo[1];
+              $_jJjQi = $_jJQOo[2];
             } else
-              if($_jf00Q["BirthdayDateFormat"] == "yyyy-mm-dd") {
-               $_Io01I = explode("-", $_I1L81);
-               while(count($_Io01I) < 3)
-                  $_Io01I[] = "f";
-               $_IOJ8I = $_Io01I[2];
-               $_Io0t6 = $_Io01I[1];
-               $_Io0l8 = $_Io01I[0];
+              if($_JjI8O["BirthdayDateFormat"] == "yyyy-mm-dd") {
+               $_jJQOo = explode("-", $_IOCjL);
+               while(count($_jJQOo) < 3)
+                  $_jJQOo[] = "f";
+               $_jjOlo = $_jJQOo[2];
+               $_jJIft = $_jJQOo[1];
+               $_jJjQi = $_jJQOo[0];
               } else
-                if($_jf00Q["BirthdayDateFormat"] == "mm-dd-yyyy") {
-                  $_Io01I = explode("-", $_I1L81);
-                  while(count($_Io01I) < 3)
-                     $_Io01I[] = "f";
-                  $_IOJ8I = $_Io01I[1];
-                  $_Io0t6 = $_Io01I[0];
-                  $_Io0l8 = $_Io01I[2];
+                if($_JjI8O["BirthdayDateFormat"] == "mm-dd-yyyy") {
+                  $_jJQOo = explode("-", $_IOCjL);
+                  while(count($_jJQOo) < 3)
+                     $_jJQOo[] = "f";
+                  $_jjOlo = $_jJQOo[1];
+                  $_jJIft = $_jJQOo[0];
+                  $_jJjQi = $_jJQOo[2];
                 }
 
-            if(strlen($_Io0l8) == 2)
-              $_Io0l8 = "19".$_Io0l8;
+            if(strlen($_jJjQi) == 2)
+              $_jJjQi = "19".$_jJjQi;
             if( ! (
-                (intval($_IOJ8I) > 0 && intval($_IOJ8I) < 32) &&
-                (intval($_Io0t6) > 0 && intval($_Io0t6) < 13)
+                (intval($_jjOlo) > 0 && intval($_jjOlo) < 32) &&
+                (intval($_jJIft) > 0 && intval($_jJIft) < 13)
                   )
               ) // error in date
-              $_I1L81 = "0000-00-00";
+              $_IOCjL = "0000-00-00";
               else
-              $_I1L81 = "$_Io0l8-$_Io0t6-$_IOJ8I";
+              $_IOCjL = "$_jJjQi-$_jJIft-$_jjOlo";
 
-          } // if($_I1i8O == "u_Birthday")
+          } // if($_IOLil == "u_Birthday")
 
           // integer
           if(
-             $_I1i8O == "u_UserFieldInt1" ||
-             $_I1i8O == "u_UserFieldInt2" ||
-             $_I1i8O == "u_UserFieldInt3"
+             $_IOLil == "u_UserFieldInt1" ||
+             $_IOLil == "u_UserFieldInt2" ||
+             $_IOLil == "u_UserFieldInt3"
             )
-              $_I1L81 = intval($_I1L81);
+              $_IOCjL = intval($_IOCjL);
 
           // boolean
           if(
-             $_I1i8O == "u_UserFieldBool1" ||
-             $_I1i8O == "u_UserFieldBool2" ||
-             $_I1i8O == "u_UserFieldBool3"
+             $_IOLil == "u_UserFieldBool1" ||
+             $_IOLil == "u_UserFieldBool2" ||
+             $_IOLil == "u_UserFieldBool3" ||
+             $_IOLil == "u_PersonalizedTracking"
             ) {
-              $_I1L81 = strtolower($_I1L81);
-              if($_I1L81 == "true")
-                $_I1L81 = 1;
-                if($_I1L81 == "false")
-                   $_I1L81 = 0;
-              $_I1L81 = intval($_I1L81);
-              if($_I1L81 < 0) $_I1L81 = 0;
-              if($_I1L81 > 0) $_I1L81 = 1;
+              $_IOCjL = strtolower($_IOCjL);
+              if($_IOCjL == "true")
+                $_IOCjL = 1;
+                if($_IOCjL == "false")
+                   $_IOCjL = 0;
+              $_IOCjL = intval($_IOCjL);
+              if($_IOCjL < 0) $_IOCjL = 0;
+              if($_IOCjL > 0) $_IOCjL = 1;
             }
 
           # no empty email addresses
-          if($_I1i8O == "u_EMail" && (trim($_I1L81) == "" || !_OPAOJ($_I1L81)) ) {
-            $_QJlJ0 = "";
-            _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressIncorrect"], $_I1L81), $_jf00Q, $_jf0il);
+          if($_IOLil == "u_EMail" && (trim($_IOCjL) == "" || !_L8JEL($_IOCjL)) ) {
+            $_QLfol = "";
+            _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressIncorrect"], $_IOCjL), $_JjI8O, $_JjJJl);
             break;
           } else {
-            if( $_I1i8O == "u_EMail" )
-              $_jfIi1 = $_I1L81;
+            if( $_IOLil == "u_EMail" ){
+              $_IOCjL = _L86JE($_IOCjL);
+              $_Jj8lt = $_IOCjL;
+            }  
           }
 
           if(!defined("ALLOWHTMLCODEINSUBUNSUBFORM")){
-            $_ILQL0[] = " `$_I1i8O`="._OPQLR(htmlspecialchars($_I1L81, ENT_COMPAT, 'UTF-8'));
+            $_jtiJJ[] = " `$_IOLil`="._LRAFO(htmlspecialchars($_IOCjL, ENT_COMPAT, $_QLo06, false));
           } else {
-            $_ILQL0[] = " `$_I1i8O`="._OPQLR($_I1L81);
+            $_jtiJJ[] = " `$_IOLil`="._LRAFO($_IOCjL);
           }
         }
-      } // foreach($_I16jJ as $_I1i8O => $_I1L81)
+      } // foreach($_IOJoI as $_IOLil => $_IOCjL)
 
-      if($_QJlJ0 != "" && $_jfIi1 == "") {
-         _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorNoEMailAddress"], $_jfIi1), $_jf00Q, $_jf0il);
-         $_QJlJ0 = "";
+      if($_QLfol != "" && $_Jj8lt == "") {
+         _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorNoEMailAddress"], $_Jj8lt), $_JjI8O, $_JjJJl);
+         $_QLfol = "";
       }
 
-      if($_QJlJ0 != "")
-        $_QJlJ0 .= ", ".join(", ", $_ILQL0);
+      if($_QLfol != "")
+        $_QLfol .= ", ".join(", ", $_jtiJJ);
 
-      $_jfIl8 = false;
-      if($_QJlJ0 != "") {
+      $_JjtC8 = false;
+      if($_QLfol != "") {
 
-        $_jfjC6 = substr($_jfIi1, strpos($_jfIi1, '@') + 1);
-        _OPQ6J();
+        $_JjOjI = substr($_Jj8lt, strpos($_Jj8lt, '@') + 1);
+        _LRCOC();
 
-        if(_L0FRD($_jfIi1)) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInGlobalBlockList"], $_jfIi1), $_jf00Q, $_jf0il);
+        if(_J18DA($_Jj8lt)) {
+          $_JjtC8 = true;
+          _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInGlobalBlockList"], $_Jj8lt), $_JjI8O, $_JjJJl);
         }
 
-        if(!$_jfIl8 && _L101P($_jfIi1, $_jf00Q["maillists_id"], $_ItCCo)) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInLocalBlockList"], $_jfIi1), $_jf00Q, $_jf0il );
+        if(!$_JjtC8 && _J18FQ($_Jj8lt, $_JjI8O["maillists_id"], $_jjj8f)) {
+          $_JjtC8 = true;
+          _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInLocalBlockList"], $_Jj8lt), $_JjI8O, $_JjJJl );
         }
 
-        if(!$_jfIl8 && _L1ROL($_jfjC6)) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInGlobalDomainBlockList"], $_jfIi1), $_jf00Q, $_jf0il );
+        if(!$_JjtC8 && _J1PQO($_JjOjI)) {
+          $_JjtC8 = true;
+          _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInGlobalDomainBlockList"], $_Jj8lt), $_JjI8O, $_JjJJl );
         }
 
-        if(!$_jfIl8 && _L1RDP($_jfjC6, $_jf00Q["maillists_id"], $_jf1J1)) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInLocalDomainBlockList"], $_jfIi1), $_jf00Q, $_jf0il );
+        if(!$_JjtC8 && _J1P6D($_JjOjI, $_JjI8O["maillists_id"], $_Jj6f0)) {
+          $_JjtC8 = true;
+          _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInLocalDomainBlockList"], $_Jj8lt), $_JjI8O, $_JjJJl );
         }
 
-        if(!$_jfIl8 && ($_jf1Lf && _OC0DR($_jfIi1)) ) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInECGList"], $_jfIi1), $_jf00Q, $_jf0il );
+        if(!$_JjtC8 && $_Jj68f ) {
+          $_I016j = _L6AJP($_Jj8lt);
+          $_JjtC8 = (is_bool($_I016j) && $_I016j);
+          if($_JjtC8)
+            _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInECGList"], $_Jj8lt), $_JjI8O, $_JjJJl );
         }
 
       }
 
-      _OPQ6J();
-      if($_jfIl8 && !$_jf00Q["ImportBlockedRecipients"])
-        $_QJlJ0 = "";
+      _LRCOC();
+      if($_JjtC8 && !$_JjI8O["ImportBlockedRecipients"])
+        $_QLfol = "";
 
-      if($_QJlJ0 != "") {
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        $_QJCJi = mysql_error($_Q61I1);
-        if($_QJCJi != "")
-          $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-        if($_jf00Q["CreateErrorLog"] && $_jf0il && mysql_affected_rows($_Q61I1) == 0){
-           _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorDuplicateEntry"], $_jfIi1), $_jf00Q, $_jf0il );
+      if($_QLfol != "") {
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        $_QLJfI = mysql_error($_QLttI);
+        if($_QLJfI != "")
+          $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+        if($_JjI8O["CreateErrorLog"] && $_JjJJl && mysql_affected_rows($_QLttI) == 0){
+           _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorDuplicateEntry"], $_Jj8lt), $_JjI8O, $_JjJJl );
         }
       }
 
-      _OPQ6J();
-      if($_QJlJ0 != "" && mysql_affected_rows($_Q61I1) > 0 ) {
-        $_jf00Q["LastImportRowCount"]++;
+      _LRCOC();
+      if($_QLfol != "" && mysql_affected_rows($_QLttI) > 0 ) {
+        $_JjI8O["LastImportRowCount"]++;
 
         // statistics
-        $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-        $_Q6Q1C=mysql_fetch_array($_Q60l1);
-        $_QLitI = $_Q6Q1C[0];
-        mysql_free_result($_Q60l1);
+        $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+        $_QLO0f=mysql_fetch_array($_QL8i1);
+        $_IfLJj = $_QLO0f[0];
+        mysql_free_result($_QL8i1);
 
-        $_QJlJ0 = "INSERT INTO $_QlIf6 SET ActionDate=NOW(), Action=$_jfI81, Member_id=$_QLitI";
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        $_QJCJi = mysql_error($_Q61I1);
-        if($_QJCJi != "")
-          $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
+        $_QLfol = "INSERT INTO $_I8jjj SET ActionDate=NOW(), Action=$_Jj8iQ, Member_id=$_IfLJj";
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        $_QLJfI = mysql_error($_QLttI);
+        if($_QLJfI != "")
+          $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
 
         // **** apply groups_id to member_id START
-        if( $_jf00Q["GroupsOption"] == 3 && $_jf00Q["groups_id"] > 0 ) {
-          $_QJlJ0 = "INSERT INTO $_QLI68 SET groups_id=$_jf00Q[groups_id], Member_id=$_QLitI";
-          $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-          $_QJCJi = mysql_error($_Q61I1);
-          if($_QJCJi != "")
-            $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
+        if( $_JjI8O["GroupsOption"] == 3 && $_JjI8O["groups_id"] > 0 ) {
+          $_QLfol = "INSERT INTO $_IfJ66 SET groups_id=$_JjI8O[groups_id], Member_id=$_IfLJj";
+          $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+          $_QLJfI = mysql_error($_QLttI);
+          if($_QLJfI != "")
+            $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
         }
         // **** apply groups_id to member_id END
 
         // **** import groups names and create it if not exists START
-        if( $_jf00Q["GroupsOption"] == 2 && count($_jfQio) > 0 ) {
-          for($_jfJj0 = 0; $_jfJj0<count($_jfQio); $_jfJj0++) {
-            if(trim($_jfQio[$_jfJj0]) == "") continue;
+        if( $_JjI8O["GroupsOption"] == 2 && count($_Jj6L1) > 0 ) {
+          for($_JjOfi = 0; $_JjOfi<count($_Jj6L1); $_JjOfi++) {
+            if(trim($_Jj6L1[$_JjOfi]) == "") continue;
 
-            $_QJlJ0 = "INSERT IGNORE INTO $_Q6t6j SET CreateDate=NOW(), Name="._OPQLR(trim($_jfQio[$_jfJj0]));
-            $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-            $_QJCJi = mysql_error($_Q61I1);
-            if($_QJCJi != "")
-              $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-            if(mysql_affected_rows($_Q61I1) > 0 ) {
-              $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-              $_Q6Q1C=mysql_fetch_array($_Q60l1);
-              $_I1JQt = $_Q6Q1C[0];
-              mysql_free_result($_Q60l1);
+            $_QLfol = "INSERT IGNORE INTO $_QljJi SET CreateDate=NOW(), Name="._LRAFO(trim($_Jj6L1[$_JjOfi]));
+            $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+            $_QLJfI = mysql_error($_QLttI);
+            if($_QLJfI != "")
+              $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+            if(mysql_affected_rows($_QLttI) > 0 ) {
+              $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+              $_QLO0f=mysql_fetch_array($_QL8i1);
+              $_IOjji = $_QLO0f[0];
+              mysql_free_result($_QL8i1);
             } else {
-              $_QJlJ0 = "SELECT id FROM $_Q6t6j WHERE Name="._OPQLR(trim($_jfQio[$_jfJj0]));
-              $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-              $_QJCJi = mysql_error($_Q61I1);
-              if($_QJCJi != "")
-                $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-              $_I1JQt = 0;
-              if($_Q60l1) {
-                 $_Q6Q1C=mysql_fetch_array($_Q60l1);
-                 $_I1JQt = $_Q6Q1C[0];
-                 mysql_free_result($_Q60l1);
+              $_QLfol = "SELECT id FROM $_QljJi WHERE Name="._LRAFO(trim($_Jj6L1[$_JjOfi]));
+              $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+              $_QLJfI = mysql_error($_QLttI);
+              if($_QLJfI != "")
+                $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+              $_IOjji = 0;
+              if($_QL8i1) {
+                 $_QLO0f=mysql_fetch_array($_QL8i1);
+                 $_IOjji = $_QLO0f[0];
+                 mysql_free_result($_QL8i1);
               }
             }
 
-            if($_I1JQt != 0) {
-              $_QJlJ0 = "INSERT INTO $_QLI68 SET groups_id=$_I1JQt, Member_id=$_QLitI";
-              $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-              $_QJCJi = mysql_error($_Q61I1);
-              if($_QJCJi != "")
-                $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
+            if($_IOjji != 0) {
+              $_QLfol = "INSERT INTO $_IfJ66 SET groups_id=$_IOjji, Member_id=$_IfLJj";
+              $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+              $_QLJfI = mysql_error($_QLttI);
+              if($_QLJfI != "")
+                $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
             }
           }
 
-          $_jfQio = array();
+          $_Jj6L1 = array();
         }
         // **** import groups names and create it if not exists END
 
-        if($_jfIfl && $_jfIi1 != "" && !$_jfIl8) {
-          _OPQ6J();
-          _L0RLJ("subscribeconfirm", $_QLitI, $_Ql00j, $_j6ioL, $errors, $_Ql1O8);
-          if(count($_Ql1O8) > 0)
-             $_j6O8O .= "<br />Error while sending opt in email ".join(" ", $_Ql1O8);
-          _OPQ6J();
+        if($_JjfiL && $_Jj8lt != "" && !$_JjtC8) {
+          _LRCOC();
+          _J0LAA("subscribeconfirm", $_IfLJj, $_I80Jo, $_Jj08l, $errors, $_I816i);
+          if(count($_I816i) > 0)
+             $_JIfo0 .= "<br />Error while sending opt in email ".join(" ", $_I816i);
+          _LRCOC();
         }
 
-      } // if(mysql_affected_rows($_Q61I1) > 0 )
+      } // if(mysql_affected_rows($_QLttI) > 0 )
         else
-        if($_QJlJ0 != "" && $_jf00Q["GroupsOption"] > 0 && $_jf00Q["ExImportOption"] != 2 ) { // member exists, add to groups or update
+        if($_QLfol != "" && $_JjI8O["GroupsOption"] > 0 && $_JjI8O["ExImportOption"] != 2 ) { // member exists, add to groups or update
 
-          $_QJlJ0 = "SELECT id FROM $_jf1jt WHERE u_EMail="._OPQLR($_jfIi1);
-          $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-          $_QJCJi = mysql_error($_Q61I1);
-          if($_QJCJi != "")
-            $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-          if(mysql_num_rows($_Q60l1) > 0) {
-            $_Q6Q1C=mysql_fetch_array($_Q60l1);
-            mysql_free_result($_Q60l1);
-            $_QLitI = $_Q6Q1C["id"];
+          $_QLfol = "SELECT id FROM $_Jj6jC WHERE u_EMail="._LRAFO($_Jj8lt);
+          $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+          $_QLJfI = mysql_error($_QLttI);
+          if($_QLJfI != "")
+            $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+          if(mysql_num_rows($_QL8i1) > 0) {
+            $_QLO0f=mysql_fetch_array($_QL8i1);
+            mysql_free_result($_QL8i1);
+            $_IfLJj = $_QLO0f["id"];
 
             # Remove from all groups
-            if($_jf00Q["RemoveRecipientFromGroups"])
-              _L1LLB(array($_QLitI), $_jf00Q["maillists_id"], $_QLI68);
+            if($_JjI8O["RemoveRecipientFromGroups"])
+              _J1JFE(array($_IfLJj), $_JjI8O["maillists_id"], $_IfJ66);
 
-            if($_jf00Q["ExImportOption"] == 3){
+            if($_JjI8O["ExImportOption"] == 3){
               // Update recipient
               // no empty values
-              for($_Q6llo=0; $_Q6llo<count($_ILQL0); $_Q6llo++){
-                if(strpos($_ILQL0[$_Q6llo], '""') !== false || strpos($_ILQL0[$_Q6llo], '"0000-00-00"') !== false) {
-                  unset($_ILQL0[$_Q6llo]);
+              for($_Qli6J=0; $_Qli6J<count($_jtiJJ); $_Qli6J++){
+                if(strpos($_jtiJJ[$_Qli6J], '""') !== false || strpos($_jtiJJ[$_Qli6J], '"0000-00-00"') !== false) {
+                  unset($_jtiJJ[$_Qli6J]);
                 }
               }
 
-              $_QJlJ0 = "UPDATE $_jf1jt SET ".join(", ", $_ILQL0)." WHERE id=$_QLitI";
-              mysql_query($_QJlJ0, $_Q61I1);
-              $_QJCJi = mysql_error($_Q61I1);
-              if($_QJCJi != "")
-                $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
+              $_QLfol = "UPDATE $_Jj6jC SET ".join(", ", $_jtiJJ)." WHERE id=$_IfLJj";
+              mysql_query($_QLfol, $_QLttI);
+              $_QLJfI = mysql_error($_QLttI);
+              if($_QLJfI != "")
+                $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
             }
 
             // **** apply groups_id to member_id START
-            if( $_jf00Q["GroupsOption"] == 3 && $_jf00Q["groups_id"] > 0 ) {
-              $_QJlJ0 = "SELECT * FROM $_QLI68 WHERE groups_id=$_jf00Q[groups_id] AND Member_id=$_QLitI";
-              $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-              if(mysql_num_rows($_Q60l1) == 0) {
-                if($_Q60l1)
-                  mysql_free_result($_Q60l1);
-                $_QJlJ0 = "INSERT INTO $_QLI68 SET groups_id=$_jf00Q[groups_id], Member_id=$_QLitI";
-                $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-                $_QJCJi = mysql_error($_Q61I1);
-                if($_QJCJi != "")
-                  $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-                $_jf00Q["LastImportRowCount"]++;
+            if( $_JjI8O["GroupsOption"] == 3 && $_JjI8O["groups_id"] > 0 ) {
+              $_QLfol = "SELECT * FROM $_IfJ66 WHERE groups_id=$_JjI8O[groups_id] AND Member_id=$_IfLJj";
+              $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+              if(mysql_num_rows($_QL8i1) == 0) {
+                if($_QL8i1)
+                  mysql_free_result($_QL8i1);
+                $_QLfol = "INSERT INTO $_IfJ66 SET groups_id=$_JjI8O[groups_id], Member_id=$_IfLJj";
+                $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+                $_QLJfI = mysql_error($_QLttI);
+                if($_QLJfI != "")
+                  $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+                $_JjI8O["LastImportRowCount"]++;
               } else
-                if($_Q60l1)
-                  mysql_free_result($_Q60l1);
+                if($_QL8i1)
+                  mysql_free_result($_QL8i1);
             }
            // **** apply groups_id to member_id END
 
            // **** import groups names and create it if not exists START
-           if( $_jf00Q["GroupsOption"] == 2 && isset($_jfQio) && count($_jfQio) > 0 ) {
-             for($_jfJj0=0; $_jfJj0<count($_jfQio); $_jfJj0++) {
-               if(trim($_jfQio[$_jfJj0]) == "") continue;
+           if( $_JjI8O["GroupsOption"] == 2 && isset($_Jj6L1) && count($_Jj6L1) > 0 ) {
+             for($_JjOfi=0; $_JjOfi<count($_Jj6L1); $_JjOfi++) {
+               if(trim($_Jj6L1[$_JjOfi]) == "") continue;
 
-               $_QJlJ0 = "INSERT IGNORE INTO $_Q6t6j SET CreateDate=NOW(), Name="._OPQLR(trim($_jfQio[$_jfJj0]));
-               $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-               $_QJCJi = mysql_error($_Q61I1);
-               if($_QJCJi != "")
-                 $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-               if(mysql_affected_rows($_Q61I1) > 0 ) {
-                 $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-                 $_Q6Q1C=mysql_fetch_array($_Q60l1);
-                 $_I1JQt = $_Q6Q1C[0];
-                 mysql_free_result($_Q60l1);
+               $_QLfol = "INSERT IGNORE INTO $_QljJi SET CreateDate=NOW(), Name="._LRAFO(trim($_Jj6L1[$_JjOfi]));
+               $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+               $_QLJfI = mysql_error($_QLttI);
+               if($_QLJfI != "")
+                 $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+               if(mysql_affected_rows($_QLttI) > 0 ) {
+                 $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+                 $_QLO0f=mysql_fetch_array($_QL8i1);
+                 $_IOjji = $_QLO0f[0];
+                 mysql_free_result($_QL8i1);
                } else {
-                 $_QJlJ0 = "SELECT id FROM $_Q6t6j WHERE Name="._OPQLR(trim($_jfQio[$_jfJj0]));
-                 $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-                 $_QJCJi = mysql_error($_Q61I1);
-                 if($_QJCJi != "")
-                   $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-                 $_I1JQt = 0;
-                 if($_Q60l1) {
-                    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-                    $_I1JQt = $_Q6Q1C[0];
-                    mysql_free_result($_Q60l1);
+                 $_QLfol = "SELECT id FROM $_QljJi WHERE Name="._LRAFO(trim($_Jj6L1[$_JjOfi]));
+                 $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+                 $_QLJfI = mysql_error($_QLttI);
+                 if($_QLJfI != "")
+                   $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+                 $_IOjji = 0;
+                 if($_QL8i1) {
+                    $_QLO0f=mysql_fetch_array($_QL8i1);
+                    $_IOjji = $_QLO0f[0];
+                    mysql_free_result($_QL8i1);
                  }
                }
 
-               if($_I1JQt != 0) {
-                 $_QJlJ0 = "SELECT * FROM $_QLI68 WHERE groups_id=$_I1JQt AND Member_id=$_QLitI";
-                 $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-                 if(mysql_num_rows($_Q60l1) == 0) {
-                   if($_Q60l1)
-                     mysql_free_result($_Q60l1);
-                   $_QJlJ0 = "INSERT INTO $_QLI68 SET groups_id=$_I1JQt, Member_id=$_QLitI";
-                   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-                   $_QJCJi = mysql_error($_Q61I1);
-                   if($_QJCJi != "")
-                     $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-                   $_jf00Q["LastImportRowCount"]++;
+               if($_IOjji != 0) {
+                 $_QLfol = "SELECT * FROM $_IfJ66 WHERE groups_id=$_IOjji AND Member_id=$_IfLJj";
+                 $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+                 if(mysql_num_rows($_QL8i1) == 0) {
+                   if($_QL8i1)
+                     mysql_free_result($_QL8i1);
+                   $_QLfol = "INSERT INTO $_IfJ66 SET groups_id=$_IOjji, Member_id=$_IfLJj";
+                   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+                   $_QLJfI = mysql_error($_QLttI);
+                   if($_QLJfI != "")
+                     $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+                   $_JjI8O["LastImportRowCount"]++;
                  } else
-                   if($_Q60l1)
-                     mysql_free_result($_Q60l1);
+                   if($_QL8i1)
+                     mysql_free_result($_QL8i1);
                }
              }
-             $_jfQio = array();
+             $_Jj6L1 = array();
            }
            // **** import groups names and create it if not exists END
 
-          } # if(mysql_num_rows($_Q60l1) > 0)
+          } # if(mysql_num_rows($_QL8i1) > 0)
 
-        } // if($_QJlJ0 != "" && $_jf00Q["GroupsOption"] > 0 && $_jf00Q["ExImportOption"] != 2 )
+        } // if($_QLfol != "" && $_JjI8O["GroupsOption"] > 0 && $_JjI8O["ExImportOption"] != 2 )
 
-        _OPQ6J();
-        $_jf00Q["LastStartPosition"] = $_Q6llo;
-        $_jf00Q["LastFilePosition"] = ftell($_QCC8C);
-        if(feof($_QCC8C)) {
-          $_jf00Q["LastFilePosition"] = -1;
+        _LRCOC();
+        $_JjI8O["LastStartPosition"] = $_Qli6J;
+        $_JjI8O["LastFilePosition"] = ftell($_IJljf);
+        if(feof($_IJljf)) {
+          $_JjI8O["LastFilePosition"] = -1;
         }
 
-        $_QJlJ0 = "UPDATE $_I0f8O SET LastRowCount=$_jf00Q[LastRowCount], LastImportRowCount=$_jf00Q[LastImportRowCount], LastStartPosition=$_jf00Q[LastStartPosition], LastFilePosition=$_jf00Q[LastFilePosition]";
-        $_QJlJ0 .= " WHERE id=$_jf00Q[id]";
-        mysql_query($_QJlJ0, $_Q61I1);
+        $_QLfol = "UPDATE $_ItfiJ SET LastRowCount=$_JjI8O[LastRowCount], LastImportRowCount=$_JjI8O[LastImportRowCount], LastStartPosition=$_JjI8O[LastStartPosition], LastFilePosition=$_JjI8O[LastFilePosition]";
+        $_QLfol .= " WHERE id=$_JjI8O[id]";
+        mysql_query($_QLfol, $_QLttI);
 
-    } # for($_Q6llo=$_IJQQI; ($_Q6llo<$_IJQQI + $_jf00Q["ImportLines"]) && !feof($_QCC8C); $_Q6llo++)
+    } # for($_Qli6J=$_Iil6i; ($_Qli6J<$_Iil6i + $_JjI8O["ImportLines"]) && !feof($_IJljf); $_Qli6J++)
 
-    fclose($_QCC8C);
+    fclose($_IJljf);
 
-    if(!empty($_jf00Q["CreateErrorLog"]) && $_jf0il){
-      fclose($_jf0il);
+    if(!empty($_JjI8O["CreateErrorLog"]) && $_JjJJl){
+      fclose($_JjJJl);
     }
 
     return true;
   }
 
 
-  function _O6DDF($_jf00Q, $_Ql00j, $_jf0ii, $_j6ljC, &$_j6O8O, &$_j6il6){
-    global $_Q61I1;
-    global $resourcestrings, $INTERFACE_LANGUAGE;
-    global $_I0f8O, $_I0lQJ;
-    global $_QlQC8, $_QlIf6, $_QLI68, $_QljIQ, $_Qljli, $MailingListId;
+  function _LL1P0($_JjI8O, $_I80Jo, $_Jjjf6, $_JjIQL, &$_JIfo0, &$_Jj1f1){
+    global $_QLttI;
+    global $resourcestrings, $INTERFACE_LANGUAGE, $_QLo06;
+    global $_ItfiJ, $_ItL8f;
+    global $_I8I6o, $_I8jjj, $_IfJ66, $_I8jLt, $_I8Jti, $MailingListId;
 
-    $_j6il6 = 0;
+    $_Jj1f1 = 0;
 
-    $_j6ioL = $_jf0ii;
-    $_jf0il = 0;
+    $_Jj08l = $_Jjjf6;
+    $_JjJJl = 0;
 
-    $_jf1jt = $_Ql00j["MaillistTableName"];
-    $_QlIf6 = $_Ql00j["StatisticsTableName"];
-    $_Q6t6j = $_Ql00j["GroupsTableName"];
-    $_QLI8o = $_Ql00j["FormsTableName"];
-    $_QLI68 = $_Ql00j["MailListToGroupsTableName"];
-    $FormId = $_Ql00j["forms_id"];
-    $_ItCCo = $_Ql00j["LocalBlocklistTableName"];
-    $_jf1J1 = $_Ql00j["LocalDomainBlocklistTableName"];
+    $_Jj6jC = $_I80Jo["MaillistTableName"];
+    $_I8jjj = $_I80Jo["StatisticsTableName"];
+    $_QljJi = $_I80Jo["GroupsTableName"];
+    $_IfJoo = $_I80Jo["FormsTableName"];
+    $_IfJ66 = $_I80Jo["MailListToGroupsTableName"];
+    $FormId = $_I80Jo["forms_id"];
+    $_jjj8f = $_I80Jo["LocalBlocklistTableName"];
+    $_Jj6f0 = $_I80Jo["LocalDomainBlocklistTableName"];
 
-    $_QlQC8 = $_Ql00j["MaillistTableName"];
-    $MailingListId = $_Ql00j["id"];
-    $_QljIQ = $_Ql00j["MailLogTableName"];
-    $_Qljli = $_Ql00j["EditTableName"];
+    $_I8I6o = $_I80Jo["MaillistTableName"];
+    $MailingListId = $_I80Jo["id"];
+    $_I8jLt = $_I80Jo["MailLogTableName"];
+    $_I8Jti = $_I80Jo["EditTableName"];
 
-    if($_jf00Q["LastImportDone"]){
-       $_jf00Q["LastRowCount"] = 0;
-       $_jf00Q["LastImportRowCount"] = 0;
-       $_jf00Q["LastStartPosition"] = 0;
-       $_jf00Q["LastFilePosition"] = 0;
-       $_jf00Q["LastTablePosition"] = 0;
-       $_jf00Q["LastImportDone"] = 0;
-       $_jf00Q["IsMacFile"] = 0;
-       $_jf00Q["LastImportRemoveMode"] = 0;
+    if($_JjI8O["LastImportDone"]){
+       $_JjI8O["LastRowCount"] = 0;
+       $_JjI8O["LastImportRowCount"] = 0;
+       $_JjI8O["LastStartPosition"] = 0;
+       $_JjI8O["LastFilePosition"] = 0;
+       $_JjI8O["LastTablePosition"] = 0;
+       $_JjI8O["LastImportDone"] = 0;
+       $_JjI8O["IsMacFile"] = 0;
+       $_JjI8O["LastImportRemoveMode"] = 0;
 
-       if($_jf00Q["RemoveAllRecipients"])
-        $_jf00Q["LastImportRemoveMode"] = 1;
+       if($_JjI8O["RemoveAllRecipients"])
+        $_JjI8O["LastImportRemoveMode"] = 1;
 
-       $_QJlJ0 = "UPDATE $_I0f8O SET LastImportDate=NOW(), LastImportDone=$_jf00Q[LastImportDone], LastImportRemoveMode=$_jf00Q[LastImportRemoveMode], IsMacFile=$_jf00Q[IsMacFile], LastRowCount=$_jf00Q[LastRowCount], LastImportRowCount=$_jf00Q[LastImportRowCount], LastStartPosition=$_jf00Q[LastStartPosition], LastFilePosition=$_jf00Q[LastFilePosition], LastTablePosition=$_jf00Q[LastTablePosition]";
-       $_QJlJ0 .= " WHERE id=$_jf00Q[id]";
-       mysql_query($_QJlJ0, $_Q61I1);
+       $_QLfol = "UPDATE $_ItfiJ SET LastImportDate=NOW(), LastImportDone=$_JjI8O[LastImportDone], LastImportRemoveMode=$_JjI8O[LastImportRemoveMode], IsMacFile=$_JjI8O[IsMacFile], LastRowCount=$_JjI8O[LastRowCount], LastImportRowCount=$_JjI8O[LastImportRowCount], LastStartPosition=$_JjI8O[LastStartPosition], LastFilePosition=$_JjI8O[LastFilePosition], LastTablePosition=$_JjI8O[LastTablePosition]";
+       $_QLfol .= " WHERE id=$_JjI8O[id]";
+       mysql_query($_QLfol, $_QLttI);
     }
 
-    if($_jf00Q["LastImportRemoveMode"]){
-      _OPQ6J();
+    if($_JjI8O["LastImportRemoveMode"]){
+      _LRCOC();
 
-      $_j6O8O .= "<br />Removing recipients...";
+      $_JIfo0 .= "<br />Removing recipients...";
 
       while(true){
-        $_QJlJ0 = "SELECT `id` FROM `$_jf1jt` LIMIT 0, 50";
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        $_QltCO = array();
-        $_QtIiC = array();
-        while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-         $_QltCO[] = $_Q6Q1C["id"];
+        $_QLfol = "SELECT `id` FROM `$_Jj6jC` LIMIT 0, 50";
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        $_I8oIJ = array();
+        $_IQ0Cj = array();
+        while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+         $_I8oIJ[] = $_QLO0f["id"];
         }
-        mysql_free_result($_Q60l1);
-        if(count($_QltCO)){
-         _OPQ6J();
-         _L10CL($_QltCO, $_QtIiC);
-         if(count($_QtIiC)){
-            $_j6O8O .= "<br />".join("<br />", $_QtIiC);
+        mysql_free_result($_QL8i1);
+        if(count($_I8oIJ)){
+         _LRCOC();
+         _J1OQP($_I8oIJ, $_IQ0Cj);
+         if(count($_IQ0Cj)){
+            $_JIfo0 .= "<br />".join("<br />", $_IQ0Cj);
             return false;
            }
         } else{
-          $_j6O8O .= "<br />Removing recipients done.";
-          $_jf00Q["LastImportRemoveMode"] = 0;
-          $_QJlJ0 = "UPDATE `$_I0f8O` SET `LastImportRemoveMode`=$_jf00Q[LastImportRemoveMode]";
-          $_QJlJ0 .= " WHERE `id`=$_jf00Q[id]";
-          mysql_query($_QJlJ0, $_Q61I1);
+          $_JIfo0 .= "<br />Removing recipients done.";
+          $_JjI8O["LastImportRemoveMode"] = 0;
+          $_QLfol = "UPDATE `$_ItfiJ` SET `LastImportRemoveMode`=$_JjI8O[LastImportRemoveMode]";
+          $_QLfol .= " WHERE `id`=$_JjI8O[id]";
+          mysql_query($_QLfol, $_QLttI);
           break;
         }
       }
     }
 
-    $_jf1Lf = _LQDLR("ECGListCheck");
+    $_Jj68f = _JOLQE("ECGListCheck");
 
-    $_Q6i6i = 0;
+    $_QlOjt = 0;
 
-    $_I0600 = "";
-    if($_jf00Q["DBType"] == "MSSQL" && !function_exists("mssql_connect")){
-       $_j6O8O .= "<br /><br />Error: MS SQL server support not installed.";
+    $_Itfj8 = "";
+    if($_JjI8O["DBType"] == "MSSQL" && !function_exists("mssql_connect")){
+       $_JIfo0 .= "<br /><br />Error: MS SQL server support not installed.";
        return false;
     }
-    $_I0i1t = _OODBQ($_jf00Q, $errors, $_I0600, $_jf00Q["DBType"], $_jf00Q["IsUTF8"]);
+    $_ItCCj = _L0COO($_JjI8O, $errors, $_Itfj8, $_JjI8O["DBType"], $_JjI8O["IsUTF8"]);
 
-    if(!$_I0i1t){
-       $_j6O8O .= "<br /><br />Error while connecting to database ".$_I0600;
-       mysql_select_db (MySQLDBName, $_Q61I1);
+    if(!$_ItCCj){
+       $_JIfo0 .= "<br /><br />Error while connecting to database ".$_Itfj8;
+       mysql_select_db (MySQLDBName, $_QLttI);
        return false;
     }
 
-    if($_jf00Q["SQLExtImport"] != 2){
-      $_QJlJ0 = "SELECT COUNT(*) FROM $_jf00Q[SQLTableName]";
-      $_Q60l1 = db_query($_QJlJ0, $_I0i1t, $_jf00Q["DBType"]);
-      $_QLjff = db_fetch_row($_Q60l1, $_jf00Q["DBType"]);
-      db_free_result($_Q60l1, $_jf00Q["DBType"]);
-      $_QLjff = $_QLjff[0];
+    if($_JjI8O["SQLExtImport"] != 2){
+      if($_JjI8O["DBType"] == "MYSQL")
+        $_QLfol = "SELECT COUNT(*) FROM `$_JjI8O[SQLTableName]`";
+        else
+        $_QLfol = "SELECT COUNT(*) FROM $_JjI8O[SQLTableName]";
+      $_QL8i1 = db_query($_QLfol, $_ItCCj, $_JjI8O["DBType"]);
+      $_If61l = db_fetch_row($_QL8i1, $_JjI8O["DBType"]);
+      db_free_result($_QL8i1, $_JjI8O["DBType"]);
+      $_If61l = $_If61l[0];
     } else{
-      $_QJlJ0 = $_jf00Q["SQLImportSQLQuery"];
-      $_Q60l1 = db_query($_QJlJ0, $_I0i1t, $_jf00Q["DBType"]);
-      $_QLjff = db_num_rows($_Q60l1, $_jf00Q["DBType"]);
-      db_free_result($_Q60l1, $_jf00Q["DBType"]);
+      $_QLfol = $_JjI8O["SQLImportSQLQuery"];
+      $_QL8i1 = db_query($_QLfol, $_ItCCj, $_JjI8O["DBType"]);
+      $_If61l = db_num_rows($_QL8i1, $_JjI8O["DBType"]);
+      db_free_result($_QL8i1, $_JjI8O["DBType"]);
     }
-    $_jf00Q["LastRowCount"] = $_QLjff;
+    $_JjI8O["LastRowCount"] = $_If61l;
 
-    $_QJlJ0 = "SELECT * FROM $_jf00Q[SQLTableName]";
-    if($_jf00Q["SQLExtImport"] == 2)
-      $_QJlJ0 = $_jf00Q["SQLImportSQLQuery"];
+    if($_JjI8O["DBType"] == "MYSQL")
+      $_QLfol = "SELECT * FROM `$_JjI8O[SQLTableName]`";
+      else
+      $_QLfol = "SELECT * FROM $_JjI8O[SQLTableName]";
+    if($_JjI8O["SQLExtImport"] == 2)
+      $_QLfol = $_JjI8O["SQLImportSQLQuery"];
 
-    $_jfJ8L = db_query($_QJlJ0, $_I0i1t, $_jf00Q["DBType"]);
+    $_JjOL0 = db_query($_QLfol, $_ItCCj, $_JjI8O["DBType"]);
 
-    $_jf6jf = false;
+    $_JjoiC = false;
     // spring zur fileposition
-    if($_jf00Q["LastTablePosition"] != 0) {
-        if($_jf00Q["CreateErrorLog"]){
-          $_jf0il = @fopen($_j6ljC, "a");
+    if($_JjI8O["LastTablePosition"] != 0) {
+        if($_JjI8O["CreateErrorLog"]){
+          $_JjJJl = @fopen($_JjIQL, "a");
         }
 
-        if($_jf00Q["LastTablePosition"] != 0) {
-          $_jf6jf = !@db_data_seek($_jfJ8L, $_jf00Q["LastTablePosition"], $_jf00Q["DBType"]);
+        if($_JjI8O["LastTablePosition"] > 0) {
+          $_JjoiC = !@db_data_seek($_JjOL0, $_JjI8O["LastTablePosition"], $_JjI8O["DBType"]);
         }
 
         // sind wir fertig?
-        if($_jf00Q["LastTablePosition"] == -1 || $_jf6jf  ) {
-          if($_I0i1t != $_Q61I1) {
-            db_close($_I0i1t, $_jf00Q["DBType"]);
+        if($_JjI8O["LastTablePosition"] == -1 || $_JjoiC  ) {
+          if($_ItCCj != $_QLttI) {
+            db_close($_ItCCj, $_JjI8O["DBType"]);
           } else{
-            mysql_select_db (MySQLDBName, $_Q61I1);
+            mysql_select_db (MySQLDBName, $_QLttI);
           }
 
-          $_QJlJ0 = "UPDATE $_I0f8O SET LastImportDone=1";
-          $_QJlJ0 .= " WHERE id=$_jf00Q[id]";
-          mysql_query($_QJlJ0, $_Q61I1);
+          $_QLfol = "UPDATE $_ItfiJ SET LastImportDone=1";
+          $_QLfol .= " WHERE id=$_JjI8O[id]";
+          mysql_query($_QLfol, $_QLttI);
 
-          $_j6O8O .= "<br /><br />Importing from database done.";
+          $_JIfo0 .= "<br /><br />Importing from database done.";
 
           return true;
         }
 
       }
       else { // noch nie angefasst
-        if($_jf00Q["CreateErrorLog"]){
-          $_jf0il = @fopen($_j6ljC, "w");
+        if($_JjI8O["CreateErrorLog"]){
+          $_JjJJl = @fopen($_JjIQL, "w");
         }
-        $_Q6i6i = 0;
-        $_jf00Q["LastTablePosition"] = 0;
+        $_QlOjt = 0;
+        $_JjI8O["LastTablePosition"] = 0;
       }
 
 
-    if($_jf00Q["LastStartPosition"] == 0 ) {
-      $_IJQQI = $_Q6i6i;
+    if($_JjI8O["LastStartPosition"] == 0 ) {
+      $_Iil6i = $_QlOjt;
     } else {
-      $_IJQQI = $_jf00Q["LastStartPosition"];
+      $_Iil6i = $_JjI8O["LastStartPosition"];
     }
 
 
-    $_I16jJ = $_jf00Q["fields"];
-    if(!is_array($_I16jJ)) {
-       $_I16jJ = unserialize($_I16jJ);
-       if($_I16jJ === false)
-         $_I16jJ = array();
+    $_IOJoI = $_JjI8O["fields"];
+    if(!is_array($_IOJoI)) {
+       $_IOJoI = unserialize($_IOJoI);
+       if($_IOJoI === false)
+         $_IOJoI = array();
     }
 
-    _OPQ6J();
+    _LRCOC();
 
 
     // hier liest er die Zeilen
-    for($_Q6llo=$_IJQQI; ($_Q6llo<$_IJQQI + $_jf00Q["ImportLines"]) && !$_jf6jf; $_Q6llo++) {
+    for($_Qli6J=$_Iil6i; ($_Qli6J<$_Iil6i + $_JjI8O["ImportLines"]) && !$_JjoiC; $_Qli6J++) {
 
-      $_j6il6++;
+      $_Jj1f1++;
 
       // reset errros
       if(isset($errors) && count($errors) > 0) {
@@ -949,472 +969,478 @@
       if( !isset($errors) )
         $errors = array();
 
-      if(isset($_Ql1O8) && count($_Ql1O8) > 0) {
-        unset($_Ql1O8);
-        $_Ql1O8 = array();
+      if(isset($_I816i) && count($_I816i) > 0) {
+        unset($_I816i);
+        $_I816i = array();
       }
-      if( !isset($_Ql1O8) )
-        $_Ql1O8 = array();
+      if( !isset($_I816i) )
+        $_I816i = array();
       //
 
-      _OPQ6J();
-      $_IJ1QJ = db_fetch_array($_jfJ8L, $_jf00Q["DBType"]);
-      if($_IJ1QJ === false) {
-        $_jf6jf = true;
-        $_jf00Q["LastTablePosition"] = -1;
-        $_QJlJ0 = "UPDATE $_I0f8O SET LastTablePosition=$_jf00Q[LastTablePosition], LastImportDate=NOW()";
-        $_QJlJ0 .= " WHERE id=$_jf00Q[id]";
-        mysql_query($_QJlJ0, $_Q61I1);
+      _LRCOC();
+      $_IiLOj = db_fetch_array($_JjOL0, $_JjI8O["DBType"]);
+      if($_IiLOj === false || $_IiLOj == null) {
+        $_JjoiC = true;
+        $_JjI8O["LastTablePosition"] = -1;
+        $_QLfol = "UPDATE $_ItfiJ SET LastTablePosition=$_JjI8O[LastTablePosition], LastImportDate=NOW()";
+        $_QLfol .= " WHERE id=$_JjI8O[id]";
+        mysql_query($_QLfol, $_QLttI);
         continue;
       }
 
       // UTF8?
-      if ( !$_jf00Q["IsUTF8"] ) {
-         reset($_IJ1QJ);
-         foreach ($_IJ1QJ as $key => $_Q6ClO) {
-            $_jffIC = utf8_encode($_Q6ClO);
-            if($_jffIC != "")
-              $_IJ1QJ[$key] = $_jffIC;
+      if ( !$_JjI8O["IsUTF8"] ) {
+         reset($_IiLOj);
+         foreach ($_IiLOj as $key => $_QltJO) {
+            $u = utf8_encode($_QltJO);
+            if($u != "")
+              $_IiLOj[$key] = $u;
          }
       }
 
-      $_Qf1i1 = $_IJ1QJ;
+      $_I0QjQ = $_IiLOj;
 
-      $_jfQio = array();
-      if( $_jf00Q["GroupsOption"] == 2 ) {
-        if($_jf00Q["ImportGroupField"] < count($_Qf1i1)) {
-           $_jfQio = $_Qf1i1[$_jf00Q["ImportGroupField"]];
-           $_jfQLi = ",";
-           $_jfQio = explode($_jfQLi, $_jfQio);
-           for($_jfI01=0; $_jfI01<count($_jfQio); $_jfI01++)
-             $_jfQio[$_jfI01] = str_replace(",", "", $_jfQio[$_jfI01]);
+      $_Jj6L1 = array();
+      if( $_JjI8O["GroupsOption"] == 2 ) {
+        if($_JjI8O["ImportGroupField"] < count($_I0QjQ)) {
+           $_Jj6L1 = $_I0QjQ[$_JjI8O["ImportGroupField"]];
+           $_Jjf0J = ",";
+           $_Jj6L1 = explode($_Jjf0J, $_Jj6L1);
+           for($_JjfO0=0; $_JjfO0<count($_Jj6L1); $_JjfO0++)
+             $_Jj6L1[$_JjfO0] = str_replace(",", "", $_Jj6L1[$_JjfO0]);
         }
       }
 
 
-      $_QJlJ0 = "INSERT IGNORE INTO $_jf1jt SET DateOfSubscription=NOW()";
+      $_QLfol = "INSERT IGNORE INTO $_Jj6jC SET DateOfSubscription=NOW()";
 
-      $_jfIfl = false;
-      $_jfI81 = "";
-      if($_jf00Q["SendOptInEMail"]) {
-        $_jfI81 = "'OptInConfirmationPending'";
-        $_QJlJ0 .= ", SubscriptionStatus=$_jfI81";
-        $_jfIfl = true;
+      $_JjfiL = false;
+      $_Jj8iQ = "";
+      if($_JjI8O["SendOptInEMail"]) {
+        $_Jj8iQ = "'OptInConfirmationPending'";
+        $_QLfol .= ", SubscriptionStatus=$_Jj8iQ";
+        $_JjfiL = true;
         }
         else {
-          $_jfI81 = "'Subscribed'";
-          $_QJlJ0 .= ", SubscriptionStatus=$_jfI81, DateOfOptInConfirmation=NOW(), IPOnSubscription='".$resourcestrings[$INTERFACE_LANGUAGE]["000047"]."'";
+          $_Jj8iQ = "'Subscribed'";
+          $_QLfol .= ", SubscriptionStatus=$_Jj8iQ, DateOfOptInConfirmation=NOW(), IPOnSubscription='".$resourcestrings[$INTERFACE_LANGUAGE]["000047"]."'";
         }
 
 
-      reset($_I16jJ);
-      $_jfIi1 = "";
-      $_ILQL0 = array();
-      foreach($_I16jJ as $_I1i8O => $_IJQOL) {
-        if($_IJQOL < 0) {continue;}
-        if(is_array($_IJQOL) ){
+      reset($_IOJoI);
+      $_Jj8lt = "";
+      $_jtiJJ = array();
+      foreach($_IOJoI as $_IOLil => $_Iiloo) {
+        if($_Iiloo < 0) {continue;}
+        if(is_array($_Iiloo) ){
           continue;
          }
-        if($_IJQOL < count($_Qf1i1))
-           $_I1L81 = $_Qf1i1[$_IJQOL];
+        if($_Iiloo < count($_I0QjQ))
+           $_IOCjL = $_I0QjQ[$_Iiloo];
            else
-           $_I1L81 = "";
-        if($_jf00Q["RemoveSpaces"]) {
-          $_I1L81 = trim($_I1L81);
+           $_IOCjL = "";
+        if($_JjI8O["RemoveSpaces"]) {
+          if(is_string($_IOCjL))
+             $_IOCjL = trim($_IOCjL);
         }
-        if(isset($_I16jJ[$_I1i8O]) && $_I1L81 != -1) {
-          if($_I1i8O == "u_EMailFormat") {
-            $_I1L81 = trim($_I1L81);
-            if($_I1L81 != 'HTML' && $_I1L81 != 'PlainText' && $_I1L81 != 'Text')
-              $_I1L81 = 'HTML';
+        if(isset($_IOJoI[$_IOLil]) && $_IOCjL != -1) {
+          if($_IOLil == "u_EMailFormat") {
+            $_IOCjL = trim($_IOCjL);
+            if($_IOCjL != 'HTML' && $_IOCjL != 'PlainText' && $_IOCjL != 'Text')
+              $_IOCjL = 'HTML';
               else
-              if($_I1L81 == 'PlainText' || $_I1L81 == 'Text')
-                $_I1L81 = 'PlainText';
-          } // if($_I1i8O == "u_EMailFormat")
-          if($_I1i8O == "u_Gender") {
-            $_I1L81 = strtolower($_I1L81);
-            $_I1L81 = trim($_I1L81);
-            if($_I1L81 != "m" && $_I1L81 != "w") {
-              $_I1L81 = substr($_I1L81, 0, 1);
-              if($_I1L81 == "f") // female
-                $_I1L81 = "w";
-              if($_I1L81 != "m" && $_I1L81 != "w") {
-                if($_I1L81 == "0")
-                   $_I1L81 = "m";
+              if($_IOCjL == 'PlainText' || $_IOCjL == 'Text')
+                $_IOCjL = 'PlainText';
+          } // if($_IOLil == "u_EMailFormat")
+          if($_IOLil == "u_Gender") {
+            $_IOCjL = strtolower($_IOCjL);
+            $_IOCjL = trim($_IOCjL);
+            if($_IOCjL != "m" && $_IOCjL != "w") {
+              $_IOCjL = substr($_IOCjL, 0, 1);
+              if($_IOCjL == "f") // female
+                $_IOCjL = "w";
+              if($_IOCjL != "m" && $_IOCjL != "w") {
+                if($_IOCjL == "0")
+                   $_IOCjL = "m";
                    else
-                   if($_I1L81 == "1")
-                      $_I1L81 = "w";
+                   if($_IOCjL == "1")
+                      $_IOCjL = "w";
                       else
-                       $_I1L81 = 'undefined';
+                       $_IOCjL = 'undefined';
               }
             }
-          } // if($_I1i8O == "u_Gender")
-          if($_I1i8O == "u_Birthday") {
-            $_I1L81 = trim($_I1L81);
-            if($_jf00Q["BirthdayDateFormat"] == "dd.mm.yyyy") {
-              $_Io01I = explode(".", $_I1L81);
-              while(count($_Io01I) < 3)
-                 $_Io01I[] = "f";
-              $_IOJ8I = $_Io01I[0];
-              $_Io0t6 = $_Io01I[1];
-              $_Io0l8 = $_Io01I[2];
+          } // if($_IOLil == "u_Gender")
+          if($_IOLil == "u_Birthday") {
+            $_IOCjL = trim($_IOCjL);
+            if($_JjI8O["BirthdayDateFormat"] == "dd.mm.yyyy") {
+              $_jJQOo = explode(".", $_IOCjL);
+              while(count($_jJQOo) < 3)
+                 $_jJQOo[] = "f";
+              $_jjOlo = $_jJQOo[0];
+              $_jJIft = $_jJQOo[1];
+              $_jJjQi = $_jJQOo[2];
             } else
-              if($_jf00Q["BirthdayDateFormat"] == "yyyy-mm-dd") {
-               $_Io01I = explode("-", $_I1L81);
-               while(count($_Io01I) < 3)
-                  $_Io01I[] = "f";
-               $_IOJ8I = $_Io01I[2];
-               $_Io0t6 = $_Io01I[1];
-               $_Io0l8 = $_Io01I[0];
+              if($_JjI8O["BirthdayDateFormat"] == "yyyy-mm-dd") {
+               $_jJQOo = explode("-", $_IOCjL);
+               while(count($_jJQOo) < 3)
+                  $_jJQOo[] = "f";
+               $_jjOlo = $_jJQOo[2];
+               $_jJIft = $_jJQOo[1];
+               $_jJjQi = $_jJQOo[0];
               } else
-                if($_jf00Q["BirthdayDateFormat"] == "mm-dd-yyyy") {
-                  $_Io01I = explode("-", $_I1L81);
-                  while(count($_Io01I) < 3)
-                     $_Io01I[] = "f";
-                  $_IOJ8I = $_Io01I[1];
-                  $_Io0t6 = $_Io01I[0];
-                  $_Io0l8 = $_Io01I[2];
+                if($_JjI8O["BirthdayDateFormat"] == "mm-dd-yyyy") {
+                  $_jJQOo = explode("-", $_IOCjL);
+                  while(count($_jJQOo) < 3)
+                     $_jJQOo[] = "f";
+                  $_jjOlo = $_jJQOo[1];
+                  $_jJIft = $_jJQOo[0];
+                  $_jJjQi = $_jJQOo[2];
                 }
 
-            if(strlen($_Io0l8) == 2)
-              $_Io0l8 = "19".$_Io0l8;
+            if(strlen($_jJjQi) == 2)
+              $_jJjQi = "19".$_jJjQi;
             if( ! (
-                (intval($_IOJ8I) > 0 && intval($_IOJ8I) < 32) &&
-                (intval($_Io0t6) > 0 && intval($_Io0t6) < 13)
+                (intval($_jjOlo) > 0 && intval($_jjOlo) < 32) &&
+                (intval($_jJIft) > 0 && intval($_jJIft) < 13)
                   )
               ) // error in date
-              $_I1L81 = "0000-00-00";
+              $_IOCjL = "0000-00-00";
               else
-              $_I1L81 = "$_Io0l8-$_Io0t6-$_IOJ8I";
+              $_IOCjL = "$_jJjQi-$_jJIft-$_jjOlo";
 
-          } // if($_I1i8O == "u_Birthday")
+          } // if($_IOLil == "u_Birthday")
 
           // integer
           if(
-             $_I1i8O == "u_UserFieldInt1" ||
-             $_I1i8O == "u_UserFieldInt2" ||
-             $_I1i8O == "u_UserFieldInt3"
+             $_IOLil == "u_UserFieldInt1" ||
+             $_IOLil == "u_UserFieldInt2" ||
+             $_IOLil == "u_UserFieldInt3"
             )
-              $_I1L81 = intval($_I1L81);
+              $_IOCjL = intval($_IOCjL);
 
           // boolean
           if(
-             $_I1i8O == "u_UserFieldBool1" ||
-             $_I1i8O == "u_UserFieldBool2" ||
-             $_I1i8O == "u_UserFieldBool3"
+             $_IOLil == "u_UserFieldBool1" ||
+             $_IOLil == "u_UserFieldBool2" ||
+             $_IOLil == "u_UserFieldBool3" ||
+             $_IOLil == "u_PersonalizedTracking"
             ) {
-              $_I1L81 = strtolower($_I1L81);
-              if($_I1L81 == "true")
-                $_I1L81 = 1;
-                if($_I1L81 == "false")
-                   $_I1L81 = 0;
-              $_I1L81 = intval($_I1L81);
-              if($_I1L81 < 0) $_I1L81 = 0;
-              if($_I1L81 > 0) $_I1L81 = 1;
+              $_IOCjL = strtolower($_IOCjL);
+              if($_IOCjL == "true")
+                $_IOCjL = 1;
+                if($_IOCjL == "false")
+                   $_IOCjL = 0;
+              $_IOCjL = intval($_IOCjL);
+              if($_IOCjL < 0) $_IOCjL = 0;
+              if($_IOCjL > 0) $_IOCjL = 1;
             }
 
           # no empty email addresses
-          if($_I1i8O == "u_EMail" && (trim($_I1L81) == "" || !_OPAOJ($_I1L81)) ) {
-            $_QJlJ0 = "";
-            _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressIncorrect"], $_I1L81), $_jf00Q, $_jf0il );
+          if($_IOLil == "u_EMail" && (trim($_IOCjL) == "" || !_L8JEL($_IOCjL)) ) {
+            $_QLfol = "";
+            _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressIncorrect"], $_IOCjL), $_JjI8O, $_JjJJl );
             break;
           } else {
-            if( $_I1i8O == "u_EMail" )
-              $_jfIi1 = $_I1L81;
+            if( $_IOLil == "u_EMail" ){
+              $_IOCjL = _L86JE($_IOCjL);
+              $_Jj8lt = $_IOCjL;
+            }  
           }
 
           if(!defined("ALLOWHTMLCODEINSUBUNSUBFORM")){
-            $_ILQL0[] = " `$_I1i8O`="._OPQLR(htmlspecialchars($_I1L81, ENT_COMPAT, 'UTF-8'));
+            $_jtiJJ[] = " `$_IOLil`="._LRAFO(htmlspecialchars($_IOCjL, ENT_COMPAT, $_QLo06));
           } else {
-            $_ILQL0[] = " `$_I1i8O`="._OPQLR($_I1L81);
+            $_jtiJJ[] = " `$_IOLil`="._LRAFO($_IOCjL);
           }
         }
-      } // foreach($_I16jJ as $_I1i8O => $_I1L81)
+      } // foreach($_IOJoI as $_IOLil => $_IOCjL)
 
-      if($_QJlJ0 != "" && $_jfIi1 == "") {
-         _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorNoEMailAddress"], $_jfIi1), $_jf00Q, $_jf0il );
-         $_QJlJ0 = "";
+      if($_QLfol != "" && $_Jj8lt == "") {
+         _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorNoEMailAddress"], $_Jj8lt), $_JjI8O, $_JjJJl );
+         $_QLfol = "";
       }
 
-      if($_QJlJ0 != "")
-        $_QJlJ0 .= ", ".join(", ", $_ILQL0);
+      if($_QLfol != "")
+        $_QLfol .= ", ".join(", ", $_jtiJJ);
 
 
-      $_jfIl8 = false;
-      if($_QJlJ0 != "") {
+      $_JjtC8 = false;
+      if($_QLfol != "") {
 
-        $_jfjC6 = substr($_jfIi1, strpos($_jfIi1, '@') + 1);
+        $_JjOjI = substr($_Jj8lt, strpos($_Jj8lt, '@') + 1);
 
-        if(_L0FRD($_jfIi1)) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInGlobalBlockList"], $_jfIi1), $_jf00Q, $_jf0il );
+        if(_J18DA($_Jj8lt)) {
+          $_JjtC8 = true;
+          _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInGlobalBlockList"], $_Jj8lt), $_JjI8O, $_JjJJl );
         }
 
-        if(!$_jfIl8 && _L101P($_jfIi1, $_jf00Q["maillists_id"], $_ItCCo)) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInLocalBlockList"], $_jfIi1), $_jf00Q, $_jf0il );
+        if(!$_JjtC8 && _J18FQ($_Jj8lt, $_JjI8O["maillists_id"], $_jjj8f)) {
+          $_JjtC8 = true;
+          _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInLocalBlockList"], $_Jj8lt), $_JjI8O, $_JjJJl );
         }
 
-        if(!$_jfIl8 && _L1ROL($_jfjC6)) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInGlobalDomainBlockList"], $_jfIi1), $_jf00Q, $_jf0il );
+        if(!$_JjtC8 && _J1PQO($_JjOjI)) {
+          $_JjtC8 = true;
+          _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInGlobalDomainBlockList"], $_Jj8lt), $_JjI8O, $_JjJJl );
         }
 
-        if(!$_jfIl8 && _L1RDP($_jfjC6, $_jf00Q["maillists_id"], $_jf1J1)) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInLocalDomainBlockList"], $_jfIi1), $_jf00Q, $_jf0il );
+        if(!$_JjtC8 && _J1P6D($_JjOjI, $_JjI8O["maillists_id"], $_Jj6f0)) {
+          $_JjtC8 = true;
+          _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInLocalDomainBlockList"], $_Jj8lt), $_JjI8O, $_JjJJl );
         }
 
-        if(!$_jfIl8 && ($_jf1Lf && _OC0DR($_jfIi1)) ) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInECGList"], $_jfIi1), $_jf00Q, $_jf0il );
+        if(!$_JjtC8 && $_Jj68f ) {
+          $_I016j = _L6AJP($_Jj8lt);
+          $_JjtC8 = (is_bool($_I016j) && $_I016j);
+          if($_JjtC8)
+            _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInECGList"], $_Jj8lt), $_JjI8O, $_JjJJl );
         }
-
+        
       }
 
-      _OPQ6J();
-      if($_jfIl8 && !$_jf00Q["ImportBlockedRecipients"])
-        $_QJlJ0 = "";
+      _LRCOC();
+      if($_JjtC8 && !$_JjI8O["ImportBlockedRecipients"])
+        $_QLfol = "";
 
-      if($_QJlJ0 != "") {
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        $_QJCJi = mysql_error($_Q61I1);
-        if($_QJCJi != "")
-          $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-        if($_jf00Q["CreateErrorLog"] && $_jf0il && mysql_affected_rows($_Q61I1) == 0){
-           _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorDuplicateEntry"], $_jfIi1), $_jf00Q, $_jf0il );
+      if($_QLfol != "") {
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        $_QLJfI = mysql_error($_QLttI);
+        if($_QLJfI != "")
+          $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+        if($_JjI8O["CreateErrorLog"] && $_JjJJl && mysql_affected_rows($_QLttI) == 0){
+           _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorDuplicateEntry"], $_Jj8lt), $_JjI8O, $_JjJJl );
         }
       }
-      if($_QJlJ0 != "" && mysql_affected_rows($_Q61I1) > 0 ) {
-        $_jf00Q["LastImportRowCount"]++;
+      if($_QLfol != "" && mysql_affected_rows($_QLttI) > 0 ) {
+        $_JjI8O["LastImportRowCount"]++;
 
         // statistics
-        $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-        $_Q6Q1C=mysql_fetch_array($_Q60l1);
-        $_QLitI = $_Q6Q1C[0];
-        mysql_free_result($_Q60l1);
+        $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+        $_QLO0f=mysql_fetch_array($_QL8i1);
+        $_IfLJj = $_QLO0f[0];
+        mysql_free_result($_QL8i1);
 
-        $_QJlJ0 = "INSERT INTO $_QlIf6 SET ActionDate=NOW(), Action=$_jfI81, Member_id=$_QLitI";
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        $_QJCJi = mysql_error($_Q61I1);
-        if($_QJCJi != "")
-          $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
+        $_QLfol = "INSERT INTO $_I8jjj SET ActionDate=NOW(), Action=$_Jj8iQ, Member_id=$_IfLJj";
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        $_QLJfI = mysql_error($_QLttI);
+        if($_QLJfI != "")
+          $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
 
         // **** apply groups_id to member_id START
-        if( $_jf00Q["GroupsOption"] == 3 && $_jf00Q["groups_id"] > 0 ) {
-          $_QJlJ0 = "INSERT INTO $_QLI68 SET groups_id=$_jf00Q[groups_id], Member_id=$_QLitI";
-          $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-          $_QJCJi = mysql_error($_Q61I1);
-          if($_QJCJi != "")
-            $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
+        if( $_JjI8O["GroupsOption"] == 3 && $_JjI8O["groups_id"] > 0 ) {
+          $_QLfol = "INSERT INTO $_IfJ66 SET groups_id=$_JjI8O[groups_id], Member_id=$_IfLJj";
+          $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+          $_QLJfI = mysql_error($_QLttI);
+          if($_QLJfI != "")
+            $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
         }
         // **** apply groups_id to member_id END
 
         // **** import groups names and create it if not exists START
-        if( $_jf00Q["GroupsOption"] == 2 && count($_jfQio) > 0 ) {
-          for($_jfJj0 = 0; $_jfJj0<count($_jfQio); $_jfJj0++) {
-            if(trim($_jfQio[$_jfJj0]) == "") continue;
-            $_QJlJ0 = "INSERT IGNORE INTO $_Q6t6j SET CreateDate=NOW(), Name="._OPQLR(trim($_jfQio[$_jfJj0]));
-            $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-            $_QJCJi = mysql_error($_Q61I1);
-            if($_QJCJi != "")
-              $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-            if(mysql_affected_rows($_Q61I1) > 0 ) {
-              $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-              $_Q6Q1C=mysql_fetch_array($_Q60l1);
-              $_I1JQt = $_Q6Q1C[0];
-              mysql_free_result($_Q60l1);
+        if( $_JjI8O["GroupsOption"] == 2 && count($_Jj6L1) > 0 ) {
+          for($_JjOfi = 0; $_JjOfi<count($_Jj6L1); $_JjOfi++) {
+            if(trim($_Jj6L1[$_JjOfi]) == "") continue;
+            $_QLfol = "INSERT IGNORE INTO $_QljJi SET CreateDate=NOW(), Name="._LRAFO(trim($_Jj6L1[$_JjOfi]));
+            $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+            $_QLJfI = mysql_error($_QLttI);
+            if($_QLJfI != "")
+              $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+            if(mysql_affected_rows($_QLttI) > 0 ) {
+              $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+              $_QLO0f=mysql_fetch_array($_QL8i1);
+              $_IOjji = $_QLO0f[0];
+              mysql_free_result($_QL8i1);
             } else {
-              $_QJlJ0 = "SELECT id FROM $_Q6t6j WHERE Name="._OPQLR(trim($_jfQio[$_jfJj0]));
-              $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-              $_QJCJi = mysql_error($_Q61I1);
-              if($_QJCJi != "")
-                $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-              $_I1JQt = 0;
-              if($_Q60l1) {
-                 $_Q6Q1C=mysql_fetch_array($_Q60l1);
-                 $_I1JQt = $_Q6Q1C[0];
-                 mysql_free_result($_Q60l1);
+              $_QLfol = "SELECT id FROM $_QljJi WHERE Name="._LRAFO(trim($_Jj6L1[$_JjOfi]));
+              $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+              $_QLJfI = mysql_error($_QLttI);
+              if($_QLJfI != "")
+                $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+              $_IOjji = 0;
+              if($_QL8i1) {
+                 $_QLO0f=mysql_fetch_array($_QL8i1);
+                 $_IOjji = $_QLO0f[0];
+                 mysql_free_result($_QL8i1);
               }
             }
 
-            if($_I1JQt != 0) {
-              $_QJlJ0 = "INSERT INTO $_QLI68 SET groups_id=$_I1JQt, Member_id=$_QLitI";
-              $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-              $_QJCJi = mysql_error($_Q61I1);
-              if($_QJCJi != "")
-                $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
+            if($_IOjji != 0) {
+              $_QLfol = "INSERT INTO $_IfJ66 SET groups_id=$_IOjji, Member_id=$_IfLJj";
+              $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+              $_QLJfI = mysql_error($_QLttI);
+              if($_QLJfI != "")
+                $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
             }
           }
-          $_jfQio = array();
+          $_Jj6L1 = array();
         }
         // **** import groups names and create it if not exists END
 
-        if($_jfIfl && $_jfIi1 != "" && !$_jfIl8) {
-          _OPQ6J();
-          _L0RLJ("subscribeconfirm", $_QLitI, $_Ql00j, $_j6ioL, $errors, $_Ql1O8);
-          if(count($_Ql1O8) > 0)
-             $_j6O8O .= "<br />Error while sending opt in email ".join(" ", $_Ql1O8);
-          _OPQ6J();
+        if($_JjfiL && $_Jj8lt != "" && !$_JjtC8) {
+          _LRCOC();
+          _J0LAA("subscribeconfirm", $_IfLJj, $_I80Jo, $_Jj08l, $errors, $_I816i);
+          if(count($_I816i) > 0)
+             $_JIfo0 .= "<br />Error while sending opt in email ".join(" ", $_I816i);
+          _LRCOC();
         }
 
-      } // if(mysql_affected_rows($_Q61I1) > 0 )
+      } // if(mysql_affected_rows($_QLttI) > 0 )
         else
-        if($_QJlJ0 != "" && $_jf00Q["GroupsOption"] > 0 && $_jf00Q["ExImportOption"] != 2 ) { // member exists, add to groups or update
-          $_QJlJ0 = "SELECT id FROM $_jf1jt WHERE u_EMail="._OPQLR($_jfIi1);
-          $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-          $_QJCJi = mysql_error($_Q61I1);
-          if($_QJCJi != "")
-            $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-          if(mysql_num_rows($_Q60l1) > 0) {
-            $_Q6Q1C=mysql_fetch_array($_Q60l1);
-            mysql_free_result($_Q60l1);
-            $_QLitI = $_Q6Q1C["id"];
+        if($_QLfol != "" && $_JjI8O["GroupsOption"] > 0 && $_JjI8O["ExImportOption"] != 2 ) { // member exists, add to groups or update
+          $_QLfol = "SELECT id FROM $_Jj6jC WHERE u_EMail="._LRAFO($_Jj8lt);
+          $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+          $_QLJfI = mysql_error($_QLttI);
+          if($_QLJfI != "")
+            $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+          if(mysql_num_rows($_QL8i1) > 0) {
+            $_QLO0f=mysql_fetch_array($_QL8i1);
+            mysql_free_result($_QL8i1);
+            $_IfLJj = $_QLO0f["id"];
 
             # Remove from all groups
-            if($_jf00Q["RemoveRecipientFromGroups"])
-              _L1LLB(array($_QLitI), $_jf00Q["maillists_id"], $_QLI68);
+            if($_JjI8O["RemoveRecipientFromGroups"])
+              _J1JFE(array($_IfLJj), $_JjI8O["maillists_id"], $_IfJ66);
 
-            if($_jf00Q["ExImportOption"] == 3){
+            if($_JjI8O["ExImportOption"] == 3){
               // Update recipient
               // no empty values
-              for($_Q6llo=0; $_Q6llo<count($_ILQL0); $_Q6llo++){
-                if(strpos($_ILQL0[$_Q6llo], '""') !== false || strpos($_ILQL0[$_Q6llo], '"0000-00-00"') !== false) {
-                  unset($_ILQL0[$_Q6llo]);
+              for($_Qli6J=0; $_Qli6J<count($_jtiJJ); $_Qli6J++){
+                if(strpos($_jtiJJ[$_Qli6J], '""') !== false || strpos($_jtiJJ[$_Qli6J], '"0000-00-00"') !== false) {
+                  unset($_jtiJJ[$_Qli6J]);
                 }
               }
-              $_QJlJ0 = "UPDATE $_jf1jt SET ".join(", ", $_ILQL0)." WHERE id=$_QLitI";
-              mysql_query($_QJlJ0, $_Q61I1);
-              $_QJCJi = mysql_error($_Q61I1);
-              if($_QJCJi != "")
-                $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
+              $_QLfol = "UPDATE $_Jj6jC SET ".join(", ", $_jtiJJ)." WHERE id=$_IfLJj";
+              mysql_query($_QLfol, $_QLttI);
+              $_QLJfI = mysql_error($_QLttI);
+              if($_QLJfI != "")
+                $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
             }
 
             // **** apply groups_id to member_id START
-            if( $_jf00Q["GroupsOption"] == 3 && $_jf00Q["groups_id"] > 0 ) {
-              $_QJlJ0 = "SELECT * FROM $_QLI68 WHERE groups_id=$_jf00Q[groups_id] AND Member_id=$_QLitI";
-              $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-              if(mysql_num_rows($_Q60l1) == 0) {
-                if($_Q60l1)
-                  mysql_free_result($_Q60l1);
-                $_QJlJ0 = "INSERT INTO $_QLI68 SET groups_id=$_jf00Q[groups_id], Member_id=$_QLitI";
-                $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-                $_QJCJi = mysql_error($_Q61I1);
-                if($_QJCJi != "")
-                  $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-                $_jf00Q["LastImportRowCount"]++;
+            if( $_JjI8O["GroupsOption"] == 3 && $_JjI8O["groups_id"] > 0 ) {
+              $_QLfol = "SELECT * FROM $_IfJ66 WHERE groups_id=$_JjI8O[groups_id] AND Member_id=$_IfLJj";
+              $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+              if(mysql_num_rows($_QL8i1) == 0) {
+                if($_QL8i1)
+                  mysql_free_result($_QL8i1);
+                $_QLfol = "INSERT INTO $_IfJ66 SET groups_id=$_JjI8O[groups_id], Member_id=$_IfLJj";
+                $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+                $_QLJfI = mysql_error($_QLttI);
+                if($_QLJfI != "")
+                  $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+                $_JjI8O["LastImportRowCount"]++;
               } else
-                if($_Q60l1)
-                  mysql_free_result($_Q60l1);
+                if($_QL8i1)
+                  mysql_free_result($_QL8i1);
             }
            // **** apply groups_id to member_id END
 
            // **** import groups names and create it if not exists START
-           if( $_jf00Q["GroupsOption"] == 2 && isset($_jfQio) && count($_jfQio) > 0 ) {
-             for($_jfJj0=0; $_jfJj0<count($_jfQio); $_jfJj0++) {
-               if(trim($_jfQio[$_jfJj0]) == "") continue;
-               $_QJlJ0 = "INSERT IGNORE INTO $_Q6t6j SET CreateDate=NOW(), Name="._OPQLR(trim($_jfQio[$_jfJj0]));
-               $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-               $_QJCJi = mysql_error($_Q61I1);
-               if($_QJCJi != "")
-                 $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-               if(mysql_affected_rows($_Q61I1) > 0 ) {
-                 $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-                 $_Q6Q1C=mysql_fetch_array($_Q60l1);
-                 $_I1JQt = $_Q6Q1C[0];
-                 mysql_free_result($_Q60l1);
+           if( $_JjI8O["GroupsOption"] == 2 && isset($_Jj6L1) && count($_Jj6L1) > 0 ) {
+             for($_JjOfi=0; $_JjOfi<count($_Jj6L1); $_JjOfi++) {
+               if(trim($_Jj6L1[$_JjOfi]) == "") continue;
+               $_QLfol = "INSERT IGNORE INTO $_QljJi SET CreateDate=NOW(), Name="._LRAFO(trim($_Jj6L1[$_JjOfi]));
+               $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+               $_QLJfI = mysql_error($_QLttI);
+               if($_QLJfI != "")
+                 $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+               if(mysql_affected_rows($_QLttI) > 0 ) {
+                 $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+                 $_QLO0f=mysql_fetch_array($_QL8i1);
+                 $_IOjji = $_QLO0f[0];
+                 mysql_free_result($_QL8i1);
                } else {
-                 $_QJlJ0 = "SELECT id FROM $_Q6t6j WHERE Name="._OPQLR(trim($_jfQio[$_jfJj0]));
-                 $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-                 $_QJCJi = mysql_error($_Q61I1);
-                 if($_QJCJi != "")
-                   $_j6O8O .= "<br />SQL ERROR ".$_QJCJi." for $_QJlJ0";
-                 $_I1JQt = 0;
-                 if($_Q60l1) {
-                    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-                    $_I1JQt = $_Q6Q1C[0];
-                    mysql_free_result($_Q60l1);
+                 $_QLfol = "SELECT id FROM $_QljJi WHERE Name="._LRAFO(trim($_Jj6L1[$_JjOfi]));
+                 $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+                 $_QLJfI = mysql_error($_QLttI);
+                 if($_QLJfI != "")
+                   $_JIfo0 .= "<br />SQL ERROR ".$_QLJfI." for $_QLfol";
+                 $_IOjji = 0;
+                 if($_QL8i1) {
+                    $_QLO0f=mysql_fetch_array($_QL8i1);
+                    $_IOjji = $_QLO0f[0];
+                    mysql_free_result($_QL8i1);
                  }
                }
 
-               if($_I1JQt != 0) {
-                 $_QJlJ0 = "SELECT * FROM $_QLI68 WHERE groups_id=$_I1JQt AND Member_id=$_QLitI";
-                 $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-                 if(mysql_num_rows($_Q60l1) == 0) {
-                   if($_Q60l1)
-                     mysql_free_result($_Q60l1);
-                   $_QJlJ0 = "INSERT INTO $_QLI68 SET groups_id=$_I1JQt, Member_id=$_QLitI";
-                   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-                   _OAL8F($_QJlJ0);
-                   $_jf00Q["LastImportRowCount"]++;
+               if($_IOjji != 0) {
+                 $_QLfol = "SELECT * FROM $_IfJ66 WHERE groups_id=$_IOjji AND Member_id=$_IfLJj";
+                 $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+                 if(mysql_num_rows($_QL8i1) == 0) {
+                   if($_QL8i1)
+                     mysql_free_result($_QL8i1);
+                   $_QLfol = "INSERT INTO $_IfJ66 SET groups_id=$_IOjji, Member_id=$_IfLJj";
+                   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+                   _L8D88($_QLfol);
+                   $_JjI8O["LastImportRowCount"]++;
                  } else
-                   if($_Q60l1)
-                     mysql_free_result($_Q60l1);
+                   if($_QL8i1)
+                     mysql_free_result($_QL8i1);
                }
              }
-             $_jfQio = array();
+             $_Jj6L1 = array();
            }
            // **** import groups names and create it if not exists END
 
-          } # if(mysql_num_rows($_Q60l1) > 0)
+          } # if(mysql_num_rows($_QL8i1) > 0)
 
-        } // if($_QJlJ0 != "" && $_jf00Q["GroupsOption"] > 0 && $_jf00Q["ExImportOption"] != 2 )
+        } // if($_QLfol != "" && $_JjI8O["GroupsOption"] > 0 && $_JjI8O["ExImportOption"] != 2 )
 
 
 
-        _OPQ6J();
-        $_jf00Q["LastStartPosition"] = $_Q6llo;
-        $_jf00Q["LastTablePosition"] = $_Q6llo;
-        if($_jf6jf) {
-          $_jf00Q["LastTablePosition"] = -1;
+        _LRCOC();
+        $_JjI8O["LastStartPosition"] = $_Qli6J;
+        $_JjI8O["LastTablePosition"] = $_Qli6J;
+        if($_JjoiC) {
+          $_JjI8O["LastTablePosition"] = -1;
         }
 
-        $_QJlJ0 = "UPDATE $_I0f8O SET LastRowCount=$_jf00Q[LastRowCount], LastImportRowCount=$_jf00Q[LastImportRowCount], LastStartPosition=$_jf00Q[LastStartPosition], LastTablePosition=$_jf00Q[LastTablePosition]";
-        $_QJlJ0 .= " WHERE id=$_jf00Q[id]";
-        mysql_query($_QJlJ0, $_Q61I1);
+        $_QLfol = "UPDATE $_ItfiJ SET LastRowCount=$_JjI8O[LastRowCount], LastImportRowCount=$_JjI8O[LastImportRowCount], LastStartPosition=$_JjI8O[LastStartPosition], LastTablePosition=$_JjI8O[LastTablePosition]";
+        $_QLfol .= " WHERE id=$_JjI8O[id]";
+        mysql_query($_QLfol, $_QLttI);
 
-    } # for($_Q6llo=$_IJQQI; ($_Q6llo<$_IJQQI + $_jf00Q["ImportLines"]) && !$_jf6jf; $_Q6llo++) {
+    } # for($_Qli6J=$_Iil6i; ($_Qli6J<$_Iil6i + $_JjI8O["ImportLines"]) && !$_JjoiC; $_Qli6J++) {
 
 
-    if(!empty($_jf00Q["CreateErrorLog"]) && $_jf0il){
-      fclose($_jf0il);
+    if(!empty($_JjI8O["CreateErrorLog"]) && $_JjJJl){
+      fclose($_JjJJl);
     }
 
-    if($_I0i1t != $_Q61I1) {
-      db_close($_I0i1t, $_jf00Q["DBType"]);
-      mysql_select_db (MySQLDBName, $_Q61I1);
+    if($_ItCCj != $_QLttI) {
+      db_close($_ItCCj, $_JjI8O["DBType"]);
+      mysql_select_db (MySQLDBName, $_QLttI);
     } else{
-      mysql_select_db (MySQLDBName, $_Q61I1);
+      mysql_select_db (MySQLDBName, $_QLttI);
     }
 
     return true;
   }
 
-  function _OODBQ($_jf00Q, &$errors, &$_I0600, $_I0C11, $_I0ift) {
-    global $resourcestrings, $INTERFACE_LANGUAGE, $_Q61I1;
-    $_I0i1t = db_connect ($_jf00Q['SQLServerName'], $_jf00Q['SQLUsername'], $_jf00Q['SQLPassword'], $_I0C11, $_jf00Q['SQLDatabase'], $_I0ift);
-    if ($_I0i1t == 0) {
-       $_I0600 = ($resourcestrings[$INTERFACE_LANGUAGE]["000001"]."<br/>".db_error($_I0i1t, $_I0C11));
-       @db_close($_I0i1t, $_I0C11);
-       return $_I0i1t;
+  function _L0COO($_JjI8O, &$errors, &$_Itfj8, $_ItOIt, $_ItCiQ) {
+    global $resourcestrings, $INTERFACE_LANGUAGE, $_QLttI;
+    $_ItCCj = db_connect ($_JjI8O['SQLServerName'], $_JjI8O['SQLUsername'], $_JjI8O['SQLPassword'], $_ItOIt, $_JjI8O['SQLDatabase'], $_ItCiQ);
+    if ($_ItCCj == 0) {
+       $_Itfj8 = ($resourcestrings[$INTERFACE_LANGUAGE]["000001"]."<br/>".db_error($_ItCCj, $_ItOIt));
+       @db_close($_ItCCj, $_ItOIt);
+       return $_ItCCj;
     }
 
-    if ($_I0i1t && !db_select_db ($_jf00Q['SQLDatabase'], $_I0i1t, $_I0C11)) {
-      $_I0600 = ($resourcestrings[$INTERFACE_LANGUAGE]["000002"]." ".$_jf00Q['SQLDatabase']."<br/>".db_error($_I0i1t, $_I0C11));
-      if($_I0i1t != $_Q61I1) {
-        db_close($_I0i1t, $_I0C11);
+    if ($_ItCCj && !db_select_db ($_JjI8O['SQLDatabase'], $_ItCCj, $_ItOIt)) {
+      $_Itfj8 = ($resourcestrings[$INTERFACE_LANGUAGE]["000002"]." ".$_JjI8O['SQLDatabase']."<br/>".db_error($_ItCCj, $_ItOIt));
+      if($_ItCCj != $_QLttI) {
+        db_close($_ItCCj, $_ItOIt);
       } else{
-        mysql_select_db (MySQLDBName, $_Q61I1);
+        mysql_select_db (MySQLDBName, $_QLttI);
       }
-      $_I0i1t = 0;
+      $_ItCCj = 0;
     }
-    return $_I0i1t;
+    return $_ItCCj;
   }
 
-  function _O6E18($_I11oJ, $_jf00Q, $_jf0il) {
-   global $_Q6JJJ;
-   if($_jf00Q["CreateErrorLog"] && $_jf0il){
-     fwrite($_jf0il, $_I11oJ.$_Q6JJJ);
+  function _LLQRO($_IO08l, $_JjI8O, $_JjJJl) {
+   global $_QLl1Q;
+   if($_JjI8O["CreateErrorLog"] && $_JjJJl){
+     fwrite($_JjJJl, $_IO08l.$_QLl1Q);
    }
   }
 

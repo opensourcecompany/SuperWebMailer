@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -27,23 +27,29 @@
   include_once("mailinglistq.inc.php");
   include_once("defaulttexts.inc.php");
 
+  if(function_exists("opcache_reset"))
+     opcache_reset();
+
+  clearstatcache();   
+     
   # file exists than show it!
-  if(file_exists("install.php")) {
+  if(file_exists("install.php") && !isset($_GET["installdone"])) {
+
     include_once("install.php");
     exit;
   }
 
-  if(file_exists("upgrade.php")) {
+  if(file_exists("upgrade.php") && !isset($_GET["installdone"])) {
+
+    if(isset($_POST["step"]))
+      unset($_POST["step"]);
+
     include_once("upgrade.php");
     exit;
   }
 
-  if(!isset($_POST["step"])) {
-   exit; // security
-  }
-
   define('Setup', 1); # we install
-  $_Jtf68 = "http://";
+  $_6CC10 = "http://";
   $Language = $INTERFACE_LANGUAGE;
   if(isset($_POST["Language"]))
      $Language = $_POST["Language"];
@@ -53,35 +59,31 @@
     $Language = $INTERFACE_LANGUAGE;
   $INTERFACE_LANGUAGE = $Language;
 
-  _LQLRQ($INTERFACE_LANGUAGE);
-  $_I0600 = "";
-  $_JtffC = false;
+  $INTERFACE_LANGUAGE = preg_replace( '/[^a-z]+/', '', strtolower( $INTERFACE_LANGUAGE ) );
+
+  _JQRLR($INTERFACE_LANGUAGE);
+  $_Itfj8 = "";
+  $_6CCQt = false;
   $errors = array();
 
-  $_POST["step"]++;
-  switch($_POST["step"]) {
-    case 10:
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090110"], $_I0600, 'DISABLED', 'inst10_snipped.htm');
-      $link = ScriptBaseURL."index.php?Language=".$INTERFACE_LANGUAGE;
-      $_QJCJi = str_replace("START_LINK", $link, $_QJCJi);
+  $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090110"], $_Itfj8, 'DISABLED', 'inst10_snipped.htm');
+  $link = ScriptBaseURL."index.php?Language=".$INTERFACE_LANGUAGE;
+  $_QLJfI = str_replace("START_LINK", $link, $_QLJfI);
 
-      $_QJlJ0 = "SELECT Username FROM $_Q8f1L WHERE UserType='Admin' LIMIT 0, 1";
-      $_Q60l1 = mysql_query($_QJlJ0);
-      $_Q6Q1C = mysql_fetch_array($_Q60l1);
-      mysql_free_result($_Q60l1);
-      $_QJCJi = str_replace("<adminuser>", $_Q6Q1C["Username"], $_QJCJi);
-      break;
-    default:
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090100"], $_I0600, 'DISABLED', 'inst1_snipped.htm');
-  }
+  $_QLfol = "SELECT Username FROM $_I18lo WHERE UserType='Admin' LIMIT 0, 1";
+  $_QL8i1 = mysql_query($_QLfol);
+  $_QLO0f = mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = str_replace("<adminuser>", $_QLO0f["Username"], $_QLJfI);
 
-  unset($_POST["step"]);
+  if(isset($_POST["step"]))
+    unset($_POST["step"]);
 
 
-  _LJ81E($_QJCJi);
+  _JJCCF($_QLJfI);
 
-  $_QJCJi = _OPFJA($errors, $_POST, $_QJCJi);
+  $_QLJfI = _L8AOB($errors, $_POST, $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 ?>

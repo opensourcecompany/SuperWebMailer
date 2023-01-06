@@ -28,11 +28,15 @@ for (var i=0; i<menuids.length; i++){
 
       setTimeout(SuckerMenuShowFunction, 10);
     }
+    ultags[t].parentNode.onclick=function(){
+      return false;
+    }
     ultags[t].parentNode.onmouseout=function(){
       this.getElementsByTagName("ul")[0].style.visibility="hidden";
       this.getElementsByTagName("ul")[0].style.display="none";
       _currentSuckerMenuItem = null;
     }
+
     }
   }
 }

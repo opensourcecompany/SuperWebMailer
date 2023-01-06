@@ -1,7 +1,7 @@
 ﻿/*
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,8 +26,12 @@
 CKEDITOR.editorConfig = function( config )
 {
     config.filebrowserImageBrowseUrl = CKEDITOR.basePath + 'filemanager/index.php?type=Images';
-    config.filebrowserImageUploadUrl = CKEDITOR.basePath + 'filemanager/connectors/php/upload.php?type=Images&command=QuickUpload';
+    // cookie will be set here for filemanager so it works on all browsers
+    config.filebrowserImageUploadUrl = CKEDITOR.basePath + 'filemanager/connectors/php/upload.php?type=Images&command=QuickUpload&CKEditor=v49newer&responseType=json&ckCsrfToken=' + CKEDITOR.tools.getCsrfToken();
     config.filebrowserDocPropsBrowseUrl = CKEDITOR.basePath + 'filemanager/index.php?type=Images';
+    // old upload variant for 4.9:
+    //config.filebrowserImageUploadUrl = CKEDITOR.basePath + 'filemanager/connectors/php/upload.php?type=Images&command=QuickUpload';
+    //config.filebrowserUploadMethod = 'form';
 
     config.uiColor = '#E2EAF3';
 
@@ -36,7 +40,56 @@ CKEDITOR.editorConfig = function( config )
     CKEDITOR.disableAutoInline = true;
 
     config.fullPage = true;
-    config.allowedContent = true
+    config.newpage_html = '<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><title></title><meta http-equiv="X-UA-Compatible" content="IE=edge"></head><body>&nbsp;</body></html>';
+    config.allowedContent = true;
+
+    /* Security but problems with templates
+    config.extraAllowedContent = '*[target_groups]';
+
+    if(document.getElementById("HTMLPage") && document.getElementById("HTMLPage").tagName == "TEXTAREA"){
+       config.allowedContent = {
+           script: true,
+           svg: true,
+           video: true,
+           embed: true,
+           iframe: true,
+           frame: false,
+           frameset: false,
+           object: false,
+           $1: {
+               // This will set the default set of elements
+               elements: CKEDITOR.dtd,
+               attributes: true,
+               styles: true,
+               classes: true
+           }
+       };
+     }
+     else{
+       // dummy is placeholder, bug in ckeditor on last value
+       config.disallowedContent = 'script;svg;video;embed;iframe;frame;frameset;object;*[on*];[on*];dummy';
+
+       // for templates only
+       if( document.getElementById("TemplatesForm") ){
+         config.extraAllowedContent += ';singleline[tableofcontentstitle];repeater[editable];repeater[label];multiline[label];singleline[label];ol[editable];ul[editable];a[editable];hr[editable];img[editable];img[label]';
+
+         config.allowedContent = {
+             singleline: true,
+             multiline: true,
+             tableofcontents: true,
+             repeater: true,
+             $1: {
+                 // This will set the default set of elements
+                 elements: CKEDITOR.dtd,
+                 attributes: true,
+                 styles: true,
+                 classes: true
+             }
+         };
+       }
+
+     }
+    config.pasteFilter = config.disallowedContent;    */
     config.docType = '<!DOCTYPE HTML>';
     config.emailProtection = '';
     config.enterMode = CKEDITOR.ENTER_DIV; // p is recommended but users....
@@ -47,8 +100,7 @@ CKEDITOR.editorConfig = function( config )
 
     config.removeDialogTabs = config.removeDialogTabs + ';image:advanced'; // ImageDlgHideLink, ImageDlgHideAdvanced
     config.disableNativeTableHandles = true; // false gives errors in IE
-    config.disableObjectResizing = false;
-
+    config.disableObjectResizing = (!CKEDITOR.env.ie || CKEDITOR.env.ie && CKEDITOR.env.edge); // in IE resizing plugin not working, IE doesn't disable internal resizing features
 
     config.toolbar_MyDefaultToolbar =
     [
@@ -65,7 +117,7 @@ CKEDITOR.editorConfig = function( config )
         { name: 'colors',      items : [ 'TextColor','BGColor' ] },
         { name: 'tools',       items : [ 'Maximize', 'ShowBlocks','-','About' ] },
         '/',
-        { name: 'newsletter',  items : [ 'placeholdercb', 'queryfunctionbtn', 'loadfilebtn', 'targetgroupsBtn' ] }
+        { name: 'newsletter',  items : [ 'placeholdercb', 'queryfunctionbtn', 'loadfilebtn', 'targetgroupsBtn', 'pixabaybtn' ] }
 
     ];
 
@@ -84,7 +136,7 @@ CKEDITOR.editorConfig = function( config )
         { name: 'colors',      items : [ 'TextColor','BGColor' ] },
         { name: 'tools',       items : [ 'Maximize', 'ShowBlocks','-','About' ] },
         '/',
-        { name: 'newsletter',  items : [ 'placeholdercb', 'queryfunctionbtn', 'textblocksbtn', 'loadfilebtn', 'smebarbtn', 'targetgroupsBtn' ] }
+        { name: 'newsletter',  items : [ 'placeholdercb', 'queryfunctionbtn', 'textblocksbtn', 'loadfilebtn', 'smebarbtn', 'targetgroupsBtn', 'pixabaybtn' ] }
 
     ];
 
@@ -103,7 +155,7 @@ CKEDITOR.editorConfig = function( config )
         { name: 'colors',      items : [ 'TextColor','BGColor' ] },
         { name: 'tools',       items : [ 'Maximize', 'ShowBlocks','-','About' ] },
         '/',
-        { name: 'newsletter',  items : [ 'loadfilebtn' ] }
+        { name: 'newsletter',  items : [ 'loadfilebtn', 'pixabaybtn' ] }
 
     ];
 
@@ -128,7 +180,7 @@ CKEDITOR.editorConfig = function( config )
         { name: 'styles',      items : [ 'Styles','Format','Font','FontSize' ] },
         { name: 'colors',      items : [ 'TextColor','BGColor' ] },
         '/',
-        { name: 'newsletter',  items : [ 'placeholdercb', 'queryfunctionbtn', 'textblocksbtn', 'targetgroupsBtn' ] }
+        { name: 'newsletter',  items : [ 'placeholdercb', 'queryfunctionbtn', 'textblocksbtn', 'targetgroupsBtn', 'pixabaybtn' ] }
 
     ];
 
@@ -142,18 +194,22 @@ CKEDITOR.editorConfig = function( config )
    CKEDITOR.plugins.addExternal('placeholdercb', basePath + 'ckeditorplugins/placeholdercb/', 'plugin.js');
    CKEDITOR.plugins.addExternal('smebarbtn', basePath + 'ckeditorplugins/smebarbtn/', 'plugin.js');
    CKEDITOR.plugins.addExternal('targetgroups', basePath + 'ckeditorplugins/targetgroups/', 'plugin.js');
+   CKEDITOR.plugins.addExternal('pixabaybtn', basePath + 'ckeditorplugins/pixabay/', 'plugin.js');
 
    CKEDITOR.plugins.addExternal('docprops', basePath + 'ckeditorplugins/docprops/', 'plugin.js');
    CKEDITOR.plugins.addExternal('tableresize', basePath + 'ckeditorplugins/tableresize/', 'plugin.js');
    CKEDITOR.plugins.addExternal('codemirror', basePath + 'ckeditorplugins/codemirror/', 'plugin.js');
+   CKEDITOR.plugins.addExternal('dragresize', basePath + 'ckeditorplugins/ck-dragresize/', 'plugin.js');
+   CKEDITOR.plugins.addExternal('pastefromlibreoffice', basePath + 'ckeditorplugins/pastefromlibreoffice/', 'plugin.js');
+   CKEDITOR.plugins.addExternal('tableclonerow', basePath + 'ckeditorplugins/tableclonerow/', 'plugin.js');
 
    // devtools,
-   var _plugins = 'docprops,placeholdercb,queryfunctionbtn,textblocksbtn,loadfilebtn,smebarbtn,tableresize,codemirror';
+   var _plugins = 'docprops,placeholdercb,queryfunctionbtn,textblocksbtn,loadfilebtn,smebarbtn,tableresize,codemirror,dragresize,pixabaybtn,pastefromlibreoffice,tableclonerow';
    if(document.getElementById("TargetGroupsSupport") && document.getElementById("TargetGroupsSupport").value == "1")
      _plugins += ',targetgroups';
    config.extraPlugins = _plugins;
 
-   config.templates_files = [ CKEDITOR.basePath.substr(0, CKEDITOR.basePath.indexOf("ckeditor/")) + 'fcktemplates.php' ];
+   config.templates_files = [ CKEDITOR.basePath.substr(0, CKEDITOR.basePath.indexOf("ckeditor/")) + 'fcktemplates.php?IsFCKEditor=true&ckCsrfToken=' + CKEDITOR.tools.getCsrfToken() ];
 
    // remove resizing
    config.resize_enabled = false;
@@ -751,6 +807,7 @@ CKEDITOR.on('dialogDefinition', function( ev )
 		var dialogName = ev.data.name;
 		var dialogDefinition = ev.data.definition;
   var dialog = ev.data.definition.dialog;
+  var dialogCurrentCKEditor = ev.editor;
 
 		if ( dialogName == 'link' )
 		{
@@ -795,12 +852,42 @@ CKEDITOR.on('dialogDefinition', function( ev )
          onlinkTypeChangeFunction();
    }
 
+   // hook onchange handler of URL
+   var vurl = infoTab.get( 'url' );
+   var onurlChangeFunction = vurl['onChange'];
+
+   vurl['onChange'] = function() {
+       if(onurlChangeFunction.apply)
+         onurlChangeFunction.apply(this);
+         else
+         onurlChangeFunction();
+
+       var value = CKEDITOR.dialog.getCurrent().getValueOf("info", 'url');
+       var prot = CKEDITOR.dialog.getCurrent().getValueOf("info", 'protocol');
+       if(prot != "" && value.toLowerCase().indexOf("link]") > 0 && value.indexOf("[") == 0)
+          CKEDITOR.dialog.getCurrent().setValueOf("info", "protocol", ""); // set to other on e.g. AltBrowserLink
+   }
+
 		}
 
 		if ( dialogName == 'image' )
 		{
 
-			var infoTab = dialogDefinition.getContents( 'info' );
+   if(!(typeof showPixabayDialogPlugin === "undefined")){
+     dialogDefinition.buttons.push(
+        {
+          type: 'button',
+          id: 'ckPixabayButton',
+          label: ev.editor.lang.pixabaybtn.label,
+          title: ev.editor.lang.pixabaybtn.label,
+          onClick: function() {
+             showPixabayDialogPlugin(ev.editor, 'info' + '-' + 'txtUrl');
+          }
+        }
+     );
+   }
+
+   var infoTab = dialogDefinition.getContents( 'info' );
 
 			// Add a checkbox to the "info" tab.
 			infoTab.add( {
@@ -817,10 +904,15 @@ CKEDITOR.on('dialogDefinition', function( ev )
     "txtAlt" // before Alt-Tag
      );
 
-
    // images border=0
    var txtBorderField = infoTab.get( 'txtBorder' );
    txtBorderField['default'] = '0';
+
+   /*if(ev.editor.config.disableObjectResizing && typeof supportsAutoImageResampling !== "undefined" && supportsAutoImageResampling){
+     infoTab.remove('txtWidth');
+     infoTab.remove('txtHeight');
+     infoTab.remove('ratioLock');
+   }*/
 
    // hook onchange handler of txtUrl
    var vtxtUrl = infoTab.get('txtUrl');
@@ -843,6 +935,21 @@ CKEDITOR.on('dialogDefinition', function( ev )
    dialogDefinition.removeContents('general');
    dialogDefinition.removeContents('preview');
 
+
+   if(!(typeof showPixabayDialogPlugin === "undefined")){
+     dialogDefinition.buttons.push(
+        {
+          type: 'button',
+          id: 'ckPixabayButton',
+          label: ev.editor.lang.pixabaybtn.label,
+          title: ev.editor.lang.pixabaybtn.label,
+          onClick: function() {
+             showPixabayDialogPlugin(ev.editor, 'design' + '-' + 'bgImage');
+          }
+        }
+     );
+   }
+
 			var designTab = dialogDefinition.getContents( 'design' );
 
    designTab.remove( 'bgFixed' );
@@ -852,16 +959,18 @@ CKEDITOR.on('dialogDefinition', function( ev )
    bgImage.style = 'width: 210px';
 
    var bgImageChoose = designTab.get('bgImageChoose');
-   bgImageChoose.style = 'display:inline-block;margin-top:10px;margin-left: 10px';
+   bgImageChoose.style = 'display:inline-block;margin-top:20px;margin-left: 10px';
    //
 
   }
 
 		if ( dialogName == 'tableProperties' )
 		{
-    dialog.on('show', function () {
+    dialog.on('show', function (ev) {
        // change width in style width for properties dialog
-       var sel = CKEDITOR.currentInstance.getSelection();
+       var editor = CKEDITOR.currentInstance || dialogCurrentCKEditor;
+       if(!editor) return;
+       var sel = editor.getSelection();
        var element;
      		if (sel && (element = sel.getStartElement() && sel.getStartElement().getAscendant('table', true)) ) {
            var cwidth = CKEDITOR.dialog.getCurrent().getContentElement("info", "txtWidth");
@@ -936,7 +1045,7 @@ CKEDITOR.on('dialogDefinition', function( ev )
    CKEDITOR.dialog.getCurrent().setValueOf("info", CBId, 0);
    CKEDITOR.dialog.getCurrent().getContentElement("info", TargetElementId).focus();
    if(value.indexOf("Link") > 0)
-      CKEDITOR.dialog.getCurrent().setValueOf("info", "protocol", ""); // set to other on e.g. AltBrowserLink
+      CKEDITOR.dialog.getCurrent().setValueOf("info", "protocol", ""); // set to other on e.g. AltBrowserLink => hook onchange handler of URL changes it first
  }
 
  /**

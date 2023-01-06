@@ -19,7 +19,6 @@
 
       //-->
       </script>
-      <script type="text/javascript" src="js/jquery-latest.min.js"></script>
       <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
       <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
       <script language="JavaScript" type="text/javascript">
@@ -28,12 +27,12 @@
 
         function ConfirmEditMTAsEvent(value) {
          if(value)
-           window.location.href="./browsemtas.php";
+           CreateFormAndPostIt("./browsemtas.php");
         }
 
         function ConfirmEditMailinglistsEvent(value) {
          if(value)
-           window.location.href="./browsemailinglists.php";
+           CreateFormAndPostIt("./browsemailinglists.php");
         }
 
 
@@ -883,9 +882,11 @@
 
                     $("#Loading").hide();
                    }
-                   load_groups(false);
+                   $(document).ready(function(){
+                     load_groups(false);
+                     ShowHideSenderEMailAddresses();
+                   });
 
-                   ShowHideSenderEMailAddresses();
 
                    function ShowHideSenderEMailAddresses(){
                       if(document.getElementById('maillists_id') == null) return;
@@ -925,5 +926,8 @@
             </tbody>
           </table>
         </form>
+        <script>
+          InsertLoadingStatusOnSubmit();
+        </script>
       </div>
 

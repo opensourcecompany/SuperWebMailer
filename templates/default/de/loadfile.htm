@@ -207,8 +207,33 @@ function OnUploadCompleted( errorNumber, fileUrl, fileName, customMsg )
   		  
     s = elem.innerHTML;
 				s = s.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&");
-				InsertValue(s);
-				window.close();
+
+    var charset = "";
+    if(s.indexOf('<--filecharset=') == 0){
+      charset = s.substr(0, s.indexOf('!-->'));
+      s = s.substr(s.indexOf('>') + 1);
+      charset = charset.substr(charset.indexOf('=') + 1);
+    }
+
+
+    InsertValue(s);
+
+    var form = window.opener.document.getElementById( document.getElementById('_FORMFIELD').value );
+    while(form && form.tagName != "FORM"){
+      form = form.parentNode;
+    }
+
+    if(form){
+      var MailEncoding = form.elements["MailEncoding"];
+      if(MailEncoding){
+        var l = MailEncoding.selectedIndex;
+        MailEncoding.value = charset;
+        if(MailEncoding.selectedIndex == -1)
+          MailEncoding.selectedIndex = l;
+      }
+    }
+
+			window.close();
   }
 
 
@@ -245,7 +270,7 @@ function OnUploadCompleted( errorNumber, fileUrl, fileName, customMsg )
       <ISNOTFCKEDITOR>
       <script language="javascript" type="text/javascript">
       <!--
-        SourceElement = window.opener.document.forms['FORMNAME'].FORMFIELD;
+        SourceElement = window.opener.document.forms[GetFrameIndex('FORMNAME')].FORMFIELD;
         IsFCK = false;
       //-->
       </script>
@@ -317,8 +342,9 @@ function OnUploadCompleted( errorNumber, fileUrl, fileName, customMsg )
           if(!IsFCK)
             PasteText(value);
             else {
-              if(oEditor.config.fullPage == true)
+              if(oEditor.config.fullPage == true){
                  oEditor.setData(value);
+                 }
                  else {
                   if( (value.indexOf("<body") > 0) && (value.indexOf("</body") > 0) ) {
                     value = value.substr(0, value.indexOf("</body") - 1);

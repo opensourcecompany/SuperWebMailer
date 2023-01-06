@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<extension type="module" version="3.0" client="site" method="upgrade">
+    <name>SuperWebMailer Newsletter Anmeldung</name>
+    <creationDate>02-18-2011</creationDate>
+    <author>Mirko Böer</author>
+    <copyright>Copyright © 2001-2018 Mirko Böer, Leipzig</copyright>
+    <license>http://www.superwebmailer.de/</license>
+    <authorEmail>info@superwebmailer.de</authorEmail>
+    <authorUrl>http://www.superwebmailer.de</authorUrl>
+    <version>1.10</version>
+    <description>Newsletteran-/abmeldeformular für SuperWebMailer</description>
+    <files>
+       <filename module="mod_swm">mod_swm.php</filename>
+    </files>
+    <config>
+      <fields name="params">
+       <fieldset name="basic">
+        <field name="moduleclass_sfx" type="text" default="moduletable" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
+        <field name="module_description" type="text" default="Newsletteranmeldung" label="Module description" description="Der Text wird über der Box gezeigt" />
+        <field name="swm_url_to_nl_php" type="text" default="http://.../swm/nl.php" label="Komplette URL zur nl.php" description="Geben Sie die komplette URL für den Aufruf des Scripts nl.php im SuperWebMailer-Verzeichnis ein." />
+        <field name="swm_MailinglistId" type="text" default="1" label="Mailinglisten-ID" description="Geben Sie die Mailinglisten-ID ein." />
+        <field name="swm_FormId" type="text" default="1" label="Form-ID" description="Geben Sie die Formular-ID ein." />
+        <field name="swm_FormEncoding" type="list" default="utf-8" label="Zeichencodierung der Webseite" description="Geben Sie die Zeichencodierung der Webseite ein.">
+      			<option value="utf-8">UTF-8</option>
+      			<option value="iso-8859-1">iso-8859-1</option>
+        </field>
+        <field name="swm_salutation_visible" type="list" default="0" label="Anrede-Feld sichtbar?" description="">
+      			<option value="1">Ja</option>
+      			<option value="0">Nein</option>
+        </field>
+        <field name="swm_name_visible" type="list" default="0" label="Name-Feld sichtbar?" description="">
+      			<option value="1">Ja</option>
+      			<option value="0">Nein</option>
+        </field>
+        <field name="swm_firstname_visible" type="list" default="0" label="Vorname-Feld sichtbar?" description="">
+      			<option value="1">Ja</option>
+      			<option value="0">Nein</option>
+        </field>
+        <field name="swm_PrivacyPolicyURL" type="text" default="1" label="URL zur Datenschutzerklärung" description="Geben Sie die URL zur eigenen Datenschutzerklärung ein." />
+        <field name="swm_poweredby_visible" type="list" default="1" label="powered by SuperWebMailer sichtbar?" description="">
+      			<option value="1">Ja</option>
+      			<option value="0">Nein</option>
+        </field>
+        <field name="swm_salutation_desc" type="text" default="Anrede:" label="Bezeichnung für Anrede" description="" />
+        <field name="swm_name_desc" type="text" default="Name:" label="Bezeichnung für Name" description="" />
+        <field name="swm_firstname_desc" type="text" default="Vorname:" label="Bezeichnung für Vorname" description="" />
+        <field name="swm_email_desc" type="text" default="Ihre E-Mail-Adresse:" label="Bezeichnung für E-Mail-Adresse" description="" />
+        <field name="swm_newsletter_action_desc" type="text" default="Sie möchten sich für unseren Newsletter" label="Bezeichnung für den Text über den Radiobuttons" description="" />
+        <field name="swm_sub_rb_desc" type="text" default="anmelden" label="Bezeichnung für die Auswahl &quot;Anmelden&quot;" description="" />
+        <field name="swm_unsub_rb_desc" type="text" default="abmelden" label="Bezeichnung für die Auswahl &quot;Abmelden&quot;" description="" />
+        <field name="swm_submit_btn_desc" type="text" default="Absenden" label="Bezeichnung für den &quot;Absenden-Button&quot;" description="" />
+       </fieldset>
+      </fields>
+    </config>
+</extension>

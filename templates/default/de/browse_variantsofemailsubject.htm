@@ -1,0 +1,383 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title></title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer https://www.superwebmailer.de/" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<script type="text/javascript" src="js/jquery-latest.min.js"></script>
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+        <table style="width: 100%">
+          <tr>
+            <td style="width: 95%;">
+              <LABEL:PAGETOPIC></LABEL:PAGETOPIC><br /><br />
+            </td>
+            <td style="width: 5%;vertical-align:top" nowrap="nowrap">
+              <input type="hidden" name="HelpTopic" id="HelpTopic" />
+              <a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)"><img src="images/help_icon.gif" width="16" height="16" alt="Hilfe" style="text-align: left;" /></a>&nbsp;<a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)">Hilfe</a>&nbsp;
+            </td>
+          </tr>
+        </table>
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+
+   <div class="container">
+        <div class="errortopic" style="display: none;">
+          Die Gesamtl&auml;nge der definierten Betreffs &uuml;berschreitet 65535 Zeichen, beim Speichern in die Datenbank
+          wird der Text unvollst&auml;ndig gespeichert werden.
+        </div>
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+       var SourceElement = parent.document.forms['_FORMNAME']._FORMFIELD;
+
+       // default placeholders
+       var arrPlaceholderItems = new Array(
+           new Array('[PLACEHOLDER]', 'PLACEHOLDERTEXT')
+     	    );
+
+      //-->
+      </script>
+
+      <form id="SubjectListsForm" name="SubjectListsForm" method="post" onsubmit="return false;">
+
+      <script language="javascript" type="text/javascript">
+      <!--
+        var $CurrentEditElement = null;
+        var EMailSubjectVariantsSeparator = '%EMailSubjectVariantsSeparator%';
+
+        function CheckboxClicked() {
+         DisableItem('SubjectActions', GetCheckedCount('SubjectIDs[]', 'SubjectListsForm') > 0 );
+         ShowItem('ListActionSubmitBtn', (document.getElementById('SubjectActions').selectedIndex != 0) && ( document.getElementById('SubjectActions').disabled == false ) ) ;
+        }
+
+        function ConfirmListAction() {
+          if(document.getElementById("SubjectActions").selectedIndex == 1) {
+            MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Betreffs l&ouml;schen?', 3, 320, 120, 'ConfirmListActionEvent');
+            return false;
+          }
+          return true;
+        }
+
+        function ConfirmListActionEvent(value) {
+          if(value){
+
+            $("#TableSubjectsLists").find("tr").each(
+           		function(){
+                if($(this).prop("id") != "template_row" && $(this).prop("id") != "head" && $(this).find('[type=checkbox]').prop('checked')){
+                  $(this).remove();
+                }
+           	 }
+            );
+            $("#TableSubjectsLists").find('[type=checkbox]').prop('checked', false);
+            CheckboxClicked();
+            SetMoveButtons();
+          }
+        }
+
+
+        function NewSubject(){
+          MessagePrompt('Neuer Betreff', 'Geben Sie den E-Mail-Betreff ein.', "", 500, 120, 'ConfirmAddSubjectEvent', true, arrPlaceholderItems, "Feld zum Einf&uuml;gen w&auml;hlen...");
+        }
+
+        function ConfirmAddSubjectEvent(value, newValue, CheckExists) {
+          if(CheckExists == null)
+             CheckExists = true;
+          if(value){
+
+            if(CheckExists){
+              var exists = false;
+              $("#TableSubjectsLists").find(".SubjectClass").each(
+             		function(){
+             		  if($(this).text() == newValue){
+                    exists = true;
+                    return false;
+                 }
+             	 }
+              );
+
+              if(exists){
+                MessageBox('Neuer Betreff', 'Der Betreff existiert bereits.', messageTypeInformation, 420, 120);
+                return;
+              }
+            }
+
+            var $newSubject = $("#template_row").clone();
+            $newSubject.prop( "id", null );
+            $newSubject.removeAttr("id");
+            $newSubject.prop( "style", null );
+            $newSubject.removeAttr("style");
+
+            $newSubject.find(".SubjectClass").html(newValue);
+
+            $("#TableSubjectsLists").find("tr").last().after($newSubject);
+            SetMoveButtons();
+            addTableRolloverEffect('TableSubjectsLists','tableRollOverEffect','tableRowClickEffect');
+
+          }
+        }
+
+        function EditSubject(element){
+          $CurrentEditElement = element;
+          MessagePrompt('Betreff &auml;ndern', 'Geben Sie den E-Mail-Betreff ein.', $CurrentEditElement.find(".SubjectClass").html(), 500, 120, 'ConfirmEditSubjectEvent', true, arrPlaceholderItems, "Feld zum Einf&uuml;gen w&auml;hlen...");
+        }
+
+        function ConfirmEditSubjectEvent(value, newValue) {
+          if(value){
+
+            var exists = false;
+            $("#TableSubjectsLists").find(".SubjectClass").each(
+           		function(){
+           		  if( $CurrentEditElement.index() != $(this).closest("tr").index() && $(this).html() == newValue){
+                  exists = true;
+                  return false;
+               }
+           	 }
+            );
+
+            if(exists){
+              MessageBox('Betreff &auml;ndern', 'Der Betreff existiert bereits.', messageTypeInformation, 320, 120);
+              return;
+            }
+
+            $CurrentEditElement.find(".SubjectClass").html(newValue);
+          }
+        }
+
+        function SetMoveButtons(){
+
+            var row = 0;
+            var rowCount = $("#TableSubjectsLists").find("tr").length - 2; // -2 head and template row
+            $("#TableSubjectsLists").find(".SubjectActionsClass").each(
+           		function(){
+                if(!$(this).closest("#template_row").html()){
+                  $(this).find(".UpBtnClass").css( "visibility",  row == 1 ? "hidden" : "visible");
+                  $(this).find(".DownBtnClass").css( "visibility",  row == rowCount ? "hidden" : "visible");
+                }
+                row++;
+           	 }
+            );
+
+            var l = GetSubject().length;
+            $("#NewSubject").css( "visibility",  l > 65535 ? "hidden" : "visible");
+            $(".errortopic").css( "display",  l > 65535 ? "block" : "none");
+            DisableItem("SaveBtn", !(l > 65535));
+        }
+
+        function MoveSubjectUp(aRow){
+         aRow.insertBefore(aRow.prev());
+         SetMoveButtons();
+        }
+
+        function MoveSubjectDown(aRow){
+         aRow.insertAfter(aRow.next());
+         SetMoveButtons();
+        }
+
+        function SetSubjects(subjects){
+          if(subjects == ""){
+           $("#RandomSubject").click();
+           return;
+          }
+          var MailSubjects = subjects.split(EMailSubjectVariantsSeparator);
+          if(MailSubjects.length > 0){
+            if ('random' == MailSubjects[MailSubjects.length - 1].toLowerCase() )
+              MailSubjects.pop();
+              else{
+               var x = 'changesubjectafter:';
+               if (MailSubjects[MailSubjects.length - 1].toLowerCase().indexOf(x) > -1){
+                 var ChangeSubjectAfter = MailSubjects[MailSubjects.length - 1].toLowerCase();
+                 ChangeSubjectAfter = parseInt(ChangeSubjectAfter.substr(ChangeSubjectAfter.indexOf(x) + x.length));
+                 if(ChangeSubjectAfter < 1) ChangeSubjectAfter = 1;
+                 MailSubjects.pop();
+                 $("#RecipientsCount").val(ChangeSubjectAfter);
+               }
+              }
+          }
+          for(var i=0; i<MailSubjects.length; i++)
+            ConfirmAddSubjectEvent(true, MailSubjects[i], false);
+          if(ChangeSubjectAfter)
+            $("#ChangeSubject").click();
+            else
+            $("#RandomSubject").click();
+          DisableItem('RecipientsCount', $('#ChangeSubject').prop('checked') );
+          SetMoveButtons();
+        }
+
+        function GetSubject(){
+            var result = Array();
+            $("#TableSubjectsLists").find(".SubjectClass").each(
+           		function(){
+                if(!$(this).closest("#template_row").html()){
+                  result.push( $(this).text() );
+                }
+           	 }
+            );
+            if(result.length > 1)
+              return result.join(EMailSubjectVariantsSeparator) + EMailSubjectVariantsSeparator +
+                     ($('#ChangeSubject').prop('checked') ? "changesubjectafter:" + parseInt($("#RecipientsCount").val()) : "random");
+              else
+              return result.join("");
+        }
+
+      //-->
+      </script>
+
+      <table class="FixedTable">
+        <tbody>
+
+          <tr>
+            <td>
+             <div><b>Regel zur Nutzung eines Betreffs</b><br /><br />
+
+             <blockquote style="margin-left: 8px">
+               <input type="radio" name="R" id="RandomSubject" onclick="DisableItem('RecipientsCount', $('#ChangeSubject').prop('checked') );" /><label for="RandomSubject">&nbsp;Zuf&auml;llig einen Betreff w&auml;hlen</label><br /><br />
+               <input type="radio" name="R" id="ChangeSubject" onclick="DisableItem('RecipientsCount', $('#ChangeSubject').prop('checked') );" /><label for="ChangeSubject">&nbsp;Betreff wechseln, nach</label><br />
+               <input type="number" size="10" style="text-align: right" value="1" id="RecipientsCount" onblur="this.value = parseInt(this.value); if(this.value < 1) this.value=1; " /><label for="RecipientsCount">&nbsp;Empf&auml;ngern</label><br />
+             </blockquote>
+
+             </div>
+
+             <span style="float: right; margin-right: 0pt"><a class="Backlink" href="#" id="NewSubject" onclick="NewSubject(); return false;">Neuer Betreff</a></span>
+
+            </td>
+          </tr>
+
+          <tr>
+          <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table id="TableSubjectsLists" name="TableSubjectsLists" class="FixedTable">
+      	<thead>
+      		<tr id="head">
+      			<td class="NoWrap" width="1%"><input name="SelectAllChkBox" type="checkbox" onclick="CheckAllCheckboxes('SelectAllChkBox', 'SubjectIDs[]', 'SubjectListsForm'); CheckboxClicked(); $('#TableSubjectsLists').find('#template_row').find('[type=checkbox]').prop('checked', false); CheckboxClicked();" /></td>
+      			<td class="NoWrap" width="80%;">Betreff</td>
+      			<td class="NoWrap" width="1%">&nbsp;</td>
+      			<td class="NoWrap" width="17%">Aktionen</td>
+      		</tr>
+      	</thead>
+      	<tbody>
+
+      		<tr id="template_row" style="display: none;">
+      			<td><input name="SubjectIDs[]" type="checkbox" onclick="CheckboxClicked()" /></td>
+      			<td class="SubjectClass" ondblclick="EditSubject( $(this).closest('tr') );">%SUBJECT%</td>
+      			<td>&nbsp;</td>
+      			<td class="NoWrap SubjectActionsClass">
+      			    <input type="image" src="images/edit.gif" width="16" height="16" name="EditSubjectProperties" onclick="hideTooltip(); EditSubject( $(this).closest('tr') ); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'&Auml;ndern des Betreffs');return false" />&nbsp;
+             <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteSubject" onclick="hideTooltip(); $(this).closest('tr').remove(); CheckboxClicked(); SetMoveButtons(); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht den Betreff');return false" />&nbsp;
+      			    <input type="image" src="images/arrow_up.gif" width="16" height="16" name="UpBtn" class="UpBtnClass" onclick="hideTooltip(); MoveSubjectUp( $(this).closest('tr') ); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Betreff nach oben verschieben');return false" />&nbsp;
+             <input type="image" src="images/arrow_down.gif" width="16" height="16" name="DownBtn" class="DownBtnClass" onclick="hideTooltip(); MoveSubjectDown( $(this).closest('tr') ); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Betreff nach unten verschieben');return false" />&nbsp;
+    		    </td>
+      		</tr>
+
+      	</tbody>
+      	</table>
+
+   	  <table class="FixedTable">
+   	  <thead></thead>
+   	  <tbody></tbody>
+    	  <tfoot>
+       		<tr>
+       		  <td>
+        		  <table border="0" cellpadding="0" cellspacing="0" width="100%">
+        		  <tr>
+        		  <td style="width:1%; white-space:nowrap; ">
+          		  Selektierte:&nbsp;
+        		  </td>
+        		  <td style="width:70%; white-space:nowrap; ; text-align: left">
+            		  <select name="SubjectActions" id="SubjectActions" size="1" onchange="ShowItem('ListActionSubmitBtn', (document.getElementById('SubjectActions').selectedIndex != 0) && ( document.getElementById('SubjectActions').disabled == false ) ) ;">
+              		  <option value="doNothing">Aktion w&auml;hlen</option>
+                  <option value="RemoveFunctions">L&ouml;sche die gew&auml;hlten Betreffs</option>
+            		  </select>
+            		  <input type="button" name="ListActionSubmitBtn" id="ListActionSubmitBtn" value="Ausf&uuml;hren" onclick="ConfirmListAction(); return false;" />
+        		  </td>
+
+            	</tr>
+            	</table>
+       			</td>
+       		</tr>
+      	</tfoot>
+      </table>
+
+      <input type="button" name="SaveBtn" id="SaveBtn" value="Speichern" class="FormButton" onclick="SourceElement.value = GetSubject(); parent.Modified = true; parent.closeDialog();" />
+      <input type="button" name="CloseBtn" value="Abbrechen" class="FormButton" onclick="parent.closeDialog();" />
+
+      </form>
+
+      <script type="text/javascript">
+      <!--
+
+        $(document).ready(function(){
+
+          addTableRolloverEffect('TableSubjectsLists','tableRollOverEffect','tableRowClickEffect');
+          CheckboxClicked();
+
+          SetSubjects(SourceElement.value);
+
+        });
+
+
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+   </div>
+
+
+</div>
+
+
+</body>
+
+</html>

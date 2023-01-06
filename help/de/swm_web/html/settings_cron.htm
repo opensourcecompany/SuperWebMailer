@@ -68,20 +68,29 @@ beeinflusst.</p>
           <p>1. CronJob-Eintrag (unter Windows Aufgabenplanung) auf dem Server
           erstellen</p>
           <p>Erstellen Sie einen neuen CrobJob-Eintrag (unter Windows
-          Aufgabenplanung) mit kompletten http://-Aufruf des Scripts crons.php.
+          Aufgabenplanung) mit kompletten http(s)://-Aufruf des Scripts
+          crons.php.
           <p>Der Aufruf sollte einmal pro Minute aber spätestens einmal pro
           Stunde durchgeführt werden, so dass die oben aufgeführten
           Ausführungsintervalle der einzelnen Aufgaben eingehalten werden
-          können.
+          können. <br>
+          <b>Für einen schnellen Versand der E-Mails ist ein Aufruf einmal pro
+          Minute oder gar <a href="#cronseconds">Sekunde</a> zwingend
+          erforderlich.</b>
           <p>&nbsp;</p>
-          <p><b>wget unter Windows<br>
-          </b>Unter Windows ist das Tool wget für das Aufrufen von Seiten per
-          http:// normalerweise nicht verfügbar, die Windows-Version kann unter
-          <a href="http://www.gnu.org/software/wget/" target="_blank">http://www.gnu.org/software/wget/</a>
+          <p>Für den Aufruf sollte wget oder curl verwendet werden, eines der
+          beiden Tools sollte auf dem Server installiert sein.</p>
+          <p>&nbsp;</p>
+          <p><b>curl oder wget unter Windows<br>
+          </b>Unter Windows sind die Tools für das Aufrufen von Seiten per http(s)://
+          normalerweise nicht verfügbar, die Windows-Version von wget kann
+          unter <a href="http://www.gnu.org/software/wget/" target="_blank">http://www.gnu.org/software/wget/</a>,
+          die Windows-Version von curl unter <a href="https://curl.haxx.se/download.html" target="_blank">https://curl.haxx.se/download.html</a>
           geladen werden.</p>
           <p>&nbsp;</p>
+          <p>&nbsp;</p>
           <p><b>Beispiel für das Erstellen eines CronJob-Eintrags in Plesk
-          (Ausführung einmal pro Minute, jeden Tag, jeden Monat)</b></p>
+          (Ausführung einmal pro Minute, jeden Tag, jeden Monat) mit wget</b></p>
           <p><img border="0" src="../images/plesk_task.png" width="1051" height="406"><br>
           </p>
           <p><b>Beispiel für das Erstellen eines CronJob-Eintrags direkt auf
@@ -92,11 +101,17 @@ beeinflusst.</p>
           (Buchstabe O in Klein- und Großschreibung) bewirkt, dass etwaige
           Ausgaben von wget sofort vergessen werden.</p>
           <p>&nbsp;</p>
+          <p><b>Aufruf per curl</b></p>
+          <p>Der Aufruf per curl ist ähnlich wie bei wget:</p>
+          <p><font face="Courier New">curl --silent &quot;http(s)://www.ihreseite.de/crons.php&quot;
+          &amp;&gt;/dev/null</font></p>
+          <p>&nbsp;</p>
           <p>2. Verwendung eines externen CronJob-Diensts</p>
           <p>Sie können einen externen CronJob-Dienst verwenden, welches das
           Script crons.php im Script-Paket-Verzeichnis regelmäßig aufruft.
           <p>&nbsp;</p>
-          <p>3. Einfügen des Scriptaufrufs in die eigene Webseite</p>
+          <p>3. Einfügen des Scriptaufrufs in die eigene Webseite(<b>nicht
+          empfohlen</b>)</p>
           <p>Fügen Sie den folgenden JavaScript-Code in Ihre Webseite (z.B.
           Startseite der Webpräsenz) ein. Jedes Mal wenn ein Besucher die
           Webseite aufruft wird das CronJob-Script ausgeführt.</p>
@@ -111,7 +126,7 @@ beeinflusst.</p>
 &lt;/script&gt;
           </textarea><br />
           <br />
-          <p>4. Manuelles Ausführen des CronJob-Scripts (nicht empfohlen)</p>
+          <p>4. Manuelles Ausführen des CronJob-Scripts (<b>nicht empfohlen</b>)</p>
           <p>Klicken Sie auf &quot;CronJobs jetzt manuell ausführen&quot; um
           das CronJob-Script manuell auszuführen.</p>
         </blockquote>
@@ -119,6 +134,38 @@ beeinflusst.</p>
     </tr>
   </tbody>
 </table>
+<p>&nbsp;</p>
+<p><b><a name="cronseconds"></a>Aufruf des Scripts crons.php öfter als einmal
+pro Minute</b></p>
+<p>Es ist unter Unix/Linux-Systemen nicht möglich eine Aufgabe öfter als
+einmal pro Minute per Crontab aufzurufen. Um dies denoch zu erreichen muss der
+http(s)://-Aufruf zeitversetzt erfolgen, dazu müssen mehrere Crontab-Einträge
+erstellt werden. Für den Aufruf alle 15 Sekunden sind entsprechend 4 Einträge
+notwendig, die zur gleichen Zeit aufgerufen werden aber durch das Kommando <font face="Courier New">sleep</font>
+verzögert ausgeführt werden.</p>
+<p>Beispiel mit wget<br>
+Crontab-Eintrag 1: <font face="Courier New">wget -O /dev/null -o /dev/null
+http://www.seite.de/swm/crons.php<br>
+</font>Crontab-Eintrag 2: <font face="Courier New">sleep 15; wget -O /dev/null
+-o /dev/null http://www.seite.de/swm/crons.php<br>
+</font>Crontab-Eintrag 3: <font face="Courier New">sleep 30; wget --O /dev/null
+-o /dev/null http://www.seite.de/swm/crons.php<br>
+</font>Crontab-Eintrag 4: <font face="Courier New">sleep 45; wget -O /dev/null
+-o /dev/null http://www.seite.de/swm/crons.php<br>
+</font></p>
+<p>Beispiel mit curl<br>
+Crontab-Eintrag 1: <font face="Courier New">curl --silent
+&quot;http://www.seite.de/swm/crons.php&quot; &amp;&gt;/dev/null<br>
+</font>Crontab-Eintrag 2: <font face="Courier New">sleep 15; curl --silent
+&quot;http://www.seite.de/swm/crons.php&quot; &amp;&gt;/dev/null<br>
+</font>Crontab-Eintrag 3: <font face="Courier New">sleep 30; curl --silent
+&quot;http://www.seite.de/swm/crons.php&quot; &amp;&gt;/dev/null<br>
+</font>Crontab-Eintrag 4: <font face="Courier New">sleep 45; curl --silent
+&quot;http://www.seite.de/swm/crons.php&quot; &amp;&gt;/dev/null<br>
+</font></p>
+<p><b>Siehe dazu auch<br>
+</b><a href="https://support.plesk.com/hc/en-us/articles/115004281794-How-to-create-a-scheduled-task-to-fetch-URL-every-15-seconds" target="_blank">How
+to create a scheduled task to fetch URL every 15 seconds</a></p>
 <p>&nbsp;</p>
 <p><b>Die CronJob-Typen</b></p>
 <p>&nbsp;</p>
@@ -167,7 +214,8 @@ beeinflusst.</p>
       <p>&nbsp;</td>
   </tr>
   <tr>
-    <td width="25%" valign="top">Löschen von Responder/E-Mailing-Versand-Einträgen</td>
+    <td width="25%" valign="top">Löschen von
+      Responder/E-Mailing-Versand-Einträgen</td>
     <td width="75%">Löscht die einzelnen Versandeinträge der Responder oder
       E-Mailings.
       <p>&nbsp;</td>
@@ -180,12 +228,14 @@ beeinflusst.</p>
   </tr>
   <tr>
     <td width="25%" valign="top">Prüfung Verteilerlisten (nicht in
-	SuperWebMailer-Basic bzw. SuperMailingList-Basic)</td>
+      SuperWebMailer-Basic bzw. SuperMailingList-Basic)</td>
     <td width="75%">Prüft alle Verteilerlisten auf eingegangene E-Mails und
-	versendet diese.<p>&nbsp;</td>
+      versendet diese.
+      <p>&nbsp;</td>
   </tr>
   <tr>
-    <td width="25%" valign="top">Prüfung auf zu versendende E-Mails (nicht in SuperMailingList-Basic)</td>
+    <td width="25%" valign="top">Prüfung auf zu versendende E-Mails (nicht in
+      SuperMailingList-Basic)</td>
     <td width="75%">Prüft den Ausgangsqueue auf Versandaufträge und führt
       falls notwendig den E-Mail-Versand im Hintergrund nach und nach durch. Die
       Anzahl der auf einmal zu versendenden E-Mails hängt von der Einstellung
@@ -200,7 +250,8 @@ beeinflusst.</p>
       <p>&nbsp;</td>
   </tr>
   <tr>
-    <td width="25%" valign="top">Löschen von Tracking-Daten der Responder/Mailings</td>
+    <td width="25%" valign="top">Löschen von Tracking-Daten der
+      Responder/Mailings</td>
     <td width="75%">Löscht die Tracking-Daten (Öffnungsstatistik und
       Klick-Statistik) der Responder und E-Mailings.
       <p>&nbsp;</td>

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -30,7 +30,7 @@
   include_once("cron_smscampaigns.inc.php");
   include_once("smsout.inc.php");
 
-  if (count($_POST) == 0) {
+  if (count($_POST) <= 1) {
     include_once("browsesmscampaigns.php");
     exit;
   }
@@ -55,357 +55,359 @@
   if(isset($_POST["MaxSMSSentTime"]) && $_POST["MaxSMSSentTime"] == "") # Send done?
     unset($_POST["MaxSMSSentTime"]);
 
-  $_Q6QiO = "'%d.%m.%Y %H:%i:%s'";
-  $_If0Ql = "'%d.%m.%Y'";
+  $_QLo60 = "'%d.%m.%Y %H:%i:%s'";
+  $_j01CJ = "'%d.%m.%Y'";
   if($INTERFACE_LANGUAGE != "de") {
-     $_Q6QiO = "'%Y-%m-%d %H:%i:%s'";
-     $_If0Ql = "'%Y-%m-%d'";
+     $_QLo60 = "'%Y-%m-%d %H:%i:%s'";
+     $_j01CJ = "'%Y-%m-%d'";
   }
 
-  $_I0600 = "";
+  $_Itfj8 = "";
 
   // MailTextInfos
-  $_QJlJ0 = "SELECT `$_IoCtL`.*, `$_IoCtL`.Name AS CampaignsName, `$_Q60QL`.MaillistTableName, `$_Q60QL`.MailListToGroupsTableName, `$_Q60QL`.LocalBlocklistTableName, `$_Q60QL`.id AS MailingListId, `$_Q60QL`.FormsTableName, `$_Q60QL`.StatisticsTableName, `$_Q60QL`.MailLogTableName, `$_Q60QL`.`MTAsTableName`, `$_Q60QL`.users_id ";
-  $_QJlJ0 .= " FROM `$_IoCtL` LEFT JOIN `$_Q60QL` ON `$_Q60QL`.id=`$_IoCtL`.maillists_id WHERE `$_IoCtL`.id=$CampaignListId";
+  $_QLfol = "SELECT `$_jJLLf`.*, `$_jJLLf`.Name AS CampaignsName, `$_QL88I`.MaillistTableName, `$_QL88I`.MailListToGroupsTableName, `$_QL88I`.LocalBlocklistTableName, `$_QL88I`.id AS MailingListId, `$_QL88I`.FormsTableName, `$_QL88I`.StatisticsTableName, `$_QL88I`.MailLogTableName, `$_QL88I`.`MTAsTableName`, `$_QL88I`.users_id ";
+  $_QLfol .= " FROM `$_jJLLf` LEFT JOIN `$_QL88I` ON `$_QL88I`.id=`$_jJLLf`.maillists_id WHERE `$_jJLLf`.id=$CampaignListId";
 
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-    $_I0600 = $commonmsgHTMLFormNotFound;
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+    $_Itfj8 = $commonmsgHTMLFormNotFound;
   } else {
-    $_IiICC = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_jf6Qi = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
   }
 
-  $MailingListId = $_IiICC["MailingListId"];
-  $FormId = $_IiICC["forms_id"];
-  $_QLI8o = $_IiICC["FormsTableName"];
-  $_Q6t6j = $_IiICC["GroupsTableName"];
-  $_QlQC8 = $_IiICC["MaillistTableName"];
-  $_QLI68 = $_IiICC["MailListToGroupsTableName"];
-  $_QlIf6 = $_IiICC["StatisticsTableName"];
-  $_ItCCo = $_IiICC["LocalBlocklistTableName"];
-  $_QljIQ = $_IiICC["MailLogTableName"];
+  $MailingListId = $_jf6Qi["MailingListId"];
+  $FormId = $_jf6Qi["forms_id"];
+  $_IfJoo = $_jf6Qi["FormsTableName"];
+  $_QljJi = $_jf6Qi["GroupsTableName"];
+  $_I8I6o = $_jf6Qi["MaillistTableName"];
+  $_IfJ66 = $_jf6Qi["MailListToGroupsTableName"];
+  $_I8jjj = $_jf6Qi["StatisticsTableName"];
+  $_jjj8f = $_jf6Qi["LocalBlocklistTableName"];
+  $_I8jLt = $_jf6Qi["MailLogTableName"];
 
-  $_IiICC["OverrideSubUnsubURL"] = "";
+  $_jf6Qi["OverrideSubUnsubURL"] = "";
 
   // CurrentSendTableName
-  $_jQlit = 0;
-  $_jQll6 = 0;
-  $_jI0Oo = 0;
-  $_jI1Ql = 0;
-  $_jI1tt = 0;
-  $_jIQ0i = 0;
-  $_jIQfo=0;
+  $_jlOJO = 0;
+  $_jlOCl = 0;
+  $_jloJI = 0;
+  $_jlolf = 0;
+  $_jlCtf = 0;
+  $_jliJi = 0;
+  $_jlLQC=0;
   if(isset($_POST["SendDone"]) && $_POST["SendDone"] != "" && isset($_POST["CurrentSendId"]) && $_POST["CurrentSendId"] > 0) { # Send done?
-    $_QJlJ0 = "SELECT *, DATE_FORMAT(StartSendDateTime, $_Q6QiO) AS StartSendDateTimeFormated, ";
-    $_QJlJ0 .= "DATE_FORMAT(EndSendDateTime, $_Q6QiO) AS EndSendDateTimeFormated, ";
-    $_QJlJ0 .= "SEC_TO_TIME( UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(StartSendDateTime) ) AS SendDuration, ";
-    $_QJlJ0 .= "DATE_FORMAT(DATE_ADD(NOW(), INTERVAL RecipientsCount * ( UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(StartSendDateTime) ) / (SentCountSucc+SentCountFailed) SECOND), $_Q6QiO) AS SendEstEndTime ";
-    $_QJlJ0 .= "FROM `$_IiICC[CurrentSendTableName]` WHERE id=$_POST[CurrentSendId]";
+    $_QLfol = "SELECT *, DATE_FORMAT(StartSendDateTime, $_QLo60) AS StartSendDateTimeFormated, ";
+    $_QLfol .= "DATE_FORMAT(EndSendDateTime, $_QLo60) AS EndSendDateTimeFormated, ";
+    $_QLfol .= "SEC_TO_TIME( UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(StartSendDateTime) ) AS SendDuration, ";
+    $_QLfol .= "DATE_FORMAT(DATE_ADD(NOW(), INTERVAL RecipientsCount * ( UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(StartSendDateTime) ) / (SentCountSucc+SentCountFailed) SECOND), $_QLo60) AS SendEstEndTime ";
+    $_QLfol .= "FROM `$_jf6Qi[CurrentSendTableName]` WHERE id=$_POST[CurrentSendId]";
     }
    else {
      if(isset($_POST["SendDone"]) && $_POST["SendDone"] != "" && isset($_POST["CurrentSendId"]) && $_POST["CurrentSendId"] == 0) // browser or mysql crash?
        unset($_POST["SendDone"]);
-     $_QJlJ0 = "SELECT *, DATE_FORMAT(StartSendDateTime, $_Q6QiO) AS StartSendDateTimeFormated, ";
-     $_QJlJ0 .= "DATE_FORMAT(EndSendDateTime, $_Q6QiO) AS EndSendDateTimeFormated, ";
-     $_QJlJ0 .= "SEC_TO_TIME( UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(StartSendDateTime) ) AS SendDuration, ";
-     $_QJlJ0 .= "DATE_FORMAT(DATE_ADD(NOW(), INTERVAL RecipientsCount * ( UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(StartSendDateTime) ) / (SentCountSucc+SentCountFailed) SECOND), $_Q6QiO) AS SendEstEndTime ";
-     $_QJlJ0 .= "FROM `$_IiICC[CurrentSendTableName]` WHERE SendState<>'Done' AND SendState<>'Paused'";
+     $_QLfol = "SELECT *, DATE_FORMAT(StartSendDateTime, $_QLo60) AS StartSendDateTimeFormated, ";
+     $_QLfol .= "DATE_FORMAT(EndSendDateTime, $_QLo60) AS EndSendDateTimeFormated, ";
+     $_QLfol .= "SEC_TO_TIME( UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(StartSendDateTime) ) AS SendDuration, ";
+     $_QLfol .= "DATE_FORMAT(DATE_ADD(NOW(), INTERVAL RecipientsCount * ( UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(StartSendDateTime) ) / (SentCountSucc+SentCountFailed) SECOND), $_QLo60) AS SendEstEndTime ";
+     $_QLfol .= "FROM `$_jf6Qi[CurrentSendTableName]` WHERE SendState<>'Done' AND SendState<>'Paused'";
     }
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if(mysql_num_rows($_Q60l1) > 0) {
-    $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-    $_jQlit = $_Q6Q1C["LastMember_id"];
-    $_jQll6 = $_Q6Q1C["id"];
-    $_jI0Oo = $_Q6Q1C["RecipientsCount"];
-    $_jII6j = $_Q6Q1C["StartSendDateTimeFormated"];
-    $_jIjJi = $_Q6Q1C["EndSendDateTimeFormated"];
-    $_jIj6l = $_Q6Q1C["SendDuration"];
-    $_jIjC1 = $_Q6Q1C["SendEstEndTime"];
-    $_jI1Ql = $_Q6Q1C["SentCountSucc"];
-    $_jI1tt = $_Q6Q1C["SentCountFailed"];
-    $_jIQ0i = $_Q6Q1C["SentCountPossiblySent"];
-    $_jIQfo = $_Q6Q1C["ReportSent"];
-    mysql_free_result($_Q60l1);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if(mysql_num_rows($_QL8i1) > 0) {
+    $_QLO0f = mysql_fetch_assoc($_QL8i1);
+    $_jlOJO = $_QLO0f["LastMember_id"];
+    $_jlOCl = $_QLO0f["id"];
+    $_jloJI = $_QLO0f["RecipientsCount"];
+    $_jlLL0 = $_QLO0f["StartSendDateTimeFormated"];
+    $_jlLLO = $_QLO0f["EndSendDateTimeFormated"];
+    $_jll1i = $_QLO0f["SendDuration"];
+    $_jllQj = $_QLO0f["SendEstEndTime"];
+    $_jlolf = $_QLO0f["SentCountSucc"];
+    $_jlCtf = $_QLO0f["SentCountFailed"];
+    $_jliJi = $_QLO0f["SentCountPossiblySent"];
+    $_jlLQC = $_QLO0f["ReportSent"];
+    mysql_free_result($_QL8i1);
   } else{
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
     // Current Send Table
-    $_QJlJ0 = "INSERT INTO `$_IiICC[CurrentSendTableName]` SET StartSendDateTime=NOW(), EndSendDateTime=NOW()";
+    $_QLfol = "INSERT INTO `$_jf6Qi[CurrentSendTableName]` SET StartSendDateTime=NOW(), EndSendDateTime=NOW()";
 
-    mysql_query($_QJlJ0, $_Q61I1);
-    $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    $_jQll6 = $_Q6Q1C[0];
-    mysql_free_result($_Q60l1);
+    mysql_query($_QLfol, $_QLttI);
+    $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    $_jlOCl = $_QLO0f[0];
+    mysql_free_result($_QL8i1);
 
-    $_QJlJ0 = "SELECT DATE_FORMAT(StartSendDateTime, $_Q6QiO) AS StartSendDateTimeFormated, SEC_TO_TIME( UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(StartSendDateTime) ) AS SendDuration FROM $_IiICC[CurrentSendTableName] WHERE id=$_jQll6";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-    $_jII6j = $_Q6Q1C["StartSendDateTimeFormated"];
-    $_jIjJi = $_Q6Q1C["StartSendDateTimeFormated"]; //only set var
-    $_jIj6l = $_Q6Q1C["SendDuration"];
-    $_jIjC1 = $resourcestrings[$INTERFACE_LANGUAGE]["NA"];
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT DATE_FORMAT(StartSendDateTime, $_QLo60) AS StartSendDateTimeFormated, SEC_TO_TIME( UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(StartSendDateTime) ) AS SendDuration FROM $_jf6Qi[CurrentSendTableName] WHERE id=$_jlOCl";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_assoc($_QL8i1);
+    $_jlLL0 = $_QLO0f["StartSendDateTimeFormated"];
+    $_jlLLO = $_QLO0f["StartSendDateTimeFormated"]; //only set var
+    $_jll1i = $_QLO0f["SendDuration"];
+    $_jllQj = $resourcestrings[$INTERFACE_LANGUAGE]["NA"];
+    mysql_free_result($_QL8i1);
 
     // Update ReSendFlag
-    $_QJlJ0 = "UPDATE $_IoCtL SET ReSendFlag=0 WHERE id=$_IiICC[id]";
-    mysql_query($_QJlJ0, $_Q61I1);
+    $_QLfol = "UPDATE $_jJLLf SET ReSendFlag=0 WHERE id=$_jf6Qi[id]";
+    mysql_query($_QLfol, $_QLttI);
 
   }
-  $_POST["CurrentSendId"] = $_jQll6;
+  $_POST["CurrentSendId"] = $_jlOCl;
   // CurrentSendId for Tracking and AltBrowserLink
-  $_IiICC["CurrentSendId"] = $_jQll6;
+  $_jf6Qi["CurrentSendId"] = $_jlOCl;
 
   // RecipientsRow
-  if($_jI0Oo == 0) {
-    $_jI0Oo = _LOAFR($_IiICC, $_QJlJ0, $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo);
-    mysql_query("UPDATE $_IiICC[CurrentSendTableName] SET RecipientsCount=$_jI0Oo WHERE id=$_jQll6", $_Q61I1);
+  if($_jloJI == 0) {
+    $_jloJI = _JLQEF($_jf6Qi, $_QLfol, $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f);
+    mysql_query("UPDATE $_jf6Qi[CurrentSendTableName] SET RecipientsCount=$_jloJI WHERE id=$_jlOCl", $_QLttI);
   }
 
-  $_QJlJ0 = _LOP8R($_IiICC, $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo);
-  $_QJlJ0 .= " AND `$_QlQC8`.id>$_jQlit ORDER BY `$_QlQC8`.id"." LIMIT 0, $_IiICC[MaxSMSToProcess]";
+  $_QLfol = _JL1A6($_jf6Qi, $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f);
+  $_QLfol .= " AND `$_I8I6o`.id>$_jlOJO ORDER BY `$_I8I6o`.id"." LIMIT 0, $_jf6Qi[MaxSMSToProcess]";
 
-  if( (isset($_POST["SendDone"]) && $_POST["SendDone"] != "") || ($_I0600 != "") ) { # Send done or error?
+  if( (isset($_POST["SendDone"]) && $_POST["SendDone"] != "") || ($_Itfj8 != "") ) { # Send done or error?
     // Template
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001650"], $_IiICC["CampaignsName"]), $_I0600, 'DISABLED', 'smscampaign_live_send_done_snipped.htm');
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001650"], $_jf6Qi["CampaignsName"]), $_Itfj8, 'DISABLED', 'smscampaign_live_send_done_snipped.htm');
   } else {
     // Template
-    $_QJCJi = GetMainTemplate(false, $UserType, $Username, false, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001650"], $_IiICC["CampaignsName"]), $_I0600, 'DISABLED', 'smscampaign_live_send_snipped.htm');
+    $_QLJfI = GetMainTemplate(false, $UserType, $Username, false, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001650"], $_jf6Qi["CampaignsName"]), $_Itfj8, 'DISABLED', 'smscampaign_live_send_snipped.htm');
   }
 
-  $_QJCJi = _OPFJA(array(), $_POST, $_QJCJi);
+  $_QLJfI = _L8AOB(array(), $_POST, $_QLJfI);
 
-  $_QJCJi = _OPR6L($_QJCJi, "<RECIPIENTSCOUNT>", "</RECIPIENTSCOUNT>", $_jI0Oo);
-  $_QJCJi = _OPR6L($_QJCJi, "<SENTCOUNTSUCC>", "</SENTCOUNTSUCC>", $_jI1Ql);
-  $_QJCJi = _OPR6L($_QJCJi, "<SENTCOUNTFAILED>", "</SENTCOUNTFAILED>", $_jI1tt);
-  $_QJCJi = _OPR6L($_QJCJi, "<SENTCOUNTPOSSIBLYSENT>", "</SENTCOUNTPOSSIBLYSENT>", $_jIQ0i);
+  $_QLJfI = _L81BJ($_QLJfI, "<RECIPIENTSCOUNT>", "</RECIPIENTSCOUNT>", $_jloJI);
+  $_QLJfI = _L81BJ($_QLJfI, "<SENTCOUNTSUCC>", "</SENTCOUNTSUCC>", $_jlolf);
+  $_QLJfI = _L81BJ($_QLJfI, "<SENTCOUNTFAILED>", "</SENTCOUNTFAILED>", $_jlCtf);
+  $_QLJfI = _L81BJ($_QLJfI, "<SENTCOUNTPOSSIBLYSENT>", "</SENTCOUNTPOSSIBLYSENT>", $_jliJi);
 
-  $_QJCJi = _OPR6L($_QJCJi, "<SENDING:START>", "</SENDING:START>", $_jII6j);
-  $_QJCJi = _OPR6L($_QJCJi, "<SENDING:END>", "</SENDING:END>", $_jIjJi);
-  $_QJCJi = _OPR6L($_QJCJi, "<SENDING:DURATION>", "</SENDING:DURATION>", $_jIj6l);
-  $_QJCJi = _OPR6L($_QJCJi, "<SENDING:ESTENDTIME>", "</SENDING:ESTENDTIME>", $_jIjC1);
+  $_QLJfI = _L81BJ($_QLJfI, "<SENDING:START>", "</SENDING:START>", $_jlLL0);
+  $_QLJfI = _L81BJ($_QLJfI, "<SENDING:END>", "</SENDING:END>", $_jlLLO);
+  $_QLJfI = _L81BJ($_QLJfI, "<SENDING:DURATION>", "</SENDING:DURATION>", $_jll1i);
+  $_QLJfI = _L81BJ($_QLJfI, "<SENDING:ESTENDTIME>", "</SENDING:ESTENDTIME>", $_jllQj);
 
-  if( (isset($_POST["SendDone"]) && $_POST["SendDone"] != "") || ($_I0600 != "") ) { # Send done or error?
+  if( (isset($_POST["SendDone"]) && $_POST["SendDone"] != "") || ($_Itfj8 != "") ) { # Send done or error?
 
-    print $_QJCJi;
+    print $_QLJfI;
     exit;
   }
 
-  $_QllO8 = explode("<!--SPACER//-->", $_QJCJi);
-  print $_QllO8[0];
+  $_I016j = explode("<!--SPACER//-->", $_QLJfI);
+  print $_I016j[0];
   flush();
-  $_QJCJi = $_QllO8[1];
-  $_IIJi1 = _OP81D($_QJCJi, "<LIST:ENTRY>", "</LIST:ENTRY>");
-  $_QJCJi = _OP6PQ($_QJCJi, "<LIST:ENTRY>", "</LIST:ENTRY>");
+  $_QLJfI = $_I016j[1];
+  $_IC1C6 = _L81DB($_QLJfI, "<LIST:ENTRY>", "</LIST:ENTRY>");
+  $_QLJfI = _L80DF($_QLJfI, "<LIST:ENTRY>", "</LIST:ENTRY>");
 
   // smsout class
-  $_jOI0f = new _LODEB();
-  $_jOI0f->SMSoutUsername = $_IiICC["SMSoutUsername"];
-  $_jOI0f->SMSoutPassword = $_IiICC["SMSoutPassword"];
+  $_J8f6L = new _JLJ0F();
+  $_J8f6L->SMSoutUsername = $_jf6Qi["SMSoutUsername"];
+  $_J8f6L->SMSoutPassword = $_jf6Qi["SMSoutPassword"];
 
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_6ooi8 = $_IiICC["MaxSMSToProcess"];
-  if($_6ooi8 <= 0)
-    $_6ooi8 = 1;
-  $_jOo68 = 0;
-  $_6oiI8 = 0;
-  $_jICIf = ini_get("max_execution_time");
-  $_6oil1 = strpos($_IiICC["SMSText"], "[") !== false;
-  $_6oilj = $_6ooi8;
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_8Jfoo = $_jf6Qi["MaxSMSToProcess"];
+  if($_8Jfoo <= 0)
+    $_8Jfoo = 1;
+  $_JO1Qf = 0;
+  $_8JttJ = 0;
+  $_J0JLi = ini_get("max_execution_time");
+  $_8Jtl0 = strpos($_jf6Qi["SMSText"], "[") !== false;
+  $_8JOCJ = $_8Jfoo;
 
-  if($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-    while($_jOo68 < $_6ooi8 && ($_jIiQ8 = mysql_fetch_assoc($_Q60l1)) ) {
+  if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+    while($_JO1Qf < $_8Jfoo && ($_j11Io = mysql_fetch_assoc($_QL8i1)) ) {
 
       // send time start
-      list($_jIiLJ, $_jILot) = explode(' ', microtime());
-      $_jIlQO = (float) $_jILot + (float) $_jIiLJ;
+      list($_J0O1f, $_J0O6i) = explode(' ', microtime());
+      $_J0OOt = (float) $_J0O6i + (float) $_J0O1f;
 
-      _OPQ6J();
+      _LRCOC();
 
-      $_jIiQ8["RecipientsCount"] = $_jI0Oo;
-      $_jIlC0 = false;
+      $_j11Io["RecipientsCount"] = $_jloJI;
+      $_J0OiJ = false;
 
       if(isset($errors))
         unset($errors);
       $errors = array();
-      if(isset($_Ql1O8))
-        unset($_Ql1O8);
-      $_Ql1O8 = array();
+      if(isset($_I816i))
+        unset($_I816i);
+      $_I816i = array();
 
-      $_jj0JO = "";
+      $_J0COJ = "";
       $errors = false;
-      $_Q8COf = false;
-      if(!$_jOI0f->IsLoggedIn()) {
-        $_Q8COf = $_jOI0f->Login();
+      $_I1o8o = false;
+      if(!$_J8f6L->IsLoggedIn()) {
+        $_I1o8o = $_J8f6L->Login();
 
-        if(!$_Q8COf) {
+        if(!$_I1o8o) {
             $errors = true;
-            $_jj0JO = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001652"], $_jOI0f->SMSoutLastErrorNo, $_jOI0f->SMSoutLastErrorString);
+            $_J0COJ = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001652"], $_J8f6L->SMSoutLastErrorNo, $_J8f6L->SMSoutLastErrorString);
           }
 
       }
 
-      _OPQ6J();
+      _LRCOC();
 
-      if(!$errors && $_jj0JO == "") {
+      if(!$errors && $_J0COJ == "") {
 
-        $_II1Ot = array();
-        if( ($_jIiQ8["u_CellNumber"] = trim($_jIiQ8["u_CellNumber"])) == ""  || !_LOC1E($_jIiQ8["u_CellNumber"], $_II1Ot) ){
+        $_IoLOO = array();
+        if( ($_j11Io["u_CellNumber"] = trim($_j11Io["u_CellNumber"])) == ""  || !_JLODC($_j11Io["u_CellNumber"], $_IoLOO) ){
           $errors = true;
-          if(count($_II1Ot) == 0)
-            $_jj0JO = $resourcestrings[$INTERFACE_LANGUAGE]["000584"];
+          if(count($_IoLOO) == 0)
+            $_J0COJ = $resourcestrings[$INTERFACE_LANGUAGE]["000584"];
             else
-            $_jj0JO = join(" ", $_II1Ot);
+            $_J0COJ = join(" ", $_IoLOO);
         }
       }
 
-      $_jOiQ8 = $_IiICC["SMSText"];
-      if($_6oil1)
-         $_jOiQ8 = _L1ERL($_jIiQ8, $MailingListId, $_jOiQ8, "utf-8", false, array());
+      $_JOQ11 = $_jf6Qi["SMSText"];
+      if($_8Jtl0)
+         $_JOQ11 = _J1EBE($_j11Io, $MailingListId, $_JOQ11, $_QLo06, false, array());
+         else
+         $_JOQ11 = unhtmlentities($_JOQ11, $_QLo06);
 
-      if(!$errors && $_jj0JO == "") {
+      if(!$errors && $_J0COJ == "") {
 
-        _OPQ6J();
+        _LRCOC();
 
-        $_jOiiI = ConvertString("utf-8", "iso-8859-1", $_jOiQ8, false);
+        $_JOQ8I = ConvertString($_QLo06, "iso-8859-1", $_JOQ11, false);
 
-        if($_IiICC["SMSSendVariant"] < 6)
-          $_jOiLi = 160;
+        if($_jf6Qi["SMSSendVariant"] < 6)
+          $_JOIJl = 160;
           else
-          $_jOiLi = 1560;
+          $_JOIJl = 1560;
 
-        if(strlen($_jOiiI) > $_jOiLi) {
-          $_jOiiI = chunk_split($_jOiiI, $_jOiLi - 1, chr(255));
-          $_jOiiI = explode(chr(255), $_jOiiI);
+        if(strlen($_JOQ8I) > $_JOIJl) {
+          $_JOQ8I = chunk_split($_JOQ8I, $_JOIJl - 1, chr(255));
+          $_JOQ8I = explode(chr(255), $_JOQ8I);
         } else
-          $_jOiiI = array($_jOiiI);
+          $_JOQ8I = array($_JOQ8I);
 
 
 
-        $_jOLJ0 = 0;
+        $_JOj18 = 0;
         if(defined("DEMO") || defined("SimulateMailSending")) {
-          $_Q8COf = true;
+          $_I1o8o = true;
         }
         else {
           // SMS senden
-          for($_jOLtJ=0; $_jOLtJ<count($_jOiiI); $_jOLtJ++){
-            if($_jOiiI[$_jOLtJ] == "") continue;
-            $_Q8COf = $_jOI0f->SendSingleSMS($_IiICC["SMSSendVariant"], $_jIiQ8["u_CellNumber"], $_IiICC["SMSCampaignName"], $_jOiiI[$_jOLtJ]);
-            if($_Q8COf) {
-              $_jOLJ0 += $_jOI0f->SMSoutLastErrorString;
+          for($_JOj68=0; $_JOj68<count($_JOQ8I); $_JOj68++){
+            if($_JOQ8I[$_JOj68] == "") continue;
+            $_I1o8o = $_J8f6L->SendSingleSMS($_jf6Qi["SMSSendVariant"], $_j11Io["u_CellNumber"], $_jf6Qi["SMSCampaignName"], $_JOQ8I[$_JOj68]);
+            if($_I1o8o) {
+              $_JOj18 += $_J8f6L->SMSoutLastErrorString;
             }
           }
         }
 
-        if($_Q8COf) {
-          $_jIlC0 = true;
+        if($_I1o8o) {
+          $_J0OiJ = true;
 
           // UpdateResponderStatistics
-          // str_replace(",", ".", $_jOLJ0) weil anscheinend einige PHP versionen bei der Ausgabe aus dem Punkt ein Komma machen
-          $_QJlJ0 = "INSERT INTO `$_IiICC[RStatisticsTableName]` SET SendStat_id=$_jQll6, `MailSubject`="._OPQLR($_jOiQ8).", `SendDateTime`=NOW(), `recipients_id`=".$_jIiQ8["id"].", `Send`='Sent', SendResult='OK', `SMSCosts`="._OPQLR(str_replace(",", ".", $_jOLJ0));
-          mysql_query($_QJlJ0, $_Q61I1);
+          // str_replace(",", ".", $_JOj18) weil anscheinend einige PHP versionen bei der Ausgabe aus dem Punkt ein Komma machen
+          $_QLfol = "INSERT INTO `$_jf6Qi[RStatisticsTableName]` SET SendStat_id=$_jlOCl, `MailSubject`="._LRAFO($_JOQ11).", `SendDateTime`=NOW(), `recipients_id`=".$_j11Io["id"].", `Send`='Sent', SendResult='OK', `SMSCosts`="._LRAFO(str_replace(",", ".", $_JOj18));
+          mysql_query($_QLfol, $_QLttI);
 
           if(defined("DEMO") || defined("SimulateMailSending"))
-            $_jj0JO = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001651"], "DEMO, ".sprintf("%01.2f", $_jOLJ0)." EUR");
+            $_J0COJ = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001651"], "DEMO, ".sprintf("%01.2f", $_JOj18)." EUR");
           else
-            $_jj0JO = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001651"], sprintf("%01.2f", $_jOLJ0)." EUR");
+            $_J0COJ = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001651"], sprintf("%01.2f", $_JOj18)." EUR");
 
 
         } else{
-          $_jj0JO = sprintf("Sending failed, Error code: %d, Error text: %s. ", $_jOI0f->SMSoutLastErrorNo, $_jOI0f->SMSoutLastErrorString);
+          $_J0COJ = sprintf("Sending failed, Error code: %d, Error text: %s. ", $_J8f6L->SMSoutLastErrorNo, $_J8f6L->SMSoutLastErrorString);
 
           // UpdateResponderStatistics
-          $_QJlJ0 = "INSERT INTO `$_IiICC[RStatisticsTableName]` SET SendStat_id=$_jQll6, `MailSubject`="._OPQLR($_jOiQ8).", `SendDateTime`=NOW(), `recipients_id`=".$_jIiQ8["id"].", `Send`='Failed', SendResult="._OPQLR("SMS is undeliverable, Error:<br />".$_jOI0f->SMSoutLastErrorString." (".$_jOI0f->SMSoutLastErrorNo.")");
-          mysql_query($_QJlJ0, $_Q61I1);
+          $_QLfol = "INSERT INTO `$_jf6Qi[RStatisticsTableName]` SET SendStat_id=$_jlOCl, `MailSubject`="._LRAFO($_JOQ11).", `SendDateTime`=NOW(), `recipients_id`=".$_j11Io["id"].", `Send`='Failed', SendResult="._LRAFO("SMS is undeliverable, Error:<br />".$_J8f6L->SMSoutLastErrorString." (".$_J8f6L->SMSoutLastErrorNo.")");
+          mysql_query($_QLfol, $_QLttI);
 
         }
 
 
       } else {
-        if(!$_jOI0f->IsLoggedIn())
-         $_jj0JO = sprintf("Sending failed, Error code: %d, Error text: %s. ", $_jOI0f->SMSoutLastErrorNo, $_jOI0f->SMSoutLastErrorString);
+        if(!$_J8f6L->IsLoggedIn())
+         $_J0COJ = sprintf("Sending failed, Error code: %d, Error text: %s. ", $_J8f6L->SMSoutLastErrorNo, $_J8f6L->SMSoutLastErrorString);
          else
-         $_jj0JO = sprintf("Sending failed, Error code: %d, Error text: %s. ", 9999, $_jj0JO);
+         $_J0COJ = sprintf("Sending failed, Error code: %d, Error text: %s. ", 9999, $_J0COJ);
         // UpdateResponderStatistics
-        $_QJlJ0 = "INSERT INTO `$_IiICC[RStatisticsTableName]` SET SendStat_id=$_jQll6, `MailSubject`="._OPQLR($_jOiQ8).", `SendDateTime`=NOW(), `recipients_id`=$_jIiQ8[id], `Send`='Failed', SendResult="._OPQLR($_jj0JO);
-        mysql_query($_QJlJ0, $_Q61I1);
+        $_QLfol = "INSERT INTO `$_jf6Qi[RStatisticsTableName]` SET SendStat_id=$_jlOCl, `MailSubject`="._LRAFO($_JOQ11).", `SendDateTime`=NOW(), `recipients_id`=$_j11Io[id], `Send`='Failed', SendResult="._LRAFO($_J0COJ);
+        mysql_query($_QLfol, $_QLttI);
       }
 
       # update last member id, script timeout
-      if($_jIlC0)
-         $_QJlJ0 = "`SentCountSucc`=`SentCountSucc`+1";
+      if($_J0OiJ)
+         $_QLfol = "`SentCountSucc`=`SentCountSucc`+1";
          else
-         $_QJlJ0 = "`SentCountFailed`=`SentCountFailed`+1";
-      $_QJlJ0 = "UPDATE `$_IiICC[CurrentSendTableName]` SET EndSendDateTime=NOW(), LastMember_id=$_jIiQ8[id], $_QJlJ0 WHERE id=$_jQll6";
-      mysql_query($_QJlJ0, $_Q61I1);
+         $_QLfol = "`SentCountFailed`=`SentCountFailed`+1";
+      $_QLfol = "UPDATE `$_jf6Qi[CurrentSendTableName]` SET EndSendDateTime=NOW(), LastMember_id=$_j11Io[id], $_QLfol WHERE id=$_jlOCl";
+      mysql_query($_QLfol, $_QLttI);
 
-      $_Q66jQ = $_IIJi1;
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:ID>", "</LIST:ID>", $_jIiQ8["id"]);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:CELLNUMBER>", "</LIST:CELLNUMBER>", $_jIiQ8["u_CellNumber"]);
+      $_Ql0fO = $_IC1C6;
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:ID>", "</LIST:ID>", $_j11Io["id"]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:CELLNUMBER>", "</LIST:CELLNUMBER>", $_j11Io["u_CellNumber"]);
 
       // send time end
-      list($_jIiLJ, $_jILot) = explode(' ', microtime());
-      $_jj1IC = (float) $_jILot + (float) $_jIiLJ;
-      $_jOo68++;
+      list($_J0O1f, $_J0O6i) = explode(' ', microtime());
+      $_J0i1O = (float) $_J0O6i + (float) $_J0O1f;
+      $_JO1Qf++;
 
       // calculate script timeout
-      if($_6oiI8 < $_jj1IC - $_jIlQO)
-        $_6oiI8 = $_jj1IC - $_jIlQO;
-      if($_jICIf > 0) {
-        if($_6oiI8 * $_jOo68 > $_jICIf - 1) {
-          if( $_6ooi8 > intval(($_jICIf - 1) / $_6oiI8) )
-             $_6ooi8 = intval(($_jICIf - 1) / $_6oiI8);
-          if($_6ooi8 <= 0)
-            $_6ooi8 = 1;
+      if($_8JttJ < $_J0i1O - $_J0OOt)
+        $_8JttJ = $_J0i1O - $_J0OOt;
+      if($_J0JLi > 0) {
+        if($_8JttJ * $_JO1Qf > $_J0JLi - 1) {
+          if( $_8Jfoo > intval(($_J0JLi - 1) / $_8JttJ) )
+             $_8Jfoo = intval(($_J0JLi - 1) / $_8JttJ);
+          if($_8Jfoo <= 0)
+            $_8Jfoo = 1;
         }
       }
 
 
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:STATUS>", "</LIST:STATUS>", $_jj0JO.round($_jj1IC - $_jIlQO, 5)."s");
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:STATUS>", "</LIST:STATUS>", $_J0COJ.round($_J0i1O - $_J0OOt, 5)."s");
 
 
-      print $_Q6JJJ.$_Q66jQ;
+      print $_QLl1Q.$_Ql0fO;
       flush();
 
-      _OPQ6J();
+      _LRCOC();
 
 
-    } # while($_jIiQ8 = mysql_fetch_assoc($_Q60l1))
-    if($_Q60l1)
-      mysql_free_result($_Q60l1);
+    } # while($_j11Io = mysql_fetch_assoc($_QL8i1))
+    if($_QL8i1)
+      mysql_free_result($_QL8i1);
 
-  } /* if(mysql_num_rows($_Q60l1) > 0) */
+  } /* if(mysql_num_rows($_QL8i1) > 0) */
     else {
       # it's ever called in a new request
-      _OPQ6J();
+      _LRCOC();
 
-      $_QJlJ0 = "UPDATE $_IiICC[CurrentSendTableName] SET EndSendDateTime=NOW(), SendState='Done', CampaignSendDone=1, ReportSent=1 WHERE id=$_jQll6";
-      mysql_query($_QJlJ0, $_Q61I1);
-      $_QJCJi = str_replace('name="SendDone"', 'name="SendDone" value="1"', $_QJCJi);
-      $_IiICC["ReportSent"] = 0;
+      $_QLfol = "UPDATE $_jf6Qi[CurrentSendTableName] SET EndSendDateTime=NOW(), SendState='Done', CampaignSendDone=1, ReportSent=1 WHERE id=$_jlOCl";
+      mysql_query($_QLfol, $_QLttI);
+      $_QLJfI = str_replace('name="SendDone"', 'name="SendDone" value="1"', $_QLJfI);
+      $_jf6Qi["ReportSent"] = 0;
 
       # GET MTA
-      $_QJlJ0 = "SELECT $_Qofoi.* FROM $_Qofoi RIGHT JOIN $_IiICC[MTAsTableName] ON $_IiICC[MTAsTableName].mtas_id=$_Qofoi.id ORDER BY $_IiICC[MTAsTableName].sortorder LIMIT 0, 1"; // only the first;
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
+      $_QLfol = "SELECT $_Ijt0i.* FROM $_Ijt0i RIGHT JOIN $_jf6Qi[MTAsTableName] ON $_jf6Qi[MTAsTableName].mtas_id=$_Ijt0i.id ORDER BY $_jf6Qi[MTAsTableName].sortorder LIMIT 0, 1"; // only the first;
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
       // we take the first in list
-      $_jIfO0 = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
+      $_J00C0 = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
 
       // merge text with mail send settings
-      if(isset($_jIfO0["id"])) {
-        unset($_jIfO0["id"]);
-        unset($_jIfO0["CreateDate"]);
-        unset($_jIfO0["IsDefault"]);
-        unset($_jIfO0["Name"]);
+      if(isset($_J00C0["id"])) {
+        unset($_J00C0["id"]);
+        unset($_J00C0["CreateDate"]);
+        unset($_J00C0["IsDefault"]);
+        unset($_J00C0["Name"]);
       }
-      $_IiICC = array_merge($_IiICC, $_jIfO0);
+      $_jf6Qi = array_merge($_jf6Qi, $_J00C0);
 
-      _ORCL8($_IiICC, $_jQll6);
+      _LJ6DQ($_jf6Qi, $_jlOCl);
   }
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 ?>

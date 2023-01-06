@@ -1,0 +1,13 @@
+;UTF-8
+; german ever first!!
+de=German
+en=English
+cs=Česky
+nl=Nederlands
+fr=Français
+it=Italiano
+pl=Polski
+pt=Português
+ru=Русский
+es=Español
+tr=Türkçe

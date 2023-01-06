@@ -21,7 +21,7 @@
 	var dhtmlgoodies_tooltipShadow = false;
 	var dhtmlgoodies_shadowSize = 4;
 	var dhtmlgoodies_tooltipMaxWidth = 400;
-	var dhtmlgoodies_tooltipMinWidth = 80;
+	var dhtmlgoodies_tooltipMinWidth = 100;
 	var dhtmlgoodies_iframe = false;
 	var tooltip_is_msie = (navigator.userAgent.indexOf('MSIE')>=0 && navigator.userAgent.indexOf('opera')==-1 && document.all)?true:false;
  if(parseInt(navigator.appVersion.substr(0,3)) > 4)
@@ -29,7 +29,8 @@
  function showTooltip(e,tooltipTxt)
 	{
 
-		var bodyWidth = Math.max(document.body.clientWidth,document.documentElement.clientWidth) - 20;
+		//var bodyWidth = Math.max(document.body.clientWidth,document.documentElement.clientWidth) - 20;
+  var bodyWidth = (document.body.clientWidth || window.innerWidth || document.documentElement.clientWidth) - 20;
 
 		if(!dhtmlgoodies_tooltip){
 			dhtmlgoodies_tooltip = document.createElement('DIV');
@@ -56,8 +57,9 @@
 		dhtmlgoodies_tooltipShadow.style.display='block';
 		if(tooltip_is_msie)dhtmlgoodies_iframe.style.display='block';
 
-		var st = Math.max(document.body.scrollTop,document.documentElement.scrollTop);
-		if(navigator.userAgent.toLowerCase().indexOf('safari')>=0)st=0;
+		var st = Math.max(document.body.scrollTop,document.documentElement.scrollTop,window.pageYOffset);
+		var sl = Math.max(document.body.scrollLeft,document.documentElement.scrollLeft,window.pageXOffset);
+		//if(navigator.userAgent.toLowerCase().indexOf('safari')>=0)st=0;
 		var leftPos = e.clientX + 10;
 
 		dhtmlgoodies_tooltip.style.width = null;	// Reset style width if it's set
@@ -76,6 +78,11 @@
 		var tooltipWidth = dhtmlgoodies_tooltip.offsetWidth;
 		if(tooltipWidth<dhtmlgoodies_tooltipMinWidth)tooltipWidth = dhtmlgoodies_tooltipMinWidth;
 
+  if(tooltipWidth + leftPos > bodyWidth){
+    leftPos = bodyWidth - tooltipWidth - 10;
+    dhtmlgoodies_tooltip.style.left = leftPos + 'px';
+    dhtmlgoodies_tooltipShadow.style.left =  leftPos + dhtmlgoodies_shadowSize + 'px';
+  }
 
 		dhtmlgoodies_tooltip.style.width = tooltipWidth + 'px';
 		dhtmlgoodies_tooltipShadow.style.width = dhtmlgoodies_tooltip.offsetWidth + 'px';

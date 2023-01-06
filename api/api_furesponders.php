@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -42,20 +42,20 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_listFUResponders() {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
-   $_Q8COf = array();
-   $_QJlJ0 = "SELECT id, Name FROM `$_QCLCI`";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_Q8COf[] = $_Q6Q1C;
+   $_I1o8o = array();
+   $_QLfol = "SELECT id, Name FROM `$_I616t`";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_I1o8o[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
-   return $_Q8COf;
+   return $_I1o8o;
  }
 
  /**
@@ -70,14 +70,14 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_createFUResponder($apiFUResponderName, $apiMailingListId, $apiarrayGroupsIds, $apiarrayNotInGroupsIds, $apiIsActive) {
-   global $_Q61I1, $_QCLCI, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_I616t, $_QL88I, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
 
-   if(!_OCJCC($apiMailingListId)){
+   if(!_LAEJL($apiMailingListId)){
      return $this->api_Error("You don't have permissions for this MailingList.");
    }
 
@@ -89,76 +89,76 @@ class api_FUResponders extends api_base {
      $apiarrayGroupsIds = array($apiarrayGroupsIds);
    if(!is_array($apiarrayNotInGroupsIds))
      $apiarrayNotInGroupsIds = array($apiarrayNotInGroupsIds);
-   for($_Q6llo=0; $_Q6llo<count($apiarrayGroupsIds); $_Q6llo++)
-     $apiarrayGroupsIds[$_Q6llo] = intval($apiarrayGroupsIds[$_Q6llo]);
-   for($_Q6llo=0; $_Q6llo<count($apiarrayNotInGroupsIds); $_Q6llo++)
-     $apiarrayNotInGroupsIds[$_Q6llo] = intval($apiarrayNotInGroupsIds[$_Q6llo]);
+   for($_Qli6J=0; $_Qli6J<count($apiarrayGroupsIds); $_Qli6J++)
+     $apiarrayGroupsIds[$_Qli6J] = intval($apiarrayGroupsIds[$_Qli6J]);
+   for($_Qli6J=0; $_Qli6J<count($apiarrayNotInGroupsIds); $_Qli6J++)
+     $apiarrayNotInGroupsIds[$_Qli6J] = intval($apiarrayNotInGroupsIds[$_Qli6J]);
 
 
-   $_QJlJ0 = "SELECT id FROM `$_QCLCI` WHERE `Name`="._OPQLR($apiFUResponderName);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) > 0) {
+   $_QLfol = "SELECT id FROM `$_I616t` WHERE `Name`="._LRAFO($apiFUResponderName);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) > 0) {
      return $this->api_Error("A furesponder with apiFUResponderName always exists.");
    }
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
 
-   $_QJlJ0 = "SELECT `GroupsTableName` FROM `$_Q60QL` WHERE id=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) > 0) {
-     $_Qt1OL = mysql_fetch_assoc($_Q60l1);
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `GroupsTableName` FROM `$_QL88I` WHERE id=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) > 0) {
+     $_I1ltJ = mysql_fetch_assoc($_QL8i1);
+     mysql_free_result($_QL8i1);
    } else
       return $this->api_Error("Mailinglist not found.");
 
 
-  $_Qi010 = _OCPJA($apiFUResponderName);
+  $FUResponderListId = _LBRDA($apiFUResponderName);
 
 
   if(count($apiarrayGroupsIds) > 0) {
 
-    $_QJlJ0 = "SELECT id FROM `$_Qt1OL[GroupsTableName]`";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_QtIIi = array();
-    while($_Q6Q1C = mysql_fetch_row($_Q60l1))
-      $_QtIIi[] = $_Q6Q1C[0];
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT id FROM `$_I1ltJ[GroupsTableName]`";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_IQ0tJ = array();
+    while($_QLO0f = mysql_fetch_row($_QL8i1))
+      $_IQ0tJ[] = $_QLO0f[0];
+    mysql_free_result($_QL8i1);
 
 
-    for($_Q6llo=0; $_Q6llo< count($apiarrayGroupsIds); $_Q6llo++) {
-      if(!in_array($apiarrayGroupsIds[$_Q6llo], $_QtIIi))
-        return $this->api_Error("Group ID ". $apiarrayGroupsIds[$_Q6llo] . " not found, no groups set.");
+    for($_Qli6J=0; $_Qli6J< count($apiarrayGroupsIds); $_Qli6J++) {
+      if(!in_array($apiarrayGroupsIds[$_Qli6J], $_IQ0tJ))
+        return $this->api_Error("Group ID ". $apiarrayGroupsIds[$_Qli6J] . " not found, no groups set.");
     }
 
-    for($_Q6llo=0; $_Q6llo< count($apiarrayNotInGroupsIds); $_Q6llo++) {
-      if(!in_array($apiarrayNotInGroupsIds[$_Q6llo], $_QtIIi))
-        return $this->api_Error("Group ID ". $apiarrayNotInGroupsIds[$_Q6llo] . " not found, no groups set.");
+    for($_Qli6J=0; $_Qli6J< count($apiarrayNotInGroupsIds); $_Qli6J++) {
+      if(!in_array($apiarrayNotInGroupsIds[$_Qli6J], $_IQ0tJ))
+        return $this->api_Error("Group ID ". $apiarrayNotInGroupsIds[$_Qli6J] . " not found, no groups set.");
     }
 
-    $_QJlJ0 = "SELECT `GroupsTableName`, `NotInGroupsTableName` FROM `$_QCLCI` WHERE id=$_Qi010";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
-    mysql_query("DELETE FROM `$_Q6Q1C[GroupsTableName]`", $_Q61I1);
-    mysql_query("DELETE FROM `$_Q6Q1C[NotInGroupsTableName]`", $_Q61I1);
+    $_QLfol = "SELECT `GroupsTableName`, `NotInGroupsTableName` FROM `$_I616t` WHERE id=$FUResponderListId";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
+    mysql_query("DELETE FROM `$_QLO0f[GroupsTableName]`", $_QLttI);
+    mysql_query("DELETE FROM `$_QLO0f[NotInGroupsTableName]`", $_QLttI);
 
-    for($_Q6llo=0; $_Q6llo< count($apiarrayGroupsIds); $_Q6llo++) {
-      $_QJlJ0 = "INSERT INTO `$_Q6Q1C[GroupsTableName]` SET `ml_groups_id`=".$apiarrayGroupsIds[$_Q6llo];
-      mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0, $this);
+    for($_Qli6J=0; $_Qli6J< count($apiarrayGroupsIds); $_Qli6J++) {
+      $_QLfol = "INSERT INTO `$_QLO0f[GroupsTableName]` SET `ml_groups_id`=".$apiarrayGroupsIds[$_Qli6J];
+      mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol, $this);
     }
 
-    for($_Q6llo=0; $_Q6llo< count($apiarrayNotInGroupsIds); $_Q6llo++) {
-      $_QJlJ0 = "INSERT INTO `$_Q6Q1C[NotInGroupsTableName]` SET `ml_groups_id`=".$apiarrayNotInGroupsIds[$_Q6llo];
-      mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0, $this);
+    for($_Qli6J=0; $_Qli6J< count($apiarrayNotInGroupsIds); $_Qli6J++) {
+      $_QLfol = "INSERT INTO `$_QLO0f[NotInGroupsTableName]` SET `ml_groups_id`=".$apiarrayNotInGroupsIds[$_Qli6J];
+      mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol, $this);
     }
   }
 
-  $_QJlJ0 = "UPDATE `$_QCLCI` SET `maillists_id`=$apiMailingListId, `IsActive`="._OC60P($apiIsActive)." WHERE id=$_Qi010";
-  mysql_query($_QJlJ0, $_Q61I1);
+  $_QLfol = "UPDATE `$_I616t` SET `maillists_id`=$apiMailingListId, `IsActive`="._LAF0F($apiIsActive)." WHERE id=$FUResponderListId";
+  mysql_query($_QLfol, $_QLttI);
 
-  return $_Qi010;
+  return $FUResponderListId;
  }
 
 
@@ -171,24 +171,24 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_removeFUResponder($apiFURespondersId) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
 
-   $_QJlJ0 = "SELECT id FROM `$_QCLCI` WHERE id=$apiFURespondersId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT id FROM `$_I616t` WHERE id=$apiFURespondersId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
       return $this->api_Error("There is no furesponder with this id.");
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
-   $_QtIiC = array();
-   _L1A0A(array($apiFURespondersId), $_QtIiC);
-   if(count($_QtIiC) == 0)
+   $_IQ0Cj = array();
+   _J1BQ1(array($apiFURespondersId), $_IQ0Cj);
+   if(count($_IQ0Cj) == 0)
      return true;
      else
-      return $this->api_Error("Error while removing furesponder: ".join("\r\n", $_QtIiC));
+      return $this->api_Error("Error while removing furesponder: ".join("\r\n", $_IQ0Cj));
  }
 
  /**
@@ -201,14 +201,14 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_activatedeactivateFUResponder($apiFURespondersId, $apiIsActive) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
 
-   $_QJlJ0 = "UPDATE `$_QCLCI` SET `IsActive`="._OC60P($apiIsActive)." WHERE id=$apiFURespondersId";
-   mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol = "UPDATE `$_I616t` SET `IsActive`="._LAF0F($apiIsActive)." WHERE id=$apiFURespondersId";
+   mysql_query($_QLfol, $_QLttI);
    return true;
  }
 
@@ -232,43 +232,43 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_setFUResponderOptions($apiFURespondersId, $apiAddXLoop, $apiAddListUnsubscribe, $apiOnFollowUpDoneCopyToMailListId, $apiOnFollowUpDoneMoveToMailListId, $apiFirstFollowUpMailStartDateFieldName, $apiFirstFollowUpMailStartDateFieldNameDateFormat, $apiFUMSendTime) {
-   global $_Q61I1, $_QCLCI, $_Q60QL, $UserId, $UserType, $_Qofjo;
+   global $_QLttI, $_I616t, $_QL88I, $UserId, $UserType, $_Ij8oL;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiFURespondersId = intval($apiFURespondersId);
 
-   $_QJlJ0 = "SELECT id FROM `$_QCLCI` WHERE id=$apiFURespondersId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT id FROM `$_I616t` WHERE id=$apiFURespondersId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
       return $this->api_Error("There is no furesponder with this id.");
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
    if($apiOnFollowUpDoneCopyToMailListId > 0) {
-     $_QJlJ0 = "SELECT id FROM `$_Q60QL` WHERE id=$apiOnFollowUpDoneCopyToMailListId";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if(mysql_num_rows($_Q60l1) == 0)
+     $_QLfol = "SELECT id FROM `$_QL88I` WHERE id=$apiOnFollowUpDoneCopyToMailListId";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if(mysql_num_rows($_QL8i1) == 0)
         return $this->api_Error("Mailing list with id apiOnFollowUpDoneCopyToMailListId doesn't exists.");
-     mysql_free_result($_Q60l1);
+     mysql_free_result($_QL8i1);
    }
 
    if($apiOnFollowUpDoneMoveToMailListId > 0) {
-     $_QJlJ0 = "SELECT id FROM `$_Q60QL` WHERE id=$apiOnFollowUpDoneMoveToMailListId";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if(mysql_num_rows($_Q60l1) == 0)
+     $_QLfol = "SELECT id FROM `$_QL88I` WHERE id=$apiOnFollowUpDoneMoveToMailListId";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if(mysql_num_rows($_QL8i1) == 0)
         return $this->api_Error("Mailing list with id apiOnFollowUpDoneMoveToMailListId doesn't exists.");
-     mysql_free_result($_Q60l1);
+     mysql_free_result($_QL8i1);
    }
 
-   $apiAddXLoop=_OC60P($apiAddXLoop);
-   $apiAddListUnsubscribe=_OC60P($apiAddListUnsubscribe);
+   $apiAddXLoop=_LAF0F($apiAddXLoop);
+   $apiAddListUnsubscribe=_LAF0F($apiAddListUnsubscribe);
 
-   $_QijO8 = 1;
+   $_I6JCo = 1;
    if($apiOnFollowUpDoneCopyToMailListId > 0 || $apiOnFollowUpDoneMoveToMailListId > 0)
-     $_QijO8 = 2;
+     $_I6JCo = 2;
    if($apiOnFollowUpDoneMoveToMailListId > 0)
-     $_QijO8 = 3;
+     $_I6JCo = 3;
 
 
 
@@ -276,36 +276,36 @@ class api_FUResponders extends api_base {
         return $this->api_Error("apiFirstFollowUpMailStartDateFieldNameDateFormat must contain a valid value.");
 
    if(!empty($apiFirstFollowUpMailStartDateFieldName)) {
-     $_QJlJ0 = "SELECT `fieldname` FROM `$_Qofjo` WHERE `fieldname`="._OPQLR($apiFirstFollowUpMailStartDateFieldName);
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if(mysql_num_rows($_Q60l1) == 0)
+     $_QLfol = "SELECT `fieldname` FROM `$_Ij8oL` WHERE `fieldname`="._LRAFO($apiFirstFollowUpMailStartDateFieldName);
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if(mysql_num_rows($_QL8i1) == 0)
         return $this->api_Error("Invalid fieldname apiFirstFollowUpMailStartDateFieldName.");
-     mysql_free_result($_Q60l1);
+     mysql_free_result($_QL8i1);
 
      if($apiFirstFollowUpMailStartDateFieldNameDateFormat != "dd.mm.yyyy" && $apiFirstFollowUpMailStartDateFieldNameDateFormat != "yyyy-mm-dd" && $apiFirstFollowUpMailStartDateFieldNameDateFormat != "mm-dd-yyyy")
         return $this->api_Error("Invalid value for apiFirstFollowUpMailStartDateFieldNameDateFormat.");
    }
 
 
-   $_QJlJ0 = "UPDATE `$_QCLCI` SET `AddXLoop`=$apiAddXLoop, `AddListUnsubscribe`=$apiAddListUnsubscribe, `OnFollowUpDoneAction`=$_QijO8";
+   $_QLfol = "UPDATE `$_I616t` SET `AddXLoop`=$apiAddXLoop, `AddListUnsubscribe`=$apiAddListUnsubscribe, `OnFollowUpDoneAction`=$_I6JCo";
 
    if(!empty($apiFirstFollowUpMailStartDateFieldName)) {
-     $_QJlJ0 .= ", `StartDateOfFirstFUMail`=1";
-     $_QJlJ0 .= ", `FirstFollowUpMailDateFieldName`="._OPQLR($apiFirstFollowUpMailStartDateFieldName);
-     $_QJlJ0 .= ", `FormatOfFirstFollowUpMailDateField`="._OPQLR($apiFirstFollowUpMailStartDateFieldNameDateFormat);
+     $_QLfol .= ", `StartDateOfFirstFUMail`=1";
+     $_QLfol .= ", `FirstFollowUpMailDateFieldName`="._LRAFO($apiFirstFollowUpMailStartDateFieldName);
+     $_QLfol .= ", `FormatOfFirstFollowUpMailDateField`="._LRAFO($apiFirstFollowUpMailStartDateFieldNameDateFormat);
    } else {
-     $_QJlJ0 .= ", `StartDateOfFirstFUMail`=0";
+     $_QLfol .= ", `StartDateOfFirstFUMail`=0";
    }
 
    if(!empty($apiFUMSendTime))
-     $_QJlJ0 .= ", `SendTimeVariant`='sendingWithSendTime', `SendTime`="._OPQLR($apiFUMSendTime);
+     $_QLfol .= ", `SendTimeVariant`='sendingWithSendTime', `SendTime`="._LRAFO($apiFUMSendTime);
      else
-     $_QJlJ0 .= ", `SendTimeVariant`='sendingWithoutSendTime'";
+     $_QLfol .= ", `SendTimeVariant`='sendingWithoutSendTime'";
 
-   $_QJlJ0 .= " WHERE id=$apiFURespondersId";
-   mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol .= " WHERE id=$apiFURespondersId";
+   mysql_query($_QLfol, $_QLttI);
 
-   _OAL8F($_QJlJ0, $this);
+   _L8D88($_QLfol, $this);
 
    return true;
  }
@@ -326,35 +326,35 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_setFUResponderSendSettings($apiFURespondersId, $apiSenderFromName, $apiSenderFromAddress, $apiReplyToEMailAddress, $apiReturnPathEMailAddress, $apiMTAid) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType, $_Qofoi;
+   global $_QLttI, $_I616t, $UserId, $UserType, $_Ijt0i;
    global $resourcestrings;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
    $apiMTAid = intval($apiMTAid);
 
-   $_QJlJ0 = "SELECT id FROM `$_Qofoi` WHERE id=$apiMTAid";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT id FROM `$_Ijt0i` WHERE id=$apiMTAid";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Invalid MTA id.");
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "UPDATE `$_QCLCI` SET ";
+   $_QLfol = "UPDATE `$_I616t` SET ";
 
-   $_QJlJ0 .= "`SenderFromName`="._OPQLR($apiSenderFromName).",";
-   $_QJlJ0 .= "`SenderFromAddress`="._OPQLR($apiSenderFromAddress).",";
-   $_QJlJ0 .= "`ReplyToEMailAddress`="._OPQLR($apiReplyToEMailAddress).",";
-   $_QJlJ0 .= "`ReturnPathEMailAddress`="._OPQLR($apiReturnPathEMailAddress).",";
+   $_QLfol .= "`SenderFromName`="._LRAFO($apiSenderFromName).",";
+   $_QLfol .= "`SenderFromAddress`="._LRAFO($apiSenderFromAddress).",";
+   $_QLfol .= "`ReplyToEMailAddress`="._LRAFO($apiReplyToEMailAddress).",";
+   $_QLfol .= "`ReturnPathEMailAddress`="._LRAFO($apiReturnPathEMailAddress).",";
 
-   $_QJlJ0 .= "`mtas_id`=$apiMTAid";
+   $_QLfol .= "`mtas_id`=$apiMTAid";
 
-   $_QJlJ0 .= " WHERE id=$apiFURespondersId";
-   mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol .= " WHERE id=$apiFURespondersId";
+   mysql_query($_QLfol, $_QLttI);
 
-   if(mysql_error($_Q61I1) == "")
+   if(mysql_error($_QLttI) == "")
      return true;
      else
-     return $this->api_Error("SQL error: ".mysql_error($_Q61I1));
+     return $this->api_Error("SQL error: ".mysql_error($_QLttI));
  }
 
 
@@ -372,30 +372,30 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_setFUResponderTrackingSettings($apiFURespondersId, $apiTrackLinks, $apiTrackLinksByRecipient, $apiTrackEMailOpenings, $apiTrackEMailOpeningsByRecipient, $apiTrackingIPBlocking) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
    global $resourcestrings;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
 
-   $_QJlJ0 = "SELECT * FROM `$_QCLCI` WHERE id=$apiFURespondersId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT * FROM `$_I616t` WHERE id=$apiFURespondersId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("FUResponder not found.");
-   $_Q6J0Q = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_QLL16 = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "UPDATE `$_QCLCI` SET ";
-   $_QJlJ0 .= "`TrackLinks`="._OC60P($apiTrackLinks).",";
-   $_QJlJ0 .= "`TrackLinksByRecipient`="._OC60P($apiTrackLinksByRecipient).",";
-   $_QJlJ0 .= "`TrackEMailOpenings`="._OC60P($apiTrackEMailOpenings).",";
-   $_QJlJ0 .= "`TrackEMailOpeningsByRecipient`="._OC60P($apiTrackEMailOpeningsByRecipient).",";
-   $_QJlJ0 .= "`TrackingIPBlocking`="._OC60P($apiTrackingIPBlocking);
-   $_QJlJ0 .= " WHERE id=$apiFURespondersId";
-   mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol = "UPDATE `$_I616t` SET ";
+   $_QLfol .= "`TrackLinks`="._LAF0F($apiTrackLinks).",";
+   $_QLfol .= "`TrackLinksByRecipient`="._LAF0F($apiTrackLinksByRecipient).",";
+   $_QLfol .= "`TrackEMailOpenings`="._LAF0F($apiTrackEMailOpenings).",";
+   $_QLfol .= "`TrackEMailOpeningsByRecipient`="._LAF0F($apiTrackEMailOpeningsByRecipient).",";
+   $_QLfol .= "`TrackingIPBlocking`="._LAF0F($apiTrackingIPBlocking);
+   $_QLfol .= " WHERE id=$apiFURespondersId";
+   mysql_query($_QLfol, $_QLttI);
 
-   if(mysql_error($_Q61I1) != "")
-     return $this->api_Error("SQL error: ".mysql_error($_Q61I1));
+   if(mysql_error($_QLttI) != "")
+     return $this->api_Error("SQL error: ".mysql_error($_QLttI));
 
    return true;
  }
@@ -414,29 +414,29 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_setFUResponderGoogleAnalyticsSettings($apiFURespondersId, $apiGoogleAnalyticsActive, $apiGoogleAnalytics_utm_source, $apiGoogleAnalytics_utm_medium, $apiGoogleAnalytics_utm_term, $apiGoogleAnalytics_utm_content, $apiGoogleAnalytics_utm_campaign) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
    global $resourcestrings;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
 
 
-   $_QJlJ0 = "UPDATE `$_QCLCI` SET ";
+   $_QLfol = "UPDATE `$_I616t` SET ";
 
-   $_QJlJ0 .= "`GoogleAnalyticsActive`="._OC60P($apiGoogleAnalyticsActive).",";
-   $_QJlJ0 .= "`GoogleAnalytics_utm_source`="._OPQLR($apiGoogleAnalytics_utm_source).",";
-   $_QJlJ0 .= "`GoogleAnalytics_utm_medium`="._OPQLR($apiGoogleAnalytics_utm_medium).",";
-   $_QJlJ0 .= "`GoogleAnalytics_utm_term`="._OPQLR($apiGoogleAnalytics_utm_term).",";
-   $_QJlJ0 .= "`GoogleAnalytics_utm_content`="._OPQLR($apiGoogleAnalytics_utm_content).",";
-   $_QJlJ0 .= "`GoogleAnalytics_utm_campaign`="._OPQLR($apiGoogleAnalytics_utm_campaign);
+   $_QLfol .= "`GoogleAnalyticsActive`="._LAF0F($apiGoogleAnalyticsActive).",";
+   $_QLfol .= "`GoogleAnalytics_utm_source`="._LRAFO($apiGoogleAnalytics_utm_source).",";
+   $_QLfol .= "`GoogleAnalytics_utm_medium`="._LRAFO($apiGoogleAnalytics_utm_medium).",";
+   $_QLfol .= "`GoogleAnalytics_utm_term`="._LRAFO($apiGoogleAnalytics_utm_term).",";
+   $_QLfol .= "`GoogleAnalytics_utm_content`="._LRAFO($apiGoogleAnalytics_utm_content).",";
+   $_QLfol .= "`GoogleAnalytics_utm_campaign`="._LRAFO($apiGoogleAnalytics_utm_campaign);
 
-   $_QJlJ0 .= " WHERE id=$apiFURespondersId";
-   mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol .= " WHERE id=$apiFURespondersId";
+   mysql_query($_QLfol, $_QLttI);
 
-   if(mysql_error($_Q61I1) == "")
+   if(mysql_error($_QLttI) == "")
      return true;
      else
-     return $this->api_Error("SQL error: ".mysql_error($_Q61I1));
+     return $this->api_Error("SQL error: ".mysql_error($_QLttI));
  }
 
 /**
@@ -472,26 +472,26 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_createFUMail($apiFURespondersId, $apiName, $apiSendInterval, $apiSendIntervalType, $apiMailFormat, $apiMailPriority, $apiMailEncoding, $apiMailSubject, $apiMailPlainText, $apiMailHTMLText, $apiAttachments, $apiAutoCreateTextPart, $apiCaching, $apiPreHeader) {
-   global $_Q61I1, $_QCLCI, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_I616t, $_QL88I, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
 
-   $_QJlJ0 = "SELECT `Name`, `FUMailsTableName`, `maillists_id`, `RStatisticsTableName`, `ML_FU_RefTableName`, `SenderFromName`, `SenderFromAddress`, `ResponderType` FROM `$_QCLCI` WHERE `id`=".$apiFURespondersId;
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `Name`, `FUMailsTableName`, `maillists_id`, `RStatisticsTableName`, `ML_FU_RefTableName`, `SenderFromName`, `SenderFromAddress`, `ResponderType` FROM `$_I616t` WHERE `id`=".$apiFURespondersId;
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFURespondersId is invalid.");
-   $_Qif0C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_I681O = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
    $apiName = trim($apiName);
    if(empty($apiName))
      return $this->api_Error("apiName is invalid.");
 
-   $_QJlJ0 = "SELECT `Name` FROM `$_Qif0C[FUMailsTableName]` WHERE `Name`="._OPQLR($apiName);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if( mysql_num_rows($_Q60l1) > 0 )
+   $_QLfol = "SELECT `Name` FROM `$_I681O[FUMailsTableName]` WHERE `Name`="._LRAFO($apiName);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if( mysql_num_rows($_QL8i1) > 0 )
      return $this->api_Error("apiName always exists.");
 
    $apiSendInterval = intval($apiSendInterval);
@@ -518,9 +518,9 @@ class api_FUResponders extends api_base {
      $apiAttachments = array();
    if(!is_array($apiAttachments))
      $apiAttachments = array();
-   for($_Q6llo=0; $_Q6llo<count($apiAttachments); $_Q6llo++){
-     if(!is_readable($_QOCJo.$apiAttachments[$_Q6llo])){
-       return $this->api_Error($_QOCJo.$apiAttachments[$_Q6llo]." isn't readable.");
+   for($_Qli6J=0; $_Qli6J<count($apiAttachments); $_Qli6J++){
+     if(!is_readable($_IIlfi.$apiAttachments[$_Qli6J])){
+       return $this->api_Error($_IIlfi.$apiAttachments[$_Qli6J]." isn't readable.");
      }
    }
 
@@ -533,47 +533,47 @@ class api_FUResponders extends api_base {
    // fix www to http://wwww.
    if(!empty($apiMailHTMLText)){
      $apiMailHTMLText = str_replace('href="www.', 'href="http://www.', $apiMailHTMLText);
-     if(_OC60P($apiAutoCreateTextPart))
-        $apiMailPlainText = _ODQAB ( $apiMailHTMLText, $_Q6QQL );
+     if(_LAF0F($apiAutoCreateTextPart))
+        $apiMailPlainText = _LC6CP(_LBDA8 ( $apiMailHTMLText, $_QLo06 ));
    }
 
-   $_QifQO = _O8CAC($_Qif0C["Name"], $apiName, $_Qif0C["FUMailsTableName"]);
+   $FUResponderMailItemId = _LRQ6F($_I681O["Name"], $apiName, $_I681O["FUMailsTableName"]);
 
-   if($_QifQO == 0)
+   if($FUResponderMailItemId == 0)
      return $this->api_Error("Can't create new email.");
 
-   $_QJlJ0 = "UPDATE `$_Qif0C[FUMailsTableName]` SET ";
+   $_QLfol = "UPDATE `$_I681O[FUMailsTableName]` SET ";
 
-   $_QJlJ0 .= "`SendInterval`="._OPQLR($apiSendInterval);
-   $_QJlJ0 .= ", "."`SendIntervalType`="._OPQLR($apiSendIntervalType);
+   $_QLfol .= "`SendInterval`="._LRAFO($apiSendInterval);
+   $_QLfol .= ", "."`SendIntervalType`="._LRAFO($apiSendIntervalType);
 
-   $_QJlJ0 .= ", "."`MailFormat`="._OPQLR($apiMailFormat);
-   $_QJlJ0 .= ", "."`MailPriority`="._OPQLR($apiMailPriority);
-   $_QJlJ0 .= ", "."`MailEncoding`="._OPQLR($apiMailEncoding);
+   $_QLfol .= ", "."`MailFormat`="._LRAFO($apiMailFormat);
+   $_QLfol .= ", "."`MailPriority`="._LRAFO($apiMailPriority);
+   $_QLfol .= ", "."`MailEncoding`="._LRAFO($apiMailEncoding);
 
-   $_QJlJ0 .= ", "."`MailSubject`="._OPQLR($apiMailSubject);
-   $_QJlJ0 .= ", "."`MailPlainText`="._OPQLR($apiMailPlainText);
-   $_QJlJ0 .= ", "."`MailHTMLText`="._OPQLR($apiMailHTMLText);
-   $_QJlJ0 .= ", "."`Attachments`="._OPQLR(serialize($apiAttachments));
+   $_QLfol .= ", "."`MailSubject`="._LRAFO($apiMailSubject);
+   $_QLfol .= ", "."`MailPlainText`="._LRAFO($apiMailPlainText);
+   $_QLfol .= ", "."`MailHTMLText`="._LRAFO($apiMailHTMLText);
+   $_QLfol .= ", "."`Attachments`="._LRAFO(serialize($apiAttachments));
 
-//   $_QJlJ0 .= ", "."`AutoCreateTextPart`="._OC60P($apiAutoCreateTextPart);
-   $_QJlJ0 .= ", "."`Caching`="._OC60P($apiCaching);
-   $_QJlJ0 .= ", "."`MailPreHeaderText`="._OPQLR($apiPreHeader);
+//   $_QLfol .= ", "."`AutoCreateTextPart`="._LAF0F($apiAutoCreateTextPart);
+   $_QLfol .= ", "."`Caching`="._LAF0F($apiCaching);
+   $_QLfol .= ", "."`MailPreHeaderText`="._LRAFO($apiPreHeader);
 
-   $_QJlJ0 .= ", "."`SenderFromName`="._OPQLR($_Qif0C["SenderFromName"]);
-   $_QJlJ0 .= ", "."`SenderFromAddress`="._OPQLR($_Qif0C["SenderFromAddress"]);
+   $_QLfol .= ", "."`SenderFromName`="._LRAFO($_I681O["SenderFromName"]);
+   $_QLfol .= ", "."`SenderFromAddress`="._LRAFO($_I681O["SenderFromAddress"]);
 
-   $_QJlJ0 .= " WHERE `id`=$_QifQO";
+   $_QLfol .= " WHERE `id`=$FUResponderMailItemId";
 
-   mysql_query($_QJlJ0, $_Q61I1);
+   mysql_query($_QLfol, $_QLttI);
 
-   if(mysql_error($_Q61I1) != "")
-     return $this->api_Error("SQL error: ".mysql_error($_Q61I1));
+   if(mysql_error($_QLttI) != "")
+     return $this->api_Error("SQL error: ".mysql_error($_QLttI));
 
    // *********** Tracking
-   _O8CE0($_QifQO, $_Qif0C["FUMailsTableName"], $_Qif0C["RStatisticsTableName"], $_Qif0C["ML_FU_RefTableName"], $apiMailFormat, $apiMailHTMLText, $_Qif0C["ResponderType"]);
+   _LRQFJ($FUResponderMailItemId, $_I681O["FUMailsTableName"], $_I681O["RStatisticsTableName"], $_I681O["ML_FU_RefTableName"], $apiMailFormat, $apiMailHTMLText, $_I681O["ResponderType"]);
 
-   return $_QifQO;
+   return $FUResponderMailItemId;
  }
 
 /**
@@ -610,7 +610,7 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_editFUMail($apiFURespondersId, $apiFUMailId, $apiName, $apiSendInterval, $apiSendIntervalType, $apiMailFormat, $apiMailPriority, $apiMailEncoding, $apiMailSubject, $apiMailPlainText, $apiMailHTMLText, $apiAttachments, $apiAutoCreateTextPart, $apiCaching, $apiPreHeader) {
-   global $_Q61I1, $_QCLCI, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_I616t, $_QL88I, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
@@ -620,21 +620,21 @@ class api_FUResponders extends api_base {
    if($apiFUMailId <= 0)
      return $this->api_Error("apiFUMailId is invalid.");
 
-   $_QJlJ0 = "SELECT `Name`, `FUMailsTableName`, `maillists_id`, `RStatisticsTableName`, `ML_FU_RefTableName`, `ResponderType` FROM `$_QCLCI` WHERE `id`=".$apiFURespondersId;
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `Name`, `FUMailsTableName`, `maillists_id`, `RStatisticsTableName`, `ML_FU_RefTableName`, `ResponderType` FROM `$_I616t` WHERE `id`=".$apiFURespondersId;
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFURespondersId is invalid.");
-   $_Qif0C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_I681O = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
 
    $apiName = trim($apiName);
    if(empty($apiName))
      return $this->api_Error("apiName is invalid.");
 
-   $_QJlJ0 = "SELECT `Name` FROM `$_Qif0C[FUMailsTableName]` WHERE `Name`="._OPQLR($apiName)." AND `id`<>$apiFUMailId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if( mysql_num_rows($_Q60l1) > 0 )
+   $_QLfol = "SELECT `Name` FROM `$_I681O[FUMailsTableName]` WHERE `Name`="._LRAFO($apiName)." AND `id`<>$apiFUMailId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if( mysql_num_rows($_QL8i1) > 0 )
      return $this->api_Error("apiName always exists.");
 
    $apiSendInterval = intval($apiSendInterval);
@@ -661,9 +661,9 @@ class api_FUResponders extends api_base {
      $apiAttachments = array();
    if(!is_array($apiAttachments))
      $apiAttachments = array();
-   for($_Q6llo=0; $_Q6llo<count($apiAttachments); $_Q6llo++){
-     if(!is_readable($_QOCJo.$apiAttachments[$_Q6llo])){
-       return $this->api_Error($_QOCJo.$apiAttachments[$_Q6llo]." isn't readable.");
+   for($_Qli6J=0; $_Qli6J<count($apiAttachments); $_Qli6J++){
+     if(!is_readable($_IIlfi.$apiAttachments[$_Qli6J])){
+       return $this->api_Error($_IIlfi.$apiAttachments[$_Qli6J]." isn't readable.");
      }
    }
 
@@ -676,40 +676,40 @@ class api_FUResponders extends api_base {
    // fix www to http://wwww.
    if(!empty($apiMailHTMLText)){
      $apiMailHTMLText = str_replace('href="www.', 'href="http://www.', $apiMailHTMLText);
-     if(_OC60P($apiAutoCreateTextPart))
-        $apiMailPlainText = _ODQAB ( $apiMailHTMLText, $_Q6QQL );
+     if(_LAF0F($apiAutoCreateTextPart))
+        $apiMailPlainText = _LBDA8 ( $apiMailHTMLText, $_QLo06 );
    }
 
-   $_QJlJ0 = "UPDATE `$_Qif0C[FUMailsTableName]` SET ";
+   $_QLfol = "UPDATE `$_I681O[FUMailsTableName]` SET ";
 
-   $_QJlJ0 .= "`SendInterval`="._OPQLR($apiSendInterval);
-   $_QJlJ0 .= ", "."`SendIntervalType`="._OPQLR($apiSendIntervalType);
+   $_QLfol .= "`SendInterval`="._LRAFO($apiSendInterval);
+   $_QLfol .= ", "."`SendIntervalType`="._LRAFO($apiSendIntervalType);
 
-   $_QJlJ0 .= ", "."`MailFormat`="._OPQLR($apiMailFormat);
-   $_QJlJ0 .= ", "."`MailPriority`="._OPQLR($apiMailPriority);
-   $_QJlJ0 .= ", "."`MailEncoding`="._OPQLR($apiMailEncoding);
+   $_QLfol .= ", "."`MailFormat`="._LRAFO($apiMailFormat);
+   $_QLfol .= ", "."`MailPriority`="._LRAFO($apiMailPriority);
+   $_QLfol .= ", "."`MailEncoding`="._LRAFO($apiMailEncoding);
 
-   $_QJlJ0 .= ", "."`MailSubject`="._OPQLR($apiMailSubject);
-   $_QJlJ0 .= ", "."`MailPlainText`="._OPQLR($apiMailPlainText);
-   $_QJlJ0 .= ", "."`MailHTMLText`="._OPQLR($apiMailHTMLText);
-   $_QJlJ0 .= ", "."`Attachments`="._OPQLR(serialize($apiAttachments));
+   $_QLfol .= ", "."`MailSubject`="._LRAFO(_LC6CP($apiMailSubject));
+   $_QLfol .= ", "."`MailPlainText`="._LRAFO(_LC6CP($apiMailPlainText));
+   $_QLfol .= ", "."`MailHTMLText`="._LRAFO(_LC6CP($apiMailHTMLText));
+   $_QLfol .= ", "."`Attachments`="._LRAFO(serialize($apiAttachments));
 
-  // $_QJlJ0 .= ", "."`AutoCreateTextPart`="._OC60P($apiAutoCreateTextPart);
-   $_QJlJ0 .= ", "."`Caching`="._OC60P($apiCaching);
-   $_QJlJ0 .= ", "."`MailPreHeaderText`="._OPQLR($apiPreHeader);
+  // $_QLfol .= ", "."`AutoCreateTextPart`="._LAF0F($apiAutoCreateTextPart);
+   $_QLfol .= ", "."`Caching`="._LAF0F($apiCaching);
+   $_QLfol .= ", "."`MailPreHeaderText`="._LRAFO($apiPreHeader);
 
-   $_QJlJ0 .= " WHERE `id`=$apiFUMailId";
+   $_QLfol .= " WHERE `id`=$apiFUMailId";
 
-   mysql_query($_QJlJ0, $_Q61I1);
+   mysql_query($_QLfol, $_QLttI);
 
-   if(mysql_error($_Q61I1) != "")
-     return $this->api_Error("SQL error: ".mysql_error($_Q61I1));
+   if(mysql_error($_QLttI) != "")
+     return $this->api_Error("SQL error: ".mysql_error($_QLttI));
 
-   if(mysql_affected_rows($_Q61I1) == 0)
+   if(mysql_affected_rows($_QLttI) == 0)
      return false;
 
    // *********** Tracking
-   _O8CE0($apiFUMailId, $_Qif0C["FUMailsTableName"], $_Qif0C["RStatisticsTableName"], $_Qif0C["ML_FU_RefTableName"], $apiMailFormat, $apiMailHTMLText, $_Qif0C["ResponderType"]);
+   _LRQFJ($apiFUMailId, $_I681O["FUMailsTableName"], $_I681O["RStatisticsTableName"], $_I681O["ML_FU_RefTableName"], $apiMailFormat, $apiMailHTMLText, $_I681O["ResponderType"]);
 
    return true;
  }
@@ -722,27 +722,27 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_getFUMails($apiFURespondersId) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
 
-   $_QJlJ0 = "SELECT `FUMailsTableName` FROM `$_QCLCI` WHERE `id`=".$apiFURespondersId;
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `FUMailsTableName` FROM `$_I616t` WHERE `id`=".$apiFURespondersId;
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFURespondersId is invalid.");
-   $_Qif0C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_I681O = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `id` AS `fumails_id`, `sort_order`, `Name`, `MailSubject` FROM `$_Qif0C[FUMailsTableName]` ORDER BY `sort_order`";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_Q8COf = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-     $_Q8COf[] = $_Q6Q1C;
+   $_QLfol = "SELECT `id` AS `fumails_id`, `sort_order`, `Name`, `MailSubject` FROM `$_I681O[FUMailsTableName]` ORDER BY `sort_order`";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_I1o8o = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+     $_I1o8o[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
-   return $_Q8COf;
+   return $_I1o8o;
  }
 
  /**
@@ -755,15 +755,15 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_moveOneFUResponderFUMailUp($apiFURespondersId, $apiFUMailId) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
    $apiFUMailId = intval($apiFUMailId);
 
-   $_Qi8If = array("OneFUMAction" => "UpBtn", "OneFUMId" => $apiFUMailId);
+   $_I6tLJ = array("OneFUMAction" => "UpBtn", "OneFUMId" => $apiFUMailId);
 
-   _O8EQ0($apiFURespondersId, $_Qi8If);
+   _LRLAE($apiFURespondersId, $_I6tLJ);
 
    return true;
  }
@@ -778,15 +778,15 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_moveOneFUResponderFUMailDown($apiFURespondersId, $apiFUMailId) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
    $apiFUMailId = intval($apiFUMailId);
 
-   $_Qi8If = array("OneFUMAction" => "DownBtn", "OneFUMId" => $apiFUMailId);
+   $_I6tLJ = array("OneFUMAction" => "DownBtn", "OneFUMId" => $apiFUMailId);
 
-   _O8EQ0($apiFURespondersId, $_Qi8If);
+   _LRLAE($apiFURespondersId, $_I6tLJ);
 
    return true;
  }
@@ -801,19 +801,19 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_removeFUMail($apiFURespondersId, $apiFUMailId) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
    $apiFUMailId = intval($apiFUMailId);
 
-   $_Qi8If = array("OneFUMAction" => "DeleteFUM", "OneFUMId" => $apiFUMailId);
+   $_I6tLJ = array("OneFUMAction" => "DeleteFUM", "OneFUMId" => $apiFUMailId);
 
-   $_Qit1o = array();
-   $_Q8COf = _O8ELC($apiFURespondersId, $_Qi8If, $_Qit1o);
+   $_I6O8f = array();
+   $_I1o8o = _LRLCR($apiFURespondersId, $_I6tLJ, $_I6O8f);
 
-   if(count($_Qit1o) == 0)
-     return $_Q8COf;
+   if(count($_I6O8f) == 0)
+     return $_I1o8o;
      else
      return false;
  }
@@ -828,16 +828,16 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_duplicateFUMail($apiFURespondersId, $apiFUMailId) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
    $apiFUMailId = intval($apiFUMailId);
 
-   $_Qi8If = array("OneFUMAction" => "DuplicateFUM", "OneFUMId" => $apiFUMailId);
+   $_I6tLJ = array("OneFUMAction" => "DuplicateFUM", "OneFUMId" => $apiFUMailId);
 
-   $_Qit1o = array();
-   _O8FQD($apiFURespondersId, $_Qi8If);
+   $_I6O8f = array();
+   _LRJ8P($apiFURespondersId, $_I6tLJ);
 
    return true;
  }
@@ -855,41 +855,41 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_setDateOfLastFUMailSending($apiFURespondersId, $apiRecipientId, $apiDateTime) {
-   global $_Q61I1, $_QCLCI, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_I616t, $_QL88I, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
    $apiRecipientId = intval($apiRecipientId);
 
-   $_QJlJ0 = "SELECT `$_QCLCI`.`ML_FU_RefTableName`, `$_Q60QL`.`MaillistTableName` FROM `$_QCLCI`";
-   $_QJlJ0 .= " LEFT JOIN `$_Q60QL` ON `$_Q60QL`.`id`=`$_QCLCI`.`maillists_id` ";
-   $_QJlJ0 .= " WHERE `$_QCLCI`.`id`=".$apiFURespondersId;
+   $_QLfol = "SELECT `$_I616t`.`ML_FU_RefTableName`, `$_QL88I`.`MaillistTableName` FROM `$_I616t`";
+   $_QLfol .= " LEFT JOIN `$_QL88I` ON `$_QL88I`.`id`=`$_I616t`.`maillists_id` ";
+   $_QLfol .= " WHERE `$_I616t`.`id`=".$apiFURespondersId;
 
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFURespondersId is invalid.");
-   $_Qif0C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_I681O = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `id` FROM `$_Qif0C[MaillistTableName]` WHERE `id`=".$apiRecipientId;
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `id` FROM `$_I681O[MaillistTableName]` WHERE `id`=".$apiRecipientId;
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiRecipientId is invalid.");
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
    // => browsefuresponders_nextmails.php
 
-   $_QJlJ0 = "UPDATE `$_Qif0C[ML_FU_RefTableName]` SET `LastSending`="._OPQLR($apiDateTime)." WHERE `Member_id`=$apiRecipientId";
-   mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol = "UPDATE `$_I681O[ML_FU_RefTableName]` SET `LastSending`="._LRAFO($apiDateTime)." WHERE `Member_id`=$apiRecipientId";
+   mysql_query($_QLfol, $_QLttI);
 
-   if(mysql_affected_rows($_Q61I1) == 0) {
+   if(mysql_affected_rows($_QLttI) == 0) {
 
-     $_QJlJ0 = "SELECT `Member_id` FROM `$_Qif0C[ML_FU_RefTableName]` WHERE `Member_id`=$apiRecipientId";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if(mysql_num_rows($_Q60l1) == 0) {
-       $_QJlJ0 = "INSERT INTO `$_Qif0C[ML_FU_RefTableName]` SET `Member_id`=$apiRecipientId, `LastSending`="._OPQLR($apiDateTime);
-       mysql_query($_QJlJ0, $_Q61I1);
-       _OAL8F($_QJlJ0, $this);
+     $_QLfol = "SELECT `Member_id` FROM `$_I681O[ML_FU_RefTableName]` WHERE `Member_id`=$apiRecipientId";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if(mysql_num_rows($_QL8i1) == 0) {
+       $_QLfol = "INSERT INTO `$_I681O[ML_FU_RefTableName]` SET `Member_id`=$apiRecipientId, `LastSending`="._LRAFO($apiDateTime);
+       mysql_query($_QLfol, $_QLttI);
+       _L8D88($_QLfol, $this);
      }
    }
 
@@ -909,62 +909,62 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_setNextToSendFUMail($apiFURespondersId, $apiRecipientId, $apiFUMailId) {
-   global $_Q61I1, $_QCLCI, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_I616t, $_QL88I, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
    $apiRecipientId = intval($apiRecipientId);
    $apiFUMailId = intval($apiFUMailId);
 
-   $_QJlJ0 = "SELECT `$_QCLCI`.`ML_FU_RefTableName`, `$_QCLCI`.`FUMailsTableName`, `$_QCLCI`.`RStatisticsTableName`, `$_Q60QL`.`MaillistTableName` FROM `$_QCLCI`";
-   $_QJlJ0 .= " LEFT JOIN `$_Q60QL` ON `$_Q60QL`.`id`=`$_QCLCI`.`maillists_id` ";
-   $_QJlJ0 .= " WHERE `$_QCLCI`.`id`=".$apiFURespondersId;
+   $_QLfol = "SELECT `$_I616t`.`ML_FU_RefTableName`, `$_I616t`.`FUMailsTableName`, `$_I616t`.`RStatisticsTableName`, `$_QL88I`.`MaillistTableName` FROM `$_I616t`";
+   $_QLfol .= " LEFT JOIN `$_QL88I` ON `$_QL88I`.`id`=`$_I616t`.`maillists_id` ";
+   $_QLfol .= " WHERE `$_I616t`.`id`=".$apiFURespondersId;
 
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFURespondersId is invalid.");
-   $_Qif0C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_I681O = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `id` FROM `$_Qif0C[MaillistTableName]` WHERE `id`=".$apiRecipientId;
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `id` FROM `$_I681O[MaillistTableName]` WHERE `id`=".$apiRecipientId;
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiRecipientId is invalid.");
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `sort_order` FROM `$_Qif0C[FUMailsTableName]` WHERE `id`=".$apiFUMailId;
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `sort_order` FROM `$_I681O[FUMailsTableName]` WHERE `id`=".$apiFUMailId;
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFUMailId is invalid.");
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
    // => browsefuresponders_nextmails.php
 
-   $_QJlJ0 = "UPDATE `$_Qif0C[ML_FU_RefTableName]` SET `NextFollowUpID`=$_Q6Q1C[sort_order] WHERE `Member_id`=$apiRecipientId";
-   mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol = "UPDATE `$_I681O[ML_FU_RefTableName]` SET `NextFollowUpID`=$_QLO0f[sort_order] WHERE `Member_id`=$apiRecipientId";
+   mysql_query($_QLfol, $_QLttI);
 
-   if(mysql_affected_rows($_Q61I1) == 0) {
+   if(mysql_affected_rows($_QLttI) == 0) {
 
-     $_QJlJ0 = "SELECT `Member_id` FROM `$_Qif0C[ML_FU_RefTableName]` WHERE `Member_id`=$apiRecipientId";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if(mysql_num_rows($_Q60l1) == 0) {
-       $_QJlJ0 = "INSERT INTO `$_Qif0C[ML_FU_RefTableName]` SET `NextFollowUpID`=$_Q6Q1C[sort_order], `Member_id`=$apiRecipientId, `LastSending`=NOW()";
-       mysql_query($_QJlJ0, $_Q61I1);
-       _OAL8F($_QJlJ0, $this);
+     $_QLfol = "SELECT `Member_id` FROM `$_I681O[ML_FU_RefTableName]` WHERE `Member_id`=$apiRecipientId";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if(mysql_num_rows($_QL8i1) == 0) {
+       $_QLfol = "INSERT INTO `$_I681O[ML_FU_RefTableName]` SET `NextFollowUpID`=$_QLO0f[sort_order], `Member_id`=$apiRecipientId, `LastSending`=NOW()";
+       mysql_query($_QLfol, $_QLttI);
+       _L8D88($_QLfol, $this);
      }
    }
 
    // remove statistic entries for this emails and following emails because an email will be send only when `recipients_id` AND `fumails_id` not in statistics table
-   $_QJlJ0 = "SELECT `id` FROM `$_Qif0C[FUMailsTableName]` WHERE `sort_order` >= $_Q6Q1C[sort_order]";
-   $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-   _OAL8F($_QJlJ0, $this);
-   while($_Q8OiJ = mysql_fetch_assoc($_Q8Oj8)){
-     $_QJlJ0 = "DELETE FROM `$_Qif0C[RStatisticsTableName]` WHERE `recipients_id`=$apiRecipientId AND `fumails_id`=$_Q8OiJ[id]";
-     mysql_query($_QJlJ0, $_Q61I1);
-     _OAL8F($_QJlJ0, $this);
+   $_QLfol = "SELECT `id` FROM `$_I681O[FUMailsTableName]` WHERE `sort_order` >= $_QLO0f[sort_order]";
+   $_I1O6j = mysql_query($_QLfol, $_QLttI);
+   _L8D88($_QLfol, $this);
+   while($_I1OfI = mysql_fetch_assoc($_I1O6j)){
+     $_QLfol = "DELETE FROM `$_I681O[RStatisticsTableName]` WHERE `recipients_id`=$apiRecipientId AND `fumails_id`=$_I1OfI[id]";
+     mysql_query($_QLfol, $_QLttI);
+     _L8D88($_QLfol, $this);
    }
-   mysql_free_result($_Q8Oj8);
+   mysql_free_result($_I1O6j);
 
    return true;
  }
@@ -980,39 +980,39 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_getFUResponderSentLog($apiFURespondersId, $apiStart, $apiCount) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
    $apiStart = intval($apiStart);
    $apiCount = intval($apiCount);
 
-   $_QJlJ0 = "SELECT `RStatisticsTableName` FROM `$_QCLCI` WHERE `id`=$apiFURespondersId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `RStatisticsTableName` FROM `$_I616t` WHERE `id`=$apiFURespondersId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFURespondersId is invalid.");
-   $_Qif0C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_I681O = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
    if($apiCount == -1) {
-     $_QJlJ0 = "SELECT COUNT(*) AS `EntryCount`  FROM `$_Qif0C[RStatisticsTableName]`";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-       mysql_free_result($_Q60l1);
-       return $_Q6Q1C;
+     $_QLfol = "SELECT COUNT(*) AS `EntryCount`  FROM `$_I681O[RStatisticsTableName]`";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+       mysql_free_result($_QL8i1);
+       return $_QLO0f;
      }
-     $_QoQOL = array("EntryCount" => 0);
-     return $_QoQOL;
+     $_Ijj6Q = array("EntryCount" => 0);
+     return $_Ijj6Q;
    }
 
-   $_QJlJ0 = "SELECT * FROM `$_Qif0C[RStatisticsTableName]` LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT * FROM `$_I681O[RStatisticsTableName]` LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
  /**
@@ -1026,35 +1026,35 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_getFUResponderTrackableLinks($apiFURespondersId, $apiFUMailId) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
    $apiFUMailId = intval($apiFUMailId);
 
-   $_QJlJ0 = "SELECT `FUMailsTableName` FROM `$_QCLCI` WHERE `id`=$apiFURespondersId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `FUMailsTableName` FROM `$_I616t` WHERE `id`=$apiFURespondersId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFURespondersId is invalid.");
-   $_Qif0C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_I681O = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `LinksTableName` FROM `$_Qif0C[FUMailsTableName]` WHERE `id`=$apiFUMailId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `LinksTableName` FROM `$_I681O[FUMailsTableName]` WHERE `id`=$apiFUMailId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFUMailId is invalid.");
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   $_Qif0C = array_merge($_Qif0C, $_Q6Q1C);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   $_I681O = array_merge($_I681O, $_QLO0f);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT * FROM `$_Qif0C[LinksTableName]`";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT * FROM `$_I681O[LinksTableName]`";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
 
@@ -1070,7 +1070,7 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_getFUResponderOpeningStatistics($apiFURespondersId, $apiFUMailId, $apiStart, $apiCount) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
@@ -1078,40 +1078,40 @@ class api_FUResponders extends api_base {
    $apiStart = intval($apiStart);
    $apiCount = intval($apiCount);
 
-   $_QJlJ0 = "SELECT `FUMailsTableName` FROM `$_QCLCI` WHERE `id`=$apiFURespondersId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `FUMailsTableName` FROM `$_I616t` WHERE `id`=$apiFURespondersId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFURespondersId is invalid.");
-   $_Qif0C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_I681O = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `LinksTableName`, `TrackingOpeningsTableName`, `TrackingOpeningsByRecipientTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName` FROM `$_Qif0C[FUMailsTableName]` WHERE `id`=$apiFUMailId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `LinksTableName`, `TrackingOpeningsTableName`, `TrackingOpeningsByRecipientTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName` FROM `$_I681O[FUMailsTableName]` WHERE `id`=$apiFUMailId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFUMailId is invalid.");
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   $_Qif0C = array_merge($_Qif0C, $_Q6Q1C);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   $_I681O = array_merge($_I681O, $_QLO0f);
+   mysql_free_result($_QL8i1);
 
    if($apiCount == -1) {
-     $_QJlJ0 = "SELECT COUNT(*) AS `EntryCount` FROM `$_Qif0C[TrackingOpeningsTableName]`";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-       mysql_free_result($_Q60l1);
-       return $_Q6Q1C;
+     $_QLfol = "SELECT COUNT(*) AS `EntryCount` FROM `$_I681O[TrackingOpeningsTableName]`";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+       mysql_free_result($_QL8i1);
+       return $_QLO0f;
      }
-     $_QoQOL = array("EntryCount" => 0);
-     return $_QoQOL;
+     $_Ijj6Q = array("EntryCount" => 0);
+     return $_Ijj6Q;
    }
 
-   $_QJlJ0 = "SELECT * FROM `$_Qif0C[TrackingOpeningsTableName]` LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT * FROM `$_I681O[TrackingOpeningsTableName]` LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
  /**
@@ -1126,7 +1126,7 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_getFUResponderOpeningStatisticsByRecipient($apiFURespondersId, $apiFUMailId, $apiStart, $apiCount) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
@@ -1134,42 +1134,42 @@ class api_FUResponders extends api_base {
    $apiStart = intval($apiStart);
    $apiCount = intval($apiCount);
 
-   $_QJlJ0 = "SELECT `FUMailsTableName` FROM `$_QCLCI` WHERE `id`=$apiFURespondersId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `FUMailsTableName` FROM `$_I616t` WHERE `id`=$apiFURespondersId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFURespondersId is invalid.");
-   $_Qif0C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_I681O = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `LinksTableName`, `TrackingOpeningsTableName`, `TrackingOpeningsByRecipientTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName` FROM `$_Qif0C[FUMailsTableName]` WHERE `id`=$apiFUMailId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `LinksTableName`, `TrackingOpeningsTableName`, `TrackingOpeningsByRecipientTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName` FROM `$_I681O[FUMailsTableName]` WHERE `id`=$apiFUMailId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFUMailId is invalid.");
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   $_Qif0C = array_merge($_Qif0C, $_Q6Q1C);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   $_I681O = array_merge($_I681O, $_QLO0f);
+   mysql_free_result($_QL8i1);
 
    if($apiCount == -1) {
-     $_QJlJ0 = "SELECT COUNT(*) AS `EntryCount` FROM `$_Qif0C[TrackingOpeningsByRecipientTableName]`";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-       mysql_free_result($_Q60l1);
-       return $_Q6Q1C;
+     $_QLfol = "SELECT COUNT(*) AS `EntryCount` FROM `$_I681O[TrackingOpeningsByRecipientTableName]`";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+       mysql_free_result($_QL8i1);
+       return $_QLO0f;
      }
-     $_QoQOL = array("EntryCount" => 0);
-     return $_QoQOL;
+     $_Ijj6Q = array("EntryCount" => 0);
+     return $_Ijj6Q;
    }
 
-   $_QJlJ0 = "SELECT * FROM `$_Qif0C[TrackingOpeningsByRecipientTableName]` LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_Q6Q1C["recipients_id"] = $_Q6Q1C["Member_id"];
-     unset($_Q6Q1C["Member_id"]);
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT * FROM `$_I681O[TrackingOpeningsByRecipientTableName]` LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_QLO0f["recipients_id"] = $_QLO0f["Member_id"];
+     unset($_QLO0f["Member_id"]);
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
  /**
@@ -1184,7 +1184,7 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_getFUResponderLinkClickStatistics($apiFURespondersId, $apiFUMailId, $apiStart, $apiCount) {
-  global $_Q61I1, $_QCLCI, $UserId, $UserType;
+  global $_QLttI, $_I616t, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
@@ -1192,40 +1192,40 @@ class api_FUResponders extends api_base {
    $apiStart = intval($apiStart);
    $apiCount = intval($apiCount);
 
-   $_QJlJ0 = "SELECT `FUMailsTableName` FROM `$_QCLCI` WHERE `id`=$apiFURespondersId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `FUMailsTableName` FROM `$_I616t` WHERE `id`=$apiFURespondersId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFURespondersId is invalid.");
-   $_Qif0C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_I681O = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `LinksTableName`, `TrackingOpeningsTableName`, `TrackingOpeningsByRecipientTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName` FROM `$_Qif0C[FUMailsTableName]` WHERE `id`=$apiFUMailId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `LinksTableName`, `TrackingOpeningsTableName`, `TrackingOpeningsByRecipientTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName` FROM `$_I681O[FUMailsTableName]` WHERE `id`=$apiFUMailId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFUMailId is invalid.");
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   $_Qif0C = array_merge($_Qif0C, $_Q6Q1C);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   $_I681O = array_merge($_I681O, $_QLO0f);
+   mysql_free_result($_QL8i1);
 
    if($apiCount == -1) {
-     $_QJlJ0 = "SELECT COUNT(*) AS `EntryCount` FROM `$_Qif0C[TrackingLinksTableName]`";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-       mysql_free_result($_Q60l1);
-       return $_Q6Q1C;
+     $_QLfol = "SELECT COUNT(*) AS `EntryCount` FROM `$_I681O[TrackingLinksTableName]`";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+       mysql_free_result($_QL8i1);
+       return $_QLO0f;
      }
-     $_QoQOL = array("EntryCount" => 0);
-     return $_QoQOL;
+     $_Ijj6Q = array("EntryCount" => 0);
+     return $_Ijj6Q;
    }
 
-   $_QJlJ0 = "SELECT * FROM `$_Qif0C[TrackingLinksTableName]` LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT * FROM `$_I681O[TrackingLinksTableName]` LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
  /**
@@ -1240,7 +1240,7 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_getFUResponderLinkClickStatisticsByRecipient($apiFURespondersId, $apiFUMailId, $apiStart, $apiCount) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiFURespondersId = intval($apiFURespondersId);
@@ -1248,42 +1248,42 @@ class api_FUResponders extends api_base {
    $apiStart = intval($apiStart);
    $apiCount = intval($apiCount);
 
-   $_QJlJ0 = "SELECT `FUMailsTableName` FROM `$_QCLCI` WHERE `id`=$apiFURespondersId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `FUMailsTableName` FROM `$_I616t` WHERE `id`=$apiFURespondersId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFURespondersId is invalid.");
-   $_Qif0C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_I681O = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `LinksTableName`, `TrackingOpeningsTableName`, `TrackingOpeningsByRecipientTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName` FROM `$_Qif0C[FUMailsTableName]` WHERE `id`=$apiFUMailId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `LinksTableName`, `TrackingOpeningsTableName`, `TrackingOpeningsByRecipientTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName` FROM `$_I681O[FUMailsTableName]` WHERE `id`=$apiFUMailId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFUMailId is invalid.");
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   $_Qif0C = array_merge($_Qif0C, $_Q6Q1C);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   $_I681O = array_merge($_I681O, $_QLO0f);
+   mysql_free_result($_QL8i1);
 
    if($apiCount == -1) {
-     $_QJlJ0 = "SELECT COUNT(*) AS `EntryCount` FROM `$_Qif0C[TrackingLinksByRecipientTableName]`";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-       mysql_free_result($_Q60l1);
-       return $_Q6Q1C;
+     $_QLfol = "SELECT COUNT(*) AS `EntryCount` FROM `$_I681O[TrackingLinksByRecipientTableName]`";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+       mysql_free_result($_QL8i1);
+       return $_QLO0f;
      }
-     $_QoQOL = array("EntryCount" => 0);
-     return $_QoQOL;
+     $_Ijj6Q = array("EntryCount" => 0);
+     return $_Ijj6Q;
    }
 
-   $_QJlJ0 = "SELECT * FROM `$_Qif0C[TrackingLinksByRecipientTableName]` LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_Q6Q1C["recipients_id"] = $_Q6Q1C["Member_id"];
-     unset($_Q6Q1C["Member_id"]);
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT * FROM `$_I681O[TrackingLinksByRecipientTableName]` LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_QLO0f["recipients_id"] = $_QLO0f["Member_id"];
+     unset($_QLO0f["Member_id"]);
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
  /**
@@ -1298,7 +1298,7 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_getFUResponderUserAgentsStatistics($apiFURespondersId, $apiFUMailId, $apiStart, $apiCount) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
 
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
@@ -1307,36 +1307,36 @@ class api_FUResponders extends api_base {
    $apiStart = intval($apiStart);
    $apiCount = intval($apiCount);
 
-   $_QJlJ0 = "SELECT `FUMailsTableName` FROM `$_QCLCI` WHERE `id`=$apiFURespondersId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `FUMailsTableName` FROM `$_I616t` WHERE `id`=$apiFURespondersId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFURespondersId is invalid.");
-   $_Qif0C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_I681O = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `LinksTableName`, `TrackingOpeningsTableName`, `TrackingOpeningsByRecipientTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName` FROM `$_Qif0C[FUMailsTableName]` WHERE `id`=$apiFUMailId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `LinksTableName`, `TrackingOpeningsTableName`, `TrackingOpeningsByRecipientTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName` FROM `$_I681O[FUMailsTableName]` WHERE `id`=$apiFUMailId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFUMailId is invalid.");
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   $_Qif0C = array_merge($_Qif0C, $_Q6Q1C);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   $_I681O = array_merge($_I681O, $_QLO0f);
+   mysql_free_result($_QL8i1);
 
    if($apiCount == -1) {
-     $_QJlJ0 = "SELECT SUM(`Clicks`) AS `ClicksCount`, `UserAgent` FROM `$_Qif0C[TrackingUserAgentsTableName]` GROUP BY `UserAgent` ORDER BY `ClicksCount` DESC";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     $_QoQOL = array("EntryCount" => mysql_num_rows($_Q60l1));
-     return $_QoQOL;
+     $_QLfol = "SELECT SUM(`Clicks`) AS `ClicksCount`, `UserAgent` FROM `$_I681O[TrackingUserAgentsTableName]` GROUP BY `UserAgent` ORDER BY `ClicksCount` DESC";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     $_Ijj6Q = array("EntryCount" => mysql_num_rows($_QL8i1));
+     return $_Ijj6Q;
    }
 
-   $_QJlJ0 = "SELECT SUM(`Clicks`) AS `ClicksCount`, `UserAgent` FROM `$_Qif0C[TrackingUserAgentsTableName]` GROUP BY `UserAgent` ORDER BY `ClicksCount` DESC LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT SUM(`Clicks`) AS `ClicksCount`, `UserAgent` FROM `$_I681O[TrackingUserAgentsTableName]` GROUP BY `UserAgent` ORDER BY `ClicksCount` DESC LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
  /**
@@ -1351,7 +1351,7 @@ class api_FUResponders extends api_base {
   * @access public
   */
  function api_getFUResponderOSStatistics($apiFURespondersId, $apiFUMailId, $apiStart, $apiCount) {
-   global $_Q61I1, $_QCLCI, $UserId, $UserType;
+   global $_QLttI, $_I616t, $UserId, $UserType;
 
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
@@ -1360,36 +1360,36 @@ class api_FUResponders extends api_base {
    $apiStart = intval($apiStart);
    $apiCount = intval($apiCount);
 
-   $_QJlJ0 = "SELECT `FUMailsTableName` FROM `$_QCLCI` WHERE `id`=$apiFURespondersId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `FUMailsTableName` FROM `$_I616t` WHERE `id`=$apiFURespondersId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFURespondersId is invalid.");
-   $_Qif0C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_I681O = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `LinksTableName`, `TrackingOpeningsTableName`, `TrackingOpeningsByRecipientTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName` FROM `$_Qif0C[FUMailsTableName]` WHERE `id`=$apiFUMailId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `LinksTableName`, `TrackingOpeningsTableName`, `TrackingOpeningsByRecipientTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName` FROM `$_I681O[FUMailsTableName]` WHERE `id`=$apiFUMailId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("apiFUMailId is invalid.");
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   $_Qif0C = array_merge($_Qif0C, $_Q6Q1C);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   $_I681O = array_merge($_I681O, $_QLO0f);
+   mysql_free_result($_QL8i1);
 
    if($apiCount == -1) {
-     $_QJlJ0 = "SELECT SUM(`Clicks`) AS `ClicksCount`, `OS` FROM `$_Qif0C[TrackingOSsTableName]` GROUP BY `OS` ORDER BY `ClicksCount` DESC";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     $_QoQOL = array("EntryCount" => mysql_num_rows($_Q60l1));
-     return $_QoQOL;
+     $_QLfol = "SELECT SUM(`Clicks`) AS `ClicksCount`, `OS` FROM `$_I681O[TrackingOSsTableName]` GROUP BY `OS` ORDER BY `ClicksCount` DESC";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     $_Ijj6Q = array("EntryCount" => mysql_num_rows($_QL8i1));
+     return $_Ijj6Q;
    }
 
-   $_QJlJ0 = "SELECT SUM(`Clicks`) AS `ClicksCount`, `OS` FROM `$_Qif0C[TrackingOSsTableName]` GROUP BY `OS` ORDER BY `ClicksCount` DESC LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT SUM(`Clicks`) AS `ClicksCount`, `OS` FROM `$_I681O[TrackingOSsTableName]` GROUP BY `OS` ORDER BY `ClicksCount` DESC LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
 }

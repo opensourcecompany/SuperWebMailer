@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2014 Mirko Boeer                         #
+#               Copyright © 2007 - 2019 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -25,58 +25,58 @@
   if(!defined("SWM") && !defined("SML") && !defined("CRONS_PHP"))
     exit;
 
-  if(isset($_6i8tj))
-     unset($_6i8tj);
-  $_6i8tj = array();
+  if(isset($_8f1o1))
+     unset($_8f1o1);
+  $_8f1o1 = array();
   if ( isset($_POST["OneSplitTestListId"]) && $_POST["OneSplitTestListId"] != "" )
-      $_6i8tj[] = intval($_POST["OneSplitTestListId"]);
+      $_8f1o1[] = intval($_POST["OneSplitTestListId"]);
       else
       if ( isset($_POST["SplitTestIDs"]) )
-        $_6i8tj = array_merge($_6i8tj, $_POST["SplitTestIDs"]);
+        $_8f1o1 = array_merge($_8f1o1, $_POST["SplitTestIDs"]);
 
   if(isset($_POST["SplitTestListActions"]) && $_POST["SplitTestListActions"] == "RemoveSplitTests" || isset($_POST["OneSplitTestListAction"]) && $_POST["OneSplitTestListAction"] == "DeleteSplitTest" ) {
-    $_QtIiC = array();
-    _LLLCP($_6i8tj, $_QtIiC);
+    $_IQ0Cj = array();
+    _JLPQB($_8f1o1, $_IQ0Cj);
   }
 
   // we don't check for errors here
-  function _LLLCP($_6i8tj, &$_QtIiC) {
-    global $_IooOQ, $resourcestrings, $INTERFACE_LANGUAGE, $_Q61I1;
+  function _JLPQB($_8f1o1, &$_IQ0Cj) {
+    global $_jJL88, $resourcestrings, $INTERFACE_LANGUAGE, $_QLttI;
 
-    for($_Q6llo=0; $_Q6llo<count($_6i8tj); $_Q6llo++) {
-      $_6i8tj[$_Q6llo] = intval($_6i8tj[$_Q6llo]);
-      $_QJlJ0 = "SELECT * FROM `$_IooOQ` WHERE id=".$_6i8tj[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if(mysql_num_rows($_Q60l1) > 0) {
-        $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
+    for($_Qli6J=0; $_Qli6J<count($_8f1o1); $_Qli6J++) {
+      $_8f1o1[$_Qli6J] = intval($_8f1o1[$_Qli6J]);
+      $_QLfol = "SELECT * FROM `$_jJL88` WHERE id=".$_8f1o1[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if(mysql_num_rows($_QL8i1) > 0) {
+        $_QLO0f = mysql_fetch_assoc($_QL8i1);
 
-        $_QJlJ0 = "SELECT id FROM `$_Q6Q1C[CurrentSendTableName]` WHERE SendState='Sending' LIMIT 0,1";
-        $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-        if($_Q8Oj8 && mysql_num_rows($_Q8Oj8) > 0) {
-          mysql_free_result($_Q8Oj8);
-          $_QtIiC[] = $_Q6Q1C["Name"].": ".$resourcestrings[$INTERFACE_LANGUAGE]["000675"];
+        $_QLfol = "SELECT id FROM `$_QLO0f[CurrentSendTableName]` WHERE SendState='Sending' LIMIT 0,1";
+        $_I1O6j = mysql_query($_QLfol, $_QLttI);
+        if($_I1O6j && mysql_num_rows($_I1O6j) > 0) {
+          mysql_free_result($_I1O6j);
+          $_IQ0Cj[] = $_QLO0f["Name"].": ".$resourcestrings[$INTERFACE_LANGUAGE]["000675"];
           continue;
         }
-        if($_Q8Oj8)
-          mysql_free_result($_Q8Oj8);
+        if($_I1O6j)
+          mysql_free_result($_I1O6j);
 
-        _OBOAB($_Q6Q1C["CurrentSendTableName"]);
+        _LP1AQ($_QLO0f["CurrentSendTableName"]);
 
-        reset($_Q6Q1C);
-        foreach($_Q6Q1C as $key => $_Q6ClO) {
+        reset($_QLO0f);
+        foreach($_QLO0f as $key => $_QltJO) {
           if (strpos($key, "TableName") !== false) {
-            $_QJlJ0 = "DROP TABLE IF EXISTS `$_Q6ClO`";
-            mysql_query($_QJlJ0, $_Q61I1);
-            if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+            $_QLfol = "DROP TABLE IF EXISTS `$_QltJO`";
+            mysql_query($_QLfol, $_QLttI);
+            if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
           }
         }
       }
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
 
       // and now from campaigns table
-      $_QJlJ0 = "DELETE FROM `$_IooOQ` WHERE id=".$_6i8tj[$_Q6llo];
-      mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM `$_jJL88` WHERE id=".$_8f1o1[$_Qli6J];
+      mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
     }
 
   }

@@ -27,24 +27,24 @@
   include_once("templates.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeMailingListBrowse"] || !$_QJojf["PrivilegeRecipientBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeMailingListBrowse"] || !$_QLJJ6["PrivilegeRecipientBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
   // from browsercpts.php
   if(isset($_GET["ModifySearchParams"]) && isset($_POST["searchoptions"]) && !empty($_POST["searchoptions"])  ){
-    $_Iii1I = @unserialize( base64_decode($_POST["searchoptions"]) );
-    if($_Iii1I !== false) {
-      $_POST = array_merge($_POST, $_Iii1I);
+    $_jtjl0 = @unserialize( base64_decode($_POST["searchoptions"]) );
+    if($_jtjl0 !== false) {
+      $_POST = array_merge($_POST, $_jtjl0);
     }
   }
 
-  $_I0600 = "";
+  $_Itfj8 = "";
   $errors = array();
 
   if(isset($_POST["SearchBtn"])){
@@ -64,81 +64,81 @@
   }
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["002000"], $_I0600, 'searchrecipients', 'searchrecipients_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["002000"], $_Itfj8, 'searchrecipients', 'searchrecipients_snipped.htm');
 
 
   // ********* List of MailingLists SQL query
-  $_Q68ff = "SELECT DISTINCT id, Name FROM $_Q60QL";
+  $_QlI6f = "SELECT DISTINCT id, Name FROM $_QL88I";
   if($OwnerUserId == 0) // ist es ein Admin?
-     $_Q68ff .= " WHERE (users_id=$UserId)";
+     $_QlI6f .= " WHERE (users_id=$UserId)";
      else {
-      $_Q68ff .= " LEFT JOIN $_Q6fio ON $_Q60QL.id=$_Q6fio.maillists_id WHERE (".$_Q6fio.".users_id=$UserId) AND ($_Q60QL.users_id=$OwnerUserId)";
+      $_QlI6f .= " LEFT JOIN $_QlQot ON $_QL88I.id=$_QlQot.maillists_id WHERE (".$_QlQot.".users_id=$UserId) AND ($_QL88I.users_id=$OwnerUserId)";
      }
-  $_Q68ff .= " ORDER BY Name ASC";
+  $_QlI6f .= " ORDER BY Name ASC";
 
-  $_Q60l1 = mysql_query($_Q68ff, $_Q61I1);
-  _OAL8F($_Q68ff);
+  $_QL8i1 = mysql_query($_QlI6f, $_QLttI);
+  _L8D88($_QlI6f);
 
-  $_IIJi1 = _OP81D($_QJCJi, "<SHOW:MAILINGLISTS>", "</SHOW:MAILINGLISTS>");
-  $_I10Cl = "";
-  $_II6ft = 0;
+  $_IC1C6 = _L81DB($_QLJfI, "<SHOW:MAILINGLISTS>", "</SHOW:MAILINGLISTS>");
+  $_ItlLC = "";
+  $_ICQjo = 0;
 
-  while($_I1COO=mysql_fetch_array($_Q60l1)) {
-    $_I10Cl .= $_IIJi1.$_Q6JJJ;
+  while($_IOLJ1=mysql_fetch_array($_QL8i1)) {
+    $_ItlLC .= $_IC1C6.$_QLl1Q;
 
-    $_I10Cl = _OPR6L($_I10Cl, "<MailingListsId>", "</MailingListsId>", $_I1COO["id"]);
-    $_I10Cl = _OPR6L($_I10Cl, "&lt;MailingListsId&gt;", "&lt;/MailingListsId&gt;", $_I1COO["id"]);
-    $_I10Cl = _OPR6L($_I10Cl, "<MailingListsName>", "</MailingListsName>", $_I1COO["Name"]);
-    $_I10Cl = _OPR6L($_I10Cl, "&lt;MailingListsName&gt;", "&lt;/MailingListsName&gt;", $_I1COO["Name"]);
-    $_II6ft++;
-    $_I10Cl = str_replace("MailingListsLabelId", 'mailinglistschkbox_'.$_II6ft, $_I10Cl);
+    $_ItlLC = _L81BJ($_ItlLC, "<MailingListsId>", "</MailingListsId>", $_IOLJ1["id"]);
+    $_ItlLC = _L81BJ($_ItlLC, "&lt;MailingListsId&gt;", "&lt;/MailingListsId&gt;", $_IOLJ1["id"]);
+    $_ItlLC = _L81BJ($_ItlLC, "<MailingListsName>", "</MailingListsName>", $_IOLJ1["Name"]);
+    $_ItlLC = _L81BJ($_ItlLC, "&lt;MailingListsName&gt;", "&lt;/MailingListsName&gt;", $_IOLJ1["Name"]);
+    $_ICQjo++;
+    $_ItlLC = str_replace("MailingListsLabelId", 'mailinglistschkbox_'.$_ICQjo, $_ItlLC);
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
-  $_QJCJi = _OPR6L($_QJCJi, "<SHOW:MAILINGLISTS>", "</SHOW:MAILINGLISTS>", $_I10Cl);
+  $_QLJfI = _L81BJ($_QLJfI, "<SHOW:MAILINGLISTS>", "</SHOW:MAILINGLISTS>", $_ItlLC);
   if(isset($_POST["MailingLists"])) {
-    for($_Q6llo=0; $_Q6llo < count($_POST["MailingLists"]); $_Q6llo++)
-      $_QJCJi = str_replace('name="MailingLists[]" value="'.$_POST["MailingLists"][$_Q6llo].'"', 'name="MailingLists[]" value="'.$_POST["MailingLists"][$_Q6llo].'" checked="checked"', $_QJCJi);
+    for($_Qli6J=0; $_Qli6J < count($_POST["MailingLists"]); $_Qli6J++)
+      $_QLJfI = str_replace('name="MailingLists[]" value="'.$_POST["MailingLists"][$_Qli6J].'"', 'name="MailingLists[]" value="'.$_POST["MailingLists"][$_Qli6J].'" checked="checked"', $_QLJfI);
     unset($_POST["MailingLists"]);
   }
 
 
-  $_QJlJ0 = "SELECT text, fieldname FROM $_Qofjo WHERE language="._OPQLR($INTERFACE_LANGUAGE);
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
+  $_QLfol = "SELECT text, fieldname FROM $_Ij8oL WHERE language="._LRAFO($INTERFACE_LANGUAGE);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
 
-  $_IIJi1 = _OP81D($_QJCJi, "<SHOW:FIELDS>", "</SHOW:FIELDS>");
-  $_I10Cl = "";
-  $_II6ft = 0;
+  $_IC1C6 = _L81DB($_QLJfI, "<SHOW:FIELDS>", "</SHOW:FIELDS>");
+  $_ItlLC = "";
+  $_ICQjo = 0;
 
-  while($_I1COO=mysql_fetch_array($_Q60l1)) {
-    $_I10Cl .= $_IIJi1.$_Q6JJJ;
+  while($_IOLJ1=mysql_fetch_array($_QL8i1)) {
+    $_ItlLC .= $_IC1C6.$_QLl1Q;
 
-    $_I10Cl = _OPR6L($_I10Cl, "<FieldsId>", "</FieldsId>", $_I1COO["fieldname"]);
-    $_I10Cl = _OPR6L($_I10Cl, "&lt;FieldsId&gt;", "&lt;/FieldsId&gt;", $_I1COO["fieldname"]);
-    $_I10Cl = _OPR6L($_I10Cl, "<FieldsName>", "</FieldsName>", $_I1COO["text"]);
-    $_I10Cl = _OPR6L($_I10Cl, "&lt;FieldsName&gt;", "&lt;/FieldsName&gt;", $_I1COO["text"]);
-    $_II6ft++;
-    $_I10Cl = str_replace("FieldsLabelId", 'fieldschkbox_'.$_II6ft, $_I10Cl);
+    $_ItlLC = _L81BJ($_ItlLC, "<FieldsId>", "</FieldsId>", $_IOLJ1["fieldname"]);
+    $_ItlLC = _L81BJ($_ItlLC, "&lt;FieldsId&gt;", "&lt;/FieldsId&gt;", $_IOLJ1["fieldname"]);
+    $_ItlLC = _L81BJ($_ItlLC, "<FieldsName>", "</FieldsName>", $_IOLJ1["text"]);
+    $_ItlLC = _L81BJ($_ItlLC, "&lt;FieldsName&gt;", "&lt;/FieldsName&gt;", $_IOLJ1["text"]);
+    $_ICQjo++;
+    $_ItlLC = str_replace("FieldsLabelId", 'fieldschkbox_'.$_ICQjo, $_ItlLC);
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
-  $_QJCJi = _OPR6L($_QJCJi, "<SHOW:FIELDS>", "</SHOW:FIELDS>", $_I10Cl);
+  $_QLJfI = _L81BJ($_QLJfI, "<SHOW:FIELDS>", "</SHOW:FIELDS>", $_ItlLC);
   if(isset($_POST["Fields"])) {
-    for($_Q6llo=0; $_Q6llo < count($_POST["Fields"]); $_Q6llo++)
-      $_QJCJi = str_replace('name="Fields[]" value="'.$_POST["Fields"][$_Q6llo].'"', 'name="Fields[]" value="'.$_POST["Fields"][$_Q6llo].'" checked="checked"', $_QJCJi);
+    for($_Qli6J=0; $_Qli6J < count($_POST["Fields"]); $_Qli6J++)
+      $_QLJfI = str_replace('name="Fields[]" value="'.$_POST["Fields"][$_Qli6J].'"', 'name="Fields[]" value="'.$_POST["Fields"][$_Qli6J].'" checked="checked"', $_QLJfI);
     unset($_POST["Fields"]);
   }
 
   if(!isset($_POST["SearchBtn"]) && !isset($_POST["FindMethod"]))
     $_POST["FindMethod"] = 1;
 
-  $_QJCJi = _OPFJA($errors, $_POST, $_QJCJi);
+  $_QLJfI = _L8AOB($errors, $_POST, $_QLJfI);
   if(in_array("MailingLists[]", $errors))
-    $_QJCJi = str_replace('name="MLsScrollbox" id="MLsScrollbox" class="scrollbox"', 'name="MLsScrollbox" id="MLsScrollbox" class="scrollbox missingvaluebackground"', $_QJCJi);
+    $_QLJfI = str_replace('name="MLsScrollbox" id="MLsScrollbox" class="scrollbox"', 'name="MLsScrollbox" id="MLsScrollbox" class="scrollbox missingvaluebackground"', $_QLJfI);
   if(in_array("Fields[][]", $errors))
-    $_QJCJi = str_replace('name="FieldsScrollbox" id="FieldsScrollbox" class="scrollbox"', 'name="FieldsScrollbox" id="FieldsScrollbox" class="scrollbox missingvaluebackground"', $_QJCJi);
+    $_QLJfI = str_replace('name="FieldsScrollbox" id="FieldsScrollbox" class="scrollbox"', 'name="FieldsScrollbox" id="FieldsScrollbox" class="scrollbox missingvaluebackground"', $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 ?>

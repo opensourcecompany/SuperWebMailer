@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -22,10 +22,14 @@
 #                                                                           #
 #############################################################################
 
+
+  define('Install', 1); # we install
+
   include_once("config.inc.php");
   include_once("templates.inc.php");
   include_once("mailinglistq.inc.php");
   include_once("defaulttexts.inc.php");
+  include_once("sanitize.inc.php");
 
   // MySql 4.0 http://dev.mysql.com/doc/refman/4.1/en/index.html
 
@@ -34,12 +38,29 @@
   if(!defined("E_STRICT"))
     define("E_STRICT", 0);
   error_reporting( E_ALL & ~ ( E_NOTICE | E_WARNING  | E_DEPRECATED | E_STRICT ) );
+  if(function_exists("ioncube_file_is_encoded") && ioncube_file_is_encoded()){
+    ini_set("display_errors", 1);
+  }
 
   define('Setup', 1); # we install
-  $_Jtf68 = "http://";
+  $_6CC10 = "http://";
 
+  if($_SERVER['SERVER_PORT'] == 80){}
+  else
   if(!empty($_SERVER["REQUEST_SCHEME"]))
-     $_Jtf68 = $_SERVER["REQUEST_SCHEME"]."://";
+     $_6CC10 = $_SERVER["REQUEST_SCHEME"]."://";
+     else
+       if(!empty($_SERVER['HTTPS']) && ( strtolower($_SERVER['HTTPS']) == "on" || $_SERVER['HTTPS'] == 1) )
+         $_6CC10 = "https://";
+         else
+          if(!empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443)
+             $_6CC10 = "https://";
+             else
+              if(!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == "https" )
+                $_6CC10 = "https://";
+
+  $_6CCQ1 = new _JO0ED();
+  $_6CCQ1 = null;
 
   $Language = $INTERFACE_LANGUAGE;
   if(isset($_POST["Language"]))
@@ -50,10 +71,12 @@
     $Language = $INTERFACE_LANGUAGE;
   $INTERFACE_LANGUAGE = $Language;
 
-  _LQLRQ($INTERFACE_LANGUAGE);
+  $INTERFACE_LANGUAGE = preg_replace( '/[^a-z]+/', '', strtolower( $INTERFACE_LANGUAGE ) );
 
-  $_I0600 = "";
-  $_JtffC = false;
+  _JQRLR($INTERFACE_LANGUAGE);
+
+  $_Itfj8 = "";
+  $_6CCQt = false;
   $errors = array();
 
   if(!isset($_POST["step"]) || $_POST["step"] == "") {
@@ -74,20 +97,20 @@
        }
 
        if (count($errors) == 0) {
-        if( !_OFRED($_POST["ver_code"], $_POST["RegNumber"]) ) {
+        if( !_LFJJE($_POST["ver_code"], $_POST["RegNumber"]) ) {
           $_POST["step"] = 4;
           $_POST["ManualBtn"] = 1;
           $errors[] = "ver_code";
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090206"];
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090206"];
         } else {
           $_POST["step"] = 5;
           $_POST["RegNumber"] = strtoupper($_POST["RegNumber"]);
-          $_JtO0o = "";
-          if(!_OFR1B($_JtO0o)) {
+          $_6Cif6 = "";
+          if(!_LFLD0($_6Cif6)) {
             $_POST["step"] = 4;
             $_POST["ManualBtn"] = 1;
             $errors[] = "ver_code";
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090206"].$_JtO0o;
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090206"].$_6Cif6;
           }
         }
        }
@@ -102,8 +125,8 @@
         if(!isset($_POST["ScriptBaseURL"]) || trim($_POST["ScriptBaseURL"]) == "" || strpos($_POST["ScriptBaseURL"], "\\") !== false )
            $errors[] = "ScriptBaseURL";
         if(count($errors) == 0) {
-          if(!_OE0EB()) {
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090210"];
+          if(!_LDQ1O()) {
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090210"];
             $errors[] = "ScriptBaseURL";
           }
         }
@@ -116,23 +139,23 @@
         if(!isset($_POST["DatabaseUsername"]) || trim($_POST["DatabaseUsername"]) == "")
            $errors[] = "DatabaseUsername";
 
-        $_I8i66 = "";
-        for ($_Q6llo=0; $_Q6llo<strlen($_POST["DatabaseTablePrefix"]); $_Q6llo++)
-          if (preg_match('/[A-Za-z0-9_]/', $_POST["DatabaseTablePrefix"]{$_Q6llo}))
-            $_I8i66 .= $_POST["DatabaseTablePrefix"]{$_Q6llo};
-        $_POST["DatabaseTablePrefix"] = $_I8i66;
-        if($_I8i66 != "" && $_I8i66{strlen($_I8i66) - 1} != "_")
+        $_jQCjt = "";
+        for ($_Qli6J=0; $_Qli6J<strlen($_POST["DatabaseTablePrefix"]); $_Qli6J++)
+          if (preg_match('/[A-Za-z0-9_]/', $_POST["DatabaseTablePrefix"][$_Qli6J]))
+            $_jQCjt .= $_POST["DatabaseTablePrefix"][$_Qli6J];
+        $_POST["DatabaseTablePrefix"] = $_jQCjt;
+        if($_jQCjt != "" && $_jQCjt[strlen($_jQCjt) - 1] != "_")
           $_POST["DatabaseTablePrefix"] = $_POST["DatabaseTablePrefix"]."_";
 
         if(count($errors) == 0) {
-          if(!_OEQJB($_JtiIJ)) {
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090211"].$_JtiIJ;
+          if(!_LDQFR($_6i1Q6)) {
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090211"].$_6i1Q6;
             $errors[] = "DatabaseHostname";
             $errors[] = "DatabaseName";
             $errors[] = "DatabaseUsername";
           } else {
-            if(!_OE1BP()) {
-              $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090212"];
+            if(!_LDQLQ()) {
+              $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090212"];
               $errors[] = "DatabaseHostname";
             }
           }
@@ -153,34 +176,34 @@
            $errors[] = "RegNumber";
         if(count($errors) == 0) {
           $_POST["RegNumber"] = strtoupper($_POST["RegNumber"]);
-          if ( !_OFR0F(urlencode($_POST["RegName"]), $_POST["RegNumber"], $_I0600, $_JtffC) ) {
+          if ( !_LFOFL(urlencode($_POST["RegName"]), $_POST["RegNumber"], $_Itfj8, $_6CCQt) ) {
             $errors[] = "RegName";
             $errors[] = "RegNumber";
           } else {
-            $_JtO0o = "";
-            if( !_OFR1B($_JtO0o) ) {
+            $_6Cif6 = "";
+            if( !_LFLD0($_6Cif6) ) {
               $errors[] = "RegName";
               $errors[] = "RegNumber";
-              $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090202"].$_JtO0o;
+              $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090202"].$_6Cif6;
             }
           }
         }
         break;
       default:
         if(function_exists("ioncube_file_is_encoded") && ioncube_file_is_encoded())
-         $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090100"], $_I0600, 'DISABLED', 'inst1_evaluation_snipped.htm');
+         $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090100"], $_Itfj8, 'DISABLED', 'inst1_evaluation_snipped.htm');
          else
-         $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090100"], $_I0600, 'DISABLED', 'inst1_snipped.htm');
+         $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090100"], $_Itfj8, 'DISABLED', 'inst1_snipped.htm');
       case 5:
         break;
       case 6:
         include_once("securitycheck.inc.php");
-        if(_LO0BO()) {
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["ConfigFilesWriteable"];
+        if(_JO6D0()) {
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["ConfigFilesWriteable"];
           $errors[] = "";
         }
-        if(!_LO0BL(true)) {
-          $_I0600 .= "<br />".$resourcestrings[$INTERFACE_LANGUAGE]["UserPathsNotWriteable"];
+        if(!_JORB8(true)) {
+          $_Itfj8 .= "<br />".$resourcestrings[$INTERFACE_LANGUAGE]["UserPathsNotWriteable"];
           $errors[] = "";
         }
         break;
@@ -191,7 +214,7 @@
           $errors[] = "PasswordAgain";
         if(count($errors) == 0) {
           if( trim($_POST["Password"]) != trim($_POST["PasswordAgain"]) || trim($_POST["Password"]) == "*PASSWORDSET*" ) {
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090001"];
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090001"];
             $errors[] = "Password";
             $errors[] = "PasswordAgain";
           }
@@ -199,11 +222,15 @@
         if(count($errors) == 0) {
          $Username = "superadmin";
          include_once("superadmin.inc.php");
-         $_Qt6oI = _LLEQD($Username, "SuperAdmin", $Language);
+         $_Qll8O = _JJQOE($Username, "SuperAdmin", $Language);
 
-         $_QlLOL = _OC1CF();
-         $_QJlJ0 = "UPDATE $_Q8f1L SET Password=CONCAT("._OPQLR($_QlLOL).", PASSWORD("._OPQLR($_QlLOL.trim($_POST["Password"])).") ) WHERE id=".$_Qt6oI;
-         mysql_query($_QJlJ0, $_Q61I1);
+         $_I8li6 = _LAPE1();
+         $_It0IQ = version_compare(_LBL0A(), '8.0.11') >= 0;
+         if(!$_It0IQ)
+           $_QLfol = "UPDATE $_I18lo SET Password=CONCAT("._LRAFO($_I8li6).", PASSWORD("._LRAFO($_I8li6.trim($_POST["Password"])).") ) WHERE id=".$_Qll8O;
+           else
+           $_QLfol = "UPDATE $_I18lo SET Password=CONCAT("._LRAFO($_I8li6).", SHA2("._LRAFO($_I8li6.trim($_POST["Password"])).", 224) ) WHERE id=".$_Qll8O;
+         mysql_query($_QLfol, $_QLttI);
          // unset it because admin user can have an own password
          unset($_POST["Password"]);
          unset($_POST["PasswordAgain"]);
@@ -213,9 +240,9 @@
         if(!isset($_POST["Username"]) || trim($_POST["Username"]) == "")
           $errors[] = "Username";
           else
-          if( !preg_match("/^[a-zA-Z0-9_]{3,}$/", $_POST["Username"]) ) {
+          if( !preg_match("/^[a-zA-Z0-9_@]{3,}$/", $_POST["Username"]) ) {
             $errors[] = "Username";
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090003"];
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090003"];
           }
         if(!isset($_POST["Password"]) || trim($_POST["Password"]) == "")
           $errors[] = "Password";
@@ -223,62 +250,69 @@
           $errors[] = "PasswordAgain";
         if(count($errors) == 0) {
           if(trim($_POST["Password"]) != trim($_POST["PasswordAgain"]) || trim($_POST["Password"]) == "*PASSWORDSET*" ) {
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090003"];
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090003"];
             $errors[] = "Password";
             $errors[] = "PasswordAgain";
           }
         }
-        if ( (!isset($_POST['EMail'])) || (trim($_POST['EMail']) == "") || !_OPAOJ($_POST['EMail']) )
+        if ( (!isset($_POST['EMail'])) || (trim($_POST['EMail']) == "") || !_L8JLR($_POST['EMail']) )
           $errors[] = 'EMail';
         if(count($errors) == 0) {
 
           include_once("superadmin.inc.php");
           // it creates admin and tables
-          $_QlLfl = _LLEQD(trim($_POST["Username"]), "Admin", $Language);
+          $_I8l8o = _JJQOE(trim($_POST["Username"]), "Admin", $Language);
 
           if(!isset($_POST["FirstName"]))
             $_POST["FirstName"] = "";
           if(!isset($_POST["LastName"]))
             $_POST["LastName"] = "";
 
-          $_QlLOL = _OC1CF();
-          $_QJlJ0 = "UPDATE $_Q8f1L SET Password=CONCAT("._OPQLR($_QlLOL).", PASSWORD("._OPQLR($_QlLOL.trim($_POST["Password"])).") ), Language="._OPQLR($Language).", EMail="._OPQLR($_POST["EMail"]).", FirstName="._OPQLR($_POST["FirstName"]).", LastName="._OPQLR($_POST["LastName"])." WHERE id=".$_QlLfl;
-          mysql_query($_QJlJ0, $_Q61I1);
+          $_I8li6 = _LAPE1();
+          $_It0IQ = version_compare(_LBL0A(), '8.0.11') >= 0;
+          if(!$_It0IQ)
+            $_QLfol = "UPDATE $_I18lo SET Password=CONCAT("._LRAFO($_I8li6).", PASSWORD("._LRAFO($_I8li6.trim($_POST["Password"])).") ), Language="._LRAFO($Language).", EMail="._LRAFO($_POST["EMail"]).", FirstName="._LRAFO($_POST["FirstName"]).", LastName="._LRAFO($_POST["LastName"])." WHERE id=".$_I8l8o;
+            else
+            $_QLfol = "UPDATE $_I18lo SET Password=CONCAT("._LRAFO($_I8li6).", SHA2("._LRAFO($_I8li6.trim($_POST["Password"])).", 224) ), Language="._LRAFO($Language).", EMail="._LRAFO($_POST["EMail"]).", FirstName="._LRAFO($_POST["FirstName"]).", LastName="._LRAFO($_POST["LastName"])." WHERE id=".$_I8l8o;
+          mysql_query($_QLfol, $_QLttI);
 
-          $_QJlJ0 = "UPDATE $_Q8f1L SET EMail="._OPQLR($_POST["EMail"])." WHERE Username='superadmin'";
-          mysql_query($_QJlJ0, $_Q61I1);
+          $_QLfol = "UPDATE $_I18lo SET EMail="._LRAFO($_POST["EMail"])." WHERE Username='superadmin'";
+          mysql_query($_QLfol, $_QLttI);
 
-          $_QJlJ0 = "SHOW COLUMNS FROM $_Q8f1L";
-          $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
+          $_QLfol = "SHOW COLUMNS FROM $_I18lo";
+          $_QL8i1 = mysql_query($_QLfol, $_QLttI);
 
-          $_QJojf = array();
-          while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
+          $_QLJJ6 = array();
+          while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
              // Fieldname
-             foreach ($_Q6Q1C as $key => $_Q6ClO) {
+             foreach ($_QLO0f as $key => $_QltJO) {
                 if ($key == "Field")  {
-                  if(strpos($_Q6ClO, "Privilege") !== false) {
-                    $_QJojf[] = $_Q6ClO;
+                  if(strpos($_QltJO, "Privilege") !== false) {
+                    $_QLJJ6[] = $_QltJO;
                     break;
                   }
                 }
              }
           }
-          mysql_free_result($_Q60l1);
+          mysql_free_result($_QL8i1);
 
-          $_QJlJ0 = "";
-          for($_Q6llo=0; $_Q6llo<count($_QJojf); $_Q6llo++)
-            if($_QJlJ0 == "")
-            $_QJlJ0 = $_QJojf[$_Q6llo]."=1";
+          $_QLfol = "";
+          for($_Qli6J=0; $_Qli6J<count($_QLJJ6); $_Qli6J++)
+            if($_QLfol == "")
+            $_QLfol = $_QLJJ6[$_Qli6J]."=1";
             else
-            $_QJlJ0 .= ", ".$_QJojf[$_Q6llo]."=1";
-          $_QJlJ0 = "UPDATE $_Q8f1L SET ".$_QJlJ0." WHERE id=".$_QlLfl;
-          mysql_query($_QJlJ0, $_Q61I1);
+            $_QLfol .= ", ".$_QLJJ6[$_Qli6J]."=1";
+          $_QLfol = "UPDATE $_I18lo SET ".$_QLfol." WHERE id=".$_I8l8o;
+          mysql_query($_QLfol, $_QLttI);
         }
 
         break;
       case 9:
+        if(function_exists("opcache_reset"))
+           opcache_reset();
+        clearstatcache();
         if(@file_exists(InstallPath."install.php")) {
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090213"];
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090213"];
           $errors[] = "dummy";
         }
         break;
@@ -293,9 +327,9 @@
         $_POST["step"]++;
         if($_POST["step"] == 4) {
           include_once("./_evaluation.inc.php");
-          $_JtO0o="";
-          if(!_OFR1B($_JtO0o)){
-           print $_JtO0o;
+          $_6Cif6="";
+          if(!_LFLD0($_6Cif6)){
+           print $_6Cif6;
            exit;
           }
           $_POST["step"]++;
@@ -314,68 +348,71 @@
     }
 
   } else {
-    if($_I0600 == "")
-       $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000020"];
+    if($_Itfj8 == "")
+       $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000020"];
   }
 
   switch($_POST["step"]) {
     case 1:
       if(function_exists("ioncube_file_is_encoded") && ioncube_file_is_encoded())
-        $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090100"], $_I0600, 'DISABLED', 'inst1_evaluation_snipped.htm');
+        $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090100"], $_Itfj8, 'DISABLED', 'inst1_evaluation_snipped.htm');
         else
-        $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090100"], $_I0600, 'DISABLED', 'inst1_snipped.htm');
+        $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090100"], $_Itfj8, 'DISABLED', 'inst1_snipped.htm');
       break;
     case 2:
-      _OE01O($_JtOOJ, $_Jto6o, $_JtOjf, $_JtLjO);
+      _LD11F($_6CL8i, $_6Cl0Q, $_6CiOj, $_6iQLO);
       if(!isset($_POST["WebsiteURL"]) || $_POST["WebsiteURL"] == "")
-         $_POST["WebsiteURL"] = $_JtOjf;
+         $_POST["WebsiteURL"] = $_6CiOj;
       if(!isset($_POST["InstallPath"]) || $_POST["InstallPath"] == "")
-         $_POST["InstallPath"] = $_JtOOJ;
+         $_POST["InstallPath"] = $_6CL8i;
       if(!isset($_POST["ScriptBaseURL"]) || $_POST["ScriptBaseURL"] == "")
-         $_POST["ScriptBaseURL"] = $_Jto6o;
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090102"], $_I0600, 'DISABLED', 'inst2_snipped.htm');
-      if(_OEO10()) {
-        $_QJCJi = _OP6PQ($_QJCJi, "<RIGHTS>", "</RIGHTS>");
+         $_POST["ScriptBaseURL"] = $_6Cl0Q;
+      $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090102"], $_Itfj8, 'DISABLED', 'inst2_snipped.htm');
+      if(_LDOO0()) {
+        $_QLJfI = _L80DF($_QLJfI, "<RIGHTS>", "</RIGHTS>");
       } else {
-        $_QJCJi = str_replace("<RIGHTS>", "", $_QJCJi);
-        $_QJCJi = str_replace("</RIGHTS>", "", $_QJCJi);
+        $_QLJfI = str_replace("<RIGHTS>", "", $_QLJfI);
+        $_QLJfI = str_replace("</RIGHTS>", "", $_QLJfI);
       }
       break;
     case 3:
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090103"], $_I0600, 'DISABLED', 'inst3_snipped.htm');
+      $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090103"], $_Itfj8, 'DISABLED', 'inst3_snipped.htm');
       break;
     case 4:
       if(isset($_POST["ManualBtn"])) {
-        $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090101"], $_I0600, 'DISABLED', 'instman_snipped.htm');
-        $_JttQ1 = urlencode( $_POST["RegName"] );
-        $_Jttii = urlencode( $_POST["RegNumber"] );
+        $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090101"], $_Itfj8, 'DISABLED', 'instman_snipped.htm');
+        $_6Ci1L = urlencode( $_POST["RegName"] );
+        $_6Cijo = urlencode( $_POST["RegNumber"] );
         if ( (!isset($REMOTE_ADDR)) || ($REMOTE_ADDR == "") )
-           $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
+           $REMOTE_ADDR = getOwnIP(false);
 
-        $_Qf1i1 = "Program=$AppName&Name1=$_JttQ1&Code=$_Jttii&AppName=$AppName&IP=$REMOTE_ADDR&Lang=$INTERFACE_LANGUAGE";
+        $_I0QjQ = "Program=$AppName&Name1=$_6Ci1L&Code=$_6Cijo&AppName=$AppName&IP=$REMOTE_ADDR&Lang=$INTERFACE_LANGUAGE";
 
-        $_QJCJi = str_replace( _OBLDR($_Jtf68.$_JftOi ), _OBLDR($_Jtf68.$_JftOi).$_JfOii."/swm_cc.php?".$_Qf1i1, $_QJCJi);
+        if(function_exists("openssl_pkcs7_sign") && function_exists("openssl_get_privatekey"))
+          $_QLJfI = str_replace("[ManualURL]", _LPC1C($_6CC10.$_6OOCJ).$_6OiII."/swm_cc.php?".$_I0QjQ, $_QLJfI);
+          else
+          $_QLJfI = str_replace("[ManualURL]", _LPC1C("http://".$_6OOCJ).$_6OiII."/swm_cc.php?".$_I0QjQ, $_QLJfI);
         break;
       }
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090101"], $_I0600, 'DISABLED', 'inst4_snipped.htm');
-      if(!$_JtffC) {
-        $_QJCJi = _OP6PQ($_QJCJi, "<MANUAL>", "</MANUAL>");
+      $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090101"], $_Itfj8, 'DISABLED', 'inst4_snipped.htm');
+      if(!$_6CCQt) {
+        $_QLJfI = _L80DF($_QLJfI, "<MANUAL>", "</MANUAL>");
       }
       break;
     case 5:
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090104"], $_I0600, 'DISABLED', 'inst5_snipped.htm');
-      $_QJCJi = str_replace("<crons_php>", ScriptBaseURL.'crons.php', $_QJCJi);
+      $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090104"], $_Itfj8, 'DISABLED', 'inst5_snipped.htm');
+      $_QLJfI = str_replace("<crons_php>", ScriptBaseURL.'crons.php', $_QLJfI);
       break;
     case 6:
       if(!isset($_POST["JumpToNextBtn"]) ) {
-        @chmod (_OBLCO($_jjC06), 0777);
+        @chmod (_LPBCC($_J18oI), 0777);
         @chmod (InstallPath."config.inc.php", 0444);
         @chmod (InstallPath."config_paths.inc.php", 0444);
         @chmod (InstallPath."config_db.inc.php", 0444);
 
         include_once("securitycheck.inc.php");
-        if(_LO0BO() || !_LO0BL(true) ) {
-          $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090105"], $_I0600, 'DISABLED', 'inst6_snipped.htm');
+        if(_JO6D0() || !_JORB8(true) ) {
+          $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090105"], $_Itfj8, 'DISABLED', 'inst6_snipped.htm');
           break;
         } else {
           $_POST["step"] = 7; // jump to next
@@ -384,128 +421,154 @@
         $_POST["step"] = 7; // jump to next
 
     case 7:
-      $_QJlJ0 = "SELECT COUNT(*) FROM $_Q8f1L WHERE UserType='SuperAdmin'";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q6Q1C = mysql_fetch_row($_Q60l1);
-      mysql_free_result($_Q60l1);
-      if($_Q6Q1C[0] == 0) {
-        $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090107"], $_I0600, 'DISABLED', 'inst7_snipped.htm');
+      $_QLfol = "SELECT COUNT(*) FROM $_I18lo WHERE UserType='SuperAdmin'";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      $_QLO0f = mysql_fetch_row($_QL8i1);
+      mysql_free_result($_QL8i1);
+      if($_QLO0f[0] == 0) {
+        $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090107"], $_Itfj8, 'DISABLED', 'inst7_snipped.htm');
         break;
       }
       $_POST["step"] = 8; // jump to next
     case 8:
-      $_QJlJ0 = "SELECT COUNT(*) FROM $_Q8f1L WHERE UserType='Admin'";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q6Q1C = mysql_fetch_row($_Q60l1);
-      mysql_free_result($_Q60l1);
-      if($_Q6Q1C[0] == 0) {
-        $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090108"], $_I0600, 'DISABLED', 'inst8_snipped.htm');
+      $_QLfol = "SELECT COUNT(*) FROM $_I18lo WHERE UserType='Admin'";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      $_QLO0f = mysql_fetch_row($_QL8i1);
+      mysql_free_result($_QL8i1);
+      if($_QLO0f[0] == 0) {
+        $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090108"], $_Itfj8, 'DISABLED', 'inst8_snipped.htm');
         break;
       }
       $_POST["step"] = 9; // goto end
     case 9:
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090109"], $_I0600, 'DISABLED', 'inst9_snipped.htm');
+
+      if(empty($_SERVER['HTTP_REFERER'])) $_SERVER['HTTP_REFERER'] = "";
+      if(empty($_SERVER['SERVER_NAME'])) $_SERVER['SERVER_NAME'] = "";
+      if( stripos($_SERVER['HTTP_REFERER'], "localhost") === false && // don't delete file on localhost
+          stripos($_SERVER['SERVER_NAME'], "localhost") === false &&
+          stripos($_SERVER['DOCUMENT_ROOT'], "xampp") === false 
+          ){
+          @unlink(InstallPath."install.php");
+          }else
+            $_6iIOf = true;    
+
+      if(function_exists("opcache_reset"))
+        opcache_reset();
+      clearstatcache();
+
+      if(@file_exists(InstallPath."install.php") && !isset($_6iIOf)){ 
+        $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090109"], $_Itfj8, 'DISABLED', 'inst9_snipped.htm');
+      }else{
+        header("Location: " . _LPC1C( ScriptBaseURL ) . "install_done.php?installdone", TRUE, 302);
+        exit;
+      }  
       break;
     case 10:
       // install_done.php
       break;
     default:
       if(function_exists("ioncube_file_is_encoded") && ioncube_file_is_encoded())
-        $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090100"], $_I0600, 'DISABLED', 'inst1_evaluation_snipped.htm');
+        $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090100"], $_Itfj8, 'DISABLED', 'inst1_evaluation_snipped.htm');
         else
-        $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090100"], $_I0600, 'DISABLED', 'inst1_snipped.htm');
+        $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090100"], $_Itfj8, 'DISABLED', 'inst1_snipped.htm');
   }
 
   unset($_POST["step"]);
 
 
-  _LJ81E($_QJCJi);
+  _JJCCF($_QLJfI);
 
-  $_QJCJi = _OPFJA($errors, $_POST, $_QJCJi);
+  foreach($_POST as $key => $_QltJO)
+     $_POST[$key] = htmlspecialchars(_LA8F6($_QltJO), ENT_COMPAT, $_QLo06, false);
 
-  print $_QJCJi;
+  $_QLJfI = _L8AOB($errors, $_POST, $_QLJfI);
 
-  function _ODFC8($_QJCJi) {
-    $_IflL6 = 0;
-    while(strpos($_QJCJi, ".") !== false) {
-      $_IflL6++;
-      $_QJCJi = substr($_QJCJi, strpos($_QJCJi, ".") + 1);
+  print $_QLJfI;
+
+  function _LD0LE($_QLJfI) {
+    $_j1881 = 0;
+    while(strpos($_QLJfI, ".") !== false) {
+      $_j1881++;
+      $_QLJfI = substr($_QLJfI, strpos($_QLJfI, ".") + 1);
     }
-    return $_IflL6;
+    return $_j1881;
   }
 
-  function _OE01O(&$_JtOOJ, &$_Jto6o, &$_JtOjf, &$_JtLjO) {
-    global $_Jtf68;
+  function _LD11F(&$_6CL8i, &$_6Cl0Q, &$_6CiOj, &$_6iQLO) {
+    global $_6CC10;
     if (!isset($_SERVER)) {
         global $_SERVER;
     }
 
-    $_QCoLj = realpath(dirname(__FILE__));
-    $_QCoLj = str_replace( '\\', '/', $_QCoLj);
+    if(empty($_SERVER['SCRIPT_NAME']))
+      $_SERVER['SCRIPT_NAME'] = $_SERVER['PHP_SELF'];
+    
+    $_IJL6o = realpath(dirname(__FILE__));
+    $_IJL6o = str_replace( '\\', '/', $_IJL6o);
 
     if ( ! isset($_SERVER['DOCUMENT_ROOT'] ) )
-       $_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF']) ) );
+       $_SERVER['DOCUMENT_ROOT'] = str_replace( '\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['SCRIPT_NAME']) ) );
 
-    if(substr($_QCoLj, strlen($_QCoLj), 1) <> '/')
-       $_QCoLj .= "/";
+    if(substr($_IJL6o, strlen($_IJL6o), 1) <> '/')
+       $_IJL6o .= "/";
 
-    $_JtLjO = substr($_QCoLj, strpos_reverse($_QCoLj, "/", strlen($_QCoLj) - 1 ));
+    $_6iQLO = substr($_IJL6o, strpos_reverse($_IJL6o, "/", strlen($_IJL6o) - 1 ));
 
-    $_JtOOJ = $_QCoLj;
+    $_6CL8i = $_IJL6o;
 
     if(isset($_SERVER["SERVER_NAME"]))
-       $_Jto6o = $_SERVER["SERVER_NAME"];
+       $_6Cl0Q = $_SERVER["SERVER_NAME"];
        else
-       $_Jto6o = "";
+       $_6Cl0Q = "";
 
-    if(strpos($_Jto6o, "www.") === false && _ODFC8($_Jto6o) < 2 && strpos($_Jto6o, "localhost") === false ){
+    if(strpos($_6Cl0Q, "www.") === false && _LD0LE($_6Cl0Q) < 2 && strpos($_6Cl0Q, "localhost") === false ){
        if(!empty($_SERVER['HTTP_REFERER']) && strpos($_SERVER['HTTP_REFERER'], "www.") !== false)
-          $_Jto6o = "www.".$_Jto6o;
+          $_6Cl0Q = "www.".$_6Cl0Q;
           else
           if(empty($_SERVER['HTTP_REFERER']))
-             $_Jto6o = "www.".$_Jto6o;
+             $_6Cl0Q = "www.".$_6Cl0Q;
     }
-    if(strpos($_Jto6o, $_Jtf68) === false)
-       $_Jto6o = $_Jtf68.$_Jto6o;
+    if(strpos($_6Cl0Q, $_6CC10) === false)
+       $_6Cl0Q = $_6CC10.$_6Cl0Q;
 
-    if(isset($_SERVER['PHP_SELF']) && $_SERVER['PHP_SELF'] != "")
-        $_Jto6o .= $_SERVER['PHP_SELF'];
+    if(isset($_SERVER['SCRIPT_NAME']) && $_SERVER['SCRIPT_NAME'] != "")
+        $_6Cl0Q .= $_SERVER['SCRIPT_NAME'];
         else
         if(isset($_SERVER["REQUEST_URI"]) && $_SERVER["REQUEST_URI"] != "")
-           $_Jto6o .= $_SERVER["REQUEST_URI"];
-    $_Jto6o = substr($_Jto6o, 0, strpos_reverse($_Jto6o, "/", strlen($_Jto6o)) + 1 );
-    $_JtOjf = _OBLCO($_Jto6o);
-    if ( substr($_JtOjf, 0, strpos_reverse($_JtOjf, "/", strlen($_JtOjf)) + 1 ) != $_Jtf68 )
-       $_JtOjf = substr($_JtOjf, 0, strpos_reverse($_JtOjf, "/", strlen($_JtOjf)) + 1 );
+           $_6Cl0Q .= $_SERVER["REQUEST_URI"];
+    $_6Cl0Q = substr($_6Cl0Q, 0, strpos_reverse($_6Cl0Q, "/", strlen($_6Cl0Q)) + 1 );
+    $_6CiOj = _LPBCC($_6Cl0Q);
+    if ( substr($_6CiOj, 0, strpos_reverse($_6CiOj, "/", strlen($_6CiOj)) + 1 ) != $_6CC10 )
+       $_6CiOj = substr($_6CiOj, 0, strpos_reverse($_6CiOj, "/", strlen($_6CiOj)) + 1 );
 
-    $_JtOOJ = _OBLDR($_JtOOJ);
-    $_Jto6o = _OBLDR($_Jto6o);
-    $_JtOjf = _OBLDR($_JtOjf);
-    $_JtLjO = _OBLDR($_JtLjO);
+    $_6CL8i = _LPC1C($_6CL8i);
+    $_6Cl0Q = _LPC1C($_6Cl0Q);
+    $_6CiOj = _LPC1C($_6CiOj);
+    $_6iQLO = _LPC1C($_6iQLO);
   }
 
- function _OE0EB() {
-  global $_Q6JJJ;
+ function _LDQ1O() {
+  global $_QLl1Q;
 
-  $_POST["WebsiteURL"] = _OBLDR(trim($_POST["WebsiteURL"]));
-  $_POST["InstallPath"] = _OBLDR(trim($_POST["InstallPath"]));
-  $_POST["ScriptBaseURL"] = _OBLDR(trim($_POST["ScriptBaseURL"]));
+  $_POST["WebsiteURL"] = _LPC1C(trim($_POST["WebsiteURL"]));
+  $_POST["InstallPath"] = _LPC1C(trim($_POST["InstallPath"]));
+  $_POST["ScriptBaseURL"] = _LPC1C(trim($_POST["ScriptBaseURL"]));
 
-  $_QllO8 = explode("/", $_POST["ScriptBaseURL"]);
-  unset($_QllO8[0]);
-  unset($_QllO8[1]);
-  unset($_QllO8[2]);
-  $_JtLjO = "/".join("/", $_QllO8);
+  $_I016j = explode("/", $_POST["ScriptBaseURL"]);
+  unset($_I016j[0]);
+  unset($_I016j[1]);
+  unset($_I016j[2]);
+  $_6iQLO = "/".join("/", $_I016j);
 
-  $_POST["BasePath"] = $_JtLjO;
+  $_POST["BasePath"] = $_6iQLO;
 
   @chmod ($_POST["InstallPath"]."config_paths.inc.php", 0777);
-  $_QCioi = fopen($_POST["InstallPath"]."config_paths.inc.php", "w");
-  if(!$_QCioi) {
+  $_I60fo = fopen($_POST["InstallPath"]."config_paths.inc.php", "w");
+  if(!$_I60fo) {
     return false;
   }
 
-  $_QJCJi = "<?php
+  $_QLJfI = "<?php
    /*
     Paths Configuration
    */
@@ -522,30 +585,35 @@
    // Templates path name without / the subdirs must include the languages
    define('TemplatesPath', 'templates');";
 
-  $_QJCJi .= $_Q6JJJ."?>";
+  $_QLJfI .= $_QLl1Q."?>";
 
 
-  $_JI6f0 = fwrite($_QCioi, $_QJCJi);
-  fflush($_QCioi);
-  fclose($_QCioi);
+  $_6JfJ6 = fwrite($_I60fo, $_QLJfI);
+  fflush($_I60fo);
+  fclose($_I60fo);
   clearstatcache();
   if(function_exists("opcache_invalidate")){
     opcache_invalidate("config_paths.inc.php", true);
     opcache_invalidate($_POST["InstallPath"]."config_paths.inc.php", true);
   }
-  return $_JI6f0 == strlen($_QJCJi);
+  return $_6JfJ6 == strlen($_QLJfI);
  }
 
- function _OE1BP() {
-  global $_Q6JJJ;
+ function _LDQLQ() {
+  global $_QLl1Q;
 
   @chmod ($_POST["InstallPath"]."config_db.inc.php", 0777);
-  $_QCioi = fopen($_POST["InstallPath"]."config_db.inc.php", "w");
-  if(!$_QCioi) {
+  $_I60fo = fopen($_POST["InstallPath"]."config_db.inc.php", "w");
+  if(!$_I60fo) {
     return false;
   }
 
-  $_QJCJi = "<?php
+  if(defined("DefaultMySQLEncoding"))
+     $_6ijfO = DefaultMySQLEncoding;
+    else
+     $_6ijfO = 'utf8';
+  
+  $_QLJfI = "<?php
    /*
     MySQL-Server Configuration
    */
@@ -554,81 +622,109 @@
    define('MySQLUsername', '".trim($_POST["DatabaseUsername"])."');
    define('MySQLPassword', '".trim($_POST["DatabasePassword"])."');
    define('MySQLDBName', '".trim($_POST["DatabaseName"])."');
+   define('DefaultMySQLEncoding', '" . $_6ijfO . "'); #lower case, utf8mb4 emojis no html entities
 
    define('TablePrefix', '".trim($_POST["DatabaseTablePrefix"])."');
 
   ?>";
 
-  $_JI6f0 = fwrite($_QCioi, $_QJCJi);
-  fflush($_QCioi);
-  fclose($_QCioi);
+  $_6JfJ6 = fwrite($_I60fo, $_QLJfI);
+  fflush($_I60fo);
+  fclose($_I60fo);
   clearstatcache();
   if(function_exists("opcache_invalidate")){
     opcache_invalidate("config_db.inc.php", true);
     opcache_invalidate($_POST["InstallPath"]."config_db.inc.php", true);
   }
-  return $_JI6f0 == strlen($_QJCJi);
+  return $_6JfJ6 == strlen($_QLJfI);
  }
 
- function _OEQJB(&$_JtiIJ) {
-   global $_Q61I1;
-   $_Q61I1 = mysql_connect ($_POST["DatabaseHostname"], $_POST["DatabaseUsername"], $_POST["DatabasePassword"], true);
-   if ($_Q61I1 == 0) {
-      $_QJCJi = mysql_error($_Q61I1);
-      if($_QJCJi == "")
-         $_QJCJi = "Hostname, username or password incorrect.";
-      $_JtiIJ = mysql_errno($_Q61I1).": ".$_QJCJi;
+ function _LDQFR(&$_6i1Q6) {
+   global $_QLttI;
+   $_QLttI = mysql_connect ($_POST["DatabaseHostname"], $_POST["DatabaseUsername"], $_POST["DatabasePassword"], true);
+   if ($_QLttI == 0) {
+      $_QLJfI = mysql_error($_QLttI);
+      if($_QLJfI == "")
+         $_QLJfI = "Hostname, username or password incorrect.";
+      $_6i1Q6 = mysql_errno($_QLttI).": ".$_QLJfI;
       return false;
    }
 
-   // UTF-8 connection
-   @mysql_query("SET NAMES 'utf8'", $_Q61I1);
-   @mysql_query("SET CHARACTER SET 'utf8'", $_Q61I1);
-   // not STRICT mode
-   @mysql_query('SET SQL_MODE=""', $_Q61I1);
-
-   if (!mysql_select_db ($_POST["DatabaseName"], $_Q61I1)) {
-      $_QJCJi = mysql_error($_Q61I1);
-      if($_QJCJi == "")
-         $_QJCJi = "Database name incorrect.";
-     $_JtiIJ = mysql_errno($_Q61I1).": ".$_QJCJi;
-     mysql_close ($_Q61I1);
+   if (!mysql_select_db ($_POST["DatabaseName"], $_QLttI)) {
+      $_QLJfI = mysql_error($_QLttI);
+      if($_QLJfI == "")
+         $_QLJfI = "Database name incorrect.";
+     $_6i1Q6 = mysql_errno($_QLttI).": ".$_QLJfI;
+     mysql_close ($_QLttI);
      return false;
    }
 
-   // set to utf8_general_ci when possible
-   @mysql_query("ALTER DATABASE ".$_POST["DatabaseName"]." CHARACTER SET utf8;", $_Q61I1);
+   // try to get collation of database 
+   if(!defined("DefaultMySQLEncoding")){
+     $_6ijfO = 'utf8';
+     $_QL8i1 = mysql_query("SELECT @@character_set_database, @@collation_database", $_QLttI);
+     if($_QL8i1 && mysql_errno($_QLttI) == 0){
+       $_QLO0f = mysql_fetch_row($_QL8i1);
+       if( strtolower( $_QLO0f[0] ) == "utf8mb4")
+         $_6ijfO = "utf8mb4";
+       mysql_free_result($_QL8i1);
+     }
+     if($_6ijfO == 'utf8'){
+       $_QL8i1 = mysql_query("SHOW VARIABLES LIKE 'collation%'", $_QLttI);
+       if($_QL8i1 && mysql_errno($_QLttI) == 0){
+         while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+           if( strtolower( $_QLO0f["Variable_name"] ) == "collation_database" )
+             if( strpos(strtolower( $_QLO0f["Value"] ), "utf8mb4") === 0 ){
+               $_6ijfO = "utf8mb4";
+               break;
+             }  
+         }  
+         mysql_free_result($_QL8i1);
+       }
+     }
+     define("DefaultMySQLEncoding", $_6ijfO);
+   }
+   // try to get collation of database /
+   
+   // UTF-8 connection
+   @mysql_query("SET NAMES '" . DefaultMySQLEncoding . "'", $_QLttI);
+   @mysql_query("SET CHARACTER SET '" . DefaultMySQLEncoding . "'", $_QLttI);
+   // not STRICT mode
+   @mysql_query('SET SQL_MODE=""', $_QLttI);
 
-   $_Ij6Io = join("", file(_O68A8()."install.sql"));
-   $_Q66jQ = $_Ij6Io;
-   $_I1fiC = array();
-   while(strpos($_Q66jQ, "CREATE TABLE IF NOT EXISTS ") !== false) {
-     $_Q66jQ = substr($_Q66jQ, strpos($_Q66jQ, "CREATE TABLE IF NOT EXISTS ") + strlen("CREATE TABLE IF NOT EXISTS ") );
-     $_I1fiC[] = substr($_Q66jQ, 0, strpos($_Q66jQ, "` (") + 1);
-     $_Q66jQ = substr($_Q66jQ, strpos($_Q66jQ, "` (") + strlen("` ("));
+   // set to utf8_X when possible
+   @mysql_query("ALTER DATABASE ".$_POST["DatabaseName"]." CHARACTER SET " . DefaultMySQLEncoding, $_QLttI);
+
+   $_IiIlQ = join("", file(_LOCFC()."install.sql"));
+   $_Ql0fO = $_IiIlQ;
+   $_IOfi1 = array();
+   while(strpos($_Ql0fO, "CREATE TABLE IF NOT EXISTS ") !== false) {
+     $_Ql0fO = substr($_Ql0fO, strpos($_Ql0fO, "CREATE TABLE IF NOT EXISTS ") + strlen("CREATE TABLE IF NOT EXISTS ") );
+     $_IOfi1[] = substr($_Ql0fO, 0, strpos($_Ql0fO, "` (") + 1);
+     $_Ql0fO = substr($_Ql0fO, strpos($_Ql0fO, "` (") + strlen("` ("));
    }
 
-   for($_Q6llo=0; $_Q6llo<count($_I1fiC); $_Q6llo++) {
-     $_Ij6Io = str_replace($_I1fiC[$_Q6llo], str_replace("sml_", $_POST["DatabaseTablePrefix"], $_I1fiC[$_Q6llo]), $_Ij6Io);
+   for($_Qli6J=0; $_Qli6J<count($_IOfi1); $_Qli6J++) {
+     $_IiIlQ = str_replace($_IOfi1[$_Qli6J], str_replace("sml_", $_POST["DatabaseTablePrefix"], $_IOfi1[$_Qli6J]), $_IiIlQ);
    }
 
-   $_Ij6il = explode(");", $_Ij6Io); // split on ); NOT on ; because of &auml;
+   $_IijLl = explode(");", $_IiIlQ); // split on ); NOT on ; because of &auml;
 
-   for($_Q6llo=0; $_Q6llo<count($_Ij6il); $_Q6llo++) {
-     if(trim($_Ij6il[$_Q6llo]) == "") continue;
-     if(strpos($_Ij6il[$_Q6llo], "CREATE TABLE ") !== false) {
-       $_Q60l1 = mysql_query($_Ij6il[$_Q6llo].") CHARSET=utf8", $_Q61I1);
-       if(!$_Q60l1)
-          $_Q60l1 = mysql_query($_Ij6il[$_Q6llo].")", $_Q61I1);
+   for($_Qli6J=0; $_Qli6J<count($_IijLl); $_Qli6J++) {
+     if(trim($_IijLl[$_Qli6J]) == "") continue;
+     if(strpos($_IijLl[$_Qli6J], "CREATE TABLE ") !== false) {
+       $_QL8i1 = mysql_query($_IijLl[$_Qli6J].") CHARSET="  . DefaultMySQLEncoding, $_QLttI);
+       if(!$_QL8i1)
+          $_QL8i1 = mysql_query($_IijLl[$_Qli6J].")", $_QLttI);
      } else
-       $_Q60l1 = mysql_query($_Ij6il[$_Q6llo].")", $_Q61I1);
-     if(!$_Q60l1) {
-       $_QJCJi = mysql_error($_Q61I1);
-       if($_QJCJi == "")
-          $_QJCJi = "Table create error: ";
-       $_JtiIJ = $_QJCJi." ".$_Ij6il[$_Q6llo].")";
-       if( stripos($_Ij6il[$_Q6llo], "INSERT INTO") !== false && (stripos($_QJCJi, "DUPLICATE") !== false  || stripos($_QJCJi, "DOPPELTER") !== false) )
-       $_JtiIJ = "";
+       $_QL8i1 = mysql_query($_IijLl[$_Qli6J].")", $_QLttI);
+     if(!$_QL8i1) {
+       $_QLJfI = mysql_error($_QLttI);
+       if($_QLJfI == "")
+          $_QLJfI = "Table create error: ";
+       $_6i1Q6 = $_QLJfI." ".$_IijLl[$_Qli6J].")";
+       if( stripos($_IijLl[$_Qli6J], "INSERT INTO") !== false && (stripos($_QLJfI, "DUPLICATE") !== false  || stripos($_QLJfI, "DOPPELTER") !== false) )
+       $_6i1Q6 = "";
        else
        return false;
      }
@@ -637,16 +733,18 @@
    return true;
  }
 
- function _OEO10() {
-  $_QfC8t = fopen(InstallPath."config_paths.inc.php", "a");
-  if($_QfC8t) {
-    fclose($_QfC8t);
+ function _LDOO0() {
+  @chmod(InstallPath."config_paths.inc.php", 0777);
+  @chmod(InstallPath."config_db.inc.php", 0777);
+  $_I0lji = fopen(InstallPath."config_paths.inc.php", "a");
+  if($_I0lji) {
+    fclose($_I0lji);
   } else
     return false;
 
-  $_QfC8t = fopen(InstallPath."config_db.inc.php", "a");
-  if($_QfC8t) {
-    fclose($_QfC8t);
+  $_I0lji = fopen(InstallPath."config_db.inc.php", "a");
+  if($_I0lji) {
+    fclose($_I0lji);
   } else
     return false;
 

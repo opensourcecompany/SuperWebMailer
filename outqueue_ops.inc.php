@@ -25,70 +25,70 @@
 
  include_once("cron_sendengine.inc.php");
 
- function _L0AEQ($_ICfQ0, &$_QtIiC) {
-    global $_QtjLI, $_II8J0, $_IjQIf, $_ICjQ6, $_QCLCI;
-    global $_Q6jOo, $_IoOLJ, $_ICjCO, $_QoOft, $_Q61I1;
-    reset($_ICfQ0);
-    foreach($_ICfQ0 as $_Q6llo => $_Q6ClO) {
-      $_ICfQ0[$_Q6llo] = intval($_ICfQ0[$_Q6llo]);
+ function _J0ACL($_j6O81, &$_IQ0Cj) {
+    global $_IQQot, $_ICIJo, $_ICl0j, $_j68Q0, $_I616t;
+    global $_QLi60, $_jJLQo, $_j68Co, $_IjC0Q, $_QLttI;
+    reset($_j6O81);
+    foreach($_j6O81 as $_Qli6J => $_QltJO) {
+      $_j6O81[$_Qli6J] = intval($_j6O81[$_Qli6J]);
 
-      $_QJlJ0 = "SELECT * FROM `$_QtjLI` WHERE id=".$_ICfQ0[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
+      $_QLfol = "SELECT * FROM `$_IQQot` WHERE id=".$_j6O81[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      $_QLO0f = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
 
-      $_j08fl = "";
-      if($_Q6Q1C["Source"] == 'Autoresponder') {
-        $_j08fl = $_II8J0;
+      $_ji080 = "";
+      if($_QLO0f["Source"] == 'Autoresponder') {
+        $_ji080 = $_ICIJo;
         }
         else
-        if($_Q6Q1C["Source"] == 'FollowUpResponder') {
-          $_QJlJ0 = "SELECT `RStatisticsTableName` ";
-          $_QJlJ0 .= " FROM $_QCLCI WHERE $_QCLCI.id=$_Q6Q1C[Source_id]";
-          $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-          $_Q8OiJ = mysql_fetch_assoc($_Q60l1);
-          mysql_free_result($_Q60l1);
-          $_j08fl = $_Q8OiJ["RStatisticsTableName"];
+        if($_QLO0f["Source"] == 'FollowUpResponder') {
+          $_QLfol = "SELECT `RStatisticsTableName` ";
+          $_QLfol .= " FROM $_I616t WHERE $_I616t.id=$_QLO0f[Source_id]";
+          $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+          $_I1OfI = mysql_fetch_assoc($_QL8i1);
+          mysql_free_result($_QL8i1);
+          $_ji080 = $_I1OfI["RStatisticsTableName"];
         } else
-          if($_Q6Q1C["Source"] == 'BirthdayResponder') {
-            $_j08fl = $_IjQIf;
+          if($_QLO0f["Source"] == 'BirthdayResponder') {
+            $_ji080 = $_ICl0j;
           } else
-            if($_Q6Q1C["Source"] == 'EventResponder') {
-             $_j08fl = $_ICjQ6;
+            if($_QLO0f["Source"] == 'EventResponder') {
+             $_ji080 = $_j68Q0;
             } else
-               if($_Q6Q1C["Source"] == 'Campaign') {
-                  $_QJlJ0 = "SELECT `RStatisticsTableName` ";
-                  $_QJlJ0 .= " FROM $_Q6jOo WHERE $_Q6jOo.id=$_Q6Q1C[Source_id]";
-                  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-                  $_Q8OiJ = mysql_fetch_assoc($_Q60l1);
-                  mysql_free_result($_Q60l1);
-                  $_j08fl = $_Q8OiJ["RStatisticsTableName"];
+               if($_QLO0f["Source"] == 'Campaign') {
+                  $_QLfol = "SELECT `RStatisticsTableName` ";
+                  $_QLfol .= " FROM $_QLi60 WHERE $_QLi60.id=$_QLO0f[Source_id]";
+                  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+                  $_I1OfI = mysql_fetch_assoc($_QL8i1);
+                  mysql_free_result($_QL8i1);
+                  $_ji080 = $_I1OfI["RStatisticsTableName"];
                } else
-               if($_Q6Q1C["Source"] == 'DistributionList') {
-                  $_QJlJ0 = "SELECT `RStatisticsTableName` ";
-                  $_QJlJ0 .= " FROM `$_QoOft` WHERE `$_QoOft`.id=$_Q6Q1C[Source_id]";
-                  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-                  $_Q8OiJ = mysql_fetch_assoc($_Q60l1);
-                  mysql_free_result($_Q60l1);
-                  $_j08fl = $_Q8OiJ["RStatisticsTableName"];
+               if($_QLO0f["Source"] == 'DistributionList') {
+                  $_QLfol = "SELECT `RStatisticsTableName` ";
+                  $_QLfol .= " FROM `$_IjC0Q` WHERE `$_IjC0Q`.id=$_QLO0f[Source_id]";
+                  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+                  $_I1OfI = mysql_fetch_assoc($_QL8i1);
+                  mysql_free_result($_QL8i1);
+                  $_ji080 = $_I1OfI["RStatisticsTableName"];
                } else
-                 if($_Q6Q1C["Source"] == 'RSS2EMailResponder') {
-                   $_j08fl = $_ICjCO;
+                 if($_QLO0f["Source"] == 'RSS2EMailResponder') {
+                   $_ji080 = $_j68Co;
                  }
 
-      mysql_query("BEGIN", $_Q61I1);
+      mysql_query("BEGIN", $_QLttI);
 
-      if($_j08fl != "")
-         _ORA61($_Q6Q1C["Source"], $_j08fl, $_Q6Q1C["statistics_id"], 'Failed', "user has canceled sending of email", $_Q6Q1C["Source_id"], $_Q6Q1C["recipients_id"], $_Q6Q1C["Additional_id"]);
+      if($_ji080 != "")
+         _LLFDA($_QLO0f["Source"], $_ji080, $_QLO0f["statistics_id"], 'Failed', "user has canceled sending of email", $_QLO0f["Source_id"], $_QLO0f["recipients_id"], $_QLO0f["Additional_id"]);
 
       // Delete from queue
-      $_QJlJ0 = "DELETE FROM `$_QtjLI` WHERE id=".$_ICfQ0[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") {
-        $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
-        mysql_query("ROLLBACK", $_Q61I1);
+      $_QLfol = "DELETE FROM `$_IQQot` WHERE id=".$_j6O81[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") {
+        $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
+        mysql_query("ROLLBACK", $_QLttI);
       } else {
-        mysql_query("COMMIT", $_Q61I1);
+        mysql_query("COMMIT", $_QLttI);
       }
 
     }

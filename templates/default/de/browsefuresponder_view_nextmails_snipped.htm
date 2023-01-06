@@ -47,7 +47,7 @@
 
     function ConfirmListActionEvent(value) {
       if(value)
-        document.getElementById('FUNextMailsForm').submit();
+        $('#FUNextMailsForm').submit();
     }
 
     function ConfirmListAction() {
@@ -193,7 +193,7 @@
          			  Seite:&nbsp;
         </td>
         <td style="text-align:right; width:1%; white-space:nowrap;">
-         			  <select name="RcptsPageSelected" id="RcptsPageSelected" size="1" style="min-width:30pt ! important;" onchange="document.FUNextMailsForm.submit()">
+         			  <select name="RcptsPageSelected" id="RcptsPageSelected" size="1" style="min-width:30pt ! important;" onchange="$('#FUNextMailsForm').submit();">
                 <OPTION:PAGES>
                 <option>1</option>
                 </OPTION:PAGES>
@@ -215,6 +215,7 @@
   DisableItem('RecipientsActions', GetCheckedCount('RecipientsIDs[]', 'FUNextMailsForm') > 0 );
   ShowItem('ListActionSubmitBtn', (document.getElementById('RecipientsActions').selectedIndex != 0) && ( document.getElementById('RecipientsActions').disabled == false ) ) ;
   DoListActionChange(document.getElementById('RecipientsActions'), 'FUNextMailsForm', 'SetNewFUMMessageList', 'SetLastSentMessageDate', true);
+  InsertLoadingStatusOnSubmit();
   //AUTO_SCRIPT_CODE_PLACEHOLDER//
 //-->
 </script>

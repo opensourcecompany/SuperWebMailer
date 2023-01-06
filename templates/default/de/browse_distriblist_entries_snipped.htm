@@ -6,9 +6,13 @@
   <input type="hidden" name="OneDistribListId" id="OneDistribListId"  />
   <input type="hidden" name="MailingListId" id="MailingListId"  />
   <input type="hidden" name="FormId" id="FormId"  />
+  <input type="hidden" name="RemoveDLEsRemoveInlineFilesAttachments" id="RemoveDLEsRemoveInlineFilesAttachments" value="0" />
 
   <script language="javascript" type="text/javascript">
   <!--
+
+    var remInlineFilesAttachmentsText1 = '<br /><br /><table style="width: 100%;"><tr><td style="width:5%;vertical-align: middle;"><input type="checkbox" id="RemoveInlineFilesAttachments1" checked="checked" /></td><td style="width:99%;vertical-align: top;"><label for="RemoveInlineFilesAttachments1">Eingebettete Bilder und Anh&auml;nge in den E-Mails dauerhaft vom Datentr&auml;ger l&ouml;schen</label></td></tr></table>';
+    var remInlineFilesAttachmentsText2 = '<br /><br /><table style="width: 100%;"><tr><td style="width:5%;vertical-align: middle;"><input type="checkbox" id="RemoveInlineFilesAttachments2" checked="checked" /></td><td style="width:99%;vertical-align: top;"><label for="RemoveInlineFilesAttachments2">Eingebettete Bilder und Anh&auml;nge in der E-Mail dauerhaft vom Datentr&auml;ger l&ouml;schen</label></td></tr></table>';
 
     function SetListId(ASender, AFormID) {
       if(ASender.name == "SpamTest" || ASender.name == "TestMail") {
@@ -40,9 +44,25 @@
      ShowItem('ListActionSubmitBtn', (document.getElementById('DLEsActions').selectedIndex != 0) && ( document.getElementById('DLEsActions').disabled == false ) ) ;
     }
 
-    function ConfirmDeleteDLEEvent(value) {
-      if(value)
-        document.getElementById('BrowseDistribListsEntriesForm').submit();
+    function ConfirmDeleteDLEEvent(value, aform) {
+      if(value){
+
+          if(aform){
+
+            var checkbox = aform.querySelector('#' + 'RemoveInlineFilesAttachments2');
+            if(!checkbox)
+              var checkbox = aform.querySelector('#' + 'RemoveInlineFilesAttachments1');
+
+            if(checkbox){
+               if(checkbox.checked)
+                 document.getElementById('RemoveDLEsRemoveInlineFilesAttachments').value = 1;
+                 else
+                 document.getElementById('RemoveDLEsRemoveInlineFilesAttachments').value = 0;
+            }
+          }
+
+          $('#BrowseDistribListsEntriesForm').submit();
+        }
         else {
           document.getElementById('OneDLEAction').value = "";
           document.getElementById('OneDLEId').value = "";
@@ -50,16 +70,33 @@
 
     }
 
-    function ConfirmListActionEvent(value) {
-      if(value)
-        document.getElementById('BrowseDistribListsEntriesForm').submit();
+    function ConfirmListActionEvent(value, aform) {
+      if(value){
+
+
+        if(aform){
+
+          var checkbox = aform.querySelector('#' + 'RemoveInlineFilesAttachments1');
+          if(!checkbox)
+            var checkbox = aform.querySelector('#' + 'RemoveInlineFilesAttachments2');
+
+          if(checkbox){
+             if(checkbox.checked)
+               document.getElementById('RemoveDLEsRemoveInlineFilesAttachments').value = 1;
+               else
+               document.getElementById('RemoveDLEsRemoveInlineFilesAttachments').value = 0;
+          }
+        }
+
+        $('#BrowseDistribListsEntriesForm').submit();
+      }
     }
 
     function ConfirmListAction() {
       AOption = document.getElementById("DLEsActions").options[ document.getElementById("DLEsActions").selectedIndex ];
 
       if(AOption.value == "RemoveDLEs") {
-        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> E-Mails dauerhaft l&ouml;schen?', 3, 320, 130, 'ConfirmListActionEvent');
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> E-Mails dauerhaft l&ouml;schen?' + remInlineFilesAttachmentsText1, 3, 380, 148, 'ConfirmListActionEvent');
         return false;
       }
       return true;
@@ -67,7 +104,7 @@
 
     function ConfirmCancelDLEEvent(value) {
       if(value)
-        document.getElementById('BrowseDistribListsEntriesForm').submit();
+        $('#BrowseDistribListsEntriesForm').submit();
         else {
           document.getElementById('OneDLEAction').value = "";
           document.getElementById('OneDLEId').value = "";
@@ -108,7 +145,7 @@
       			Zeige:&nbsp;<input type="text" name="DLEsItemsPerPage" size="4" style="text-align:right" />&nbsp;Eintr&auml;ge&nbsp;pro&nbsp;Seite
       			<br />
          <br />
-         <div style="float:right"><input type="submit" name="FilterApplyBtn" value="&Uuml;bernehmen" /></div>
+         <div style="float:right"><input type="submit" name="FilterApplyBtn" value="&Uuml;bernehmen" onclick="document.getElementById('DLEsActions').selectedIndex = 0; document.getElementById('DLEsActions').onchange();" /></div>
          <input type="checkbox" name="DLEsSaveFilter" value="true" />&nbsp;Filter zur n&auml;chsten Verwendung speichern
          </div>
          </p>
@@ -151,7 +188,7 @@
   			<td>&nbsp;</td>
   			<td>
   			    <input type="image" src="images/serialmailpreview.gif" width="16" height="16" name="PreviewDLE" onclick="SetListId(this, 'BrowseDistribListsEntriesForm'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Zeigt die E-Mail in der Serienmailvorschau.');return false" />&nbsp;
-  			    <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteDLE" onclick="SetListId(this, 'BrowseDistribListsEntriesForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich diese E-Mail dauerhaft l&ouml;schen?', 3, 320, 130, 'ConfirmDeleteDLEEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht die E-Mail dauerhaft.');return false" />
+  			    <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteDLE" onclick="SetListId(this, 'BrowseDistribListsEntriesForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich diese E-Mail dauerhaft l&ouml;schen?' + remInlineFilesAttachmentsText2, 3, 380, 148, 'ConfirmDeleteDLEEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht die E-Mail dauerhaft.');return false" />
          <IS:SWM>
          <input type="image" src="images/spamtest16.gif" width="16" height="16" name="SpamTest" onclick="return SetListId(this, 'BrowseDistribListsEntriesForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Spam-Test durchf&uuml;hren');return false" />&nbsp;
          </IS:SWM>
@@ -203,7 +240,7 @@
          			  Seite:&nbsp;
         </td>
         <td style="text-align:right; width:1%; white-space:nowrap; ">
-         			  <select name="DLEsPageSelected" id="DLEsPageSelected" size="1" style="min-width:30pt ! important;" onchange="document.BrowseDistribListsEntriesForm.submit()">
+         			  <select name="DLEsPageSelected" id="DLEsPageSelected" size="1" style="min-width:30pt ! important;" onchange="$('#BrowseDistribListsEntriesForm').submit();">
                 <OPTION:PAGES>
                 <option>1</option>
                 </OPTION:PAGES>
@@ -226,6 +263,7 @@
   CheckboxClicked();
   ShowItem('ListActionSubmitBtn', (document.getElementById('DLEsActions').selectedIndex != 0) && ( document.getElementById('DLEsActions').disabled == false ) ) ;
   DisableItem('DLEsActions', GetCheckedCount('DLEsIDs[]', 'BrowseDistribListsEntriesForm') > 0 );
+  InsertLoadingStatusOnSubmit();
   //AUTO_SCRIPT_CODE_PLACEHOLDER//
 //-->
 </script>

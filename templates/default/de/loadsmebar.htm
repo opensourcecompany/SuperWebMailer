@@ -89,7 +89,7 @@ body {
       <!--
 
         function InsertSEMs(){
-           obj = $('#sem_window').contents();
+           var obj = $('#sem_window').contents();
 
          		var socialmediabar = obj.find( "#socialmediabar" );
          		var smbaralignmentCB = $( "#smbaralignmentCB" );
@@ -113,7 +113,7 @@ body {
         }
 
         function SelectAll(){
-           obj = $('#sem_window').contents();
+           var obj = $('#sem_window').contents();
          		var socialmediabar = obj.find( "#socialmediabar" );
            socialmediabar.find(".socialmedia_item").each(function(){
              if( !$(this).find("input").attr("checked") ) {
@@ -124,7 +124,7 @@ body {
         }
 
         function SelectNone(){
-           obj = $('#sem_window').contents();
+           var obj = $('#sem_window').contents();
          		var socialmediabar = obj.find( "#socialmediabar" );
            socialmediabar.find(".socialmedia_item").each(function(){
              if( $(this).find("input").attr("checked") ) {
@@ -135,7 +135,7 @@ body {
         }
         
         function EnableDisableInsertBtn(){
-           obj = $('#sem_window').contents();
+           var obj = $('#sem_window').contents();
          		var socialmediabar = obj.find( "#socialmediabar" );
          		var checked = 0;
            socialmediabar.find(".socialmedia_item").each(function(){
@@ -180,8 +180,8 @@ body {
 
         <tr>
          <td style="width: 90%">
-             <iframe id="sem_window" style="height: 250px; border: 3px solid #efefef"
-                               src="ajax_load_new_ipe_elements.php?filename=socialmediashare.htm&smechkboxes=true&ckeditor=true" width="628" frameborder="0"></iframe>
+             <iframe id="sem_window" name="sem_window" style="height: 250px; border: 3px solid #efefef"
+                               width="628" frameborder="0"></iframe>
          </td>
         </tr>
 
@@ -225,6 +225,11 @@ body {
    </div>
 </div>
      <script type="text/javascript">
+
+       $(document).ready(function(){
+         CreateFormAndPostIt("ajax_load_new_ipe_elements.php?filename=socialmediashare.htm&smechkboxes=true&ckeditor=true", {}, 'post', "sem_window");
+       })
+
        //AUTO_SCRIPT_CODE_PLACEHOLDER//
     	</script>
      <div id="socialmediabar" style="display: none">

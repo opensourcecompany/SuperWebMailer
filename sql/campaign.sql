@@ -1,5 +1,9 @@
 CREATE TABLE IF NOT EXISTS `TABLE_CURRENT_SENDTABLE` (
   `id` int(11) NOT NULL auto_increment,
+
+  -- add
+  `Campaigns_id` int(11) NOT NULL default '0',
+
   `ReportSent` tinyint(1) NOT NULL default '0',
   `RecipientsCount` int(11) NOT NULL default '0',
   `SentCountSucc` int(11) NOT NULL default '0',
@@ -15,7 +19,10 @@ CREATE TABLE IF NOT EXISTS `TABLE_CURRENT_SENDTABLE` (
   `LastMember_id` int(11) NOT NULL default '0',
   `TwitterUpdate` enum('NotActivated','Done','Failed') NOT NULL default 'NotActivated',
   `TwitterUpdateErrorText` varchar(255) NOT NULL,
-  PRIMARY KEY  (`id`)
+  PRIMARY KEY  (`id`),
+
+  -- add
+  KEY `Campaigns_id` (`Campaigns_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `TABLE_CURRENT_USED_MTAS` (
@@ -33,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `TABLE_ARCHIVETABLE` (
   `SendStat_id` int(11) NOT NULL,
   `MailFormat` enum('PlainText','HTML','Multipart') NOT NULL default 'Multipart',
   `MailEncoding` varchar(20) NOT NULL default 'iso-8859-1',
-  `MailSubject` varchar(255) NOT NULL,
+  `MailSubject` text NOT NULL,
   `MailPlainText` mediumtext NOT NULL,
   `MailHTMLText` mediumtext NOT NULL,
   `Attachments` mediumtext NOT NULL,
@@ -43,11 +50,11 @@ CREATE TABLE IF NOT EXISTS `TABLE_ARCHIVETABLE` (
 
 CREATE TABLE IF NOT EXISTS `TABLE_C_STATISTICS` (
   `id` int(11) NOT NULL auto_increment,
-  `MailSubject` varchar(255) NOT NULL,
+  `MailSubject` text NOT NULL,
   `SendDateTime` datetime NOT NULL,
   `recipients_id` int(11) NOT NULL,
-  `Send` enum('Prepared','Sent','Failed','PossiblySent') NOT NULL default 'Prepared',
-  `SendResult` varchar(255) NOT NULL,
+  `Send` enum('Prepared','Sent','Failed','PossiblySent','Hardbounced') NOT NULL default 'Prepared',
+  `SendResult` text NOT NULL,
   `SendStat_id` int(11) NOT NULL,
   `IsSMS` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`id`),
@@ -56,28 +63,51 @@ CREATE TABLE IF NOT EXISTS `TABLE_C_STATISTICS` (
 );
 
 CREATE TABLE IF NOT EXISTS `TABLE_GROUPS` (
+  -- add
+  `Campaigns_id` int(11) NOT NULL default '0',
+
   `ml_groups_id` int(11) NOT NULL,
-  PRIMARY KEY ( `ml_groups_id` )
+  -- change
+  -- PRIMARY KEY ( `ml_groups_id` )
+  PRIMARY KEY `uniquegroups` (`Campaigns_id`, `ml_groups_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `TABLE_NOTINGROUPS` (
+  -- add
+  `Campaigns_id` int(11) NOT NULL default '0',
+
   `ml_groups_id` int(11) NOT NULL,
-  PRIMARY KEY ( `ml_groups_id` )
+  -- change
+  -- PRIMARY KEY ( `ml_groups_id` )
+  PRIMARY KEY `uniquegroups` (`Campaigns_id`, `ml_groups_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `TABLE_MTAS` (
+  -- add
+  `Campaigns_id` int(11) NOT NULL default '0',
+
   `mtas_id` int(11) NOT NULL,
   `sortorder` int(4) NOT NULL default '0',
-  PRIMARY KEY `mtas_id` (`mtas_id`)
+
+  -- change
+  -- PRIMARY KEY `mtas_id` (`mtas_id`)
+  PRIMARY KEY `uniquemtas` (`Campaigns_id`, `mtas_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `TABLE_CAMPAIGNLINKS` (
   `id` int(11) NOT NULL auto_increment,
+
+  -- add
+  `Campaigns_id` int(11) NOT NULL default '0',
+
   `IsActive` tinyint(1) NOT NULL default '1',
-  `Link` varchar(255) default NULL,
-  `Description` varchar(255) default NULL,
+  `Link` text NOT NULL,
+  `Description` text NOT NULL,
   PRIMARY KEY  (`id`),
-  KEY `Link` (`Link`)
+  KEY `Link` (`Link`(255)),
+
+  -- add
+  KEY `Campaigns_id` (`Campaigns_id`)
 );
 
 CREATE TABLE IF NOT EXISTS `TABLE_CAMPAIGNTRACKINGOPENINGS` (

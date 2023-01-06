@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2019 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,78 +26,92 @@
   include_once("sessioncheck.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeCampaignEdit"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeCampaignEdit"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  $_Q6QiO = "'%d.%m.%Y %H:%i'";
-  if($INTERFACE_LANGUAGE != "de") {
-    $_Q6QiO = "'%Y-%m-%d %H:%i'";
+  if(!_LJBLD()){
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]." - Csrf");
+    print $_QLJfI;
+    exit;
   }
 
-  $_Q6ICj = "";
+  $_QLo60 = "'%d.%m.%Y %H:%i'";
+  if($INTERFACE_LANGUAGE != "de") {
+    $_QLo60 = "'%Y-%m-%d %H:%i'";
+  }
+
+  $_QLoli = "";
   if(isset($_GET["SrcCampaignId"]) && isset($_GET["Action"])){
       $_GET["SrcCampaignId"] = intval($_GET["SrcCampaignId"]);
+      $_QLCt1 = false;
 
-      $_QJlJ0 = "SELECT *, IF(SendInFutureOnceDateTime<>'0000-00-00 00:00:00', DATE_FORMAT(SendInFutureOnceDateTime, $_Q6QiO), DATE_FORMAT(NOW(), $_Q6QiO)) AS SendInFutureOnceDateTimeLong FROM `$_Q6jOo` WHERE `id`=".$_GET["SrcCampaignId"];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
-      $_Q6J0Q = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
+      $_QLfol = "SELECT *, IF(SendInFutureOnceDateTime<>'0000-00-00 00:00:00', DATE_FORMAT(SendInFutureOnceDateTime, $_QLo60), DATE_FORMAT(NOW(), $_QLo60)) AS SendInFutureOnceDateTimeLong FROM `$_QLi60` WHERE `id`=".$_GET["SrcCampaignId"];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      if($_QLL16 = mysql_fetch_assoc($_QL8i1))
+         $_QLCt1 = true;
+      mysql_free_result($_QL8i1);
 
-      if($_GET["Action"] == "GetDoneSentEntries") {
-        $_Q6ICj = _QEERB($_Q6J0Q);
+      if($_QLCt1 && $_GET["Action"] == "GetDoneSentEntries") {
+        $_QLoli = _OBE1L($_QLL16);
       }
 
-      if($_GET["Action"] == "GetLinks") {
-         $_Q6ICj = _QEEP1($_Q6J0Q);
+      if($_QLCt1 && $_GET["Action"] == "GetLinks") {
+         $_QLoli = _OBEPP($_QLL16);
       }
 
-      if($_GET["Action"] == "GetTrackingParams") {
-        $_Q6ICj = _QEF8E($_Q6J0Q);
+      if($_QLCt1 && $_GET["Action"] == "GetTrackingParams") {
+        $_QLoli = _OBFJJ($_QLL16);
       }
   }
 
-  function _QEERB($_Q6J0Q){
-    global $_Q6QiO, $INTERFACE_LANGUAGE, $resourcestrings, $_Q6JJJ, $_Q61I1;
-    $_Q6ICj = "";
-    $_QJlJ0 = "SELECT id, DATE_FORMAT(StartSendDateTime, $_Q6QiO) AS StartSendDateTimeFormated, RecipientsCount FROM `$_Q6J0Q[CurrentSendTableName]` WHERE `SendState`='Done' ORDER BY StartSendDateTime DESC";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    while($_Q6Q1C=mysql_fetch_assoc($_Q60l1)) {
-      $_Q6ICj .= str_replace('%RECIPIENTCOUNT%', $_Q6Q1C["RecipientsCount"], '<option value="'.$_Q6Q1C["id"].'">'.$_Q6Q1C["StartSendDateTimeFormated"].$resourcestrings[$INTERFACE_LANGUAGE]["RecipientCount"].'</option>'.$_Q6JJJ);
+  function _OBE1L($_QLL16){
+    global $_QLo60, $INTERFACE_LANGUAGE, $resourcestrings, $_QLl1Q, $_QLttI;
+    $_QLoli = "";
+    $_QLlO6 = "";
+    if(isset($_QLL16["id"])) // it can be a LinksTableName from FUM
+      $_QLlO6 = "`Campaigns_id`=$_QLL16[id] AND";
+    $_QLfol = "SELECT id, DATE_FORMAT(StartSendDateTime, $_QLo60) AS StartSendDateTimeFormated, RecipientsCount FROM `$_QLL16[CurrentSendTableName]` WHERE $_QLlO6 `SendState`='Done' ORDER BY StartSendDateTime DESC";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    while($_QLO0f=mysql_fetch_assoc($_QL8i1)) {
+      $_QLoli .= str_replace('%RECIPIENTCOUNT%', $_QLO0f["RecipientsCount"], '<option value="'.$_QLO0f["id"].'">'.$_QLO0f["StartSendDateTimeFormated"].$resourcestrings[$INTERFACE_LANGUAGE]["RecipientCount"].'</option>'.$_QLl1Q);
     }
-    mysql_free_result($_Q60l1);
-    return $_Q6ICj;
+    mysql_free_result($_QL8i1);
+    return $_QLoli;
   }
 
-  function _QEEP1($_Q6J0Q, $_Q6Joo = false){
-    global $_Q6JJJ, $_Q61I1;
-    $_Q6ICj = "";
-    $_QJlJ0 = "SELECT * FROM `$_Q6J0Q[LinksTableName]`";
-    if($_Q6Joo)
-      $_QJlJ0 .= " WHERE `IsActive`=1";
-    $_QJlJ0 .= " ORDER BY Link";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    while($_Q6Q1C=mysql_fetch_assoc($_Q60l1)) {
-      $_Q6ICj .= '<option value="'.$_Q6Q1C["id"].'">'.$_Q6Q1C["Link"].'</option>'.$_Q6JJJ;
+  function _OBEPP($_QLL16, $_Ql0IC = false){
+    global $_QLl1Q, $_QLttI;
+    $_QLoli = "";
+    $_QLfol = "SELECT * FROM `$_QLL16[LinksTableName]`";
+    if(isset($_QLL16["id"])) // it can be a LinksTableName from FUM
+       $_QLfol .= " WHERE `Campaigns_id`=$_QLL16[id]";
+    if($_Ql0IC)
+      $_QLfol .= " WHERE `IsActive`=1";
+    $_QLfol .= " ORDER BY Link";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    while($_QLO0f=mysql_fetch_assoc($_QL8i1)) {
+      $_QLoli .= '<option value="'.$_QLO0f["id"].'">'.$_QLO0f["Link"].'</option>'.$_QLl1Q;
     }
-    mysql_free_result($_Q60l1);
-    return $_Q6ICj;
+    mysql_free_result($_QL8i1);
+    return $_QLoli;
   }
 
-  function _QEF8E($_Q6J0Q){
-    $_Q66jQ = '<input type="hidden" name="%s" id="%s" value="%d" />';
-    $_Q6ICj = "";
-    $_Q6ICj .= sprintf($_Q66jQ, "TrackLinks", "TrackLinks", $_Q6J0Q["TrackLinks"]);
-    $_Q6ICj .= sprintf($_Q66jQ, "TrackLinksByRecipient", "TrackLinksByRecipient", $_Q6J0Q["TrackLinksByRecipient"]);
-    $_Q6ICj .= sprintf($_Q66jQ, "TrackEMailOpenings", "TrackEMailOpenings", $_Q6J0Q["TrackEMailOpenings"]);
-    $_Q6ICj .= sprintf($_Q66jQ, "TrackEMailOpeningsByRecipient", "TrackEMailOpeningsByRecipient", $_Q6J0Q["TrackEMailOpeningsByRecipient"]);
-    return $_Q6ICj;
+  function _OBFJJ($_QLL16){
+    $_Ql0fO = '<input type="hidden" name="%s" id="%s" value="%d" />';
+    $_QLoli = "";
+    $_QLoli .= sprintf($_Ql0fO, "TrackLinks", "TrackLinks", $_QLL16["TrackLinks"]);
+    $_QLoli .= sprintf($_Ql0fO, "TrackLinksByRecipient", "TrackLinksByRecipient", $_QLL16["TrackLinksByRecipient"]);
+    $_QLoli .= sprintf($_Ql0fO, "TrackEMailOpenings", "TrackEMailOpenings", $_QLL16["TrackEMailOpenings"]);
+    $_QLoli .= sprintf($_Ql0fO, "TrackEMailOpeningsByRecipient", "TrackEMailOpeningsByRecipient", $_QLL16["TrackEMailOpeningsByRecipient"]);
+    return $_QLoli;
   }
 
   if(isset($_GET["SrcCampaignId"]) && isset($_GET["Action"])){ // without this params do nothing is used in campaignedit.php also
@@ -113,8 +127,8 @@
     @header('Pragma: no-cache') ;
 
     // Set the response format.
-    @header( 'Content-Type: text/html; charset='.$_Q6QQL ) ;
+    @header( 'Content-Type: text/html; charset='.$_QLo06 ) ;
 
-    print $_Q6ICj;
+    print $_QLoli;
   }
 ?>

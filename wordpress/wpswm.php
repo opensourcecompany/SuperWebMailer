@@ -3,7 +3,7 @@
 Plugin Name: WordPress Newsletteranmeldung und Newsletterabmeldung fuer SuperWebMailer
 Plugin URI: http://www.superwebmailer.de/wordpress
 Description: Newsletteranmeldungen und Newsletterabmeldungen mit SuperWebMailer fuer WordPress
-Version: 1.0.1
+Version: 1.0.3
 Author: Mirko Boeer
 Author URI: http://www.superwebmailer.de/
 */
@@ -64,7 +64,8 @@ $DEFAULT_INTERFACE_LANGUAGE = "de";
           'u_UserFieldInt3' => 'Ganzzahl 3',
           'u_UserFieldBool1' => 'Logisches Feld 1',
           'u_UserFieldBool2' => 'Logisches Feld 2',
-          'u_UserFieldBool3' => 'Logisches Feld 3'
+          'u_UserFieldBool3' => 'Logisches Feld 3',
+          'u_PersonalizedTracking' => 'Personalisiertes Tracking erlaubt'
           ),
 
   "en" => array(
@@ -115,7 +116,8 @@ $DEFAULT_INTERFACE_LANGUAGE = "de";
           'u_UserFieldInt3' => 'Integer 3',
           'u_UserFieldBool1' => 'Boolean field 1',
           'u_UserFieldBool2' => 'Boolean field 2',
-          'u_UserFieldBool3' => 'Boolean field 3'
+          'u_UserFieldBool3' => 'Boolean field 3',
+          'u_PersonalizedTracking' => 'Personalized tracking allowed'
           )
  );
 
@@ -200,7 +202,8 @@ function wpswm_show_subunsubform() {
       $wpswm_fields = array("u_EMail" => "visiblerequired");
    $add_poweredbylink = get_option("wpswm_poweredbylink");
 
-   $html = '<form action="#wpswmnl" method="post">'."\n";
+   $html = get_option('wpswm_form_header');
+   $html .= '<form action="#wpswmnl" method="post">'."\n";
 
    reset($wpswm_fields);
    foreach($wpswm_fields as $key => $value){
@@ -228,7 +231,7 @@ function wpswm_show_subunsubform() {
         $html .= '   <option>'.$resourcestrings[$swm_INTERFACE_LANGUAGE]["FIRM"].'</option>';
         $html .= ' </select>';
      } else
-     if($key == "u_UserFieldBool1" || $key == "u_UserFieldBool2" || $key == "u_UserFieldBool3"){
+     if($key == "u_UserFieldBool1" || $key == "u_UserFieldBool2" || $key == "u_UserFieldBool3" || $key == "u_PersonalizedTracking"){
          $html .= '    <select name="'.$key.'" size="1" style="max-width: 420px;">';
          $html .= '      <option value="0">'.$resourcestrings[$swm_INTERFACE_LANGUAGE]["FALSE"].'</option>';
          $html .= '      <option value="1">'.$resourcestrings[$swm_INTERFACE_LANGUAGE]["TRUE"].'</option>';
@@ -248,14 +251,39 @@ function wpswm_show_subunsubform() {
 
    $html .= '<p class="wpswm_form_label">';
    $html .= '<input type="radio" name="wpswm_action" id="wpswm_action1" class="wpswm_form_radio" value="subscribe" checked="checked" /> '.stripslashes(get_option('wpswm_form_subscribe'));
-   $html .= '<br/>';
+   $html .= '<br />';
    $html .= '<input type="radio" name="wpswm_action" id="wpswm_action2" class="wpswm_form_radio" value="unsubscribe" /> '.stripslashes(get_option('wpswm_form_unsubscribe')).'</p>';
+
+
+   if(get_option('wpswm_privacypolicyurl') != ""){
+     $swm_PrivacyPolicyAccepted_Required = (int) stripslashes(get_option('wpswm_PrivacyPolicyAccepted_Required'));
+
+     $html .= '<p class="wpswm_form_label">';
+
+     if($swm_PrivacyPolicyAccepted_Required){
+       $html .= '<input type="checkbox" name="wpswm_PrivacyPolicyAccepted" id="wpswm_PrivacyPolicyAccepted" value="1" />';
+       $html .= '<label for="wpswm_PrivacyPolicyAccepted">';
+     }
+
+     $text = get_option('wpswm_privacypolicytext');
+     if($text != ""){
+       $text = str_replace('[PrivacyPolicyURL]', stripslashes(get_option('wpswm_privacypolicyurl')), $text);
+       $html .= $text;
+     }
+     else
+       $html .= 'Mit Angabe meiner Daten und Absenden der Anmeldung erkl&auml;re ich mich einverstanden, den hier bestellten Newsletter per E-Mail zu erhalten. Meine Daten werden nicht an Dritte weitergegeben. Dieses Einverst&auml;ndnis kann ich jederzeit widerrufen. Weitere ausf&uuml;hrliche Informationen in der <a href="' . stripslashes(get_option('wpswm_privacypolicyurl')) . '" target="_blank">Datenschutzerkl&auml;rung</a>';
+
+     if($swm_PrivacyPolicyAccepted_Required)
+       $html .= '</label>';
+     $html .= '</p>';
+     $html .= '<br />';
+   }
 
    $html .= '<p class="wpswm_form_label"><input type="submit" value="' . get_option('wpswm_form_submit_btn');
    $html .= '" class="wpswm_form_btn" /></p>' . "\n";
    $html .= "</form>\n\n";
    if ($add_poweredbylink) {
-      $html .= '<font size="1">Powered by PHP Newsletter Script <a href="http://www.superwebmailer.de/" title="PHP Newsletter Script SuperWebMailer">SuperWebMailer</a></font>';
+      $html .= '<font size="1">Powered by PHP Newsletter Script <a href="https://www.superwebmailer.de/" title="PHP Newsletter Script SuperWebMailer">SuperWebMailer</a></font>';
    }
 
    echo $html;
@@ -275,7 +303,7 @@ function wpswm_is_spam($str) {
      return 0;
 }
 
-function CheckEMail($email) {
+function wpswm_CheckEMail($email) {
  if (strpos($email, "@") === False)
    return 0;
  $s = substr($email, strpos($email, "@"), strlen($email));
@@ -322,7 +350,7 @@ function wpswm_subscribe() {
       }
 
       $email = stripslashes($_POST['u_EMail']);
-      if (!CheckEMail($email)) {
+      if (!wpswm_CheckEMail($email)) {
          echo stripslashes(get_option('wpswm_form_header'));
          echo stripslashes(get_option('wpswm_msg_emailaddressinvalid'));
          wpswm_show_subunsubform();
@@ -335,6 +363,9 @@ function wpswm_subscribe() {
       $swm_formencoding = stripslashes(get_option('wpswm_formencoding'));
 
       $dataString = sprintf("MailingListId=%s&FormId=%s&FormEncoding=%s", $swm_maillist_id, $swm_form_id, urlencode($swm_formencoding) );
+      if(isset($_POST["wpswm_PrivacyPolicyAccepted"]))
+         $dataString .= "&PrivacyPolicyAccepted=" . $_POST["wpswm_PrivacyPolicyAccepted"];
+
       $errnum = 0;
       $errstr = "";
       if($_POST["wpswm_action"] == "subscribe") {
@@ -375,26 +406,28 @@ function wpswm_subscribe() {
    }
 }
 
-function IsUtf8String( $s ) {
-    $ptrASCII  = '[\x00-\x7F]';
-    $ptr2Octet = '[\xC2-\xDF][\x80-\xBF]';
-    $ptr3Octet = '[\xE0-\xEF][\x80-\xBF]{2}';
-    $ptr4Octet = '[\xF0-\xF4][\x80-\xBF]{3}';
-    $ptr5Octet = '[\xF8-\xFB][\x80-\xBF]{4}';
-    $ptr6Octet = '[\xFC-\xFD][\x80-\xBF]{5}';
-    $result = preg_match("/^($ptrASCII|$ptr2Octet|$ptr3Octet|$ptr4Octet|$ptr5Octet|$ptr6Octet)*$/s", $s);
+if(!function_exists("IsUtf8String")){
+  function IsUtf8String( $s ) {
+      $ptrASCII  = '[\x00-\x7F]';
+      $ptr2Octet = '[\xC2-\xDF][\x80-\xBF]';
+      $ptr3Octet = '[\xE0-\xEF][\x80-\xBF]{2}';
+      $ptr4Octet = '[\xF0-\xF4][\x80-\xBF]{3}';
+      $ptr5Octet = '[\xF8-\xFB][\x80-\xBF]{4}';
+      $ptr6Octet = '[\xFC-\xFD][\x80-\xBF]{5}';
+      $result = preg_match("/^($ptrASCII|$ptr2Octet|$ptr3Octet|$ptr4Octet|$ptr5Octet|$ptr6Octet)*$/s", $s);
 
-    if($result)
-      $result = (utf8_decode($s) != "");
+      if($result)
+        $result = (utf8_decode($s) != "");
 
-    return $result;
-}
+      return $result;
+  }
 
-function url_encode($string){
-   if(!IsUtf8String($string))
-     return urlencode(utf8_encode($string));
-     else
-     return urlencode($string);
+  function url_encode($string){
+     if(!IsUtf8String($string))
+       return urlencode(utf8_encode($string));
+       else
+       return urlencode($string);
+  }
 }
 
 function wpswm_install() {
@@ -420,6 +453,9 @@ function wpswm_install() {
    add_option('wpswm_formencoding', 'utf-8');
 
    add_option('wpswm_INTERFACE_LANGUAGE', $DEFAULT_INTERFACE_LANGUAGE);
+   add_option('wpswm_privacypolicyurl', '');
+   add_option('wpswm_PrivacyPolicyAccepted_Required', '0');
+   add_option('wpswm_privacypolicytext', 'Mit Angabe meiner Daten und Absenden der Anmeldung erkl&auml;re ich mich einverstanden, den hier bestellten Newsletter per E-Mail zu erhalten. Meine Daten werden nicht an Dritte weitergegeben. Dieses Einverst&auml;ndnis kann ich jederzeit widerrufen. Weitere ausf&uuml;hrliche Informationen in der <a href="[PrivacyPolicyURL]" target="_blank">Datenschutzerkl&auml;rung</a>');
 }
 
 function wpswm_options() {
@@ -442,6 +478,9 @@ function wpswm_options() {
   $swm_formencoding = stripslashes(get_option('wpswm_formencoding'));
 
   $swm_INTERFACE_LANGUAGE = stripslashes(get_option('wpswm_INTERFACE_LANGUAGE'));
+  $swm_privacypolicyurl = stripslashes(get_option('wpswm_privacypolicyurl'));
+  $swm_PrivacyPolicyAccepted_Required = stripslashes(get_option('wpswm_PrivacyPolicyAccepted_Required'));
+  $swm_privacypolicytext = stripslashes(get_option('wpswm_privacypolicytext'));
 
   $swm_fields = get_option('wpswm_form_fields');
   if($swm_fields != "" && @unserialize($swm_fields) !== false) {
@@ -469,6 +508,14 @@ function wpswm_options() {
       $swm_formencoding = stripslashes($_POST['wpswm_formencoding']);
 
       $swm_INTERFACE_LANGUAGE = stripslashes($_POST['wpswm_INTERFACE_LANGUAGE']);
+      $swm_privacypolicyurl = stripslashes($_POST['wpswm_privacypolicyurl']);
+      if(!empty($swm_privacypolicyurl))
+        $swm_privacypolicytext = stripslashes($_POST['wpswm_privacypolicytext']);
+
+      if(isset($_POST['wpswm_PrivacyPolicyAccepted_Required']))
+        $swm_PrivacyPolicyAccepted_Required = (int)stripslashes($_POST['wpswm_PrivacyPolicyAccepted_Required']);
+        else
+        $swm_PrivacyPolicyAccepted_Required = 0;
 
       if( isset($_POST['wpswm_fields']) && is_array($_POST['wpswm_fields'] ))
          $swm_fields = $_POST['wpswm_fields'];
@@ -493,6 +540,11 @@ function wpswm_options() {
       update_option('wpswm_formencoding', $swm_formencoding);
 
       update_option('wpswm_INTERFACE_LANGUAGE', $swm_INTERFACE_LANGUAGE);
+      update_option('wpswm_privacypolicyurl', $swm_privacypolicyurl);
+      update_option('wpswm_PrivacyPolicyAccepted_Required', $swm_PrivacyPolicyAccepted_Required);
+      if(isset($swm_privacypolicytext))
+        update_option('wpswm_privacypolicytext', $swm_privacypolicytext);
+
 
       echo '<div id="message" class="updated fade"><p><strong>';
       _e($resourcestrings[$swm_INTERFACE_LANGUAGE]['CHANGESSAVED'], 'wpswm_domain');
@@ -501,6 +553,18 @@ function wpswm_options() {
 ?>
 
 <div class="wrap">
+<style>
+  .form-table td {vertical-align: top;}
+</style>
+
+<script>
+  function EnableFields(){
+   var enable = document.getElementById("wpswm_privacypolicyurl").value.trim() != "";
+   document.getElementById("wpswm_privacypolicytext").disabled = !enable;
+   document.getElementById("wpswm_PrivacyPolicyAccepted_Required").disabled = !enable;
+  }
+</script>
+
   <h2>Einstellungen f&uuml;r die Newsletteranmeldung</h2>
 <form method="post" action="">
     <input type="hidden" name="wpswm_SAVEind" value="SUPERWEBMAILERsaveNLSUB" />
@@ -525,7 +589,35 @@ function wpswm_options() {
       </tr>
 
       <tr valign="top">
-        <td>SuperWebMailer http://-Aufruf des Scripts nl.php:</td>
+        <td>URL zur eigenen Datenschutzerkl&auml;rung: </td>
+        <td>
+          <input type="text" name="wpswm_privacypolicyurl" id="wpswm_privacypolicyurl" value="<?php echo $swm_privacypolicyurl; ?>" size="70" onchange="EnableFields()" onclick="EnableFields()" onkeyup="EnableFields()" />
+          <br />
+           Die Datenschutzerkl&auml;rung sollte im Anmeldeformular immer angezeigt werden.
+             <br />
+             <br />
+        </td>
+      </tr>
+
+      <tr valign="top">
+        <td valign="top">Hinweistext zur Verwendung und Speicherung der Daten im Anmelde-/&Auml;ndern-Formular:</td>
+        <td>
+          <textarea name="wpswm_privacypolicytext" id="wpswm_privacypolicytext" rows="4" cols="70"><?php echo $swm_privacypolicytext; ?></textarea>
+          <br /><br />
+          Sie k&ouml;nnen den Platzhalter [PrivacyPolicyURL] im Text verwenden, an der Stelle wird die URL zur eigenen Datenschutzerkl&auml;rung eingef&uuml;gt.
+        </td>
+      </tr>
+
+      <tr valign="top">
+        <td><label for="wpswm_PrivacyPolicyAccepted_Required">Zustimmung zur eigenen Datenschutzerkl&auml;rung soll Pflichtfeld sein:</label></td>
+        <td>
+          <input type="checkbox" name="wpswm_PrivacyPolicyAccepted_Required" id="wpswm_PrivacyPolicyAccepted_Required" value="1" <?php echo $swm_PrivacyPolicyAccepted_Required ? 'checked="checked"' : ""; ?> />
+          <br />
+        </td>
+      </tr>
+
+      <tr valign="top">
+        <td>SuperWebMailer http(s)://-Aufruf des Scripts nl.php:</td>
         <td>
           <input type="text" name="wpswm_nl_url" id="wpswm_nl_url" value="<?php echo $swm_nl_url; ?>" size="70" />
           <br /><br />
@@ -562,7 +654,7 @@ function wpswm_options() {
       </tr>
 
       <tr valign="top">
-        <td>&quot;Powered by SuperWebMailer&quot;-Link zeigen:</td>
+        <td><label for="wpswm_poweredbylink">Powered by SuperWebMailer&quot;-Link zeigen:</label></td>
         <td>
           <input type="checkbox" name="wpswm_poweredbylink" id="wpswm_poweredbylink" value="1"<?php echo $poweredbylink ? " checked=\"checked\"" : "";?> />
           <br /><br />
@@ -725,6 +817,7 @@ function wpswm_options() {
   <input type="submit" name="Submit" value="Einstellungen speichern" />
 </p>
 </form>
+<script>EnableFields()</script>
 </div>
 
 
@@ -786,142 +879,144 @@ add_action('admin_menu', 'wpswm_add_to_menu');
 add_action('init', 'wpswm_widget_init');
 
 
+if(!function_exists("fsockPost")){
 
-//posts transaction data using fsockopen.
-function fsockPost($url, $dataString, &$errnum, &$errstr) {
+  //posts transaction data using fsockopen.
+  function fsockPost($url, $dataString, &$errnum, &$errstr) {
 
-  $info = array();
+    $info = array();
 
-  //Parse url
-  $web=parse_url($url);
+    //Parse url
+    $web=parse_url($url);
 
-  //build post string
-  $postdata = $dataString;
+    //build post string
+    $postdata = $dataString;
 
-  //Set the port number
-  $ssl = "";
-  if ($web["scheme"] == "https") { $web["port"]="443";  $ssl="ssl://"; } else { $web["port"]="80"; }
+    //Set the port number
+    $ssl = "";
+    if ($web["scheme"] == "https") { $web["port"]="443";  $ssl="ssl://"; } else { $web["port"]="80"; }
 
-  //Create HTTP connection
-  $fp=fsockopen($ssl . $web["host"], $web["port"], $errnum, $errstr, 300);
+    //Create HTTP connection
+    $fp=fsockopen($ssl . $web["host"], $web["port"], $errnum, $errstr, 300);
 
-  //Error checking
-  if(!$fp)
-   {
-     return "ERROR: ".$info;
-   }
-   //Post Data
-   else {
+    //Error checking
+    if(!$fp)
+     {
+       return "ERROR: ".$info;
+     }
+     //Post Data
+     else {
 
-      fputs($fp, "POST $web[path] HTTP/1.1\r\n");
-      fputs($fp, "Host: $web[host]\r\n");
-      fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
-      fputs($fp, "Content-length: ".strlen($postdata)."\r\n");
-      fputs($fp, "Connection: close\r\n\r\n");
-      fputs($fp, $postdata . "\r\n\r\n");
+        fputs($fp, "POST $web[path] HTTP/1.1\r\n");
+        fputs($fp, "Host: $web[host]\r\n");
+        fputs($fp, "Content-type: application/x-www-form-urlencoded\r\n");
+        fputs($fp, "Content-length: ".strlen($postdata)."\r\n");
+        fputs($fp, "Connection: close\r\n\r\n");
+        fputs($fp, $postdata . "\r\n\r\n");
 
-      if(function_exists("stream_set_timeout") && function_exists("stream_set_blocking") && function_exists("stream_get_meta_data") )  {
-         stream_set_blocking($fp, TRUE);
-         stream_set_timeout($fp, 20);
-         $socksinfo = stream_get_meta_data($fp);
-         while ((!feof($fp)) && (!$socksinfo['timed_out'])) {
-          $info[] = fgets($fp, 1024);
-          $socksinfo = stream_get_meta_data($fp);
+        if(function_exists("stream_set_timeout") && function_exists("stream_set_blocking") && function_exists("stream_get_meta_data") )  {
+           stream_set_blocking($fp, TRUE);
+           stream_set_timeout($fp, 20);
+           $socksinfo = stream_get_meta_data($fp);
+           while ((!feof($fp)) && (!$socksinfo['timed_out'])) {
+            $info[] = fgets($fp, 1024);
+            $socksinfo = stream_get_meta_data($fp);
+           }
+         } else {
+           sleep(2);
+           while (!feof($fp)) {
+            $info[] = fgets($fp, 1024);
+           }
          }
-       } else {
-         sleep(2);
-         while (!feof($fp)) {
-          $info[] = fgets($fp, 1024);
-         }
-       }
 
-      //close fp - we are done with it
-      fclose($fp);
-   }
-   return $info;
-}
-
-function fsockGet($url, $data, &$errnum, &$errstr) {
-  $info = array();
-
-  //Parse url
-  $web=parse_url($url);
-
-  //build get string
-  $getdata = $data;
-
-  //Set the port number
-  $ssl = "";
-  if ($web["scheme"] == "https") { $web["port"]="443";  $ssl="ssl://"; } else { $web["port"]="80"; }
-
-  //Create HTTP connection
-  $fp=fsockopen($ssl . $web["host"], $web["port"], $errnum, $errstr, 300);
-
-  //Error checking
-  if(!$fp)
-   {
+        //close fp - we are done with it
+        fclose($fp);
+     }
      return $info;
-   }
-   //GET Data
-   else {
-//         print("GET $web[path]?$getdata HTTP/1.1\r\n");
-//         print("Host: $web[host]\r\n");
-//         print("Connection: close\r\n\r\n");
-//         exit;
+  }
 
-      fputs($fp, "GET $web[path]?$getdata HTTP/1.1\r\n");
-      fputs($fp, "Host: $web[host]\r\n");
-      fputs($fp, "Connection: close\r\n\r\n");
+  function fsockGet($url, $data, &$errnum, &$errstr) {
+    $info = array();
 
-      //loop through the response from the server
-      while(!feof($fp)) { $info[]=@fgets($fp, 1024); }
+    //Parse url
+    $web=parse_url($url);
 
-      //close fp - we are done with it
-      fclose($fp);
-   }
-   return $info;
-}
+    //build get string
+    $getdata = $data;
 
-function fsockGetWithoutResult($url, $data) {
+    //Set the port number
+    $ssl = "";
+    if ($web["scheme"] == "https") { $web["port"]="443";  $ssl="ssl://"; } else { $web["port"]="80"; }
 
-  $errnum = 0;
-  $errstr = "";
+    //Create HTTP connection
+    $fp=fsockopen($ssl . $web["host"], $web["port"], $errnum, $errstr, 300);
 
-  //Parse url
-  $web=parse_url($url);
+    //Error checking
+    if(!$fp)
+     {
+       return $info;
+     }
+     //GET Data
+     else {
+  //         print("GET $web[path]?$getdata HTTP/1.1\r\n");
+  //         print("Host: $web[host]\r\n");
+  //         print("Connection: close\r\n\r\n");
+  //         exit;
 
-  //build get string
-  $getdata = $data;
+        fputs($fp, "GET $web[path]?$getdata HTTP/1.1\r\n");
+        fputs($fp, "Host: $web[host]\r\n");
+        fputs($fp, "Connection: close\r\n\r\n");
 
-  //Set the port number
-  if ($web["scheme"] == "https") { $web["port"]="443";  $ssl="ssl://"; } else { $web["port"]="80"; }
+        //loop through the response from the server
+        while(!feof($fp)) { $info[]=@fgets($fp, 1024); }
 
-  //Create HTTP connection
-  $fp=@fsockopen($ssl . $web["host"], $web["port"], $errnum, $errstr, 300);
+        //close fp - we are done with it
+        fclose($fp);
+     }
+     return $info;
+  }
 
-  //Error checking
-  if(!$fp)
-   {
+  function fsockGetWithoutResult($url, $data) {
+
+    $errnum = 0;
+    $errstr = "";
+
+    //Parse url
+    $web=parse_url($url);
+
+    //build get string
+    $getdata = $data;
+
+    //Set the port number
+    if ($web["scheme"] == "https") { $web["port"]="443";  $ssl="ssl://"; } else { $web["port"]="80"; }
+
+    //Create HTTP connection
+    $fp=@fsockopen($ssl . $web["host"], $web["port"], $errnum, $errstr, 300);
+
+    //Error checking
+    if(!$fp)
+     {
+       return;
+     }
+     //GET Data
+     else {
+  //         print("GET $web[path]?$getdata HTTP/1.1\r\n");
+  //         print("Host: $web[host]\r\n");
+  //         print("Connection: close\r\n\r\n");
+  //         exit;
+
+        fputs($fp, "GET $web[path]?$getdata HTTP/1.1\r\n");
+        fputs($fp, "Host: $web[host]\r\n");
+        fputs($fp, "Connection: close\r\n\r\n");
+
+        //loop through the response from the server
+        //while(!feof($fp)) { $info[]=@fgets($fp, 1024); }
+
+        //close fp - we are done with it
+        fclose($fp);
+     }
      return;
-   }
-   //GET Data
-   else {
-//         print("GET $web[path]?$getdata HTTP/1.1\r\n");
-//         print("Host: $web[host]\r\n");
-//         print("Connection: close\r\n\r\n");
-//         exit;
-
-      fputs($fp, "GET $web[path]?$getdata HTTP/1.1\r\n");
-      fputs($fp, "Host: $web[host]\r\n");
-      fputs($fp, "Connection: close\r\n\r\n");
-
-      //loop through the response from the server
-      //while(!feof($fp)) { $info[]=@fgets($fp, 1024); }
-
-      //close fp - we are done with it
-      fclose($fp);
-   }
-   return;
+  }
 }
 
 if (!function_exists('http_chunked_decode')) {

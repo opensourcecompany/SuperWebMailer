@@ -1,7 +1,7 @@
 Hallo,
 
 
-die E-Mail mit Betreff "[SUBJECT]", gesendet an die Verteilerliste "[DISTRIBLISTNAME]", wurde vom Admin für den Versand freigegeben. 
+die E-Mail mit Betreff "[SUBJECT]", gesendet an die Verteilerliste "[DISTRIBLISTNAME]", wurde vom Admin/Moderator für den Versand freigegeben. 
 
 
 

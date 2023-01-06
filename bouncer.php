@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -22,271 +22,274 @@
 #                                                                           #
 #############################################################################
 
-  class _OL0A1 {
+  class _L10QP {
 
    // @access public
 
    // @access private
-   var $_IJj0C = array();
-   var $_IJj6i = array();
-   var $_IJjoL = array();
-   var $_IJjCL = array();
+   var $_IL1ff = array();
+   var $_ILQ01 = array();
+   var $_ILQjj = array();
+   var $_ILQtO = array();
 
 
    // constructor
-   function __construct($_IJjll) {
-     $this->_OL1AL($_IJjll."bouncer.php");
+   function __construct($_ILI1C) {
+     $this->_L11PD($_ILI1C."bouncer.php");
    }
 
-   function _OL0A1($_IJjll) {
-     self::__construct($_IJjll);
+   function _L10QP($_ILI1C) {
+     self::__construct($_ILI1C);
    }
 
-   function _OL1LO($_IJJfQ, $_IJJLI, &$_IJJLJ, &$_IJ6Cf) {
+   function _L10FC($_ILItl, $_ILjJ0, &$_ILjOj, &$_ILJIO) {
 
-     $_IJfC0 = false;
-     $_IJ80Q = new Mail_mimeDecode($_IJJfQ);
+     $_ILJjL = false;
+     $_ILJt8 = new Mail_mimeDecode($_ILItl);
 
      // only header decode
-     $_QffOf["decode_headers"] = true;
-     $_IJ8tf = $_IJ80Q->decode($_QffOf);
-     if(IsPEARError($_IJ8tf)) {
-       unset($_IJ80Q);
+     $_I08CQ["decode_headers"] = true;
+     $_IL6J6 = $_ILJt8->decode($_I08CQ);
+     if(IsPEARError($_IL6J6)) {
+       unset($_ILJt8);
        return false;
      }
 
-     $_IJJLJ = "";
-     if(isset($_IJ8tf->headers["subject"])) {
-        $_IJJLJ = $_IJ8tf->headers["subject"];
-        if(!is_string($_IJJLJ))
-          $_IJJLJ = "";
-        if (IsUtf8String($_IJJLJ))
-          $_IJJLJ = utf8_decode($_IJJLJ); // convert to iso-8859-1, looses unicode chars
+     $_ILjOj = "";
+     if(isset($_IL6J6->headers["subject"])) {
+        $_ILjOj = $_IL6J6->headers["subject"];
+        if(!is_string($_ILjOj))
+          $_ILjOj = "";
+        if (IsUtf8String($_ILjOj))
+          $_ILjOj = utf8_decode($_ILjOj); // convert to iso-8859-1, looses unicode chars
      }
 
-     if(!isset($_IJ8tf->headers["from"])) {
-       unset($_IJ80Q);
+     if(!isset($_IL6J6->headers["from"])) {
+       unset($_ILJt8);
        return false;
      }
-     $_IJ8oI = new Mail_RFC822();
-     $From = $_IJ8tf->headers["from"];
+     $_IL6Jt = new Mail_RFC822();
+     $From = $_IL6J6->headers["from"];
      if (IsUtf8String($From))
         $From = utf8_decode($From);  // convert to iso-8859-1, looses unicode chars
-     $_IJO8j = $_IJ8oI->parseAddressList($From, null, null, false); // no ASCII check
+     $_ILf66 = $_IL6Jt->parseAddressList($From, null, null, false); // no ASCII check
 
-     if ( !(IsPEARError($_IJO8j)) ) {
-       if(isset($_IJO8j[0]->personal))
-         $_IJo16 = $_IJO8j[0]->personal;
+     if ( !(IsPEARError($_ILf66)) ) {
+       if(isset($_ILf66[0]->personal))
+         $_ILfoj = $_ILf66[0]->personal;
          else
-         $_IJo16 = "";
-       if(isset($_IJO8j[0]->mailbox) && isset($_IJO8j[0]->host))
-          $_IJoII = $_IJO8j[0]->mailbox."@".$_IJO8j[0]->host;
+         $_ILfoj = "";
+       if(isset($_ILf66[0]->mailbox) && isset($_ILf66[0]->host))
+          $_IL8oI = $_ILf66[0]->mailbox."@".$_ILf66[0]->host;
           else
-          $_IJoII = "";
-       $_IJo16 = str_replace('"', '', $_IJo16);
+          $_IL8oI = "";
+       $_ILfoj = str_replace('"', '', $_ILfoj);
      } else {
-       $_IJo16 = "";
-       $_IJoII = "";
+       $_ILfoj = "";
+       $_IL8oI = "";
      }
 
-     if ($this->_OLQO0($_IJo16, $_IJoII) && $this->_OLO1A($_IJJLJ) ) {
+     if ($this->_L1QQ0($_ILfoj, $_IL8oI) && $this->_L1QP0($_ILjOj) ) {
 
        // decode all
-       $_QffOf["decode_headers"] = true;
-       $_QffOf["include_bodies"] = true;
-       $_QffOf["decode_bodies"] = true;
-       unset($_IJ8tf);
+       $_I08CQ["decode_headers"] = true;
+       $_I08CQ["include_bodies"] = true;
+       $_I08CQ["decode_bodies"] = true;
+       unset($_IL6J6);
 
-       $_IJ8tf = $_IJ80Q->decode($_QffOf);
-       if(IsPEARError($_IJ8tf)) {
-         unset($_IJ80Q);
+       $_IL6J6 = $_ILJt8->decode($_I08CQ);
+       if(IsPEARError($_IL6J6)) {
+         unset($_ILJt8);
          return false;
        }
 
-       $_QJCJi = "";
-       if( isset($_IJ8tf->parts) ) {
-         for($_Qf0Ct=0; $_Qf0Ct<min(count($_IJ8tf->parts), 10); $_Qf0Ct++) {
+       $_QLJfI = "";
+       if( isset($_IL6J6->parts) ) {
+         for($_QliOt=0; $_QliOt<min(count($_IL6J6->parts), 10); $_QliOt++) {
 
-           if(isset($_IJojl))
-            unset($_IJojl);
-           if(isset($_IJ8tf->parts[$_Qf0Ct]->disposition))
-             $_IJojl=$_IJ8tf->parts[$_Qf0Ct]->disposition;
+           if(isset($_ILt60))
+            unset($_ILt60);
+           if(isset($_IL6J6->parts[$_QliOt]->disposition))
+             $_ILt60=$_IL6J6->parts[$_QliOt]->disposition;
 
-           if(isset($_IJC0L))
-             unset($_IJC0L);
-           if(isset($_IJ8tf->parts[$_Qf0Ct]->headers["content-type"]))
-             $_IJC0L = $_IJ8tf->parts[$_Qf0Ct]->headers["content-type"];
+           if(isset($_ILOjj))
+             unset($_ILOjj);
+           if(isset($_IL6J6->parts[$_QliOt]->headers["content-type"]))
+             $_ILOjj = $_IL6J6->parts[$_QliOt]->headers["content-type"];
 
-           if(isset($_IJCt0))
-             unset($_IJCt0);
-           if(isset($_IJ8tf->parts[$_Qf0Ct]->headers['content-description']))
-              $_IJCt0 = $_IJ8tf->parts[$_Qf0Ct]->headers['content-description'];
+           if(isset($_ILoIo))
+             unset($_ILoIo);
+           if(isset($_IL6J6->parts[$_QliOt]->headers['content-description']))
+              $_ILoIo = $_IL6J6->parts[$_QliOt]->headers['content-description'];
 
            //Mail_mimeDecode doesn't convert it as attachment, we do it here
-           if(isset($_IJC0L) && stripos($_IJC0L, 'delivery-status') !== false)
-             $_IJojl="attachment";
-           if ( isset($_IJCt0) && (stripos($_IJCt0, 'Delivery error report' ) !== false || stripos($_IJCt0, 'Delivery report.txt' ) !== false  || stripos($_IJCt0, 'Delivery report' ) !== false ) )
-             $_IJojl="attachment";
+           if(isset($_ILOjj) && stripos($_ILOjj, 'delivery-status') !== false)
+             $_ILt60="attachment";
+           if ( isset($_ILoIo) && (stripos($_ILoIo, 'Delivery error report' ) !== false || stripos($_ILoIo, 'Delivery report.txt' ) !== false  || stripos($_ILoIo, 'Delivery report' ) !== false ) )
+             $_ILt60="attachment";
 
-           if ( !isset($_IJojl) || $_IJojl != "attachment" ) continue; // check only attachments here
+           if ( !isset($_ILt60) || $_ILt60 != "attachment" ) continue; // check only attachments here
 
-           if ( isset($_IJC0L) && stripos($_IJC0L, 'delivery-status') !== false && isset($_IJ8tf->parts[$_Qf0Ct]->body) )
-             $_QJCJi = $_IJ8tf->parts[$_Qf0Ct]->body;
+           if ( isset($_ILOjj) && stripos($_ILOjj, 'delivery-status') !== false && isset($_IL6J6->parts[$_QliOt]->body) )
+             $_QLJfI = $_IL6J6->parts[$_QliOt]->body;
              else
-             if ( isset($_IJCt0) && (stripos($_IJCt0, 'Delivery error report' ) !== false || stripos($_IJCt0, 'Delivery report.txt' ) !== false  || stripos($_IJCt0, 'Delivery report' ) !== false ) && isset($_IJ8tf->parts[$_Qf0Ct]->body) )
-               $_QJCJi = $_IJ8tf->parts[$_Qf0Ct]->body;
+             if ( isset($_ILoIo) && (stripos($_ILoIo, 'Delivery error report' ) !== false || stripos($_ILoIo, 'Delivery report.txt' ) !== false  || stripos($_ILoIo, 'Delivery report' ) !== false ) && isset($_IL6J6->parts[$_QliOt]->body) )
+               $_QLJfI = $_IL6J6->parts[$_QliOt]->body;
                else
                continue;
 
-             if( $_QJCJi != "" && isset($_IJ8tf->parts[$_Qf0Ct]->ctype_parameters) && isset($_IJ8tf->parts[$_Qf0Ct]->ctype_parameters["charset"]) && strtolower($_IJ8tf->parts[$_Qf0Ct]->ctype_parameters["charset"]) == "utf-8" ) {
-               $_QllO8 = utf8_decode($_QJCJi);
-               if($_QllO8 != "")
-                 $_QJCJi = $_QllO8;
+             if( $_QLJfI != "" && isset($_IL6J6->parts[$_QliOt]->ctype_parameters) && isset($_IL6J6->parts[$_QliOt]->ctype_parameters["charset"]) && strtolower($_IL6J6->parts[$_QliOt]->ctype_parameters["charset"]) == "utf-8" ) {
+               $_I016j = utf8_decode($_QLJfI);
+               if($_I016j != "")
+                 $_QLJfI = $_I016j;
              }
          } # for j
 
          // text check
-         if ($_QJCJi == "" )
-           for($_Qf0Ct=0; $_Qf0Ct<min(count($_IJ8tf->parts), 10); $_Qf0Ct++) {
+         if ($_QLJfI == "" )
+           for($_QliOt=0; $_QliOt<min(count($_IL6J6->parts), 10); $_QliOt++) {
 
-              if ( isset($_IJ8tf->parts[$_Qf0Ct]->disposition) ) continue; // check only text here no attachments
-              if ( $_IJ8tf->parts[$_Qf0Ct]->ctype_primary != "text" && $_IJ8tf->parts[$_Qf0Ct]->ctype_primary != "multipart" ) continue; // check only text here no attachments
+              if ( isset($_IL6J6->parts[$_QliOt]->disposition) ) continue; // check only text here no attachments
+              if ( $_IL6J6->parts[$_QliOt]->ctype_primary != "text" && $_IL6J6->parts[$_QliOt]->ctype_primary != "multipart" ) continue; // check only text here no attachments
 
               $charset = "";
-              if ($_IJ8tf->parts[$_Qf0Ct]->ctype_primary == "multipart" && is_array($_IJ8tf->parts[$_Qf0Ct]->parts)) {
-                for($_I1i8O=0; $_I1i8O<min($_IJ8tf->parts[$_Qf0Ct]->parts, 10); $_I1i8O++) {
-                 if(!isset($_IJ8tf->parts[$_Qf0Ct]->parts[$_I1i8O])) break;
-                 if($_IJ8tf->parts[$_Qf0Ct]->parts[$_I1i8O]->ctype_primary == "text") {
-                   $_QJCJi = trim($_IJ8tf->parts[$_Qf0Ct]->parts[$_I1i8O]->body);
-                   if(isset($_IJ8tf->parts[$_Qf0Ct]->parts[$_I1i8O]->ctype_parameters))
-                     $charset = $_IJ8tf->parts[$_Qf0Ct]->parts[$_I1i8O]->ctype_parameters["charset"];
+              if ($_IL6J6->parts[$_QliOt]->ctype_primary == "multipart" && is_array($_IL6J6->parts[$_QliOt]->parts)) {
+                for($_IOLil=0; $_IOLil<min($_IL6J6->parts[$_QliOt]->parts, 10); $_IOLil++) {
+                 if(!isset($_IL6J6->parts[$_QliOt]->parts[$_IOLil])) break;
+                 if($_IL6J6->parts[$_QliOt]->parts[$_IOLil]->ctype_primary == "text") {
+                   $_QLJfI = trim($_IL6J6->parts[$_QliOt]->parts[$_IOLil]->body);
+                   if(isset($_IL6J6->parts[$_QliOt]->parts[$_IOLil]->ctype_parameters))
+                     $charset = $_IL6J6->parts[$_QliOt]->parts[$_IOLil]->ctype_parameters["charset"];
                    break;
                  }
                 }
               } else {
-                $_QJCJi = trim($_IJ8tf->parts[$_Qf0Ct]->body);
-                if( isset($_IJ8tf->parts[$_Qf0Ct]->ctype_parameters) && isset($_IJ8tf->parts[$_Qf0Ct]->ctype_parameters["charset"]) )
-                  $charset = $_IJ8tf->parts[$_Qf0Ct]->ctype_parameters["charset"];
+                $_QLJfI = trim($_IL6J6->parts[$_QliOt]->body);
+                if( isset($_IL6J6->parts[$_QliOt]->ctype_parameters) && isset($_IL6J6->parts[$_QliOt]->ctype_parameters["charset"]) )
+                  $charset = $_IL6J6->parts[$_QliOt]->ctype_parameters["charset"];
               }
 
 
               if( strtolower($charset) == "utf-8" ) {
-                $_QllO8 = utf8_decode($_QJCJi);
-                if($_QllO8 != "")
-                  $_QJCJi = $_QllO8;
+                $_I016j = utf8_decode($_QLJfI);
+                if($_I016j != "")
+                  $_QLJfI = $_I016j;
               }
 
-              if($_QJCJi != "")
+              if($_QLJfI != "")
                 break;
            }
 
-         if($_QJCJi == "")
-          for($_Qf0Ct=0; $_Qf0Ct<min(count($_IJ8tf->parts), 10); $_Qf0Ct++) {
+         if($_QLJfI == "")
+          for($_QliOt=0; $_QliOt<min(count($_IL6J6->parts), 10); $_QliOt++) {
 
-            if ( !isset($_IJ8tf->parts[$_Qf0Ct]->disposition) || $_IJ8tf->parts[$_Qf0Ct]->disposition != "attachment" ) continue; // check only attachments here
+            if ( !isset($_IL6J6->parts[$_QliOt]->disposition) || $_IL6J6->parts[$_QliOt]->disposition != "attachment" ) continue; // check only attachments here
 
-            if ( isset($_IJ8tf->parts[$_Qf0Ct]->headers["content-type"]) && stripos($_IJ8tf->parts[$_Qf0Ct]->headers["content-type"], 'text/plain') !== false )
-              $_QJCJi = $_IJ8tf->parts[$_Qf0Ct]->body;
+            if ( isset($_IL6J6->parts[$_QliOt]->headers["content-type"]) && stripos($_IL6J6->parts[$_QliOt]->headers["content-type"], 'text/plain') !== false )
+              $_QLJfI = $_IL6J6->parts[$_QliOt]->body;
               else
                 continue;
 
-              if( $_QJCJi != "" && isset($_IJ8tf->parts[$_Qf0Ct]->ctype_parameters) && isset($_IJ8tf->parts[$_Qf0Ct]->ctype_parameters["charset"]) && strtolower($_IJ8tf->parts[$_Qf0Ct]->ctype_parameters["charset"]) == "utf-8" ) {
-                $_QllO8 = utf8_decode($_QJCJi);
-                if($_QllO8 != "")
-                  $_QJCJi = $_QllO8;
+              if( $_QLJfI != "" && isset($_IL6J6->parts[$_QliOt]->ctype_parameters) && isset($_IL6J6->parts[$_QliOt]->ctype_parameters["charset"]) && strtolower($_IL6J6->parts[$_QliOt]->ctype_parameters["charset"]) == "utf-8" ) {
+                $_I016j = utf8_decode($_QLJfI);
+                if($_I016j != "")
+                  $_QLJfI = $_I016j;
               }
           } # for j
 
-       } # if( isset($_IJ8tf->part) )
+       } # if( isset($_IL6J6->part) )
 
-       if( (!isset($_IJ8tf->parts) || $_QJCJi == "") && isset($_IJ8tf->body) ) {
-          $_QJCJi = $_IJ8tf->body;
+       if( (!isset($_IL6J6->parts) || $_QLJfI == "") && isset($_IL6J6->body) ) {
+          $_QLJfI = $_IL6J6->body;
 
-          if( isset($_IJ8tf->headers) && isset($_IJ8tf->headers["content-type"]) && stripos($_IJ8tf->headers["content-type"], "utf-8") !== false ) {
-            $_QllO8 = utf8_decode($_QJCJi);
-            if($_QllO8 != "")
-              $_QJCJi = $_QllO8;
+          if( isset($_IL6J6->headers) && isset($_IL6J6->headers["content-type"]) && stripos($_IL6J6->headers["content-type"], "utf-8") !== false ) {
+            $_I016j = utf8_decode($_QLJfI);
+            if($_I016j != "")
+              $_QLJfI = $_I016j;
           }
 
        } else {
-          if ( $_QJCJi != "" && (isset($_IJ8tf->body)) && ($_IJ8tf->body != 'This is a multi-part message in MIME format.'."\r\n") )
-             $_QJCJi = $_IJ8tf->body.$_QJCJi;
+          if ( $_QLJfI != "" && (isset($_IL6J6->body)) && ($_IL6J6->body != 'This is a multi-part message in MIME format.'."\r\n") )
+             $_QLJfI = $_IL6J6->body.$_QLJfI;
        }
 
 
-       if ($_QJCJi != "" && $this->_OLOJB($_QJCJi) )
+       if ($_QLJfI != "" && $this->_L1OJA($_QLJfI) )
          {
-          if (!$this->_OLL1E($_QJCJi))
+          if (!$this->_L1OD8($_QLJfI))
           {
-            $_IJfC0 = true;
-            if(strpos($_QJCJi, "\r\n") !== false)
-              $_IJi8C = explode("\r\n", $_QJCJi);
+            $_ILJjL = true;
+            
+            // find by ListId
+            $this->_L1LE6($_ILItl, $rid, $ListId);
+            if(!empty($rid) && !empty($ListId)){
+              $_ILotJ = $this->_L1JJC($ListId);
+              if(!empty($_ILotJ)){
+                $_ILJIO[] = $_ILotJ;
+                return $_ILJjL;
+              }  
+            }
+            
+            // parse email
+            
+            if(strpos($_QLJfI, "\r\n") !== false)
+              $_ILC8O = explode("\r\n", $_QLJfI);
               else
-              if(strpos($_QJCJi, "\n") !== false)
-                 $_IJi8C = explode("\n", $_QJCJi);
+              if(strpos($_QLJfI, "\n") !== false)
+                 $_ILC8O = explode("\n", $_QLJfI);
               else
-              if(strpos($_QJCJi, "\r") !== false)
-                 $_IJi8C = explode("\r", $_QJCJi);
+              if(strpos($_QLJfI, "\r") !== false)
+                 $_ILC8O = explode("\r", $_QLJfI);
                  else
-                 $_IJi8C[] = $_QJCJi;
-            $this->_OLLPB($_IJJLI, $_IJi8C, $_IJfC0, $_IJ6Cf);
+                 $_ILC8O[] = $_QLJfI;
+            $this->_L1L8E($_ILjJ0, $_ILC8O, $_ILJjL, $_ILJIO);
           }
          }
 
 
-     } # if ($this->_OLQO0($_IJo16, $_IJoII) && $this->_OLO1A($_IJJLJ) )
-     unset($_IJ80Q);
-     return $_IJfC0;
+     } # if ($this->_L1QQ0($_ILfoj, $_IL8oI) && $this->_L1QP0($_ILjOj) )
+     unset($_ILJt8);
+     return $_ILJjL;
    }
 
 
    // @access private
-   function _OL1AL($_QCttf){
-     $_QfC8t = file($_QCttf);
-     for($_Q6llo=0; $_Q6llo<count($_QfC8t); $_Q6llo++) {
-       $_QJCJi = $_QfC8t[$_Q6llo];
-       if(substr($_QJCJi, 0, 1) == ";") continue;
+   function _L11PD($_IJOfj){
+     $_I0lji = file($_IJOfj);
+     for($_Qli6J=0; $_Qli6J<count($_I0lji); $_Qli6J++) {
+       $_QLJfI = $_I0lji[$_Qli6J];
+       if(substr($_QLJfI, 0, 1) == ";") continue;
 
-       if(strpos($_QJCJi, "[") !== false && strpos($_QJCJi, "]") !== false ) {
-         $_IJLIl = substr($_QJCJi, 1, strpos($_QJCJi, "]") - 1);
-         for($_Qf0Ct=$_Q6llo + 1; $_Qf0Ct < count($_QfC8t); $_Qf0Ct++) {
-           $_QJCJi = $_QfC8t[$_Qf0Ct];
-           if(strpos($_QJCJi, "[") !== false && strpos($_QJCJi, "]") !== false) {
+       if(strpos($_QLJfI, "[") !== false && strpos($_QLJfI, "]") !== false ) {
+         $_ILi1t = substr($_QLJfI, 1, strpos($_QLJfI, "]") - 1);
+         for($_QliOt=$_Qli6J + 1; $_QliOt < count($_I0lji); $_QliOt++) {
+           $_QLJfI = $_I0lji[$_QliOt];
+           if(strpos($_QLJfI, "[") !== false && strpos($_QLJfI, "]") !== false) {
              break;
            }
-           if(substr($_QJCJi, 0, 1) == ";") continue;
-           if($_IJLIl == "FromAddress")
-             $this->_IJj0C[] = trim(substr($_QJCJi, strpos($_QJCJi, "=") + 1));
-           if($_IJLIl == "Subject")
-             $this->_IJj6i[] = trim(substr($_QJCJi, strpos($_QJCJi, "=") + 1));
-           if($_IJLIl == "MailBody")
-             $this->_IJjoL[] = trim(substr($_QJCJi, strpos($_QJCJi, "=") + 1));
-           if($_IJLIl == "TextNotInMailBody")
-             $this->_IJjCL[] = trim(substr($_QJCJi, strpos($_QJCJi, "=") + 1));
+           if(substr($_QLJfI, 0, 1) == ";") continue;
+           if($_ILi1t == "FromAddress")
+             $this->_IL1ff[] = trim(substr($_QLJfI, strpos($_QLJfI, "=") + 1));
+           if($_ILi1t == "Subject")
+             $this->_ILQ01[] = trim(substr($_QLJfI, strpos($_QLJfI, "=") + 1));
+           if($_ILi1t == "MailBody")
+             $this->_ILQjj[] = trim(substr($_QLJfI, strpos($_QLJfI, "=") + 1));
+           if($_ILi1t == "TextNotInMailBody")
+             $this->_ILQtO[] = trim(substr($_QLJfI, strpos($_QLJfI, "=") + 1));
          }
-         $_Q6llo = $_Qf0Ct - 1;
+         $_Qli6J = $_QliOt - 1;
        }
      }
    }
 
    // @access private
-   function _OLQO0($_IJLt1, $_IJlJ6){
-     for ($_Q6llo=0; $_Q6llo<count($this->_IJj0C); $_Q6llo++) {
-        if( stripos($_IJLt1, $this->_IJj0C[$_Q6llo] ) !== false ) {
+   function _L1QQ0($_I6C8f, $_ILotJ){
+     for ($_Qli6J=0; $_Qli6J<count($this->_IL1ff); $_Qli6J++) {
+        if( stripos($_I6C8f, $this->_IL1ff[$_Qli6J] ) !== false ) {
            return true;
         }
 
-        if( stripos($_IJlJ6, $this->_IJj0C[$_Q6llo] ) !== false ) {
-           return true;
-        }
-     }
-     return false;
-   }
-
-   // @access private
-   function _OLO1A($_I6016){
-     for ($_Q6llo=0; $_Q6llo<count($this->_IJj6i); $_Q6llo++) {
-        if( stripos($_I6016, $this->_IJj6i[$_Q6llo] ) !== false  ) {
+        if( stripos($_ILotJ, $this->_IL1ff[$_Qli6J] ) !== false ) {
            return true;
         }
      }
@@ -294,24 +297,34 @@
    }
 
    // @access private
-   function _OLOJB($_I606j) {
-     for ($_Q6llo=0; $_Q6llo<count($this->_IJjoL); $_Q6llo++) {
-        $_QJCJi = $this->_IJjoL[$_Q6llo];
+   function _L1QP0($_ILi8o){
+     for ($_Qli6J=0; $_Qli6J<count($this->_ILQ01); $_Qli6J++) {
+        if( stripos($_ILi8o, $this->_ILQ01[$_Qli6J] ) !== false  ) {
+           return true;
+        }
+     }
+     return false;
+   }
 
-        if (stripos($_QJCJi, "*") === false)
-          if (stripos($_I606j, $_QJCJi) !== false)
+   // @access private
+   function _L1OJA($_ILL61) {
+     for ($_Qli6J=0; $_Qli6J<count($this->_ILQjj); $_Qli6J++) {
+        $_QLJfI = $this->_ILQjj[$_Qli6J];
+
+        if (stripos($_QLJfI, "*") === false)
+          if (stripos($_ILL61, $_QLJfI) !== false)
             return true;
 
-        if (stripos($_QJCJi, "*") === false) continue;
+        if (stripos($_QLJfI, "*") === false) continue;
 
-        $_IJQJ8 = substr($_QJCJi, stripos($_QJCJi, "*") + 1); // dahinter
-        $_QJCJi = substr($_QJCJi, 0, stripos($_QJCJi, "*") - 1); // davor
-        $_Q66jQ = $_I606j;
+        $_IilfC = substr($_QLJfI, stripos($_QLJfI, "*") + 1); // dahinter
+        $_QLJfI = substr($_QLJfI, 0, stripos($_QLJfI, "*") - 1); // davor
+        $_Ql0fO = $_ILL61;
 
-        if (stripos($_Q66jQ, $_QJCJi) !== false) {
-           $_QJCJi = substr($_Q66jQ, stripos($_Q66jQ, $_QJCJi));
-           $_Q6i6i = stripos($_QJCJi, $_IJQJ8);
-           if ( ($_IJQJ8 == '') || ($_Q6i6i !== false && $_Q6i6i > 0) )  // nicht 0!!
+        if (stripos($_Ql0fO, $_QLJfI) !== false) {
+           $_QLJfI = substr($_Ql0fO, stripos($_Ql0fO, $_QLJfI));
+           $_QlOjt = stripos($_QLJfI, $_IilfC);
+           if ( ($_IilfC == '') || ($_QlOjt !== false && $_QlOjt > 0) )  // nicht 0!!
               return true;
          }
      }
@@ -319,166 +332,240 @@
    }
 
    // @access private
-   function _OLL1E($_I606j) {
-     for ($_Q6llo=0; $_Q6llo<count($this->_IJjCL); $_Q6llo++) {
-        $_QJCJi = $this->_IJjCL[$_Q6llo];
+   function _L1OD8($_ILL61) {
+     for ($_Qli6J=0; $_Qli6J<count($this->_ILQtO); $_Qli6J++) {
+        $_QLJfI = $this->_ILQtO[$_Qli6J];
 
-        if (stripos($_QJCJi, "*") === false)
-          if (stripos($_I606j, $_QJCJi) !== false)
+        if (stripos($_QLJfI, "*") === false)
+          if (stripos($_ILL61, $_QLJfI) !== false)
             return true;
 
-        if (stripos($_QJCJi, "*") === false) continue;
+        if (stripos($_QLJfI, "*") === false) continue;
 
-        $_IJQJ8 = substr($_QJCJi, stripos($_QJCJi, "*") + 1); // dahinter
-        $_QJCJi = substr($_QJCJi, 0, stripos($_QJCJi, "*") - 1); // davor
-        $_Q66jQ = $_I606j;
+        $_IilfC = substr($_QLJfI, stripos($_QLJfI, "*") + 1); // dahinter
+        $_QLJfI = substr($_QLJfI, 0, stripos($_QLJfI, "*") - 1); // davor
+        $_Ql0fO = $_ILL61;
 
-        if (stripos($_Q66jQ, $_QJCJi) !== false) {
-           $_QJCJi = substr($_Q66jQ, stripos($_Q66jQ, $_QJCJi));
-           $_Q6i6i = stripos($_QJCJi, $_IJQJ8);
-           if ( ($_IJQJ8 == '') || ($_Q6i6i !== false && $_Q6i6i > 0) )  // nicht 0!!
+        if (stripos($_Ql0fO, $_QLJfI) !== false) {
+           $_QLJfI = substr($_Ql0fO, stripos($_Ql0fO, $_QLJfI));
+           $_QlOjt = stripos($_QLJfI, $_IilfC);
+           if ( ($_IilfC == '') || ($_QlOjt !== false && $_QlOjt > 0) )  // nicht 0!!
               return true;
          }
      }
      return false;
    }
 
-   function _OLLPB($_I611i, $_IJi8C, $_IJfC0, &$_IJ6Cf) {
+   // @access private
+   function _L1L8E($_ILLiQ, $_ILC8O, $_ILJjL, &$_ILJIO) {
 
-     $_I61QL = false;
+     $_ILLl6 = false;
 
      // Suche nach To:
-     for ($_Q6llo = 0; $_Q6llo< count($_IJi8C); $_Q6llo++)
+     for ($_Qli6J = 0; $_Qli6J< count($_ILC8O); $_Qli6J++)
      {
 
-       if ( (stripos($_IJi8C[$_Q6llo], 'To:') !== false) && (stripos($_IJi8C[$_Q6llo], 'Reply-To:') === false) )
+       if ( (stripos($_ILC8O[$_Qli6J], 'To:') !== false) && (stripos($_ILC8O[$_Qli6J], 'Reply-To:') === false) )
        {
-         $_QJCJi = trim($_IJi8C[$_Q6llo]);
-         $_QJCJi = trim(substr($_QJCJi, stripos($_QJCJi, 'To:') + 3));
-         if (strpos($_QJCJi, ' ') !== false)
+         $_QLJfI = trim($_ILC8O[$_Qli6J]);
+         $_QLJfI = trim(substr($_QLJfI, stripos($_QLJfI, 'To:') + 3));
+         if (strpos($_QLJfI, ' ') !== false)
            {
-            $_Q66jQ = substr($_QJCJi, 0, strpos($_QJCJi, ' '));
-            if (strpos($_Q66jQ, '@') !== false)
-               $_QJCJi = $_Q66jQ;
+            $_Ql0fO = substr($_QLJfI, 0, strpos($_QLJfI, ' '));
+            if (strpos($_Ql0fO, '@') !== false)
+               $_QLJfI = $_Ql0fO;
                else
                {
-                 $_QJCJi = substr($_QJCJi, strpos($_QJCJi, ' ') + 1);
-                 while ( (strpos($_QJCJi, ' ') > 0) && (strlen($_QJCJi) > 1) )
-                    $_QJCJi = substr($_QJCJi, strpos($_QJCJi, ' ') + 1);
+                 $_QLJfI = substr($_QLJfI, strpos($_QLJfI, ' ') + 1);
+                 while ( (strpos($_QLJfI, ' ') > 0) && (strlen($_QLJfI) > 1) )
+                    $_QLJfI = substr($_QLJfI, strpos($_QLJfI, ' ') + 1);
                }
            }
-         if (strpos($_QJCJi, '@') !== false)
+         if (strpos($_QLJfI, '@') !== false)
            {
 
-            if (strpos($_QJCJi, '<') !== false)
+            if (strpos($_QLJfI, '<') !== false)
             {
-              $_QJCJi = substr($_QJCJi, strpos($_QJCJi, '<') + 1);
-              $_QJCJi = substr($_QJCJi, 0, strpos($_QJCJi, '>'));
-              if (strpos($_QJCJi, ' ') !== false)
-                 $_QJCJi = substr($_QJCJi, 0, strpos($_QJCJi, ' '));
-              $_QJCJi = trim($_QJCJi);
+              $_QLJfI = substr($_QLJfI, strpos($_QLJfI, '<') + 1);
+              $_QLJfI = substr($_QLJfI, 0, strpos($_QLJfI, '>'));
+              if (strpos($_QLJfI, ' ') !== false)
+                 $_QLJfI = substr($_QLJfI, 0, strpos($_QLJfI, ' '));
+              $_QLJfI = trim($_QLJfI);
             }
 
-            $_QJCJi = str_replace('<', '', $_QJCJi);
-            $_QJCJi = str_replace('>', '', $_QJCJi);
+            $_QLJfI = str_replace('<', '', $_QLJfI);
+            $_QLJfI = str_replace('>', '', $_QLJfI);
 
-            if ($_QJCJi != '')
+            if ($_QLJfI != '')
             {
-              if ( $_QJCJi{strlen($_QJCJi) - 1} == ':' || $_QJCJi{strlen($_QJCJi) - 1} == ';' )
-                 $_QJCJi = trim(substr($_QJCJi, 0, strlen($_QJCJi) - 1));
+              if ( $_QLJfI[strlen($_QLJfI) - 1] == ':' || $_QLJfI[strlen($_QLJfI) - 1] == ';' )
+                 $_QLJfI = trim(substr($_QLJfI, 0, strlen($_QLJfI) - 1));
 
-              if ( ($_I611i != '') && (stripos($_QJCJi, $_I611i) !== false) ) continue; // nichts gefunden
-              if (! _OPAOJ($_QJCJi) ) continue;
-              $_QJCJi = strtolower($_QJCJi);
+              if ( ($_ILLiQ != '') && (stripos($_QLJfI, $_ILLiQ) !== false) ) continue; // nichts gefunden
+              if (! _L8JLR($_QLJfI) ) continue;
+              $_QLJfI = strtolower($_QLJfI);
 
-              if (! in_array($_QJCJi, $_IJ6Cf) )
-                 $_IJ6Cf[] = $_QJCJi;
+              if (! in_array($_QLJfI, $_ILJIO) )
+                 $_ILJIO[] = $_QLJfI;
 
-              $_I61QL = true;
+              $_ILLl6 = true;
     //      mehr davon suchen    break; // koennen wir aufhoeren ist gefunden
             }
            }
        }
-     } # for ($_Q6llo = 0; $_Q6llo< count($_IJi8C); $_Q6llo++)
+     } # for ($_Qli6J = 0; $_Qli6J< count($_ILC8O); $_Qli6J++)
 
-     if (!$_I61QL)
-       for ($_Q6llo = 0; $_Q6llo < count($_IJi8C); $_Q6llo++)
+     if (!$_ILLl6)
+       for ($_Qli6J = 0; $_Qli6J < count($_ILC8O); $_Qli6J++)
        {
-         if (stripos($_IJi8C[$_Q6llo], 'From:') !== false) continue;
-         if (stripos($_IJi8C[$_Q6llo], 'Reply-To:') !== false) continue;
-         if (stripos($_IJi8C[$_Q6llo], 'Return-path:') !== false) continue;
+         if (stripos($_ILC8O[$_Qli6J], 'From:') !== false) continue;
+         if (stripos($_ILC8O[$_Qli6J], 'Reply-To:') !== false) continue;
+         if (stripos($_ILC8O[$_Qli6J], 'Return-path:') !== false) continue;
 
-         if ( stripos($_IJi8C[$_Q6llo], '@') !== false )
+         if ( stripos($_ILC8O[$_Qli6J], '@') !== false )
           {
-            $_QJCJi = $_IJi8C[$_Q6llo];
-            if ( (strpos($_QJCJi, '<') !== false) && (strpos($_QJCJi, '>') > strpos($_QJCJi, '<')) )
+            $_QLJfI = $_ILC8O[$_Qli6J];
+            if ( (strpos($_QLJfI, '<') !== false) && (strpos($_QLJfI, '>') > strpos($_QLJfI, '<')) )
             {
-              $_QJCJi = substr($_QJCJi, strpos($_QJCJi, '<') + 1);
-              $_QJCJi = substr($_QJCJi, 0, strpos($_QJCJi, '>'));
-              if (strpos($_QJCJi, ' ') !== false)
-                 $_QJCJi = substr($_QJCJi, 0, strpos($_QJCJi, ' '));
-              $_QJCJi = trim($_QJCJi);
-              if ($_QJCJi != '')
+              $_QLJfI = substr($_QLJfI, strpos($_QLJfI, '<') + 1);
+              $_QLJfI = substr($_QLJfI, 0, strpos($_QLJfI, '>'));
+              if (strpos($_QLJfI, ' ') !== false)
+                 $_QLJfI = substr($_QLJfI, 0, strpos($_QLJfI, ' '));
+              $_QLJfI = trim($_QLJfI);
+              if ($_QLJfI != '')
               {
-                if ( ($_I611i != '') && (stripos($_QJCJi, $_I611i) !== false) ) continue; // nichts gefunden
-                if (! _OPAOJ($_QJCJi) ) continue;
-                $_QJCJi = strtolower($_QJCJi);
+                if ( ($_ILLiQ != '') && (stripos($_QLJfI, $_ILLiQ) !== false) ) continue; // nichts gefunden
+                if (! _L8JLR($_QLJfI) ) continue;
+                $_QLJfI = strtolower($_QLJfI);
 
-                if (! in_array($_QJCJi, $_IJ6Cf) )
-                   $_IJ6Cf[] = $_QJCJi;
-                $_I61QL = true;
+                if (! in_array($_QLJfI, $_ILJIO) )
+                   $_ILJIO[] = $_QLJfI;
+                $_ILLl6 = true;
     //            break; // koennen wir aufhoeren ist gefunden
               }
               else
-               $_QJCJi = $_IJi8C[$_Q6llo];
+               $_QLJfI = $_ILC8O[$_Qli6J];
             }
 
-            $_QJCJi = trim($_QJCJi);
-            if ($_QJCJi{strlen($_QJCJi) - 1} == ':' || $_QJCJi{strlen($_QJCJi) - 1} == ';' )
-               $_QJCJi = substr($_QJCJi, 0, strlen($_QJCJi) - 1);
-            $_QJCJi = trim($_QJCJi);
-            if (strpos($_QJCJi, ';') !== false)
+            $_QLJfI = trim($_QLJfI);
+            if ($_QLJfI[strlen($_QLJfI) - 1] == ':' || $_QLJfI[strlen($_QLJfI) - 1] == ';' )
+               $_QLJfI = substr($_QLJfI, 0, strlen($_QLJfI) - 1);
+            $_QLJfI = trim($_QLJfI);
+            if (strpos($_QLJfI, ';') !== false)
               {
-                $_IJQJ8 = substr($_QJCJi, 0, strpos($_QJCJi, ';'));
-                if (strpos($_IJQJ8, '@') !== false)
-                   $_QJCJi = trim(substr($_QJCJi, 0, strpos($_QJCJi, ';')));
+                $_IilfC = substr($_QLJfI, 0, strpos($_QLJfI, ';'));
+                if (strpos($_IilfC, '@') !== false)
+                   $_QLJfI = trim(substr($_QLJfI, 0, strpos($_QLJfI, ';')));
                    else
-                   $_QJCJi = trim(substr($_QJCJi, strpos($_QJCJi, ';') + 1));
+                   $_QLJfI = trim(substr($_QLJfI, strpos($_QLJfI, ';') + 1));
               }
-            $_Q66jQ = substr($_QJCJi, strpos($_QJCJi, '@') + 1);
-            $_Q66jQ = substr($_Q66jQ, strpos($_Q66jQ, '.') + 1);
-            if (strlen($_Q66jQ) >= 2)
+            $_Ql0fO = substr($_QLJfI, strpos($_QLJfI, '@') + 1);
+            $_Ql0fO = substr($_Ql0fO, strpos($_Ql0fO, '.') + 1);
+            if (strlen($_Ql0fO) >= 2)
               {
 
-                if (strpos($_QJCJi, '<') !== false)
+                if (strpos($_QLJfI, '<') !== false)
                 {
-                  $_QJCJi = substr($_QJCJi, strpos($_QJCJi, '<') + 1);
-                  $_QJCJi = substr($_QJCJi, 0, strpos($_QJCJi, '>'));
-                  if (strpos($_QJCJi, ' ') !== false)
-                     $_QJCJi = substr($_QJCJi, 0, strpos($_QJCJi, ' ') );
-                  $_QJCJi = trim($_QJCJi);
+                  $_QLJfI = substr($_QLJfI, strpos($_QLJfI, '<') + 1);
+                  $_QLJfI = substr($_QLJfI, 0, strpos($_QLJfI, '>'));
+                  if (strpos($_QLJfI, ' ') !== false)
+                     $_QLJfI = substr($_QLJfI, 0, strpos($_QLJfI, ' ') );
+                  $_QLJfI = trim($_QLJfI);
                 }
 
-                if (strpos($_QJCJi, ' ') !== false)
-                   $_QJCJi = substr($_QJCJi, 0, strpos($_QJCJi, ' ') );
+                if (strpos($_QLJfI, ' ') !== false)
+                   $_QLJfI = substr($_QLJfI, 0, strpos($_QLJfI, ' ') );
 
-                if ( ($_QJCJi != '') && (strpos($_QJCJi, '@') !== false) )
+                if ( ($_QLJfI != '') && (strpos($_QLJfI, '@') !== false) )
                 {
-                  if ( ($_I611i != '') && (stripos($_QJCJi, $_I611i) !== false) ) continue; // nichts gefunden
-                  if (! _OPAOJ($_QJCJi) ) continue;
-                  $_QJCJi = strtolower($_QJCJi);
+                  if ( ($_ILLiQ != '') && (stripos($_QLJfI, $_ILLiQ) !== false) ) continue; // nichts gefunden
+                  if (! _L8JLR($_QLJfI) ) continue;
+                  $_QLJfI = strtolower($_QLJfI);
 
-                  if (! in_array($_QJCJi, $_IJ6Cf) )
-                     $_IJ6Cf[] = $_QJCJi;
-                  $_I61QL = true;
+                  if (! in_array($_QLJfI, $_ILJIO) )
+                     $_ILJIO[] = $_QLJfI;
+                  $_ILLl6 = true;
     //              break; // koennen wir aufhoeren ist gefunden
                 }
               }
           }
        }
 
-   } # for ($_Q6llo = 0; $_Q6llo < count($_IJi8C); $_Q6llo++)
+   } # for ($_Qli6J = 0; $_Qli6J < count($_ILC8O); $_Qli6J++)
 
+
+   // @access private
+   function _L1LE6($_ILlOQ, &$rid, &$ListId){
+      global $_Il06C, $_QLl1Q;
+
+      $_ILlOQ = substr($_ILlOQ, strpos($_ILlOQ, $_QLl1Q . $_QLl1Q));
+      
+      $rid = "";
+      $ListId = "";
+      
+      $_QlOjt = strpos($_ILlOQ, $_Il06C . ": ");
+      if($_QlOjt !== false) {
+         $rid = substr($_ILlOQ, $_QlOjt + strlen($_Il06C . ": "));
+         $rid = trim(substr($rid, 0, strpos($rid, "\n") - 1));
+         
+         $_QlOjt = strpos($_ILlOQ, "List-Id" . ": ");
+         if($_QlOjt !== false) {
+           $ListId = substr($_ILlOQ, $_QlOjt - 1);
+           if($ListId != "" && $ListId[0] == "\n" || $ListId[0] == "\r"){
+             $ListId = substr($ListId, 9);
+             $ListId = trim(substr($ListId, 0, strpos($ListId, "\n") - 1));
+             $ListId = str_replace('<', '', $ListId);
+             $ListId = str_replace('>', '', $ListId);
+             $_QlOjt = strpos($ListId, ".");
+             if($_QlOjt !== false)
+               $ListId = substr($ListId, 0, $_QlOjt);
+               else
+               $ListId = "";
+           }else
+             $ListId = "";
+         }
+      }
+   }
+  
+   // @access private
+   function _L1JJC($ListId){
+     global $_QL88I, $_QLttI;
+     
+     $ListId = explode("-", $ListId);
+     if(count($ListId) == 2){ //MailingListId-RecipientsId
+       $ListId[0] = intval($ListId[0]);
+       $ListId[1] = intval($ListId[1]);
+       
+       if($ListId[0] && $ListId[1]){
+         
+         $_QLfol = "SELECT `MaillistTableName` FROM `$_QL88I` WHERE `id`=" . $ListId[0];
+         $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+         if(!$_QL8i1)
+           return "";
+         if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+           mysql_free_result($_QL8i1);
+           
+           $_QLfol = "SELECT `u_EMail` FROM `$_QLO0f[MaillistTableName]` WHERE `id`=" . $ListId[1];
+           $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+           if(!$_QL8i1)
+             return "";
+           if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+             mysql_free_result($_QL8i1);
+             return $_QLO0f["u_EMail"];
+           }  
+         }
+         mysql_free_result($_QL8i1);
+         
+         return "";
+         
+       }else
+         return "";
+       
+     }else
+       return "";
+     
+   }
+  
   } # class
 
 ?>

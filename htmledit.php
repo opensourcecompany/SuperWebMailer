@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -24,19 +24,20 @@
 
   include_once("config.inc.php");
   include_once("templates.inc.php");
+  include_once("sessioncheck.inc.php");
 
-  $_QJCJi = join("", file(_O68QF()."htmledit.htm"));
+  $_QLJfI = _JJAQE("htmledit.htm");
 
-  $_QJCJi = str_replace ("myBasePath=''", "myBasePath='".BasePath."'", $_QJCJi);
+  $_QLJfI = str_replace ("myBasePath=''", "myBasePath='".BasePath."'", $_QLJfI);
 
-  $_QJCJi = _OP6PQ($_QJCJi, '<SHOWHIDE:ERRORTOPIC>', '</SHOWHIDE:ERRORTOPIC>');
+  $_QLJfI = _L80DF($_QLJfI, '<SHOWHIDE:ERRORTOPIC>', '</SHOWHIDE:ERRORTOPIC>');
 
   if(isset($_GET["form"]))
-    $_QJCJi = str_replace ("'FORMNAME'", "'$_GET[form]'", $_QJCJi);
+    $_QLJfI = str_replace ("'FORMNAME'", "'$_GET[form]'", $_QLJfI);
   if(isset($_GET["formElement"]))
-    $_QJCJi = str_replace ("FORMFIELD", "$_GET[formElement]", $_QJCJi);
+    $_QLJfI = str_replace ("FORMFIELD", "$_GET[formElement]", $_QLJfI);
 
-  SetHTMLHeaders($_Q6QQL);
+  SetHTMLHeaders($_QLo06);
 
-  print $_QJCJi;
+  print $_QLJfI;
 ?>

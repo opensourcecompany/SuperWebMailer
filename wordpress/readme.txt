@@ -2,4 +2,4 @@
                          SuperWebMailer WordPress Plugin
 -----------------------------------------------------------------------------
 
-Infos zur Installation http://www.superwebmailer.de/wordpress/
+Infos zur Installation https://www.superwebmailer.de/wordpress/

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -24,7 +24,7 @@
 
 
    $language_strings_de  =         array(
-                                        "000000" => "",
+                                        "000000" => "Zuviele ung&uuml;ltige Login-Versuche in den letzten 5 Minuten. F&uuml;r die n&auml;chsten 5 Minuten ist eine Anmeldung nicht mehr m&ouml;glich.",
                                         "000001" => "Fehler beim MySQL-Zugriff / Error while connecting to MySQL database",
                                         "000002" => "Fehler beim Verwenden der Datenbank / Error while selecting database",
                                         "000003" => "Sitzung abgelaufen / Session expired",
@@ -123,12 +123,12 @@
                                         "000099" => "Es traten Fehler beim Duplizieren auf:<br />",
 
                                         "000100" => "Benutzer bearbeiten",
-                                        "000101" => "Die/Der Nutzer wurde(n) gel&ouml;scht. Datendateien und Ordner des Nutzers m&uuml;ssen manuell gel&ouml;scht werden.",
+                                        "000101" => "Die/Der Nutzer wurde(n) gel&ouml;scht. Etwaige Datendateien und Ordner des Nutzers m&uuml;ssen manuell gel&ouml;scht werden.",
                                         "000102" => "Es traten Fehler beim L&ouml;schen auf:<br />",
                                         "000103" => "Es sind Fehler aufgetreten, korrigieren Sie die Angaben in den rot markierten Feldern.",
                                         "000104" => "Es existiert bereits ein Nutzer mit diesem Benutzernamen, bitte w&auml;hlen Sie einen anderen Namen.",
-                                        "000105" => "Nicht l&ouml;schbar, da der Nutzer Empf&auml;ngerlisten besitzt",
-                                        "000106" => "Nicht l&ouml;schbar, da der Nutzer Nutzer besitzt",
+                                        "000105" => "Nicht l&ouml;schbar, da der Nutzer %d Empf&auml;ngerlisten besitzt",
+                                        "000106" => "Nicht l&ouml;schbar, da der Nutzer %d Nutzer besitzt",
                                         "000107" => "Eigenes Konto bearbeiten",
 
                                         "000110" => "Funktionen bearbeiten",
@@ -513,6 +513,9 @@
                                         "002606" => "Diese Verteilerliste",
                                         "002607" => "Sie m&uuml;ssen einen Posteingangsserver/Postfach w&auml;hlen.",
 
+                                        "002608" => "Die zugewiesene Empf&auml;ngerliste %s muss eine Angabe f&uuml;r Return-Path-Adresse zur Behandlung unzustellbarer E-Mails besitzen.",
+                                        "002609" => "%s kann nicht f&uuml;r das Versenden wie ein Mailing List Server verwendet werden, es muss per SMTP oder sendmail versendet werden.",
+
                                         "002610" => "Nicht &auml;nderbar, Versand l&auml;uft gerade",
                                         "002611" => "Nicht l&ouml;schbar, Versand l&auml;uft gerade",
 
@@ -557,10 +560,12 @@
                                         "002715" => "Abmeldegrund %s bearbeiten",
                                         "002716" => "Der Abmeldegrund muss einen Text enthalten.",
 
+                                        "003000" => "Login-History der letzten %d Tage",
+
                                         "090000" => "SuperAdministrator anlegen",
                                         "090001" => "Kennwort und Kennwortwiederholung stimmen nicht &uuml;berein",
                                         "090002" => "Der Nutzer SuperAdmin wurde erstellt.",
-                                        "090003" => "Der Benutzername darf nur die Zeichen A-Z, Ziffern 0-9 und den Unterstrich(_) enthalten. Es muss mindestens 3 Zeichen lang sein.",
+                                        "090003" => "Der Benutzername darf nur die Zeichen A-Z, Ziffern 0-9 und den Unterstrich(_) enthalten. Er muss mindestens 3 Zeichen lang sein.",
 
                                         "090100" => "Installation PRODUCTAPPNAME - Willkommen",
                                         "090101" => "Installation PRODUCTAPPNAME - Lizenzdaten eingeben",
@@ -595,10 +600,17 @@
                                         "090213" => "Das Script install.php existiert weiterhin auf Ihrer Webpr&auml;senz. L&ouml;schen Sie bitte das Script.",
                                         "090214" => "Das Script upgrade.php und/oder install.php existiert weiterhin auf Ihrer Webpr&auml;senz. L&ouml;schen Sie bitte die Scripte.",
 
+                                        "090300" => "Online-Update PRODUCTAPPNAME - Willkommen",
+                                        "090301" => "Online-Update PRODUCTAPPNAME - Download des Updates",
+                                        "090302" => "Online-Update PRODUCTAPPNAME - Installation des Updates",
+
                                         "999997" => "<b>Eingeschr&auml;nktes &ouml;ffentliches Demo</b>, es k&ouml;nnen nur <b>Test-E-Mails</b> versendet werden, der Versand von Massen-E-Mails wird nur simuliert. &Uuml;bertragen Sie ebenfalls <b>keine</b> pers&ouml;nlichen Daten, denn diese k&ouml;nnen von anderen Testern eingesehen werden.",
                                         "999998" => "<b>Eingeschr&auml;nkte Test-Version</b>, es kann nur <b>eine Empf&auml;ngerliste</b> pro Admin-Nutzer erstellt und <b>Test-E-Mails</b> versendet werden.",
                                         "999999" => "Test-Version, es kann nur eine Empf&auml;ngerliste in der Installation pro Admin-Nutzer erstellt werden.",
 
+                                        "OK" => "OK",
+                                        "YES_U"  => "Ja",
+                                        "NO_U"  => "Nein",
                                         "YES"  => "ja",
                                         "NO"  => "nein",
                                         "CLOSE"  => "Schlie&szlig;en",
@@ -626,6 +638,7 @@
                                         "PortionOfVotes" => "Anteil der Abstimmungen",
                                         "ClickRate" => "Klickanteil",
                                         "Subject" => "Betreff",
+                                        "VariantsOfSubject" => "Varianten des E-Mail-Betreffs",
                                         "Clicks" => "Klicks",
                                         "LinkDescription" => "Link/Beschreibung",
                                         "Top10" => "Top 10",
@@ -662,6 +675,8 @@
                                         "DistribListConfirmationPending" => "Wartet auf Best&auml;tigung",
                                         "DistribListSendingInProgress" => "Versand l&auml;uft gerade",
                                         "DistribListSendingDone" => "Versendet",
+
+                                        "DistribListsEMailSizeLimit" => "Verteilerliste [DISTRIBLISTNAME], Überschreitung der E-Mail-Größe",
 
                                         "RcptsColumnsChanged" => "Die &Auml;nderungen wurden gespeichert. Lassen Sie die Empf&auml;ngerliste neu anzeigen, damit die &Auml;nderungen sichtbar werden.",
 
@@ -717,6 +732,7 @@
                                         "undefined" => "undefiniert",
                                         "man"  => "m&auml;nnlich",
                                         "woman"  => "weiblich",
+                                        "diverse"  => "divers",
 
                                         "MemberActivated" => "Empf&auml;nger aktiv",
                                         "MemberDeactivated" => "Empf&auml;nger deaktiviert",
@@ -728,6 +744,7 @@
                                         "MailSendSent" => "versendet",
                                         "MailSendFailed" => "fehlgeschlagen",
                                         "MailSendPossiblySent" => "m&ouml;glicherweise versendet",
+                                        "MailSendHardbounced" => "Unzustellbar",
 
                                         "IF" => "WENN",
                                         "ELSE" => "ANSONSTEN",
@@ -762,12 +779,14 @@
 
                                         "CantSaveFile" => "Kann Datei %s nicht speichern. SAFE_MODE probleme?",
                                         "CantOpenFile" => "Kann Datei %s nicht &ouml;ffnen. SAFE_MODE probleme?",
+                                        "CantWriteToDirectory" => "Kann in Verzeichnis %s nicht speichern.",
 
                                         "AdminNotifySubjectOnSubscribe" => "Anmeldung zur Empfängerliste '%s'",
                                         "AdminNotifySubjectOnUnubscribe" => "Abmeldung von der Empfängerliste '%s'",
                                         "AdminNotifySubjectOnEdit" => "Änderung des Empfängers in der Empfängerliste '%s'",
                                         "AdminNotifyBody" => "Empfängerdaten:",
                                         "AdminNotifyEMailOld" => "E-Mail-Adresse alt",
+                                        "AdminNotifyRecipientsGroups" => "Empfängergruppen:",
 
                                         "EntryCount" => "&nbsp;(%RECIPIENTCOUNT%&nbsp;Eintr&auml;ge)",
                                         "RecipientCount" => "&nbsp;(%RECIPIENTCOUNT%&nbsp;Empf&auml;nger)",
@@ -794,6 +813,8 @@
                                         'DateOfSubscription' => 'Datum der Anmeldung',
                                         'DateOfOptInConfirmation' => 'Datum Best&auml;tigung',
                                         'IPOnSubscription' => 'IP bei Anmeldung',
+                                        'EMail_LocalPart' => 'E-Mail lokaler Teil',
+                                        'EMail_DomainPart' => 'E-Mail Domain',
                                         'OrgMailSubject' => 'Org. Mail Betreff',
                                         'MembersAge' => 'Alter',
                                         'LastEMailSent' => 'Datum letzter E-Mail-Versand',
@@ -803,18 +824,19 @@
                                         'DistribListsDescription' => 'Beschreibung der Verteilerliste',
                                         'MailingListName' => 'Name der Empf&auml;ngerliste',
                                         'DistribSenderEMailAddress' => 'Versender der E-Mail',
+                                        'INBOXEMailAddress' => 'Postfach-E-Mail-Adresse',
                                         'DistribListsSubject' => 'Betreff der E-Mail',
                                         'DistribListsConfirmationLink' => 'Best&auml;tigungslink',
 
                                         'ReasonsForUnsubscriptionSurvey' => 'Umfrage Grund f&uuml;r Abmeldung',
-
+                                        
                                         "DefaultSubscribeSubject" => "Ihre Anmeldung zu unserem Newsletterverteiler",
                                         "DefaultSubscribePlainMail" => "Hallo, \r\n\r\nvielen Dank für die Anmeldung zu unserem Newsletterverteiler. \r\n\r\nDamit wir Ihre E-Mail-Adresse zu unserem Verteiler hinzufügen können, klicken Sie bitte auf folgenden Link um Ihre Anmeldung abzuschließen. \r\n\r\n[SubscribeConfirmationLink] \r\n\r\nMöchten Sie nicht zu unserem Newsletterverteiler hinzugefügt werden, dann klicken Sie auf folgenden Link \r\n\r\n[SubscribeRejectLink] \r\n\r\n\r\nMit freundlichen Grüßen",
-                                        "DefaultSubscribeHTMLMail" => '<html><head><title></title></head><body><div style="font-size: 10pt; font-family: Verdana">Hallo,<p>vielen Dank f&uuml;r die Anmeldung zu unserem Newsletterverteiler. Damit wir Ihre E-Mail-Adresse zu unserem Verteiler hinzuf&uuml;gen k&ouml;nnen, klicken Sie bitte auf folgenden Link um Ihre Anmeldung abzuschlie&szlig;en.</p><p><a href="[SubscribeConfirmationLink]">[SubscribeConfirmationLink]</a>.</p><p>M&ouml;chten Sie nicht zu unserem Newsletterverteiler hinzugef&uuml;gt werden, dann klicken Sie auf folgenden Link</p><p><a href="[SubscribeRejectLink]">[SubscribeRejectLink]</a>.</p><p>Mit freundlichen Gr&uuml;&szlig;en</p></div></body></html>',
+                                        "DefaultSubscribeHTMLMail" => '<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><title></title><meta http-equiv="X-UA-Compatible" content="IE=edge"></head><body><div style="font-size: 10pt; font-family: Verdana">Hallo,<p>vielen Dank f&uuml;r die Anmeldung zu unserem Newsletterverteiler. Damit wir Ihre E-Mail-Adresse zu unserem Verteiler hinzuf&uuml;gen k&ouml;nnen, klicken Sie bitte auf folgenden Link um Ihre Anmeldung abzuschlie&szlig;en.</p><p><a href="[SubscribeConfirmationLink]">[SubscribeConfirmationLink]</a>.</p><p>M&ouml;chten Sie nicht zu unserem Newsletterverteiler hinzugef&uuml;gt werden, dann klicken Sie auf folgenden Link</p><p><a href="[SubscribeRejectLink]">[SubscribeRejectLink]</a>.</p><p>Mit freundlichen Gr&uuml;&szlig;en</p></div></body></html>',
 
                                         "DefaultUnsubscribeSubject" => "Ihre Abmeldung von unserem Newsletterverteiler",
                                         "DefaultUnsubscribePlainMail" => "Hallo,  \r\n\r\nwir haben die Abmeldung aus unserem Newsletterverteiler erhalten. Um den Abmeldevorgang abzuschließen klicken Sie bitte auf diesen Link \r\n\r\n[UnsubscribeConfirmationLink].  \r\n\r\nMöchten Sie nicht aus unserem Verteiler entfernt werden? Dann klicken Sie einfach auf diesen Link \r\n\r\n[UnsubscribeRejectLink]. \r\n\r\nMit freundlichen Grüßen",
-                                        "DefaultUnsubscribeHTMLMail" => '<html><head><title></title></head><body><div style="font-size: 10pt; font-family: Verdana">Hallo,<p>wir haben die Abmeldung aus unserem Newsletterverteiler erhalten. Um den Abmeldevorgang abzuschlie&szlig;en klicken Sie bitte auf diesen Link <a href="[UnsubscribeConfirmationLink]">[UnsubscribeConfirmationLink]</a>.</p><p>M&ouml;chten Sie nicht aus unserem Verteiler entfernt werden? Dann klicken Sie einfach auf diesen Link <a href="[UnsubscribeRejectLink]">[UnsubscribeRejectLink]</a>.</p><p>Mit freundlichen Gr&uuml;&szlig;en</p></div></body></html>',
+                                        "DefaultUnsubscribeHTMLMail" => '<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><title></title><meta http-equiv="X-UA-Compatible" content="IE=edge"></head><body><div style="font-size: 10pt; font-family: Verdana">Hallo,<p>wir haben die Abmeldung aus unserem Newsletterverteiler erhalten. Um den Abmeldevorgang abzuschlie&szlig;en klicken Sie bitte auf diesen Link <a href="[UnsubscribeConfirmationLink]">[UnsubscribeConfirmationLink]</a>.</p><p>M&ouml;chten Sie nicht aus unserem Verteiler entfernt werden? Dann klicken Sie einfach auf diesen Link <a href="[UnsubscribeRejectLink]">[UnsubscribeRejectLink]</a>.</p><p>Mit freundlichen Gr&uuml;&szlig;en</p></div></body></html>',
 
                                         "DefaultUnsSubscribeLinkHTML" => '<p>Wenn Sie diesen Newsletter nicht mehr erhalten wollen, dann klicken Sie auf <a href="%s">diesen Link</a>.</p>',
                                         "DefaultUnsSubscribeLinkTEXT" => "Wenn Sie diesen Newsletter nicht mehr erhalten wollen, dann klicken Sie auf diesen Link %s.",
@@ -824,10 +846,12 @@
 
                                         "DefaultEditSubject" => "Ihre Änderung der Daten in unserem Newsletterverteiler",
                                         "DefaultEditPlainMail" => "Hallo, \r\n\r\nvielen Dank für die Änderung Ihrer Daten in unserem Newsletterverteiler. \r\n\r\nDamit wir Ihre Änderungen speichern können, klicken Sie bitte auf folgenden Link um Ihre Änderungen zu bestätigen. \r\n\r\n[EditConfirmationLink] \r\n\r\nMöchten Sie Ihre Änderungen nicht bestätigen, dann klicken Sie auf folgenden Link \r\n\r\n[EditRejectLink] \r\n\r\n\r\nMit freundlichen Grüßen",
-                                        "DefaultEditHTMLMail" => '<html><head><title></title></head><body><div style="font-size: 10pt; font-family: Verdana">Hallo,<p>vielen Dank f&uuml;r die &Auml;nderung Ihrer Daten in unserem Newsletterverteiler. Damit wir Ihre &Auml;nderungen speichern k&ouml;nnen, klicken Sie bitte auf folgenden Link um Ihre &Auml;nderungen zu best&auml;tigen.</p><p><a href="[EditConfirmationLink]">[EditConfirmationLink]</a>.</p><p>M&ouml;chten Sie Ihre &Auml;nderungen nicht best&auml;tigen, dann klicken Sie auf folgenden Link</p><p><a href="[EditRejectLink]">[EditRejectLink]</a>.</p><p>Mit freundlichen Gr&uuml;&szlig;en</p></div></body></html>',
+                                        "DefaultEditHTMLMail" => '<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><title></title><meta http-equiv="X-UA-Compatible" content="IE=edge"></head><body><div style="font-size: 10pt; font-family: Verdana">Hallo,<p>vielen Dank f&uuml;r die &Auml;nderung Ihrer Daten in unserem Newsletterverteiler. Damit wir Ihre &Auml;nderungen speichern k&ouml;nnen, klicken Sie bitte auf folgenden Link um Ihre &Auml;nderungen zu best&auml;tigen.</p><p><a href="[EditConfirmationLink]">[EditConfirmationLink]</a>.</p><p>M&ouml;chten Sie Ihre &Auml;nderungen nicht best&auml;tigen, dann klicken Sie auf folgenden Link</p><p><a href="[EditRejectLink]">[EditRejectLink]</a>.</p><p>Mit freundlichen Gr&uuml;&szlig;en</p></div></body></html>',
 
                                         "DefaultCaptchaText" => "Geben Sie das Wort, wie im nachfolgenden Feld angezeigt, ein (Spam-Schutz)*",
                                         "DefaultReCaptchaText" => "",
+
+                                        "DefaultGroupsDescriptionLabel" => "Anmeldung in folgende Gruppen",
 
                                         "CronOptInOptOutExpirationCheck" => "Pr&uuml;fung Ablauf Opt-In/Opt-Out",
                                         "CronCronLogCleanUp" => "L&ouml;schen von alten CronJob-Log-Eintr&auml;gen",
@@ -885,14 +909,14 @@
                                         "PBarLoadingText" => "Bitte warten, das Chart wird erstellt...",
 
                                         "UpdateAvailableSubject" => 'Neue Version verf&uuml;gbar',
-                                        "UpdateAvailable" => '<img src="images/icon_information.gif" width="24" height="24" align="left" alt="Update" />&nbsp;Es ist ein Update f&uuml;r PRODUCTAPPNAME verf&uuml;gbar, neue Version: %NEWVERSION%, %NEWVERSIONDATE%<br />&nbsp;Um das Update zu laden besuchen Sie die Seite <a href="PRODUCTURL" target="_blank">PRODUCTURL</a>.',
+                                        "UpdateAvailable" => '<img src="images/icon_information.gif" width="24" height="24" align="left" alt="Update" />&nbsp;Es ist ein Update f&uuml;r PRODUCTAPPNAME verf&uuml;gbar, neue Version: %NEWVERSION%, %NEWVERSIONDATE%<br />&nbsp;Um das Update zu laden &ouml;ffnen Sie das <a href="onlineupdate.php">Online-Update</a> oder besuchen Sie die Seite <a href="PRODUCTURL" target="_blank">PRODUCTURL</a>.',
 
                                         "TrackingIPBlocking" => '(IP-Blocking aktiviert)',
                                         "MailingListPermissionsError" => 'Sie verf&uuml;gen nicht &uuml;ber die erforderlichen Rechte, die Empf&auml;nger dieser Empf&auml;ngerliste anzuschauen.',
 
                                         "PermissionsError" => 'Sie verf&uuml;gen nicht &uuml;ber die erforderlichen Rechte, diese Funktion auszuf&uuml;hren.',
 
-                                        "GeoLiteCityDatMissing" => 'Die Datei geoip/GeoLiteCity.dat bzw. geoip/GeoLite2-City.mmdb ab PHP 5.3.1 wurde nicht gefunden oder konnte nicht ge&ouml;ffnet werden. Sie k&ouml;nnen die Datei unter http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz oder http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz laden und in das geoip-Verzeichnis auspacken.',
+                                        "GeoLiteCityDatMissing" => 'Die Datei geoip/GeoLiteCity.dat bzw. geoip/GeoLite2-City.mmdb ab PHP 5.3.1 wurde nicht gefunden oder konnte nicht ge&ouml;ffnet werden. Sie k&ouml;nnen die Datenbank GeoLite2-City, Format GeoIP2 Binary, unter https://www.maxmind.com/en/account/login laden und in das geoip-Verzeichnis auspacken. Anmeldung zum GeoLite2 Account https://www.maxmind.com/en/geolite2/signup.',
                                         "GeoConfirmedSubscribtions" => 'Best&auml;tigte Anmeldungen',
                                         "GeoOwnStation" => "Eigener Standort",
                                         "GeoStationOfSubscriber" => "Standort des Angemeldeten",
@@ -912,6 +936,7 @@
                                         "ExportOptHardbounceCount" => "Anzahl Hard bounces",
                                         "ExportOptHistoryOfSendEMails" => "History der versendeten E-Mails",
                                         "ExportOptGroupsRelations" => "Gruppenzugeh&ouml;rigkeit des Empf&auml;ngers",
+                                        "ExportOptPrivacyPolicyAccepted" => "Zustimmung zur Datenschutzerkl&auml;rung",
 
                                         "ImportErrorDuplicateEntry" => "E-Mail-Adresse '%s' bereits in Liste enthalten.",
                                         "ImportErrorEMailAddressIncorrect" => "E-Mail-Adresse '%s' ist syntaktisch inkorrekt.",
@@ -925,16 +950,12 @@
 
                                         "rsNAStartPageTitle" => "Newsletter-Archiv Startseite",
                                         "rsNAStartPageHeadline" => "Newsletter-Archiv der Mustermann GmbH",
-                                        "rsNAYearsLabel" => "Jahr:",
-                                        "rsNATextBehindYears" => "Klicken Sie auf ein Jahr um die Newsletter des jeweiligen Jahres anzuschauen.",
-                                        "rsNAYearsHeaderlineSelect" => "Newsletter-Archiv [NewsletterYear]",
-                                        "rsNANewsletterEntryText" => "Newsletter vom [NewsletterDate]",
-                                        "rsNALinkLabelToMainArchive" => "Newsletter-Archiv-Hauptseite",
-                                        "rsNALinkLabelPrev" => "Vorheriger",
-                                        "rsNALinkLabelNext" => "N&auml;chster",
-                                        "rsNAImpressumText" => "<p><b>Impressum</b></p>\n<p>Mustermann GmbH<br>\nMusterstra&szlig;e 11</p>\n<p><b>12345 Musterstadt</b></p>\n<p>E-Mail: mustermann@mustermann.de</p>\n<p>http://www.mustermann.de</p>\n<p>Tel.: 0123/123456<br>\nFax: 0123/123457</p>\n<p>Amtsgericht Musterstadt, HRB 12345<br>\nSteuernummer: 1234/56789<br>\nGesch&auml;ftsf&uuml;hrer: Max Mustermann</p>\n",
-                                        "rsNAShowNewsletterWithoutFramesText" => "Newsletter au&szlig;erhalb des Frames anzeigen",
-                                        "rsNAPrintingLabel" => "Drucken",
+                                        "rsNAStartPageSubHeadline1" => "Newsletter-Archiv",
+                                        "rsNAStartPageSubHeadline2" => "von Mustermann GmbH",
+                                        "rsNAYearsPrefix" => "Jahr",
+                                        "rsNANewsletterEntryPrefix" => "Newsletter vom",
+                                        "rsNAImpressumText" => "<p>Mustermann GmbH<br>\nMusterstra&szlig;e 11</p>\n<p><b>12345 Musterstadt</b></p>\n<p>E-Mail: mustermann@mustermann.de</p>\n<p>http://www.mustermann.de</p>\n<p>Tel.: 0123/123456<br>\nFax: 0123/123457</p>\n<p>Amtsgericht Musterstadt, HRB 12345<br>\nSteuernummer: 1234/56789<br>\nGesch&auml;ftsf&uuml;hrer: Max Mustermann</p>\n",
+                                        "rsNAImpressumHeadline" => "Impressum",
 
                                         "WinnerTypeWinnerOpens" => "anhand der &Ouml;ffnungen der E-Mail",
                                         "WinnerTypeWinnerClicks" => "anhand der Klicks auf Hyperlinks",
@@ -951,6 +972,7 @@
                                         "SaveAsPNGFile" => "Als PNG-Datei speichern",
                                         "SaveAsJPEGFile" => "Als JPEG-Datei speichern",
                                         "ChartOptions" => "Optionen",
+                                        "Print" => "Drucken",
 
                                         "CantLoadCert" => "Zertifikat kann nicht geladen werden.",
 
@@ -962,6 +984,60 @@
 
                                         "SampleUnsubscripeReasons" => "ich erhalte den Newsletter zu häufig.;ich finde die Inhalte des Newsletters nicht interessant.;der Newsletter wird bei mir nicht richtig dargestellt.;anderer Grund",
 
+                                        "IPEWizardSaveError" => "Der HTML-Code für den Assistenten wurde nicht übermittelt und damit nicht gespeichert, dieser ist unwiderruflich verloren. Wahrscheinlich wurde das Limit der PHP-Variablen post_max_size, max_input_vars oder memory_limit überschritten.",
+
+                                        "CaptchaImageMakerError" => "CaptchaImageMaker wurde nicht gefunden, Sie müssen selbst unter http://www.superwebmailer.de/pub/captcha_image_maker.zip diese Bibliothek herunterladen und in das captcha-Verzeichnis per FTP übertragen.",
+
+                                        "ConfirmUnsubscribeFromAllMailListsTitle" => "Abmelden &amp; L&ouml;schen",
+
+                                        "ConfirmUnsubscribeFromAllMailLists" => "M&ouml;chten Sie sich wirklich abmelden, es werden damit alle pers&ouml;nlichen Daten gel&ouml;scht?",
+
+                                        "WarningCronTasksInSecondsInterval" => "F&uuml;r die Ausf&uuml;hrung von Aufgaben im Sekundenintervall beachten Sie die Hilfe.",
+
+                                        "DefaultPrivacyPolicyURLText" => '<br />Mit Angabe meiner Daten und Absenden der Anmeldung erkl&auml;re ich mich einverstanden, den hier bestellten Newsletter per E-Mail zu erhalten. Meine Daten werden nicht an Dritte weitergegeben. Dieses Einverst&auml;ndnis kann ich jederzeit widerrufen. Weitere ausf&uuml;hrliche Informationen in der<br /><a href="[PrivacyPolicyURL]" target="_blank" style="font-size: inherit;">Datenschutzerkl&auml;rung</a><br /><br />',
+
+                                        "NoLoginAuthVariant" => "Es wurde keine Variante f&uuml;r die Authentifizierung gefunden, eine Anmeldung ist nicht m&ouml;glich.",
+                                        "NoLDAPExtension" => "Die LDAP Erweiterung ist im PHP nicht aktiviert, eine Anmeldung ist nicht m&ouml;glich.",
+                                        "LDAPAuthFailed" => "Die Authentifizierung ist fehlgeschlagen.",
+                                        "LDAPAuthNoDBAdminUser" => "Es wurde kein zust&auml;ndiger Administrator-Nutzer gefunden, eine Anmeldung ist nicht m&ouml;glich.",
+                                        "LDAPCantCreateNewUser" => "Es konnte kein neuer Nutzer erstellt werden, eine Anmeldung ist nicht m&ouml;glich.",
+                                        "ChangeAuthSettings" => "Einstellungen zur Authentifizierung",
+                                        "PasswordChangeHasNoEffect" => "Das &Auml;ndern des Passworts hat keine Wirkung, da die Authentifizierung per LDAP aktiviert ist.",
+
+                                        "2FAVerificationCodeIncorrect" => "Das eingegebene Einmalpasswort ist nicht korrekt.",
+                                        "2FAReloginAsSuperAdmin" => "Melden Sie sich aus Sicherheitsgr&uuml;nden <b>sofort</b> ab und erneut als Nutzer SuperAdmin an, um das Secret/Seed in der App Google Authenticator zu speichern.",
+
+                                        "rsInfoBarSubscribeCaption" => "Anmeldung",
+                                        "rsInfoBarSubscribeHint" => "Anmeldung zum Newsletter",
+                                        "rsInfoBarUnsubscribeCaption" => "Abmeldung",
+                                        "rsInfoBarUnsubscribeHint" => "Abmeldung vom Newsletter",
+                                        "rsInfoBarFacebookCaption" => "Facebook",
+                                        "rsInfoBarFacebookHint" => "Bei Facebook teilen",
+                                        "rsInfoBarTwitterCaption" => "Twitter",
+                                        "rsInfoBarTwitterHint" => "Bei Twitter teilen",
+                                        "rsInfoBarTranslateCaption" => "Übersetzen",
+                                        "rsInfoBarTranslateHint" => "Seite übersetzen",
+                                        "rsInfoBarNewsletterArchieveCaption" => "Newsletterarchiv",
+                                        "rsInfoBarNewsletterArchieveText" => "Archiv",
+                                        "rsInfoBarNewsletterArchieveHint" => "Newsletterarchiv zeigen",
+                                        "rsInfoBarRSSCaption" => "RSS-Feed",
+                                        "rsInfoBarRSSHint" => "Newsletterarchiv als RSS-Feed zeigen",
+                                        "rsMenu" => "Menü",
+                                        "rsDefault" => 'Vorgabe',
+                                        "rsInfoBarHomeLinkText" => '&#8962;',
+                                        "rsInfoBarHomeCaption" => 'Startseite',
+                                        "rsInfoBarHomeHint" => 'Startseite Newsletter-Archiv',
+                                        "rsInfoBarYearsCaption" => 'Jahre',
+                                        "rsInfoBarEntriesCaption" => 'Newslettereintr&auml;ge',
+                                        "rsInfoBarAttachmentsLinkText" => 'Anh&auml;nge',
+                                        "rsInfoBarAttachmentsCaption" => 'Anh&auml;nge',
+                                        "rsInfoBarAttachmentsHint" => 'Anh&auml;nge des Newsletters',
+                                        "rsNASampleSubject" => 'Beispiel-Betreff',
+                                        "rsNASampleAttachment" => 'Beispiel Anhang',
+                                        
+                                        "DomainAlignmentError" => "Domain Alignment Fehler: Die Domain der Absender-E-Mail-Adresse '%s' sollte mit der Domain der Return-Path-E-Mail-Adresse '%s' &uuml;bereinstimmen, ansonsten k&ouml;nnte die E-Mail als Spam angesehen werden.",
+
+                                        
                                         "iso-8859-2" => "Kroat., Poln., Rum&auml;n., Slowak., Slowen., Tschech., Ungarisch (iso-8859-2)",
                                         "iso-8859-3" => "Esperanto, Galizisch, Maltesisch, T&uuml;rkisch (iso-8859-3)",
                                         "iso-8859-4" => "Estnisch, Lettisch und Litauisch (iso-8859-4)",

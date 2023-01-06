@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -30,82 +30,82 @@
   include_once("localmessages_ops.inc.php");
 
 
-  $_QJlJ0 = "SELECT DISTINCT `Name`, `MaillistTableName`, `LocalBlocklistTableName`, `StatisticsTableName` FROM `$_Q60QL`";
+  $_QLfol = "SELECT DISTINCT `Name`, `MaillistTableName`, `LocalBlocklistTableName`, `StatisticsTableName` FROM `$_QL88I`";
   if($OwnerUserId == 0) // ist es ein Admin?
-     $_QJlJ0 .= " WHERE (`users_id`=$UserId)";
+     $_QLfol .= " WHERE (`users_id`=$UserId)";
      else {
-      $_QJlJ0 .= " LEFT JOIN `$_Q6fio` ON `$_Q60QL`.`id`=`$_Q6fio`.`maillists_id` WHERE (`$_Q6fio`.`users_id`=$UserId) AND (`$_Q60QL`.`users_id`=$OwnerUserId)";
+      $_QLfol .= " LEFT JOIN `$_QlQot` ON `$_QL88I`.`id`=`$_QlQot`.`maillists_id` WHERE (`$_QlQot`.`users_id`=$UserId) AND (`$_QL88I`.`users_id`=$OwnerUserId)";
      }
-  $_QJlJ0 .= " ORDER BY `Name` ASC";
+  $_QLfol .= " ORDER BY `Name` ASC";
 
-  $_jol0I = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
+  $_Jooll = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
 
   // *********** Total statistics
-  $_jol0f = mysql_num_rows($_jol0I);
-  $_QLJfj = 0;
-  $_QLJtj = 0;
-  $_QL61I = 0;
-  $_QL6Lj = 0;
-  $_QLfjO = 0;
-  while( $_Q6Q1C=mysql_fetch_assoc($_jol0I) ) {
-    $_QJlJ0 = "SELECT COUNT(id) FROM `$_Q6Q1C[MaillistTableName]` WHERE `IsActive`=1";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_QLJfj += $_QL8Q8[0];
+  $_JoCoC = mysql_num_rows($_Jooll);
+  $_If6if = 0;
+  $_If6l1 = 0;
+  $_IffCj = 0;
+  $_If81o = 0;
+  $_If8io = 0;
+  while( $_QLO0f=mysql_fetch_assoc($_Jooll) ) {
+    $_QLfol = "SELECT COUNT(id) FROM `$_QLO0f[MaillistTableName]` WHERE `IsActive`=1";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_If6if += $_Ift08[0];
 
-    $_QJlJ0 = "SELECT COUNT(id) AS Total FROM `$_Q6Q1C[MaillistTableName]` WHERE `IsActive`=1 AND `SubscriptionStatus`='OptInConfirmationPending'";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_QL6Lj += $_QL8Q8[0];
+    $_QLfol = "SELECT COUNT(id) AS Total FROM `$_QLO0f[MaillistTableName]` WHERE `IsActive`=1 AND `SubscriptionStatus`='OptInConfirmationPending'";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_If81o += $_Ift08[0];
 
-    $_QJlJ0 = "SELECT COUNT(id) AS Total FROM `$_Q6Q1C[MaillistTableName]` WHERE `IsActive`=1 AND `SubscriptionStatus`='OptOutConfirmationPending'";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_QLfjO += $_QL8Q8[0];
+    $_QLfol = "SELECT COUNT(id) AS Total FROM `$_QLO0f[MaillistTableName]` WHERE `IsActive`=1 AND `SubscriptionStatus`='OptOutConfirmationPending'";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_If8io += $_Ift08[0];
 
-    $_QJlJ0 = "SELECT COUNT(id) FROM `$_Q6Q1C[MaillistTableName]` WHERE `IsActive`=0";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_row($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_QLJtj += $_QL8Q8[0];
+    $_QLfol = "SELECT COUNT(id) FROM `$_QLO0f[MaillistTableName]` WHERE `IsActive`=0";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_row($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_If6l1 += $_Ift08[0];
 
-    $_QJlJ0 = "SELECT COUNT(id) FROM `$_Q6Q1C[LocalBlocklistTableName]`";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_row($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_QL61I += $_QL8Q8[0];
+    $_QLfol = "SELECT COUNT(id) FROM `$_QLO0f[LocalBlocklistTableName]`";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_row($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_IffCj += $_Ift08[0];
   }
 
-  $_QJlJ0 = "SELECT COUNT(id) FROM `$_Ql8C0`";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_QL8Q8=mysql_fetch_row($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QL61I += $_QL8Q8[0];
+  $_QLfol = "SELECT COUNT(id) FROM `$_I8tfQ`";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_Ift08=mysql_fetch_row($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_IffCj += $_Ift08[0];
 
-  $_I0600 = "";
-  $_jolLf = "";
-  $_jC0t8 = 0;
-  if( _L0P8D($_jolLf, $_jC0t8, $id, $OwnerUserId == 0) ) {
-    if ( $_jolLf != "" && $_jC0t8 != 0 && $OwnerUserId == 0 ) {
-       if ( version_compare($_QoJ8j, $_jolLf, "<") ) {
-         $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["UpdateAvailable"];
-         $_I0600 = _LJ81E($_I0600);
-         $_I0600 = str_replace("%NEWVERSION%", $_jolLf, $_I0600);
-         $_I0600 = str_replace("%NEWVERSIONDATE%", strftime("%x", $_jC0t8), $_I0600);
-         _OELQQ(0, $UserId, $resourcestrings[$INTERFACE_LANGUAGE]["UpdateAvailableSubject"], '<p>'.$_I0600.'</p>', array());
+  $_Itfj8 = "";
+  $_JoiQi = "";
+  $_JoiJL = 0;
+  if( _J0RCP($_JoiQi, $_JoiJL, $id, $OwnerUserId == 0) ) {
+    if ( $_JoiQi != "" && $_JoiJL != 0 && $OwnerUserId == 0 ) {
+       if ( version_compare($_Ij6Lj, $_JoiQi, "<") ) {
+         $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["UpdateAvailable"];
+         $_Itfj8 = _JJCCF($_Itfj8);
+         $_Itfj8 = str_replace("%NEWVERSION%", $_JoiQi, $_Itfj8);
+         $_Itfj8 = str_replace("%NEWVERSIONDATE%", date($ShortDateFormat, $_JoiJL), $_Itfj8);
+         _LDADP(0, $UserId, $resourcestrings[$INTERFACE_LANGUAGE]["UpdateAvailableSubject"], '<p>'.$_Itfj8.'</p>', array());
        }
     }
   } else {
-    mysql_query("DELETE FROM `$_Q88iO` WHERE `id`=$id", $_Q61I1);
+    mysql_query("DELETE FROM `$_I1O0i` WHERE `id`=$id", $_QLttI);
   }
 
   if ( ($UserType == "SuperAdmin") ) {
@@ -114,55 +114,55 @@
   }
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000007"], $_I0600, 'interface', 'dashboard_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000007"], $_Itfj8, 'interface', 'dashboard_snipped.htm');
 
-  $_QJCJi = _OPR6L($_QJCJi, '<MAILINGLIST:TOTAL>', '</MAILINGLIST:TOTAL>', $_jol0f);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:TOTALACTIVE>', '</LIST:TOTALACTIVE>', $_QLJfj);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:TOTALINACTIVE>', '</LIST:TOTALINACTIVE>', $_QLJtj);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:RECIPIENTSINBLACKLIST>', '</LIST:RECIPIENTSINBLACKLIST>', $_QL61I);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:TOTALOPTINUNCONFIRMED>', '</LIST:TOTALOPTINUNCONFIRMED>', $_QL6Lj);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:TOTALOPTOUTUNCONFIRMED>', '</LIST:TOTALOPTOUTUNCONFIRMED>', $_QLfjO);
+  $_QLJfI = _L81BJ($_QLJfI, '<MAILINGLIST:TOTAL>', '</MAILINGLIST:TOTAL>', $_JoCoC);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:TOTALACTIVE>', '</LIST:TOTALACTIVE>', $_If6if);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:TOTALINACTIVE>', '</LIST:TOTALINACTIVE>', $_If6l1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:RECIPIENTSINBLACKLIST>', '</LIST:RECIPIENTSINBLACKLIST>', $_IffCj);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:TOTALOPTINUNCONFIRMED>', '</LIST:TOTALOPTINUNCONFIRMED>', $_If81o);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:TOTALOPTOUTUNCONFIRMED>', '</LIST:TOTALOPTOUTUNCONFIRMED>', $_If8io);
 
   // *********** Total statistics END
 
   //
 
-  $_Q6QiO = "'%d.%m.%Y %H:%i:%s'";
-  $_If0Ql = "'%d.%m.%Y'";
+  $_QLo60 = "'%d.%m.%Y %H:%i:%s'";
+  $_j01CJ = "'%d.%m.%Y'";
   if($INTERFACE_LANGUAGE != "de") {
-     $_Q6QiO = "'%Y-%m-%d %H:%i:%s'";
-     $_If0Ql = "'%Y-%m-%d'";
+     $_QLo60 = "'%Y-%m-%d %H:%i:%s'";
+     $_j01CJ = "'%Y-%m-%d'";
   }
 
-  $_QJlJ0 = "SELECT DATE_FORMAT(NOW(), $_If0Ql), DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 5 DAY), $_If0Ql)";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_jC18j = mysql_fetch_row($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_QLfol = "SELECT DATE_FORMAT(NOW(), $_j01CJ), DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 5 DAY), $_j01CJ)";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Joi6C = mysql_fetch_row($_QL8i1);
+  mysql_free_result($_QL8i1);
 
   // *********** Period statistics
-  $_jC1lo = $_jC18j[1];
-  $_jCQ0I = $_jC18j[0];
+  $_JoiCQ = $_Joi6C[1];
+  $_JoL0L = $_Joi6C[0];
 
   if($INTERFACE_LANGUAGE == "de") {
-    $_Q8otJ = explode('.', $_jC1lo);
-    $_jC1lo = $_Q8otJ[2]."-".$_Q8otJ[1]."-".$_Q8otJ[0];
-    $_Q8otJ = explode('.', $_jCQ0I);
-    $_jCQ0I = $_Q8otJ[2]."-".$_Q8otJ[1]."-".$_Q8otJ[0];
+    $_I1OoI = explode('.', $_JoiCQ);
+    $_JoiCQ = $_I1OoI[2]."-".$_I1OoI[1]."-".$_I1OoI[0];
+    $_I1OoI = explode('.', $_JoL0L);
+    $_JoL0L = $_I1OoI[2]."-".$_I1OoI[1]."-".$_I1OoI[0];
   }
 
   // CHART
-  $_II1Ot = array();
+  $_IoLOO = array();
 
   // set 5 days to 0
-  for($_Q6llo=0; $_Q6llo<=5; $_Q6llo++) {
-    $_QJlJ0 = "SELECT DATE_FORMAT(DATE_ADD('$_jC1lo', INTERVAL $_Q6llo DAY), '%Y-%m-%d')";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_jtO66 = mysql_fetch_row($_Q60l1);
-    if (! isset($_II1Ot[$_jtO66[0]]) )
-       $_II1Ot[$_jtO66[0]] = array (0, 0, 0, 0, 0);
-    mysql_free_result($_Q60l1);
+  for($_Qli6J=0; $_Qli6J<=5; $_Qli6J++) {
+    $_QLfol = "SELECT DATE_FORMAT(DATE_ADD('$_JoiCQ', INTERVAL $_Qli6J DAY), '%Y-%m-%d')";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_JfJ0J = mysql_fetch_row($_QL8i1);
+    if (! isset($_IoLOO[$_JfJ0J[0]]) )
+       $_IoLOO[$_JfJ0J[0]] = array (0, 0, 0, 0, 0);
+    mysql_free_result($_QL8i1);
   }
 
   // $resourcestrings[$INTERFACE_LANGUAGE]["ChartNoDataText"]
@@ -170,193 +170,193 @@
 
   // addCultureInfo
   include_once("chartcultureinfo.inc.php");
-  $_QJCJi = addCultureInfo($_QJCJi);
+  $_QLJfI = addCultureInfo($_QLJfI);
   // addCultureInfo /
 
   # Set chart attributes
-  $_QJCJi = str_replace("SUBUNSUBCHARTTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000027"]." ".$resourcestrings[$INTERFACE_LANGUAGE]["000371"], $_Q6QQL), $_QJCJi);
-  $_QJCJi = str_replace("SUBUNSUBCHARTAXISXTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Date"], $_Q6QQL), $_QJCJi);
-  $_QJCJi = str_replace("SUBUNSUBCHARTAXISYTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Quantity"], $_Q6QQL), $_QJCJi);
+  $_QLJfI = str_replace("SUBUNSUBCHARTTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000027"]." ".$resourcestrings[$INTERFACE_LANGUAGE]["000371"], $_QLo06), $_QLJfI);
+  $_QLJfI = str_replace("SUBUNSUBCHARTAXISXTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Date"], $_QLo06), $_QLJfI);
+  $_QLJfI = str_replace("SUBUNSUBCHARTAXISYTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Quantity"], $_QLo06), $_QLJfI);
 
-  $_jC1lo .= " 00:00:00";
-  $_jCQ0I .= " 23:59:59";
+  $_JoiCQ .= " 00:00:00";
+  $_JoL0L .= " 23:59:59";
 
-  if( mysql_num_rows($_jol0I) > 0)
-     mysql_data_seek($_jol0I, 0);
+  if( mysql_num_rows($_Jooll) > 0)
+     mysql_data_seek($_Jooll, 0);
 
-  while( $_Q6Q1C=mysql_fetch_array($_jol0I) ) {
-    $_QJlJ0 = "SELECT COUNT(ActionDate) AS Counter, DATE_FORMAT(ActionDate, $_If0Ql) AS ADate, DATE_FORMAT(ActionDate, '%Y-%m-%d') AS ADateEng, Action FROM $_Q6Q1C[StatisticsTableName] WHERE (Action='OptInConfirmationPending' OR Action='Subscribed' OR Action='Unsubscribed' OR Action='OptOutConfirmationPending' OR Action='Bounced') AND (ActionDate >= '$_jC1lo') AND (ActionDate <= '$_jCQ0I') GROUP BY Action, ADateEng ORDER BY ADate ASC, Action";
+  while( $_QLO0f=mysql_fetch_array($_Jooll) ) {
+    $_QLfol = "SELECT COUNT(ActionDate) AS Counter, DATE_FORMAT(ActionDate, $_j01CJ) AS ADate, DATE_FORMAT(ActionDate, '%Y-%m-%d') AS ADateEng, Action FROM $_QLO0f[StatisticsTableName] WHERE (Action='OptInConfirmationPending' OR Action='Subscribed' OR Action='Unsubscribed' OR Action='OptOutConfirmationPending' OR Action='Bounced') AND (ActionDate >= '$_JoiCQ') AND (ActionDate <= '$_JoL0L') GROUP BY Action, ADateEng ORDER BY ADate ASC, Action";
 
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
 
-    if($_Q60l1 && mysql_num_rows($_Q60l1) > 0 ) {
-      while ($_I1COO = mysql_fetch_array($_Q60l1) ) {
-        if (! isset($_II1Ot[$_I1COO["ADateEng"]]) )
-           $_II1Ot[$_I1COO["ADateEng"]] = array (0, 0, 0, 0, 0);
+    if($_QL8i1 && mysql_num_rows($_QL8i1) > 0 ) {
+      while ($_IOLJ1 = mysql_fetch_array($_QL8i1) ) {
+        if (! isset($_IoLOO[$_IOLJ1["ADateEng"]]) )
+           $_IoLOO[$_IOLJ1["ADateEng"]] = array (0, 0, 0, 0, 0);
       }
 
-      mysql_data_seek($_Q60l1, 0);
-      while ($_I1COO = mysql_fetch_array($_Q60l1) ) {
-        if($_I1COO["Action"] == 'OptInConfirmationPending')
-           $_II1Ot[$_I1COO["ADateEng"]][0] += $_I1COO["Counter"];
-        if($_I1COO["Action"] == 'Subscribed')
-           $_II1Ot[$_I1COO["ADateEng"]][1] += $_I1COO["Counter"];
-        if($_I1COO["Action"] == 'OptOutConfirmationPending')
-           $_II1Ot[$_I1COO["ADateEng"]][2] += $_I1COO["Counter"];
-        if($_I1COO["Action"] == 'Unsubscribed')
-           $_II1Ot[$_I1COO["ADateEng"]][3] += $_I1COO["Counter"];
-        if($_I1COO["Action"] == 'Bounced')
-           $_II1Ot[$_I1COO["ADateEng"]][4] += $_I1COO["Counter"];
+      mysql_data_seek($_QL8i1, 0);
+      while ($_IOLJ1 = mysql_fetch_array($_QL8i1) ) {
+        if($_IOLJ1["Action"] == 'OptInConfirmationPending')
+           $_IoLOO[$_IOLJ1["ADateEng"]][0] += $_IOLJ1["Counter"];
+        if($_IOLJ1["Action"] == 'Subscribed')
+           $_IoLOO[$_IOLJ1["ADateEng"]][1] += $_IOLJ1["Counter"];
+        if($_IOLJ1["Action"] == 'OptOutConfirmationPending')
+           $_IoLOO[$_IOLJ1["ADateEng"]][2] += $_IOLJ1["Counter"];
+        if($_IOLJ1["Action"] == 'Unsubscribed')
+           $_IoLOO[$_IOLJ1["ADateEng"]][3] += $_IOLJ1["Counter"];
+        if($_IOLJ1["Action"] == 'Bounced')
+           $_IoLOO[$_IOLJ1["ADateEng"]][4] += $_IOLJ1["Counter"];
       }
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
   }
 
-  ksort ($_II1Ot, SORT_STRING);
+  ksort ($_IoLOO, SORT_STRING);
 
 
-  $_jCQOI = array();
-  $_jCI6f = array();
-  $_jCIi0 = array();
-  $_jCjOI = array();
-  $_jCJj8 = array();
+  $_JoL18 = array();
+  $_JoL66 = array();
+  $_JolJl = array();
+  $_JoltO = array();
+  $_JolOQ = array();
 
-  $_jC6QL = 0;
-  reset($_II1Ot);
-  foreach ($_II1Ot as $key => $_Q6ClO) {
+  $_JolCi = 0;
+  reset($_IoLOO);
+  foreach ($_IoLOO as $key => $_QltJO) {
 
     if($INTERFACE_LANGUAGE == "de") {
       $key = substr($key, 8).".".substr($key, 5, 2).".".substr($key, 0, 4);
     }
 
-    $_jC6IQ = array("label" => $key , "y" => $_Q6ClO[0]);
-    $_jCQOI[] = $_jC6IQ;
-    if($_Q6ClO[0] > $_jC6QL)
-      $_jC6QL = $_Q6ClO[0];
+    $_JC0jO = array("label" => $key , "y" => $_QltJO[0]);
+    $_JoL18[] = $_JC0jO;
+    if($_QltJO[0] > $_JolCi)
+      $_JolCi = $_QltJO[0];
 
-    $_jC6IQ = array("label" => $key , "y" => $_Q6ClO[1]);
-    $_jCI6f[] = $_jC6IQ;
-    if($_Q6ClO[1] > $_jC6QL)
-      $_jC6QL = $_Q6ClO[1];
+    $_JC0jO = array("label" => $key , "y" => $_QltJO[1]);
+    $_JoL66[] = $_JC0jO;
+    if($_QltJO[1] > $_JolCi)
+      $_JolCi = $_QltJO[1];
 
-    $_jC6IQ = array("label" => $key , "y" => $_Q6ClO[2]);
-    $_jCIi0[] = $_jC6IQ;
-    if($_Q6ClO[2] > $_jC6QL)
-      $_jC6QL = $_Q6ClO[2];
+    $_JC0jO = array("label" => $key , "y" => $_QltJO[2]);
+    $_JolJl[] = $_JC0jO;
+    if($_QltJO[2] > $_JolCi)
+      $_JolCi = $_QltJO[2];
 
-    $_jC6IQ = array("label" => $key , "y" => $_Q6ClO[3]);
-    $_jCjOI[] = $_jC6IQ;
-    if($_Q6ClO[3] > $_jC6QL)
-      $_jC6QL = $_Q6ClO[3];
+    $_JC0jO = array("label" => $key , "y" => $_QltJO[3]);
+    $_JoltO[] = $_JC0jO;
+    if($_QltJO[3] > $_JolCi)
+      $_JolCi = $_QltJO[3];
 
-    $_jC6IQ = array("label" => $key , "y" => $_Q6ClO[4]);
-    $_jCJj8[] = $_jC6IQ;
-    if($_Q6ClO[4] > $_jC6QL)
-      $_jC6QL = $_Q6ClO[4];
+    $_JC0jO = array("label" => $key , "y" => $_QltJO[4]);
+    $_JolOQ[] = $_JC0jO;
+    if($_QltJO[4] > $_JolCi)
+      $_JolCi = $_QltJO[4];
   }
 
-  $_Qf1i1 = array();
+  $_I0QjQ = array();
 
-  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000180"], $_Q6QQL), "showInLegend" => true, "dataPoints" => $_jCQOI);
-  $_Qf1i1[] = $entry;
+  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000180"], $_QLo06), "showInLegend" => true, "dataPoints" => $_JoL18);
+  $_I0QjQ[] = $entry;
 
-  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000025"], $_Q6QQL), "showInLegend" => true, "dataPoints" => $_jCI6f);
-  $_Qf1i1[] = $entry;
+  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000025"], $_QLo06), "showInLegend" => true, "dataPoints" => $_JoL66);
+  $_I0QjQ[] = $entry;
 
-  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000181"], $_Q6QQL), "showInLegend" => true, "dataPoints" => $_jCIi0);
-  $_Qf1i1[] = $entry;
+  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000181"], $_QLo06), "showInLegend" => true, "dataPoints" => $_JolJl);
+  $_I0QjQ[] = $entry;
 
-  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000026"], $_Q6QQL), "showInLegend" => true, "dataPoints" => $_jCjOI);
-  $_Qf1i1[] = $entry;
+  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000026"], $_QLo06), "showInLegend" => true, "dataPoints" => $_JoltO);
+  $_I0QjQ[] = $entry;
 
-  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000169"], $_Q6QQL), "showInLegend" => true, "dataPoints" => $_jCJj8);
-  $_Qf1i1[] = $entry;
+  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000169"], $_QLo06), "showInLegend" => true, "dataPoints" => $_JolOQ);
+  $_I0QjQ[] = $entry;
 
-  $_QJCJi = str_replace("/* SUBUNSUBCHART_DATA */", _OCR88($_Qf1i1, JSON_NUMERIC_CHECK), $_QJCJi);
+  $_QLJfI = str_replace("/* SUBUNSUBCHART_DATA */", _LAFFB($_I0QjQ, JSON_NUMERIC_CHECK), $_QLJfI);
 
-  if($_jC6QL < 10){
+  if($_JolCi < 10){
      // set interval 1
-     $_QJCJi = str_replace("/*SUBUNSUBCHARTINTERVAL", "", $_QJCJi);
-     $_QJCJi = str_replace("SUBUNSUBCHARTINTERVAL*/", "", $_QJCJi);
+     $_QLJfI = str_replace("/*SUBUNSUBCHARTINTERVAL", "", $_QLJfI);
+     $_QLJfI = str_replace("SUBUNSUBCHARTINTERVAL*/", "", $_QLJfI);
   }
 
   /////////
 
-  $_QJlJ0 = "SELECT `id`, `Name`, `CurrentSendTableName` FROM `$_Q6jOo`";
+  $_QLfol = "SELECT `id`, `Name`, `CurrentSendTableName` FROM `$_QLi60`";
   if($OwnerUserId != 0) {
-     $_QJlJ0 .= " LEFT JOIN `$_Q6fio` ON `$_Q6fio`.`maillists_id`=`$_Q6jOo`.`maillists_id`";
+     $_QLfol .= " LEFT JOIN `$_QlQot` ON `$_QlQot`.`maillists_id`=`$_QLi60`.`maillists_id`";
   }
-  $_QJlJ0 .= " WHERE `SetupLevel`=99 AND `SendScheduler` <> 'SaveOnly'";
+  $_QLfol .= " WHERE `SetupLevel`=99 AND `SendScheduler` <> 'SaveOnly'";
 
   if($OwnerUserId != 0) {
-   $_QJlJ0 .= " AND `$_Q6fio`.`users_id`=$UserId";
+   $_QLfol .= " AND `$_QlQot`.`users_id`=$UserId";
   }
 
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_jCf0Q = array();
-  while($_Q60l1 && $_Q6J0Q = mysql_fetch_assoc($_Q60l1)) {
-    $_j0fti = $_Q6J0Q["CurrentSendTableName"];
-    $_j06O8 = $_Q6J0Q["Name"];
-    $_QJlJ0 = "SELECT *, DATE_FORMAT(EndSendDateTime, $_Q6QiO) AS EndSendDateTimeFormated FROM `$_j0fti` WHERE `SendState`='DONE' ORDER BY `EndSendDateTime` DESC LIMIT 0, 1";
-    $_ItlJl = mysql_query($_QJlJ0, $_Q61I1);
-    if($_ItlJl && mysql_num_rows($_ItlJl) > 0){
-       $_Q6Q1C = mysql_fetch_assoc($_ItlJl);
-       $_Q6Q1C["Name"] = $_Q6J0Q["Name"];
-       $_Q6Q1C["CampaignId"] = $_Q6J0Q["id"];
-       $_jCf0Q[$_Q6J0Q["id"]] = $_Q6Q1C;
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_JC1J6 = array();
+  while($_QL8i1 && $_QLL16 = mysql_fetch_assoc($_QL8i1)) {
+    $_jClC1 = $_QLL16["CurrentSendTableName"];
+    $_jC6ot = $_QLL16["Name"];
+    $_QLfol = "SELECT *, DATE_FORMAT(EndSendDateTime, $_QLo60) AS EndSendDateTimeFormated FROM `$_jClC1` WHERE `Campaigns_id`=$_QLL16[id] AND `SendState`='DONE' ORDER BY `EndSendDateTime` DESC LIMIT 0, 1";
+    $_jjJfo = mysql_query($_QLfol, $_QLttI);
+    if($_jjJfo && mysql_num_rows($_jjJfo) > 0){
+       $_QLO0f = mysql_fetch_assoc($_jjJfo);
+       $_QLO0f["Name"] = $_QLL16["Name"];
+       $_QLO0f["CampaignId"] = $_QLL16["id"];
+       $_JC1J6[$_QLL16["id"]] = $_QLO0f;
     }
-    mysql_free_result($_ItlJl);
+    mysql_free_result($_jjJfo);
   }
-  if($_Q60l1)
-    mysql_free_result($_Q60l1);
+  if($_QL8i1)
+    mysql_free_result($_QL8i1);
 
-  usort ($_jCf0Q, "CompareByEndSendDateTime");
+  usort ($_JC1J6, "CompareByEndSendDateTime");
 
-  $_jCfjJ = false;
-  if(count($_jCf0Q) == 0){
-    $_Q6J0Q["Name"] = $resourcestrings[$INTERFACE_LANGUAGE]["NA"];
-    $_Q6J0Q["SentCountSucc"] = 0;
-    $_Q6J0Q["SentCountFailed"] = 0;
-    $_Q6J0Q["HardBouncesCount"] = 0;
-    $_Q6J0Q["SoftBouncesCount"] = 0;
-    $_Q6J0Q["EndSendDateTimeFormated"] = $resourcestrings[$INTERFACE_LANGUAGE]["NONE"];
-    $_jCfjJ = true;
+  $_JC1oO = false;
+  if(count($_JC1J6) == 0){
+    $_QLL16["Name"] = $resourcestrings[$INTERFACE_LANGUAGE]["NA"];
+    $_QLL16["SentCountSucc"] = 0;
+    $_QLL16["SentCountFailed"] = 0;
+    $_QLL16["HardBouncesCount"] = 0;
+    $_QLL16["SoftBouncesCount"] = 0;
+    $_QLL16["EndSendDateTimeFormated"] = $resourcestrings[$INTERFACE_LANGUAGE]["NONE"];
+    $_JC1oO = true;
   }
   else
-    $_Q6J0Q = $_jCf0Q[0];
+    $_QLL16 = $_JC1J6[0];
 
-  if($_Q6J0Q["Name"] == $resourcestrings[$INTERFACE_LANGUAGE]["NA"])
-     $_QJCJi = _OPR6L($_QJCJi, "<MAILING:NAME>", "</MAILING:NAME>", $_Q6J0Q["Name"]);
+  if($_QLL16["Name"] == $resourcestrings[$INTERFACE_LANGUAGE]["NA"])
+     $_QLJfI = _L81BJ($_QLJfI, "<MAILING:NAME>", "</MAILING:NAME>", $_QLL16["Name"]);
      else
-     $_QJCJi = _OPR6L($_QJCJi, "<MAILING:NAME>", "</MAILING:NAME>", '<a href="./stat_campaignlog.php?CampaignId='."$_Q6J0Q[CampaignId]&SendStatId=$_Q6J0Q[id]".'" style="font-size: 10pt">'.$_Q6J0Q["Name"].'</a>');
-  $_QJCJi = _OPR6L($_QJCJi, "<MAILING:SENTSUCC>", "</MAILING:SENTSUCC>", $_Q6J0Q["SentCountSucc"]);
-  $_QJCJi = _OPR6L($_QJCJi, "<MAILING:SENTFAILED>", "</MAILING:SENTFAILED>", $_Q6J0Q["SentCountFailed"]);
-  $_QJCJi = _OPR6L($_QJCJi, "<MAILING:HARDBOUNCES>", "</MAILING:HARDBOUNCES>", $_Q6J0Q["HardBouncesCount"]);
-  $_QJCJi = _OPR6L($_QJCJi, "<MAILING:SOFTBOUNCES>", "</MAILING:SOFTBOUNCES>", $_Q6J0Q["SoftBouncesCount"]);
-  $_QJCJi = _OPR6L($_QJCJi, "<MAILING:ENDSENTDATETIME>", "<MAILING:ENDSENTDATETIME>", $_Q6J0Q["EndSendDateTimeFormated"]);
+     $_QLJfI = _L81BJ($_QLJfI, "<MAILING:NAME>", "</MAILING:NAME>", '<a href="./stat_campaignlog.php?CampaignId='."$_QLL16[CampaignId]&SendStatId=$_QLL16[id]".'" style="font-size: 10pt">'.$_QLL16["Name"].'</a>');
+  $_QLJfI = _L81BJ($_QLJfI, "<MAILING:SENTSUCC>", "</MAILING:SENTSUCC>", $_QLL16["SentCountSucc"]);
+  $_QLJfI = _L81BJ($_QLJfI, "<MAILING:SENTFAILED>", "</MAILING:SENTFAILED>", $_QLL16["SentCountFailed"]);
+  $_QLJfI = _L81BJ($_QLJfI, "<MAILING:HARDBOUNCES>", "</MAILING:HARDBOUNCES>", $_QLL16["HardBouncesCount"]);
+  $_QLJfI = _L81BJ($_QLJfI, "<MAILING:SOFTBOUNCES>", "</MAILING:SOFTBOUNCES>", $_QLL16["SoftBouncesCount"]);
+  $_QLJfI = _L81BJ($_QLJfI, "<MAILING:ENDSENTDATETIME>", "</MAILING:ENDSENTDATETIME>", $_QLL16["EndSendDateTimeFormated"]);
 
 
 
   # Set chart attributes
-  $_QJCJi = str_replace("LASTMAILINGCHARTTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000688"], $_Q6QQL), $_QJCJi);
+  $_QLJfI = str_replace("LASTMAILINGCHARTTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000688"], $_QLo06), $_QLJfI);
 
-  $_jCfit = array();
-  $_jC6IQ = array("indexLabel" => $resourcestrings[$INTERFACE_LANGUAGE]["000686"].", {y}", "y" => $_Q6J0Q["SentCountSucc"]);
-  $_jCfit[] = $_jC6IQ;
-  $_jC6IQ = array("indexLabel" => $resourcestrings[$INTERFACE_LANGUAGE]["000687"].", {y}", "y" => $_Q6J0Q["SentCountFailed"]);
-  if(!$_jCfjJ) $_jCfit[] = $_jC6IQ;
-  $_jC6IQ = array("indexLabel" => $resourcestrings[$INTERFACE_LANGUAGE]["000683"].", {y}", "y" => $_Q6J0Q["HardBouncesCount"]);
-  if(!$_jCfjJ) $_jCfit[] = $_jC6IQ;
+  $_JCQoQ = array();
+  $_JC0jO = array("indexLabel" => $resourcestrings[$INTERFACE_LANGUAGE]["000686"].", {y}", "y" => $_QLL16["SentCountSucc"]);
+  $_JCQoQ[] = $_JC0jO;
+  $_JC0jO = array("indexLabel" => $resourcestrings[$INTERFACE_LANGUAGE]["000687"].", {y}", "y" => $_QLL16["SentCountFailed"]);
+  if(!$_JC1oO) $_JCQoQ[] = $_JC0jO;
+  $_JC0jO = array("indexLabel" => $resourcestrings[$INTERFACE_LANGUAGE]["000683"].", {y}", "y" => $_QLL16["HardBouncesCount"]);
+  if(!$_JC1oO) $_JCQoQ[] = $_JC0jO;
 
-  $_QJCJi = str_replace("/* MAILINGCHART_DATA */", _OCR88($_jCfit, JSON_NUMERIC_CHECK), $_QJCJi);
-
-
-  print $_QJCJi;
+  $_QLJfI = str_replace("/* MAILINGCHART_DATA */", _LAFFB($_JCQoQ, JSON_NUMERIC_CHECK), $_QLJfI);
 
 
-  function CompareByEndSendDateTime($_Q8otJ, $_jQjOO) {
-      return strcmp($_Q8otJ["EndSendDateTime"], $_jQjOO["EndSendDateTime"]) * -1;
+  print $_QLJfI;
+
+
+  function CompareByEndSendDateTime($_I1OoI, $_jl0Ii) {
+      return strcmp($_I1OoI["EndSendDateTime"], $_jl0Ii["EndSendDateTime"]) * -1;
   }
 
 ?>

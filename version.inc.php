@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -24,13 +24,13 @@
 
 
 # ProductVersion
-# Es ist nicht gestattet die folgenden Werte zu veraendern!
-# It's not allowed to change following values!
- $_QoJ8j = "6.60.0.01375";
- $_fI061 = "http://www.superwebmailer.de/";
- $_fI1J6 = "support@superwebmailer.de";
- $_fIQ1t = "2007";
- $_fjO86 = "&copy; Mirko B&ouml;er";
+# Es ist nicht gestattet die folgenden Werte zu veraendern, werden fuer das Online-Update benoetigt!
+# It's not allowed to change following values, it is needed for online update!
+ $_Ij6Lj = "9.00.0.01711";
+ $_foo18 = "https://www.superwebmailer.de/";
+ $_8i0Ol = "support@superwebmailer.de";
+ $_8i1tf = "2007";
+ $_8Ltj6 = "&copy; Mirko B&ouml;er";
  $APIVersion = "1.00.0.00015";
 
 ?>

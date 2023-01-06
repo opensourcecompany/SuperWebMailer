@@ -26,59 +26,59 @@
   include_once("templates.inc.php");
 
   if($UserType != "SuperAdmin"){
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
   }
 
   $errors = array();
-  $_I0600 = "";
+  $_Itfj8 = "";
 
   if(isset($_POST["SaveBtn"])) {
-    _LO1B0();
-    $_I0600=$resourcestrings[$INTERFACE_LANGUAGE]["000021"];
+    _JO8B1();
+    $_Itfj8=$resourcestrings[$INTERFACE_LANGUAGE]["000021"];
   }
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["001900"], $_I0600, 'settings_editfields', 'settings_editfields_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["001900"], $_Itfj8, 'settings_editfields', 'settings_editfields_snipped.htm');
 
-  $_I1OLj = _OP81D($_QJCJi, "<TABLE:ROW>", "</TABLE:ROW>");
-  $_QJlJ0 = "SELECT `text`, `fieldname` FROM `$_Qofjo` WHERE `language`="._OPQLR($INTERFACE_LANGUAGE);
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
+  $_IOiJ0 = _L81DB($_QLJfI, "<TABLE:ROW>", "</TABLE:ROW>");
+  $_QLfol = "SELECT `text`, `fieldname` FROM `$_Ij8oL` WHERE `language`="._LRAFO($INTERFACE_LANGUAGE);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
 
-  $_Q6ICj = "";
-  $_QL8Q8=1;
-  $_I16jJ=array();
-  while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-    $_I16jJ[$_Q6Q1C["fieldname"]]=$_Q6Q1C["text"];
-    $_Q66jQ = $_I1OLj;
-    $_Q66jQ = str_replace('<!--FIELD-->', '<label for="editfield'.$_QL8Q8.'">'.$_Q6Q1C["text"]."</label>", $_Q66jQ);
-    $_Q66jQ = str_replace('<!--VALUE-->', '<input type="text" name="'.$_Q6Q1C["fieldname"].'" id="editfield'.$_QL8Q8.'" size="30" />', $_Q66jQ);
-    $_QL8Q8++;
-    $_Q6ICj .= $_Q66jQ;
-    $_Q66jQ = "";
+  $_QLoli = "";
+  $_Ift08=1;
+  $_IOJoI=array();
+  while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+    $_IOJoI[$_QLO0f["fieldname"]]=$_QLO0f["text"];
+    $_Ql0fO = $_IOiJ0;
+    $_Ql0fO = str_replace('<!--FIELD-->', '<label for="editfield'.$_Ift08.'">'.$_QLO0f["text"]."</label>", $_Ql0fO);
+    $_Ql0fO = str_replace('<!--VALUE-->', '<input type="text" name="'.$_QLO0f["fieldname"].'" id="editfield'.$_Ift08.'" size="30" />', $_Ql0fO);
+    $_Ift08++;
+    $_QLoli .= $_Ql0fO;
+    $_Ql0fO = "";
   }
-  if($_Q66jQ != "")
-    $_Q6ICj .= $_Q66jQ;
-  $_QJCJi = _OPR6L($_QJCJi, "<TABLE:ROW>", "</TABLE:ROW>", $_Q6ICj);
+  if($_Ql0fO != "")
+    $_QLoli .= $_Ql0fO;
+  $_QLJfI = _L81BJ($_QLJfI, "<TABLE:ROW>", "</TABLE:ROW>", $_QLoli);
 
-  $_POST=array_merge($_I16jJ, $_POST);
+  $_POST=array_merge($_IOJoI, $_POST);
 
-  $_QJCJi = _OPFJA($errors, $_POST, $_QJCJi);
+  $_QLJfI = _L8AOB($errors, $_POST, $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
-  function _LO1B0() {
-   global $_Qofjo, $INTERFACE_LANGUAGE, $_Q61I1, $_Q6QQL;
+  function _JO8B1() {
+   global $_Ij8oL, $INTERFACE_LANGUAGE, $_QLttI, $_QLo06;
    reset($_POST);
-   foreach($_POST as $key => $_Q6ClO){
+   foreach($_POST as $key => $_QltJO){
      if(strpos($key, 'u_') === false) continue;
-     $_QJlJ0 = "UPDATE `$_Qofjo` SET ";
-     $_QJlJ0 .= "`text`="._OPQLR( htmlentities(trim($_Q6ClO), ENT_COMPAT, $_Q6QQL) );
-     $_QJlJ0 .= " WHERE `language`="._OPQLR($INTERFACE_LANGUAGE)." AND `fieldname`="._OPQLR($key);
-     mysql_query($_QJlJ0, $_Q61I1);
-     _OAL8F($_QJlJ0);
+     $_QLfol = "UPDATE `$_Ij8oL` SET ";
+     $_QLfol .= "`text`="._LRAFO( htmlentities(trim($_QltJO), ENT_COMPAT, $_QLo06) );
+     $_QLfol .= " WHERE `language`="._LRAFO($INTERFACE_LANGUAGE)." AND `fieldname`="._LRAFO($key);
+     mysql_query($_QLfol, $_QLttI);
+     _L8D88($_QLfol);
    }
   }
 ?>

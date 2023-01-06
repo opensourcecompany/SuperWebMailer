@@ -13,9 +13,10 @@
  */
 
 error_reporting( 0 );
-ini_set("display_errors", 0);
+ini_set("display_errors", 1);
 
 include_once("phpcompat.php");
+include_once("csrf.inc.php");
 
 // M.B.
 $path = realpath(dirname(__FILE__));
@@ -34,16 +35,22 @@ if($path == "")
 if(substr($path, strlen($path), 1) <> '/')
   $path .= "/";
 
-define("ISFROMCKFILEMANAGER", true);
-if ( ! ( ( include "./../../../../sessioncheck.inc.php" ) ) ) {
-   if ( ! ( ( include $path."sessioncheck.inc.php" ) ) ) {
-      include_once("../../../../sessioncheck.inc.php");
+if ( ! ( ( include "./../../../../userdefined.inc.php" ) ) ) {
+   if ( ! ( ( include $path."userdefined.inc.php" ) ) ) {
+      include_once("../../../../userdefined.inc.php");
    }
 }
 
 if ( ! ( ( include "./../../../../functions.inc.php" ) ) ) {
    if ( ! ( ( include $path."functions.inc.php" ) ) ) {
       include_once("../../../../functions.inc.php");
+   }
+}
+
+define("ISFROMCKFILEMANAGER", true);
+if ( ! ( ( include "./../../../../sessioncheck.inc.php" ) ) ) {
+   if ( ! ( ( include $path."sessioncheck.inc.php" ) ) ) {
+      include_once("../../../../sessioncheck.inc.php");
    }
 }
 
@@ -72,6 +79,7 @@ if(isset($_SESSION) && isset($_SESSION["_UserAbsoluteFilesPath"]))
   $Config['UserFilesAbsolutePath'] = $_SESSION["_UserAbsoluteFilesPath"];
 // M.B.
 
+
 /**
  *      Check if user is authorized
  *
@@ -86,6 +94,36 @@ function auth() {
     return false;
   }
 
+
+  // DoubleSubmitCookieTokenValidator
+
+  if(defined("NoCSRFProtection") && NoCSRFProtection == 1) return true;
+
+  if($_SERVER['REQUEST_METHOD'] == 'POST' && !defined("UploadGetContentsCalled") && !defined("QuickUploadCalled") && !defined("RemoveFileCalled") )
+    //if(!empty($_POST[CKEDITOR_TOKEN_COOKIE_NAME])){
+      if(empty($_COOKIE[CKEDITOR_TOKEN_COOKIE_NAME]) || empty($_POST[CKEDITOR_TOKEN_COOKIE_NAME]) || $_COOKIE[CKEDITOR_TOKEN_COOKIE_NAME] != $_POST[CKEDITOR_TOKEN_COOKIE_NAME]){
+        if(empty($_COOKIE[SMLSWM_TOKEN_COOKIE_NAME]) || empty($_POST[SMLSWM_TOKEN_COOKIE_NAME]) || $_COOKIE[SMLSWM_TOKEN_COOKIE_NAME] != $_POST[SMLSWM_TOKEN_COOKIE_NAME]){
+          return false;
+        }
+      }
+    //}
+
+  if($_SERVER['REQUEST_METHOD'] == 'POST' && (defined("UploadGetContentsCalled") || defined("QuickUploadCalled") || defined("RemoveFileCalled")) )
+      if(empty($_COOKIE[SMLSWM_TOKEN_COOKIE_NAME]) || empty($_POST[SMLSWM_TOKEN_COOKIE_NAME]) || $_COOKIE[SMLSWM_TOKEN_COOKIE_NAME] != $_POST[SMLSWM_TOKEN_COOKIE_NAME]){
+        return false;
+      }
+
+  if($_SERVER['REQUEST_METHOD'] == 'GET' && !defined("UploadGetContentsCalled") && !defined("QuickUploadCalled") && !defined("QuickUploadCalledFromCKEditor") && !defined("RemoveFileCalled") ){
+     if(empty($_COOKIE[SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME]) || !(fmCheckForCorrectCsrfTokenInHeader() || $_COOKIE[SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME] == $_GET[SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME] ) ){
+       return false;
+     }
+  }
+
+  if($_SERVER['REQUEST_METHOD'] == 'POST' && !defined("UploadGetContentsCalled") && !defined("QuickUploadCalled")  && !defined("QuickUploadCalledFromCKEditor") && !defined("RemoveFileCalled") && !defined("ResizeCalled") )
+     if(empty($_COOKIE[SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME]) || empty($_POST[SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME]) || $_COOKIE[SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME] != $_POST[SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME]){
+       return false;
+     }
+
   return true;
 }
 
@@ -94,6 +132,10 @@ function auth() {
  *      Language settings
  */
 $config['culture'] = 'en';
+
+@setlocale (LC_ALL, 'en_US');
+if(function_exists("date_default_timezone_set"))
+  @date_default_timezone_set("Europe/London");
 
 /**
  *      PHP date format

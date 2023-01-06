@@ -28,9 +28,9 @@
    $data = array("api_Recipients__api_listRecipients" => json_encode(array("apiMailingListId" => 1, "apiStart" => 0, "apiCount" => 100)));
 
    // api_Recipients.api_createRecipient
-   $createData = array("apiMailingListId" => 1, "apiData" => array( "u_EMail" => "webmaster@johndoe3.com", "u_LastName" => "Doe", "u_FirstName" => "John" ), "apiarrayGroupsIds" => array(), "apiUseDoubleOptIn" => false);
+   $createData = array("apiMailingListId" => 1, "apiData" => array( "u_EMail" => "webmaster@johndoe3.com", "u_LastName" => "Doe", "u_FirstName" => "John" ), "apiarrayGroupsIds" => array(), "apiUseDoubleOptIn" => false, "apiFormId" => 0);
    // SOAP request: api_Recipients.api_createRecipient => api_Recipients__api_createRecipient
-   $data = array("api_Recipients.api_createRecipient" => json_encode($createData) );
+   $data = array("api_Recipients__api_createRecipient" => json_encode($createData) );
 
    // ** sample requests ** /
 

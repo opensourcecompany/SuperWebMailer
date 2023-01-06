@@ -1,0 +1,534 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Windows-1252">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer -
+Interne Funktionen verwenden</title>
+<link type="text/css" rel="stylesheet" href="../CSS/layout.css">
+<meta name="MS-HKWD" content="Interne Funktionen verwenden">
+<meta name="MS-HKWD" content="base64">
+<meta name="MS-HKWD" content="urlencode">
+<meta name="MS-HKWD" content="hash">
+<meta name="MS-HKWD" content="htmlentities">
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,interne Funktionen, md5, base64, urlencode, hash, htmlentities">
+<meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - interne Funktionen, md5, base64, urlencode, hash, htmlentities">
+<meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script LANGUAGE="JavaScript" SRC="jscript.js"></script>
+<link rel="canonical" href="https://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/internal_functions.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+<h1>Interne Funktionen verwenden</h1>
+<p>Es stehen einige interne Funktionen zur Verfügung, um z.B. Zeichenketten
+korrekt für Hyperlinks zu codieren. Zur Erstellung von WENN...DANN..-Abfragen
+verwenden Sie die <a href="functionedit.htm">Funktionen</a>.</p>
+<p>&nbsp;</p>
+<p>Standard-Funktionen und Standard-Werte, für die keine Funktionen verwendet
+werden müssen</p>
+<table width="100%" cols="2" border="1" rules="all" frame="box" cellspacing="0">
+  <tbody>
+    <tr>
+      <td width="30%">[Year], [Month], [Day], [WeekNumber], [Hour], [Minute],
+        [Second], [LastEMailSent], [DayName], [MonthName]</td>
+      <td width="100%">Ausgabe von Jahr, Monat, Tag, Kalenderwoche, Stunde,
+        Minute, Sekunde, Datum letzter E-Mail-Versand, Wochentag und Monatsname
+        in deutscher Sprache.</td>
+    <tr>
+      <td width="30%">[Date_short]</td>
+      <td width="100%">Datum im kurzen Datumsformat Tag.Monat.Jahr.</td>
+    </tr>
+    <tr>
+      <td width="30%">
+        <p align="left">[Date_long]</p>
+      </td>
+      <td width="100%">Datum im langen Datumsformat Tag.Monat.Jahr
+        Stunde:Minute:Sekunde.</td>
+    </tr>
+    <tr>
+      <td width="30%">
+        <p align="left">[Time]</p>
+      </td>
+      <td width="100%">Uhrzeit im Format Stunde:Minute:Sekunde</td>
+    </tr>
+    <tr>
+      <td width="30%">
+        <p align="left">[RecipientId]</p>
+      </td>
+      <td width="100%">ID des Empfängers in der Empfängerliste</td>
+    </tr>
+    <tr>
+      <td width="30%">
+        <p align="left">[MailingListId]</p>
+      </td>
+      <td width="100%">ID der Empfängerliste</td>
+    </tr>
+    <tr>
+      <td width="30%">
+        <p align="left">[SubscriptionStatus]</p>
+      </td>
+      <td width="100%">Anmeldestatus des Empfängers</td>
+    </tr>
+    <tr>
+      <td width="30%">[IPOnSubscription]</td>
+      <td width="100%">IP-Adresse bei Anmeldung</td>
+    </tr>
+    <tr>
+      <td width="30%">[DateOfSubscription]</td>
+      <td width="100%">Datum/Uhrzeit bei Anmeldung</td>
+    </tr>
+    <tr>
+      <td width="30%">[DateOfOptInConfirmation]</td>
+      <td width="100%">Datum/Uhrzeit bei Klick auf Bestätigungslink</td>
+    </tr>
+    <tr>
+      <td width="30%">
+        <p align="left">[EMail_LocalPart]</p>
+      </td>
+      <td width="100%">Lokaler Teil der E-Mail-Adresse</td>
+    </tr>
+    <tr>
+      <td width="30%">
+        <p align="left">[EMail_DomainPart]</p>
+      </td>
+      <td width="100%">Domain Teil der E-Mail-Adresse</td>
+    </tr>
+  </tbody>
+</table>
+<p>&nbsp;</p>
+<p><b>Hinweise</b></p>
+<ul>
+  <li>Alle Funktionsnamen beginnen mit sf_, um Probleme mit geschriebenen
+    Funktionsnamen aus anderen Programmiersprachen im E-Mail-Text zur vermeiden.</li>
+  <li>Alle Funktionsnamen sind immer in Kleinbuchstaben anzugeben.</li>
+  <li>Leerzeichen zwischen () werden immer entfernt.</li>
+  <li>Diese Funktionen werden immer ausgeführt, nach dem alle Platzhalter im
+    HTML-/Text-Teil der E-Mail durch die Werte des jeweiligen Empfängers
+    ersetzt wurden. z.B. sf_sha1([Name][Vorname][EMail]) wird ausgeführt
+    nachdem die Platzhalter [Name], [Vorname] und [EMail] durch die Werte aus
+    der Empfängerliste ersetzt wurden.</li>
+  <li>Sollten während der Ausführung der Funktionen Fehler auftreten, wird als
+    Text <i>!!ERROR IN FUNCTION PARAMETERS!!</i> gefolgt vom Fehler z.B.
+    Division durch 0 zurückgeliefert. Es sollte vorab in der Serienmailvorschau
+    die Ausführung der Funktionen getestet werden.</li>
+</ul>
+<p>&nbsp;</p>
+<p><b>Syntax</b></p>
+<p><font face="Courier New" size="3">sf_&lt;funktionsname&gt;<b>(</b>
+&lt;argument&gt; <b>)</b></font></p>
+<p>Alle Angaben in &lt; &gt; sind Pflichtangaben.</p>
+<p>Beispiel: sf_base64_encode(EIN TEXT) Ergebnis: RUlOIFRFWFQ=</p>
+<p>&nbsp;</p>
+<p><b>Schachteln von Funktionen</b></p>
+<p>Das Schachteln von Funktionen ist problemlos möglich, aus
+Performance-Gründen sollte dies jedoch sparsam eingesetzt werden, es muss auf
+das korrekte Schließen der runden Klammern geachtet werden.</p>
+<p><font face="Courier New" size="3">sf_&lt;funktionsname&gt;<b>(</b>
+sf_&lt;funktionsname&gt;<b>(</b>&lt;argument&gt;<b>)</b> <b>)</b></font></p>
+<p>Alle Angaben in &lt; &gt; sind Pflichtangaben.</p>
+<p>Beispiel: sf_base64_decode<font size="4">( </font>sf_base64_encode<font size="4">(</font>EIN
+TEXT<font size="4">) )</font> Ergebnis EIN TEXT</p>
+<p>&nbsp;</p>
+<p><b>Liste der Funktionen</b></p>
+<p>Alle im Dialog zur Konfiguration mit Sternchen gekennzeichneten Felder
+müssen ausgefüllt werden.</p>
+<p>&lt;string&gt; =&gt; Pflichtangabe einer Zeichenkette</p>
+<p>&lt;integer&gt; =&gt; Pflichtangabe Ganzzahl</p>
+<p>&lt;float&gt; =&gt; Pflichtangabe Gleitkommazahl</p>
+<p>&lt;length&gt; =&gt; Pflichtangabe Länge einer Zeichenkette</p>
+<p>&nbsp;</p>
+<table width="100%" cols="2" border="1" rules="all" frame="box" cellspacing="0">
+  <tbody>
+    <tr valign="top">
+      <td width="28%">sf_base64_encode(&lt;string&gt;)</td>
+      <td width="72%">Codiert die Zeichenkette in base64.
+        <p>Beispiel: sf_base64_encode(text)</p>
+        <p>&nbsp;</p>
+      </td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_base64_decode(&lt;string&gt;)</td>
+      <td width="72%">Dekodiert eine base64-codierte Zeichenkette.
+        <p>Beispiel: sf_base64_decode(RUlOIFRFWFQ=)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_url_encode(&lt;string&gt;)</td>
+      <td width="72%">Codiert die Zeichenkette in url-codiert, um den Wert in
+        Hyperlinks als Parameter verwenden zu können.
+        <p>Beispiel: sf_url_encode(ein Text mit Leerzeichen)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_url_decode(&lt;string&gt;)</td>
+      <td width="72%">Dekodiert die url-codierte Zeichenkette.
+        <p>Beispiel: sf_url_decode(ein+Text+mit+Leerzeichen)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_htmlentities(&lt;string&gt;)</td>
+      <td width="72%">Wandelt Zeichen in HTML-Codes um.
+        <p>Beispiel: sf_htmlentities(&lt;ein text&gt;)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_unhtmlentities(&lt;string&gt;)</td>
+      <td width="72%">Wandelt alle HTML-Entities in Zeichen um.
+        <p>Beispiel: sf_unhtmlentities(&amp;lt;ein text&amp;gt;)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_sha1(&lt;string&gt;)</td>
+      <td width="72%">Berechnet den sha1-Hash.
+        <p>Beispiel: sf_sha1(abc)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_md5(&lt;string&gt;)</td>
+      <td width="72%">Berechnet den md5-Hash.
+        <p>Beispiel: sf_md5(abc)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_sha2_256(&lt;string&gt;), sf_sha2_384(&lt;string&gt;),
+        sf_sha2_512(&lt;string&gt;)</td>
+      <td width="72%">Berechnet den sha2-Hash.
+        <p>Beispiel: sf_sha2_256(abc)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_domain_part(&lt;email-adresse&gt;)</td>
+      <td width="72%">Gibt den Domainteil einer E-Mail-Adresse zurück. Enthält
+        die Zeichenkette kein @-Zeichen, wird eine leere Zeichenkette
+        zurückgegeben.
+        <p>Beispiel: sf_domain_part(max@mustermann.de)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_local_part(&lt;email-adresse&gt;)</td>
+      <td width="72%">Gibt den lokalen Teil einer E-Mail-Adresse zurück.
+        Enthält die Zeichenkette kein @-Zeichen, wird eine leere Zeichenkette
+        zurückgegeben.
+        <p>Beispiel: sf_local_part(max@mustermann.de)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_lowercase(&lt;string&gt;)</td>
+      <td width="72%">Wandelt die Zeichenkette in Kleinbuchstaben um.
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_uppercase(&lt;string&gt;)</td>
+      <td width="72%">Wandelt die Zeichenkette in Großbuchstaben um.
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_lcfirst(&lt;string&gt;)</td>
+      <td width="72%">Wandelt das erste Zeichen der Zeichenkette in einen
+        Kleinbuchstaben um.
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_ucfirst(&lt;string&gt;)</td>
+      <td width="72%">Wandelt das erste Zeichen der Zeichenkette in einen
+        Großbuchstaben um.
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_trim(&lt;string&gt;)</td>
+      <td width="72%">Entfernt führende/nachfolgende Leerzeichen.
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_ltrim(&lt;string&gt;)</td>
+      <td width="72%">Entfernt führende Leerzeichen.
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_rtrim(&lt;string&gt;)</td>
+      <td width="72%">Entfernt nachfolgende Leerzeichen.
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_nl2br(&lt;string&gt;)</td>
+      <td width="72%">Wandelt alle Zeilenumbrüche in &lt;br&gt; um.
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_hex(&lt;integer&gt;)</td>
+      <td width="72%">Wandelt die angegebene Zeichenkette in Dezimalzahl und
+        danach in eine Hexadezimal-Zahl.
+        <p>Beispiel: sf_hex(12345)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_rand(&lt;max_integer&gt;)</td>
+      <td width="72%">Erstellt eine Zufallszahl im angegebenen Bereich.
+        <p>Beispiel: sf_rand(10)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_add(&lt;integer&gt;,&lt;integer&gt;[,&lt;integer&gt;...])</td>
+      <td width="72%">Addiert die mit Komma getrennten Zahlen.
+        <p>Beispiel: sf_add(1, 2, 3)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_sub(&lt;integer&gt;,&lt;integer&gt;[,&lt;integer&gt;...])</td>
+      <td width="72%">Subtrahiert die mit Komma getrennten Zahlen.
+        <p>Beispiel: sf_sub(3, 2, 1)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_mul(&lt;integer&gt;,&lt;integer&gt;[,&lt;integer&gt;...])</td>
+      <td width="72%">Multipliziert die mit Komma getrennten Zahlen.
+        <p>Beispiel: sf_mul(3, 2, 1)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_div(&lt;integer&gt;,&lt;integer&gt;[,&lt;integer&gt;...])</td>
+      <td width="72%">Multipliziert die mit Komma getrennten Zahlen.
+        <p>Beispiel: sf_div(3, 2)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="28%" valign="top">sf_muldiv(&lt;zahl&gt;, &lt;zaehler&gt;,
+        &lt;nenner&gt;)</td>
+      <td width="72%">Multipliziert &lt;zahl&gt; mit &lt;zaehler&gt; und
+        dividiert durch &lt;nenner&gt;
+        <p>Beispiel: sf_muldiv(3, 2, 3) =&gt; 2</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="28%" valign="top">sf_divmul(&lt;zahl&gt;, &lt;nenner&gt;,
+        &lt;zahl1&gt;)</td>
+      <td width="72%">Dividert &lt;zahl&gt; durch &lt;nenner&gt; und
+        multipliziert mit &lt;zahl1&gt;
+        <p>Beispiel: sf_divmul(3, 2, 1) =&gt; 1.5</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_abs(&lt;integer&gt;)</td>
+      <td width="72%">Gibt den Absolutwert/Betrag einer Zahl zurück.
+        <p>Beispiel: sf_abs(-123) oder z.B. sf_abs(sf_sub(3, 10))</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_toint(&lt;float&gt;)</td>
+      <td width="72%">Wandelt eine Gleitkommazahl in eine Ganzzahl, dabei werden
+        die Stellen nach dem Punkt abgeschnitten. Alternativ wird eine Zahl in
+        Hexadezimalschreibweise in eine Ganzzahl umgewandelt. Die
+        Hexadezimalzahl muss mit 0x beginnen, ansonsten wird diese als
+        Zeichenkette angesehen.
+        <p>Beispiel: sf_toint(123.456) oder sf_toint(0xFFAAFF)</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="28%" valign="top">sf_tofloat(&lt;zahl&gt;)</td>
+      <td width="72%">Wandelt eine Zahl in eine Gleitkommazahl. Diese Funktion
+        muss mit PHP normalerweise nicht verwendet werden, da PHP selbst in den
+        pasenden Zahlentyp umwandelt. In der <a href="https://www.supermailer.de">Newsletter
+        Software SuperMailer</a> muss diese Funktion verwendet werden, um den
+        korrekten Zahlentyp für die Funktion sf_format() zu übergeben.
+        <p>&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="28%" valign="top">sf_rand_string_mixed(&lt;length&gt;)<br>
+        <br>
+      </td>
+      <td width="72%">Erstellt eine Zufallszeichenkette bestehend aus
+        Groß-/Kleinbuchstaben und Zahlen.
+        <p>Mit &lt;laenge&gt; kann die Länge der Zufallszeichenkette angegeben
+        werden, Standard ist 8 Zeichen.</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="28%" valign="top">sf_rand_string_uppercase(&lt;length&gt;)</td>
+      <td width="72%">Erstellt eine Zufallszeichenkette bestehend aus
+        Großbuchstaben und Zahlen.
+        <p>Mit &lt;laenge&gt; kann die Länge der Zufallszeichenkette angegeben
+        werden, Standard ist 8 Zeichen.</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="28%" valign="top">sf_rand_string_lowercase(&lt;length&gt;)</td>
+      <td width="72%">Erstellt eine Zufallszeichenkette bestehend aus
+        Kleinbuchstaben und Zahlen.
+        <p>Mit &lt;laenge&gt; kann die Länge der Zufallszeichenkette angegeben
+        werden, Standard ist 8 Zeichen.</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="28%" valign="top">sf_substring(&lt;string&gt;,
+        &lt;start&gt;[,length])</td>
+      <td width="72%">Ermittelt eine Teilzeichenkette. &lt;start&gt; muss ein
+        Wert &gt;= 1 sein (ersten Zeichen wird mit 1, nicht mit 0 angesehen!),
+        length optional die Anzahl Zeichen die aus &lt;string&gt; extrahiert
+        werden sollen.
+        <p>Beispiel: sf_substring(ABC, 1) =&gt; A; sf_substring(ABC, 2, 2) =&gt;
+        BC</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr valign="top">
+      <td width="28%">sf_pos(&lt;string&gt;, &lt;findstring&gt;, [wert])</td>
+      <td width="72%">Ermittelt die Position von &lt;findstring&gt; in
+        &lt;string&gt;, kommt die Zeichenkette nicht vor wird 0
+        zurückgeliefert. Wie bei sf_substring() beginnt die Zählung der
+        Zeichen ab Zeichen 1, nicht 0. Optional kann [wert] angegeben werden,
+        dieser wird von der gefundenen Position abgezogen.
+        <p>Beispiel:</p>
+        <p>E-Mail-Adresse: max@mustermann.de</p>
+        <p>sf_substring(mustermann.de, 1, sf_pos(mustermann.de, . , 1))</p>
+        <p>Resultat: mustermann</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="28%" valign="top">sf_today([format])</td>
+      <td width="72%">Gibt das aktuelle Datum aus.
+        <p>Ist die Spracheinstellung der SuperWebMailer-Oberfläche auf deutsch
+        eingestellt, erfolgt die Ausgabe des Datums immer in der Form
+        tag.monat.jahr, ansonsten Jahr-Monat-Tag. Ohne Angabe einer Formatierung
+        entspricht sf_today() dem Standard-Platzhalter [Date_short].<br>
+        </p>
+        <p>Für [format] kann eine Formatierung des Datums angegeben werden, die
+        Formatierungszeichen finden Sie in der PHP-Hilfe <a href="https://www.php.net/manual/de/datetime.format.php" target="_blank">https://www.php.net/manual/de/datetime.format.php</a>.
+        Die Formatierungszeichen sind nicht kompatibel zur <a href="https://www.supermailer.de/" target="_blank">Newsletter
+        Software SuperMailer</a>, die ebenfalls diese Funktion anbietet.<br>
+        <br>
+        Beispiele<br>
+        <br>
+        sf_today() =&gt; 05.02.2021<br>
+        <br>
+        sf_today(d.m.Y) =&gt; Ausgabe ebenfalls 05.02.2021<br>
+        <br>
+        sf_today(F) =&gt; Februar</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="28%" valign="top">sf_tomorrow([format])</td>
+      <td width="72%">Gibt das morgige Datum aus.
+        <p>Ist die Spracheinstellung der SuperWebMailer-Oberfläche auf deutsch
+        eingestellt, erfolgt die Ausgabe des Datums immer in der Form
+        tag.monat.jahr, ansonsten Jahr-Monat-Tag.<br>
+        </p>
+        <p>Für [format] kann eine Formatierung des Datums angegeben werden, die
+        Formatierungszeichen finden Sie in der PHP-Hilfe <a href="https://www.php.net/manual/de/datetime.format.php" target="_blank">https://www.php.net/manual/de/datetime.format.php</a>.
+        Die Formatierungszeichen sind nicht kompatibel zur <a href="https://www.supermailer.de/" target="_blank">Newsletter
+        Software SuperMailer</a>, die ebenfalls diese Funktion anbietet.</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="28%" valign="top">sf_yesterday([format])</td>
+      <td width="72%">Gibt das gestrige Datum aus.
+        <p>Ist die Spracheinstellung der SuperWebMailer-Oberfläche auf deutsch
+        eingestellt, erfolgt die Ausgabe des Datums immer in der Form
+        tag.monat.jahr, ansonsten Jahr-Monat-Tag.<br>
+        </p>
+        <p>Für [format] kann eine Formatierung des Datums angegeben werden, die
+        Formatierungszeichen finden Sie in der PHP-Hilfe <a href="https://www.php.net/manual/de/datetime.format.php" target="_blank">https://www.php.net/manual/de/datetime.format.php</a>.
+        Die Formatierungszeichen sind nicht kompatibel zur <a href="https://www.supermailer.de/" target="_blank">Newsletter
+        Software SuperMailer</a>, die ebenfalls diese Funktion anbietet.</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="28%" valign="top">sf_incdays(&lt;date&gt;, &lt;days&gt;[,
+        destformat][, srcformat])</td>
+      <td width="72%">Addiert auf das angegebene Datum die Anzahl Tage und gibt
+        das neue Datum aus. Sind die Anzahl Tage negativ, dann werden die Tage
+        subtrahiert. Das Datum und Anzahl Tage sind Pflichtangaben, destformat
+        und srcformat optional. Die Angabe von quellformat muss erfolgen, wenn
+        das Datum von der internen SuperWebMailer-Einstellung (tag.monat.jahr
+        für deutsche Nutzer bzw. jahr-monat-tag für englischsprachige Nutzer)
+        abweicht.<br>
+        <p>Für [destformat] und [zielformat] kann eine Formatierung des Datums
+        angegeben werden, die Formatierungszeichen finden Sie in der PHP-Hilfe <a href="https://www.php.net/manual/de/datetime.format.php" target="_blank">https://www.php.net/manual/de/datetime.format.php</a>.
+        Die Formatierungszeichen sind nicht kompatibel zur <a href="https://www.supermailer.de/" target="_blank">Newsletter
+        Software SuperMailer</a>, die ebenfalls diese Funktion anbietet.</p>
+        <p><br>
+        Beispiele<br>
+        <br>
+        sf_incdays(05.02.2021, 10) =&gt; 15.02.2021<br>
+        <br>
+        sf_incdays(05.02.2021, -10) =&gt; 26.01.2021<br>
+        <br>
+        sf_incdays(05.02.2021, 30, mY) =&gt; 032021<br>
+        <br>
+        MySQL-Datumsformat Jahr-Monat-Tag wird als Quellformat/srcformat
+        angegeben, Zielformat/destformat ist leer, damit wird das
+        SuperWebMailer-Format tag.monat.jahr zur Ausgabe verwendet<br>
+        <br>
+        sf_incdays(2021-02-05, 10, ,Y-m-d) =&gt; 15.02.2021<br>
+        <br>
+        Ausgabe deutsches Datumsformat in der Form Jahr-Monat-Tag<br>
+        <br>
+        sf_incdays(05.02.2021, 14, Y-m-d) =&gt; 2021-02-19</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="28%" valign="top">sf_incweeks(&lt;date&gt;, &lt;weeks&gt;[,
+        destformat][, srcformat])</td>
+      <td width="72%">Addiert auf das angegebene Datum die Anzahl Wochen und
+        gibt das neue Datum aus. Sind die Anzahl Wochen negativ, dann werden die
+        Wochen subtrahiert. Das Datum und Anzahl Wochen sind Pflichtangaben,
+        destformat und srcformat optional. Die Angabe von quellformat muss
+        erfolgen, wenn das Datum von der internen SuperWebMailer-Einstellung
+        (tag.monat.jahr für deutsche Nutzer bzw. jahr-monat-tag für
+        englischsprachige Nutzer) abweicht.<br>
+        <p>Für [destformat] und [zielformat] kann eine Formatierung des Datums
+        angegeben werden, die Formatierungszeichen finden Sie in der PHP-Hilfe <a href="https://www.php.net/manual/de/datetime.format.php" target="_blank">https://www.php.net/manual/de/datetime.format.php</a>.
+        Die Formatierungszeichen sind nicht kompatibel zur <a href="https://www.supermailer.de/" target="_blank">Newsletter
+        Software SuperMailer</a>, die ebenfalls diese Funktion anbietet.</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="28%" valign="top">sf_incyears(&lt;date&gt;, &lt;years&gt;[,
+        destformat][, srcformat])</td>
+      <td width="72%">Addiert auf das angegebene Datum die Anzahl Jahre und gibt
+        das neue Datum aus. Sind die Anzahl Jahre negativ, dann werden die Jahre
+        subtrahiert. Das Datum und Anzahl Jahre sind Pflichtangaben, destformat
+        und srcformat optional. Die Angabe von quellformat muss erfolgen, wenn
+        das Datum von der internen SuperWebMailer-Einstellung (tag.monat.jahr
+        für deutsche Nutzer bzw. jahr-monat-tag für englischsprachige Nutzer)
+        abweicht.<br>
+        <p>Für [destformat] und [zielformat] kann eine Formatierung des Datums
+        angegeben werden, die Formatierungszeichen finden Sie in der PHP-Hilfe <a href="https://www.php.net/manual/de/datetime.format.php" target="_blank">https://www.php.net/manual/de/datetime.format.php</a>.
+        Die Formatierungszeichen sind nicht kompatibel zur <a href="https://www.supermailer.de/" target="_blank">Newsletter
+        Software SuperMailer</a>, die ebenfalls diese Funktion anbietet.</p>
+        <p>&nbsp;</td>
+    </tr>
+    <tr>
+      <td width="28%">sf_format(&lt;format&gt;, [argument1], [argument2]...)</td>
+      <td width="72%">Formatiert eine Zahl oder Zeichenkette mit Hilfe eines
+        Format-Strings. Mögliche Bezeichner finden Sie in der PHP Hilfe: <a href="https://www.php.net/manual/de/function.sprintf.php" target="_blank">https://www.php.net/manual/de/function.sprintf.php</a>
+        <p>Die Formatierungszeichen sind nicht vollständig kompatibel zur <a href="https://www.supermailer.de/" target="_blank">Newsletter
+        Software SuperMailer</a>, die ebenfalls diese Funktion anbietet.</p>
+        <p>Beispiele</p>
+        <p>sf_format(%2.2f EUR, 1.20) =&gt; 1.20 EUR<br>
+        <br>
+        sf_format(%d, 123456) =&gt; 123456<br>
+        <br>
+        sf_format(%01.2f EUR, sf_add(1000.5, 2000.75)) =&gt; 3001.25 EUR<br>
+        <br>
+        sf_format(%2.2f%%, 95.3) =&gt; 95.30%</p>
+        <p>&nbsp;</td>
+    </tr>
+  </tbody>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

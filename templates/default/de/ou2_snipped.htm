@@ -1,0 +1,41 @@
+      <form id="OUForm" name="OUForm" method="post" action="./onlineupdate.php">
+      <input type="hidden" name="step" value="2" />
+      <input type="hidden" name="XID" />
+      <fieldset>
+      <legend>Online-Update - PRODUCTAPPNAME</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+
+              <tr>
+                <td>
+                  <h2>
+
+                  <DOWNLOAD:SUCCESS>
+                    Der Download des Updates wurde erfolgreich abgeschlossen.<br /><br />
+                    Klicken Sie auf &quot;Weiter&quot;, um das Update jetzt entpacken zu lassen.
+                  </DOWNLOAD:SUCCESS>
+
+                  <DOWNLOAD:FAILURE>
+                   Der Download des Updates wurde nicht erfolgreich abgeschlossen.<br /><br />
+                   <span style="color: red;">Fehler: <!--DOWNLOADERRORTEXT--></span><br /><br />
+                   Pr&uuml;fen Sie die Internetverbindung und ob gen&uuml;gend Speicherplatz zur Verf&uuml;gung steht.
+                  </DOWNLOAD:FAILURE>
+
+                  </h2>
+                  <br /><br />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <DOWNLOAD:SUCCESS>
+      <input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" onclick="InsertLoadingStatusOnSubmit('OUForm');" />
+      </DOWNLOAD:SUCCESS>
+
+      <input type="submit" name="CancelBtn" value="Abbrechen" class="FormButton" onclick="$('#OUForm').prop('action', './dashboard.php');" />
+
+      </form>
+      

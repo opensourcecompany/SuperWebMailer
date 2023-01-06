@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -27,17 +27,17 @@
   include_once("templates.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeInboxBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeInboxBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  $_I0600 = "";
-  if (count($_POST) != 0) {
+  $_Itfj8 = "";
+  if (count($_POST) > 1) {
     if( isset($_POST["OneInboxListAction"]) && isset($_POST["OneInboxListId"]) ) {
       // hier die Einzelaktionen
       if($_POST["OneInboxListAction"] == "EditInboxProperties") {
@@ -48,10 +48,10 @@
       if($_POST["OneInboxListAction"] == "DeleteInbox") {
 
         if($OwnerUserId != 0) {
-          if(!$_QJojf["PrivilegeInboxRemove"]) {
-            $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-            $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-            print $_QJCJi;
+          if(!$_QLJJ6["PrivilegeInboxRemove"]) {
+            $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+            $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+            print $_QLJfI;
             exit;
           }
         }
@@ -59,204 +59,204 @@
         include_once("removeinbox.inc.php");
 
         // show now the list
-        if(count($_QtIiC) > 0)
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000161"].join("<br />", $_QtIiC);
+        if(count($_IQ0Cj) > 0)
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000161"].join("<br />", $_IQ0Cj);
         else
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000160"];
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000160"];
       }
     }
 
   }
 
   // default SQL query
-  $_QJlJ0 = "SELECT DISTINCT {} FROM $_QolLi";
+  $_QLfol = "SELECT DISTINCT {} FROM $_IjljI";
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000162"].$resourcestrings[$INTERFACE_LANGUAGE]["EntryCount"], $_I0600, 'browseinboxes', 'browse_inboxes_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000162"].$resourcestrings[$INTERFACE_LANGUAGE]["EntryCount"], $_Itfj8, 'browseinboxes', 'browse_inboxes_snipped.htm');
 
-  $_QJCJi = _OLFP8($_QJlJ0, $_QJCJi);
+  $_QLJfI = _L1EDE($_QLfol, $_QLJfI);
 
   // privilegs
   if($OwnerUserId != 0) {
-    $_Q6ICj = substr($_QJCJi, strpos($_QJCJi, '<div class="PageContainer">'));
-    $_IIf8o = substr($_QJCJi, 0, strpos($_QJCJi, '<div class="PageContainer">') - 1);
+    $_QLoli = substr($_QLJfI, strpos($_QLJfI, '<div class="PageContainer">'));
+    $_ICIIQ = substr($_QLJfI, 0, strpos($_QLJfI, '<div class="PageContainer">') - 1);
 
-    $_QJojf = _OBOOC($UserId);
+    $_QLJJ6 = _LPALQ($UserId);
 
-    if(!$_QJojf["PrivilegeInboxCreate"]) {
-      $_Q6ICj = _LJ6RJ($_Q6ICj, "inboxedit.php");
+    if(!$_QLJJ6["PrivilegeInboxCreate"]) {
+      $_QLoli = _JJC0E($_QLoli, "inboxedit.php");
     }
-    if(!$_QJojf["PrivilegeInboxEdit"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "EditInboxProperties");
-    }
-
-    if(!$_QJojf["PrivilegeInboxRemove"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "DeleteInbox");
-      $_Q6ICj = _LJRLJ($_Q6ICj, "RemoveInboxes");
+    if(!$_QLJJ6["PrivilegeInboxEdit"]) {
+      $_QLoli = _JJC1E($_QLoli, "EditInboxProperties");
     }
 
-    $_QJCJi = $_IIf8o.$_Q6ICj;
+    if(!$_QLJJ6["PrivilegeInboxRemove"]) {
+      $_QLoli = _JJC1E($_QLoli, "DeleteInbox");
+      $_QLoli = _JJCRD($_QLoli, "RemoveInboxes");
+    }
+
+    $_QLJfI = $_ICIIQ.$_QLoli;
   }
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 
 
-  function _OLFP8($_QJlJ0, $_Q6ICj) {
-    global $_QolLi, $UserId, $OwnerUserId, $_SESSION, $INTERFACE_LANGUAGE, $resourcestrings, $_Q60QL, $_IQL81, $_QoOft;
-    $_I61Cl = array();
+  function _L1EDE($_QLfol, $_QLoli) {
+    global $_IjljI, $UserId, $OwnerUserId, $_SESSION, $INTERFACE_LANGUAGE, $resourcestrings, $_QL88I, $_IoCo0, $_IjC0Q;
+    $_Il0o6 = array();
 
     // wie viele pro Seite?
-    $_I6Q68 = 20;
+    $_Il1jO = 20;
     if(isset($_POST["ItemsPerPage"])) {
-       $_QllO8 = intval($_POST["ItemsPerPage"]);
-       if ($_QllO8 <= 0) $_QllO8 = 20;
-       $_I6Q68 = $_QllO8;
+       $_I016j = intval($_POST["ItemsPerPage"]);
+       if ($_I016j <= 0) $_I016j = 20;
+       $_Il1jO = $_I016j;
     }
-    $_I61Cl["ItemsPerPage"] = $_I6Q68;
+    $_Il0o6["ItemsPerPage"] = $_Il1jO;
 
-    $_IJQQI = 0;
+    $_Iil6i = 0;
     if ( (!isset($_POST['PageSelected'])) || ($_POST['PageSelected'] == 0) )
-      $_I6Q6O = 1;
+      $_IlQQ6 = 1;
       else
-      $_I6Q6O = intval($_POST['PageSelected']);
+      $_IlQQ6 = intval($_POST['PageSelected']);
 
     // zaehlen wie viele es sind
-    $_I6Qfj = 0;
-    $_QtjtL = $_QJlJ0;
-    $_QtjtL = str_replace('{}', 'COUNT(id)', $_QtjtL);
-    $_Q60l1 = mysql_query($_QtjtL);
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_I6Qfj = $_Q6Q1C[0];
-    $_I6IJ8 = $_I6Qfj / $_I6Q68;
-    $_I6IJ8 = ceil($_I6IJ8);
-    if(intval($_I6IJ8 * $_I6Q68) - $_I6Q68 > $_I6Qfj)
-       if($_I6IJ8 > 1) $_I6IJ8--;
-    $_Q6ICj = str_replace ('%RECIPIENTCOUNT%', $_I6Qfj, $_Q6ICj);
+    $_IlQll = 0;
+    $_QLlO6 = $_QLfol;
+    $_QLlO6 = str_replace('{}', 'COUNT(id)', $_QLlO6);
+    $_QL8i1 = mysql_query($_QLlO6);
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_IlQll = $_QLO0f[0];
+    $_IlILC = $_IlQll / $_Il1jO;
+    $_IlILC = ceil($_IlILC);
+    if(intval($_IlILC * $_Il1jO) - $_Il1jO > $_IlQll)
+       if($_IlILC > 1) $_IlILC--;
+    $_QLoli = str_replace ('%RECIPIENTCOUNT%', $_IlQll, $_QLoli);
 
     if( isset( $_POST["OneInboxListId"] ) && ($_POST["OneInboxListId"] == "Top") )
-       $_I6Q6O = 1;
+       $_IlQQ6 = 1;
     if( isset( $_POST["OneInboxListId"] ) && ($_POST["OneInboxListId"] == "Prev") )
-       $_I6Q6O = $_I6Q6O - 1;
+       $_IlQQ6 = $_IlQQ6 - 1;
     if( isset( $_POST["OneInboxListId"] ) && ($_POST["OneInboxListId"] == "Next") )
-       $_I6Q6O = $_I6Q6O + 1;
+       $_IlQQ6 = $_IlQQ6 + 1;
     if( isset( $_POST["OneInboxListId"] ) && ($_POST["OneInboxListId"] == "End") )
-       $_I6Q6O = $_I6IJ8;
+       $_IlQQ6 = $_IlILC;
 
-    if ( ($_I6Q6O > $_I6IJ8) || ($_I6Q6O <= 0) )
-       $_I6Q6O = 1;
+    if ( ($_IlQQ6 > $_IlILC) || ($_IlQQ6 <= 0) )
+       $_IlQQ6 = 1;
 
-    $_IJQQI = ($_I6Q6O - 1) * $_I6Q68;
+    $_Iil6i = ($_IlQQ6 - 1) * $_Il1jO;
 
-    $_Q6i6i = "";
-    for($_Q6llo=1; $_Q6llo<=$_I6IJ8; $_Q6llo++)
-      if($_Q6llo != $_I6Q6O)
-       $_Q6i6i .= "<option>$_Q6llo</option>";
+    $_QlOjt = "";
+    for($_Qli6J=1; $_Qli6J<=$_IlILC; $_Qli6J++)
+      if($_Qli6J != $_IlQQ6)
+       $_QlOjt .= "<option>$_Qli6J</option>";
        else
-       $_Q6i6i .= '<option selected="selected">'.$_Q6llo.'</option>';
+       $_QlOjt .= '<option selected="selected">'.$_Qli6J.'</option>';
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<OPTION:PAGES>", "</OPTION:PAGES>", $_Q6i6i);
+    $_QLoli = _L81BJ($_QLoli, "<OPTION:PAGES>", "</OPTION:PAGES>", $_QlOjt);
 
     // Nav-Buttons
-    $_I6ICC = "";
-    if($_I6Q6O == 1) {
-      $_I6ICC .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
+    $_Iljoj = "";
+    if($_IlQQ6 == 1) {
+      $_Iljoj .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
     }
-    if ( ($_I6Q6O == $_I6IJ8) || ($_I6Qfj == 0) ) {
-      $_I6ICC .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
+    if ( ($_IlQQ6 == $_IlILC) || ($_IlQll == 0) ) {
+      $_Iljoj .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
     }
 
-    if($_I6Qfj == 0)
-      $_I6ICC .= "  DisableItem('PageSelected', false);\r\n";
+    if($_IlQll == 0)
+      $_Iljoj .= "  DisableItem('PageSelected', false);\r\n";
 
-    $_Q6ICj = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_I6ICC, $_Q6ICj);
+    $_QLoli = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_Iljoj, $_QLoli);
     //
 
     // Sort
-    $_I6jfj = " ORDER BY Name ASC";
+    $_IlJj8 = " ORDER BY Name ASC";
 
-    $_QJlJ0 .= $_I6jfj;
+    $_QLfol .= $_IlJj8;
 
-    $_QJlJ0 .= " LIMIT $_IJQQI, $_I6Q68";
+    $_QLfol .= " LIMIT $_Iil6i, $_Il1jO";
 
-    $_QJlJ0 = str_replace('{}', 'id, Name, InboxType ', $_QJlJ0);
-    $_Q60l1 = mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
+    $_QLfol = str_replace('{}', 'id, Name, InboxType ', $_QLfol);
+    $_QL8i1 = mysql_query($_QLfol);
+    _L8D88($_QLfol);
 
     // get all table InboxesTable for admin
-    $_IoIOl = array();
-    $_I6jtf = "SELECT InboxesTableName FROM $_Q60QL ";
+    $_jJ6C0 = array();
+    $_IlJlC = "SELECT InboxesTableName FROM $_QL88I ";
 
     if($OwnerUserId == 0) // ist es ein Admin?
-       $_I6jtf .= " WHERE `users_id`=$UserId";
+       $_IlJlC .= " WHERE `users_id`=$UserId";
        else
-       $_I6jtf .= " WHERE `users_id`=$OwnerUserId";
+       $_IlJlC .= " WHERE `users_id`=$OwnerUserId";
 
-    $_Q8Oj8 = mysql_query($_I6jtf);
-    while ($_Q8OiJ = mysql_fetch_row($_Q8Oj8)) {
-      $_IoIOl[] = array(
-                                   "InboxesTableName" => $_Q8OiJ[0]
+    $_I1O6j = mysql_query($_IlJlC);
+    while ($_I1OfI = mysql_fetch_row($_I1O6j)) {
+      $_jJ6C0[] = array(
+                                   "InboxesTableName" => $_I1OfI[0]
                                  );
     }
-    if(defined("SWM") && _OA1LL($_IQL81))
-      $_IoIOl[] = array(
-                                   "InboxesTableName" => $_IQL81
+    if(defined("SWM") && _L8B1P($_IoCo0))
+      $_jJ6C0[] = array(
+                                   "InboxesTableName" => $_IoCo0
                                  );
 
-    if(_OA1LL($_QoOft))
-      $_IoIOl[] = array(
-                                   "InboxesTableName" => $_QoOft
+    if(_L8B1P($_IjC0Q))
+      $_jJ6C0[] = array(
+                                   "InboxesTableName" => $_IjC0Q
                                  );
-    mysql_free_result($_Q8Oj8);
+    mysql_free_result($_I1O6j);
 
-    $_Q6tjl = "";
-    $_IIJi1 = _OP81D($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>");
-    $_IIJi1 = str_replace ('<LIST:ENTRY>', '', $_IIJi1);
-    $_IIJi1 = str_replace ('</LIST:ENTRY>', '', $_IIJi1);
+    $_QlIf1 = "";
+    $_IC1C6 = _L81DB($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>");
+    $_IC1C6 = str_replace ('<LIST:ENTRY>', '', $_IC1C6);
+    $_IC1C6 = str_replace ('</LIST:ENTRY>', '', $_IC1C6);
 
-    while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-      $_Q66jQ = $_IIJi1;
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:ID>", "</LIST:ID>", $_Q6Q1C["id"]);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:NAME>", "</LIST:NAME>", $_Q6Q1C["Name"]);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:INBOXTYPE>", "</LIST:INBOXTYPE>", strtoupper( $_Q6Q1C["InboxType"] ));
+    while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+      $_Ql0fO = $_IC1C6;
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:ID>", "</LIST:ID>", $_QLO0f["id"]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:NAME>", "</LIST:NAME>", $_QLO0f["Name"]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:INBOXTYPE>", "</LIST:INBOXTYPE>", strtoupper( $_QLO0f["InboxType"] ));
 
-      $_Q66jQ = str_replace ('name="EditInboxProperties"', 'name="EditInboxProperties" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
-      $_Q66jQ = str_replace ('name="DeleteInbox"', 'name="DeleteInbox" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
-      $_Q66jQ = str_replace ('name="TestInbox"', 'name="TestInbox" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
+      $_Ql0fO = str_replace ('name="EditInboxProperties"', 'name="EditInboxProperties" value="'.$_QLO0f["id"].'"', $_Ql0fO);
+      $_Ql0fO = str_replace ('name="DeleteInbox"', 'name="DeleteInbox" value="'.$_QLO0f["id"].'"', $_Ql0fO);
+      $_Ql0fO = str_replace ('name="TestInbox"', 'name="TestInbox" value="'.$_QLO0f["id"].'"', $_Ql0fO);
 
       // referenzen vorhanden?
-      $_IflL6 = 0;
-      for($_Q6llo=0; $_Q6llo<count($_IoIOl); $_Q6llo++) {
-        $_QJlJ0 = "SELECT COUNT(*) FROM ".$_IoIOl[$_Q6llo]["InboxesTableName"]." WHERE inboxes_id=$_Q6Q1C[id]";
-        $_ItlJl = mysql_query($_QJlJ0);
-        _OAL8F($_QJlJ0);
-        $_IO08Q = mysql_fetch_row($_ItlJl);
-        $_IflL6 += $_IO08Q[0];
-        mysql_free_result($_ItlJl);
-        if($_IflL6 > 0) break;
+      $_j1881 = 0;
+      for($_Qli6J=0; $_Qli6J<count($_jJ6C0); $_Qli6J++) {
+        $_QLfol = "SELECT COUNT(*) FROM ".$_jJ6C0[$_Qli6J]["InboxesTableName"]." WHERE inboxes_id=$_QLO0f[id]";
+        $_jjJfo = mysql_query($_QLfol);
+        _L8D88($_QLfol);
+        $_jj6L6 = mysql_fetch_row($_jjJfo);
+        $_j1881 += $_jj6L6[0];
+        mysql_free_result($_jjJfo);
+        if($_j1881 > 0) break;
       }
-      if($_IflL6 > 0)
-         $_Q66jQ = _OPR6L($_Q66jQ, "<CAN:DELETE>", "</CAN:DELETE>", $resourcestrings[$INTERFACE_LANGUAGE]["000033"]);
+      if($_j1881 > 0)
+         $_Ql0fO = _L81BJ($_Ql0fO, "<CAN:DELETE>", "</CAN:DELETE>", $resourcestrings[$INTERFACE_LANGUAGE]["000033"]);
 
-      $_Q6tjl .= $_Q66jQ;
+      $_QlIf1 .= $_Ql0fO;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>", $_Q6tjl);
+    $_QLoli = _L81BJ($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>", $_QlIf1);
 
-    $_Q6ICj = _OPFJA(array(), $_I61Cl, $_Q6ICj);
+    $_QLoli = _L8AOB(array(), $_Il0o6, $_QLoli);
 
-    $_Q6ICj = str_replace ("<CAN:DELETE>", "", $_Q6ICj);
-    $_Q6ICj = str_replace ("</CAN:DELETE>", "", $_Q6ICj);
+    $_QLoli = str_replace ("<CAN:DELETE>", "", $_QLoli);
+    $_QLoli = str_replace ("</CAN:DELETE>", "", $_QLoli);
 
-    return $_Q6ICj;
+    return $_QLoli;
   }
 
 

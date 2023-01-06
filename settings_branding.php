@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,59 +26,76 @@
   include_once("templates.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeBrandingEdit"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeBrandingEdit"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  if($UserType != "SuperAdmin"){
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+  if($UserType != "SuperAdmin" && $UserType != "Admin"){
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
   }
 
   $errors = array();
-  $_I0600 = "";
+  $_Itfj8 = "";
   if(!isset($_POST["SaveBtn"])) {
-    $_QJlJ0 = "SELECT * FROM $_Q88iO LIMIT 0,1";
-    $_Q60l1 = mysql_query($_QJlJ0);
-    $_Q6Q1C = mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
+    if($UserType == "SuperAdmin")
+       $_QLfol = "SELECT ProductLogoURL FROM $_I1O0i LIMIT 0,1";
+       else
+       $_QLfol = "SELECT ProductLogoURL FROM $_I18lo WHERE id=$UserId";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
   } else {
-    if(_LO1B0()) {
-      $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000021"];
-      $_SESSION["ProductLogoURL"] = $_POST["ProductLogoURL"];
+    
+    if(isset($_POST["ProductLogoURL"]))
+      $_POST["ProductLogoURL"] = trim($_POST["ProductLogoURL"]);
+    
+    if(_JO8B1()) {
+      $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000021"];
+      if(!defined("DEMO"))
+         $_SESSION["ProductLogoURL"] = $_POST["ProductLogoURL"];
     }
-    $_Q6Q1C = $_POST;
+    $_QLO0f = $_POST;
   }
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000320"], $_I0600, 'settings_branding', 'settings_branding_snipped.htm');
-  $_QJCJi = _OPFJA($errors, $_Q6Q1C, $_QJCJi);
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000320"], $_Itfj8, 'settings_branding', 'settings_branding_snipped.htm');
+  $_QLJfI = _L8AOB($errors, $_QLO0f, $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
-  function _LO1B0() {
-    global $_Q88iO;
+  function _JO8B1() {
+    global $_I1O0i, $_I18lo, $UserType, $UserId, $_QLttI;
 
-    $_POST["ProductLogoURL"] = _OPQLR($_POST["ProductLogoURL"]);
+    $_POST["ProductLogoURL"] = _LRAFO($_POST["ProductLogoURL"]);
     $_POST["ProductLogoURL"] = str_replace("'", "", $_POST["ProductLogoURL"]);
     $_POST["ProductLogoURL"] = str_replace('"', "", $_POST["ProductLogoURL"]);
     $_POST["ProductLogoURL"] = str_replace('<', "", $_POST["ProductLogoURL"]);
     $_POST["ProductLogoURL"] = str_replace('>', "", $_POST["ProductLogoURL"]);
     $_POST["ProductLogoURL"] = str_replace("\\", "", $_POST["ProductLogoURL"]);
+    
+    $_POST["ProductLogoURL"] = _LA8F6($_POST["ProductLogoURL"]);
 
-    $_QJlJ0 = "UPDATE $_Q88iO SET ";
-    $_QJlJ0 .= "ProductLogoURL="._OPQLR($_POST["ProductLogoURL"]);
+    if($UserType == "SuperAdmin"){
+      $_QLfol = "UPDATE $_I1O0i SET ";
+      $_QLfol .= "ProductLogoURL="._LRAFO($_POST["ProductLogoURL"]);
+    }else{
+      $_QLfol = "UPDATE $_I18lo SET ";
+      $_QLfol .= "ProductLogoURL="._LRAFO($_POST["ProductLogoURL"]);
+      $_QLfol .= " WHERE id=$UserId";
+    }
 
     if(!defined("DEMO")){
-      mysql_query($_QJlJ0);
-      _OAL8F($_QJlJ0);
+      mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      return mysql_affected_rows($_QLttI) > 0;
     }
     return true;
   }

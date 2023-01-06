@@ -12,6 +12,14 @@ body {
 	background-color: #E2EAF3;
 }
 
+[disabled], .disabled {
+  color:#C0C0C0;
+}
+
+.hourglass{
+  cursor: wait;
+}
+
 #uploaderForm {
 	display: block;
 	text-align: right;
@@ -71,12 +79,7 @@ body {
 }
 
 #fileinfo * {
-	font-size: 12px;
-}
-
-#preview > img {
-	margin: 25px;
-	max-width: 80%;
+	font-size: 13px;
 }
 
 #fileinfo > h1 {
@@ -84,26 +87,93 @@ body {
 	margin: 100px auto;
 }
 
+#fileinfo > #preview > h1{
+  margin-top: 16px;
+}
+
+#img.previewImage {
+	margin: 25px;
+	/*max-width: 80%; */
+}
+
+img#previewImage.dottedBorder {border: 1px dotted #333;}
+
+#preview_block {display: inline-block;}
+
+#nwgrip, #negrip, #swgrip, #segrip, #ngrip, #egrip, #sgrip, #wgrip {
+    width: 7px;
+    height: 7px;
+    background-color: #333;
+    border: 1px solid #000000;
+    z-index: 101;
+}
+#nwgrip {
+    left: -5px;
+    top: -5px;
+}
+#negrip{
+     top: -5px;
+     right: -5px;
+}
+#swgrip{
+    bottom: -5px;
+    left: -5px;
+}
+#segrip{
+     bottom: -5px;
+    right:-5px;
+}
+#ngrip{
+     top: -5px;
+    left:50%;
+}
+#sgrip{
+     bottom: -5px;
+    left: 50%;
+}
+#wgrip{
+     left:-5px;
+     top:50%;
+}
+#egrip{
+     right:-5px;
+     top:50%;
+}
+
+#resizetoolbar {
+	display: block;
+	clear: left;
+	margin-bottom: 10px;
+ visibility: hidden;
+}
+
+#resizetoolbar #saveResizedImage span { background-image: url(../images/tick_16.png); }
+#resizetoolbar #cancelResizingImage span { background-image: url(../images/cross_16.png); }
+
 #preview dl {
 	display: block;
-	width: 400px;
+	width: 500px;
 	margin: 10px auto;
 	overflow: auto;
+	border-bottom: 1px dotted #ccc;
 }
 
 #preview dl dt,
 #preview dl dd {
 	display: block;
 	float: left;
-	width: 190px;
+	width: 300px;
 	padding: 4px;
 	text-align: left;
-	border-bottom: 1px dotted #ccc;
 	overflow: hidden;
 }
 
+#preview dl dt{
+ width: 190px;
+}
+
 #preview dt {
-	clear: left;
+ clear: left;
 }
 
 #preview dd {
@@ -114,6 +184,7 @@ body {
 	display: block;
 	clear: left;
 	margin: 50px auto;
+ margin-bottom: 25px;
 }
 
 button {
@@ -133,11 +204,14 @@ button:hover {
 button span {
 	display: block;
 	padding-left: 20px;
-	background-position: left center;
+ padding-right: 4px;
+ padding-top: 2px;
+	background-position: 0% 50%;
 	background-repeat: no-repeat;
 	background-color: transparent;
-	height: 16px;
+	height: 20px;
 	white-space: nowrap;
+ font-size: 13px;
 }
 
 button:active,
@@ -181,7 +255,8 @@ div.clip {
 	overflow: hidden;
 }
 
-#contents.grid li img {
+#contents.grid li img.loading {
+  background: url(../images/wait30trans.gif) 50% no-repeat;
 }
 
 #contents.grid p {
@@ -265,10 +340,13 @@ div.clip {
 
 .contextMenu li.hover a {
 	background-color: #BDF;
+ color: #333;
 }
 
-.contextMenu a {
-	font-size: 11px;
+.contextMenu a, .contextMenu li {
+	font-size: 13px;
+ white-space: nowrap;
+ color: #333;
 }
 
 /* these apply to the contextual menus as well as the buttons */
@@ -277,6 +355,7 @@ div.clip {
 #rename span, .contextMenu li.rename a { background-image: url(../images/pencil.png); }
 #delete span, .contextMenu li.delete a { background-image: url(../images/bin_closed.png); }
 #resample span, .contextMenu li.resample a { background-image: url(../images/image_resize.png); }
+#reload span, .contextMenu li.reload a { background-image: url(../images/reset_16.png); }
 
 
 #upload span { background-image: url(../images/upload_to_server_16.png); }
@@ -290,6 +369,9 @@ div.clip {
 #home span { background-image: url(../images/house.png); }
 #closeWindow span { background-image: url(../images/close.png); }
 #close-btn span { background-image: url(../images/close.png); }
+
+.btn_locked{ background-image: url(../images/lock.png); }
+.btn_unlocked{ background-image: url(../images/unlock.png); }
 
 /* div.jqi button { background-image: url(../images/circular/yes.png); } */
 
@@ -359,6 +441,5 @@ button.ON {
 	margin-left: 0;
 }
 
-.btn_locked{ background-image: url(../images/lock.png);}
-.btn_unlocked{ background-image: url(../images/unlock.png);}
+
 

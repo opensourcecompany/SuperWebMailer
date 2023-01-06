@@ -1,3 +1,3 @@
-﻿CKEDITOR.plugins.setLang("queryfunctionbtn","en",{
- 	 label:'Functions'
+﻿CKEDITOR.plugins.setLang("surveysbtn","en",{
+ 	 label:'Umfragen'
 });

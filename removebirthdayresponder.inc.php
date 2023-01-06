@@ -26,58 +26,58 @@
   include_once("sessioncheck.inc.php");
 
   if($OwnerUserId != 0) {
-    if(empty($_QJojf) || !is_array($_QJojf))
-      $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeBirthdayMailsBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    if(empty($_QLJJ6) || !is_array($_QLJJ6))
+      $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeBirthdayMailsBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  if(isset($_66Jti))
-     unset($_66Jti);
-  $_66Jti = array();
+  if(isset($_fiLlo))
+     unset($_fiLlo);
+  $_fiLlo = array();
   if ( isset($_POST["OneBirthdayresponderListId"]) && $_POST["OneBirthdayresponderListId"] != "" )
-      $_66Jti[] = $_POST["OneBirthdayresponderListId"];
+      $_fiLlo[] = $_POST["OneBirthdayresponderListId"];
       else
       if ( isset($_POST["OneBirthdayresponderListIds"]) )
-        $_66Jti = array_merge($_66Jti, $_POST["OneBirthdayresponderListIds"]);
+        $_fiLlo = array_merge($_fiLlo, $_POST["OneBirthdayresponderListIds"]);
 
 
-  $_QtIiC = array();
-  _L1PQL($_66Jti, $_QtIiC);
+  $_IQ0Cj = array();
+  _J1AEO($_fiLlo, $_IQ0Cj);
 
   // we don't check for errors here
-  function _L1PQL($_66Jti, &$_QtIiC) {
-    global $_IIl8O, $_IjQIf, $_Q61I1;
+  function _J1AEO($_fiLlo, &$_IQ0Cj) {
+    global $_ICo0J, $_ICl0j, $_QLttI;
 
-    for($_Q6llo=0; $_Q6llo<count($_66Jti); $_Q6llo++) {
-      $_66Jti[$_Q6llo] = intval($_66Jti[$_Q6llo]);
+    for($_Qli6J=0; $_Qli6J<count($_fiLlo); $_Qli6J++) {
+      $_fiLlo[$_Qli6J] = intval($_fiLlo[$_Qli6J]);
 
-      $_QJlJ0 = "SELECT * FROM $_IIl8O WHERE id=$_66Jti[$_Q6llo]";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
+      $_QLfol = "SELECT * FROM $_ICo0J WHERE id=$_fiLlo[$_Qli6J]";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      $_QLO0f = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
 
-      reset($_Q6Q1C);
-      foreach($_Q6Q1C as $key => $_Q6ClO) {
+      reset($_QLO0f);
+      foreach($_QLO0f as $key => $_QltJO) {
         if (strpos($key, "TableName") !== false) {
-          $_QJlJ0 = "DROP TABLE IF EXISTS `$_Q6ClO`";
-          mysql_query($_QJlJ0, $_Q61I1);
-          if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+          $_QLfol = "DROP TABLE IF EXISTS `$_QltJO`";
+          mysql_query($_QLfol, $_QLttI);
+          if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
         }
       }
 
       // and now from Birthdayresponders table
-      $_QJlJ0 = "DELETE FROM $_IIl8O WHERE id=".$_66Jti[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM $_ICo0J WHERE id=".$_fiLlo[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
 
       // stat
-      $_QJlJ0 = "DELETE FROM $_IjQIf WHERE birthdayresponders_id=".$_66Jti[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
+      $_QLfol = "DELETE FROM $_ICl0j WHERE birthdayresponders_id=".$_fiLlo[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
 
     }
   }

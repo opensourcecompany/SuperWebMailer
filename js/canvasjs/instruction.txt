@@ -1,4 +1,4 @@
-﻿For standalone version include canvasjs.min.js
-For jQuery version include jquery.canvasjs.min.js
+﻿For JavaScript Standalone Version - use canvasjs.min.js **ONLY**
+For jQuery Version - use jquery.canvasjs.min.js **ONLY**
 
-** DO NOT include both the files **
+For React - use canvasjs.min.js **AND** canvasjs.react.js

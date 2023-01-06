@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,6 +26,13 @@
   include_once("sessioncheck.inc.php");
   include_once("templates.inc.php");
 
+  if(!_LJBLD()){
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]." - Csrf");
+    print $_QLJfI;
+    exit;
+  }
+
   // Prevent the browser from caching the result.
   // Date in the past
   @header('Expires: Mon, 26 Jul 1997 05:00:00 GMT') ;
@@ -38,21 +45,21 @@
   @header('Pragma: no-cache') ;
 
   // Set the response format.
-  @header( 'Content-Type: application/json; charset='.$_Q6QQL ) ;
+  @header( 'Content-Type: application/json; charset='.$_QLo06 ) ;
 
   if($OwnerUserId != 0 || empty($_GET["user_id"]) || intval($_GET["user_id"]) == 0 ) {
-    print _OCR88(array(), JSON_NUMERIC_CHECK);
+    print _LAFFB(array(), JSON_NUMERIC_CHECK);
   }
 
-  $_QJojf = _OBOOC(intval($_GET["user_id"]));
-  if(empty($_QJojf))
-   $_QJojf = array();
-  foreach($_QJojf as $key => $_Q6ClO){
-    $_Q6i6i = strpos($key, "Privilege");
-    if($_Q6i6i === false || $_Q6i6i != 0)
-      unset($_QJojf[$key]);
+  $_QLJJ6 = _LPALQ(intval($_GET["user_id"]));
+  if(empty($_QLJJ6))
+   $_QLJJ6 = array();
+  foreach($_QLJJ6 as $key => $_QltJO){
+    $_QlOjt = strpos($key, "Privilege");
+    if($_QlOjt === false || $_QlOjt != 0)
+      unset($_QLJJ6[$key]);
   }
 
-  print _OCR88($_QJojf, JSON_NUMERIC_CHECK);
+  print _LAFFB($_QLJJ6, JSON_NUMERIC_CHECK);
 
 ?>

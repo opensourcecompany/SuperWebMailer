@@ -1,0 +1,55 @@
+ <div id="AltBrowserLink">
+   <ul>
+     <CONTENTHERE />
+
+     <SUBSCRIBELINK>
+     <li class="socialLink1"><a href="[URL]" title="[TITLE]" target="_blank">[LINKTEXT]</a></li>
+     </SUBSCRIBELINK>
+
+     <UNSUBSCRIBELINK>
+     <li><a href="[URL]" rel="nofollow" title="[TITLE]">[LINKTEXT]</a></li>
+     </UNSUBSCRIBELINK>
+
+     <SOCIALLINK>
+     <li class="socialLink"><a href="[URL]" rel="nofollow" title="[TITLE]" target="_blank">[LINKTEXT]</a></li>
+     </SOCIALLINK>
+
+     <ARCHIEVELINK>
+     <li class="float-r socialLink1"><a href="[URL]" title="[TITLE]">[LINKTEXT]</a></li>
+     </ARCHIEVELINK>
+
+     <RSSFEEDLINK>
+     <li class="float-r socialLink1"><a href="[URL]" title="[TITLE]">[LINKTEXT]</a></li>
+     </RSSFEEDLINK>
+
+     <TRANSLATE_BLOCK>
+     <li class="float-r socialLink1" onmouseover="MenuShowFunction(document.getElementById('translate'), true)" onmouseout="MenuShowFunction(document.getElementById('translate'), false)">
+       <a href="javascript:;" onclick="MenuShowFunction(document.getElementById('translate'), null)" title="[TITLE]">[LINKTEXT]</a>
+       <ul id="translate">
+         <TRANSLATE_ITEMS />
+         <TRANSLATE_ITEM>
+         <li><a rel="nofollow" title="[TITLE]" href="https://translate.google.com/translate?hl=auto&sl=[SRCLANGUAGE]&tl=[LANGUAGE]&u=*ALTBROWSERLINKURL*&sandbox=1">[LINKTEXT]</a></li>
+         </TRANSLATE_ITEM>
+       </ul>
+     </li>
+     </TRANSLATE_BLOCK>
+
+   </ul>
+ </div>
+
+ <ATTACHMENTSBLOCK>
+ <div id="AltBrowserLinkAttachments">
+   <ul>
+
+     <li onmouseover="MenuShowFunction(document.getElementById('blattachments'), true, true)" onmouseout="MenuShowFunction(document.getElementById('blattachments'), false)">
+       <a href="javascript:;" onclick="MenuShowFunction(document.getElementById('blattachments'), null, true)" title="[TITLE]">[LINKTEXT]</a>
+       <ul id="blattachments">
+         <ATTACHMENTBLOCK>
+         <li><a class="blattachment" rel="nofollow" title="[ATTACHMENTSTITLE]" href="[SCRIPTURL]&attachmentsIndex=[ATTACHMENTSINDEX]" target="_blank">[ATTACHMENTSFILENAME]</a> </li>
+         </ATTACHMENTBLOCK>
+       </ul>
+     </li>
+
+   </ul>
+ </div
+ </ATTACHMENTSBLOCK>

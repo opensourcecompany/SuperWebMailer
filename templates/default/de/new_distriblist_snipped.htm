@@ -2,7 +2,7 @@
       <!--
               function ConfirmEditInboxesEvent(value) {
                if(value)
-                 window.location.href="./browseinboxes.php";
+                 CreateFormAndPostIt("./browseinboxes.php");
               }
       //-->
       </script>
@@ -81,5 +81,9 @@
       </fieldset>
 
      <input type="submit" name="DistribListCreateBtn" value="Neue Verteilerliste anlegen" class="FormButton" />
+
+     <script>
+       InsertLoadingStatusOnSubmit();
+     </script>
 
       </form>      

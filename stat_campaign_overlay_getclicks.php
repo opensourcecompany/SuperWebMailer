@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2019 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,64 +26,64 @@
   include_once("sessioncheck.inc.php");
 
   if(empty($_GET["link_id"])){
-    _LLA1Q("MISSING PARAMETERS", 1);
+    _JLEQF("MISSING PARAMETERS", 1);
     exit;
   }
 
-  $_Q8otJ = explode("_", $_GET["link_id"]);
-  if(count($_Q8otJ) < 5) {
-    _LLA1Q("INCORRECT PARAMETERS ".$_GET["link_id"], 1);
+  $_I1OoI = explode("_", $_GET["link_id"]);
+  if(count($_I1OoI) < 5) {
+    _JLEQF("INCORRECT PARAMETERS ".$_GET["link_id"], 1);
     exit;
   }
-  $SendStatId = hexdec($_Q8otJ[0]);
-  $_Ii016 = hexdec($_Q8otJ[1]);
-  $ResponderType = hexdec($_Q8otJ[2]);
-  $ResponderId = hexdec($_Q8otJ[3]);
-  $_jjJoO = hexdec($_Q8otJ[4]);
+  $SendStatId = hexdec($_I1OoI[0]);
+  $_jfIoi = hexdec($_I1OoI[1]);
+  $ResponderType = hexdec($_I1OoI[2]);
+  $ResponderId = hexdec($_I1OoI[3]);
+  $_J10lj = hexdec($_I1OoI[4]);
 
-  $_QJlJ0 = "SELECT `CurrentSendTableName`, `LinksTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName`, `TrackingIPBlocking`, `TrackLinks`, `TrackLinksByRecipient` FROM `$_Q6jOo` WHERE `id`=$ResponderId";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if( !$_Q60l1 || mysql_num_rows($_Q60l1) == 0 ) {
-    _LLA1Q("EMAILING NOT FOUND ".$_GET["link_id"], 1);
+  $_QLfol = "SELECT `CurrentSendTableName`, `LinksTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName`, `TrackingIPBlocking`, `TrackLinks`, `TrackLinksByRecipient` FROM `$_QLi60` WHERE `id`=$ResponderId";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if( !$_QL8i1 || mysql_num_rows($_QL8i1) == 0 ) {
+    _JLEQF("EMAILING NOT FOUND ".$_GET["link_id"], 1);
     exit;
   } else {
-    $_Q6J0Q = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_QLL16 = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
   }
 
-  $_QJlJ0 = "SELECT SUM(Clicks) AS ClicksCount FROM $_Q6J0Q[TrackingLinksTableName] WHERE SendStat_id=$SendStatId";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-  $_6l100 = $_Q6Q1C["ClicksCount"];
-  mysql_free_result($_Q60l1);
+  $_QLfol = "SELECT SUM(Clicks) AS ClicksCount FROM $_QLL16[TrackingLinksTableName] WHERE SendStat_id=$SendStatId";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_QLO0f = mysql_fetch_assoc($_QL8i1);
+  $_88iCj = $_QLO0f["ClicksCount"];
+  mysql_free_result($_QL8i1);
 
-  $_QJlJ0 = "SELECT SUM(Clicks) AS ClicksCount FROM $_Q6J0Q[TrackingLinksTableName] WHERE SendStat_id=$SendStatId AND `Links_id`=$_jjJoO";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if($_Q60l1)
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
+  $_QLfol = "SELECT SUM(Clicks) AS ClicksCount FROM $_QLL16[TrackingLinksTableName] WHERE SendStat_id=$SendStatId AND `Links_id`=$_J10lj";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if($_QL8i1)
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
   else
-   $_Q6Q1C["ClicksCount"] = 0;
-  if(empty($_Q6Q1C["ClicksCount"]))
-    $_Q6Q1C["ClicksCount"] = 0;
-  if($_Q60l1)
-    mysql_free_result($_Q60l1);
+   $_QLO0f["ClicksCount"] = 0;
+  if(empty($_QLO0f["ClicksCount"]))
+    $_QLO0f["ClicksCount"] = 0;
+  if($_QL8i1)
+    mysql_free_result($_QL8i1);
 
-  SetHTMLHeaders($_Q6QQL);
+  SetHTMLHeaders($_QLo06);
 
-  _LLA1Q($_Q6Q1C["ClicksCount"], $_6l100);
+  _JLEQF($_QLO0f["ClicksCount"], $_88iCj);
 
-function _LLA1Q($_Q6ClO, $_6l1l1){
+function _JLEQF($_QltJO, $_88L1i){
  global $resourcestrings, $INTERFACE_LANGUAGE;
- if(!$_6l1l1) $_6l1l1 = 1;
+ if(!$_88L1i) $_88L1i = 1;
 
 print '
 
 <div class="overlay_stat_frame">
   <div style="padding-left: 10px; font-family: Verdana, Arial, Helvetica, Sans-serif; color: #000; font-size: 16px; font-weight: bold; text-decoration: none">
-    ' . $_Q6ClO . '
+    ' . $_QltJO . '
   </div>
   <div style="padding-left: 10px; font-family: Verdana, Arial, Helvetica, Sans-serif; color: #000; font-size: 10px; font-weight: normal; text-decoration: none">
-    ' . sprintf("%1.2f%%", $_Q6ClO * 100 / $_6l1l1)." ".$resourcestrings[$INTERFACE_LANGUAGE]["ClickRate"] . '
+    ' . sprintf("%1.2f%%", $_QltJO * 100 / $_88L1i)." ".$resourcestrings[$INTERFACE_LANGUAGE]["ClickRate"] . '
   </div>
 </div>
 ';

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2014 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -29,36 +29,36 @@
   if( !isset($_GET["form"]) || !isset($_GET["formElement1"]) )
     exit;
 
-  $_QJCJi = join("", file(_O68QF()."mailheaderfieldaddedit.htm"));
+  $_QLJfI = _JJAQE("mailheaderfieldaddedit.htm");
 
   #### normal placeholders
-  $_QJlJ0 = "SELECT `text`, `fieldname` FROM `$_Qofjo` WHERE `language`='$INTERFACE_LANGUAGE' AND `fieldname` <> 'u_EMailFormat'";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_Q8otJ = array();
-  $_jQjOO = array();
-  $_jQjOO[] = '<option value="[id]">id</option>';
-  while($_Q6Q1C=mysql_fetch_assoc($_Q60l1)) {
-   $_jQjOO[] =  '<option value="['.$_Q6Q1C["fieldname"].']">'.$_Q6Q1C["text"].'</option>';
+  $_QLfol = "SELECT `text`, `fieldname` FROM `$_Ij8oL` WHERE `language`='$INTERFACE_LANGUAGE' AND `fieldname` <> 'u_EMailFormat'";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_I1OoI = array();
+  $_jl0Ii = array();
+  $_jl0Ii[] = '<option value="[id]">id</option>';
+  while($_QLO0f=mysql_fetch_assoc($_QL8i1)) {
+   $_jl0Ii[] =  '<option value="['.$_QLO0f["fieldname"].']">'.$_QLO0f["text"].'</option>';
   }
-  $_QJCJi = _OPR6L($_QJCJi, "<fieldnames>", "</fieldnames>", join("\r\n", $_jQjOO));
-  mysql_free_result($_Q60l1);
+  $_QLJfI = _L81BJ($_QLJfI, "<fieldnames>", "</fieldnames>", join("\r\n", $_jl0Ii));
+  mysql_free_result($_QL8i1);
   #
 
-  $_QJCJi = str_replace ("'FORMNAME'", "'$_GET[form]'", $_QJCJi);
-  $_QJCJi = str_replace ("FORM1FIELD", "$_GET[formElement1]", $_QJCJi);
+  $_QLJfI = str_replace ("'FORMNAME'", "'$_GET[form]'", $_QLJfI);
+  $_QLJfI = str_replace ("FORM1FIELD", "$_GET[formElement1]", $_QLJfI);
 
   if(!empty($_GET["EditValue"])) {
-     $_QllO8 = explode(":", $_GET["EditValue"]);
-     while(count($_QllO8) < 2)
-       $_QllO8[] = "";
-     $_QJCJi = str_replace ('name="headername"', 'name="headername" value="'.$_QllO8[0].'"', $_QJCJi);
-     $_QJCJi = str_replace ('name="headervalue"', 'name="headervalue" value="'.$_QllO8[1].'"', $_QJCJi);
-     $_QJCJi = str_replace ('name="EditValue"', 'name="EditValue" value="'.$_GET["EditValue"].'"', $_QJCJi);
+     $_I016j = explode(":", $_GET["EditValue"]);
+     while(count($_I016j) < 2)
+       $_I016j[] = "";
+     $_QLJfI = str_replace ('name="headername"', 'name="headername" value="'.$_I016j[0].'"', $_QLJfI);
+     $_QLJfI = str_replace ('name="headervalue"', 'name="headervalue" value="'.$_I016j[1].'"', $_QLJfI);
+     $_QLJfI = str_replace ('name="EditValue"', 'name="EditValue" value="'.$_GET["EditValue"].'"', $_QLJfI);
   }
 
-  SetHTMLHeaders($_Q6QQL);
+  SetHTMLHeaders($_QLo06);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 ?>

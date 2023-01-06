@@ -240,17 +240,17 @@
                       var date = new Date();
                       
                       if(ASender.name == 'WhoHasOpenedBtn') {
-                         window.open('./stat_respondertracking_recipients.php?ResponderType='+ResponderType+'&TrackingType=Openers&ResponderId='+ResponderId+'&startdate='+startdate+'&enddate='+enddate+'&FUMailId='+FUMailId +'&DistribListEntryId='+DistribListEntryId + '&SendStatId='+SendStatId+'&nocache=' + date.getTime(), 'ResponderRTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=no,location=no,modal=yes');
+                         openWindowWithPost('./stat_respondertracking_recipients.php?ResponderType='+ResponderType+'&TrackingType=Openers&ResponderId='+ResponderId+'&startdate='+startdate+'&enddate='+enddate+'&FUMailId='+FUMailId +'&DistribListEntryId='+DistribListEntryId + '&SendStatId='+SendStatId+'&nocache=' + date.getTime(), {}, 'ResponderRTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=no,location=no,modal=yes');
                          return false;
                       }
 
                       if(ASender.name == 'WhoHasClickedBtn') {
-                         window.open('./stat_respondertracking_recipients.php?ResponderType='+ResponderType+'&TrackingType=Clicks&ResponderId='+ResponderId+'&LinkId='+ASender.value+'&startdate='+startdate+'&enddate='+enddate+'&FUMailId='+FUMailId + '&DistribListEntryId=' + DistribListEntryId + '&SendStatId='+SendStatId+ '&nocache=' + date.getTime(), 'ResponderRTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=no,location=no,modal=yes');
+                         openWindowWithPost('./stat_respondertracking_recipients.php?ResponderType='+ResponderType+'&TrackingType=Clicks&ResponderId='+ResponderId+'&LinkId='+ASender.value+'&startdate='+startdate+'&enddate='+enddate+'&FUMailId='+FUMailId + '&DistribListEntryId=' + DistribListEntryId + '&SendStatId='+SendStatId+ '&nocache=' + date.getTime(), {}, 'ResponderRTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=no,location=no,modal=yes');
                          return false;
                       }
 
                       if(ASender.name == 'PrintVersion'){
-                         window.open('./stat_respondertracking.php?ResponderType='+ResponderType+'&PrintVersion=PrintVersion&ResponderId='+ResponderId+'&startdate='+startdate+'&enddate='+enddate+'&FUMailId='+FUMailId +'&DistribListEntryId='+DistribListEntryId + '&SendStatId='+SendStatId+'&nocache=' + date.getTime(), 'ResponderPrintVersionTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=yes,location=no,modal=yes');
+                         openWindowWithPost('./stat_respondertracking.php?ResponderType='+ResponderType+'&PrintVersion=PrintVersion&ResponderId='+ResponderId+'&startdate='+startdate+'&enddate='+enddate+'&FUMailId='+FUMailId +'&DistribListEntryId='+DistribListEntryId + '&SendStatId='+SendStatId+'&nocache=' + date.getTime(), {}, 'ResponderPrintVersionTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=yes,location=no,modal=yes');
                          return false;
                       }
 
@@ -910,6 +910,15 @@
                     addTableRolloverEffect('TableHyperLinksList','tableRollOverEffect','');
                     addTableRolloverEffect('EMAILCLIENT_STAT','tableRollOverEffect','');
                     addTableRolloverEffect('OS_STAT','tableRollOverEffect','');
+
+                    $('#tabTabdhtmlgoodies_tabView_1, #tabTabdhtmlgoodies_OpeningstabView_0').on('click', function(){
+                      openingcharttime.render();
+                    });
+
+                    $('#tabTabdhtmlgoodies_tabView_2, #tabTabdhtmlgoodies_LinkstabView_0').on('click', function(){
+                      linkcharttopx.render();
+                    });
+
                   -->
                   </script>
 
@@ -931,7 +940,8 @@
                       var date = new Date();
                       url = url + '&nocache=' + date.getTime();
 
-                      document.getElementById("OpeningsIframe").src = url;
+                      //document.getElementById("OpeningsIframe").src = url;
+                      CreateFormAndPostIt(url, {}, 'post', "OpeningsIframe");
                     }
 
                     function ReloadLinksIFrame(CB) {
@@ -949,7 +959,8 @@
                       var date = new Date();
                       url = url + '&nocache=' + date.getTime();
 
-                      document.getElementById("LinksIframe").src = url;
+                      //document.getElementById("LinksIframe").src = url;
+                      CreateFormAndPostIt(url, {}, 'post', "LinksIframe");
                     }
 
                     ReloadOpeningsIFrame(null);
@@ -1074,14 +1085,6 @@
                           $(this).off('click');*/
                       });
                     }
-
-                    $('#tabTabdhtmlgoodies_tabView_1, #tabTabdhtmlgoodies_OpeningstabView_0').on('click', function(){
-                      openingcharttime.render();
-                    });
-
-                    $('#tabTabdhtmlgoodies_tabView_2, #tabTabdhtmlgoodies_LinkstabView_0').on('click', function(){
-                      linkcharttopx.render();
-                    });
 
                    $( window ).resize(function() {
                       if(document.getElementById("OpeningsGoogleMap")){

@@ -25,160 +25,160 @@
   include_once("config.inc.php");
   include_once("sessioncheck.inc.php");
 
-  if(isset($_jjJCt))
-     unset($_jjJCt);
-  $_jjJCt = array();
+  if(isset($_J11tt))
+     unset($_J11tt);
+  $_J11tt = array();
   if ( isset($_POST["OneCampaignListId"]) && $_POST["OneCampaignListId"] != "" )
-      $_jjJCt[] = $_POST["OneCampaignListId"];
+      $_J11tt[] = $_POST["OneCampaignListId"];
       else
       if ( isset($_POST["CampaignIDs"]) )
-        $_jjJCt = array_merge($_jjJCt, $_POST["CampaignIDs"]);
+        $_J11tt = array_merge($_J11tt, $_POST["CampaignIDs"]);
 
 
   if( isset($_POST["CampaignListActions"]) && $_POST["CampaignListActions"] == "DuplicateCampaigns")
-    _O66DB($_jjJCt);
+    _LOAB8($_J11tt);
 
   if(isset($_POST["CampaignListActions"]) && $_POST["CampaignListActions"] == "RemoveCampaigns" || isset($_POST["OneCampaignListAction"]) && $_POST["OneCampaignListAction"] == "DeleteCampaign" ) {
-    $_QtIiC = array();
-    _O6R86($_jjJCt, $_QtIiC);
+    $_IQ0Cj = array();
+    _LOB0R($_J11tt, $_IQ0Cj);
   }
 
   // we don't check for errors here
-  function _O66DB($_jjJCt) {
-    global $_IoCtL;
+  function _LOAB8($_J11tt) {
+    global $_jJLLf;
 
-#    $_jj6l0[]="CurrentSendTableName";
-#    $_jj6l0[]="ArchiveTableName";
-    $_jj6l0[]="GroupsTableName";
-    $_jj6l0[]="NotInGroupsTableName";
-#    $_jj6l0[]="MTAsTableName";
-#    $_jj6l0[]="RStatisticsTableName";
-#    $_jj6l0[]="LinksTableName";
-#    $_jj6l0[]="TrackingOpeningsTableName";
-#    $_jj6l0[]="TrackingOpeningsByRecipientTableName";
-#    $_jj6l0[]="TrackingLinksTableName";
-#    $_jj6l0[]="TrackingLinksByRecipientTableName";
-#    $_jj6l0[]="TrackingUserAgentsTableName";
-#    $_jj6l0[]="TrackingOSsTableName";
+#    $_J1QfQ[]="CurrentSendTableName";
+#    $_J1QfQ[]="ArchiveTableName";
+    $_J1QfQ[]="GroupsTableName";
+    $_J1QfQ[]="NotInGroupsTableName";
+#    $_J1QfQ[]="MTAsTableName";
+#    $_J1QfQ[]="RStatisticsTableName";
+#    $_J1QfQ[]="LinksTableName";
+#    $_J1QfQ[]="TrackingOpeningsTableName";
+#    $_J1QfQ[]="TrackingOpeningsByRecipientTableName";
+#    $_J1QfQ[]="TrackingLinksTableName";
+#    $_J1QfQ[]="TrackingLinksByRecipientTableName";
+#    $_J1QfQ[]="TrackingUserAgentsTableName";
+#    $_J1QfQ[]="TrackingOSsTableName";
 
-    for($_Q6llo=0; $_Q6llo<count($_jjJCt); $_Q6llo++) {
-      $_jjJCt[$_Q6llo] = intval($_jjJCt[$_Q6llo]);
-      $_QJlJ0 = "SELECT * FROM `$_IoCtL` WHERE id=".$_jjJCt[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0);
-      $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
-      unset($_Q6Q1C["id"]);
-      $_Q6Q1C["CreateDate"] = "NOW()";
+    for($_Qli6J=0; $_Qli6J<count($_J11tt); $_Qli6J++) {
+      $_J11tt[$_Qli6J] = intval($_J11tt[$_Qli6J]);
+      $_QLfol = "SELECT * FROM `$_jJLLf` WHERE id=".$_J11tt[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol);
+      $_QLO0f = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
+      unset($_QLO0f["id"]);
+      $_QLO0f["CreateDate"] = "NOW()";
 
-      $_j06O8 = "";
-      for($_Qf0Ct=1; $_Qf0Ct<200000; $_Qf0Ct++) {
-        $_QJlJ0 = "SELECT id FROM `$_IoCtL` WHERE `Name`="._OPQLR($_Q6Q1C["Name"].sprintf(" (%d)", $_Qf0Ct));
-        $_Q60l1 = mysql_query($_QJlJ0);
-        if($_Q60l1 && mysql_num_rows($_Q60l1) == 0) {
-          mysql_free_result($_Q60l1);
-          $_j06O8 = $_Q6Q1C["Name"].sprintf(" (%d)", $_Qf0Ct);
+      $_jC6ot = "";
+      for($_QliOt=1; $_QliOt<200000; $_QliOt++) {
+        $_QLfol = "SELECT id FROM `$_jJLLf` WHERE `Name`="._LRAFO($_QLO0f["Name"].sprintf(" (%d)", $_QliOt));
+        $_QL8i1 = mysql_query($_QLfol);
+        if($_QL8i1 && mysql_num_rows($_QL8i1) == 0) {
+          mysql_free_result($_QL8i1);
+          $_jC6ot = $_QLO0f["Name"].sprintf(" (%d)", $_QliOt);
           break;
         }
-        if($_Q60l1)
-          mysql_free_result($_Q60l1);
+        if($_QL8i1)
+          mysql_free_result($_QL8i1);
       }
 
-      if($_j06O8 == "") {
+      if($_jC6ot == "") {
         print "can't find unique name, this error should never occur"; // will never occur
         exit;
       }
 
-      $_Q6Q1C["Name"] = $_j06O8;
-      if($_Q6Q1C["SetupLevel"] == 99)
-        $_Q6Q1C["SetupLevel"] = 1; // new campaign, user must do setup
+      $_QLO0f["Name"] = $_jC6ot;
+      if($_QLO0f["SetupLevel"] == 99)
+        $_QLO0f["SetupLevel"] = 1; // new campaign, user must do setup
 
-      $_IjI0O = TablePrefix._OA0LA($_Q6Q1C["Name"]);
-      $_j0fti = _OALO0($_IjI0O."_sendstate");
-      $_j08fl = _OALO0($_IjI0O."_statistics");
-      $_Q6t6j = _OALO0($_IjI0O."_groups");
-      $_j0t0o = _OALO0($_IjI0O."_nogroups");
+      $_Ii01J = TablePrefix._L8A8P($_QLO0f["Name"]);
+      $_jClC1 = _L8D00($_Ii01J."_sendstate");
+      $_ji080 = _L8D00($_Ii01J."_statistics");
+      $_QljJi = _L8D00($_Ii01J."_groups");
+      $_ji0oi = _L8D00($_Ii01J."_nogroups");
 
-      $_jjfJ0 = $_Q6Q1C;
-      $_Q6Q1C["CurrentSendTableName"] = $_j0fti;
-      $_Q6Q1C["RStatisticsTableName"] = $_j08fl;
-      $_Q6Q1C["GroupsTableName"]= $_Q6t6j;
-      $_Q6Q1C["NotInGroupsTableName"]= $_j0t0o;
+      $_J1j1Q = $_QLO0f;
+      $_QLO0f["CurrentSendTableName"] = $_jClC1;
+      $_QLO0f["RStatisticsTableName"] = $_ji080;
+      $_QLO0f["GroupsTableName"]= $_QljJi;
+      $_QLO0f["NotInGroupsTableName"]= $_ji0oi;
 
-      $_QJlJ0 = "";
-      foreach($_Q6Q1C as $key => $_Q6ClO) {
-        if($_QJlJ0 != "")
-          $_QJlJ0 .= ", ";
+      $_QLfol = "";
+      foreach($_QLO0f as $key => $_QltJO) {
+        if($_QLfol != "")
+          $_QLfol .= ", ";
         if($key != "CreateDate")
-          $_QJlJ0 .= "`$key`="._OPQLR($_Q6ClO);
+          $_QLfol .= "`$key`="._LRAFO($_QltJO);
           else
-          $_QJlJ0 .= "`$key`=".$_Q6ClO;
+          $_QLfol .= "`$key`=".$_QltJO;
       }
-      $_QJlJ0 = "INSERT INTO `$_IoCtL` SET ".$_QJlJ0;
-      mysql_query($_QJlJ0);
-      _OAL8F($_QJlJ0);
+      $_QLfol = "INSERT INTO `$_jJLLf` SET ".$_QLfol;
+      mysql_query($_QLfol);
+      _L8D88($_QLfol);
 
-      $_Ij6Io = join("", file(_O68A8()."smscampaign.sql"));
-      $_Ij6Io = str_replace('`TABLE_CURRENT_SENDTABLE`', $_j0fti, $_Ij6Io);
-      $_Ij6Io = str_replace('`TABLE_C_STATISTICS`', $_j08fl, $_Ij6Io);
-      $_Ij6Io = str_replace('`TABLE_GROUPS`', $_Q6t6j, $_Ij6Io);
-      $_Ij6Io = str_replace('`TABLE_NOTINGROUPS`', $_j0t0o, $_Ij6Io);
+      $_IiIlQ = join("", file(_LOCFC()."smscampaign.sql"));
+      $_IiIlQ = str_replace('`TABLE_CURRENT_SENDTABLE`', $_jClC1, $_IiIlQ);
+      $_IiIlQ = str_replace('`TABLE_C_STATISTICS`', $_ji080, $_IiIlQ);
+      $_IiIlQ = str_replace('`TABLE_GROUPS`', $_QljJi, $_IiIlQ);
+      $_IiIlQ = str_replace('`TABLE_NOTINGROUPS`', $_ji0oi, $_IiIlQ);
 
-      $_Ij6il = explode(";", $_Ij6Io);
+      $_IijLl = explode(";", $_IiIlQ);
 
-      for($_Qf0Ct=0; $_Qf0Ct<count($_Ij6il); $_Qf0Ct++) {
-        if(trim($_Ij6il[$_Qf0Ct]) == "") continue;
-        $_Q60l1 = mysql_query($_Ij6il[$_Qf0Ct]." CHARSET=utf8");
-        if(!$_Q60l1)
-          $_Q60l1 = mysql_query($_Ij6il[$_Qf0Ct]);
-        _OAL8F($_Ij6il[$_Qf0Ct]);
+      for($_QliOt=0; $_QliOt<count($_IijLl); $_QliOt++) {
+        if(trim($_IijLl[$_QliOt]) == "") continue;
+        $_QL8i1 = mysql_query($_IijLl[$_QliOt]." CHARSET=" . DefaultMySQLEncoding);
+        if(!$_QL8i1)
+          $_QL8i1 = mysql_query($_IijLl[$_QliOt]);
+        _L8D88($_IijLl[$_QliOt]);
       }
 
-      for($_Qf0Ct=0;$_Qf0Ct<count($_jj6l0); $_Qf0Ct++) {
-        $key = $_jj6l0[$_Qf0Ct];
-        $_QJlJ0 = "INSERT INTO `$_Q6Q1C[$key]` SELECT * FROM `$_jjfJ0[$key]`";
-        mysql_query($_QJlJ0);
-        _OAL8F($_QJlJ0);
+      for($_QliOt=0;$_QliOt<count($_J1QfQ); $_QliOt++) {
+        $key = $_J1QfQ[$_QliOt];
+        $_QLfol = "INSERT INTO `$_QLO0f[$key]` SELECT * FROM `$_J1j1Q[$key]`";
+        mysql_query($_QLfol);
+        _L8D88($_QLfol);
       }
 
     }
   }
 
   // we don't check for errors here
-  function _O6R86($_jjJCt, &$_QtIiC) {
-    global $_IoCtL, $resourcestrings, $INTERFACE_LANGUAGE, $_Q61I1;
+  function _LOB0R($_J11tt, &$_IQ0Cj) {
+    global $_jJLLf, $resourcestrings, $INTERFACE_LANGUAGE, $_QLttI;
 
-    for($_Q6llo=0; $_Q6llo<count($_jjJCt); $_Q6llo++) {
-      $_jjJCt[$_Q6llo] = intval($_jjJCt[$_Q6llo]);
-      $_QJlJ0 = "SELECT * FROM `$_IoCtL` WHERE id=".$_jjJCt[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if(mysql_num_rows($_Q60l1) > 0) {
-        $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
+    for($_Qli6J=0; $_Qli6J<count($_J11tt); $_Qli6J++) {
+      $_J11tt[$_Qli6J] = intval($_J11tt[$_Qli6J]);
+      $_QLfol = "SELECT * FROM `$_jJLLf` WHERE id=".$_J11tt[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if(mysql_num_rows($_QL8i1) > 0) {
+        $_QLO0f = mysql_fetch_assoc($_QL8i1);
 
-        $_QJlJ0 = "SELECT id FROM `$_Q6Q1C[CurrentSendTableName]` WHERE SendState='Sending' LIMIT 0,1";
-        $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-        if($_Q8Oj8 && mysql_num_rows($_Q8Oj8) > 0) {
-          mysql_free_result($_Q8Oj8);
-          $_QtIiC[] = $_Q6Q1C["Name"].": ".$resourcestrings[$INTERFACE_LANGUAGE]["001675"];
+        $_QLfol = "SELECT id FROM `$_QLO0f[CurrentSendTableName]` WHERE SendState='Sending' LIMIT 0,1";
+        $_I1O6j = mysql_query($_QLfol, $_QLttI);
+        if($_I1O6j && mysql_num_rows($_I1O6j) > 0) {
+          mysql_free_result($_I1O6j);
+          $_IQ0Cj[] = $_QLO0f["Name"].": ".$resourcestrings[$INTERFACE_LANGUAGE]["001675"];
           continue;
         }
-        if($_Q8Oj8)
-          mysql_free_result($_Q8Oj8);
+        if($_I1O6j)
+          mysql_free_result($_I1O6j);
 
-        reset($_Q6Q1C);
-        foreach($_Q6Q1C as $key => $_Q6ClO) {
+        reset($_QLO0f);
+        foreach($_QLO0f as $key => $_QltJO) {
           if (strpos($key, "TableName") !== false) {
-            $_QJlJ0 = "DROP TABLE IF EXISTS `$_Q6ClO`";
-            mysql_query($_QJlJ0, $_Q61I1);
-            if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+            $_QLfol = "DROP TABLE IF EXISTS `$_QltJO`";
+            mysql_query($_QLfol, $_QLttI);
+            if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
           }
         }
       }
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
 
       // and now from campaigns table
-      $_QJlJ0 = "DELETE FROM `$_IoCtL` WHERE id=".$_jjJCt[$_Q6llo];
-      mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM `$_jJLLf` WHERE id=".$_J11tt[$_Qli6J];
+      mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
     }
 
   }

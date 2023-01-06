@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2014 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,8 +26,8 @@
   include_once("sessioncheck.inc.php");
   include_once("templates.inc.php");
 
-  $_IjfjI = $_Qlt66;
-  $_IjfLj = true;
+  $_Ii6tC = $_I8OoJ;
+  $_Ii6CO = true;
 
   if(isset($_POST["Action"]))
      $_POST["action"] = $_POST["Action"];
@@ -41,7 +41,7 @@
             $_POST["action"] = $_GET["action"];
 
          if (! isset($_POST["OneMailingListId"]) && ! isset($_GET["OneMailingListId"]) ) {
-           $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001131"];
+           $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001131"];
            include_once("mailinglistselect.inc.php");
            if (!isset($_POST["OneMailingListId"]) )
               exit;
@@ -50,57 +50,57 @@
          if(!isset($_POST["OneMailingListId"]) ) {
            $_POST["OneMailingListId"] = intval($_GET["OneMailingListId"]);
            }
-         $_QJlJ0 = "SELECT LocalDomainBlocklistTableName, Name FROM $_Q60QL WHERE id=".intval($_POST["OneMailingListId"]);
-         $_Q60l1 = mysql_query($_QJlJ0);
-         $_IjfLj = false;
-         if(mysql_num_rows($_Q60l1) > 0) {
-           $_Q6Q1C = mysql_fetch_row($_Q60l1);
-           mysql_free_result($_Q60l1);
-           $_IjfjI = $_Q6Q1C[0];
-           $_IjOJC = $_Q6Q1C[1];
+         $_QLfol = "SELECT LocalDomainBlocklistTableName, Name FROM $_QL88I WHERE id=".intval($_POST["OneMailingListId"]);
+         $_QL8i1 = mysql_query($_QLfol);
+         $_Ii6CO = false;
+         if(mysql_num_rows($_QL8i1) > 0) {
+           $_QLO0f = mysql_fetch_row($_QL8i1);
+           mysql_free_result($_QL8i1);
+           $_Ii6tC = $_QLO0f[0];
+           $_Ii8Q6 = $_QLO0f[1];
          } else {
-           $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001131"];
+           $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001131"];
            include_once("mailinglistselect.inc.php");
            exit;
          }
   }
 
-  $_IjOiO = 0;
+  $_Ii8QL = 0;
   if (isset($_POST["MemberId"]) ) // edit?
-     $_IjOiO = intval($_POST["MemberId"]);
+     $_Ii8QL = intval($_POST["MemberId"]);
      else
      if (isset($_POST["OneMemberId"]) ) // edit?
-       $_IjOiO = intval($_POST["OneMemberId"]);
+       $_Ii8QL = intval($_POST["OneMemberId"]);
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if($_IjfLj && $_IjOiO == 0 && !$_QJojf["PrivilegeGlobalBlockListRecipientCreate"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if($_Ii6CO && $_Ii8QL == 0 && !$_QLJJ6["PrivilegeGlobalBlockListRecipientCreate"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
-    if($_IjfLj && $_IjOiO != 0 && !$_QJojf["PrivilegeGlobalBlockListRecipientEdit"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    if($_Ii6CO && $_Ii8QL != 0 && !$_QLJJ6["PrivilegeGlobalBlockListRecipientEdit"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
-    if(!$_IjfLj && $_IjOiO == 0 && !$_QJojf["PrivilegeLocalBlockListRecipientCreate"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    if(!$_Ii6CO && $_Ii8QL == 0 && !$_QLJJ6["PrivilegeLocalBlockListRecipientCreate"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
-    if(!$_IjfLj && $_IjOiO != 0 && !$_QJojf["PrivilegeLocalBlockListRecipientEdit"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    if(!$_Ii6CO && $_Ii8QL != 0 && !$_QLJJ6["PrivilegeLocalBlockListRecipientEdit"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  $_I0600 = "";
+  $_Itfj8 = "";
   $errors = array();
 
   if(isset($_POST["MemberSaveBtn"]) || isset($_POST["Domainname"])  ) {
@@ -110,94 +110,94 @@
      }
 
      if( count($errors) == 0 ) {
-       $_POST["Domainname"] = trim($_POST["Domainname"]);
+       $_POST["Domainname"] = _L86JE( trim($_POST["Domainname"]) );
        if(strpos($_POST["Domainname"], '@') !== false) {
           $_POST["Domainname"] = substr($_POST["Domainname"], strpos($_POST["Domainname"], '@') + 1);
        }
-       if( !_OPAOJ('info@'.$_POST["Domainname"]) )
+       if( !_L8JLR('info@'.$_POST["Domainname"]) )
            $errors[] = "Domainname";
      }
 
      if( count($errors) == 0 ) {
-       if ( ($_IjOiO == 0) && _O8PPD($_IjfjI, $_POST["Domainname"]) ) {
-         $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001134"];
+       if ( ($_Ii8QL == 0) && _L6PQC($_Ii6tC, $_POST["Domainname"]) ) {
+         $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001134"];
          $errors[] = "Domainname";
        }
     }
 
      if(count($errors) == 0) {
-       if ($_IjOiO == 0) {
-         $_QJlJ0 = "INSERT INTO $_IjfjI SET Domainname="._OPQLR($_POST["Domainname"]);
-         mysql_query($_QJlJ0);
-         _OAL8F($_QJlJ0);
+       if ($_Ii8QL == 0) {
+         $_QLfol = "INSERT INTO $_Ii6tC SET Domainname="._LRAFO($_POST["Domainname"]);
+         mysql_query($_QLfol);
+         _L8D88($_QLfol);
 
-         $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()");
-         $_Q6Q1C=mysql_fetch_array($_Q60l1);
-         $_IjOiO = $_Q6Q1C[0];
-         mysql_free_result($_Q60l1);
-         $_POST["MemberId"] = $_IjOiO;
-         $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001135"];
+         $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()");
+         $_QLO0f=mysql_fetch_array($_QL8i1);
+         $_Ii8QL = $_QLO0f[0];
+         mysql_free_result($_QL8i1);
+         $_POST["MemberId"] = $_Ii8QL;
+         $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001135"];
 
          include_once("browsedomainblmembers.php");
          exit;
 
        } else {
-         $_QJlJ0 = "UPDATE $_IjfjI SET Domainname="._OPQLR($_POST["Domainname"])." WHERE id=".$_IjOiO;
-         mysql_query($_QJlJ0, $_Q61I1);
-         if(mysql_affected_rows($_Q61I1) > 0) {
-           $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001135"];
+         $_QLfol = "UPDATE $_Ii6tC SET Domainname="._LRAFO($_POST["Domainname"])." WHERE id=".$_Ii8QL;
+         mysql_query($_QLfol, $_QLttI);
+         if(mysql_affected_rows($_QLttI) > 0) {
+           $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001135"];
            include_once("browsedomainblmembers.php");
            exit;
            }
            else
-           $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001136"].mysql_error($_Q61I1);
+           $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001136"].mysql_error($_QLttI);
        }
 
      }
   } else {
     // edit
-    if($_IjOiO != 0) {
-      $_QJlJ0 = "SELECT * FROM $_IjfjI WHERE id=$_IjOiO";
-      $_Q60l1 = mysql_query($_QJlJ0);
-      $_Q6Q1C = mysql_fetch_array($_Q60l1);
-      $_POST["Domainname"] = $_Q6Q1C["Domainname"];
-      $_POST["MemberId"] = $_IjOiO;
-      mysql_free_result($_Q60l1);
+    if($_Ii8QL != 0) {
+      $_QLfol = "SELECT * FROM $_Ii6tC WHERE id=$_Ii8QL";
+      $_QL8i1 = mysql_query($_QLfol);
+      $_QLO0f = mysql_fetch_array($_QL8i1);
+      $_POST["Domainname"] = $_QLO0f["Domainname"];
+      $_POST["MemberId"] = $_Ii8QL;
+      mysql_free_result($_QL8i1);
     }
   }
 
-  if(count($errors) > 0 && $_I0600 == "") {
-    $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000020"];
+  if(count($errors) > 0 && $_Itfj8 == "") {
+    $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000020"];
   }
 
   // Template
-  if($_IjfLj)
-   $_Iji86 = $resourcestrings[$INTERFACE_LANGUAGE]["001137"];
+  if($_Ii6CO)
+   $_IiOfO = $resourcestrings[$INTERFACE_LANGUAGE]["001137"];
    else
-   $_Iji86 = $_IjOJC." - ".$resourcestrings[$INTERFACE_LANGUAGE]["001138"];
+   $_IiOfO = $_Ii8Q6." - ".$resourcestrings[$INTERFACE_LANGUAGE]["001138"];
 
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_Iji86, $_I0600, 'browsedomainblmembers', 'domainblocklistmemberedit_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_IiOfO, $_Itfj8, 'browsedomainblmembers', 'domainblocklistmemberedit_snipped.htm');
 
 
-  $_QJCJi = _OPFJA($errors, $_POST, $_QJCJi);
+  $_QLJfI = _L8AOB($errors, $_POST, $_QLJfI);
 
-  if( isset($_POST["OneMailingListId"]) && $_POST["OneMailingListId"] != "" ) {
-    $_QJCJi = str_replace('browsedomainblmembers.php"', 'browsedomainblmembers.php?action=local&OneMailingListId='.$_POST["OneMailingListId"].'"', $_QJCJi);
+  if( isset($_POST["OneMailingListId"]) && $_POST["OneMailingListId"] > 0 ) {
+    $_QLJfI = str_replace('browsedomainblmembers.php"', 'browsedomainblmembers.php?action=local&OneMailingListId='.$_POST["OneMailingListId"].'"', $_QLJfI);
   }
 
-  print $_QJCJi;
+  print $_QLJfI;
 
- function _O8PPD($_ICLO8, $_jLtC6) {
-   global $_Q61I1;
-   $_QJlJ0 = "SELECT `id` FROM `$_ICLO8` WHERE `Domainname`="._OPQLR($_jLtC6);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-     if($_Q60l1)
-       mysql_free_result($_Q60l1);
+ function _L6PQC($_jf1IJ, $_JLiIl) {
+   global $_QLttI;
+   $_QLfol = "SELECT `id` FROM `$_jf1IJ` WHERE `Domainname`="._LRAFO($_JLiIl);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+     if($_QL8i1)
+       mysql_free_result($_QL8i1);
      return false;
    } else {
-     if($_Q60l1)
-       mysql_free_result($_Q60l1);
+     if($_QL8i1)
+       mysql_free_result($_QL8i1);
      return true;
    }
  }

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -38,11 +38,11 @@
   @header('Pragma: no-cache') ;
 
   // Set the response format.
-  @header( 'Content-Type: text/html; charset='.$_Q6QQL ) ;
+  @header( 'Content-Type: text/html; charset='.$_QLo06 ) ;
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeTargetGroupsBrowse"]) {
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeTargetGroupsBrowse"]) {
       print $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"];
       exit;
     }
@@ -60,6 +60,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="css/default.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery-latest.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
 
 <style>
  body, div { background-color: #FFFFFF; }
@@ -114,7 +115,10 @@ echo '
     var nocache = date.getTime() / 1000;
     $.ajaxSetup({ cache: false });
 
-   	jQuery.get('ajax_gettargetgroups.php' + "?nocache=" + nocache + '&wizard=' + wizard, "", function(data){
+    $param = "";
+    if(wizard !== "")
+      $param = '&wizard=' + wizard;
+   	jQuery.get('ajax_gettargetgroups.php' + "?nocache=" + nocache + $param, "", function(data){
    	   $("#targetgroups").html( data );
        _SetCheckMarkToCurrentTargetGroups(currentTargetGroups);
    	});
@@ -172,13 +176,14 @@ echo '
        <img src="images/loading.gif" height="16" width="16" alt="Loading..." />
      </div>
    </fieldset>
+   <input type="hidden" name="<?php echo SMLSWM_TOKEN_COOKIE_NAME; ?>" value="<?php echo _LJPOA(); ?>" />
  </div>
 
 <?php
 
    if(empty($_GET["wizard"])){
    echo "<script>
-     $(window).load(function() {
+     $(document).ready(function(){
        parent.LoadCKEditorTargetGroups();
      });
      </script>";
@@ -187,7 +192,7 @@ echo '
    if(!empty($_GET["wizard"])){
    echo "<script>
      wizard = 'wizard';
-     $(window).load(function() {
+     $(document).ready(function(){
         parent.LoadWizardTargetGroups();
      });
      </script>";

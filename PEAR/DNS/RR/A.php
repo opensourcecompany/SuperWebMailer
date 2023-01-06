@@ -39,7 +39,7 @@ class Net_DNS_RR_A extends Net_DNS_RR
     var $address;
     /* }}} */
     /* class constructor - Net_DNS_RR_A(&$rro, $data, $offset = '') {{{ */
-    function __construct(&$rro, $data, $offset = '')
+    function __construct($rro, $data, $offset = '')
     {
         $this->name = $rro->name;
         $this->type = $rro->type;
@@ -61,7 +61,7 @@ class Net_DNS_RR_A extends Net_DNS_RR
                 $this->address = $addr;
             }
         } else {
-            if (strlen($data) && ereg("([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)[ \t]*$", $data, $regs)) {
+            if (strlen($data) && preg_match("/([0-9]+)\.([0-9]+)\.([0-9]+)\.([0-9]+)[ \t]*$/", $data, $regs)) {
                 if (($regs[1] >= 0 && $regs[1] <= 255) &&
                         ($regs[2] >= 0 && $regs[2] <= 255) &&
                         ($regs[3] >= 0 && $regs[3] <= 255) &&
@@ -72,7 +72,7 @@ class Net_DNS_RR_A extends Net_DNS_RR
         }
     }
 
-    function Net_DNS_RR_A(&$rro, $data, $offset = '')
+    function Net_DNS_RR_A($rro, $data, $offset = '')
     {
       self::__construct($rro, $data, $offset);
     }

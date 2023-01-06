@@ -18,6 +18,7 @@
 <link href="css/default.css" rel="stylesheet" type="text/css" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
+<script type="text/javascript" src="js/jquery-latest.min.js"></script>
 <script language="javascript" type="text/javascript" src="js/common.js"></script>
 <script language="javascript" type="text/javascript" src="js/help.js"></script>
 <script language="javascript" type="text/javascript" src="js/ajax.js"></script>
@@ -32,17 +33,50 @@
 <!--
 
 body {
-  min-width: 700px;
+  min-width: 320px;
+  min-height: 200px;
   margin-left: 0px;
   margin-right: 0px;
   margin-top: 8px;
 }
 
-
+.topDialog, .headerDialog, .PageContainerDialog {width: 100%};
+.PageContainerDialog, .container {height: auto;}
 -->
 </style>
-</head>
 
+<script>
+function ensureMinimumWindowSize(width, height) {
+    var tooThin = (width > window.innerWidth);
+    var tooShort = (height > window.innerHeight);
+
+    if (tooThin || tooShort) {
+        var deltaWidth = window.outerWidth - window.innerWidth;
+        var deltaHeight = window.outerHeight - window.innerHeight;
+
+        width = tooThin ? width + deltaWidth : window.outerWidth;
+        height = tooShort ? height + deltaHeight : window.outerHeight;
+
+        // Edge not reporting window outer size correctly
+        if (/Edge/i.test(navigator.userAgent)) {
+            width -= 16;
+            height -= 8;
+        }
+
+        window.resizeTo(width, height);
+    }
+}
+
+var resizeTimer;
+window.addEventListener('resize', function(event) {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(function () {
+        ensureMinimumWindowSize(320,200);
+    }, 100);
+}, false);
+</script>
+
+</head>
 
 <body>
 
@@ -97,7 +131,7 @@ body {
       
       <div class="spacerborder">
 
-          <table cellspacing="0" cellpadding="0" border="0" style="width: 100%">
+          <table cellspacing="0" cellpadding="0" border="0" style="width: 100%;">
             <tbody>
               <tr>
                 <td>
@@ -113,12 +147,14 @@ body {
                     //-->  
                     </script>
                   	<div class="dhtmlgoodies_aTab">
-                      <table cellspacing="0" cellpadding="0" border="0">
+                      <table cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tbody>
                           <tr>
                             <td>
                               <div id="MailSubjectHTML"></div>
-                              <iframe id="html_iframe" name="html_iframe" width="640" height="460" src="about:blank" frameborder="0" style="border-style:dotted; border-width:1px;"></iframe>
+                              <div style="width: 100%; height: calc(100vh - 224px);">
+                                <iframe id="html_iframe" name="html_iframe" width="100%" height="100%" src="about:blank" frameborder="0" style="border-style:dotted; border-width:1px;"></iframe>
+                              </div>
                             </td>
                           </tr>
                         </tbody>
@@ -135,12 +171,14 @@ body {
                     //-->
                     </script>
                   	<div class="dhtmlgoodies_aTab">
-                      <table cellspacing="0" cellpadding="0" border="0">
+                      <table cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tbody>
                           <tr>
                             <td>
                               <div id="MailSubjectPlainText"></div>
-                              <iframe id="text_iframe" name="text_iframe" width="640" height="460" src="about:blank" frameborder="0" style="border-style:dotted; border-width:1px;"></iframe>
+                              <div style="width: 100%; height: calc(100vh - 224px);">
+                                <iframe id="text_iframe" name="text_iframe" width="100%" height="100%" src="about:blank" frameborder="0" style="border-style:dotted; border-width:1px;"></iframe>
+                              </div>
                             </td>
                           </tr>
                         </tbody>
@@ -157,12 +195,14 @@ body {
                     //-->
                     </script>
                   	<div class="dhtmlgoodies_aTab">
-                      <table cellspacing="0" cellpadding="0" border="0">
+                      <table cellspacing="0" cellpadding="0" border="0" width="100%">
                         <tbody>
                           <tr>
                             <td>
                               <div id="MailSubjectPlainText"></div>
-                              <iframe id="attachments_iframe" name="attachments_iframe" width="640" height="460" src="about:blank" frameborder="0" style="border-style:dotted; border-width:1px;"></iframe>
+                              <div style="width: 100%; height: calc(100vh - 224px);">
+                                <iframe id="attachments_iframe" name="attachments_iframe" width="100%" height="100%" src="about:blank" frameborder="0" style="border-style:dotted; border-width:1px;"></iframe>
+                              </div>
                             </td>
                           </tr>
                         </tbody>
@@ -178,7 +218,7 @@ body {
 
                   <script language="javascript" type="text/javascript">
                   <!--
-                    initTabs('dhtmlgoodies_tabView', TabListArray, 0, 654, 510);
+                    initTabs('dhtmlgoodies_tabView', TabListArray, 0, '100%', '100%'); // 654,510
 
                     function SetMailSubject(ASubject) {
                       var MailSubject = document.getElementById('MailSubjectHTML');
@@ -198,23 +238,28 @@ body {
                       return true;
                     }
 
-                    htmliframe = document.getElementById("html_iframe");
-                    textiframe = document.getElementById("text_iframe");
-                    attachmentsiframe = document.getElementById("attachments_iframe");
-                    
-
                     function PrintContents() {
                        if(htmliframe != null) {
-                         window.frames['html_iframe'].focus();
-                         window.frames['html_iframe'].print();
+                         window.frames[GetFrameIndex('html_iframe')].focus();
+                         window.frames[GetFrameIndex('html_iframe')].print();
                        }
                        if(textiframe != null) {
-                         window.frames['text_iframe'].focus();
-                         window.frames['text_iframe'].print();
+                         window.frames[GetFrameIndex('text_iframe')].focus();
+                         window.frames[GetFrameIndex('text_iframe')].print();
                        }
                     }
 
-                  	 //AUTO_SCRIPT_CODE_PLACEHOLDER//
+                    $(document).ready(function(){
+
+                      htmliframe = document.getElementById("html_iframe");
+                      textiframe = document.getElementById("text_iframe");
+                      attachmentsiframe = document.getElementById("attachments_iframe");
+
+
+                    	 //AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+                   	});
+
 
                   -->
                   </script>

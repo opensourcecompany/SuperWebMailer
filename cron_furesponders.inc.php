@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -27,195 +27,196 @@
   include_once("fums_ops.inc.php");
 
 
-  function _OR6FF(&$_j6O8O) {
-    global $_Q61I1, $_Q6JJJ;
+  function _LLAOR(&$_JIfo0) {
+    global $_QLttI, $_QLl1Q, $_QLo06;
     global $UserId, $OwnerUserId, $Username, $UserType, $AccountType, $INTERFACE_STYLE, $INTERFACE_THEMESID, $INTERFACE_LANGUAGE;
-    global $_Qo8OO, $resourcestrings, $_Q8f1L, $_Q880O;
-    global $_jjC06, $_jjCtI, $_I0lQJ, $_jji0C, $_QOCJo, $_QCo6j, $_jji0i;
-    global $_Q60QL, $_Qofoi, $_ICljl, $_QLo0Q, $_Ql8C0, $_I88i8, $_QtjLI;
-    global $_Q6jOo, $_IIl8O, $_IjQIf, $_IQL81, $_II8J0, $_QCLCI;
+    global $_Ijt8j, $resourcestrings, $_I18lo, $_I1tQf;
+    global $_J18oI, $_jfOJj, $_ItL8f, $_J1t6J, $_IIlfi, $_IJi8f, $_J1tfC;
+    global $_QL88I, $_Ijt0i, $_jfQtI, $_Ifi1J, $_I8tfQ, $_jQ68I, $_IQQot;
+    global $_QLi60, $_ICo0J, $_ICl0j, $_IoCo0, $_ICIJo, $_I616t;
 
-    global $_QltCO, $_QlQC8, $_QlIf6, $_QLI68, $MailingListId, $_QljIQ, $_Qljli, $_IoO1t, $_QtIiC;
+    global $_I8oIJ, $_I8I6o, $_I8jjj, $_IfJ66, $MailingListId, $_I8jLt, $_I8Jti, $_QljJi, $_jJi11, $_IQ0Cj;
 
 
-    $_j6O8O = "Follow Up Responder checking starts...<br />";
-    $_jIojl = 0;
+    $_JIfo0 = "Follow Up Responder checking starts...<br />";
+    $_J0J6C = 0;
 
-    $_QJlJ0 = "SELECT * FROM $_Q8f1L WHERE UserType='Admin' AND IsActive>0";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    while($_Q6Q1C = mysql_fetch_assoc($_Q60l1) ) {
-      _OPQ6J();
-      $UserId = $_Q6Q1C["id"];
+    $_QLfol = "SELECT * FROM $_I18lo WHERE UserType='Admin' AND IsActive>0";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    while($_QLO0f = mysql_fetch_assoc($_QL8i1) ) {
+      _LRCOC();
+      $UserId = $_QLO0f["id"];
       $OwnerUserId = 0;
-      $Username = $_Q6Q1C["Username"];
-      $UserType = $_Q6Q1C["UserType"];
-      $AccountType = $_Q6Q1C["AccountType"];
-      $INTERFACE_THEMESID = $_Q6Q1C["ThemesId"];
-      $INTERFACE_LANGUAGE = $_Q6Q1C["Language"];
+      $Username = $_QLO0f["Username"];
+      $UserType = $_QLO0f["UserType"];
+      $AccountType = $_QLO0f["AccountType"];
+      $INTERFACE_THEMESID = $_QLO0f["ThemesId"];
+      $INTERFACE_LANGUAGE = $_QLO0f["Language"];
 
-      _OP10J($INTERFACE_LANGUAGE);
+      _LRPQ6($INTERFACE_LANGUAGE);
 
-      _LQLRQ($INTERFACE_LANGUAGE);
+      _JQRLR($INTERFACE_LANGUAGE);
 
-      $_QJlJ0 = "SELECT Theme FROM $_Q880O WHERE id=$INTERFACE_THEMESID";
-      $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q8OiJ = mysql_fetch_row($_Q8Oj8);
-      $INTERFACE_STYLE = $_Q8OiJ[0];
-      mysql_free_result($_Q8Oj8);
+      $_QLfol = "SELECT Theme FROM $_I1tQf WHERE id=$INTERFACE_THEMESID";
+      $_I1O6j = mysql_query($_QLfol, $_QLttI);
+      $_I1OfI = mysql_fetch_row($_I1O6j);
+      $INTERFACE_STYLE = $_I1OfI[0];
+      mysql_free_result($_I1O6j);
 
-      _OP0D0($_Q6Q1C);
+      _LR8AP($_QLO0f);
 
-      _OP0AF($UserId);
-
-
-      $_QJlJ0 = "SELECT $_QCLCI.`id` AS FUResponders_id, $_QCLCI.`Name` AS FUResponders_Name, $_QCLCI.`ResponderType` AS FUResponders_ResponderType, $_QCLCI.`FUMailsTableName`, $_QCLCI.`ML_FU_RefTableName`, $_QCLCI.`RStatisticsTableName`, $_QCLCI.MaxEMailsToProcess, $_QCLCI.`OnFollowUpDoneAction`, $_QCLCI.`OnFollowUpDoneScriptURL`, ";
-      $_QJlJ0 .= "$_QCLCI.`OnFollowUpDoneCopyToMailList`, $_QCLCI.`OnFollowUpDoneMoveToMailList`, $_QCLCI.`forms_id`, $_QCLCI.`StartDateOfFirstFUMail`, $_QCLCI.`FirstFollowUpMailDateFieldName`, $_QCLCI.`FormatOfFirstFollowUpMailDateField`, $_QCLCI.`GroupsTableName` AS FUResponders_GroupsTableName,";
-      $_QJlJ0 .= " $_QCLCI.`NotInGroupsTableName` AS FUResponders_NotInGroupsTableName, $_QCLCI.`SendTimeVariant`, $_QCLCI.`SendTime`,";
-      $_QJlJ0 .= "$_Qofoi.`id` AS MTA_id, $_Q60QL.`MaillistTableName`, $_Q60QL.`LocalBlocklistTableName`, $_Q60QL.`id` AS MailingListId, $_Q60QL.`MailListToGroupsTableName`, $_Q60QL.`StatisticsTableName`, $_Q60QL.`MailLogTableName`, $_Q60QL.`EditTableName`, $_Q60QL.`Name` AS MailingListName FROM `$_QCLCI` LEFT JOIN `$_Qofoi` ON $_Qofoi.`id`=$_QCLCI.`mtas_id`";
-      $_QJlJ0 .= " LEFT JOIN $_Q60QL ON $_Q60QL.id=$_QCLCI.maillists_id WHERE $_QCLCI.IsActive=1";
-      $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-      if(mysql_error($_Q61I1) != "")
-        $_j6O8O .= "MySQL error while selecting data: ".mysql_error($_Q61I1);
-      while($_Q8Oj8 && $_Q8OiJ = mysql_fetch_assoc($_Q8Oj8)) {
-        _OPQ6J();
-
-        $_j6O8O .= "Checking $_Q8OiJ[FUResponders_Name]...<br />";
+      _LRRFJ($UserId);
 
 
-        $_jflIQ = 0;
+      $_QLfol = "SELECT $_I616t.`id` AS FUResponders_id, $_I616t.`Name` AS FUResponders_Name, $_I616t.`ResponderType` AS FUResponders_ResponderType, $_I616t.`FUMailsTableName`, $_I616t.`ML_FU_RefTableName`, $_I616t.`RStatisticsTableName`, $_I616t.MaxEMailsToProcess, $_I616t.`OnFollowUpDoneAction`, $_I616t.`OnFollowUpDoneScriptURL`, ";
+      $_QLfol .= "$_I616t.`OnFollowUpDoneCopyToMailList`, $_I616t.`OnFollowUpDoneMoveToMailList`, $_I616t.`forms_id`, $_I616t.`StartDateOfFirstFUMail`, $_I616t.`FirstFollowUpMailDateFieldName`, $_I616t.`FormatOfFirstFollowUpMailDateField`, $_I616t.`GroupsTableName` AS FUResponders_GroupsTableName,";
+      $_QLfol .= " $_I616t.`NotInGroupsTableName` AS FUResponders_NotInGroupsTableName, $_I616t.`SendTimeVariant`, $_I616t.`SendTime`,";
+      $_QLfol .= "$_Ijt0i.`id` AS MTA_id, $_QL88I.`MaillistTableName`, $_QL88I.`LocalBlocklistTableName`, $_QL88I.`id` AS MailingListId, $_QL88I.`MailListToGroupsTableName`, $_QL88I.`StatisticsTableName`, $_QL88I.`MailLogTableName`, $_QL88I.`EditTableName`, $_QL88I.`GroupsTableName` AS MailLists_GroupsTableName, $_QL88I.`Name` AS MailingListName FROM `$_I616t` LEFT JOIN `$_Ijt0i` ON $_Ijt0i.`id`=$_I616t.`mtas_id`";
+      $_QLfol .= " LEFT JOIN $_QL88I ON $_QL88I.id=$_I616t.maillists_id WHERE $_I616t.IsActive=1";
+      $_I1O6j = mysql_query($_QLfol, $_QLttI);
+      if(mysql_error($_QLttI) != "")
+        $_JIfo0 .= "MySQL error while selecting data: ".mysql_error($_QLttI);
+      while($_I1O6j && $_I1OfI = mysql_fetch_assoc($_I1O6j)) {
+        _LRCOC();
 
-        $_QlQC8 = $_Q8OiJ["MaillistTableName"];
-        $_ItCCo = $_Q8OiJ["LocalBlocklistTableName"];
-        $_QlIf6 = $_Q8OiJ["StatisticsTableName"];
-        $_QLI68 = $_Q8OiJ["MailListToGroupsTableName"];
-        $_QljIQ = $_Q8OiJ["MailLogTableName"];
-        $MailingListId = $_Q8OiJ["MailingListId"];
-        $_Qljli = $_Q8OiJ["EditTableName"];
-        $_ItiO1 = $_Q8OiJ["FUResponders_GroupsTableName"];
-        $_ItL8J = $_Q8OiJ["FUResponders_NotInGroupsTableName"];
+        $_JIfo0 .= "Checking $_I1OfI[FUResponders_Name]...<br />";
 
-        $_QJlJ0 = "SELECT COUNT(`ml_groups_id`) FROM `$_ItiO1`";
-        $_ItlJl = mysql_query($_QJlJ0, $_Q61I1);
-        $_IO0Jo = 0;
-        if($_ItlJl && $_IO08Q = mysql_fetch_row($_ItlJl)) {
-          $_IO0Jo = $_IO08Q[0];
-          mysql_free_result($_ItlJl);
+
+        $_JJjQJ = 0;
+
+        $_I8I6o = $_I1OfI["MaillistTableName"];
+        $_jjj8f = $_I1OfI["LocalBlocklistTableName"];
+        $_I8jjj = $_I1OfI["StatisticsTableName"];
+        $_IfJ66 = $_I1OfI["MailListToGroupsTableName"];
+        $_I8jLt = $_I1OfI["MailLogTableName"];
+        $MailingListId = $_I1OfI["MailingListId"];
+        $_I8Jti = $_I1OfI["EditTableName"];
+        $_QljJi = $_I1OfI["MailLists_GroupsTableName"];
+        $_jjjCL = $_I1OfI["FUResponders_GroupsTableName"];
+        $_jjJ00 = $_I1OfI["FUResponders_NotInGroupsTableName"];
+
+        $_QLfol = "SELECT COUNT(`ml_groups_id`) FROM `$_jjjCL`";
+        $_jjJfo = mysql_query($_QLfol, $_QLttI);
+        $_jj6f1 = 0;
+        if($_jjJfo && $_jj6L6 = mysql_fetch_row($_jjJfo)) {
+          $_jj6f1 = $_jj6L6[0];
+          mysql_free_result($_jjJfo);
         }
 
-        $_IO1I1 = 0;
-        if($_IO0Jo > 0){
-          $_QJlJ0 = "SELECT COUNT(`ml_groups_id`) FROM `$_ItL8J`";
-          $_ItlJl = mysql_query($_QJlJ0, $_Q61I1);
-          if($_ItlJl && $_IO08Q = mysql_fetch_row($_ItlJl)) {
-            $_IO1I1 = $_IO08Q[0];
-            mysql_free_result($_ItlJl);
+        $_jjfiO = 0;
+        if($_jj6f1 > 0){
+          $_QLfol = "SELECT COUNT(`ml_groups_id`) FROM `$_jjJ00`";
+          $_jjJfo = mysql_query($_QLfol, $_QLttI);
+          if($_jjJfo && $_jj6L6 = mysql_fetch_row($_jjJfo)) {
+            $_jjfiO = $_jj6L6[0];
+            mysql_free_result($_jjJfo);
           }
         }
 
         // copy / move recipients
-        if( $_Q8OiJ["OnFollowUpDoneAction"] > 1 || !empty($_Q8OiJ["OnFollowUpDoneScriptURL"]) ) {
-          $_QJlJ0 = "SELECT sort_order FROM `$_Q8OiJ[FUMailsTableName]` ORDER BY sort_order DESC LIMIT 0, 1";
-          $_jttL1 = mysql_query($_QJlJ0, $_Q61I1);
-          $_jttLJ=1;
-          if($_jttL1 && $_jtO66 = mysql_fetch_assoc($_jttL1)) {
-             $_jttLJ = $_jtO66["sort_order"] + 1;
+        if( $_I1OfI["OnFollowUpDoneAction"] > 1 || !empty($_I1OfI["OnFollowUpDoneScriptURL"]) ) {
+          $_QLfol = "SELECT `sort_order` FROM `$_I1OfI[FUMailsTableName]` ORDER BY sort_order DESC LIMIT 0, 1";
+          $_JfIlJ = mysql_query($_QLfol, $_QLttI);
+          $_Jfjtj=1;
+          if($_JfIlJ && $_JfJ0J = mysql_fetch_assoc($_JfIlJ)) {
+             $_Jfjtj = $_JfJ0J["sort_order"] + 1;
           }
-          if($_jttL1)
-            mysql_free_result($_jttL1);
+          if($_JfIlJ)
+            mysql_free_result($_JfIlJ);
 
-          $_QJlJ0 = "SELECT `$_QlQC8`.id FROM `$_QlQC8` LEFT JOIN `$_Q8OiJ[ML_FU_RefTableName]` ON `$_Q8OiJ[ML_FU_RefTableName]`.`Member_id`=`$_Q8OiJ[MaillistTableName]`.id WHERE `$_Q8OiJ[ML_FU_RefTableName]`.`NextFollowUpID` IS NOT NULL AND `$_Q8OiJ[ML_FU_RefTableName]`.`NextFollowUpID`>=$_jttLJ AND `$_Q8OiJ[ML_FU_RefTableName]`.`OnFollowUpDoneActionDone`=0";
-          $_jttL1 = mysql_query($_QJlJ0, $_Q61I1);
-          $_QltCO = array();
-          while($_jtO66 = mysql_fetch_assoc($_jttL1)){
+          $_QLfol = "SELECT `$_I8I6o`.id FROM `$_I8I6o` LEFT JOIN `$_I1OfI[ML_FU_RefTableName]` ON `$_I1OfI[ML_FU_RefTableName]`.`Member_id`=`$_I1OfI[MaillistTableName]`.id WHERE `$_I1OfI[ML_FU_RefTableName]`.`NextFollowUpID` IS NOT NULL AND `$_I1OfI[ML_FU_RefTableName]`.`NextFollowUpID`>=$_Jfjtj AND `$_I1OfI[ML_FU_RefTableName]`.`OnFollowUpDoneActionDone`=0";
+          $_JfIlJ = mysql_query($_QLfol, $_QLttI);
+          $_I8oIJ = array();
+          while($_JfJ0J = mysql_fetch_assoc($_JfIlJ)){
              // in outqueue?
-             $_QJlJ0 = "SELECT COUNT(id) FROM `$_QtjLI` WHERE `users_id`=$UserId AND `maillists_id`=$_Q8OiJ[MailingListId] AND `recipients_id`=$_jtO66[id]";
-             $_ItlJl = mysql_query($_QJlJ0, $_Q61I1);
-             $_IO08Q = mysql_fetch_row($_ItlJl);
-             mysql_free_result($_ItlJl);
-             if($_IO08Q[0] == 0) {
-               $_QltCO[] = $_jtO66["id"];
+             $_QLfol = "SELECT COUNT(id) FROM `$_IQQot` WHERE `users_id`=$UserId AND `maillists_id`=$_I1OfI[MailingListId] AND `recipients_id`=$_JfJ0J[id]";
+             $_jjJfo = mysql_query($_QLfol, $_QLttI);
+             $_jj6L6 = mysql_fetch_row($_jjJfo);
+             mysql_free_result($_jjJfo);
+             if($_jj6L6[0] == 0) {
+               $_I8oIJ[] = $_JfJ0J["id"];
              }
           }
-          mysql_free_result($_jttL1);
+          mysql_free_result($_JfIlJ);
 
-          if(count($_QltCO)) {
+          if(count($_I8oIJ)) {
 
-            if($_Q8OiJ["OnFollowUpDoneAction"] > 1){
+            if($_I1OfI["OnFollowUpDoneAction"] > 1){
 
-              $_IoO1t = array();
-              $_QtIiC = array();
+              $_jJi11 = array();
+              $_IQ0Cj = array();
 
-              $_QJlJ0 = "SELECT `MaillistTableName`, `StatisticsTableName`, `MailLogTableName`, `EditTableName` FROM `$_Q60QL` WHERE id=";
-              if( $_Q8OiJ["OnFollowUpDoneAction"] == 2){
-                 $_QJlJ0 .= "$_Q8OiJ[OnFollowUpDoneCopyToMailList]";
-                 $_jtoIO = "copied";
+              $_QLfol = "SELECT `MaillistTableName`, `StatisticsTableName`, `MailLogTableName`, `EditTableName`, `GroupsTableName`, `MailListToGroupsTableName` FROM `$_QL88I` WHERE id=";
+              if( $_I1OfI["OnFollowUpDoneAction"] == 2){
+                 $_QLfol .= "$_I1OfI[OnFollowUpDoneCopyToMailList]";
+                 $_JfJt1 = "copied";
                  }
                  else
-                 if( $_Q8OiJ["OnFollowUpDoneAction"] == 3){
-                   $_QJlJ0 .= "$_Q8OiJ[OnFollowUpDoneMoveToMailList]";
-                   $_jtoIO = "moved";
+                 if( $_I1OfI["OnFollowUpDoneAction"] == 3){
+                   $_QLfol .= "$_I1OfI[OnFollowUpDoneMoveToMailList]";
+                   $_JfJt1 = "moved";
                  }
                  else
-                 if( $_Q8OiJ["OnFollowUpDoneAction"] == 4){
-                   $_jtoIO = "disabled";
+                 if( $_I1OfI["OnFollowUpDoneAction"] == 4){
+                   $_JfJt1 = "disabled";
                  }
                  else
-                 if( $_Q8OiJ["OnFollowUpDoneAction"] == 5){
-                   $_jtoIO = "removed";
+                 if( $_I1OfI["OnFollowUpDoneAction"] == 5){
+                   $_JfJt1 = "removed";
                  }
 
-              if( $_Q8OiJ["OnFollowUpDoneAction"] < 4){
-                $_ItlJl = mysql_query($_QJlJ0, $_Q61I1);
-                if($_ItlJl && $_IO08Q = mysql_fetch_assoc($_ItlJl)) {
+              if( $_I1OfI["OnFollowUpDoneAction"] < 4){
+                $_jjJfo = mysql_query($_QLfol, $_QLttI);
+                if($_jjJfo && $_jj6L6 = mysql_fetch_assoc($_jjJfo)) {
 
-                  $_jtoOQ = "SYSTEM: Follow up responder '$_Q8OiJ[FUResponders_Name]' has " . $_jtoIO . " recipient from mailing list '$_Q8OiJ[MailingListName]'";
-                  _L11LC($_QltCO, $_IoO1t, $_IO08Q["MaillistTableName"], $_IO08Q["StatisticsTableName"], $_IO08Q["MailLogTableName"], $_IO08Q["EditTableName"], $_Q8OiJ["OnFollowUpDoneAction"] == 3, $_jtoOQ);
+                  $_JfJtO = "SYSTEM: Follow up responder '$_I1OfI[FUResponders_Name]' has " . $_JfJt1 . " recipient from mailing list '$_I1OfI[MailingListName]'";
+                  _J1O6L($_I8oIJ, $_jJi11, $_jj6L6["MaillistTableName"], $_jj6L6["StatisticsTableName"], $_jj6L6["MailLogTableName"], $_jj6L6["EditTableName"], $_I1OfI["OnFollowUpDoneAction"] == 3, $_JfJtO, true, $_jj6L6["GroupsTableName"], $_jj6L6["MailListToGroupsTableName"]);
                 }
-                if($_ItlJl)
-                  mysql_free_result($_ItlJl);
+                if($_jjJfo)
+                  mysql_free_result($_jjJfo);
               }
 
-              if( $_Q8OiJ["OnFollowUpDoneAction"] == 4){
-                $_jtoOQ = "SYSTEM: Follow up responder '$_Q8OiJ[FUResponders_Name]' has " . $_jtoIO . " recipient in mailing list '$_Q8OiJ[MailingListName]'";
-                _L1J66(false, $_QltCO, $_QtIiC, $_jtoOQ);
+              if( $_I1OfI["OnFollowUpDoneAction"] == 4){
+                $_JfJtO = "SYSTEM: Follow up responder '$_I1OfI[FUResponders_Name]' has " . $_JfJt1 . " recipient in mailing list '$_I1OfI[MailingListName]'";
+                _J1RD0(false, $_I8oIJ, $_IQ0Cj, $_JfJtO);
               }
 
-              if( $_Q8OiJ["OnFollowUpDoneAction"] == 5){
-                // $_jtoOQ = "SYSTEM: Follow up responder '$_Q8OiJ[FUResponders_Name]' has " . $_jtoIO . " recipient in mailing list '$_Q8OiJ[MailingListName]'";
-                _L10CL($_QltCO, $_QtIiC, true);
+              if( $_I1OfI["OnFollowUpDoneAction"] == 5){
+                // $_JfJtO = "SYSTEM: Follow up responder '$_I1OfI[FUResponders_Name]' has " . $_JfJt1 . " recipient in mailing list '$_I1OfI[MailingListName]'";
+                _J1OQP($_I8oIJ, $_IQ0Cj, true);
               }
 
-              if( $_Q8OiJ["OnFollowUpDoneAction"] != 3 && $_Q8OiJ["OnFollowUpDoneAction"] != 5 ){ // not on move, remove
+              if( $_I1OfI["OnFollowUpDoneAction"] != 3 && $_I1OfI["OnFollowUpDoneAction"] != 5 ){ // not on move, remove
 
-                mysql_query("BEGIN", $_Q61I1);
+                mysql_query("BEGIN", $_QLttI);
 
-                reset($_QltCO);
-                $_QtjtL = array();
-                foreach($_QltCO as $_Q6llo => $_Q6ClO) {
-                  $_QtjtL[] = "`Member_id`=".$_QltCO[$_Q6llo];
-                  if(count($_QtjtL) > 20){
-                    $_QJlJ0 = "UPDATE `$_Q8OiJ[ML_FU_RefTableName]` SET `OnFollowUpDoneActionDone`=1 WHERE ".join(" OR ", $_QtjtL);
-                    mysql_query($_QJlJ0, $_Q61I1);
-                    $_QtjtL = array();
+                reset($_I8oIJ);
+                $_QLlO6 = array();
+                foreach($_I8oIJ as $_Qli6J => $_QltJO) {
+                  $_QLlO6[] = "`Member_id`=".$_I8oIJ[$_Qli6J];
+                  if(count($_QLlO6) > 20){
+                    $_QLfol = "UPDATE `$_I1OfI[ML_FU_RefTableName]` SET `OnFollowUpDoneActionDone`=1 WHERE ".join(" OR ", $_QLlO6);
+                    mysql_query($_QLfol, $_QLttI);
+                    $_QLlO6 = array();
                   }
                 }
 
-                if(count($_QtjtL)){
-                  $_QJlJ0 = "UPDATE `$_Q8OiJ[ML_FU_RefTableName]` SET `OnFollowUpDoneActionDone`=1 WHERE ".join(" OR ", $_QtjtL);
-                  mysql_query($_QJlJ0, $_Q61I1);
+                if(count($_QLlO6)){
+                  $_QLfol = "UPDATE `$_I1OfI[ML_FU_RefTableName]` SET `OnFollowUpDoneActionDone`=1 WHERE ".join(" OR ", $_QLlO6);
+                  mysql_query($_QLfol, $_QLttI);
                 }
 
-                mysql_query("COMMIT", $_Q61I1);
+                mysql_query("COMMIT", $_QLttI);
               }
 
             }
 
-            if(!empty($_Q8OiJ["OnFollowUpDoneScriptURL"])){
-             for($_Q6llo=0; $_Q6llo<count($_QltCO); $_Q6llo++){
-               _ORR1Q($_Q8OiJ["OnFollowUpDoneScriptURL"], $_QltCO[$_Q6llo]);
-               if($_Q8OiJ["OnFollowUpDoneAction"] < 2){
-                  $_QJlJ0 = "UPDATE `$_Q8OiJ[ML_FU_RefTableName]` SET `OnFollowUpDoneActionDone`=1 WHERE `Member_id`=".$_QltCO[$_Q6llo];
-                  mysql_query($_QJlJ0, $_Q61I1);
+            if(!empty($_I1OfI["OnFollowUpDoneScriptURL"])){
+             for($_Qli6J=0; $_Qli6J<count($_I8oIJ); $_Qli6J++){
+               _LLALJ($_I1OfI["OnFollowUpDoneScriptURL"], $_I8oIJ[$_Qli6J]);
+               if($_I1OfI["OnFollowUpDoneAction"] < 2){
+                  $_QLfol = "UPDATE `$_I1OfI[ML_FU_RefTableName]` SET `OnFollowUpDoneActionDone`=1 WHERE `Member_id`=".$_I8oIJ[$_Qli6J];
+                  mysql_query($_QLfol, $_QLttI);
                }
              }
             }
@@ -225,340 +226,377 @@
 
         //
 
-        $_IO1Oj = " LEFT JOIN `$_Ql8C0` ON `$_Ql8C0`.`u_EMail` = `$_QlQC8`.`u_EMail`".$_Q6JJJ;
-        $_IO1Oj .= " LEFT JOIN `$_ItCCo` ON `$_ItCCo`.`u_EMail` = `$_QlQC8`.`u_EMail`".$_Q6JJJ;
-        $_IOQf6 = " `$_QlQC8`.`IsActive`=1 AND `$_QlQC8`.`SubscriptionStatus`<>'OptInConfirmationPending'".$_Q6JJJ;
-        $_IOQf6 .= " AND `$_Ql8C0`.`u_EMail` IS NULL AND `$_ItCCo`.`u_EMail` IS NULL ".$_Q6JJJ;
+        $_jj8Ci = " LEFT JOIN `$_I8tfQ` ON `$_I8tfQ`.`u_EMail` = `$_I8I6o`.`u_EMail`".$_QLl1Q;
+        $_jj8Ci .= " LEFT JOIN `$_jjj8f` ON `$_jjj8f`.`u_EMail` = `$_I8I6o`.`u_EMail`".$_QLl1Q;
+        $_jjtQf = " `$_I8I6o`.`IsActive`=1 AND `$_I8I6o`.`SubscriptionStatus`<>'OptInConfirmationPending'".$_QLl1Q;
+        $_jjtQf .= " AND `$_I8tfQ`.`u_EMail` IS NULL AND `$_jjj8f`.`u_EMail` IS NULL ".$_QLl1Q;
 
-        $_IOI16 = "";
-        $_IOILL = "";
-        if($_IO0Jo > 0) {
+        $_jjt6l = "";
+        $_jjOj1 = "";
+        if($_jj6f1 > 0) {
 
-          $_IOI16 .= " LEFT JOIN `$_QLI68` ON `$_QlQC8`.`id`=`$_QLI68`.`Member_id`".$_Q6JJJ;
-          $_IOI16 .= " LEFT JOIN `$_ItiO1` ON `$_ItiO1`.`ml_groups_id`=`$_QLI68`.`groups_id`".$_Q6JJJ;
-          if($_IO1I1 > 0) {
-            $_IOI16 .= "  LEFT JOIN ( ".$_Q6JJJ;
+          $_jjt6l .= " LEFT JOIN `$_IfJ66` ON `$_I8I6o`.`id`=`$_IfJ66`.`Member_id`".$_QLl1Q;
+          $_jjt6l .= " LEFT JOIN `$_jjjCL` ON `$_jjjCL`.`ml_groups_id`=`$_IfJ66`.`groups_id`".$_QLl1Q;
+          if($_jjfiO > 0) {
+            $_jjt6l .= "  LEFT JOIN ( ".$_QLl1Q;
 
-            $_IOI16 .= "    SELECT `$_QlQC8`.`id`".$_Q6JJJ;
-            $_IOI16 .= "    FROM `$_QlQC8`".$_Q6JJJ;
+            $_jjt6l .= "    SELECT `$_I8I6o`.`id`".$_QLl1Q;
+            $_jjt6l .= "    FROM `$_I8I6o`".$_QLl1Q;
 
-            $_IOI16 .= "    LEFT JOIN `$_QLI68` ON `$_QlQC8`.`id`=`$_QLI68`.`Member_id`".$_Q6JJJ;
-            $_IOI16 .= "    LEFT JOIN `$_ItL8J` ON".$_Q6JJJ;
-            $_IOI16 .= "    `$_ItL8J`.`ml_groups_id`=`$_QLI68`.`groups_id`".$_Q6JJJ;
-            $_IOI16 .= "    WHERE `$_ItL8J`.`ml_groups_id` IS NOT NULL".$_Q6JJJ;
+            $_jjt6l .= "    LEFT JOIN `$_IfJ66` ON `$_I8I6o`.`id`=`$_IfJ66`.`Member_id`".$_QLl1Q;
+            $_jjt6l .= "    LEFT JOIN `$_jjJ00` ON".$_QLl1Q;
+            $_jjt6l .= "    `$_jjJ00`.`ml_groups_id`=`$_IfJ66`.`groups_id`".$_QLl1Q;
+            $_jjt6l .= "    WHERE `$_jjJ00`.`ml_groups_id` IS NOT NULL".$_QLl1Q;
 
-            $_IOI16 .= "  ) AS `subquery` ON `subquery`.`id`=`$_QlQC8`.`id`".$_Q6JJJ;
+            $_jjt6l .= "  ) AS `subquery` ON `subquery`.`id`=`$_I8I6o`.`id`".$_QLl1Q;
           }
 
-          if($_IO0Jo > 0) {
-            $_IOILL .= " AND (`$_ItiO1`.`ml_groups_id` IS NOT NULL)".$_Q6JJJ;
-            if($_IO1I1 > 0) {
-             $_IOILL .= " AND (`subquery`.`id` IS NULL)".$_Q6JJJ;
+          if($_jj6f1 > 0) {
+            $_jjOj1 .= " AND (`$_jjjCL`.`ml_groups_id` IS NOT NULL)".$_QLl1Q;
+            if($_jjfiO > 0) {
+             $_jjOj1 .= " AND (`subquery`.`id` IS NULL)".$_QLl1Q;
             }
           }
 
         }
 
-        $_IOjof = "";
-        if($_Q8OiJ["StartDateOfFirstFUMail"] == 1 && $_Q8OiJ["FirstFollowUpMailDateFieldName"] != "")
-           $_IOjof = ", `$_QlQC8`.`$_Q8OiJ[FirstFollowUpMailDateFieldName]` ";
+        $_jjOLf = "";
+        if($_I1OfI["StartDateOfFirstFUMail"] == 1 && isset($_I1OfI["FirstFollowUpMailDateFieldName"]) && $_I1OfI["FirstFollowUpMailDateFieldName"] != "")
+           $_jjOLf = ", `$_I8I6o`.`$_I1OfI[FirstFollowUpMailDateFieldName]` ";
 
-        if($_IO0Jo > 1) {
-          $_IOJ8I = "DISTINCT `$_QlQC8`.`u_EMail`";
+        if($_jj6f1 > 1) {
+          $_jjOlo = "DISTINCT `$_I8I6o`.`u_EMail`";
         } else
-          $_IOJ8I = "`$_QlQC8`.u_EMail";
+          $_jjOlo = "`$_I8I6o`.u_EMail";
 
-        $_QJlJ0 = "SELECT $_IOJ8I, `$_QlQC8`.id, `$_QlQC8`.DateOfOptInConfirmation, `$_Q8OiJ[ML_FU_RefTableName]`.NextFollowUpID, `$_Q8OiJ[ML_FU_RefTableName]`.LastSending ".$_IOjof;
-        $_QJlJ0 .= " FROM `$_Q8OiJ[MaillistTableName]` $_IO1Oj $_IOI16 LEFT JOIN `$_Q8OiJ[ML_FU_RefTableName]` ON `$_Q8OiJ[ML_FU_RefTableName]`.Member_id=`$_Q8OiJ[MaillistTableName]`.id";
-        $_QJlJ0 .= " WHERE $_IOQf6 $_IOILL";
-        $_IOOt1 = mysql_query($_QJlJ0, $_Q61I1);
+        $_QLfol = "SELECT $_jjOlo, `$_I8I6o`.id, `$_I8I6o`.DateOfOptInConfirmation, `$_I1OfI[ML_FU_RefTableName]`.NextFollowUpID, `$_I1OfI[ML_FU_RefTableName]`.LastSending ".$_jjOLf;
+        $_QLfol .= " FROM `$_I1OfI[MaillistTableName]` $_jj8Ci $_jjt6l LEFT JOIN `$_I1OfI[ML_FU_RefTableName]` ON `$_I1OfI[ML_FU_RefTableName]`.Member_id=`$_I1OfI[MaillistTableName]`.id";
+        $_QLfol .= " WHERE $_jjtQf $_jjOj1";
+        $_jjl0t = mysql_query($_QLfol, $_QLttI);
 
-        if(mysql_error($_Q61I1) != "")
-          $_j6O8O .= "MySQL error while selecting data(2): ".mysql_error($_Q61I1);
+        if(mysql_error($_QLttI) != "")
+          $_JIfo0 .= "MySQL error while selecting data(2): ".mysql_error($_QLttI);
 
-        while($_IOOt1 && $_QlftL = mysql_fetch_assoc($_IOOt1)) {
+        // ECGList
+        if(!isset($_jlt10))
+          $_jlt10 = _JOLQE("ECGListCheck");
+        if($_jlt10){
+          // ECG List not more than 5000
+          if($_I1OfI["MaxEMailsToProcess"] > 5000)
+            $_I1OfI["MaxEMailsToProcess"] = 5000;
+          $_J06Ji = array();                        
+          while($_jjl0t && $_I8fol = mysql_fetch_assoc($_jjl0t)){ 
+            $_J06Ji[] = array("email" => $_I8fol["u_EMail"]/*, "id" => $_QLO0f["id"]*/);
+          }  
+            
+          $_J0fIj = array();
+          $_J08Q1 = "";
+          $_J0t0L = _L6AF6($_J06Ji, $_J0fIj, $_J08Q1);    
+          if(!$_J0t0L) // request failed, is ever in ECG-liste
+            $_J0fIj = $_J06Ji;
+          unset($_J06Ji); 
+          mysql_data_seek($_jjl0t, 0);
+        }  
+        // ECGList /
+
+        while($_jjl0t && $_I8fol = mysql_fetch_assoc($_jjl0t)) {
 
           // limit reached?
-          if($_jflIQ >= $_Q8OiJ["MaxEMailsToProcess"]) break;
+          if($_JJjQJ >= $_I1OfI["MaxEMailsToProcess"]) break;
 
-          _OPQ6J();
+          _LRCOC();
 
-          $_IOCO0 = "";
+          //ECGList
+          $_J0olI = false;
+          if($_jlt10){
+            $_J0olI = array_search($_I8fol["u_EMail"], array_column($_J0fIj, 'email')) !== false;
+          }
 
-          if($_Q8OiJ["FUResponders_ResponderType"] == FUResponderTypeActionBased){
-             $_IOifl = "";
-             $_IOLJ0 = "";
-             if($_QlftL["NextFollowUpID"] == NULL || $_QlftL["NextFollowUpID"] <= 0){ // has never got an email take first mail
-                 $_IOifl = ", `FirstRecipientsAction`, `FirstRecipientsActionCampaign_id`, `FirstRecipientsActionCampaignLink_id`";
-                 $_IOLJ0 = " ORDER BY `sort_order` LIMIT 0, 1";
+          $_jJ0iJ = "";
+
+          if($_I1OfI["FUResponders_ResponderType"] == FUResponderTypeActionBased){
+             $_jJ1it = "";
+             $_jJ1LJ = "";
+             if($_I8fol["NextFollowUpID"] == NULL || $_I8fol["NextFollowUpID"] <= 0){ // has never got an email take first mail
+                 $_jJ1it = ", `FirstRecipientsAction`, `FirstRecipientsActionCampaign_id`, `FirstRecipientsActionCampaignLink_id`";
+                 $_jJ1LJ = " ORDER BY `sort_order` LIMIT 0, 1";
                }
                else{
-                 $_IOifl = ", `LastRecipientsAction`, `LastRecipientsActionLink_id`";
-                 $_IOLJ0 = " WHERE `sort_order`=$_QlftL[NextFollowUpID]";
+                 $_jJ1it = ", `LastRecipientsAction`, `LastRecipientsActionLink_id`";
+                 $_jJ1LJ = " WHERE `sort_order`=$_I8fol[NextFollowUpID]";
                }
 
-            $_QJlJ0 = "SELECT `sort_order` $_IOifl FROM `$_Q8OiJ[FUMailsTableName]`";
-            $_QJlJ0 .= $_IOLJ0;
+            $_QLfol = "SELECT `sort_order` $_jJ1it FROM `$_I1OfI[FUMailsTableName]`";
+            $_QLfol .= $_jJ1LJ;
 
-            $_Qllf1 = mysql_query($_QJlJ0, $_Q61I1);
-            if(!$_Qllf1 || !($_IOlIQ = mysql_fetch_assoc($_Qllf1)) ) continue;
+            $_It16Q = mysql_query($_QLfol, $_QLttI);
+            if(!$_It16Q || !($_jJQ0L = mysql_fetch_assoc($_It16Q)) ) continue;
 
-            mysql_free_result($_Qllf1);
-            if($_IOlIQ === FALSE) continue;
+            mysql_free_result($_It16Q);
+            if($_jJQ0L === FALSE) continue;
 
 
-            if($_QlftL["NextFollowUpID"] == NULL || $_QlftL["NextFollowUpID"] <= 0){ # first email?
-               if( !($_IOCO0 = _OP0O0($_IOlIQ["FirstRecipientsAction"], $_IOlIQ["FirstRecipientsActionCampaign_id"], $_IOlIQ["FirstRecipientsActionCampaignLink_id"], $_QlftL["id"])) ){
+            if($_I8fol["NextFollowUpID"] == NULL || $_I8fol["NextFollowUpID"] <= 0){ # first email?
+               if( !($_jJ0iJ = _LR6LJ($_jJQ0L["FirstRecipientsAction"], $_jJQ0L["FirstRecipientsActionCampaign_id"], $_jJQ0L["FirstRecipientsActionCampaignLink_id"], $_I8fol["id"])) ){
                  continue;
                }
 
             } else{
-              if( (!$_IOCO0 = _OP06R($_IOlIQ["LastRecipientsAction"], $_IOlIQ["LastRecipientsActionLink_id"], $_Q8OiJ["FUMailsTableName"], $_QlftL["NextFollowUpID"], $_QlftL["id"])) ){
+              if( (!$_jJ0iJ = _LRROB($_jJQ0L["LastRecipientsAction"], $_jJQ0L["LastRecipientsActionLink_id"], $_I1OfI["FUMailsTableName"], $_I8fol["NextFollowUpID"], $_I8fol["id"])) ){
                 continue;
               }
             }
-            if($_IOCO0 === true)
-               $_IOCO0 = "";  // variant email was sent, ever take standard of time based fums
+            if($_jJ0iJ === true)
+               $_jJ0iJ = "";  // variant email was sent, ever take standard of time based fums
                else
-               $_IOCO0 = "'$_IOCO0'";
+               $_jJ0iJ = "'$_jJ0iJ'";
           }
 
-          $_QJlJ0 = "SELECT id, sort_order, SendInterval, SendIntervalType FROM `$_Q8OiJ[FUMailsTableName]`";
+          $_QLfol = "SELECT id, sort_order, SendInterval, SendIntervalType FROM `$_I1OfI[FUMailsTableName]`";
 
-          if($_QlftL["NextFollowUpID"] == NULL || $_QlftL["NextFollowUpID"] <= 0) { // has never got an email take first mail
-            $_QJlJ0 .= " ORDER BY sort_order LIMIT 0, 1";
-            $_Qllf1 = mysql_query($_QJlJ0, $_Q61I1);
-            if(!$_Qllf1) continue;
-            $_IOlIQ = mysql_fetch_assoc($_Qllf1);
-            mysql_free_result($_Qllf1);
+          if($_I8fol["NextFollowUpID"] == NULL || $_I8fol["NextFollowUpID"] <= 0) { // has never got an email take first mail
+            $_QLfol .= " ORDER BY sort_order LIMIT 0, 1";
+            $_It16Q = mysql_query($_QLfol, $_QLttI);
+            if(!$_It16Q || !($_jJQ0L = mysql_fetch_assoc($_It16Q))) continue;
+            mysql_free_result($_It16Q);
+            if($_jJQ0L === FALSE) continue;
 
-            $_QJlJ0 = "SELECT id, MailSubject, SendInterval, SendIntervalType FROM `$_Q8OiJ[FUMailsTableName]`";
-            if($_Q8OiJ["StartDateOfFirstFUMail"] == 0) {
+            $_QLfol = "SELECT id, MailSubject, SendInterval, SendIntervalType FROM `$_I1OfI[FUMailsTableName]`";
+            if($_I1OfI["StartDateOfFirstFUMail"] == 0) {
 
 
-               if($_Q8OiJ["FUResponders_ResponderType"] == FUResponderTypeActionBased && $_IOCO0 != ""){
-                 $_IOl8C = $_IOCO0;
+               if($_I1OfI["FUResponders_ResponderType"] == FUResponderTypeActionBased && isset($_jJ0iJ) && $_jJ0iJ != ""){
+                 $_jJQjO = $_jJ0iJ;
                } else {
-                 $_IOl8C = "'" . $_QlftL["DateOfOptInConfirmation"] . "'";
+                 $_jJQjO = "'" . $_I8fol["DateOfOptInConfirmation"] . "'";
                }
 
-               if($_Q8OiJ["SendTimeVariant"] == 'sendingWithoutSendTime')
-                  $_QJlJ0 .= " WHERE sort_order=$_IOlIQ[sort_order] AND NOW() >= DATE_ADD($_IOl8C, INTERVAL $_IOlIQ[SendInterval] $_IOlIQ[SendIntervalType]) ";
+               if($_I1OfI["SendTimeVariant"] == 'sendingWithoutSendTime')
+                  $_QLfol .= " WHERE sort_order=$_jJQ0L[sort_order] AND NOW() >= DATE_ADD($_jJQjO, INTERVAL $_jJQ0L[SendInterval] $_jJQ0L[SendIntervalType]) ";
                   else
-                  $_QJlJ0 .= " WHERE sort_order=$_IOlIQ[sort_order] AND NOW() >= DATE_ADD($_IOl8C, INTERVAL $_IOlIQ[SendInterval] $_IOlIQ[SendIntervalType]) AND CURRENT_TIME() >= '$_Q8OiJ[SendTime]' ";
+                  $_QLfol .= " WHERE sort_order=$_jJQ0L[sort_order] AND NOW() >= DATE_ADD($_jJQjO, INTERVAL $_jJQ0L[SendInterval] $_jJQ0L[SendIntervalType]) AND CURRENT_TIME() >= '$_I1OfI[SendTime]' ";
                } else{
-                if($_Q8OiJ["FirstFollowUpMailDateFieldName"] != "u_Birthday") {
+                if($_I1OfI["FirstFollowUpMailDateFieldName"] != "u_Birthday") {
 
-                  if($_Q8OiJ["FormatOfFirstFollowUpMailDateField"] == "") {
+                  if($_I1OfI["FormatOfFirstFollowUpMailDateField"] == "") {
                      if($INTERFACE_LANGUAGE != "de")
-                       $_Q8OiJ["FormatOfFirstFollowUpMailDateField"] = "yyyy-mm-dd";
+                       $_I1OfI["FormatOfFirstFollowUpMailDateField"] = "yyyy-mm-dd";
                        else
-                       $_Q8OiJ["FormatOfFirstFollowUpMailDateField"] = "dd.mm.yyyy";
+                       $_I1OfI["FormatOfFirstFollowUpMailDateField"] = "dd.mm.yyyy";
                   }
 
-                  $_I1L81 = trim($_QlftL[$_Q8OiJ["FirstFollowUpMailDateFieldName"]]);
-                  if($_Q8OiJ["FormatOfFirstFollowUpMailDateField"] == "dd.mm.yyyy") {
-                    $_Io01I = explode(".", $_I1L81);
-                    while(count($_Io01I) < 3)
-                       $_Io01I[] = "f";
-                    $_IOJ8I = $_Io01I[0];
-                    $_Io0t6 = $_Io01I[1];
-                    $_Io0l8 = $_Io01I[2];
+                  $_IOCjL = trim($_I8fol[$_I1OfI["FirstFollowUpMailDateFieldName"]]);
+                  if($_I1OfI["FormatOfFirstFollowUpMailDateField"] == "dd.mm.yyyy") {
+                    $_jJQOo = explode(".", $_IOCjL);
+                    while(count($_jJQOo) < 3)
+                       $_jJQOo[] = "f";
+                    $_jjOlo = $_jJQOo[0];
+                    $_jJIft = $_jJQOo[1];
+                    $_jJjQi = $_jJQOo[2];
                   } else
-                    if($_Q8OiJ["FormatOfFirstFollowUpMailDateField"] == "yyyy-mm-dd") {
-                     $_Io01I = explode("-", $_I1L81);
-                     while(count($_Io01I) < 3)
-                        $_Io01I[] = "f";
-                     $_IOJ8I = $_Io01I[2];
-                     $_Io0t6 = $_Io01I[1];
-                     $_Io0l8 = $_Io01I[0];
+                    if($_I1OfI["FormatOfFirstFollowUpMailDateField"] == "yyyy-mm-dd") {
+                     $_jJQOo = explode("-", $_IOCjL);
+                     while(count($_jJQOo) < 3)
+                        $_jJQOo[] = "f";
+                     $_jjOlo = $_jJQOo[2];
+                     $_jJIft = $_jJQOo[1];
+                     $_jJjQi = $_jJQOo[0];
                     } else
-                      if($_Q8OiJ["FormatOfFirstFollowUpMailDateField"] == "mm-dd-yyyy") {
-                        $_Io01I = explode("-", $_I1L81);
-                        while(count($_Io01I) < 3)
-                           $_Io01I[] = "f";
-                        $_IOJ8I = $_Io01I[1];
-                        $_Io0t6 = $_Io01I[0];
-                        $_Io0l8 = $_Io01I[2];
+                      if($_I1OfI["FormatOfFirstFollowUpMailDateField"] == "mm-dd-yyyy") {
+                        $_jJQOo = explode("-", $_IOCjL);
+                        while(count($_jJQOo) < 3)
+                           $_jJQOo[] = "f";
+                        $_jjOlo = $_jJQOo[1];
+                        $_jJIft = $_jJQOo[0];
+                        $_jJjQi = $_jJQOo[2];
                       }
 
-                  if(strlen($_Io0l8) == 2)
-                    $_Io0l8 = "19".$_Io0l8;
+                  if(strlen($_jJjQi) == 2)
+                    $_jJjQi = "19".$_jJjQi;
                   if( ! (
-                      (intval($_IOJ8I) > 0 && intval($_IOJ8I) < 32) &&
-                      (intval($_Io0t6) > 0 && intval($_Io0t6) < 13)
+                      (intval($_jjOlo) > 0 && intval($_jjOlo) < 32) &&
+                      (intval($_jJIft) > 0 && intval($_jJIft) < 13)
                         )
                     ) // error in date
-                    $_I1L81 = "0000-00-00";
+                    $_IOCjL = "0000-00-00";
                     else
-                    $_I1L81 = "$_Io0l8-$_Io0t6-$_IOJ8I";
+                    $_IOCjL = "$_jJjQi-$_jJIft-$_jjOlo";
 
 
-                  if($_Q8OiJ["FUResponders_ResponderType"] == FUResponderTypeTimeBased || $_IOCO0 == ""){
-                    if($_I1L81 != "0000-00-00")
-                      $_QlftL[$_Q8OiJ["FirstFollowUpMailDateFieldName"]] = $_I1L81;
+                  if($_I1OfI["FUResponders_ResponderType"] == FUResponderTypeTimeBased || $_jJ0iJ == ""){
+                    if($_IOCjL != "0000-00-00")
+                      $_I8fol[$_I1OfI["FirstFollowUpMailDateFieldName"]] = $_IOCjL;
                       else
-                      $_QlftL[$_Q8OiJ["FirstFollowUpMailDateFieldName"]] = $_QlftL["DateOfOptInConfirmation"];
+                      $_I8fol[$_I1OfI["FirstFollowUpMailDateFieldName"]] = $_I8fol["DateOfOptInConfirmation"];
                   } else {
-                    $_QlftL[$_Q8OiJ["FirstFollowUpMailDateFieldName"]] = $_IOCO0;
+                    $_I8fol[$_I1OfI["FirstFollowUpMailDateFieldName"]] = $_jJ0iJ;
                   }
                 }
 
-                if($_Q8OiJ["SendTimeVariant"] == 'sendingWithoutSendTime')
-                  $_QJlJ0 .= " WHERE sort_order=$_IOlIQ[sort_order] AND NOW() >= DATE_ADD('".$_QlftL[$_Q8OiJ["FirstFollowUpMailDateFieldName"]]."', INTERVAL $_IOlIQ[SendInterval] $_IOlIQ[SendIntervalType]) ";
+                if($_I1OfI["SendTimeVariant"] == 'sendingWithoutSendTime')
+                  $_QLfol .= " WHERE sort_order=$_jJQ0L[sort_order] AND NOW() >= DATE_ADD('".$_I8fol[$_I1OfI["FirstFollowUpMailDateFieldName"]]."', INTERVAL $_jJQ0L[SendInterval] $_jJQ0L[SendIntervalType]) ";
                   else
-                  $_QJlJ0 .= " WHERE sort_order=$_IOlIQ[sort_order] AND NOW() >= DATE_ADD('".$_QlftL[$_Q8OiJ["FirstFollowUpMailDateFieldName"]]."', INTERVAL $_IOlIQ[SendInterval] $_IOlIQ[SendIntervalType])  AND CURRENT_TIME() >= '$_Q8OiJ[SendTime]' ";
+                  $_QLfol .= " WHERE sort_order=$_jJQ0L[sort_order] AND NOW() >= DATE_ADD('".$_I8fol[$_I1OfI["FirstFollowUpMailDateFieldName"]]."', INTERVAL $_jJQ0L[SendInterval] $_jJQ0L[SendIntervalType])  AND CURRENT_TIME() >= '$_I1OfI[SendTime]' ";
 
                }
 
           } else {
-            $_QJlJ0 .= " WHERE sort_order=$_QlftL[NextFollowUpID]";
-            $_Qllf1 = mysql_query($_QJlJ0, $_Q61I1);
-            if(!$_Qllf1 || !($_IOlIQ = mysql_fetch_assoc($_Qllf1)) ) continue;
+            $_QLfol .= " WHERE sort_order=$_I8fol[NextFollowUpID]";
+            $_It16Q = mysql_query($_QLfol, $_QLttI);
+            if(!$_It16Q || !($_jJQ0L = mysql_fetch_assoc($_It16Q)) ) continue;
 
-            mysql_free_result($_Qllf1);
-            if($_IOlIQ === FALSE) continue;
+            mysql_free_result($_It16Q);
+            if($_jJQ0L === FALSE) continue;
 
-            $_QJlJ0 = "SELECT id, MailSubject FROM `$_Q8OiJ[FUMailsTableName]`";
+            $_QLfol = "SELECT id, MailSubject FROM `$_I1OfI[FUMailsTableName]`";
 
-            if($_Q8OiJ["FUResponders_ResponderType"] == FUResponderTypeActionBased && $_IOCO0 != ""){
-               $_IOl8C = $_IOCO0;
+            if($_I1OfI["FUResponders_ResponderType"] == FUResponderTypeActionBased && isset($_jJ0iJ) &&  $_jJ0iJ != ""){
+               $_jJQjO = $_jJ0iJ;
             } else {
-               $_IOl8C = "'" . $_QlftL["LastSending"] . "'";
+               $_jJQjO = "'" . $_I8fol["LastSending"] . "'";
             }
 
-            if($_Q8OiJ["SendTimeVariant"] == 'sendingWithoutSendTime')
-              $_QJlJ0 .= " WHERE sort_order=$_QlftL[NextFollowUpID] AND NOW() >= DATE_ADD($_IOl8C, INTERVAL $_IOlIQ[SendInterval] $_IOlIQ[SendIntervalType]) ";
+            if($_I1OfI["SendTimeVariant"] == 'sendingWithoutSendTime')
+              $_QLfol .= " WHERE sort_order=$_I8fol[NextFollowUpID] AND NOW() >= DATE_ADD($_jJQjO, INTERVAL $_jJQ0L[SendInterval] $_jJQ0L[SendIntervalType]) ";
               else
-              $_QJlJ0 .= " WHERE sort_order=$_QlftL[NextFollowUpID] AND NOW() >= DATE_ADD($_IOl8C, INTERVAL $_IOlIQ[SendInterval] $_IOlIQ[SendIntervalType]) AND CURRENT_TIME() >= '$_Q8OiJ[SendTime]' ";
+              $_QLfol .= " WHERE sort_order=$_I8fol[NextFollowUpID] AND NOW() >= DATE_ADD($_jJQjO, INTERVAL $_jJQ0L[SendInterval] $_jJQ0L[SendIntervalType]) AND CURRENT_TIME() >= '$_I1OfI[SendTime]' ";
           }
 
 
-          $_Io1j1 = mysql_query($_QJlJ0, $_Q61I1);
+          $_jJjff = mysql_query($_QLfol, $_QLttI);
 
-          while($_Io1j1 && $_IoQ11 = mysql_fetch_assoc($_Io1j1)) {
-            _OPQ6J();
+          while($_jJjff && $_jJJQt = mysql_fetch_assoc($_jJjff)) {
+            _LRCOC();
 
-            mysql_query("BEGIN", $_Q61I1);
+            mysql_query("BEGIN", $_QLttI);
 
-            $_QJlJ0 = "INSERT INTO `$_Q8OiJ[RStatisticsTableName]` SET `MailSubject`="._OPQLR($_IoQ11["MailSubject"]).", `SendDateTime`=NOW(), `recipients_id`=$_QlftL[id], `fumails_id`=$_IoQ11[id], `Send`='Prepared'";
-            mysql_query($_QJlJ0, $_Q61I1);
+            $_QLfol = "INSERT INTO `$_I1OfI[RStatisticsTableName]` SET `MailSubject`="._LRAFO( unhtmlentities($_jJJQt["MailSubject"], $_QLo06, false) ).", `SendDateTime`=NOW(), `recipients_id`=$_I8fol[id], `fumails_id`=$_jJJQt[id], `Send`='Prepared'";
+            mysql_query($_QLfol, $_QLttI);
 
-            $_jfiol = 0;
-            if(mysql_affected_rows($_Q61I1) > 0) {
-              $_jfLII = mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-              $_jfl1j=mysql_fetch_array($_jfLII);
-              $_jfiol = $_jfl1j[0];
-              mysql_free_result($_jfLII);
+            $_JJQ6I = 0;
+            if(mysql_affected_rows($_QLttI) > 0) {
+              $_JJQlj = mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+              $_JJIl0=mysql_fetch_array($_JJQlj);
+              $_JJQ6I = $_JJIl0[0];
+              mysql_free_result($_JJQlj);
             } else {
-              if(mysql_errno($_Q61I1) == 1062) { // dup key
-                $_QJlJ0 = "SELECT `id` FROM `$_Q8OiJ[RStatisticsTableName]` WHERE `recipients_id`=$_QlftL[id] AND `fumails_id`=$_IoQ11[id] AND `Send`='Prepared'";
-                $_jfLII = mysql_query($_QJlJ0, $_Q61I1);
-                if(mysql_num_rows($_jfLII) > 0) {
-                  $_jfl1j = mysql_fetch_array($_jfLII);
-                  $_jfiol = $_jfl1j[0];
-                  mysql_free_result($_jfLII);
+              if(mysql_errno($_QLttI) == 1062) { // dup key
+                $_QLfol = "SELECT `id` FROM `$_I1OfI[RStatisticsTableName]` WHERE `recipients_id`=$_I8fol[id] AND `fumails_id`=$_jJJQt[id] AND `Send`='Prepared'";
+                $_JJQlj = mysql_query($_QLfol, $_QLttI);
+                if(mysql_num_rows($_JJQlj) > 0) {
+                  $_JJIl0 = mysql_fetch_array($_JJQlj);
+                  $_JJQ6I = $_JJIl0[0];
+                  mysql_free_result($_JJQlj);
                 } else {
-                  mysql_free_result($_jfLII);
-                  $_jfiol = 0;
+                  mysql_free_result($_JJQlj);
+                  $_JJQ6I = 0;
                 }
               } else {
-                $_j6O8O .= "MySQL error while adding to statistics table: ".mysql_error($_Q61I1);
-                mysql_query("ROLLBACK", $_Q61I1);
+                $_JIfo0 .= "MySQL error while adding to statistics table: ".mysql_error($_QLttI);
+                mysql_query("ROLLBACK", $_QLttI);
                 return false;
               }
             }
 
-            if($_jfiol){
-              // SendId = follow up mail id
-              $_QJlJ0 = "INSERT INTO $_QtjLI SET `CreateDate`=NOW(), `statistics_id`=$_jfiol, `users_id`=$UserId, `Source`='FollowUpResponder', `Source_id`=$_Q8OiJ[FUResponders_id], `Additional_id`=$_IoQ11[id], `SendId`=$_IoQ11[id], `maillists_id`=$_Q8OiJ[MailingListId], `recipients_id`=$_QlftL[id], `mtas_id`=$_Q8OiJ[MTA_id], `LastSending`=NOW() ";
-              mysql_query($_QJlJ0, $_Q61I1);
-              if(mysql_error($_Q61I1) != "") {
-                $_j6O8O .= "MySQL error while adding mail to out queue: ".mysql_error($_Q61I1);
-                mysql_query("ROLLBACK", $_Q61I1);
-                continue;
+            if($_JJQ6I){
+
+              _LBOOC($_I1OfI["MailingListId"], $UserId, $_jJJQt["id"], 'FollowUpResponder', $_I1OfI["FUResponders_id"]);
+
+              if(!$_J0olI){
+                // SendId = follow up mail id
+                $_QLfol = "INSERT INTO $_IQQot SET `CreateDate`=NOW(), `statistics_id`=$_JJQ6I, `users_id`=$UserId, `Source`='FollowUpResponder', `Source_id`=$_I1OfI[FUResponders_id], `Additional_id`=$_jJJQt[id], `SendId`=$_jJJQt[id], `maillists_id`=$_I1OfI[MailingListId], `recipients_id`=$_I8fol[id], `mtas_id`=$_I1OfI[MTA_id], `LastSending`=NOW(), `IsResponder`=1, `MailSubject`="._LRAFO( unhtmlentities($_jJJQt["MailSubject"], $_QLo06, false) );
+                mysql_query($_QLfol, $_QLttI);
+                if(mysql_error($_QLttI) != "") {
+                  $_JIfo0 .= "MySQL error while adding mail to out queue: ".mysql_error($_QLttI);
+                  mysql_query("ROLLBACK", $_QLttI);
+                  continue;
+                }
+
+                $_J0J6C++;
+
+                $_JIfo0 .= "Email with subject '$_jJJQt[MailSubject]' was queued for sending to '$_I8fol[u_EMail]'<br />";
+                // Update FUResponder statistics
+                $_QLfol = "UPDATE $_I616t SET EMailsSent=EMailsSent+1 WHERE id=$_I1OfI[FUResponders_id]";
+                mysql_query($_QLfol, $_QLttI);
+              }else{
+                $_QLfol = "UPDATE `$_I1OfI[RStatisticsTableName]` SET `Send`='Failed', `SendResult`=" . _LRAFO("Recipient is in ECG-Liste.") . "  WHERE `id`=$_JJQ6I";
+                mysql_query($_QLfol, $_QLttI);
+                $_JIfo0 .= "Email with subject '$_jJJQt[MailSubject]' was not sent to '$_I8fol[u_EMail]', Recipient is in ECG-Liste.<br />";
               }
-
-              $_jflIQ++;
-              $_jIojl++;
-
-              $_j6O8O .= "Email with subject '$_IoQ11[MailSubject]' was queued for sending to '$_QlftL[u_EMail]'<br />";
-              // Update FUResponder statistics
-              $_QJlJ0 = "UPDATE $_QCLCI SET EMailsSent=EMailsSent+1 WHERE id=$_Q8OiJ[FUResponders_id]";
-              mysql_query($_QJlJ0, $_Q61I1);
+              $_JJjQJ++;
             }
 
             // increase NextFollowUpID
-            if($_Q8OiJ["SendTimeVariant"] == 'sendingWithoutSendTime')
-               $_jtCQ0 = "NOW()";
+            if($_I1OfI["SendTimeVariant"] == 'sendingWithoutSendTime')
+               $_JfJif = "NOW()";
                else
-               $_jtCQ0 = "CONCAT(CURDATE(), ' ', '$_Q8OiJ[SendTime]')";
+               $_JfJif = "CONCAT(CURDATE(), ' ', '$_I1OfI[SendTime]')";
 
-            $_QJlJ0 = "UPDATE `$_Q8OiJ[ML_FU_RefTableName]` SET NextFollowUpID=NextFollowUpID+1, LastSending=$_jtCQ0 WHERE Member_id=$_QlftL[id]";
-            mysql_query($_QJlJ0, $_Q61I1);
-            if(mysql_error($_Q61I1) != "" && $_Q8OiJ["SendTimeVariant"] != 'sendingWithoutSendTime') {
-               $_jtCQ0 = "NOW()";
-               $_QJlJ0 = "UPDATE `$_Q8OiJ[ML_FU_RefTableName]` SET NextFollowUpID=NextFollowUpID+1, LastSending=$_jtCQ0 WHERE Member_id=$_QlftL[id]";
-               mysql_query($_QJlJ0, $_Q61I1);
+            $_QLfol = "UPDATE `$_I1OfI[ML_FU_RefTableName]` SET NextFollowUpID=NextFollowUpID+1, LastSending=$_JfJif WHERE Member_id=$_I8fol[id]";
+            mysql_query($_QLfol, $_QLttI);
+            if(mysql_error($_QLttI) != "" && $_I1OfI["SendTimeVariant"] != 'sendingWithoutSendTime') {
+               $_JfJif = "NOW()";
+               $_QLfol = "UPDATE `$_I1OfI[ML_FU_RefTableName]` SET NextFollowUpID=NextFollowUpID+1, LastSending=$_JfJif WHERE Member_id=$_I8fol[id]";
+               mysql_query($_QLfol, $_QLttI);
             }
 
-            if(mysql_affected_rows($_Q61I1) == 0) { // new?
-              $_QJlJ0 = "INSERT INTO `$_Q8OiJ[ML_FU_RefTableName]` SET NextFollowUpID=2, Member_id=$_QlftL[id], LastSending=$_jtCQ0";
-              mysql_query($_QJlJ0, $_Q61I1);
-              if(mysql_error($_Q61I1) != "" && $_Q8OiJ["SendTimeVariant"] != 'sendingWithoutSendTime') {
-                $_jtCQ0 = "NOW()";
-                $_QJlJ0 = "INSERT INTO `$_Q8OiJ[ML_FU_RefTableName]` SET NextFollowUpID=2, Member_id=$_QlftL[id], LastSending=$_jtCQ0";
-                mysql_query($_QJlJ0, $_Q61I1);
+            if(mysql_affected_rows($_QLttI) == 0) { // new?
+              $_QLfol = "INSERT INTO `$_I1OfI[ML_FU_RefTableName]` SET NextFollowUpID=2, Member_id=$_I8fol[id], LastSending=$_JfJif";
+              mysql_query($_QLfol, $_QLttI);
+              if(mysql_error($_QLttI) != "" && $_I1OfI["SendTimeVariant"] != 'sendingWithoutSendTime') {
+                $_JfJif = "NOW()";
+                $_QLfol = "INSERT INTO `$_I1OfI[ML_FU_RefTableName]` SET NextFollowUpID=2, Member_id=$_I8fol[id], LastSending=$_JfJif";
+                mysql_query($_QLfol, $_QLttI);
               }
             }
 
 
-            mysql_query("COMMIT", $_Q61I1);
+            mysql_query("COMMIT", $_QLttI);
 
-          } # while($_IoQ11 = mysql_fetch_array($_Io1j1))
-          if($_Io1j1)
-            mysql_free_result($_Io1j1);
+          } # while($_jJJQt = mysql_fetch_array($_jJjff))
+          if($_jJjff)
+            mysql_free_result($_jJjff);
 
         }
-        if($_IOOt1)
-          mysql_free_result($_IOOt1);
+        if($_jjl0t)
+          mysql_free_result($_jjl0t);
 
-        $_j6O8O .= "Done.<br />";
+        $_JIfo0 .= "Done.<br />";
 
-      } # while($_Q8OiJ = mysql_fetch_array($_Q8Oj8))
-      if($_Q8Oj8)
-        mysql_free_result($_Q8Oj8);
-    } # while($_Q6Q1C = mysql_fetch_assoc($_Q60l1) ) {
-    mysql_free_result($_Q60l1);
+      } # while($_I1OfI = mysql_fetch_array($_I1O6j))
+      if($_I1O6j)
+        mysql_free_result($_I1O6j);
+    } # while($_QLO0f = mysql_fetch_assoc($_QL8i1) ) {
+    mysql_free_result($_QL8i1);
 
-    $_j6O8O .= "<br />$_jIojl emails sent to queue<br />";
-    $_j6O8O .= "<br />Follow Up Responder checking end.";
+    $_JIfo0 .= "<br />$_J0J6C emails sent to queue<br />";
+    $_JIfo0 .= "<br />Follow Up Responder checking end.";
 
-    if($_jIojl)
+    if($_J0J6C)
       return true;
       else
       return -1;
   }
 
 
-  function _ORR1Q($_jtCJo, $ID) {
+  function _LLALJ($_Jf61l, $ID) {
      global $AppName;
-     if($_jtCJo == "") return true;
+     if($_Jf61l == "") return true;
 
-     $_j88of = 0;
-     $_j8t8L = "";
-     $_j8O60 = 80;
-     if(strpos($_jtCJo, "http://") !== false) {
-        $_j8O8t = substr($_jtCJo, 7);
-     } elseif(strpos($_jtCJo, "https://") !== false) {
-       $_j8O60 = 443;
-       $_j8O8t = substr($_jtCJo, 8);
+     $_JJl1I = 0;
+     $_J600J = "";
+     $_J608j = 80;
+     if(strpos($_Jf61l, "http://") !== false) {
+        $_J60tC = substr($_Jf61l, 7);
+     } elseif(strpos($_Jf61l, "https://") !== false) {
+       $_J608j = 443;
+       $_J60tC = substr($_Jf61l, 8);
      }
-     $_QCoLj = substr($_j8O8t, strpos($_j8O8t, "/"));
-     $_j8O8t = substr($_j8O8t, 0, strpos($_j8O8t, "/"));
+     $_IJL6o = substr($_J60tC, strpos($_J60tC, "/"));
+     $_J60tC = substr($_J60tC, 0, strpos($_J60tC, "/"));
 
-     $_Qf1i1 = "AppName=$AppName&ID=$ID";
-     _OCQDE($_j8O8t, "GET", $_QCoLj, $_Qf1i1, 0, $_j8O60, false, "", "", $_j88of, $_j8t8L);
+     $_I0QjQ = "AppName=$AppName&ID=$ID";
+     _LABJA($_J60tC, "GET", $_IJL6o, $_I0QjQ, 0, $_J608j, false, "", "", $_JJl1I, $_J600J);
   }
 
 ?>

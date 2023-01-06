@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -27,167 +27,168 @@
   include_once("countrydetect.inc.php");
 
   if(!isset($_GET["link"])) {
-    _OJLLQ();
+    _LQJ1R();
     exit;
   }
 
-  $_Q8otJ = explode("_", $_GET["link"]);
-  if(count($_Q8otJ) < 5) {
-    _OJLLQ();
+  $_I1OoI = explode("_", $_GET["link"]);
+  if(count($_I1OoI) < 5) {
+    _LQJ1R();
     exit;
   }
-  $_ICltC = hexdec($_Q8otJ[0]);
-  $_Ii016 = hexdec($_Q8otJ[1]);
-  $ResponderType = hexdec($_Q8otJ[2]);
-  $ResponderId = hexdec($_Q8otJ[3]);
-  $_Ii0fC = 0;
+  $_jfQLo = hexdec($_I1OoI[0]);
+  $_jfIoi = hexdec($_I1OoI[1]);
+  $ResponderType = hexdec($_I1OoI[2]);
+  $ResponderId = hexdec($_I1OoI[3]);
+  $_jfj1I = 0;
 
-  if($_Q8otJ[4]{0} == "x" && hexdec(substr($_Q8otJ[4], 1))) {
-     $_Ii0fC = hexdec(substr($_Q8otJ[4], 1));
-     $_Q6llo=5;
+  if($_I1OoI[4][0] == "x" && hexdec(substr($_I1OoI[4], 1))) {
+     $_jfj1I = hexdec(substr($_I1OoI[4], 1));
+     $_Qli6J=5;
     }
     else
-     $_Q6llo=4; // without x<form_id>
+     $_Qli6J=4; // without x<form_id>
 
-  $_jjJoO = hexdec($_Q8otJ[$_Q6llo]);
-  $_Q6llo++;
+  $_J10lj = hexdec($_I1OoI[$_Qli6J]);
+  $_Qli6J++;
 
-  $_JO01o = 0;
-  if (count($_Q8otJ) > $_Q6llo) {
-    $_QllO8=explode("-", $_Q8otJ[$_Q6llo]);
-    $_JO01o = hexdec($_QllO8[0]);
+  $_6l1fl = 0;
+  if (count($_I1OoI) > $_Qli6J) {
+    $_I016j=explode("-", $_I1OoI[$_Qli6J]);
+    $_6l1fl = hexdec($_I016j[0]);
   }
 
   $REMOTE_ADDR = getOwnIP();
-  $_JO0io = false;
+  $_6lQQi = getOwnIP(false);
+  $_6lQL8 = false;
 
-  $_IiQl1 = _OAAP1($ResponderType);
+  $_jfJJ0 = _LPOD8($ResponderType);
 
-  if($_IiQl1 == "") {
-   _OJLLQ();
+  if($_jfJJ0 == "") {
+   _LQJ1R();
    exit;
   }
 
-  $_QJlJ0 = "SELECT `$_IiQl1`, `Language` FROM `$_Q8f1L` WHERE `id`=$_Ii016";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if( !$_Q60l1 || mysql_num_rows($_Q60l1) == 0 ) {
-    _OJLLQ();
+  $_QLfol = "SELECT `$_jfJJ0`, `Language` FROM `$_I18lo` WHERE `id`=$_jfIoi";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if( !$_QL8i1 || mysql_num_rows($_QL8i1) == 0 ) {
+    _LQJ1R();
     exit;
   } else {
-    $_Q6Q1C = mysql_fetch_row($_Q60l1);
-    $_IiQl1 = $_Q6Q1C[0];
-    mysql_free_result($_Q60l1);
-    _OP10J($_Q6Q1C[1]);
-    _LQLRQ($_Q6Q1C[1]);
+    $_QLO0f = mysql_fetch_row($_QL8i1);
+    $_jfJJ0 = $_QLO0f[0];
+    mysql_free_result($_QL8i1);
+    _LRPQ6($_QLO0f[1]);
+    _JQRLR($_QLO0f[1]);
   }
 
   if($ResponderType == 3) { // FollowUpMailsTableName
 
-    if(isset($_JO1o8))
-      unset($_JO1o8);
+    if(isset($_6lIIJ))
+      unset($_6lIIJ);
 
-    $_QJlJ0 = "SELECT `FUMailsTableName`, `TrackingIPBlocking`, `TrackLinks`, `TrackLinksByRecipient` FROM `$_IiQl1` WHERE `id`=$ResponderId";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if( !$_Q60l1 || mysql_num_rows($_Q60l1) == 0 ) {
-      _OJLLQ();
+    $_QLfol = "SELECT `FUMailsTableName`, `TrackingIPBlocking`, `TrackLinks`, `TrackLinksByRecipient` FROM `$_jfJJ0` WHERE `id`=$ResponderId";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if( !$_QL8i1 || mysql_num_rows($_QL8i1) == 0 ) {
+      _LQJ1R();
       exit;
     } else {
-      $_JO1o8 = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
+      $_6lIIJ = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
     }
 
-    $_QJlJ0 = "SELECT `LinksTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName` FROM `$_JO1o8[FUMailsTableName]` WHERE `id`=$_ICltC";
+    $_QLfol = "SELECT `LinksTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName` FROM `$_6lIIJ[FUMailsTableName]` WHERE `id`=$_jfQLo";
   }
   else
-    $_QJlJ0 = "SELECT `LinksTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName`, `TrackingIPBlocking`, `TrackLinks`, `TrackLinksByRecipient` FROM `$_IiQl1` WHERE `id`=$ResponderId";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if( !$_Q60l1 || mysql_num_rows($_Q60l1) == 0 ) {
-    _OJLLQ();
+    $_QLfol = "SELECT `LinksTableName`, `TrackingLinksTableName`, `TrackingLinksByRecipientTableName`, `TrackingUserAgentsTableName`, `TrackingOSsTableName`, `TrackingIPBlocking`, `TrackLinks`, `TrackLinksByRecipient` FROM `$_jfJJ0` WHERE `id`=$ResponderId";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if( !$_QL8i1 || mysql_num_rows($_QL8i1) == 0 ) {
+    _LQJ1R();
     exit;
   } else {
-    $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
-    if(isset($_JO1o8))
-      $_Q6Q1C = array_merge($_Q6Q1C, $_JO1o8);
+    $_QLO0f = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
+    if(isset($_6lIIJ))
+      $_QLO0f = array_merge($_QLO0f, $_6lIIJ);
   }
 
-  if($_SERVER['REQUEST_METHOD'] != "HEAD" && $_ICltC != 0) { # 0 = test email
+  if($_SERVER['REQUEST_METHOD'] != "HEAD" && $_jfQLo != 0) { # 0 = test email
 
-    _OJJJE($_jJtt0, $_JOQJ0);
+    _LQ6C1($_JQjlt, $_6ljQ1);
 
     // Useragent
-    $_QJlJ0 = "SELECT `SendStat_id` FROM `$_Q6Q1C[TrackingUserAgentsTableName]` WHERE `SendStat_id`=$_ICltC AND `IP`="._OPQLR($REMOTE_ADDR)." AND `UserAgent`="._OPQLR($_jJtt0)." LIMIT 0, 1";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if(mysql_num_rows($_Q60l1) == 0) {
-         $_QJlJ0 = "INSERT INTO `$_Q6Q1C[TrackingUserAgentsTableName]` SET `SendStat_id`=$_ICltC, `ADateTime`=NOW(), `UserAgent`="._OPQLR($_jJtt0).", `IP`="._OPQLR($REMOTE_ADDR);
-         mysql_query($_QJlJ0, $_Q61I1);
+    $_QLfol = "SELECT `SendStat_id` FROM `$_QLO0f[TrackingUserAgentsTableName]` WHERE `SendStat_id`=$_jfQLo AND `IP`="._LRAFO($REMOTE_ADDR)." AND `UserAgent`="._LRAFO($_JQjlt)." LIMIT 0, 1";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if(mysql_num_rows($_QL8i1) == 0) {
+         $_QLfol = "INSERT INTO `$_QLO0f[TrackingUserAgentsTableName]` SET `SendStat_id`=$_jfQLo, `ADateTime`=NOW(), `UserAgent`="._LRAFO($_JQjlt).", `IP`="._LRAFO($REMOTE_ADDR);
+         mysql_query($_QLfol, $_QLttI);
     } else{
       // we use IP blocking
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
     // OS
-    $_QJlJ0 = "SELECT `SendStat_id` FROM `$_Q6Q1C[TrackingOSsTableName]` WHERE `SendStat_id`=$_ICltC AND `IP`="._OPQLR($REMOTE_ADDR)." AND `OS`="._OPQLR($_JOQJ0)." LIMIT 0, 1";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if(mysql_num_rows($_Q60l1) == 0) {
-         $_QJlJ0 = "INSERT INTO `$_Q6Q1C[TrackingOSsTableName]` SET `SendStat_id`=$_ICltC, `ADateTime`=NOW(), `OS`="._OPQLR($_JOQJ0).", `IP`="._OPQLR($REMOTE_ADDR);
-         mysql_query($_QJlJ0, $_Q61I1);
+    $_QLfol = "SELECT `SendStat_id` FROM `$_QLO0f[TrackingOSsTableName]` WHERE `SendStat_id`=$_jfQLo AND `IP`="._LRAFO($REMOTE_ADDR)." AND `OS`="._LRAFO($_6ljQ1)." LIMIT 0, 1";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if(mysql_num_rows($_QL8i1) == 0) {
+         $_QLfol = "INSERT INTO `$_QLO0f[TrackingOSsTableName]` SET `SendStat_id`=$_jfQLo, `ADateTime`=NOW(), `OS`="._LRAFO($_6ljQ1).", `IP`="._LRAFO($REMOTE_ADDR);
+         mysql_query($_QLfol, $_QLttI);
     } else{
       // we use IP blocking
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    if($_Q6Q1C["TrackLinks"]) {
-      $_JO0io = $_Q6Q1C["TrackingIPBlocking"];
-      if(!$_Q6Q1C["TrackingIPBlocking"]) { # no IP blocking
-         $_QJlJ0 = "INSERT INTO `$_Q6Q1C[TrackingLinksTableName]` SET `SendStat_id`=$_ICltC, `Links_id`=$_jjJoO, `ADateTime`=NOW(), `IP`="._OPQLR($REMOTE_ADDR).", `Country`="._OPQLR(GetCountryFromIP($REMOTE_ADDR));
-         mysql_query($_QJlJ0, $_Q61I1);
+    if($_QLO0f["TrackLinks"]) {
+      $_6lQL8 = $_QLO0f["TrackingIPBlocking"];
+      if(!$_QLO0f["TrackingIPBlocking"]) { # no IP blocking
+         $_QLfol = "INSERT INTO `$_QLO0f[TrackingLinksTableName]` SET `SendStat_id`=$_jfQLo, `Links_id`=$_J10lj, `ADateTime`=NOW(), `IP`="._LRAFO($REMOTE_ADDR).", `Country`="._LRAFO(GetCountryFromIP($_6lQQi));
+         mysql_query($_QLfol, $_QLttI);
       } else{
-         $_QJlJ0 = "SELECT `SendStat_id` FROM `$_Q6Q1C[TrackingLinksTableName]` WHERE `SendStat_id`=$_ICltC AND `Links_id`=$_jjJoO AND `IP`="._OPQLR($REMOTE_ADDR)." LIMIT 0, 1";
-         $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-         if(mysql_num_rows($_Q60l1) == 0) {
-           $_QJlJ0 = "INSERT INTO `$_Q6Q1C[TrackingLinksTableName]` SET `SendStat_id`=$_ICltC, `Links_id`=$_jjJoO, `ADateTime`=NOW(), `IP`="._OPQLR($REMOTE_ADDR).", `Country`="._OPQLR(GetCountryFromIP($REMOTE_ADDR));
-           mysql_query($_QJlJ0, $_Q61I1);
+         $_QLfol = "SELECT `SendStat_id` FROM `$_QLO0f[TrackingLinksTableName]` WHERE `SendStat_id`=$_jfQLo AND `Links_id`=$_J10lj AND `IP`="._LRAFO($REMOTE_ADDR)." LIMIT 0, 1";
+         $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+         if(mysql_num_rows($_QL8i1) == 0) {
+           $_QLfol = "INSERT INTO `$_QLO0f[TrackingLinksTableName]` SET `SendStat_id`=$_jfQLo, `Links_id`=$_J10lj, `ADateTime`=NOW(), `IP`="._LRAFO($REMOTE_ADDR).", `Country`="._LRAFO(GetCountryFromIP($_6lQQi));
+           mysql_query($_QLfol, $_QLttI);
          }
-         mysql_free_result($_Q60l1);
+         mysql_free_result($_QL8i1);
       }
     }
 
 
-    if($_Q6Q1C["TrackLinksByRecipient"] && $_JO01o) {
-       $_QJlJ0 = "UPDATE `$_Q6Q1C[TrackingLinksByRecipientTableName]` SET `Clicks`=`Clicks` + 1, `ADateTime`=NOW() WHERE `SendStat_id`=$_ICltC AND `Links_id`=$_jjJoO AND `Member_id`=$_JO01o";
-       mysql_query($_QJlJ0, $_Q61I1);
-       if(mysql_affected_rows($_Q61I1) == 0) {
-          $_QJlJ0 = "INSERT INTO `$_Q6Q1C[TrackingLinksByRecipientTableName]` SET `SendStat_id`=$_ICltC, `Links_id`=$_jjJoO, `ADateTime`=NOW(), `Member_id`=$_JO01o";
-          mysql_query($_QJlJ0, $_Q61I1);
+    if($_QLO0f["TrackLinksByRecipient"] && $_6l1fl) {
+       $_QLfol = "UPDATE `$_QLO0f[TrackingLinksByRecipientTableName]` SET `Clicks`=`Clicks` + 1, `ADateTime`=NOW() WHERE `SendStat_id`=$_jfQLo AND `Links_id`=$_J10lj AND `Member_id`=$_6l1fl";
+       mysql_query($_QLfol, $_QLttI);
+       if(mysql_affected_rows($_QLttI) == 0) {
+          $_QLfol = "INSERT INTO `$_QLO0f[TrackingLinksByRecipientTableName]` SET `SendStat_id`=$_jfQLo, `Links_id`=$_J10lj, `ADateTime`=NOW(), `Member_id`=$_6l1fl";
+          mysql_query($_QLfol, $_QLttI);
        }
     }
   }
 
-  $_QJlJ0 = "SELECT `Link` FROM `$_Q6Q1C[LinksTableName]` WHERE `id`=$_jjJoO";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0 ) {
-    _OJLLQ();
+  $_QLfol = "SELECT `Link` FROM `$_QLO0f[LinksTableName]` WHERE `id`=$_J10lj";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0 ) {
+    _LQJ1R();
     exit;
   }
 
-  $_Q6Q1C = mysql_fetch_row($_Q60l1);
-  $link = unhtmlentities($_Q6Q1C[0], $_Q6QQL);
+  $_QLO0f = mysql_fetch_row($_QL8i1);
+  $link = unhtmlentities($_QLO0f[0], $_QLo06);
 
-  $_QffOf = "";
+  $_I08CQ = "";
   if(strpos($link, "?") !== false)
-    $_QffOf = substr($link, strpos($link, "?") + 1);
-  if($_QffOf != ""){
-    $_Q6i6i = explode("&", $_QffOf);
+    $_I08CQ = substr($link, strpos($link, "?") + 1);
+  if($_I08CQ != ""){
+    $_QlOjt = explode("&", $_I08CQ);
     reset($_GET);
-    foreach($_GET as $key => $_Q6ClO){
+    foreach($_GET as $key => $_QltJO){
        if($key == "link") continue;
-       for($_Q6llo=0; $_Q6llo<count($_Q6i6i); $_Q6llo++){
-          if(strpos($_Q6i6i[$_Q6llo], $key."=") === false) continue;
-          $_QllO8 = explode("=", $_Q6i6i[$_Q6llo]);
-          if(count($_QllO8) < 2) continue;
-          if( strpos($_QllO8[1], "[") !== false && strpos($_QllO8[1], "]") !== false ) {
-             $link = str_replace($_Q6i6i[$_Q6llo], "$key=$_Q6ClO", $link);
+       for($_Qli6J=0; $_Qli6J<count($_QlOjt); $_Qli6J++){
+          if(strpos($_QlOjt[$_Qli6J], $key."=") === false) continue;
+          $_I016j = explode("=", $_QlOjt[$_Qli6J]);
+          if(count($_I016j) < 2) continue;
+          if( strpos($_I016j[1], "[") !== false && strpos($_I016j[1], "]") !== false ) {
+             $link = str_replace($_QlOjt[$_Qli6J], "$key=$_QltJO", $link);
           }
        }
     }
@@ -195,32 +196,32 @@
 
   // GoogleAnalytics?
   if(!empty($_GET["utm_source"])) {
-    $_QffOf = array();
+    $_I08CQ = array();
     if( !empty($_GET["utm_source"]) )
-       $_QffOf[] = "utm_source=".$_GET["utm_source"];
+       $_I08CQ[] = "utm_source=".$_GET["utm_source"];
     if( !empty($_GET["utm_medium"]) )
-       $_QffOf[] = "utm_medium=".$_GET["utm_medium"];
+       $_I08CQ[] = "utm_medium=".$_GET["utm_medium"];
     if( !empty($_GET["utm_term"]) )
-       $_QffOf[] = "utm_term=".$_GET["utm_term"];
+       $_I08CQ[] = "utm_term=".$_GET["utm_term"];
     if( !empty($_GET["utm_content"]) )
-       $_QffOf[] = "utm_content=".$_GET["utm_content"];
+       $_I08CQ[] = "utm_content=".$_GET["utm_content"];
     if( !empty($_GET["utm_campaign"]) )
-       $_QffOf[] = "utm_campaign=".$_GET["utm_campaign"];
-    if(count($_QffOf) > 0) {
+       $_I08CQ[] = "utm_campaign=".$_GET["utm_campaign"];
+    if(count($_I08CQ) > 0) {
       # anchor in link
-      $_JOQ8L = "";
+      $_6ljfL = "";
       if(strpos($link, "#") !== false){
-        $_JOQ8L = substr($link, strpos($link, "#"));
-        if(strpos($_JOQ8L, "?") === false && strpos($_JOQ8L, "&") === false)
+        $_6ljfL = substr($link, strpos($link, "#"));
+        if(strpos($_6ljfL, "?") === false && strpos($_6ljfL, "&") === false)
            $link = substr($link, 0, strpos($link, "#") );
            else
-           $_JOQ8L = "";
+           $_6ljfL = "";
       }
 
       if(strpos($link, "?") === false)
-        $link .= "?".join("&", $_QffOf).$_JOQ8L;
+        $link .= "?".join("&", $_I08CQ).$_6ljfL;
         else
-        $link .= "&".join("&", $_QffOf).$_JOQ8L;
+        $link .= "&".join("&", $_I08CQ).$_6ljfL;
     }
   }
 
@@ -229,12 +230,12 @@
   print '<p>The requested document has moved to: <a href="'.str_replace('&amp;', '&', $link).'">'.$link.'</a></p>';
 
   # track openings => image blocking
-  if($_JO0io) {
+  if($_6lQL8) {
     define("LinkStat_PHP", "1");
     include_once("ostat.php");
   }
 
-  function _OJLLQ() {
+  function _LQJ1R() {
     print '<p>Link nicht gefunden!</p>';
     print '<p>Link not found!</p>';
     exit;

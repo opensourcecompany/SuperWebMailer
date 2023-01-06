@@ -1,0 +1,119 @@
+<!--COLORSCHEME
+black=schwarz;
+grey=grau;
+blue=blau;
+lightblue=hellblau;
+green=gr&uuml;n;
+brown=braun;
+red=rot;
+purple=pink;
+/COLORSCHEME-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap');
+  #AltBrowserLink{
+    z-index: 1000;
+    position:fixed; top:0px; left:0px; width:100%;
+    font-family: Roboto, Arial, Verdana, Helvetica;
+    font-size: 16px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6);
+  }
+
+  #AltBrowserLinkAttachments{
+    z-index: 1000;
+    position:fixed; bottom: 0px; left: 0px; width: 100%;
+    font-family: Roboto, Arial, Verdana, Helvetica;
+    font-size: 16px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6);
+  }
+
+  #AltBrowserLink .float-r {float: right;}
+  #AltBrowserLink .float-c {text-align: center;}
+
+  #AltBrowserLink ul, #AltBrowserLinkAttachments ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333333; /*black #333333*/ /*blue #000066*/ /*lightblue #99ccff*/ /*green #003300*/ /*brown #330000*/ /*red #990000*/ /*purple #990099*/ /*grey #666666*/
+    background: rgba(51, 51, 51,.90); /*black 51, 51, 51,.90*/ /*blue 00, 00, 102,.90*/ /*lightblue 153, 204, 255,.90*/ /*green 00, 51, 00,.90*/ /*brown 51, 00, 00,.90*/ /*red 153, 00, 00,.90*/ /*purple 153, 00, 153,.90*/ /*grey 102, 102, 102,.90*/
+  }
+  #AltBrowserLink ul li, #AltBrowserLinkAttachments ul li {
+    float: left;
+    list-style-type: none;
+    font-family: Roboto, Arial, Verdana, Helvetica;
+    font-size: 16px;
+  }
+  #AltBrowserLink ul li a, #AltBrowserLinkAttachments ul li a {
+    display: block;
+    color: #FFFFFF; /*black #FFFFFF*/ /*lightblue #000000*/
+    text-align: center;
+    padding: 16px;
+    text-decoration: none;
+  }
+  #AltBrowserLinkAttachments ul li a {
+    text-align: left;
+  }
+  #AltBrowserLink ul li a:hover, #AltBrowserLinkAttachments ul li a:hover {
+    background-color: #555555; /*black #555555*/ /*blue #000099*/ /*lightblue #0099ff*/ /*green #006600*/ /*brown #660000*/ /*red #cc0033*/ /*purple #9933cc*/ /*grey #999999*/
+  }
+  #AltBrowserLink ul ul, #AltBrowserLinkAttachments ul ul {
+    z-index: 1001;
+    position: absolute;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6);
+    visibility: hidden;
+    max-height: 200px !important;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+  #AltBrowserLink ul ul li, #AltBrowserLinkAttachments ul ul li {
+    float: none;
+    width: auto;
+    min-width: 180px;
+    max-width: 300px !important;
+    border-bottom: 1px solid #555555;  /*black #555555*/ /*blue #000099*/ /*lightblue #0099ff*/ /*green #006600*/ /*brown #660000*/ /*red #cc0033*/ /*purple #9933cc*/ /*grey #999999*/
+  }
+  #AltBrowserLink ul ul li a, #AltBrowserLinkAttachments ul ul li a {
+    padding: 10px 20px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  #AltBrowserLinkAttachments ul li ul#blattachments li {
+    width: auto;
+    max-width: 600px !important;
+  }
+  #AltBrowserLinkAttachments ul ul li a.blattachment::before{
+    content: '\1F4CE';
+    display: inline-block;
+    padding: 0 6px 0 0;
+    width: 18px;
+  }
+  /* FF */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #555555 #333333; /*black #555555 #333333*/ /*blue #000099 #000066*/ /*lightblue #0099ff #99ccff*/ /*green #006600 #003300*/ /*brown #660000 #330000*/ /*red #cc0033 #990000*/ /*purple #9933cc #990099*/ /*grey #999999 #666666*/
+  }
+  /* webkit based */
+  *::-webkit-scrollbar {
+    width: 17px;
+  }
+  *::-webkit-scrollbar-track {
+    background-color: #333333; /*black #333333*/ /*blue #000066*/ /*lightblue #99ccff*/ /*green #003300*/ /*brown #330000*/ /*red #990000*/ /*purple #990099*/ /*grey #666666*/
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: #555555; /*black #555555*/ /*blue #000099*/ /*lightblue #0099ff*/ /*green #006600*/ /*brown #660000*/ /*red #cc0033*/ /*purple #9933cc*/ /*grey #999999*/
+    border-radius: 20px;
+    border: 2px solid #333333; /*black #333333*/ /*blue #000066*/ /*lightblue #99ccff*/ /*green #003300*/ /*brown #330000*/ /*red #990000*/ /*purple #990099*/ /*grey #666666*/
+  }
+  @media only screen and (max-width: 700px) {
+   #AltBrowserLink .socialLink, #AltBrowserLink .socialLink1{
+     display: none;
+   }
+  }
+  @media only print {
+   #AltBrowserLink, #AltBrowserLinkAttachments{
+     display: none;
+   }
+  }
+</style>

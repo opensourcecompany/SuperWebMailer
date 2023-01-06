@@ -1,7 +1,7 @@
 	/************************************************************************************************************
   #############################################################################
   #                SuperMailingList / SuperWebMailer                          #
-  #               Copyright © 2007 - 2017 Mirko Boeer                         #
+  #               Copyright © 2007 - 2018 Mirko Boeer                         #
   #                    Alle Rechte vorbehalten.                               #
   #                http://www.supermailinglist.de/                            #
   #                http://www.superwebmailer.de/                              #

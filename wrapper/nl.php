@@ -5,13 +5,21 @@
 
   $get = array();
   reset($_GET);
-  foreach($_GET as $key => $value)
-    $get[] = $key.'='.$value;
+  foreach($_GET as $key => $value){
+    if(!is_array($value))
+      $get[] = $key.'='.rawurlencode($value);
+      else
+      $get[] = $key.'='.rawurlencode(join(",", $value));
+  }
 
   $post = array();
   reset($_POST);
-  foreach($_POST as $key => $value)
-    $post[] = $key.'='.$value;
+  foreach($_POST as $key => $value){
+    if(!is_array($value))
+      $post[] = $key.'='.rawurlencode($value);
+      else
+      $post[] = $key.'='.rawurlencode(join(",", $value));
+  }
 
   if(count($get) > 0)
     $get = join("&", $get);

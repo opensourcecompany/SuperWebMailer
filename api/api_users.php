@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2019 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -39,31 +39,31 @@ class api_Users extends api_base {
   * @access public
 	 */
  function api_getUsers() {
-  global $UserType, $UserId, $_Q61I1;
-  global $_Q8f1L, $_QLtQO;
+  global $UserType, $UserId, $_QLttI;
+  global $_I18lo, $_IfOtC;
 
   if(defined("DEMO")){
     return $this->api_Error("DEMO VERSION.");
   }
 
   if($UserType == "SuperAdmin")
-     $_QJlJ0 = "SELECT * FROM $_Q8f1L WHERE UserType="._OPQLR("Admin");
+     $_QLfol = "SELECT * FROM $_I18lo WHERE UserType="._LRAFO("Admin");
      else
      if($UserType == "Admin")
-        $_QJlJ0 = "SELECT * FROM $_Q8f1L LEFT JOIN $_QLtQO ON id=users_id WHERE owner_id=$UserId";
+        $_QLfol = "SELECT * FROM $_I18lo LEFT JOIN $_IfOtC ON id=users_id WHERE owner_id=$UserId";
         else
-        $_QJlJ0 = "";
-  if($_QJlJ0 == "")
+        $_QLfol = "";
+  if($_QLfol == "")
      return array();
-  $_QlOjC = array();
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  while($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-    unset($_Q6Q1C["Password"]);
-    $_QlOjC[] = $_Q6Q1C;
+  $_I8oIo = array();
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  while($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+    unset($_QLO0f["Password"]); unset($_QLO0f["2FASecret"]);
+    $_I8oIo[] = $_QLO0f;
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
-		return $_QlOjC;
+		return $_I8oIo;
 	}
 
  /**
@@ -85,8 +85,8 @@ class api_Users extends api_base {
   * @access public
 	 */
 	function api_createUser($apiUsername, $apiPassword, $apiEMail, $apiFirstName, $apiLastName, $apiLanguageCode, $apiThemesId, $apiAccountType = 'Unlimited', $apiAccountTypeLimitedMailCountLimited = 1000, $apiNotAllowedPrivileges = array()) {
-  global $UserType, $UserId, $OwnerOwnerUserId, $_Q61I1;
-  global $_Q8f1L, $_QLtQO, $AppName;
+  global $UserType, $UserId, $OwnerOwnerUserId, $_QLttI;
+  global $_I18lo, $_IfOtC, $AppName;
 
   $apiAccountTypeLimitedMailCountLimited = intval($apiAccountTypeLimitedMailCountLimited);
   $apiThemesId = intval($apiThemesId);
@@ -104,83 +104,87 @@ class api_Users extends api_base {
        return false;
 
     if($UserType == "SuperAdmin" && ($OwnerOwnerUserId <= 65 || $OwnerOwnerUserId == 90) ){
-       $_QJlJ0 = "SELECT COUNT(*) AS C FROM $_Q8f1L WHERE UserType='Admin'";
-       $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-       $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-       mysql_free_result($_Q60l1);
-       if( $_Q6Q1C["C"] > 0)
+       $_QLfol = "SELECT COUNT(*) AS C FROM $_I18lo WHERE UserType='Admin'";
+       $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+       $_QLO0f = mysql_fetch_assoc($_QL8i1);
+       mysql_free_result($_QL8i1);
+       if( $_QLO0f["C"] > 0)
          return false;
     }
   }
 
-  $_QJlJ0 = "SELECT COUNT(*) AS C FROM $_Q8f1L WHERE Username="._OPQLR($apiUsername);
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-    if($_Q6Q1C["C"] > 0) return $this->api_Error("User with this name always exists.");
-    mysql_free_result($_Q60l1);
+  $_QLfol = "SELECT COUNT(*) AS C FROM $_I18lo WHERE Username="._LRAFO($apiUsername);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+    if($_QLO0f["C"] > 0) return $this->api_Error("User with this name always exists.");
+    mysql_free_result($_QL8i1);
   }
 
   if(!trim($apiPassword) || !trim($apiUsername))
     return $this->api_Error("Username and password are required.");
 
   if($UserType == "SuperAdmin"){
-    $_QlLfl = _LLEQD($apiUsername, "Admin", $apiLanguageCode, $apiAccountType, $apiAccountTypeLimitedMailCountLimited);
+    $_I8l8o = _JJQOE($apiUsername, "Admin", $apiLanguageCode, $apiAccountType, $apiAccountTypeLimitedMailCountLimited);
   } else {
-    $_QJlJ0 = "INSERT INTO $_Q8f1L (`Username`, `UserType`, `Language`) VALUES("._OPQLR(trim($apiUsername)).", 'User', "._OPQLR($apiLanguageCode).")";
-    mysql_query($_QJlJ0, $_Q61I1);
-    $_QoOQO = $this->api_ShowSQLError($_QJlJ0); if($_QoOQO) return $_QoOQO;
-    $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    $_QlLfl = $_Q6Q1C[0];
-    mysql_free_result($_Q60l1);
-    if($_QlLfl){
-      $_QJlJ0 = "INSERT INTO $_QLtQO SET users_id=$_QlLfl, owner_id=$UserId";
-      mysql_query($_QJlJ0, $_Q61I1);
-      $_QoOQO = $this->api_ShowSQLError($_QJlJ0); if($_QoOQO) return $_QoOQO;
+    $_QLfol = "INSERT INTO $_I18lo (`Username`, `UserType`, `Language`) VALUES("._LRAFO(trim($apiUsername)).", 'User', "._LRAFO($apiLanguageCode).")";
+    mysql_query($_QLfol, $_QLttI);
+    $_Ijoj6 = $this->api_ShowSQLError($_QLfol); if($_Ijoj6) return $_Ijoj6;
+    $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    $_I8l8o = $_QLO0f[0];
+    mysql_free_result($_QL8i1);
+    if($_I8l8o){
+      $_QLfol = "INSERT INTO $_IfOtC SET users_id=$_I8l8o, owner_id=$UserId";
+      mysql_query($_QLfol, $_QLttI);
+      $_Ijoj6 = $this->api_ShowSQLError($_QLfol); if($_Ijoj6) return $_Ijoj6;
     }
 
 
-    if($_QlLfl && count($apiNotAllowedPrivileges) && $UserType == "Admin"){
+    if($_I8l8o && count($apiNotAllowedPrivileges) && $UserType == "Admin"){
 
-       $_QLLjo = array();
-       $_QJlJ0 = "SHOW COLUMNS FROM $_Q8f1L";
-       $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-       if ($_Q60l1 && mysql_num_rows($_Q60l1)) {
-           while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-              foreach ($_Q6Q1C as $key => $_Q6ClO) {
-                 if($key == "Field" && strpos($_Q6ClO, "Privilege") !== false) {
-                    $_QLLjo[] = $_Q6ClO;
+       $_Iflj0 = array();
+       $_QLfol = "SHOW COLUMNS FROM $_I18lo";
+       $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+       if ($_QL8i1 && mysql_num_rows($_QL8i1)) {
+           while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+              foreach ($_QLO0f as $key => $_QltJO) {
+                 if($key == "Field" && strpos($_QltJO, "Privilege") !== false) {
+                    $_Iflj0[] = $_QltJO;
                     break;
                  }
               }
            }
-           mysql_free_result($_Q60l1);
+           mysql_free_result($_QL8i1);
        }
 
        reset($apiNotAllowedPrivileges);
-       $_QJlJ0 = array();
+       $_QLfol = array();
        foreach($apiNotAllowedPrivileges as $key){
-         if(in_array($key, $_QLLjo))
-           $_QJlJ0[] = "`$key`=0";
+         if(in_array($key, $_Iflj0))
+           $_QLfol[] = "`$key`=0";
        }
-       if(count($_QJlJ0) > 0){
-         $_QJlJ0 = "UPDATE $_Q8f1L SET ".join(", ", $_QJlJ0)." WHERE id=$_QlLfl";
-         mysql_query($_QJlJ0, $_Q61I1);
-         $_QoOQO = $this->api_ShowSQLError($_QJlJ0); if($_QoOQO) return $_QoOQO;
+       if(count($_QLfol) > 0){
+         $_QLfol = "UPDATE $_I18lo SET ".join(", ", $_QLfol)." WHERE id=$_I8l8o";
+         mysql_query($_QLfol, $_QLttI);
+         $_Ijoj6 = $this->api_ShowSQLError($_QLfol); if($_Ijoj6) return $_Ijoj6;
        }
 
     }
   }
 
-  if($_QlLfl){
-    $_QlLOL = _OC1CF();
-    $_QJlJ0 = "UPDATE $_Q8f1L SET Password=CONCAT("._OPQLR($_QlLOL).", PASSWORD("._OPQLR($_QlLOL.$apiPassword).") ), `EMail`="._OPQLR($apiEMail).", `FirstName`="._OPQLR($apiFirstName).", `LastName`="._OPQLR($apiLastName).", `ThemesId`=$apiThemesId WHERE id=$_QlLfl";
-    mysql_query($_QJlJ0, $_Q61I1);
-    $_QoOQO = $this->api_ShowSQLError($_QJlJ0); if($_QoOQO) return $_QoOQO;
+  if($_I8l8o){
+    $_I8li6 = _LAPE1();
+    $_It0IQ = version_compare(_LBL0A(), '8.0.11') >= 0;
+    if(!$_It0IQ)
+      $_QLfol = "UPDATE $_I18lo SET Password=CONCAT("._LRAFO($_I8li6).", PASSWORD("._LRAFO($_I8li6.$apiPassword).") ), `EMail`="._LRAFO($apiEMail).", `FirstName`="._LRAFO($apiFirstName).", `LastName`="._LRAFO($apiLastName).", `ThemesId`=$apiThemesId WHERE id=$_I8l8o";
+      else
+      $_QLfol = "UPDATE $_I18lo SET Password=CONCAT("._LRAFO($_I8li6).", SHA2("._LRAFO($_I8li6.$apiPassword).", 224) ), `EMail`="._LRAFO($apiEMail).", `FirstName`="._LRAFO($apiFirstName).", `LastName`="._LRAFO($apiLastName).", `ThemesId`=$apiThemesId WHERE id=$_I8l8o";
+    mysql_query($_QLfol, $_QLttI);
+    $_Ijoj6 = $this->api_ShowSQLError($_QLfol); if($_Ijoj6) return $_Ijoj6;
   }
 
 
-  return $_QlLfl;
+  return $_I8l8o;
 	}
 
  /**
@@ -191,8 +195,8 @@ class api_Users extends api_base {
   * @access public
 	 */
  function api_removeUser($ToRemoveUserId) {
-  global $UserType, $UserId, $OwnerOwnerUserId, $_Q61I1;
-  global $_Q8f1L, $_QLtQO, $_Q60QL, $AppName;
+  global $UserType, $UserId, $OwnerOwnerUserId, $_QLttI;
+  global $_I18lo, $_IfOtC, $_QL88I, $AppName;
 
   if(defined("DEMO")){
     return $this->api_Error("DEMO VERSION.");
@@ -200,39 +204,39 @@ class api_Users extends api_base {
 
   $ToRemoveUserId = intval($ToRemoveUserId);
 
-  $_QJlJ0 = "";
+  $_QLfol = "";
   if($UserType == "SuperAdmin") {
-    $_QJlJ0 = "SELECT count(id) FROM $_Q8f1L WHERE id=".$ToRemoveUserId." AND `UserType`='Admin'";
+    $_QLfol = "SELECT count(id) FROM $_I18lo WHERE id=".$ToRemoveUserId." AND `UserType`='Admin'";
   } else
     if($UserType == "Admin") {
-      $_QJlJ0 = "SELECT count(id) FROM $_Q8f1L WHERE id=".$ToRemoveUserId." AND `UserType`='User'";
+      $_QLfol = "SELECT count(id) FROM $_I18lo WHERE id=".$ToRemoveUserId." AND `UserType`='User'";
     }
-  if($_QJlJ0 == "")
+  if($_QLfol == "")
      return $this->api_Error("Unknown user.");
 
-  $_Qllf1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_Q8OiJ = mysql_fetch_row($_Qllf1);
-  mysql_free_result($_Qllf1);
-  if($_Q8OiJ[0] == 0)
+  $_It16Q = mysql_query($_QLfol, $_QLttI);
+  $_I1OfI = mysql_fetch_row($_It16Q);
+  mysql_free_result($_It16Q);
+  if($_I1OfI[0] == 0)
      return $this->api_Error("User not found.");
 
   if($UserType == "SuperAdmin") {
-    $_QJlJ0 = "SELECT count(id) FROM $_Q60QL WHERE users_id=".$ToRemoveUserId;
+    $_QLfol = "SELECT count(id) FROM $_QL88I WHERE users_id=".$ToRemoveUserId;
   } else {
-    $_QJlJ0 = "SELECT count(users_id) FROM $_QLtQO WHERE owner_id=".$ToRemoveUserId;
+    $_QLfol = "SELECT count(users_id) FROM $_IfOtC WHERE owner_id=".$ToRemoveUserId;
   }
 
-  $_Qllf1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_Q8OiJ = mysql_fetch_row($_Qllf1);
-  mysql_free_result($_Qllf1);
-  if($_Q8OiJ[0] > 0)
+  $_It16Q = mysql_query($_QLfol, $_QLttI);
+  $_I1OfI = mysql_fetch_row($_It16Q);
+  mysql_free_result($_It16Q);
+  if($_I1OfI[0] > 0)
      return $this->api_Error("User not removable it has references.");
 
-  $_QtIiC = array();
-  _L6OBB(array($ToRemoveUserId), $_QtIiC);
-  if(count($_QtIiC) == 0)
+  $_IQ0Cj = array();
+  _J68QL(array($ToRemoveUserId), $_IQ0Cj);
+  if(count($_IQ0Cj) == 0)
     return true;
-  return $this->api_Error("Error while removing users: ".join("\n", $_QtIiC));
+  return $this->api_Error("Error while removing users: ".join("\n", $_IQ0Cj));
  }
 
 
@@ -243,23 +247,23 @@ class api_Users extends api_base {
   * @access public
 	 */
  function api_getUserPrivilegesFieldNames() {
-   global $_Q61I1, $_Q8f1L;
+   global $_QLttI, $_I18lo;
 
-   $_QLLjo = array();
-   $_QJlJ0 = "SHOW COLUMNS FROM $_Q8f1L";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if ($_Q60l1 && mysql_num_rows($_Q60l1)) {
-       while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-          foreach ($_Q6Q1C as $key => $_Q6ClO) {
-             if($key == "Field" && strpos($_Q6ClO, "Privilege") !== false) {
-                $_QLLjo[] = $_Q6ClO;
+   $_Iflj0 = array();
+   $_QLfol = "SHOW COLUMNS FROM $_I18lo";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if ($_QL8i1 && mysql_num_rows($_QL8i1)) {
+       while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+          foreach ($_QLO0f as $key => $_QltJO) {
+             if($key == "Field" && strpos($_QltJO, "Privilege") !== false) {
+                $_Iflj0[] = $_QltJO;
                 break;
              }
           }
        }
-       mysql_free_result($_Q60l1);
+       mysql_free_result($_QL8i1);
    }
-   return $_QLLjo;
+   return $_Iflj0;
  }
 
 }

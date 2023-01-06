@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,209 +26,203 @@
 
   // supported HTML Tags
 
-  $_f1liI = array("area", "base", "basefont", "br", "col", "frame", "hr", "img", "input", "isindex", "link", "meta", "param");
-  $_fQ01Q = array("a", "abbr", "acronym", "address", "applet", "b", "bdo", "big", "blockquote", "body", "button", "caption", "center", "cite", "code",
+  $_8CI1I = array("area", "base", "basefont", "br", "col", "frame", "hr", "img", "input", "isindex", "link", "meta", "param");
+  $_8CIt8 = array("a", "abbr", "acronym", "address", "applet", "b", "bdo", "big", "blockquote", "body", "button", "caption", "center", "cite", "code",
                          "colgroup", "dd", "del", "dfn", "dir", "div", "dl", "dt", "em", "fieldset", "font", "form", "frameset", "h1", "h2", "h3", "h4", "h5", "h6",
                          "head", "html", "i", "iframe", "ins", "kbd", "label", "legend", "li", "map", "menu", "noframes", "noscript", "object", "ol", "optgroup", "option",
                          "p", "pre", "q", "s", "samp", "script", "select", "small", "span", "strike", "strong", "style", "sub", "sup", "table", "tbody", "td", "textarea",
                          "tfoot", "th", "thead", "title", "tr", "tt", "u", "ul", "var", "section", "article", "main", "aside", "header", "footer", "nav", "figure", "figcaption",
                          "template", "video", "audio", "track", "embed", "mark", "progress", "meter", "time", "ruby", "rt", "rp", "bdi", "wbr", "canvas", "datalist", "keygen", "output");
-  $_fQ0L1 = array();
-  $_fQ1j6 = array();
+  $_8Cjjo = array();
+  $_8CJIL = array();
 
-  function _LJ1AB($_6tjI6){
-    global $_fQ01Q, $_fQ1j6;
-    $_6tjI6 = strtolower($_6tjI6);
-    if(count($_fQ1j6) == 0) $_fQ1j6 = array_flip($_fQ01Q); // search is faster
-    return isset($_fQ1j6[$_6tjI6]);
+  function _JJ6FC($_81fCl){
+    global $_8CIt8, $_8CJIL;
+    $_81fCl = strtolower($_81fCl);
+    if(count($_8CJIL) == 0) $_8CJIL = array_flip($_8CIt8); // search is faster
+    return isset($_8CJIL[$_81fCl]);
   }
 
-  function _LJQPB($_6tjI6){
-    global $_f1liI, $_fQ0L1;
-    $_6tjI6 = strtolower($_6tjI6);
-    if(count($_fQ0L1) == 0) $_fQ0L1 = array_flip($_f1liI); // search is faster
-    return isset($_fQ0L1[$_6tjI6]);
+  function _JJR1P($_81fCl){
+    global $_8CI1I, $_8Cjjo;
+    $_81fCl = strtolower($_81fCl);
+    if(count($_8Cjjo) == 0) $_8Cjjo = array_flip($_8CI1I); // search is faster
+    return isset($_8Cjjo[$_81fCl]);
   }
 
-  function _LJO8O($_JfJLt, &$_j1L1C, $_fQ1i6 = 0){
-    global $_jJfoI;
-    $_j1L1C = array();
-    if(stripos($_JfJLt, $_jJfoI . '=') === false) return; // stripos is quicker than preg_match*
-    preg_match_all('/(?<!_)'.preg_quote($_jJfoI, '/').'=([\'"])?(.*?)\\1/is', $_JfJLt, $_JjOII, PREG_SET_ORDER);
-    for($_Q6llo=0;$_Q6llo<count($_JjOII);$_Q6llo++) {
-     if( $_JjOII[$_Q6llo][1] == '""' || $_JjOII[$_Q6llo][1] == "''") continue;
+  function _JJREP($_6IoCL, &$_jLtli, $_8C6It = 0){
+    global $_JQjQ6;
+    $_jLtli = array();
+    if(stripos($_6IoCL, $_JQjQ6 . '=') === false) return; // stripos is quicker than preg_match*
+    preg_match_all('/(?<!_)'.preg_quote($_JQjQ6, '/').'=([\'"])?(.*?)\\1/is', $_6IoCL, $_66tJo, PREG_SET_ORDER);
+    for($_Qli6J=0;$_Qli6J<count($_66tJo);$_Qli6J++) {
+     if( $_66tJo[$_Qli6J][1] == '""' || $_66tJo[$_Qli6J][1] == "''") continue;
 
-     $_Q8otJ = explode(" ", $_JjOII[$_Q6llo][2]);
-     for($_Qf0Ct=0; $_Qf0Ct<count($_Q8otJ); $_Qf0Ct++){
-       if($_Q8otJ[$_Qf0Ct] == "") continue;
-       if(!in_array($_Q8otJ[$_Qf0Ct], $_j1L1C)){
-         array_push($_j1L1C, $_Q8otJ[$_Qf0Ct]);
-         if($_fQ1i6 > 0 && count($_j1L1C) >= $_fQ1i6) break;
+     $_I1OoI = explode(" ", $_66tJo[$_Qli6J][2]);
+     for($_QliOt=0; $_QliOt<count($_I1OoI); $_QliOt++){
+       if($_I1OoI[$_QliOt] == "") continue;
+       if(!in_array($_I1OoI[$_QliOt], $_jLtli)){
+         array_push($_jLtli, $_I1OoI[$_QliOt]);
+         if($_8C6It > 0 && count($_jLtli) >= $_8C6It) break;
        }
      }
     }
-    sort($_j1L1C);
+    sort($_jLtli);
   }
 
-  function _LJOAD($_JfJLt){
-    $_fQ1lQ = 0;
-    $_fQQtL = array();
-    _LJLCA($_JfJLt, $_fQQtL, true, $_fQ1lQ);
-    return $_fQ1lQ > 0;
+  function _JJ8DO($_6IoCL){
+    $_8C6l1 = 0;
+    $_8Cfi0 = array();
+    _JJPA1($_6IoCL, $_8Cfi0, true, $_8C6l1);
+    return $_8C6l1 > 0;
   }
 
 
-  function _LJLQD($_QJCJi, $_fQI6I, $_fQ1i6 = -1){
-    global $_jJfoI;
+  function _JJPO0($_QLJfI, $_8CfiO, $_8C6It = -1){
+    global $_JQjQ6;
 
-    $_Q60l1 = $_QJCJi;
+    $_QL8i1 = $_QLJfI;
 
-    $_IflL6 = 0;
-    $_fQIL1 = preg_quote(' ' . $_jJfoI . '=' . $_fQI6I);
-    $_Q60l1 = preg_replace("/".$_fQIL1."/is", "", $_Q60l1, $_fQ1i6, $_IflL6);
+    $_j1881 = 0;
+    $_8C81t = preg_quote(' ' . $_JQjQ6 . '=' . $_8CfiO);
+    $_QL8i1 = preg_replace("/".$_8C81t."/is", "", $_QL8i1, $_8C6It, $_j1881);
 
-    if($_IflL6 == 0){
-      $_fQIL1 = preg_quote($_jJfoI . '=' . $_fQI6I);
-      $_Q60l1 = preg_replace("/".$_fQIL1."/is", "", $_Q60l1, $_fQ1i6);
+    if($_j1881 == 0){
+      $_8C81t = preg_quote($_JQjQ6 . '=' . $_8CfiO);
+      $_QL8i1 = preg_replace("/".$_8C81t."/is", "", $_QL8i1, $_8C6It);
     }
 
-    return $_Q60l1;
+    return $_QL8i1;
   }
 
-  function _LJLCA($_JfJLt, $_fQQtL, $_fQj1O, &$_fQJ0J){
-    global $_jJfoI;
-    $_fQJ0J = 0;
-    $_Q60l1 = $_JfJLt;
-    if(stripos($_JfJLt, $_jJfoI . '=') === false) return $_Q60l1; // stripos is quicker than preg_match*
-    $_fQJ66 = array();
+  function _JJPA1($_6IoCL, $_8Cfi0, $_8C8tC, &$_8C8oJ){
+    global $_JQjQ6;
+    $_8C8oJ = 0;
+    $_QL8i1 = $_6IoCL;
+    if(stripos($_6IoCL, $_JQjQ6 . '=') === false) return $_QL8i1; // stripos is quicker than preg_match*
+    $_8Ctf1 = array();
 
-    if(count($_fQQtL)){
-      preg_match_all('/(?<!_)'.preg_quote($_jJfoI, '/').'=([\'"])?(.*?)\\1/is', $_JfJLt, $_JjOII, PREG_SET_ORDER);
-      for($_Q6llo=0;$_Q6llo<count($_JjOII);$_Q6llo++) {
-       if( $_JjOII[$_Q6llo][1] == '""' || $_JjOII[$_Q6llo][1] == "''") continue;
+    if(count($_8Cfi0)){
+      preg_match_all('/(?<!_)'.preg_quote($_JQjQ6, '/').'=([\'"])?(.*?)\\1/is', $_6IoCL, $_66tJo, PREG_SET_ORDER);
+      for($_Qli6J=0;$_Qli6J<count($_66tJo);$_Qli6J++) {
+       if( $_66tJo[$_Qli6J][1] == '""' || $_66tJo[$_Qli6J][1] == "''") continue;
 
-       $_Q8otJ = explode(" ", $_JjOII[$_Q6llo][2]);
-       $_Qo1oC = false;
-       for($_Qf0Ct=0; $_Qf0Ct<count($_Q8otJ); $_Qf0Ct++){
-         if($_Q8otJ[$_Qf0Ct] == "") continue;
-       $_Qo1oC = in_arrayi($_Q8otJ[$_Qf0Ct], $_fQQtL);
-       if($_Qo1oC) break;
+       $_I1OoI = explode(" ", $_66tJo[$_Qli6J][2]);
+       $_QLCt1 = false;
+       for($_QliOt=0; $_QliOt<count($_I1OoI); $_QliOt++){
+         if($_I1OoI[$_QliOt] == "") continue;
+       $_QLCt1 = in_arrayi($_I1OoI[$_QliOt], $_8Cfi0);
+       if($_QLCt1) break;
        }
 
-       if($_Qo1oC)
-         $_fQJ66[] = $_JjOII[$_Q6llo][1] . $_JjOII[$_Q6llo][2] . $_JjOII[$_Q6llo][1];
+       if($_QLCt1)
+         $_8Ctf1[] = $_66tJo[$_Qli6J][1] . $_66tJo[$_Qli6J][2] . $_66tJo[$_Qli6J][1];
       }
 
       // remove all DefaultTargetGroupsHTMLAttribute= attribs when recipient is INCLUDED
-      for($_Q6llo=0; $_Q6llo<count($_fQJ66); $_Q6llo++){
-         $_Q60l1 = _LJLQD($_Q60l1, $_fQJ66[$_Q6llo]);
+      for($_Qli6J=0; $_Qli6J<count($_8Ctf1); $_Qli6J++){
+         $_QL8i1 = _JJPO0($_QL8i1, $_8Ctf1[$_Qli6J]);
       }
     }
 
     // remove all other DefaultTargetGroupsHTMLAttribute= attribs and HTML tags
-    $_QJCJi = $_Q60l1; // DEBUG, REMOVE STRReplace
+    $_QLJfI = $_QL8i1; // DEBUG, REMOVE STRReplace
     // empty attribs
-    $_QJCJi = _LJLQD($_QJCJi, '""');
-    $_fQIL1 = '/(?<!_)'.preg_quote($_jJfoI, '/').'=([\'"])?(.*?)\\1/is';
+    $_QLJfI = _JJPO0($_QLJfI, '""');
+    $_8C81t = '/(?<!_)'.preg_quote($_JQjQ6, '/').'=([\'"])?(.*?)\\1/is';
     while (true) {
-          if(preg_match($_fQIL1, $_QJCJi, $_JjOII, PREG_OFFSET_CAPTURE)){
-            $_Q6i6i = $_JjOII[0][1];
-            $_Q66jQ = substr($_QJCJi, 0, $_Q6i6i);
+          if(preg_match($_8C81t, $_QLJfI, $_66tJo, PREG_OFFSET_CAPTURE)){
+            $_QlOjt = $_66tJo[0][1];
+            $_Ql0fO = substr($_QLJfI, 0, $_QlOjt);
 
-            $_Q6i6i = strpos_reverse($_Q66jQ, '<');
+            $_QlOjt = strpos_reverse($_Ql0fO, '<');
 
-            $_fQ6jQ = substr($_Q66jQ, $_Q6i6i + 1);
-            $_QllO8 = strpos($_fQ6jQ, ' ');
-            if($_QllO8 !== false)
-              $_fQ6jQ = strtolower(trim(substr($_fQ6jQ, 0, $_QllO8)));
+            $_8Cti0 = substr($_Ql0fO, $_QlOjt + 1);
+            $_I016j = strpos($_8Cti0, ' ');
+            if($_I016j !== false)
+              $_8Cti0 = strtolower(trim(substr($_8Cti0, 0, $_I016j)));
               else
-              $_fQ6jQ = strtolower($_fQ6jQ);
+              $_8Cti0 = strtolower($_8Cti0);
 
-            if (_LJQPB($_fQ6jQ)){ // e.g. <img src="">
-              $_fQ6of = strpos($_QJCJi, '>', $_Q6i6i);
-              if ($_fQj1O){
-                $_fQffl = substr($_QJCJi, $_Q6i6i, $_fQ6of - $_Q6i6i + 1);
-                if (stripos($_fQffl, 'file://') !== false)
-                  $_fQJ0J++;
+            if (_JJR1P($_8Cti0)){ // e.g. <img src="">
+              $_8CtlJ = strpos($_QLJfI, '>', $_QlOjt);
+              if ($_8C8tC){
+                $_8CO16 = substr($_QLJfI, $_QlOjt, $_8CtlJ - $_QlOjt + 1);
+                if (stripos($_8CO16, 'file://') !== false)
+                  $_8C8oJ++;
               };
-              $_QJCJi = substr_replace($_QJCJi, "", $_Q6i6i, $_fQ6of - $_Q6i6i + 1);
+              $_QLJfI = substr_replace($_QLJfI, "", $_QlOjt, $_8CtlJ - $_QlOjt + 1);
             }
             else
-             if (_LJ1AB($_fQ6jQ)){
-                $_fQfL1 = false;
+             if (_JJ6FC($_8Cti0)){
+                $_8COfo = false;
                 do{
                   //P gibt Pos von Start-Tag an
-                  $_Q66jQ = substr($_QJCJi, $_Q6i6i + 1);
-                  $_fQ6of = strpos($_Q66jQ, '</' . $_fQ6jQ);
-                  if ($_fQ6of === false){
+                  $_Ql0fO = substr($_QLJfI, $_QlOjt + 1);
+                  $_8CtlJ = strpos($_Ql0fO, '</' . $_8Cti0);
+                  if ($_8CtlJ === false){
                     // hier fehlt der EndTag!!
                     // rausloeschen, sonst gibt es endlessloop!
-                    $_Q66jQ = $_JjOII[1][0] . $_JjOII[2][0] . $_JjOII[1][0];
-                    $_QJCJi = _LJLQD($_QJCJi, $_Q66jQ, 1);
-                    //$_fQfL1 = true;
+                    $_Ql0fO = $_66tJo[1][0] . $_66tJo[2][0] . $_66tJo[1][0];
+                    $_QLJfI = _JJPO0($_QLJfI, $_Ql0fO, 1);
+                    //$_8COfo = true;
                     break;
                   };
-                  $_JQCIj = substr($_Q66jQ, 0, $_fQ6of);
-                  if (stripos($_JQCIj, '<' . $_fQ6jQ) === false){
+                  $_6joLQ = substr($_Ql0fO, 0, $_8CtlJ);
+                  if (stripos($_6joLQ, '<' . $_8Cti0) === false){
                     // keine weiteren Tags dieser Art enthalten, ganzen Block löschen
-                    $_fQ6of += strlen('</' . $_fQ6jQ . '>');
-                    $_fQ6of += $_Q6i6i;
-                    if ($_fQj1O){
-                      $_fQffl = substr($_QJCJi, $_Q6i6i, $_fQ6of - $_Q6i6i + 1);
-                      if (stripos($_fQffl, 'file://') !== false)
-                        $_fQJ0J++;
+                    $_8CtlJ += strlen('</' . $_8Cti0 . '>');
+                    $_8CtlJ += $_QlOjt;
+                    if ($_8C8tC){
+                      $_8CO16 = substr($_QLJfI, $_QlOjt, $_8CtlJ - $_QlOjt + 1);
+                      if (stripos($_8CO16, 'file://') !== false)
+                        $_8C8oJ++;
                     }
-                    $_QJCJi = substr_replace($_QJCJi, "", $_Q6i6i, $_fQ6of - $_Q6i6i + 1);
+                    $_QLJfI = substr_replace($_QLJfI, "", $_QlOjt, $_8CtlJ - $_QlOjt + 1);
                     break;
                   }
                   else
                   {
                     // innerTag löschen
-                    $_fQ86j = stripos($_Q66jQ, '<' . $_fQ6jQ);
-                    if (stripos($_Q66jQ, '</' . $_fQ6jQ) === false){
+                    $_8CoIo = stripos($_Ql0fO, '<' . $_8Cti0);
+                    if (stripos($_Ql0fO, '</' . $_8Cti0) === false){
                       // hier fehlt der EndTag!!
                       // rausloeschen, sonst gibt es endlessloop!
-                      $_Q66jQ = $_JjOII[1][0] . $_JjOII[2][0] . $_JjOII[1][0];
-                      $_QJCJi = _LJLQD($_QJCJi, $_Q66jQ, 1);
+                      $_Ql0fO = $_66tJo[1][0] . $_66tJo[2][0] . $_66tJo[1][0];
+                      $_QLJfI = _JJPO0($_QLJfI, $_Ql0fO, 1);
                       //EndTagError := True;
                       break;
                     }
-                    $_fQtIC = stripos($_Q66jQ, '</' . $_fQ6jQ) + strlen('</' . $_fQ6jQ . '>');
-                    //$_Q66jQ = substr_replace($_Q66jQ, "", $_fQ86j, $_fQtIC - $_fQ86j); // debug
-                    if ($_fQj1O){
-                      $_fQffl = substr($_QJCJi, $_fQ86j + $_Q6i6i, $_fQtIC - $_fQ86j);
-                      if (stripos($_fQffl, 'file://') !== false)
-                        $_fQJ0J++;
+                    $_8Coto = stripos($_Ql0fO, '</' . $_8Cti0) + strlen('</' . $_8Cti0 . '>');
+                    //$_Ql0fO = substr_replace($_Ql0fO, "", $_8CoIo, $_8Coto - $_8CoIo); // debug
+                    if ($_8C8tC){
+                      $_8CO16 = substr($_QLJfI, $_8CoIo + $_QlOjt, $_8Coto - $_8CoIo);
+                      if (stripos($_8CO16, 'file://') !== false)
+                        $_8C8oJ++;
                     }
-                    $_QJCJi = substr_replace($_QJCJi, "", $_fQ86j + $_Q6i6i, $_fQtIC - $_fQ86j);
+                    $_QLJfI = substr_replace($_QLJfI, "", $_8CoIo + $_QlOjt, $_8Coto - $_8CoIo);
 
                   }
-                } while (!$_fQfL1);
+                } while (!$_8COfo);
 
               }
               else
               {
                 // Unknown Tag
-                $_Q66jQ = $_JjOII[1][0] . $_JjOII[2][0] . $_JjOII[1][0];
-                $_QJCJi = _LJLQD($_QJCJi, $_Q66jQ, 1);
+                $_Ql0fO = $_66tJo[1][0] . $_66tJo[2][0] . $_66tJo[1][0];
+                $_QLJfI = _JJPO0($_QLJfI, $_Ql0fO, 1);
               }
 
           }
           else
            break;
 
-       if ($_fQj1O && $_fQJ0J) break; // we count
+       if ($_8C8tC && $_8C8oJ) break; // we count
     } // while (true)
 
-    $_Q60l1 = $_QJCJi;
+    $_QL8i1 = $_QLJfI;
 
-    return $_Q60l1;
-  }
-
-  if(!function_exists("in_arrayi")){
-    function in_arrayi($_ILooj, $_ILo0C) {
-      return in_array(strtolower($_ILooj), array_map('strtolower', $_ILo0C));
-    }
+    return $_QL8i1;
   }
 
 ?>

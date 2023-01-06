@@ -140,7 +140,7 @@ class Mail_mimePart {
     function __construct($body = '', $params = array())
     {
         if (!defined('MAIL_MIMEPART_CRLF')) {
-            define('MAIL_MIMEPART_CRLF', defined('MAIL_MIME_CRLF') ? MAIL_MIME_CRLF : "\r\n", TRUE);
+            define('MAIL_MIMEPART_CRLF', defined('MAIL_MIME_CRLF') ? MAIL_MIME_CRLF : "\r\n");
         }
 
         $contentType = array();
@@ -253,12 +253,12 @@ class Mail_mimePart {
     {
         $encoded =& $this->_encoded;
 
-        if (count($this->_subparts)) {
+        if ( isset($this->_subparts) && count($this->_subparts)) {
             //$boundary = '=_' . md5(rand() . microtime());
             //srand((double)microtime()*1000000);
             // M.B. Outlook style parts
             if($part == 0) {
-              srand((double)microtime()*1000000);
+              srand(time());
               $s = md5(rand() . microtime());
               $boundaryString = substr($s, 0, 4);
               $boundaryString .= "_".substr($s, 4, 8);
@@ -385,7 +385,8 @@ class Mail_mimePart {
         $escape = '=';
         $output = '';
 
-        while (list(, $line) = each($lines)) {
+        foreach($lines as $key => $line) {
+        #while (list(, $line) = each($lines)) {
 
             $line    = preg_split('||', $line, -1, PREG_SPLIT_NO_EMPTY);
             $linlen     = count($line);
@@ -515,11 +516,11 @@ class Mail_mimePart {
                     //suffix variable so that we can concat the encoded string and
                     //the double quotes back together to get the intended string.
                     $quotePrefix = $quoteSuffix = '';
-                    if ($hdr_value{0} == '"') {
+                    if ($hdr_value[0] == '"') {
                         $hdr_value = substr($hdr_value, 1);
                         $quotePrefix = '"';
                     }
-                    if ($hdr_value{strlen($hdr_value)-1} == '"') {
+                    if ($hdr_value[strlen($hdr_value)-1] == '"') {
                         $hdr_value = substr($hdr_value, 0, -1);
                         $quoteSuffix = '"';
                     }

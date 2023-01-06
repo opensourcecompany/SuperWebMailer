@@ -20,8 +20,8 @@
 //
 // $Id: SMTP.php,v 1.61 2008/02/11 03:00:33 jon Exp $
 
-require_once 'PEAR/PEAR_.php';
-require_once 'PEAR/Socket.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'PEAR_.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Socket.php';
 
 /**
  * Provides an implementation of the SMTP protocol using PEAR's
@@ -129,6 +129,8 @@ class Net_SMTP
      */
     var $_esmtp = array();
 
+    var $_SSLConnectionEstablished = false;
+
     /**
      * Instantiates a new Net_SMTP object, overriding any defaults
      * with parameters that are passed in.
@@ -168,7 +170,7 @@ class Net_SMTP
         /* Include the Auth_SASL package.  If the package is not
          * available, we disable the authentication methods that
          * depend upon it. */
-        if ((@include_once 'PEAR/SASL.php') === false) {
+        if ((@include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'SASL.php') === false) {
             $pos = array_search('DIGEST-MD5', $this->auth_methods);
             unset($this->auth_methods[$pos]);
             $pos = array_search('CRAM-MD5', $this->auth_methods);
@@ -180,6 +182,11 @@ class Net_SMTP
     {
       self::__construct($host, $port, $localhost, $pipelining, $SSLConnection);
     }
+
+    function __destruct(){
+       $this->disconnect();
+    }
+
     /**
      * Set the value of the debugging flag.
      *
@@ -341,7 +348,8 @@ class Net_SMTP
         if (is_int($valid) && ($this->_code === $valid)) {
             return true;
         } elseif (is_array($valid)) {
-            return in_array($this->_code, $valid, true);
+            if(in_array($this->_code, $valid, true))
+              return true;
         }
 
         return PEARraiseError('Invalid response code received from server',
@@ -383,6 +391,7 @@ class Net_SMTP
           $this->_WriteToDebugFile("Connect");
         }
 
+        $this->_SSLConnectionEstablished = false;
         $ssl = $this->SSLConnection;
 
         if($ssl && ($this->port == 25 || $this->port == 587) )
@@ -531,6 +540,44 @@ class Net_SMTP
             $this->pipelining = false;
         }
 
+        if ( !$this->_SSLConnectionEstablished && ( (extension_loaded('openssl') && isset($this->_esmtp['STARTTLS']))
+            && $this->SSLConnection && strncasecmp($this->host, 'ssl://', 6) !== 0 ) ) {
+            if (version_compare(PHP_VERSION, '5.1.0', '>=')) {
+                if (!isset($this->_esmtp['STARTTLS'])) {
+                    return PEARraiseError('SMTP server does not support authentication');
+                }
+                if (IsPEARError($result = $this->_put('STARTTLS'))) {
+                    return $result;
+                }
+                if (IsPEARError($result = $this->_parseResponse(220))) {
+                    return $result;
+                }
+                $crypto_method = STREAM_CRYPTO_METHOD_TLS_CLIENT; # before PHP 5.6.7 it includes all TLS versions, after than TLSv1 only
+                if (defined('STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT')) {
+                   $crypto_method |= STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+                   $crypto_method |= STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT;
+                }
+                if (defined('STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT')) {
+                   $crypto_method |= STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT;
+                }
+                if (IsPEARError($result = $this->_socket->enableCrypto(true, $crypto_method))) {
+                    return $result;
+                } elseif ($result !== true) {
+                    return PEARraiseError('STARTTLS failed');
+                }
+
+                /* Send EHLO again to recieve the AUTH string from the
+                 * SMTP server. */
+
+                $this->_SSLConnectionEstablished = true;
+
+                $this->_negotiate();
+
+            } else {
+                return PEARraiseError('PHP doesn\'t support SSL.');
+            }
+        }
+
         return true;
     }
 
@@ -573,7 +620,7 @@ class Net_SMTP
     function auth($uid, $pwd , $method = '')
     {
         if (empty($this->_esmtp['AUTH']) || ( (extension_loaded('openssl') && isset($this->_esmtp['STARTTLS']))
-            && $this->SSLConnection && strncasecmp($this->host, 'ssl://', 6) !== 0 ) ) {
+            && $this->SSLConnection && strncasecmp($this->host, 'ssl://', 6) !== 0 ) && !$this->_SSLConnectionEstablished ) {
             if (version_compare(PHP_VERSION, '5.1.0', '>=')) {
                 if (!isset($this->_esmtp['STARTTLS'])) {
                     return PEARraiseError('SMTP server does not support authentication');
@@ -584,7 +631,15 @@ class Net_SMTP
                 if (IsPEARError($result = $this->_parseResponse(220))) {
                     return $result;
                 }
-                if (IsPEARError($result = $this->_socket->enableCrypto(true, STREAM_CRYPTO_METHOD_TLS_CLIENT))) {
+                $crypto_method = STREAM_CRYPTO_METHOD_TLS_CLIENT; # before PHP 5.6.7 it includes all TLS versions, after than TLSv1 only
+                if (defined('STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT')) {
+                   $crypto_method |= STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+                   $crypto_method |= STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT;
+                }
+                if (defined('STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT')) {
+                   $crypto_method |= STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT;
+                }
+                if (IsPEARError($result = $this->_socket->enableCrypto(true, $crypto_method))) {
                     return $result;
                 } elseif ($result !== true) {
                     return PEARraiseError('STARTTLS failed');
@@ -597,7 +652,7 @@ class Net_SMTP
                     return PEARraiseError('SMTP server does not support authentication');
                 }
             } else {
-                return PEARraiseError('SMTP server does not support authentication');
+                return PEARraiseError('PHP doesn\'t support SSL.');
             }
         }
 

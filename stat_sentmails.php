@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -29,150 +29,150 @@
  include_once("mailer.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeMailsSentStatBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeMailsSentStatBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  $_If0Ql = "'%d.%m.%Y'";
+  $_j01CJ = "'%d.%m.%Y'";
   if($INTERFACE_LANGUAGE != "de") {
-     $_If0Ql = "'%Y-%m-%d'";
+     $_j01CJ = "'%Y-%m-%d'";
   }
 
-  $_I0600 = "";
+  $_Itfj8 = "";
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000730"], $_I0600, 'stat_sentmails', 'mailssentstat_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000730"], $_Itfj8, 'stat_sentmails', 'mailssentstat_snipped.htm');
 
   // language
-  $_QJCJi = str_replace('ChangeLanguageCode("de");', 'ChangeLanguageCode("'.$INTERFACE_LANGUAGE.'");', $_QJCJi);
+  $_QLJfI = str_replace('ChangeLanguageCode("de");', 'ChangeLanguageCode("'.$INTERFACE_LANGUAGE.'");', $_QLJfI);
   // use ever yyyy-mm-dd
-  $_If0Ql = "'%d.%m.%Y'";
-  $_Jlj0J = "'%Y-%m-%d'";
+  $_j01CJ = "'%d.%m.%Y'";
+  $_fJtjj = "'%Y-%m-%d'";
   if($INTERFACE_LANGUAGE != "de") {
-     $_QJCJi = str_replace("'dd.mm.yyyy'", "'yyyy-mm-dd'", $_QJCJi);
-     $_If0Ql = "'%Y-%m-%d'";
+     $_QLJfI = str_replace("'dd.mm.yyyy'", "'yyyy-mm-dd'", $_QLJfI);
+     $_j01CJ = "'%Y-%m-%d'";
   }
 
   if( !isset($_POST["startdate"]) || !isset($_POST["enddate"]) ) {
-    $_QJlJ0 = "SELECT DATE_FORMAT(CONCAT(YEAR(NOW()), '-', MONTH(NOW()), '-', '1'), $_If0Ql) ";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_jC18j = mysql_fetch_row($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT DATE_FORMAT(CONCAT(YEAR(NOW()), '-', MONTH(NOW()), '-', '1'), $_j01CJ) ";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Joi6C = mysql_fetch_row($_QL8i1);
+    mysql_free_result($_QL8i1);
 
     if ( !isset($_POST["startdate"]) )
-       $_POST["startdate"] = $_jC18j[0];
+       $_POST["startdate"] = $_Joi6C[0];
 
 
-    for($_Q6llo=31; $_Q6llo>27; $_Q6llo--) { #31, 30, 29, 28
-      $_QJlJ0 = "SELECT DATE_FORMAT(CONCAT(YEAR(NOW()), '-', MONTH(NOW()), '-', '$_Q6llo'), $_If0Ql) ";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
-      $_jC18j = mysql_fetch_row($_Q60l1);
-      mysql_free_result($_Q60l1);
-      if($_jC18j[0] != NULL) break;
+    for($_Qli6J=31; $_Qli6J>27; $_Qli6J--) { #31, 30, 29, 28
+      $_QLfol = "SELECT DATE_FORMAT(CONCAT(YEAR(NOW()), '-', MONTH(NOW()), '-', '$_Qli6J'), $_j01CJ) ";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      $_Joi6C = mysql_fetch_row($_QL8i1);
+      mysql_free_result($_QL8i1);
+      if($_Joi6C[0] != NULL) break;
     }
 
     if ( !isset($_POST["enddate"]) )
-       $_POST["enddate"] = $_jC18j[0];
+       $_POST["enddate"] = $_Joi6C[0];
   }
 
-  $_QJCJi = str_replace('name="startdate"', 'name="startdate" value="'.$_POST["startdate"].'"', $_QJCJi);
-  $_QJCJi = str_replace('name="enddate"', 'name="enddate" value="'.$_POST["enddate"].'"', $_QJCJi);
+  $_QLJfI = str_replace('name="startdate"', 'name="startdate" value="'.$_POST["startdate"].'"', $_QLJfI);
+  $_QLJfI = str_replace('name="enddate"', 'name="enddate" value="'.$_POST["enddate"].'"', $_QLJfI);
 
   // *********** Period statistics
-  $_jC1lo = "";
-  $_jCQ0I = "";
+  $_JoiCQ = "";
+  $_JoL0L = "";
 
   if($INTERFACE_LANGUAGE != "de") {
-    $_jC1lo = $_POST["startdate"];
-    $_jCQ0I = $_POST["enddate"];
+    $_JoiCQ = $_POST["startdate"];
+    $_JoL0L = $_POST["enddate"];
   } else {
-    $_Q8otJ = explode('.', $_POST["startdate"]);
-    $_jC1lo = $_Q8otJ[2]."-".$_Q8otJ[1]."-".$_Q8otJ[0];
-    $_Q8otJ = explode('.', $_POST["enddate"]);
-    $_jCQ0I = $_Q8otJ[2]."-".$_Q8otJ[1]."-".$_Q8otJ[0];
+    $_I1OoI = explode('.', $_POST["startdate"]);
+    $_JoiCQ = $_I1OoI[2]."-".$_I1OoI[1]."-".$_I1OoI[0];
+    $_I1OoI = explode('.', $_POST["enddate"]);
+    $_JoL0L = $_I1OoI[2]."-".$_I1OoI[1]."-".$_I1OoI[0];
   }
 
-  $_QLLjo = array();
-  _OAJL1($_jJ6f0, $_QLLjo, array("id", "MailDate"));
+  $_Iflj0 = array();
+  _L8EOB($_JQQiJ, $_Iflj0, array("id", "MailDate"));
 
-  $_I16jJ = array();
-  for($_Q6llo=0; $_Q6llo<count($_QLLjo); $_Q6llo++) {
-    if($_QLLjo[$_Q6llo] != "EventResponderEMailCount" && $_QLLjo[$_Q6llo] != "EditConfirmedMailCount")
-       $_I16jJ[] = "SUM($_QLLjo[$_Q6llo]) AS SUM". strtoupper( $_QLLjo[$_Q6llo] );
+  $_IOJoI = array();
+  for($_Qli6J=0; $_Qli6J<count($_Iflj0); $_Qli6J++) {
+    if($_Iflj0[$_Qli6J] != "EventResponderEMailCount" && $_Iflj0[$_Qli6J] != "EditConfirmedMailCount")
+       $_IOJoI[] = "SUM($_Iflj0[$_Qli6J]) AS SUM". strtoupper( $_Iflj0[$_Qli6J] );
   }
-  $_I16jJ = join(", ", $_I16jJ);
+  $_IOJoI = join(", ", $_IOJoI);
 
-  $_QJlJ0 = "SELECT $_I16jJ FROM $_jJ6f0 WHERE (MailDate >= "._OPQLR($_jC1lo).") AND (MailDate <= "._OPQLR($_jCQ0I).")";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_6lClf = 0;
-  foreach($_QL8Q8 as $key => $_Q6ClO){
-     if($_Q6ClO == NULL) {
-       $_Q6ClO = 0;
-       $_QL8Q8[$key] = $_Q6ClO;
+  $_QLfol = "SELECT $_IOJoI FROM $_JQQiJ WHERE (MailDate >= "._LRAFO($_JoiCQ).") AND (MailDate <= "._LRAFO($_JoL0L).")";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_8tfO1 = 0;
+  foreach($_Ift08 as $key => $_QltJO){
+     if($_QltJO == NULL) {
+       $_QltJO = 0;
+       $_Ift08[$key] = $_QltJO;
      }
-     $_6lClf += $_Q6ClO;
-     $_QJCJi = _OPR6L($_QJCJi, '<LIST:'.$key.'>', '</LIST:'.$key.'>', $_Q6ClO);
+     $_8tfO1 += $_QltJO;
+     $_QLJfI = _L81BJ($_QLJfI, '<LIST:'.$key.'>', '</LIST:'.$key.'>', $_QltJO);
   }
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:SUMMAILSSENT>', '</LIST:SUMMAILSSENT>', $_6lClf);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:SUMMAILSSENT>', '</LIST:SUMMAILSSENT>', $_8tfO1);
 
 
   //
 
   // addCultureInfo
   include_once("chartcultureinfo.inc.php");
-  $_QJCJi = addCultureInfo($_QJCJi);
+  $_QLJfI = addCultureInfo($_QLJfI);
   // addCultureInfo /
 
   # Set chart attributes
-  $_QJCJi = str_replace("SENTMAILSTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000731"], $_Q6QQL), $_QJCJi);
-  $_QJCJi = str_replace("SENTMAILSAXISXTITLE", "", $_QJCJi);
-  $_QJCJi = str_replace("SENTMAILSAXISYTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Quantity"], $_Q6QQL), $_QJCJi);
+  $_QLJfI = str_replace("SENTMAILSTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000731"], $_QLo06), $_QLJfI);
+  $_QLJfI = str_replace("SENTMAILSAXISXTITLE", "", $_QLJfI);
+  $_QLJfI = str_replace("SENTMAILSAXISYTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Quantity"], $_QLo06), $_QLJfI);
 
-  $_jCfit = array();
-  reset($_QL8Q8);
-  $_jC6QL = 0;
-  foreach($_QL8Q8 as $key => $_Q6ClO){
+  $_JCQoQ = array();
+  reset($_Ift08);
+  $_JolCi = 0;
+  foreach($_Ift08 as $key => $_QltJO){
     if(!defined("SWM")) {
       if($key == strtoupper("SUMTestEMailCount") || $key == strtoupper("SUMAdminNotifyMailCount") || $key == strtoupper("SUMOptInConfirmationMailCount") || $key == strtoupper("SUMOptInConfirmedMailCount")
          || $key == strtoupper("SUMOptOutConfirmationMailCount") || $key == strtoupper("SUMOptOutConfirmedMailCount") || $key == strtoupper("SUMEditConfirmationMailCount") || $key == strtoupper("SUMEditConfirmedMailCount") ) {
-           $_jC6IQ = array("label" => $resourcestrings[$INTERFACE_LANGUAGE][ strtoupper($key) ], "y" => $_Q6ClO, "indexLabelFontSize" => "16", "indexLabel" => "{y}");
-           $_jCfit[] = $_jC6IQ;
-           if($_Q6ClO > $_jC6QL)
-             $_jC6QL = $_Q6ClO;
+           $_JC0jO = array("label" => $resourcestrings[$INTERFACE_LANGUAGE][ strtoupper($key) ], "y" => $_QltJO, "indexLabelFontSize" => "16", "indexLabel" => "{y}");
+           $_JCQoQ[] = $_JC0jO;
+           if($_QltJO > $_JolCi)
+             $_JolCi = $_QltJO;
          }
     }
     if(defined("SWM")) {
-      $_jC6IQ = array("label" => $resourcestrings[$INTERFACE_LANGUAGE][ strtoupper($key) ], "y" => $_Q6ClO, "indexLabelFontSize" => "16", "indexLabel" => "{y}");
-      $_jCfit[] = $_jC6IQ;
-      if($_Q6ClO > $_jC6QL)
-         $_jC6QL = $_Q6ClO;
+      $_JC0jO = array("label" => $resourcestrings[$INTERFACE_LANGUAGE][ strtoupper($key) ], "y" => $_QltJO, "indexLabelFontSize" => "16", "indexLabel" => "{y}");
+      $_JCQoQ[] = $_JC0jO;
+      if($_QltJO > $_JolCi)
+         $_JolCi = $_QltJO;
     }
     if(!defined("SWM") && $key == "SUMDISTRIBLISTEMAILCOUNT") {
-      $_jC6IQ = array("label" => $resourcestrings[$INTERFACE_LANGUAGE][ strtoupper($key) ], "y" => $_Q6ClO, "indexLabelFontSize" => "16", "indexLabel" => "{y}");
-      $_jCfit[] = $_jC6IQ;
-      if($_Q6ClO > $_jC6QL)
-         $_jC6QL = $_Q6ClO;
+      $_JC0jO = array("label" => $resourcestrings[$INTERFACE_LANGUAGE][ strtoupper($key) ], "y" => $_QltJO, "indexLabelFontSize" => "16", "indexLabel" => "{y}");
+      $_JCQoQ[] = $_JC0jO;
+      if($_QltJO > $_JolCi)
+         $_JolCi = $_QltJO;
     }
   }
 
-  $_QJCJi = str_replace("/* SENTMAILS_DATA */", _OCR88($_jCfit, JSON_NUMERIC_CHECK), $_QJCJi);
+  $_QLJfI = str_replace("/* SENTMAILS_DATA */", _LAFFB($_JCQoQ, JSON_NUMERIC_CHECK), $_QLJfI);
 
-  if($_jC6QL < 10){
+  if($_JolCi < 10){
      // set interval 1
-     $_QJCJi = str_replace("/*SENTMAILSCHARTINTERVAL", "", $_QJCJi);
-     $_QJCJi = str_replace("SENTMAILSCHARTINTERVAL*/", "", $_QJCJi);
+     $_QLJfI = str_replace("/*SENTMAILSCHARTINTERVAL", "", $_QLJfI);
+     $_QLJfI = str_replace("SENTMAILSCHARTINTERVAL*/", "", $_QLJfI);
   }
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 ?>

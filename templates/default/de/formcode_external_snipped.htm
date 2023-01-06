@@ -40,7 +40,9 @@
         line-height: normal;
        }
 
-       /*textarea{max-width: 900px}*/
+       .ipe_edit {
+       	float:none;
+       }
 
        textarea {width: 80%;}
        textarea { word-break: break-all; -ms-word-break: break-all;}
@@ -56,10 +58,13 @@
       <!--
          var rsMoveItem = 'Verschieben';
          var rsDeleteItem = 'L&ouml;schen';
+         var rsEditItem = '&Auml;ndern';
          var rsHTMLSortableBtnSort = 'Felder umsortieren';
          var rsHTMLSortableBtnHTML = 'HTML-Code zeigen';
          var rsYes = "Ja";
          var rsNo = "Nein";
+         rsApply = '&Uuml;bernehmen';
+         rsCancel = 'Abbrechen';
       //-->
       </script>
       <noscript></noscript>
@@ -198,6 +203,14 @@
       <script language="javascript" type="text/javascript">
 
 
+         function html_entity_decode( string ) {
+             var ret, tarea = document.createElement('textarea');
+             tarea.innerHTML = string;
+             ret = tarea.value;
+             try {tarea.removeNode(false);}catch(e) {}
+             return ret;
+         }
+
         function ShowAsSortableHTML(){
          var AItem = document.getElementById("HTMLCode");
          if(AItem.style.display == ""){
@@ -225,10 +238,23 @@
              $(this).find("td:first").append('<span class="ipe_delete ui-button ui-icon ui-icon-trash ui-state-default ui-corner-all" title="' + rsDeleteItem + '"></span>');
            });
 
+           $("label[name='RecipientGroups']").each(function(){
+             $(this).before('<span class="ipe_edit ui-button ui-icon ui-icon-pencil ui-state-default ui-corner-all" title="' + rsEditItem + '" for="' + $(this).prop('for') + '"></span>');
+             $(this).addClass("ipe_edititem");
+           });
 
            // prevent submitting form
            $( ".HTMLCode" ).find("input, select").each(function(){
              $(this).attr("disabled", "disabled");
+           });
+
+           $( ".HTMLCode" ).find("a").each(function(){
+             $(this).click(
+               function(e){
+                 e.preventDefault();
+                 return false;
+               }
+             );
            });
 
            $( ".HTMLCode" ).find(".g-recaptcha").each(function(){
@@ -300,6 +326,81 @@
           	});
 
 
+           $("#sort").find(".ipe_edit, .ipe_edititem").off('hover');
+          	$("#sort").find(".ipe_edit").hover(
+          			function(e){
+              $(this).next().addClass('ui-state-hover');
+          			}
+          			,
+          			function(e){
+          				$(this).next().removeClass('ui-state-hover');
+          			}
+          	);
+
+          	$("#sort").find(".ipe_edititem").hover(
+          			function(e){
+              $(this).addClass('ui-state-hover');
+          			}
+          			,
+          			function(e){
+          				$(this).removeClass('ui-state-hover');
+          			}
+          	);
+
+          	$("#sort").find(".ipe_edit, .ipe_edititem").off('click');
+          	$("#sort").find(".ipe_edit, .ipe_edititem").click(function(e){
+            e.stopPropagation();
+
+            if( $(this).prop("tagName") == "SPAN" )
+               var labelText = $(this).next()
+               else
+               var labelText = $(this);
+
+            $( "#dialog-singleline" ).dialog( "destroy" );
+            $( "#dialog-singleline" ).dialog({
+          			resizable: false,
+          			modal: true,
+          			width: 600,
+             close: function() {
+                      labelText.removeClass("ipe_hover");
+                    }
+          		});
+
+            $( "#dialog-singleline" ).find('input').keypress(function(e) {
+            	if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+            		$(this).parent().parent().parent().parent().find('.ui-dialog-buttonpane').find('button:first').click(); /* Assuming the first one is the action button */
+            		return false;
+            	}
+            });
+
+            $( "#singleline" ).val( labelText.text().trimRight() );
+
+
+            $( "#dialog-singleline" ).dialog( "option", "buttons", [
+              {
+                  text: html_entity_decode(rsApply),
+                  click: function() {
+                                       labelText.removeClass("ipe_hover");
+                                       $(this).dialog("close");
+
+                                      	labelText.text( $( "#singleline" ).val().trimRight() );
+
+                                    }
+              },
+
+              {
+                  text: rsCancel,
+                  click: function() {
+                                       labelText.removeClass("ipe_hover");
+                                       $(this).dialog("close");
+
+                                    }
+              }
+
+            ] );
+
+          	});
+
 
            $("#sort tbody").sortable('destroy');
 
@@ -342,8 +443,12 @@
            $("#sort tbody").sortable('destroy');
            
            // span remove
-           $( ".HTMLCode" ).find(".ipe_move, .ipe_delete").each(function(){
+           $( ".HTMLCode" ).find(".ipe_move, .ipe_delete, .ipe_edit").each(function(){
              $(this).remove();
+           });
+
+           $( ".HTMLCode" ).find(".ipe_edititem").each(function(){
+             $(this).attr("class", null);
            });
 
            $( ".HTMLCode" ).find(".g-recaptcha").each(function(){
@@ -415,5 +520,14 @@
     <br />
     Sollten Sie ein Pflichtfeld l&ouml;schen, dann wird das Formular m&ouml;glicherweise nicht mehr funktionieren.
    </p>
+  </div>
+
+  <div id="dialog-singleline" title="Bezeichnung &auml;ndern">
+  	<form name="SingleLineEditForm" id="SingleLineEditForm">
+  	<fieldset>
+    <label for="singleline" id="labelForSingleline">Bezeichnung</label>
+  		<input type="text" name="singleline" id="singleline" class="text ui-widget-content ui-corner-all" maxlength="255" style="width: 99%" />
+  	</fieldset>
+  	</form>
   </div>
 </div>

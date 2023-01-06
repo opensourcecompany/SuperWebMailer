@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,160 +26,214 @@
   include_once("savedoptions.inc.php");
   include_once("login_page.inc.php");
 
-  $INTERFACE_LANGUAGE = _OE6OA();
+  $MaxLoginAttempts = 5;
+  if(defined("MaxLoginAttempts"))
+    $MaxLoginAttempts = MaxLoginAttempts;
+
+  $_6l6Jt = new FailedLogins();
+
+  $INTERFACE_LANGUAGE = _LDBCJ();
   if( empty($INTERFACE_LANGUAGE) )
      $INTERFACE_LANGUAGE = "de";
 
-  _LQLRQ($INTERFACE_LANGUAGE);
+  _JQRLR($INTERFACE_LANGUAGE);
 
   if(count($_GET) > 0 && !empty($_GET["resetpassword"])){
-      print _L0EQC($_GET["resetpassword"]);
+      print _J11OQ($_GET["resetpassword"]);
       exit;
+  }
+
+  if($_6l6Jt->_LDCEA() > $MaxLoginAttempts){
+    $_6l6Jt->_LDCBL();
+    print GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], $resourcestrings[$INTERFACE_LANGUAGE]["000000"], 'DISABLED', 'pw_reminder_snipped.htm');
+    die;
   }
 
   if (count($_POST) == 0) {
     print GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], '', 'DISABLED', 'pw_reminder_snipped.htm');
-    exit;
+    die;
   }
 
   if ( ((!isset($_POST['Username'])) || ($_POST['Username'] == "") ) && ((!isset($_POST['EMail'])) || ($_POST['EMail'] == "")  ) ) {
-    $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], $resourcestrings[$INTERFACE_LANGUAGE]["000010"], 'DISABLED', 'pw_reminder_snipped.htm');
+    $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], $resourcestrings[$INTERFACE_LANGUAGE]["000010"], 'DISABLED', 'pw_reminder_snipped.htm');
     $_POST['Username'] = "";
     $_POST['EMail'] = "";
-    $_Q8otJ = array();
-    $_QJCJi = _OPFJA($_Q8otJ, $_POST, $_QJCJi);
-    print $_QJCJi;
-    exit;
+    $_I1OoI = array();
+    $_QLJfI = _L8AOB($_I1OoI, $_POST, $_QLJfI);
+    print $_QLJfI;
+    $_6l6Jt->_LDCBL();
+    die;
   }
 
-  $_QJlJ0 = "SELECT `id`, `IsActive`, `Username`, `EMail` FROM `$_Q8f1L` WHERE ";
+  $_QLfol = "SELECT `AuthType` FROM `$_JQ00O` LIMIT 0,1";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_I1jfC = mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
+
+  $_QLfol = "SELECT `id`, `IsActive`, `Username`, `EMail`, `UserType`, `MTAsTableName` FROM `$_I18lo` WHERE ";
   if ( isset($_POST['Username']) && ($_POST['Username'] != "") ) {
-       $_QJlJ0 .= "Username="._OPQLR($_POST["Username"]);
-       $_6J6iQ = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000011"], _OPQLR( htmlentities( $_POST["Username"] ) ));
+       $_QLfol .= "Username="._LRAFO($_POST["Username"]);
+       $_JO0lI = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000011"], _LRAFO( htmlentities( $_POST["Username"] ) ));
      }
      else {
-       $_QJlJ0 .= "EMail="._OPQLR($_POST["EMail"]);
-       $_6J6iQ = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000012"], _OPQLR( htmlentities( $_POST["EMail"]) ));
+       $_QLfol .= "EMail="._LRAFO($_POST["EMail"]);
+       $_JO0lI = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000012"], _LRAFO( htmlentities( $_POST["EMail"]) ));
      }
 
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
+  if($_I1jfC["AuthType"] == "ldap")
+     $_QLfol .= " AND `UserType`='SuperAdmin'";
 
-  if ( (!$_Q60l1) || (mysql_num_rows($_Q60l1) == 0) ) {
-    $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], $_6J6iQ, 'DISABLED', 'pw_reminder_snipped.htm');
+
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+
+  if ( (!$_QL8i1) || (mysql_num_rows($_QL8i1) == 0) ) {
+    $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], $_JO0lI, 'DISABLED', 'pw_reminder_snipped.htm');
     $_POST['Username'] = "";
     $_POST['EMail'] = "";
-    $_Q8otJ = array('Username', 'EMail');
-    $_QJCJi = _OPFJA($_Q8otJ, $_POST, $_QJCJi);
-    print $_QJCJi;
-    exit;
+    $_I1OoI = array('Username', 'EMail');
+    $_QLJfI = _L8AOB($_I1OoI, $_POST, $_QLJfI);
+    print $_QLJfI;
+    $_6l6Jt->_LDCBL();
+    die;
   }
 
-  $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_QLO0f = mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
 
-  if(!$_Q6Q1C["IsActive"]){
-    $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], $resourcestrings[$INTERFACE_LANGUAGE]["AccountDisabled"], 'DISABLED', 'pw_reminder_snipped.htm');
-    $_Q8otJ = array('Username', 'EMail');
-    $_QJCJi = _OPFJA($_Q8otJ, $_POST, $_QJCJi);
-    print $_QJCJi;
-    exit;
+  if(!$_QLO0f["IsActive"]){
+    $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], $resourcestrings[$INTERFACE_LANGUAGE]["AccountDisabled"], 'DISABLED', 'pw_reminder_snipped.htm');
+    $_I1OoI = array('Username', 'EMail');
+    $_QLJfI = _L8AOB($_I1OoI, $_POST, $_QLJfI);
+    print $_QLJfI;
+    die;
   }
 
-  $_jtjL8 = join("", file(_O68QF()."pw_link.txt"));
-  $_jtjL8 = str_replace('[USERNAME]', $_Q6Q1C["Username"], $_jtjL8);
-  $_jtjL8 = str_replace('[IP]', getOwnIP(), $_jtjL8);
-  $_jJtt0 = "-";
+  // is it a user than we need the MTAsTableName from owner_id
+  if($_QLO0f["UserType"] == 'User'){
+    $_QLfol = "SELECT `owner_id` FROM `$_IfOtC` WHERE `users_id`=$_QLO0f[id]";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if ( $_QL8i1 ) {
+      if($_I016j = mysql_fetch_row($_QL8i1)){
+        mysql_free_result($_QL8i1);
+        $_QLfol = "SELECT `MTAsTableName` FROM `$_I18lo` WHERE id=" . $_I016j[0];
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        if($_QL8i1){
+          if($_I016j = mysql_fetch_row($_QL8i1))
+            $_QLO0f["MTAsTableName"] = $_I016j[0];
+          mysql_free_result($_QL8i1);
+        }
+      }else
+        mysql_free_result($_QL8i1);
+    } 
+  }
+
+  
+  $_J6t80 = join("", file(_LOC8P()."pw_link.txt"));
+  $_J6t80 = str_replace('[USERNAME]', $_QLO0f["Username"], $_J6t80);
+  $_J6t80 = str_replace('[IP]', getOwnIP(false), $_J6t80);
+  $_JQjlt = "-";
   if(!empty($_SERVER['HTTP_USER_AGENT']))
-     $_jJtt0 = $_SERVER['HTTP_USER_AGENT'];
-  $_jtjL8 = str_replace('[UserAgent]', $_jJtt0, $_jtjL8);
+     $_JQjlt = $_SERVER['HTTP_USER_AGENT'];
+  $_J6t80 = str_replace('[UserAgent]', $_JQjlt, $_J6t80);
 
-  $_6Jff6 = "";
-  mt_srand((double)microtime()*1000000);
-  $_IflL6 = mt_rand(8, 16);
+  $UserId = $_QLO0f["id"];
 
-  for ($_Q6llo = 0; $_Q6llo < $_IflL6; $_Q6llo++) {
-    do {
-     $_QL8Q8 = chr(mt_rand(48, 122));
-    } while ( ($_QL8Q8 == '`') || ($_QL8Q8 == "'") || ($_QL8Q8 == "+") || ($_QL8Q8 == '"') || ($_QL8Q8 == "%") || ($_QL8Q8 == "&") || ($_QL8Q8 == "*") || ($_QL8Q8 == "?") || ($_QL8Q8 == "\\") || ($_QL8Q8 == '/') || ($_QL8Q8 == '"') || ($_QL8Q8 == '~') || ($_QL8Q8 == '{') || ($_QL8Q8 == '}') || ($_QL8Q8 == '[') || ($_QL8Q8 == ']') || ($_QL8Q8 == '_') );
-    $_6Jff6 .= $_QL8Q8;
-  }
+  $_fCLlQ = $UserId._LBQB1(24);
 
-
-  $UserId = $_Q6Q1C["id"];
-  _LQC66("passwordreset", $_6Jff6);
+  _JOOFF("passwordreset", $_fCLlQ);
   $UserId = 0;
 
-  $_IfOt1 = ScriptBaseURL."pw_reminder.php?resetpassword=".rawurlencode($_6Jff6);
-  $_jtjL8 = str_replace('[LINK]', $_IfOt1, $_jtjL8);
+  $_j1IO0 = ScriptBaseURL."pw_reminder.php?resetpassword=".rawurlencode($_fCLlQ);
+  $_J6t80 = str_replace('[LINK]', $_j1IO0, $_J6t80);
 
 
-  if ( _OPEDJ($_Q6Q1C["EMail"], $_Q6Q1C["EMail"], $resourcestrings[$INTERFACE_LANGUAGE]["000013"], $_jtjL8, False)  ) {
-    $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], "", 'DISABLED', 'pw_reminder_sendlink_snipped.htm');
-    $_QJCJi = str_replace ('<!--TARGET_EMAIL//-->', $_Q6Q1C["EMail"], $_QJCJi);
+  if ( _L8P6B($_QLO0f["EMail"], $_QLO0f["EMail"], $resourcestrings[$INTERFACE_LANGUAGE]["000013"], $_J6t80, False, $_QLO0f["MTAsTableName"])  ) {
+    $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], "", 'DISABLED', 'pw_reminder_sendlink_snipped.htm');
+    $_QLJfI = str_replace ('<!--TARGET_EMAIL//-->', $_QLO0f["EMail"], $_QLJfI);
   } else {
-    $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], "", 'DISABLED', 'pw_reminder_notsendpw_snipped.htm');
-    $_QJCJi = str_replace ('<!--TARGET_EMAIL//-->', $_Q6Q1C["EMail"], $_QJCJi);
+    $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], "", 'DISABLED', 'pw_reminder_notsendpw_snipped.htm');
+    $_QLJfI = str_replace ('<!--TARGET_EMAIL//-->', $_QLO0f["EMail"], $_QLJfI);
   }
-  print $_QJCJi;
+  print $_QLJfI;
 
 
-  function _L0EQC($resetpassword) {
-    global $UserType, $UserId, $_Q8f1L, $_Q61I1, $resourcestrings, $INTERFACE_LANGUAGE;
+  function _J11OQ($resetpassword) {
+    global $UserType, $UserId, $_I18lo, $_IfOtC, $_QLttI, $resourcestrings, $INTERFACE_LANGUAGE;
 
-    $_QJlJ0 = "SELECT `id`, `IsActive`, `Username`, `EMail` FROM `$_Q8f1L` WHERE `passwordreset`="._OPQLR($resetpassword);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if ( (!$_Q60l1) || (mysql_num_rows($_Q60l1) == 0) ) {
-       $_6J6iQ = $resourcestrings[$INTERFACE_LANGUAGE]["PWReminderLinkNotFound"];
-       $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], $_6J6iQ, 'DISABLED', 'pw_reminder_snipped.htm');
-       return $_QJCJi;
+    $_QLfol = "SELECT `id`, `IsActive`, `Username`, `EMail`, `MTAsTableName`, `UserType` FROM `$_I18lo` WHERE `passwordreset`="._LRAFO($resetpassword);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if ( (!$_QL8i1) || (mysql_num_rows($_QL8i1) == 0) ) {
+       $_JO0lI = $resourcestrings[$INTERFACE_LANGUAGE]["PWReminderLinkNotFound"];
+       $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], $_JO0lI, 'DISABLED', 'pw_reminder_snipped.htm');
+       return $_QLJfI;
     }
 
 
-    $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_QLO0f = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
 
-    if(!$_Q6Q1C["IsActive"]){
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], $resourcestrings[$INTERFACE_LANGUAGE]["AccountDisabled"], 'DISABLED', 'pw_reminder_snipped.htm');
-      return $_QJCJi;
+    if(!$_QLO0f["IsActive"]){
+      $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], $resourcestrings[$INTERFACE_LANGUAGE]["AccountDisabled"], 'DISABLED', 'pw_reminder_snipped.htm');
+      return $_QLJfI;
     }
 
 
-    $_JJftl = "";
-    mt_srand((double)microtime()*1000000);
-    $_IflL6 = mt_rand(8, 16);
-
-    for ($_Q6llo = 0; $_Q6llo < $_IflL6; $_Q6llo++) {
-      do {
-       $_QL8Q8 = chr(mt_rand(48, 122));
-      } while ( ($_QL8Q8 == '`') || ($_QL8Q8 == "'") || ($_QL8Q8 == "+") || ($_QL8Q8 == '"') || ($_QL8Q8 == "%") || ($_QL8Q8 == "&") || ($_QL8Q8 == "*") || ($_QL8Q8 == "?") || ($_QL8Q8 == "\\") || ($_QL8Q8 == '/') || ($_QL8Q8 == '"') || ($_QL8Q8 == '~') || ($_QL8Q8 == '{') || ($_QL8Q8 == '}') || ($_QL8Q8 == '[') || ($_QL8Q8 == ']') || ($_QL8Q8 == '_') );
-      $_JJftl .= $_QL8Q8;
+    // is it a user than we need the MTAsTableName from owner_id
+    if($_QLO0f["UserType"] == 'User'){
+      $_QLfol = "SELECT `owner_id` FROM `$_IfOtC` WHERE `users_id`=$_QLO0f[id]";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if ( $_QL8i1 ) {
+        if($_I016j = mysql_fetch_row($_QL8i1)){
+          mysql_free_result($_QL8i1);
+          $_QLfol = "SELECT `MTAsTableName` FROM `$_I18lo` WHERE id=" . $_I016j[0];
+          $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+          if($_QL8i1){
+            if($_I016j = mysql_fetch_row($_QL8i1))
+              $_QLO0f["MTAsTableName"] = $_I016j[0];
+            mysql_free_result($_QL8i1);
+          }
+        }else
+          mysql_free_result($_QL8i1);
+      } 
     }
+
+    $_fClLJ = array(",", ";", ":", "-", "#", ")", "(");
+    
+    mt_srand(time());
+    $_6foQC = $_QLO0f["id"] . $_fClLJ[mt_rand(0, count($_fClLJ) - 1)] . _LBQB1(16) . $_fClLJ[mt_rand(0, count($_fClLJ) - 1)];
+
     if(!defined("DEMO")) {
-      $_QlLOL = _OC1CF();
-      $_QJlJ0 = "UPDATE `$_Q8f1L` SET `Password`=CONCAT("._OPQLR($_QlLOL).", PASSWORD("._OPQLR($_QlLOL.$_JJftl).")), `passwordreset`="._OPQLR("")." WHERE `id`=$_Q6Q1C[id]";
-      mysql_query($_QJlJ0);
-      #_OAL8F($_QJlJ0);
-      $_Q6Q1C["Password"] = $_JJftl;
+      $_I8li6 = _LAPE1();
+      
+      $_It0IQ = version_compare(_LBL0A(), '8.0.11') >= 0;
+      
+      if(!$_It0IQ)
+        $_QLfol = "UPDATE `$_I18lo` SET `Password`=CONCAT("._LRAFO($_I8li6).", PASSWORD("._LRAFO($_I8li6.$_6foQC).")), `passwordreset`="._LRAFO("")." WHERE `id`=$_QLO0f[id]";
+        else
+        $_QLfol = "UPDATE `$_I18lo` SET `Password`=CONCAT("._LRAFO($_I8li6).", SHA2("._LRAFO($_I8li6.$_6foQC).", 224)), `passwordreset`="._LRAFO("")." WHERE `id`=$_QLO0f[id]";
+      mysql_query($_QLfol, $_QLttI);
+      #_L8D88($_QLfol);
+      $_QLO0f["Password"] = $_6foQC;
     } else
-      $_Q6Q1C["Password"] = "demo";
+      $_QLO0f["Password"] = "demo";
 
 
-    $_jtjL8 = join("", file(_O68QF()."pw_reminder.txt"));
-    $_jtjL8 = str_replace('[USERNAME]', $_Q6Q1C["Username"], $_jtjL8);
-    $_jtjL8 = str_replace('[PASSWORD]', $_Q6Q1C["Password"], $_jtjL8);
-    $_jtjL8 = str_replace('[IP]', getOwnIP(), $_jtjL8);
-    $_jJtt0 = "-";
+    $_J6t80 = join("", file(_LOC8P()."pw_reminder.txt"));
+    $_J6t80 = str_replace('[USERNAME]', $_QLO0f["Username"], $_J6t80);
+    $_J6t80 = str_replace('[PASSWORD]', $_QLO0f["Password"], $_J6t80);
+    $_J6t80 = str_replace('[IP]', getOwnIP(false), $_J6t80);
+    $_JQjlt = "-";
     if(!empty($_SERVER['HTTP_USER_AGENT']))
-       $_jJtt0 = $_SERVER['HTTP_USER_AGENT'];
-    $_jtjL8 = str_replace('[UserAgent]', $_jJtt0, $_jtjL8);
+       $_JQjlt = $_SERVER['HTTP_USER_AGENT'];
+    $_J6t80 = str_replace('[UserAgent]', $_JQjlt, $_J6t80);
 
-    if ( _OPEDJ($_Q6Q1C["EMail"], $_Q6Q1C["EMail"], $resourcestrings[$INTERFACE_LANGUAGE]["000013"], $_jtjL8, False)  ) {
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], "", 'DISABLED', 'pw_reminder_sendpw_snipped.htm');
-      $_QJCJi = str_replace ('<!--TARGET_EMAIL//-->', $_Q6Q1C["EMail"], $_QJCJi);
+    if ( _L8P6B($_QLO0f["EMail"], $_QLO0f["EMail"], $resourcestrings[$INTERFACE_LANGUAGE]["000013"], $_J6t80, False, $_QLO0f["MTAsTableName"])  ) {
+      $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], "", 'DISABLED', 'pw_reminder_sendpw_snipped.htm');
+      $_QLJfI = str_replace ('<!--TARGET_EMAIL//-->', $_QLO0f["EMail"], $_QLJfI);
     } else {
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], "", 'DISABLED', 'pw_reminder_notsendpw_snipped.htm');
-      $_QJCJi = str_replace ('<!--TARGET_EMAIL//-->', $_Q6Q1C["EMail"], $_QJCJi);
+      $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000008"], "", 'DISABLED', 'pw_reminder_notsendpw_snipped.htm');
+      $_QLJfI = str_replace ('<!--TARGET_EMAIL//-->', $_QLO0f["EMail"], $_QLJfI);
     }
-    return $_QJCJi;
+    return $_QLJfI;
   }
 ?>

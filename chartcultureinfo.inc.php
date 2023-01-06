@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -22,31 +22,31 @@
 #                                                                           #
 #############################################################################
 
-function addCultureInfo($_jjfl8){
- global $INTERFACE_LANGUAGE, $MonthNumToMonthName, $_Q6QQL, $INTERFACE_LANGUAGE, $resourcestrings;
+function addCultureInfo($_J1jol){
+ global $INTERFACE_LANGUAGE, $MonthNumToMonthName, $_QLo06, $INTERFACE_LANGUAGE, $resourcestrings;
 
   if($INTERFACE_LANGUAGE != "en") {
-    $_jj8fI = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
-    foreach($_jj8fI as $key => $_Q6ClO) {
-      $_jj8fI[$key] = '"'.unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE][$_Q6ClO], $_Q6QQL).'"';
+    $_J1jCO = array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+    foreach($_J1jCO as $key => $_QltJO) {
+      $_J1jCO[$key] = '"'.unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE][$_QltJO], $_QLo06).'"';
     }
 
-    $_jjt6o = $MonthNumToMonthName;
-    foreach($_jjt6o as $key => $_Q6ClO) {
-      $_jjt6o[$key] = '"'.unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE][$_Q6ClO], $_Q6QQL).'"';
+    $_J1Jjl = $MonthNumToMonthName;
+    foreach($_J1Jjl as $key => $_QltJO) {
+      $_J1Jjl[$key] = '"'.unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE][$_QltJO], $_QLo06).'"';
     }
 
-    $_jjOJO = ".";
-    $_jjojo = ",";
+    $_J1Jo8 = ".";
+    $_J16tj = ",";
 
     if(function_exists("localeconv")){
-      $_jjofl = localeconv();
-      $_jjOJO = $_jjofl["decimal_point"];
-      $_jjojo = $_jjofl["thousands_sep"];
+      $_J16l1 = localeconv();
+      $_J1Jo8 = $_J16l1["decimal_point"];
+      $_J16tj = $_J16l1["thousands_sep"];
     } else{
       if($INTERFACE_LANGUAGE == "de"){
-       $_jjOJO = ",";
-       $_jjojo = ".";
+       $_J1Jo8 = ",";
+       $_J16tj = ".";
       }
     }
 
@@ -54,27 +54,38 @@ function addCultureInfo($_jjfl8){
     $addCultureInfo = '
                CanvasJS.addCultureInfo("'.$INTERFACE_LANGUAGE.'",
                {
-                 decimalSeparator: "'.$_jjOJO.'",
-                 digitGroupSeparator: "'.$_jjojo.'",
+                 decimalSeparator: "'.$_J1Jo8.'",
+                 digitGroupSeparator: "'.$_J16tj.'",
 
-                 days: ['.join(",", $_jj8fI).'],
+                 days: ['.join(",", $_J1jCO).'],
 
-                 months: ['.join(",", $_jjt6o).'],
+                 months: ['.join(",", $_J1Jjl).'],
 
-                 savePNGText: "'.unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["SaveAsPNGFile"], $_Q6QQL).'",
-                 saveJPGText: "'.unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["SaveAsJPEGFile"], $_Q6QQL).'",
-                 menuText: "'.unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["ChartOptions"], $_Q6QQL).'"
+                 savePNGText: "'.unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["SaveAsPNGFile"], $_QLo06).'",
+                 saveJPGText: "'.unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["SaveAsJPEGFile"], $_QLo06).'",
+                 printText: "'.unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Print"], $_QLo06).'",
+                 menuText: "'.unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["ChartOptions"], $_QLo06).'"
                });
     ';
 
 
-    $_jjfl8 = str_replace('/* addCultureInfo */', $addCultureInfo, $_jjfl8);
+    $_J1jol = str_replace('/* addCultureInfo */', $addCultureInfo, $_J1jol);
 
-    $_jjfl8 = str_replace('culture: "en"', 'culture: "'.$INTERFACE_LANGUAGE.'"', $_jjfl8);
+    $_J1jol = str_replace('culture: "en"', 'culture: "'.$INTERFACE_LANGUAGE.'"', $_J1jol);
+
+    $_J1fCQ = "";
+    if($INTERFACE_LANGUAGE != "en"){
+      $_J1fCQ = "<style>.canvasjs-chart-toolbar div{min-width: 180px;}</style>";
+    }
+
+    if(stripos($_J1jol, '</head>') !== false)
+      $_J1jol = str_replace('</head>', $_J1fCQ.'</head>', $_J1jol);
+      else
+      $_J1jol = $_J1fCQ . $_J1jol;
 
   }
 
-  return $_jjfl8;
+  return $_J1jol;
 
 }
 

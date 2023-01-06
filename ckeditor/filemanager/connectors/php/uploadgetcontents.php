@@ -1,5 +1,9 @@
 <?php
-
+/**
+ *      Filemanager extension
+ *
+ *      @author         Mirko Boeer <info (at) superwebmailer (dot) de>
+ */
 define("UploadGetContentsCalled", 1);
 require_once('filemanager.config.php');
 
@@ -274,6 +278,7 @@ function FileUploadAndGetContents()
                              // href
                              preg_match_all('/<a.*?href\=([\"\']*)(.*?)\1[\s\/>]/is', $contents, $out, PREG_SET_ORDER);
                              for($i=0;$i<count($out);$i++) {
+                               if( $out[$i][2] == "" ) continue;
                                if( !preg_match("/^http:\/\//i", $out[$i][2]) && !preg_match("/^https:\/\//i", $out[$i][2]) && !preg_match("/^javascript\:/i", $out[$i][2]) && !preg_match("/^mailto\:/i", $out[$i][2]) )
                                     $xLinks[] = $out[$i][2];
                              }
@@ -367,7 +372,7 @@ function FileUploadAndGetContents()
    if(! ($charset == "utf-8" || $charset == "") ) {
      $contents = SetHTMLCharSet($contents, "utf-8", true);
      if(strpos($contents, "<!DOCTYPE") === false)
-        $contents = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'.$contents;
+        $contents = '<!DOCTYPE html>'.$contents;
      $contents = @htmlentities($contents, ENT_NOQUOTES, $charset);
    } else {
      $savecontents = $contents;
@@ -379,7 +384,7 @@ function FileUploadAndGetContents()
        $contents = $savecontents;
 
      if(stripos($contents, "<!DOCTYPE") === false) {
-        $contents = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'.$contents;
+        $contents = '<!DOCTYPE html>'.$contents;
      }
    }
 
@@ -389,7 +394,9 @@ function FileUploadAndGetContents()
 
    $contents = str_replace("<", "&lt;", $contents);
    $contents = str_replace(">", "&gt;", $contents);
-   print '<body><span id="UploadedFileContent">'.$contents."</span></body>";
+   if($charset != "")
+     $charset = '<--filecharset=' . strtolower($charset) . '!-->';
+   print '<body><span id="UploadedFileContent">'.$charset.$contents."</span></body>";
  }
 
  SendUploadResults( $sErrorNumber, $customMsg, $sFileName ) ;
@@ -539,7 +546,7 @@ function LoadZIPFile($ZIPFileName, &$errorCode){
    $images = array();
    for($i = 0; $i < $zip->numFiles; $i++) {
       $sFileName = $zip->getNameIndex($i);
-      if(strpos($sFileName, "\\") !== false || strpos($sFileName, "/") !== false) continue;
+      if(strpos($sFileName, "\\") !== false /*|| strpos($sFileName, "/") !== false*/) continue;
       $sExtension = substr( $sFileName, ( strrpos($sFileName, '.') + 1 ) ) ;
       $sExtension = strtolower( $sExtension ) ;
       if( !IsHtmlExtension($sExtension, $config['images']) )
@@ -547,7 +554,7 @@ function LoadZIPFile($ZIPFileName, &$errorCode){
       $images[] = $sFileName;
      }
 
-   if(!$zip->extractTo($Config['UserFilesAbsolutePath'].'/image/', $images)){
+   if(!$zip->extractTo($Config['UserFilesAbsolutePath'].'image/', $images)){
      $errorCode = 303;
      return false;
    }
@@ -564,14 +571,17 @@ function LoadZIPFile($ZIPFileName, &$errorCode){
          $regex   = array();
          $regex[] = '#(\s)((?i)src|background|href(?-i))\s*=\s*(["\']?)' .
                      preg_quote($value, '#') . '\3#';
-         $regex[] = '#(?i)url(?-i)\(\s*(["\']?)' .
-                     preg_quote($value, '#') . '\1\s*\)#';
+         #$regex[] = '#(?i)url(?-i)\(\s*(["\']?)' .
+         #            preg_quote($value, '#') . '\1\s*\)#';
 
          $rep   = array();
-         $rep[] = '\1\2=\3' . $Config['UserFilesPath']."image/".$value .'\3';
-         $rep[] = 'url(\1' . $Config['UserFilesPath']."image/".$value . '\1)';
+         $rep[] = '\1\2=\3' . $Config['UserFilesPath'] . "image/" . $value .'\3';
+         $rep[] = 'url(\1' . $Config['UserFilesPath'] . "image/" . $value . '\1)';
 
          $contents = preg_replace($regex, $rep, $contents);
+
+         $contents = preg_replace("/(url\(\'" . preg_quote($value, '/') . "\'\))/", "url('" . $Config['UserFilesPath'] . "image/" . $value . "')", $contents);
+         $contents = preg_replace("/(url\(" . preg_quote('"' . $value . '"', '/') . "\))/", "url('" . $Config['UserFilesPath'] . "image/" . $value . "')", $contents);
      }
 
    }

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -27,127 +27,183 @@
   include_once("templates.inc.php");
   include_once("defaulttexts.inc.php");
 
-  function _OEJLD($_JOfjC, $_JOfoC = null){
-    global $UserType, $INTERFACE_LANGUAGE, $INTERFACE_STYLE, $resourcestrings, $_Q61I1, $_Qo6Qo, $_Q6JJJ;
+  function _LDB1C($_6lCCl, $_6li6C = null, $_6lio8 = "", $_6l8I6 = null){
+    global $UserType, $INTERFACE_LANGUAGE, $INTERFACE_STYLE, $resourcestrings, $_QLttI, $_Ijf8l, $_QLl1Q;
 
-    $_JO81j = DefaultPath.TemplatesPath."/";
+    $_6lLjQ = DefaultPath.TemplatesPath."/";
     if(isset($INTERFACE_STYLE) && $INTERFACE_STYLE != "")
-      $_JO81j .= $INTERFACE_STYLE."/";
+      $_6lLjQ .= $INTERFACE_STYLE."/";
 
-    $INTERFACE_LANGUAGE = _OE6OA();
+    $INTERFACE_LANGUAGE = _LDBCJ();
     if(empty($INTERFACE_LANGUAGE))
       $INTERFACE_LANGUAGE = "de";
 
-    _LQLRQ($INTERFACE_LANGUAGE);
+    _JQRLR($INTERFACE_LANGUAGE);
 
     // *****************
-    if(!empty($_JOfjC))
-      $_JJOLI = $resourcestrings[$INTERFACE_LANGUAGE][$_JOfjC];
+    if(!empty($_6lCCl))
+      $_6fl6I = $resourcestrings[$INTERFACE_LANGUAGE][$_6lCCl];
       else
-      $_JJOLI = "";
+      $_6fl6I = "";
+    if($_6lio8 != "")
+      $_6fl6I .= " " . $_6lio8;
 
-    $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000004"], $_JJOLI, 'DISABLED', 'login_snipped.htm');
-    $_POST['Username'] = "";
-    $_POST['Password'] = "";
-    // Language
-    $_QJlJ0 = "SELECT * FROM `$_Qo6Qo`";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6ICj = "";
-    while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-       if(file_exists($_JO81j.$_Q6Q1C["Language"]."/main.htm"))
-         $_Q6ICj .= '<option value="'.$_Q6Q1C["Language"].'"' . $INTERFACE_LANGUAGE == $_Q6Q1C["Language"] ? ' checked="checked"' : '' . '>'.$_Q6Q1C["Text"].'</option>'.$_Q6JJJ;
+    if($_6l8I6 == null){
+      $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000004"], $_6fl6I, 'DISABLED', 'login_snipped.htm');
+      $_POST['Username'] = "";
+      $_POST['Password'] = "";
+
+      // Language
+      $_QLfol = "SELECT * FROM `$_Ijf8l`";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      $_QLoli = "";
+      while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+         if(file_exists($_6lLjQ.$_QLO0f["Language"]."/main.htm"))
+           $_QLoli .= '<option value="'.$_QLO0f["Language"].'"' . $INTERFACE_LANGUAGE == $_QLO0f["Language"] ? ' checked="checked"' : '' . '>'.$_QLO0f["Text"].'</option>'.$_QLl1Q;
+      }
+      $_QLJfI = _L81BJ($_QLJfI, '<SHOW:LANGUAGE>', '</SHOW:LANGUAGE>', $_QLoli);
+      mysql_free_result($_QL8i1);
+    
+    }else { // 2FA
+      $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000004"], $_6fl6I, 'DISABLED', 'login2fa1_snipped.htm');
+      $_QLJfI = str_replace('name="SecurityToken"', 'name="SecurityToken" value="' . $_6l8I6["SecurityToken"] . '"', $_QLJfI);
+      if(empty($_6l8I6["secret"]))
+        $_QLJfI = _L80DF($_QLJfI, "<IF:NEWSECRET>", "</IF:NEWSECRET>");
+        else{
+          $_QLJfI = _L8OF8($_QLJfI, "<IF:NEWSECRET>");
+          $_QLJfI = str_replace("%SECRET%", $_6l8I6["secret"], $_QLJfI);
+          $_QLJfI = str_replace("%QRCODEURL%", $_6l8I6["qrcode"], $_QLJfI);
+        }
     }
-    $_QJCJi = _OPR6L($_QJCJi, '<SHOW:LANGUAGE>', '</SHOW:LANGUAGE>', $_Q6ICj);
-    mysql_free_result($_Q60l1);
     // *************
-    if(isset($_JOfoC) && count($_JOfoC))
-       $_QJCJi = _OPFJA($_JOfoC, $_POST, $_QJCJi);
-    _LJ81E($_QJCJi);
+    if(isset($_6li6C) && count($_6li6C))
+       $_QLJfI = _L8AOB($_6li6C, $_POST, $_QLJfI);
+    _JJCCF($_QLJfI);
     if(isset($_GET["DEBUG"])){
-      $_QJCJi = str_replace("login.php", "login.php?DEBUG=1", $_QJCJi);
+      $_QLJfI = str_replace("login.php", "login.php?DEBUG=1", $_QLJfI);
     }
-    print $_QJCJi;
+    print $_QLJfI;
     exit;
   }
 
- function _OE6OA(){
-    global $UserType, $INTERFACE_LANGUAGE, $INTERFACE_STYLE, $resourcestrings, $_Q61I1, $_Qo6Qo;
+ function _LDBCJ(){
+    global $UserType, $INTERFACE_LANGUAGE, $INTERFACE_STYLE, $resourcestrings, $_QLttI, $_Ijf8l;
 
-    $_JO81j = DefaultPath.TemplatesPath."/";
+    $_6lLjQ = DefaultPath.TemplatesPath."/";
     if(isset($INTERFACE_STYLE) && $INTERFACE_STYLE != "")
-      $_JO81j .= $INTERFACE_STYLE."/";
+      $_6lLjQ .= $INTERFACE_STYLE."/";
 
     if(!empty($_GET["language"]))
       $_GET["Language"] = $_GET["language"];
     if(empty($_GET["Language"])) {
-       $_QJlJ0 = "SELECT `Language` FROM `$_Qo6Qo`";
-       $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-       if(mysql_error($_Q61I1) !== ""){
-         print mysql_error($_Q61I1);
+       $_QLfol = "SELECT `Language` FROM `$_Ijf8l`";
+       $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+       if(mysql_error($_QLttI) !== ""){
+         print mysql_error($_QLttI);
          exit;
        }
-       $_JO8oL = array();
-       while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-         if (file_exists($_JO81j.$_Q6Q1C["Language"]."/main.htm"))
-            $_JO8oL[] = $_Q6Q1C["Language"];
+       $_6lLil = array();
+       while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+         if (file_exists($_6lLjQ.$_QLO0f["Language"]."/main.htm"))
+            $_6lLil[] = $_QLO0f["Language"];
        }
-       mysql_free_result($_Q60l1);
+       mysql_free_result($_QL8i1);
 
-       $_QllO8 = _OE681($_JO8oL);
-       if(!empty($_QllO8))
-         $_GET["Language"] = $_QllO8;
+       $_I016j = _LDCAQ($_6lLil);
+       if(!empty($_I016j))
+         $_GET["Language"] = $_I016j;
     }
 
     # security check
-    if(!empty($_GET["Language"])){
-      if(strpos($_GET["Language"], ".") !== false || strpos($_GET["Language"], "/") !== false || strpos($_GET["Language"], "\\") !== false || strpos($_GET["Language"], ">") !== false || strpos($_GET["Language"], "<") !== false)
+    if( !empty($_GET["Language"]) ){
+      $_GET["Language"] = preg_replace( '/[^a-z]+/', '', strtolower( $_GET["Language"] ) );
+      if(strlen($_GET["Language"]) > 3)
+        $_GET["Language"] = substr($_GET["Language"], 0, 3);
+      if(empty($_GET["Language"]))
         unset($_GET["Language"]);
     }
 
     if(!isset($INTERFACE_LANGUAGE) || empty($INTERFACE_LANGUAGE))
        $INTERFACE_LANGUAGE = "de";
-    if( isset($_GET["Language"]) && file_exists($_JO81j.$_GET["Language"]."/main.htm") )
+    if( isset($_GET["Language"]) && file_exists($_6lLjQ.$_GET["Language"]."/main.htm") )
       $INTERFACE_LANGUAGE = $_GET["Language"];
     if( empty($INTERFACE_LANGUAGE) )
        $INTERFACE_LANGUAGE = "de";
 
+    $INTERFACE_LANGUAGE = preg_replace( '/[^a-z]+/', '', strtolower( $INTERFACE_LANGUAGE ) );
     return $INTERFACE_LANGUAGE;
  }
 
- function _OE681($_JO8oL){ #$_JO8oL = array('de', 'en'...), first is default lang
+ function _LDCAQ($_6lLil){ #$_6lLil = array('de', 'en'...), first is default lang
 
-    if(!count($_JO8oL))
+    if(!count($_6lLil))
      return "de";
 
     if (function_exists("http_negotiate_language")){
-      return http_negotiate_language($_JO8oL);
+      return http_negotiate_language($_6lLil);
     }
 
     if(!empty($_SERVER['HTTP_ACCEPT_LANGUAGE']))
-      $_JOtot = " ".$_SERVER['HTTP_ACCEPT_LANGUAGE'];
+      $_j8l18 = " ".$_SERVER['HTTP_ACCEPT_LANGUAGE'];
       else
-      $_JOtot = " "."de";
+      $_j8l18 = " "."de";
 
-    reset($_JO8oL);
-    foreach($_JO8oL as $_QiLI8) {
-        $_I1t0l = strpos($_JOtot, $_QiLI8);
-        if(intval($_I1t0l) != 0) {
-            $_JOtLi[$_QiLI8] = intval($_I1t0l);
+    reset($_6lLil);
+    foreach($_6lLil as $_I6llO) {
+        $_IOO6C = strpos($_j8l18, $_I6llO);
+        if(intval($_IOO6C) != 0) {
+            $_6llQl[$_I6llO] = intval($_IOO6C);
         }
     }
 
-    $_JOOjf = $_JO8oL[0];
+    $_6llt1 = $_6lLil[0];
 
-    if(!empty($_JOtLi)) {
-        foreach($_JO8oL as $_QiLI8) {
-            if(isset($_JOtLi[$_QiLI8]) &&
-               $_JOtLi[$_QiLI8] == min($_JOtLi)) {
-                    $_JOOjf = $_QiLI8;
+    if(!empty($_6llQl)) {
+        foreach($_6lLil as $_I6llO) {
+            if(isset($_6llQl[$_I6llO]) &&
+               $_6llQl[$_I6llO] == min($_6llQl)) {
+                    $_6llt1 = $_I6llO;
             }
         }
     }
 
-    return $_JOOjf;
+    return $_6llt1;
  }
 
+ class FailedLogins{
+  function _LDCBL(){
+    global $_J1lLC, $_QLttI, $MaxLoginAttempts;
+    $_6f6oC = getOwnIP(false);
+
+    $_QLfol = "INSERT IGNORE INTO `$_J1lLC` SET `LoginDateTime`=NOW(), `ip`=" . _LRAFO($_6f6oC);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if(mysql_affected_rows($_QLttI) == 0 || mysql_error($_QLttI) != ""){
+      $_QLfol = "UPDATE `$_J1lLC` SET `LoginDateTime`=NOW(), `LoginCount`=`LoginCount` + 1 WHERE `ip`=" . _LRAFO($_6f6oC) . " AND `LoginCount` < $MaxLoginAttempts * 1000";
+      mysql_query($_QLfol, $_QLttI);
+    }
+  }
+
+  function _LDCEA(){
+    global $_J1lLC, $_QLttI;
+
+    $_QLfol = "DELETE FROM `$_J1lLC` WHERE TO_SECONDS(NOW()) - TO_SECONDS(`LoginDateTime`) > 300";
+    mysql_query($_QLfol, $_QLttI);
+
+    $_6f6oC = getOwnIP(false);
+    $_QLfol = "SELECT `LoginCount` FROM `$_J1lLC` WHERE `ip`=" . _LRAFO($_6f6oC) . " AND TO_SECONDS(NOW()) - TO_SECONDS(`LoginDateTime`) < 300";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
+     return $_QLO0f["LoginCount"];
+    }
+    if($_QL8i1)
+      mysql_free_result($_QL8i1);
+    return 0;
+  }
+ }
+ 
+  if(!version_compare(PHP_VERSION, "7.1.0", "<")){
+    include_once("login_page_2fa.inc.php");
+  }
+ 
 ?>

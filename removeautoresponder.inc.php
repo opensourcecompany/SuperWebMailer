@@ -26,43 +26,43 @@
   include_once("sessioncheck.inc.php");
 
   if($OwnerUserId != 0) {
-    if(empty($_QJojf) || !is_array($_QJojf))
-      $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeAutoresponderRemove"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    if(empty($_QLJJ6) || !is_array($_QLJJ6))
+      $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeAutoresponderRemove"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  if(isset($_66jt6))
-     unset($_66jt6);
-  $_66jt6 = array();
+  if(isset($_fiLQl))
+     unset($_fiLQl);
+  $_fiLQl = array();
   if ( isset($_POST["OneAutoresponderListId"]) && $_POST["OneAutoresponderListId"] != "" )
-      $_66jt6[] = $_POST["OneAutoresponderListId"];
+      $_fiLQl[] = $_POST["OneAutoresponderListId"];
       else
       if ( isset($_POST["OneAutoresponderListIds"]) )
-        $_66jt6 = array_merge($_66jt6, $_POST["OneAutoresponderListIds"]);
+        $_fiLQl = array_merge($_fiLQl, $_POST["OneAutoresponderListIds"]);
 
 
-  $_QtIiC = array();
-  _L1P0R($_66jt6, $_QtIiC);
+  $_IQ0Cj = array();
+  _J1A6Q($_fiLQl, $_IQ0Cj);
 
   // we don't check for errors here
-  function _L1P0R($_66jt6, &$_QtIiC) {
-    global $_IQL81, $_II8J0, $_Q61I1;
+  function _J1A6Q($_fiLQl, &$_IQ0Cj) {
+    global $_IoCo0, $_ICIJo, $_QLttI;
 
-    for($_Q6llo=0; $_Q6llo<count($_66jt6); $_Q6llo++) {
+    for($_Qli6J=0; $_Qli6J<count($_fiLQl); $_Qli6J++) {
 
       // and now from autoresponders table
-      $_QJlJ0 = "DELETE FROM $_IQL81 WHERE id=".intval($_66jt6[$_Q6llo]);
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM $_IoCo0 WHERE id=".intval($_fiLQl[$_Qli6J]);
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
 
       // stat
-      $_QJlJ0 = "DELETE FROM $_II8J0 WHERE autoresponders_id=".intval($_66jt6[$_Q6llo]);
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
+      $_QLfol = "DELETE FROM $_ICIJo WHERE autoresponders_id=".intval($_fiLQl[$_Qli6J]);
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
 
     }
   }

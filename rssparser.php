@@ -22,7 +22,7 @@
 #                                                                           #
 #############################################################################
 
-class _LQPCJ {
+class _JQE86 {
 
    //@public
         var $RSSParseError = "";
@@ -31,25 +31,25 @@ class _LQPCJ {
         var $channel = array();
 
    //@private
-        var $_6t0fQ = false;
-        var $_6t0of = false;
-        var $_6t1Qi = false;
-        var $_6t1JO = false;
-        var $_6t1C0 = "";
+        var $_81jQt = false;
+        var $_81jO8 = false;
+        var $_81jLC = false;
+        var $_81J66 = false;
+        var $_6OjC0 = "";
 
-        var $_6tQOJ = "";
-        var $_6tIjJ = -1;
+        var $_816J1 = "";
+        var $_8166j = -1;
 
         // constructor
        /* function __construct() {
-          $this->_LQPCJ();
+          $this->_JQE86();
         } */
 
         function __construct() {
          $this->XMLAvailable = function_exists("xml_parser_create");
         }
 
-        function _LQPCJ() {
+        function _JQE86() {
           self::__construct();
         }
 
@@ -58,70 +58,70 @@ class _LQPCJ {
         }
 
    //@public
-        function _LQPEA($_jt8LJ) {
+        function _JQF0F($_JfIIf) {
            $this->RSSParseError = "";
-           $this->_6t0fQ = false;
-           $this->_6t0of = false;
-           $this->_6t1Qi = false;
-           $this->_6t1JO = false;
-           $this->_6t1C0 = "";
-           $this->_6tQOJ = "";
+           $this->_81jQt = false;
+           $this->_81jO8 = false;
+           $this->_81jLC = false;
+           $this->_81J66 = false;
+           $this->_6OjC0 = "";
+           $this->_816J1 = "";
            $this->channel = array();
-           $this->_6tIjJ = -1;
+           $this->_8166j = -1;
 
-           $_6tIil = xml_parser_create(''); // '' PHP bug
-           xml_set_object($_6tIil, $this);
-           xml_set_element_handler($_6tIil, "RSSstartElement", "RSSendElement");
-           xml_set_character_data_handler($_6tIil, "characterData");
-           xml_parser_set_option($_6tIil, XML_OPTION_TARGET_ENCODING, "UTF-8").
-           xml_parser_set_option($_6tIil, XML_OPTION_SKIP_WHITE, 1);
-           $_QCioi = @fopen($_jt8LJ,"rb");
-           if($_QCioi) {
-             while ($_Qf1i1 = fread($_QCioi, 4096)) {
-                 if(!xml_parse($_6tIil, $_Qf1i1, feof($_QCioi)) ) {
+           $_81fIt = xml_parser_create(''); // '' PHP bug
+           xml_set_object($_81fIt, $this);
+           xml_set_element_handler($_81fIt, "RSSstartElement", "RSSendElement");
+           xml_set_character_data_handler($_81fIt, "characterData");
+           xml_parser_set_option($_81fIt, XML_OPTION_TARGET_ENCODING, "UTF-8").
+           xml_parser_set_option($_81fIt, XML_OPTION_SKIP_WHITE, 1);
+           $_I60fo = @fopen($_JfIIf,"rb");
+           if($_I60fo) {
+             while ($_I0QjQ = fread($_I60fo, 4096)) {
+                 if(!xml_parse($_81fIt, $_I0QjQ, feof($_I60fo)) ) {
                          $this->RSSParseError = sprintf("XML error: %s at line %d",
-                                 xml_error_string(xml_get_error_code($_6tIil)),
-                                 xml_get_current_line_number($_6tIil));
+                                 xml_error_string(xml_get_error_code($_81fIt)),
+                                 xml_get_current_line_number($_81fIt));
                         break;
                  }
-                 if(!$this->_6t0fQ && $this->_6tIjJ + 1 >= $this->MaxEntries)
+                 if(!$this->_81jQt && $this->_8166j + 1 >= $this->MaxEntries)
                     break;
              }
-             fclose($_QCioi);
+             fclose($_I60fo);
            } else{
-             $this->RSSParseError = "Can't open $_jt8LJ.";
+             $this->RSSParseError = "Can't open $_JfIIf.";
            }
-           xml_parser_free($_6tIil);
+           xml_parser_free($_81fIt);
            return $this->RSSParseError == "";
         }
 
    //@public
-        function _LQA0E($_6tjQI) {
+        function _JQF8J($_81f8C) {
            $this->RSSParseError = "";
-           $this->_6t0fQ = false;
-           $this->_6t0of = false;
-           $this->_6t1Qi = false;
-           $this->_6t1JO = false;
-           $this->_6t1C0 = "";
-           $this->_6tQOJ = "";
+           $this->_81jQt = false;
+           $this->_81jO8 = false;
+           $this->_81jLC = false;
+           $this->_81J66 = false;
+           $this->_6OjC0 = "";
+           $this->_816J1 = "";
            $this->channel = array();
-           $this->_6tIjJ = -1;
-           $_6tIil = xml_parser_create(''); // '' PHP bug
-           xml_set_object($_6tIil, $this);
-           xml_set_element_handler($_6tIil, "RSSstartElement", "RSSendElement");
-           xml_set_character_data_handler($_6tIil, "characterData");
-           xml_parser_set_option($_6tIil, XML_OPTION_TARGET_ENCODING, "UTF-8").
-           xml_parser_set_option($_6tIil, XML_OPTION_SKIP_WHITE, 1);
-           if(!xml_parse($_6tIil, $_6tjQI, true) ) {
+           $this->_8166j = -1;
+           $_81fIt = xml_parser_create(''); // '' PHP bug
+           xml_set_object($_81fIt, $this);
+           xml_set_element_handler($_81fIt, "RSSstartElement", "RSSendElement");
+           xml_set_character_data_handler($_81fIt, "characterData");
+           xml_parser_set_option($_81fIt, XML_OPTION_TARGET_ENCODING, "UTF-8").
+           xml_parser_set_option($_81fIt, XML_OPTION_SKIP_WHITE, 1);
+           if(!xml_parse($_81fIt, $_81f8C, true) ) {
                    $this->RSSParseError = sprintf("XML error: %s at line %d",
-                           xml_error_string(xml_get_error_code($_6tIil)),
-                           xml_get_current_line_number($_6tIil));
+                           xml_error_string(xml_get_error_code($_81fIt)),
+                           xml_get_current_line_number($_81fIt));
            }
-           xml_parser_free($_6tIil);
+           xml_parser_free($_81fIt);
 
            // remove entries to reach MaxEntries
            if( $this->RSSParseError == "" && count($this->channel["ITEMS"]) > $this->MaxEntries ) {
-             for($_Q6llo=count($this->channel["ITEMS"]) - 1; count($this->channel["ITEMS"]) > $this->MaxEntries; $_Q6llo--){
+             for($_Qli6J=count($this->channel["ITEMS"]) - 1; count($this->channel["ITEMS"]) > $this->MaxEntries; $_Qli6J--){
                 if(array_pop($this->channel["ITEMS"]) == NULL) break;
              }
            }
@@ -129,95 +129,95 @@ class _LQPCJ {
         }
 
    //@private
-        function RSSstartElement($_IJ8oI, $_6tjI6, $_6tjjj) {
-                if(!$this->_6t0fQ && $_6tjI6 != "CHANNEL" && $this->_6tIjJ + 1 >= $this->MaxEntries)
+        function RSSstartElement($_IL6Jt, $_81fCl, $_81868) {
+                if(!$this->_81jQt && $_81fCl != "CHANNEL" && $this->_8166j + 1 >= $this->MaxEntries)
                    return false;
-                if ($this->_6t0fQ) {
-                    $this->_6t1C0 = $_6tjI6;
-                    if($_6tjI6 == "GUID")
-                       if(isset($_6tjjj["ISPERMALINK"])) {
-                         $this->_6tQOJ = $_6tjjj["ISPERMALINK"];
+                if ($this->_81jQt) {
+                    $this->_6OjC0 = $_81fCl;
+                    if($_81fCl == "GUID")
+                       if(isset($_81868["ISPERMALINK"])) {
+                         $this->_816J1 = $_81868["ISPERMALINK"];
                        }
-                    if ($_6tjI6 == "ENCLOSURE") {
-                      $this->_6t1JO = true;
-                      reset($_6tjjj);
-                      foreach($_6tjjj as $key => $_Q6ClO){
-                         if(!isset($this->channel["ITEMS"][$this->_6tIjJ][$this->_6t1C0][$key]))
-                          $this->channel["ITEMS"][$this->_6tIjJ][$this->_6t1C0][$key] = $_Q6ClO;
+                    if ($_81fCl == "ENCLOSURE") {
+                      $this->_81J66 = true;
+                      reset($_81868);
+                      foreach($_81868 as $key => $_QltJO){
+                         if(!isset($this->channel["ITEMS"][$this->_8166j][$this->_6OjC0][$key]))
+                          $this->channel["ITEMS"][$this->_8166j][$this->_6OjC0][$key] = $_QltJO;
                          else
-                          $this->channel["ITEMS"][$this->_6tIjJ][$this->_6t1C0][$key] .= $_Q6ClO;
+                          $this->channel["ITEMS"][$this->_8166j][$this->_6OjC0][$key] .= $_QltJO;
                       }
                     }
-                } elseif ($_6tjI6 == "ITEM") {
-                    $this->_6t0fQ = true;
-                    $this->_6tIjJ++;
+                } elseif ($_81fCl == "ITEM") {
+                    $this->_81jQt = true;
+                    $this->_8166j++;
                     if(!isset($this->channel["ITEMS"]))
                       $this->channel["ITEMS"] = array();
-                    $this->channel["ITEMS"][$this->_6tIjJ] = array();
-                } elseif ($_6tjI6 == "CHANNEL") {
-                    $this->_6t0of = true;
-                    $this->_6t1C0 = $_6tjI6;
-                } elseif ($_6tjI6 == "IMAGE") {
-                    $this->_6t1Qi = true;
-                    $this->_6t1C0 = $_6tjI6;
+                    $this->channel["ITEMS"][$this->_8166j] = array();
+                } elseif ($_81fCl == "CHANNEL") {
+                    $this->_81jO8 = true;
+                    $this->_6OjC0 = $_81fCl;
+                } elseif ($_81fCl == "IMAGE") {
+                    $this->_81jLC = true;
+                    $this->_6OjC0 = $_81fCl;
                 }
-                elseif ($this->_6t0of)
-                   $this->_6t1C0 = $_6tjI6;
+                elseif ($this->_81jO8)
+                   $this->_6OjC0 = $_81fCl;
         }
 
    //@private
-        function RSSendElement($_IJ8oI, $_6tjI6) {
-                if(!$this->_6t0fQ && $_6tjI6 != "CHANNEL" && $this->_6tIjJ + 1 >= $this->MaxEntries)
+        function RSSendElement($_IL6Jt, $_81fCl) {
+                if(!$this->_81jQt && $_81fCl != "CHANNEL" && $this->_8166j + 1 >= $this->MaxEntries)
                    return false;
-                if($_6tjI6 == "GUID");
-                   $this->_6tQOJ = "";
-                if ($_6tjI6 == "ITEM") {
-                  $this->_6t0fQ = false;
-                } elseif($_6tjI6 == "CHANNEL")
-                   $this->_6t0of = false;
-                 elseif($_6tjI6 == "IMAGE")
-                   $this->_6t1Qi = false;
-                 elseif($_6tjI6 == "ENCLOSURE")
-                   $this->_6t1JO = false;
+                if($_81fCl == "GUID");
+                   $this->_816J1 = "";
+                if ($_81fCl == "ITEM") {
+                  $this->_81jQt = false;
+                } elseif($_81fCl == "CHANNEL")
+                   $this->_81jO8 = false;
+                 elseif($_81fCl == "IMAGE")
+                   $this->_81jLC = false;
+                 elseif($_81fCl == "ENCLOSURE")
+                   $this->_81J66 = false;
                  else
-                  $this->_6t1C0 = "";
+                  $this->_6OjC0 = "";
         }
 
    //@private
-        function characterData($_IJ8oI, $_Qf1i1) {
-             if( $this->_6t1C0 == "ENCLOSURE" ) return;
-             if ($this->_6t0fQ && $this->_6t1C0 != "" && $this->_6t1C0 != "ITEM") {
-                if(!isset($this->channel["ITEMS"][$this->_6tIjJ][$this->_6t1C0]))
-                  $this->channel["ITEMS"][$this->_6tIjJ][$this->_6t1C0] = $_Qf1i1;
+        function characterData($_IL6Jt, $_I0QjQ) {
+             if( $this->_6OjC0 == "ENCLOSURE" ) return;
+             if ($this->_81jQt && $this->_6OjC0 != "" && $this->_6OjC0 != "ITEM") {
+                if(!isset($this->channel["ITEMS"][$this->_8166j][$this->_6OjC0]))
+                  $this->channel["ITEMS"][$this->_8166j][$this->_6OjC0] = $_I0QjQ;
                   else
                   {
-                    $_6tJI0 = "";
-                    if($this->_6t1C0 == "CATEGORY")
-                      $_6tJI0 = ", ";
-                    $this->channel["ITEMS"][$this->_6tIjJ][$this->_6t1C0] .= $_6tJI0.$_Qf1i1;
+                    $_81888 = "";
+                    if($this->_6OjC0 == "CATEGORY")
+                      $_81888 = ", ";
+                    $this->channel["ITEMS"][$this->_8166j][$this->_6OjC0] .= $_81888.$_I0QjQ;
                   }
-                if($this->_6t1C0 == "GUID" && $this->_6tQOJ != "")
-                  $this->channel["ITEMS"][$this->_6tIjJ]["ISPERMALINK"] = $this->_6tQOJ;
+                if($this->_6OjC0 == "GUID" && $this->_816J1 != "")
+                  $this->channel["ITEMS"][$this->_8166j]["ISPERMALINK"] = $this->_816J1;
              }
              else
-              if($this->_6t0of && $this->_6t1C0 != "" && $this->_6t1C0 != "CHANNEL" && !$this->_6t1Qi){
-                if(!isset($this->channel[$this->_6t1C0]))
-                 $this->channel[$this->_6t1C0] = $_Qf1i1;
+              if($this->_81jO8 && $this->_6OjC0 != "" && $this->_6OjC0 != "CHANNEL" && !$this->_81jLC){
+                if(!isset($this->channel[$this->_6OjC0]))
+                 $this->channel[$this->_6OjC0] = $_I0QjQ;
                 else
-                 $this->channel[$this->_6t1C0] .= $_Qf1i1;
-              } else if($this->_6t1Qi && $this->_6t1C0 == "IMAGE") {
-                 $this->channel[$this->_6t1C0] = array(); // new image
-              } else if($this->_6t1Qi && $this->_6t1C0 != "" && $this->_6t1C0 != "IMAGE") {
-                 if(!isset($this->channel["IMAGE"][$this->_6t1C0]))
-                    $this->channel["IMAGE"][$this->_6t1C0] = $_Qf1i1;
+                 $this->channel[$this->_6OjC0] .= $_I0QjQ;
+              } else if($this->_81jLC && $this->_6OjC0 == "IMAGE") {
+                 $this->channel[$this->_6OjC0] = array(); // new image
+              } else if($this->_81jLC && $this->_6OjC0 != "" && $this->_6OjC0 != "IMAGE") {
+                 if(!isset($this->channel["IMAGE"][$this->_6OjC0]))
+                    $this->channel["IMAGE"][$this->_6OjC0] = $_I0QjQ;
                     else
-                    $this->channel["IMAGE"][$this->_6t1C0] .= $_Qf1i1;
+                    $this->channel["IMAGE"][$this->_6OjC0] .= $_I0QjQ;
               }
         }
 }
 
-/*$rss_parser = new _LQPCJ();
-$rss_parser->_LQPEA("/rsstest.xml");
+/*$rss_parser = new _JQE86();
+$rss_parser->_JQF0F("/rsstest.xml");
 print_r($rss_parser->channel); */
 
 ?>

@@ -11,6 +11,10 @@
 
   <input type="hidden" name="searchoptions" id="searchoptions" />
 
+  <input type="hidden" name="CopyMoveGroupsAssignment" id="CopyMoveGroupsAssignment" value="0" />
+
+  <input type="hidden" name="GroupsDefined" id="GroupsDefined" />
+
   <script language="javascript" type="text/javascript">
   <!--
 
@@ -86,7 +90,7 @@
 
     function ConfirmDeleteRecipientEvent(value) {
       if(value)
-        document.getElementById('EditRecipientsForm').submit();
+        $("#EditRecipientsForm").submit();
         else {
           document.getElementById('OneRecipientAction').value = "";
           document.getElementById('OneRecipientId').value = "";
@@ -94,9 +98,23 @@
 
     }
 
-    function ConfirmListActionEvent(value) {
-      if(value)
-        document.getElementById('EditRecipientsForm').submit();
+    function ConfirmListActionEvent(value, aform) {
+      if(value){
+        if(aform){
+
+          var checkbox = aform.querySelector('#' + 'CopyAssignGroups');
+          if(!checkbox)
+            checkbox = aform.querySelector('#' + 'MoveAssignGroups');
+
+          if(checkbox){
+             if(checkbox.checked)
+               document.getElementById('CopyMoveGroupsAssignment').value = 1;
+               else
+               document.getElementById('CopyMoveGroupsAssignment').value = 0;
+          }
+        }
+        $("#EditRecipientsForm").submit();
+      }
     }
 
     function ConfirmListAction() {
@@ -107,19 +125,31 @@
         return false;
       }
       if(AOption.value == "MoveRecipients") {
-        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Empf&auml;nger in die gew&auml;hlte Empf&auml;ngerliste verschieben?', 3, 320, 120, 'ConfirmListActionEvent');
+        var GroupText = '<br /><br /><table style="width: 100%;"><tr><td style="width:5%;vertical-align: middle;"><input type="checkbox" id="MoveAssignGroups" /></td><td style="width:99%;vertical-align: top;"><label for="MoveAssignGroups">Gruppenzuordnung anhand des gleichen Gruppennamens &uuml;bernehmen</label></td></tr></table>';
+        var MsgBoxHeight = 148;
+        if (!document.getElementById("GroupsDefined") || document.getElementById("GroupsDefined").value == 0){
+           GroupText = '';
+           MsgBoxHeight = 120;
+        }
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Empf&auml;nger in die gew&auml;hlte Empf&auml;ngerliste verschieben?' + GroupText, 3, 380, MsgBoxHeight, 'ConfirmListActionEvent');
         return false;
       }
       if(AOption.value == "CopyRecipients") {
-        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Empf&auml;nger in die gew&auml;hlte Empf&auml;ngerliste kopieren?', 3, 320, 120, 'ConfirmListActionEvent');
+        var GroupText = '<br /><br /><table style="width: 100%;"><tr><td style="width:5%;vertical-align: middle;"><input type="checkbox" id="CopyAssignGroups" /></td><td style="width:99%;vertical-align: top;"><label for="CopyAssignGroups">Gruppenzuordnung anhand des gleichen Gruppennamens &uuml;bernehmen</label></td></tr></table>';
+        var MsgBoxHeight = 148;
+        if (!document.getElementById("GroupsDefined") || document.getElementById("GroupsDefined").value == 0){
+           GroupText = '';
+           MsgBoxHeight = 120;
+        }
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Empf&auml;nger in die gew&auml;hlte Empf&auml;ngerliste kopieren?' + GroupText, 3, 380, MsgBoxHeight, 'ConfirmListActionEvent');
         return false;
       }
       if(AOption.value == "AddRecipientToLocalBlacklist") {
-        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Empf&auml;nger in die lokale Blockliste aufnehmen?<br /><br />An diese Empf&auml;nger kann danach in dieser Empf&auml;ngerliste <b>keine</b> E-Mail mehr versendet werden.', 3, 320, 200, 'ConfirmListActionEvent');
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Empf&auml;nger in die lokale Blockliste aufnehmen?<br /><br />An diese Empf&auml;nger kann danach in dieser Empf&auml;ngerliste <b>keine</b> E-Mail mehr versendet werden.', 3, 320, 180, 'ConfirmListActionEvent');
         return false;
       }
       if(AOption.value == "AddRecipientToGlobalBlacklist") {
-        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Empf&auml;nger in die globale Blockliste aufnehmen?<br /><br />An diese Empf&auml;nger kann danach in <b>keiner</b> der Empf&auml;ngerlisten eine E-Mail versendet werden.', 3, 320, 200, 'ConfirmListActionEvent');
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle gew&auml;hlten</b> Empf&auml;nger in die globale Blockliste aufnehmen?<br /><br />An diese Empf&auml;nger kann danach in <b>keiner</b> der Empf&auml;ngerlisten eine E-Mail versendet werden.', 3, 320, 180, 'ConfirmListActionEvent');
         return false;
       }
       if(AOption.value == "ResetInactiveState") {
@@ -127,15 +157,15 @@
         return false;
       }
       if(AOption.value == "SetInactiveState") {
-        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich die <b>gew&auml;hlten</b> Empf&auml;nger f&uuml;r den E-Mail-Versand deaktivieren? Die Empf&auml;nger erhalten danach <b>keine</b> E-Mails mehr.', 3, 320, 150, 'ConfirmListActionEvent');
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich die <b>gew&auml;hlten</b> Empf&auml;nger f&uuml;r den E-Mail-Versand deaktivieren? Die Empf&auml;nger erhalten danach <b>keine</b> E-Mails mehr.', 3, 320, 140, 'ConfirmListActionEvent');
         return false;
       }
       if(AOption.value == "ResetBounceState") {
-        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich f&uuml;r <b>alle gew&auml;hlten</b> Empf&auml;nger den Bounce-Status auf "zustellbar" und den Bounce-Z&auml;hler auf 0 zur&uuml;cksetzen?', 3, 320, 150, 'ConfirmListActionEvent');
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich f&uuml;r <b>alle gew&auml;hlten</b> Empf&auml;nger den Bounce-Status auf "zustellbar" und den Bounce-Z&auml;hler auf 0 zur&uuml;cksetzen?', 3, 320, 140, 'ConfirmListActionEvent');
         return false;
       }
       if(AOption.value == "SetSubscribedState") {
-        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich f&uuml;r <b>alle gew&auml;hlten</b> Empf&auml;nger den Anmelde-Status auf "angemeldet" &auml;ndern?<br /><br />Hinweis: Dies ist rechtlich mehr als bedenklich.', 3, 320, 180, 'ConfirmListActionEvent');
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich f&uuml;r <b>alle gew&auml;hlten</b> Empf&auml;nger den Anmelde-Status auf "angemeldet" &auml;ndern?<br /><br />Hinweis: Dies ist rechtlich mehr als bedenklich.', 3, 320, 160, 'ConfirmListActionEvent');
         return false;
       }
 
@@ -344,7 +374,7 @@
          			  Seite:&nbsp;
         </td>
         <td style="text-align:right; width:1%; white-space:nowrap; ">
-         			  <select name="RcptsPageSelected" id="RcptsPageSelected" size="1" style="min-width:30pt ! important;" onchange="document.EditRecipientsForm.submit()">
+         			  <select name="RcptsPageSelected" id="RcptsPageSelected" size="1" style="min-width:30pt ! important;" onchange="$('#EditRecipientsForm').submit();">
                 <OPTION:PAGES>
                 <option>1</option>
                 </OPTION:PAGES>
@@ -370,6 +400,8 @@
 
   DisableItem('GroupsScrollbox', document.getElementById('ShowOnlyRecipientsInGroups').checked);
   DisableItem('MemberInGroupExistsNotExists', document.getElementById('ShowOnlyRecipientsInGroups').checked);
+
+  InsertLoadingStatusOnSubmit();
 
   //AUTO_SCRIPT_CODE_PLACEHOLDER//
 //-->

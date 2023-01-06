@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -29,138 +29,141 @@
   if(!defined("SWM") && !defined("SML") && !defined("CRONS_PHP") && !defined("API"))
     exit;
 
-  $_QltCO = array();
-  $_QlQC8 = "";
-  $_QlIf6 = "";
-  $_QLI68 = "";
+  $_I8oIJ = array();
+  $_I8I6o = "";
+  $_I8jjj = "";
+  $_IfJ66 = "";
   $MailingListId = 0;
-  $_QljIQ = "";
-  $_Qljli = "";
-  $_IoO1t = array();
-  $_QtIiC = array();
+  $_I8jLt = "";
+  $_I8Jti = "";
+  $_jJi11 = array();
+  $_IQ0Cj = array();
   // cron_subunsubcheck.inc.php, cron_bounces.inc.php will set the parameters itself
 
-  if(!defined("API"))
-    _L10PF();
+  if(!defined("API") && !defined("EditRecipient"))
+    _J1QBE();
 
-  function _L10PF() {
-    global $_Q60QL, $_Q61I1;
-    global $_QltCO, $MailingListId;
-    global $_QlQC8, $_QlIf6, $_QLI68, $_QljIQ, $_Qljli;
-    global $_IoO1t, $_QtIiC;
+  function _J1QBE() {
+    global $_QL88I, $_QLttI;
+    global $_I8oIJ, $MailingListId;
+    global $_I8I6o, $_I8jjj, $_IfJ66, $_I8jLt, $_I8Jti, $_QljJi;
+    global $_jJi11, $_IQ0Cj;
 
-    $_QltCO = array();
+    $_I8oIJ = array();
     if ( isset($_POST["OneRecipientId"]) && $_POST["OneRecipientId"] != "" )
-        $_QltCO[] = $_POST["OneRecipientId"];
+        $_I8oIJ[] = $_POST["OneRecipientId"];
         else
         if ( isset($_POST["RecipientsIDs"]) )
-          $_QltCO = array_merge($_QltCO, $_POST["RecipientsIDs"]);
+          $_I8oIJ = array_merge($_I8oIJ, $_POST["RecipientsIDs"]);
 
 
     // get the table
     if ( isset($_POST["OneMailingListId"]) && intval($_POST["OneMailingListId"]) != 0) {
       $_POST["OneMailingListId"] = intval($_POST["OneMailingListId"]);
 
-      if(!defined("CRONS_PHP") && !_OCJCC($_POST["OneMailingListId"])){
-        $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-        $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-        print $_QJCJi;
+      if(!defined("CRONS_PHP") && !_LAEJL($_POST["OneMailingListId"])){
+        $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+        $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+        print $_QLJfI;
         exit;
       }
 
-      $_QJlJ0 = "SELECT id, MaillistTableName, StatisticsTableName, MailListToGroupsTableName, MailLogTableName, EditTableName FROM $_Q60QL WHERE id=".$_POST["OneMailingListId"];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
-      $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-      $_QlQC8 = $_Q6Q1C["MaillistTableName"];
-      $_QlIf6 = $_Q6Q1C["StatisticsTableName"];
-      $_QLI68 = $_Q6Q1C["MailListToGroupsTableName"];
-      $MailingListId  = $_Q6Q1C["id"];
-      $_QljIQ = $_Q6Q1C["MailLogTableName"];
-      $_Qljli = $_Q6Q1C["EditTableName"];
+      $_QLfol = "SELECT id, MaillistTableName, StatisticsTableName, MailListToGroupsTableName, MailLogTableName, EditTableName, GroupsTableName FROM $_QL88I WHERE id=".$_POST["OneMailingListId"];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      $_QLO0f = mysql_fetch_assoc($_QL8i1);
+      $_I8I6o = $_QLO0f["MaillistTableName"];
+      $_I8jjj = $_QLO0f["StatisticsTableName"];
+      $_IfJ66 = $_QLO0f["MailListToGroupsTableName"];
+      $MailingListId  = $_QLO0f["id"];
+      $_I8jLt = $_QLO0f["MailLogTableName"];
+      $_I8Jti = $_QLO0f["EditTableName"];
+      $_QljJi = $_QLO0f["GroupsTableName"];
 
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
     }
   }
 
   if  ( ( isset($_POST["RecipientsActions"]) && $_POST["RecipientsActions"] == "RemoveRecipients" ) ||
      ( isset($_POST["OneRecipientAction"]) && $_POST["OneRecipientAction"] == "DeleteRecipient" )
      ) {
-          if(isset($_QtIiC))
-            unset($_QtIiC);
-          $_QtIiC = array();
-          _L10CL($_QltCO, $_QtIiC);
+          if(isset($_IQ0Cj))
+            unset($_IQ0Cj);
+          $_IQ0Cj = array();
+          _J1OQP($_I8oIJ, $_IQ0Cj);
     }
 
 
   if  ( isset($_POST["RecipientsActions"]) && ( $_POST["RecipientsActions"] == "AssignToGroups" || $_POST["RecipientsActions"] == "AssignToGroupsAdditionally" )   ) {
      if(isset($_POST["Groups"]))
-        _L1QPQ($_QltCO, $_QLI68, $_POST["Groups"], $_POST["RecipientsActions"] == "AssignToGroupsAdditionally");
+        _J1J0O($_I8oIJ, $_IfJ66, $_POST["Groups"], $_POST["RecipientsActions"] == "AssignToGroupsAdditionally");
         else
         if(isset($_POST["RecipientGroups"]))
-         _L1QPQ($_QltCO, $_QLI68, $_POST["RecipientGroups"], $_POST["RecipientsActions"] == "AssignToGroupsAdditionally");
+         _J1J0O($_I8oIJ, $_IfJ66, $_POST["RecipientGroups"], $_POST["RecipientsActions"] == "AssignToGroupsAdditionally");
         else
-         _L1QPQ($_QltCO, $_QLI68, array(), $_POST["RecipientsActions"] == "AssignToGroupsAdditionally");
+         _J1J0O($_I8oIJ, $_IfJ66, array(), $_POST["RecipientsActions"] == "AssignToGroupsAdditionally");
   }
 
 
   if  ( isset($_POST["RecipientsActions"]) && ($_POST["RecipientsActions"] == "RemoveFromGroups")   ) {
      if(isset($_POST["Groups"]))
-        _L1OR1($_QltCO, $MailingListId, $_QLI68, $_POST["Groups"]);
+        _J1JJL($_I8oIJ, $MailingListId, $_IfJ66, $_POST["Groups"]);
         else
         if(isset($_POST["RecipientGroups"]))
-          _L1OR1($_QltCO, $MailingListId, $_QLI68, $_POST["RecipientGroups"]);
+          _J1JJL($_I8oIJ, $MailingListId, $_IfJ66, $_POST["RecipientGroups"]);
           else
-          _L1QPQ($_QltCO, $_QLI68, array());
+          _J1J0O($_I8oIJ, $_IfJ66, array());
   }
 
   if  ( isset($_POST["RecipientsActions"]) && ( ($_POST["RecipientsActions"] == "MoveRecipients") || ($_POST["RecipientsActions"] == "CopyRecipients") ) ) {
 
-     if(!defined("CRONS_PHP") && !_OCJCC($_POST["DestMailingList"])){
-       $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-       $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-       print $_QJCJi;
+     if(!defined("CRONS_PHP") && !_LAEJL($_POST["DestMailingList"])){
+       $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+       $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+       print $_QLJfI;
        exit;
      }
 
      // get the table
-     $_QJlJ0 = "SELECT MaillistTableName, StatisticsTableName, MailLogTableName, EditTableName FROM $_Q60QL WHERE id=".intval($_POST["DestMailingList"]);
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     _OAL8F($_QJlJ0);
-     $_Q6Q1C = mysql_fetch_row($_Q60l1);
-     $_60i0C = $_Q6Q1C[0];
-     $_60iLC = $_Q6Q1C[1];
-     $_60Li0 = $_Q6Q1C[2];
-     $_60l1L = $_Q6Q1C[3];
-     mysql_free_result($_Q60l1);
-     $_IoO1t = array();
-      if($_60i0C == $_QlQC8) {
-         $_IoO1t[] = $resourcestrings[$INTERFACE_LANGUAGE]["000043"];
+     $_QLfol = "SELECT MaillistTableName, StatisticsTableName, MailLogTableName, EditTableName, MailListToGroupsTableName, GroupsTableName FROM $_QL88I WHERE id=".intval($_POST["DestMailingList"]);
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     _L8D88($_QLfol);
+     $_QLO0f = mysql_fetch_row($_QL8i1);
+     $_ff1CQ = $_QLO0f[0];
+     $_ffQOo = $_QLO0f[1];
+     $_ffQo8 = $_QLO0f[2];
+     $_ffIf6 = $_QLO0f[3];
+     $_fi8Ql = $_QLO0f[4];
+     $_fi8tj = $_QLO0f[5];
+     mysql_free_result($_QL8i1);
+     $_jJi11 = array();
+      if($_ff1CQ == $_I8I6o) {
+         $_jJi11[] = $resourcestrings[$INTERFACE_LANGUAGE]["000043"];
       }
       else
-       _L11LC($_QltCO, $_IoO1t, $_60i0C, $_60iLC, $_60Li0, $_60l1L, ($_POST["RecipientsActions"] == "MoveRecipients"));
+       _J1O6L($_I8oIJ, $_jJi11, $_ff1CQ, $_ffQOo, $_ffQo8, $_ffIf6, ($_POST["RecipientsActions"] == "MoveRecipients"), "", isset($_POST["CopyMoveGroupsAssignment"]) && $_POST["CopyMoveGroupsAssignment"] == 1, $_fi8tj, $_fi8Ql);
   }
 
   if  ( isset($_POST["RecipientsActions"]) && ( ($_POST["RecipientsActions"] == "AddRecipientToLocalBlacklist") || ($_POST["RecipientsActions"] == "AddRecipientToGlobalBlacklist") ) ) {
     if($_POST["RecipientsActions"] == "AddRecipientToLocalBlacklist") {
-      $_QJlJ0 = "SELECT LocalBlocklistTableName FROM $_Q60QL WHERE id=".$_POST["OneMailingListId"];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
-      $_Q6Q1C = mysql_fetch_row($_Q60l1);
-      $_ItCCo = $_Q6Q1C[0];
-      _L11PQ($_QltCO, $_ItCCo, $_QlQC8, $_QlIf6);
+      $_QLfol = "SELECT LocalBlocklistTableName FROM $_QL88I WHERE id=".$_POST["OneMailingListId"];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      $_QLO0f = mysql_fetch_row($_QL8i1);
+      $_jjj8f = $_QLO0f[0];
+      _J1LOQ($_I8oIJ, $_jjj8f, $_I8I6o, $_I8jjj);
     } else {
-      _L11PQ($_QltCO, $_Ql8C0, $_QlQC8, $_QlIf6);
+      _J1LOQ($_I8oIJ, $_I8tfQ, $_I8I6o, $_I8jjj);
     }
   }
 
   if  ( ( isset($_POST["RecipientsActions"]) && $_POST["RecipientsActions"] == "ResetBounceState" ) ||
      ( isset($_POST["OneRecipientAction"]) && $_POST["OneRecipientAction"] == "ResetBounceState" )
      ) {
-          if(isset($_QtIiC))
-            unset($_QtIiC);
-          $_QtIiC = array();
-          _L1J0J($_QltCO, $_QtIiC);
+          if(isset($_IQ0Cj))
+            unset($_IQ0Cj);
+          $_IQ0Cj = array();
+          _J16F0($_I8oIJ, $_IQ0Cj);
     }
 
   if  ( ( isset($_POST["RecipientsActions"]) && $_POST["RecipientsActions"] == "ActivateRecipients" ) ||
@@ -169,10 +172,10 @@
         ( isset($_POST["RecipientsActions"]) && $_POST["RecipientsActions"] == "ResetInactiveState" ) ||
         ( isset($_POST["OneRecipientAction"]) && $_POST["OneRecipientAction"] == "ResetInactiveState" )
      ) {
-          if(isset($_QtIiC))
-            unset($_QtIiC);
-          $_QtIiC = array();
-          _L1J66(true, $_QltCO, $_QtIiC);
+          if(isset($_IQ0Cj))
+            unset($_IQ0Cj);
+          $_IQ0Cj = array();
+          _J1RD0(true, $_I8oIJ, $_IQ0Cj);
     }
 
   if  ( ( isset($_POST["RecipientsActions"]) && $_POST["RecipientsActions"] == "DeactivateRecipients" ) ||
@@ -183,518 +186,572 @@
         ( isset($_POST["OneRecipientAction"]) && $_POST["OneRecipientAction"] == "SetInactiveState" )
 
      ) {
-          if(isset($_QtIiC))
-            unset($_QtIiC);
-          $_QtIiC = array();
-          _L1J66(false, $_QltCO, $_QtIiC);
+          if(isset($_IQ0Cj))
+            unset($_IQ0Cj);
+          $_IQ0Cj = array();
+          _J1RD0(false, $_I8oIJ, $_IQ0Cj);
     }
 
   if  ( ( isset($_POST["RecipientsActions"]) && $_POST["RecipientsActions"] == "SetSubscribedState" ) ||
      ( isset($_POST["OneRecipientAction"]) && $_POST["OneRecipientAction"] == "SetSubscribedState" )
      ) {
-          if(isset($_QtIiC))
-            unset($_QtIiC);
-          $_QtIiC = array();
-          _L16JC($_QltCO, $_QtIiC);
+          if(isset($_IQ0Cj))
+            unset($_IQ0Cj);
+          $_IQ0Cj = array();
+          _J1RER($_I8oIJ, $_IQ0Cj);
     }
 
   // we don't check for errors here
- function _L10CL($_QltCO, &$_QtIiC, $_66086 = true) {
-    global $_QlQC8, $_QlIf6, $_QLI68, $_QljIQ, $_Qljli, $MailingListId, $_Q61I1;
+ function _J1OQP($_I8oIJ, &$_IQ0Cj, $_fiOI0 = true) {
+    global $_I8I6o, $_I8jjj, $_IfJ66, $_I8jLt, $_I8Jti, $MailingListId, $_QLttI;
 
-    reset($_QltCO);
-    foreach($_QltCO as $_Q6llo => $_Q6ClO) {
-      $_QltCO[$_Q6llo] = intval($_QltCO[$_Q6llo]);
+    reset($_I8oIJ);
+    foreach($_I8oIJ as $_Qli6J => $_QltJO) {
+      $_I8oIJ[$_Qli6J] = intval($_I8oIJ[$_Qli6J]);
 
-      mysql_query("BEGIN", $_Q61I1);
+      mysql_query("BEGIN", $_QLttI);
 
       // Delete recipient
-      $_QJlJ0 = "DELETE FROM `$_QlQC8` WHERE id=".$_QltCO[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM `$_I8I6o` WHERE id=".$_I8oIJ[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
 
       // Delete maillog, members edit, groups assignment, statistics
-      $_jj6l0 = array("`$_QljIQ`", "`$_Qljli`", "`$_QLI68`");
-      if($_66086)
-         $_jj6l0[] = "`$_QlIf6`";
+      $_J1QfQ = array("`$_I8jLt`", "`$_I8Jti`", "`$_IfJ66`");
+      if($_fiOI0)
+         $_J1QfQ[] = "`$_I8jjj`";
 
-      for($_Qf0Ct=0; $_Qf0Ct<count($_jj6l0); $_Qf0Ct++){
-        $_QJlJ0 = "DELETE FROM $_jj6l0[$_Qf0Ct] WHERE `Member_id`=$_QltCO[$_Q6llo]";
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      for($_QliOt=0; $_QliOt<count($_J1QfQ); $_QliOt++){
+        $_QLfol = "DELETE FROM $_J1QfQ[$_QliOt] WHERE `Member_id`=$_I8oIJ[$_Qli6J]";
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
       }
 
-      mysql_query("COMMIT", $_Q61I1);
+      mysql_query("COMMIT", $_QLttI);
     }
 
     if($MailingListId != 0) {
-      _LQQJO($MailingListId, $_QltCO);
+      _JQJCP($MailingListId, $_I8oIJ);
     }
 
   }
 
- function _L11LC($_QltCO, &$_IoO1t, $_60i0C, $_60iLC, $_60Li0, $_60l1L, $_60lCJ, $_6616L = "") {
-  global $_QlQC8, $_QlIf6, $_QLI68, $MailingListId, $_QljIQ, $_Qljli, $_Q61I1;
+ function _J1O6L($_I8oIJ, &$_jJi11, $_ff1CQ, $_ffQOo, $_ffQo8, $_ffIf6, $_ffj1J, $_fiOoQ = "", $_fiOLo = false, $_fi8tj = "", $_fi8Ql = "") {
+  global $_I8I6o, $_I8jjj, $_IfJ66, $MailingListId, $_I8jLt, $_I8Jti, $_QljJi, $_QLttI;
 
-  $_QLLjo = array();
-  _OAJL1($_QlQC8, $_QLLjo, array("id"));
-  $_I16jJ = join(", ", $_QLLjo);
+  $_Iflj0 = array();
+  _L8EOB($_I8I6o, $_Iflj0, array("id"));
+  $_IOJoI = join(", ", $_Iflj0);
 
-  unset($_QLLjo);
-  $_QLLjo = array();
-  _OAJL1($_QlIf6, $_QLLjo, array("Member_id"));
-  $_66QQ0 = join(", ", $_QLLjo);
+  unset($_Iflj0);
+  $_Iflj0 = array();
+  _L8EOB($_I8jjj, $_Iflj0, array("Member_id"));
+  $_fioJL = join(", ", $_Iflj0);
 
-  $_QLLjo = array();
-  _OAJL1($_QljIQ, $_QLLjo, array("Member_id"));
-  $_66Qof = join(", ", $_QLLjo);
+  $_Iflj0 = array();
+  _L8EOB($_I8jLt, $_Iflj0, array("Member_id"));
+  $_fio8O = join(", ", $_Iflj0);
 
-  $_QLLjo = array();
-  _OAJL1($_Qljli, $_QLLjo, array("Member_id"));
-  $_66QiL = join(", ", $_QLLjo);
+  $_Iflj0 = array();
+  _L8EOB($_I8Jti, $_Iflj0, array("Member_id"));
+  $_fioO6 = join(", ", $_Iflj0);
 
 
-  if(!empty($_6616L)){
-    $_6jIQO = new _OFBEA();
+  if(!empty($_fiOoQ)){
+    $_fOolj = new _LFBOB();
   }
 
-  reset($_QltCO);
-  foreach($_QltCO as $_Q6llo => $_Q6ClO) {
+  $_fiooJ = array();
+  if($_fiOLo && !empty($_fi8tj) && !empty($_fi8Ql) && !empty($_QljJi) && !empty($_IfJ66)){
+    // Src ==> Dest List groups name = IDs
+    $_QLfol = "SELECT $_QljJi.id AS g1_id, $_fi8tj.id AS g2_id
+           FROM $_QljJi
+           LEFT JOIN $_fi8tj ON LOWER($_QljJi.Name)=LOWER($_fi8tj.Name)
+           WHERE $_QljJi.id IS NOT NULL AND $_fi8tj.id IS NOT NULL";
 
-     mysql_query("BEGIN", $_Q61I1);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    while($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+      $_fiooJ[$_QLO0f['g1_id']] = $_QLO0f['g2_id'];
+    }
+    mysql_free_result($_QL8i1);
+  }
 
-     $_QltCO[$_Q6llo] = intval($_QltCO[$_Q6llo]);
+  reset($_I8oIJ);
+  foreach($_I8oIJ as $_Qli6J => $_QltJO) {
+
+     mysql_query("BEGIN", $_QLttI);
+
+     $_I8oIJ[$_Qli6J] = intval($_I8oIJ[$_Qli6J]);
      // der Empfaenger selbst
-     if($_60lCJ)
-        $_QJlJ0 = "INSERT INTO `$_60i0C` (".$_I16jJ.") ";
+     if($_ffj1J)
+        $_QLfol = "INSERT INTO `$_ff1CQ` (".$_IOJoI.") ";
         else
-        $_QJlJ0 = "INSERT IGNORE INTO `$_60i0C` (".$_I16jJ.") ";
-     $_QJlJ0 .= "SELECT $_I16jJ FROM `$_QlQC8` WHERE id=$_QltCO[$_Q6llo]";
-     mysql_query($_QJlJ0, $_Q61I1);
-     if (mysql_error($_Q61I1) != "") {
-          $_IoO1t[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
-          unset($_QltCO[$_Q6llo]);
+        $_QLfol = "INSERT IGNORE INTO `$_ff1CQ` (".$_IOJoI.") ";
+     $_QLfol .= "SELECT $_IOJoI FROM `$_I8I6o` WHERE id=$_I8oIJ[$_Qli6J]";
+     mysql_query($_QLfol, $_QLttI);
+     if (mysql_error($_QLttI) != "") {
+          $_jJi11[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
+          unset($_I8oIJ[$_Qli6J]);
         }
         else {
-         $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-         if (mysql_error($_Q61I1) != "") { # not inserted
-           $_IoO1t[] = "Duplicate entry for id $_QltCO[$_Q6llo]";
-           unset($_QltCO[$_Q6llo]);
-           if($_Q60l1)
-             mysql_free_result($_Q60l1);
-           mysql_query("ROLLBACK", $_Q61I1);
+         $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+         if (mysql_error($_QLttI) != "") { # not inserted
+           $_jJi11[] = "Duplicate entry for id $_I8oIJ[$_Qli6J]";
+           unset($_I8oIJ[$_Qli6J]);
+           if($_QL8i1)
+             mysql_free_result($_QL8i1);
+           mysql_query("ROLLBACK", $_QLttI);
            continue;
          }
-         $_Q6Q1C=mysql_fetch_array($_Q60l1);
-         $ID = $_Q6Q1C[0];
-         if (mysql_error($_Q61I1) != "" || $ID == 0) { # not inserted
-           $_IoO1t[] = "Duplicate entry for id $_QltCO[$_Q6llo]";
-           unset($_QltCO[$_Q6llo]);
-           if($_Q60l1)
-             mysql_free_result($_Q60l1);
-           mysql_query("ROLLBACK", $_Q61I1);
+         $_QLO0f=mysql_fetch_array($_QL8i1);
+         $ID = $_QLO0f[0];
+         if (mysql_error($_QLttI) != "" || $ID == 0) { # not inserted
+           $_jJi11[] = "Duplicate entry for id $_I8oIJ[$_Qli6J]";
+           unset($_I8oIJ[$_Qli6J]);
+           if($_QL8i1)
+             mysql_free_result($_QL8i1);
+           mysql_query("ROLLBACK", $_QLttI);
            continue;
          }
-         mysql_free_result($_Q60l1);
+         mysql_free_result($_QL8i1);
 
          // Statistik
-         $_QJlJ0 = "SELECT $_66QQ0 FROM `$_QlIf6` WHERE Member_id=$_QltCO[$_Q6llo]";
-         $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-         if($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-           while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-             $_QJlJ0 = "INSERT INTO `$_60iLC` (".$_66QQ0.", Member_id) VALUES (";
-             if (isset($_I1L81)) unset($_I1L81);
-             $_I1L81 = array();
-             foreach ($_Q6Q1C as $key => $_Q6ClO) {
-                $_I1L81[] = _OPQLR($_Q6ClO);
+         $_QLfol = "SELECT $_fioJL FROM `$_I8jjj` WHERE Member_id=$_I8oIJ[$_Qli6J]";
+         $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+         if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+           while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+             $_QLfol = "INSERT INTO `$_ffQOo` (".$_fioJL.", Member_id) VALUES (";
+             if (isset($_IOCjL)) unset($_IOCjL);
+             $_IOCjL = array();
+             foreach ($_QLO0f as $key => $_QltJO) {
+                $_IOCjL[] = _LRAFO($_QltJO);
              }
-             $_QJlJ0 .= join(", ", $_I1L81);
-             $_QJlJ0 .= ", $ID)";
-             mysql_query($_QJlJ0, $_Q61I1);
-             if (mysql_error($_Q61I1) != "")
-                $_IoO1t[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+             $_QLfol .= join(", ", $_IOCjL);
+             $_QLfol .= ", $ID)";
+             mysql_query($_QLfol, $_QLttI);
+             if (mysql_error($_QLttI) != "")
+                $_jJi11[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
            }
          }
 
          // maillog
-         $_QJlJ0 = "SELECT $_66Qof FROM `$_QljIQ` WHERE Member_id=$_QltCO[$_Q6llo]";
-         $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-         if($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-           while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-             $_QJlJ0 = "INSERT INTO `$_60Li0` (".$_66Qof.", Member_id) VALUES (";
-             if (isset($_I1L81)) unset($_I1L81);
-             $_I1L81 = array();
-             foreach ($_Q6Q1C as $key => $_Q6ClO) {
-                $_I1L81[] = _OPQLR($_Q6ClO);
+         $_QLfol = "SELECT $_fio8O FROM `$_I8jLt` WHERE Member_id=$_I8oIJ[$_Qli6J]";
+         $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+         if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+           while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+             $_QLfol = "INSERT INTO `$_ffQo8` (".$_fio8O.", Member_id) VALUES (";
+             if (isset($_IOCjL)) unset($_IOCjL);
+             $_IOCjL = array();
+             foreach ($_QLO0f as $key => $_QltJO) {
+                $_IOCjL[] = _LRAFO($_QltJO);
              }
-             $_QJlJ0 .= join(", ", $_I1L81);
-             $_QJlJ0 .= ", $ID)";
-             mysql_query($_QJlJ0, $_Q61I1);
-             if (mysql_error($_Q61I1) != "")
-                $_IoO1t[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+             $_QLfol .= join(", ", $_IOCjL);
+             $_QLfol .= ", $ID)";
+             mysql_query($_QLfol, $_QLttI);
+             if (mysql_error($_QLttI) != "")
+                $_jJi11[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
            }
          }
 
          // edit log
-         $_QJlJ0 = "SELECT $_66QiL FROM `$_Qljli` WHERE Member_id=$_QltCO[$_Q6llo]";
-         $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-         if($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-           while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-             $_QJlJ0 = "INSERT INTO `$_60l1L` (".$_66QiL.", Member_id) VALUES (";
-             if (isset($_I1L81)) unset($_I1L81);
-             $_I1L81 = array();
-             foreach ($_Q6Q1C as $key => $_Q6ClO) {
-                $_I1L81[] = _OPQLR($_Q6ClO);
+         $_QLfol = "SELECT $_fioO6 FROM `$_I8Jti` WHERE Member_id=$_I8oIJ[$_Qli6J]";
+         $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+         if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+           while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+             $_QLfol = "INSERT INTO `$_ffIf6` (".$_fioO6.", Member_id) VALUES (";
+             if (isset($_IOCjL)) unset($_IOCjL);
+             $_IOCjL = array();
+             foreach ($_QLO0f as $key => $_QltJO) {
+                $_IOCjL[] = _LRAFO($_QltJO);
              }
-             $_QJlJ0 .= join(", ", $_I1L81);
-             $_QJlJ0 .= ", $ID)";
-             mysql_query($_QJlJ0, $_Q61I1);
-             if (mysql_error($_Q61I1) != "")
-                $_IoO1t[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+             $_QLfol .= join(", ", $_IOCjL);
+             $_QLfol .= ", $ID)";
+             mysql_query($_QLfol, $_QLttI);
+             if (mysql_error($_QLttI) != "")
+                $_jJi11[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
            }
          }
 
-         if(!empty($_6616L)){
-           $_6jIQO->_OF0FL($_60Li0, $ID, $_6616L);
+         // groups
+         if($_fiOLo && count($_fiooJ)){
+           $_QLfol = "SELECT `groups_id` FROM `$_IfJ66` WHERE `Member_id`=$_I8oIJ[$_Qli6J]";
+           $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+           while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+             if(isset($_fiooJ[$_QLO0f["groups_id"]])){
+                $_QLfol = "INSERT INTO `$_fi8Ql` (`groups_id`, `Member_id`) VALUES(".$_fiooJ[$_QLO0f["groups_id"]].", $ID)";
+                mysql_query($_QLfol, $_QLttI);
+                if (mysql_error($_QLttI) != "")
+                  $_jJi11[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
+             }
+           }
+           mysql_free_result($_QL8i1);
+         }
+
+         if(!empty($_fiOoQ)){
+           $_fOolj->_LF0QR($_ffQo8, $ID, $_fiOoQ);
          }
 
          // loeschen
-         if($_60lCJ) {
+         if($_ffj1J) {
             // Empfaenger loeschen
-            $_QJlJ0 = "DELETE FROM `$_QlQC8` WHERE `id`=$_QltCO[$_Q6llo]";
-            mysql_query($_QJlJ0, $_Q61I1);
-            if (mysql_error($_Q61I1) != "")
-               $_IoO1t[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+            $_QLfol = "DELETE FROM `$_I8I6o` WHERE `id`=$_I8oIJ[$_Qli6J]";
+            mysql_query($_QLfol, $_QLttI);
+            if (mysql_error($_QLttI) != "")
+               $_jJi11[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
 
             // Delete maillog, members edit, groups assignment, statistics
-            $_66086 = true;
-            $_jj6l0 = array("`$_QljIQ`", "`$_Qljli`", "`$_QLI68`");
-            if($_66086)
-               $_jj6l0[] = "`$_QlIf6`";
+            $_fiOI0 = true;
+            $_J1QfQ = array("`$_I8jLt`", "`$_I8Jti`", "`$_IfJ66`");
+            if($_fiOI0)
+               $_J1QfQ[] = "`$_I8jjj`";
 
-            for($_Qf0Ct=0; $_Qf0Ct<count($_jj6l0); $_Qf0Ct++){
-              $_QJlJ0 = "DELETE FROM $_jj6l0[$_Qf0Ct] WHERE `Member_id`=$_QltCO[$_Q6llo]";
-              $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-              if (mysql_error($_Q61I1) != "") $_IoO1t[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+            for($_QliOt=0; $_QliOt<count($_J1QfQ); $_QliOt++){
+              $_QLfol = "DELETE FROM $_J1QfQ[$_QliOt] WHERE `Member_id`=$_I8oIJ[$_Qli6J]";
+              $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+              if (mysql_error($_QLttI) != "") $_jJi11[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
             }
 
          }
 
         }
 
-        mysql_query("COMMIT", $_Q61I1);
+        mysql_query("COMMIT", $_QLttI);
 
   }
 
-  if($_60lCJ && $MailingListId != 0) {
-    _LQQJO($MailingListId, $_QltCO);
+  if($_ffj1J && $MailingListId != 0) {
+    _JQJCP($MailingListId, $_I8oIJ);
   }
 
-  $_6jIQO = null;
+  $_fOolj = null;
 
  }
 
- function _L11PQ($_QltCO, $_61lij, $_QlQC8, $_QlIf6) {
-  global $_Q61I1;
-  if(!is_array($_QltCO)) $_QltCO = array($_QltCO);
-  reset($_QltCO);
-  $_Q8COf = 0;
-  foreach($_QltCO as $_Q6llo => $_Q6ClO) {
-     $_QltCO[$_Q6llo] = intval($_QltCO[$_Q6llo]);
-     $_QJlJ0 = "SELECT u_EMail FROM `$_QlQC8` WHERE id=$_QltCO[$_Q6llo]";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     _OAL8F($_QJlJ0);
-     if($_Q60l1 && $_Q6Q1C = mysql_fetch_row($_Q60l1)) {
-       mysql_free_result($_Q60l1);
-       $_QJlJ0 = "INSERT IGNORE INTO `$_61lij` SET u_EMail="._OPQLR($_Q6Q1C[0]);
-       mysql_query($_QJlJ0, $_Q61I1);
-       _OAL8F($_QJlJ0);
-       if (mysql_affected_rows($_Q61I1) > 0) {
-         $_QJlJ0 = "INSERT INTO `$_QlIf6` SET `Action`='BlackListed', `ActionDate`=NOW(), `Member_id`=$_QltCO[$_Q6llo]";
-         mysql_query($_QJlJ0, $_Q61I1);
-         _OAL8F($_QJlJ0);
-         $_Q8COf++;
+ function _J1LOQ($_I8oIJ, $_f8fQ8, $_I8I6o, $_I8jjj) {
+  global $_QLttI;
+  if(!is_array($_I8oIJ)) $_I8oIJ = array($_I8oIJ);
+  reset($_I8oIJ);
+  $_I1o8o = 0;
+  foreach($_I8oIJ as $_Qli6J => $_QltJO) {
+     $_I8oIJ[$_Qli6J] = intval($_I8oIJ[$_Qli6J]);
+     $_QLfol = "SELECT u_EMail FROM `$_I8I6o` WHERE id=$_I8oIJ[$_Qli6J]";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     _L8D88($_QLfol);
+     if($_QL8i1 && $_QLO0f = mysql_fetch_row($_QL8i1)) {
+       mysql_free_result($_QL8i1);
+       $_QLfol = "INSERT IGNORE INTO `$_f8fQ8` SET u_EMail="._LRAFO($_QLO0f[0]);
+       mysql_query($_QLfol, $_QLttI);
+       _L8D88($_QLfol);
+       if (mysql_affected_rows($_QLttI) > 0) {
+         $_QLfol = "INSERT INTO `$_I8jjj` SET `Action`='BlackListed', `ActionDate`=NOW(), `Member_id`=$_I8oIJ[$_Qli6J]";
+         mysql_query($_QLfol, $_QLttI);
+         _L8D88($_QLfol);
+         $_I1o8o++;
        }
      }
   }
-  return $_Q8COf = count($_QltCO);
+  return $_I1o8o = count($_I8oIJ);
  }
 
- function _L1QOB($_QltCO, $_66IjL, $_QlQC8, $_QlIf6) {
-  global $_Q61I1;
-  if(!is_array($_QltCO)) $_QltCO = array($_QltCO);
-  reset($_QltCO);
-  foreach($_QltCO as $_Q6llo => $_Q6ClO) {
-     $_QltCO[$_Q6llo] = intval($_QltCO[$_Q6llo]);
-     $_QJlJ0 = "SELECT u_EMail FROM `$_QlQC8` WHERE id=$_QltCO[$_Q6llo]";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     _OAL8F($_QJlJ0);
-     if($_Q60l1 && $_Q6Q1C = mysql_fetch_row($_Q60l1)) {
-       mysql_free_result($_Q60l1);
-       $_Q6Q1C[0] = substr($_Q6Q1C[0], strpos($_Q6Q1C[0], '@') + 1);
-       $_QJlJ0 = "INSERT IGNORE INTO `$_66IjL` SET `Domainname`="._OPQLR($_Q6Q1C[0]);
-       mysql_query($_QJlJ0, $_Q61I1);
-       _OAL8F($_QJlJ0);
-       if (mysql_affected_rows($_Q61I1) > 0) {
-         $_QJlJ0 = "INSERT INTO `$_QlIf6` SET `Action`='BlackListed', `ActionDate`=NOW(), `Member_id`=$_QltCO[$_Q6llo]";
-         mysql_query($_QJlJ0, $_Q61I1);
-         _OAL8F($_QJlJ0);
+ function _J1LEC($_I8oIJ, $_fioii, $_I8I6o, $_I8jjj) {
+  global $_QLttI;
+  if(!is_array($_I8oIJ)) $_I8oIJ = array($_I8oIJ);
+  reset($_I8oIJ);
+  foreach($_I8oIJ as $_Qli6J => $_QltJO) {
+     $_I8oIJ[$_Qli6J] = intval($_I8oIJ[$_Qli6J]);
+     $_QLfol = "SELECT u_EMail FROM `$_I8I6o` WHERE id=$_I8oIJ[$_Qli6J]";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     _L8D88($_QLfol);
+     if($_QL8i1 && $_QLO0f = mysql_fetch_row($_QL8i1)) {
+       mysql_free_result($_QL8i1);
+       $_QLO0f[0] = substr($_QLO0f[0], strpos($_QLO0f[0], '@') + 1);
+       $_QLfol = "INSERT IGNORE INTO `$_fioii` SET `Domainname`="._LRAFO($_QLO0f[0]);
+       mysql_query($_QLfol, $_QLttI);
+       _L8D88($_QLfol);
+       if (mysql_affected_rows($_QLttI) > 0) {
+         $_QLfol = "INSERT INTO `$_I8jjj` SET `Action`='BlackListed', `ActionDate`=NOW(), `Member_id`=$_I8oIJ[$_Qli6J]";
+         mysql_query($_QLfol, $_QLttI);
+         _L8D88($_QLfol);
        }
      }
   }
  }
 
- function _L1QPQ($_QltCO, $_QLI68, $_IitLf, $_66Iio=false) {
-  global $_Q61I1;
-  if(!is_array($_IitLf))
-    $_IitLf = explode(",", $_IitLf);
-  if(!is_array($_QltCO)) $_QltCO = array($_QltCO);
-  reset($_QltCO);
-  foreach($_QltCO as $_Q6llo => $_Q6ClO) {
-    $_QltCO[$_Q6llo] = intval($_QltCO[$_Q6llo]);
+ function _J1J0O($_I8oIJ, $_IfJ66, $_jt0QC, $_fiCCQ=false) {
+  global $_QLttI;
+  if(!is_array($_jt0QC))
+    $_jt0QC = explode(",", $_jt0QC);
+  if(!is_array($_I8oIJ)) $_I8oIJ = array($_I8oIJ);
+  reset($_I8oIJ);
+  foreach($_I8oIJ as $_Qli6J => $_QltJO) {
+    $_I8oIJ[$_Qli6J] = intval($_I8oIJ[$_Qli6J]);
 
-    mysql_query("BEGIN", $_Q61I1);
+    mysql_query("BEGIN", $_QLttI);
 
-    if(!$_66Iio) {
-      $_QJlJ0 = "DELETE FROM `$_QLI68` WHERE Member_id=".$_QltCO[$_Q6llo];
-      mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
+    if(!$_fiCCQ) {
+      $_QLfol = "DELETE FROM `$_IfJ66` WHERE Member_id=".$_I8oIJ[$_Qli6J];
+      mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
     }
 
-    reset($_IitLf);
-    foreach($_IitLf as $_Qf0Ct => $_Q6ClO) {
+    reset($_jt0QC);
+    foreach($_jt0QC as $_QliOt => $_QltJO) {
 
-      if($_66Iio) {
-        $_QJlJ0 = "SELECT groups_id FROM `$_QLI68` WHERE Member_id=$_QltCO[$_Q6llo] AND groups_id=".intval(trim($_IitLf[$_Qf0Ct]));
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        if($_Q60l1) {
-          if(mysql_num_rows($_Q60l1) > 0) {
-            mysql_free_result($_Q60l1);
+      if($_fiCCQ) {
+        $_QLfol = "SELECT groups_id FROM `$_IfJ66` WHERE Member_id=$_I8oIJ[$_Qli6J] AND groups_id=".intval(trim($_jt0QC[$_QliOt]));
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        if($_QL8i1) {
+          if(mysql_num_rows($_QL8i1) > 0) {
+            mysql_free_result($_QL8i1);
             continue;
           }
-          mysql_free_result($_Q60l1);
+          mysql_free_result($_QL8i1);
         }
       }
 
-      $_QJlJ0 = "INSERT INTO `$_QLI68` SET `Member_id`=$_QltCO[$_Q6llo], `groups_id`=".intval(trim($_IitLf[$_Qf0Ct]));
-      mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
+      $_QLfol = "INSERT INTO `$_IfJ66` SET `Member_id`=$_I8oIJ[$_Qli6J], `groups_id`=".intval(trim($_jt0QC[$_QliOt]));
+      mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
     }
 
-    mysql_query("COMMIT", $_Q61I1);
+    mysql_query("COMMIT", $_QLttI);
 
   }
  }
 
- function _L1OR1($_QltCO, $MailingListId, $_QLI68, $_IitLf) {
-  global $_Q61I1, $_QCLCI;
-  if(!is_array($_IitLf))
-    $_IitLf = explode(",", $_IitLf);
-  $_Jl811 = 0;
-  if(!is_array($_QltCO)) $_QltCO = array($_QltCO);
-  reset($_QltCO);
-  foreach($_QltCO as $_Q6llo => $_Q6ClO) {
-    $_QltCO[$_Q6llo] = intval($_QltCO[$_Q6llo]);
-    reset($_IitLf);
-    mysql_query("BEGIN", $_Q61I1);
-    foreach($_IitLf as $_Qf0Ct => $_Q6ClO) {
-      $_QJlJ0 = "DELETE FROM `$_QLI68` WHERE Member_id=".$_QltCO[$_Q6llo]. " AND groups_id=".intval(trim($_IitLf[$_Qf0Ct]));
-      mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
-      $_Jl811 += mysql_affected_rows($_Q61I1);
+ function _J1JJL($_I8oIJ, $MailingListId, $_IfJ66, $_jt0QC) {
+  global $_QLttI;
+  if(!is_array($_jt0QC))
+    $_jt0QC = explode(",", $_jt0QC);
+  $_fJl0t = 0;
+  if(!is_array($_I8oIJ)) $_I8oIJ = array($_I8oIJ);
+  reset($_I8oIJ);
+  foreach($_I8oIJ as $_Qli6J => $_QltJO) {
+    $_I8oIJ[$_Qli6J] = intval($_I8oIJ[$_Qli6J]);
+    reset($_jt0QC);
+    mysql_query("BEGIN", $_QLttI);
+    foreach($_jt0QC as $_QliOt => $_QltJO) {
+      $_QLfol = "DELETE FROM `$_IfJ66` WHERE Member_id=".$_I8oIJ[$_Qli6J]. " AND groups_id=".intval(trim($_jt0QC[$_QliOt]));
+      mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      $_fJl0t += mysql_affected_rows($_QLttI);
     }
-    mysql_query("COMMIT", $_Q61I1);
+    mysql_query("COMMIT", $_QLttI);
   }
-  return $_Jl811;
+  return $_fJl0t;
  }
 
- function _L1LLB($_QltCO, $MailingListId, $_QLI68) {
-  global $_Q61I1;
-  $_Jl811 = 0;
-  if(!is_array($_QltCO)) $_QltCO = array($_QltCO);
-  reset($_QltCO);
-  foreach($_QltCO as $_Q6llo => $_Q6ClO) {
-      $_QltCO[$_Q6llo] = intval($_QltCO[$_Q6llo]);
-      mysql_query("BEGIN", $_Q61I1);
-      $_QJlJ0 = "DELETE FROM `$_QLI68` WHERE Member_id=".$_QltCO[$_Q6llo];
-      mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
-      $_Jl811 += mysql_affected_rows($_Q61I1);
-      mysql_query("COMMIT", $_Q61I1);
+ function _J1JFE($_I8oIJ, $MailingListId, $_IfJ66) {
+  global $_QLttI;
+  $_fJl0t = 0;
+  if(!is_array($_I8oIJ)) $_I8oIJ = array($_I8oIJ);
+  reset($_I8oIJ);
+  foreach($_I8oIJ as $_Qli6J => $_QltJO) {
+      $_I8oIJ[$_Qli6J] = intval($_I8oIJ[$_Qli6J]);
+      mysql_query("BEGIN", $_QLttI);
+      $_QLfol = "DELETE FROM `$_IfJ66` WHERE Member_id=".$_I8oIJ[$_Qli6J];
+      mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      $_fJl0t += mysql_affected_rows($_QLttI);
+      mysql_query("COMMIT", $_QLttI);
   }
-  return $_Jl811;
+  return $_fJl0t;
  }
 
- function _L1J0J($_QltCO, &$_QtIiC) {
-  global $_QlQC8, $_QlIf6, $_Q61I1;
-  if(!is_array($_QltCO)) $_QltCO = array($_QltCO);
-  reset($_QltCO);
-  foreach($_QltCO as $_Q6llo => $_Q6ClO) {
-      $_QltCO[$_Q6llo] = intval($_QltCO[$_Q6llo]);
 
-      mysql_query("BEGIN", $_Q61I1);
+ function _J1608($_fii81, $MailingListId, $_IfJ66, $_jt0QC) {
+  global $_QLttI;
+  if(!is_array($_jt0QC))
+    $_jt0QC = explode(",", $_jt0QC);
+  $_fJl0t = 0;
+  if(!is_array($_fii81)) $_fii81 = array($_fii81);
+  reset($_fii81);
+  foreach($_fii81 as $_Qli6J => $_QltJO) {
+    $_fii81[$_Qli6J] = intval($_fii81[$_Qli6J]);
+    reset($_jt0QC);
+    foreach($_jt0QC as $_QliOt => $_QltJO) {
+      $_QLfol = "SELECT COUNT(*) FROM `$_IfJ66` WHERE Member_id=".$_fii81[$_Qli6J]. " AND groups_id=".intval(trim($_jt0QC[$_QliOt]));
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      if($_QL8i1 && $_QLO0f = mysql_fetch_row($_QL8i1))
+        $_fJl0t += $_QLO0f[0];
+      if($_QL8i1)
+        mysql_free_result($_QL8i1);
+    }
+  }
+  return $_fJl0t;
+ }
 
-      $_QJlJ0 = "UPDATE `$_QlQC8` SET BounceStatus='', SoftbounceCount=0, HardbounceCount=0 WHERE id=".$_QltCO[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+ function _J16F0($_I8oIJ, &$_IQ0Cj) {
+  global $_I8I6o, $_I8jjj, $_QLttI;
+  if(!is_array($_I8oIJ)) $_I8oIJ = array($_I8oIJ);
+  reset($_I8oIJ);
+  foreach($_I8oIJ as $_Qli6J => $_QltJO) {
+      $_I8oIJ[$_Qli6J] = intval($_I8oIJ[$_Qli6J]);
 
-      $_QJlJ0 = "DELETE FROM `$_QlIf6` WHERE Action='Bounced' AND Member_id=".$_QltCO[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      mysql_query("BEGIN", $_QLttI);
 
-      mysql_query("COMMIT", $_Q61I1);
+      $_QLfol = "UPDATE `$_I8I6o` SET BounceStatus='', SoftbounceCount=0, HardbounceCount=0 WHERE id=".$_I8oIJ[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
+
+      $_QLfol = "DELETE FROM `$_I8jjj` WHERE Action='Bounced' AND Member_id=".$_I8oIJ[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
+
+      mysql_query("COMMIT", $_QLttI);
 
   }
  }
 
- function _L1J66($_Qo0oi, $_QltCO, &$_QtIiC, $_6616L = "") {
-  global $_QlQC8, $_QlIf6, $_Q61I1, $_QljIQ;
-  $_I1L81=0;
-  if($_Qo0oi)
-    $_I1L81=1;
-  if(!is_array($_QltCO)) $_QltCO = array($_QltCO);
+ function _J1RD0($_IjIfQ, $_I8oIJ, &$_IQ0Cj, $_fiOoQ = "") {
+  global $_I8I6o, $_I8jjj, $_QLttI, $_I8jLt;
+  $_IOCjL=0;
+  if($_IjIfQ)
+    $_IOCjL=1;
+  if(!is_array($_I8oIJ)) $_I8oIJ = array($_I8oIJ);
 
-  if(!empty($_6616L)){
-    $_6jIQO = new _OFBEA();
+  if(!empty($_fiOoQ)){
+    $_fOolj = new _LFBOB();
   }
 
-  reset($_QltCO);
-  foreach($_QltCO as $_Q6llo => $_Q6ClO) {
-      $_QltCO[$_Q6llo] = intval($_QltCO[$_Q6llo]);
+  reset($_I8oIJ);
+  foreach($_I8oIJ as $_Qli6J => $_QltJO) {
+      $_I8oIJ[$_Qli6J] = intval($_I8oIJ[$_Qli6J]);
 
-      mysql_query("BEGIN", $_Q61I1);
+      mysql_query("BEGIN", $_QLttI);
 
-      $_QJlJ0 = "UPDATE `$_QlQC8` SET IsActive=$_I1L81 WHERE id=".$_QltCO[$_Q6llo]." AND IsActive<>$_I1L81";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "UPDATE `$_I8I6o` SET IsActive=$_IOCjL WHERE id=".$_I8oIJ[$_Qli6J]." AND IsActive<>$_IOCjL";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
 
-      if(mysql_affected_rows($_Q61I1) > 0) {
-         if(!empty($_6616L)){
-           $_6jIQO->_OF0FL($_QljIQ, $_QltCO[$_Q6llo], $_6616L);
+      if(mysql_affected_rows($_QLttI) > 0) {
+         if(!empty($_fiOoQ)){
+           $_fOolj->_LF0QR($_I8jLt, $_I8oIJ[$_Qli6J], $_fiOoQ);
          }
-         if($_I1L81)
-           $_QJlJ0 = "INSERT INTO `$_QlIf6` SET ActionDate=NOW(), Action='Activated', Member_id=".$_QltCO[$_Q6llo];
+         if($_IOCjL)
+           $_QLfol = "INSERT INTO `$_I8jjj` SET ActionDate=NOW(), Action='Activated', Member_id=".$_I8oIJ[$_Qli6J];
            else
-           $_QJlJ0 = "INSERT INTO `$_QlIf6` SET ActionDate=NOW(), Action='Deactivated', Member_id=".$_QltCO[$_Q6llo];
-         $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-         if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+           $_QLfol = "INSERT INTO `$_I8jjj` SET ActionDate=NOW(), Action='Deactivated', Member_id=".$_I8oIJ[$_Qli6J];
+         $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+         if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
       }
 
-      mysql_query("COMMIT", $_Q61I1);
+      mysql_query("COMMIT", $_QLttI);
 
   }
   return true;
  }
 
- function _L16JC($_QltCO, &$_QtIiC) {
-  global $_QlQC8, $_QlIf6, $_Q61I1, $INTERFACE_LANGUAGE, $resourcestrings;
-  if(!is_array($_QltCO)) $_QltCO = array($_QltCO);
-  reset($_QltCO);
-  foreach($_QltCO as $_Q6llo => $_Q6ClO) {
-      $_QltCO[$_Q6llo] = intval($_QltCO[$_Q6llo]);
+ function _J1RER($_I8oIJ, &$_IQ0Cj) {
+  global $_I8I6o, $_I8jjj, $_QLttI, $INTERFACE_LANGUAGE, $resourcestrings;
+  if(!is_array($_I8oIJ)) $_I8oIJ = array($_I8oIJ);
+  reset($_I8oIJ);
+  foreach($_I8oIJ as $_Qli6J => $_QltJO) {
+      $_I8oIJ[$_Qli6J] = intval($_I8oIJ[$_Qli6J]);
 
-      mysql_query("BEGIN", $_Q61I1);
+      mysql_query("BEGIN", $_QLttI);
 
-      $_QJlJ0 = "UPDATE `$_QlQC8` SET SubscriptionStatus='Subscribed', IPOnSubscription='".$resourcestrings[$INTERFACE_LANGUAGE]["000047"]."', DateOfOptInConfirmation=NOW() WHERE id=".$_QltCO[$_Q6llo]." AND SubscriptionStatus<>'Subscribed'";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "UPDATE `$_I8I6o` SET SubscriptionStatus='Subscribed', IPOnSubscription='".$resourcestrings[$INTERFACE_LANGUAGE]["000047"]."', DateOfOptInConfirmation=NOW() WHERE id=".$_I8oIJ[$_Qli6J]." AND SubscriptionStatus<>'Subscribed'";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
 
-      if(mysql_affected_rows($_Q61I1) > 0) {
-        $_QJlJ0 = "INSERT INTO `$_QlIf6` SET ActionDate=NOW(), Action='Subscribed', Member_id=".$_QltCO[$_Q6llo];
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
-        if( mysql_error($_Q61I1) == "" ) {
-          $_QJlJ0 = "DELETE FROM `$_QlIf6` WHERE Member_id=".$_QltCO[$_Q6llo]." AND Action='OptInConfirmationPending'";
-          $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
+      if(mysql_affected_rows($_QLttI) > 0) {
+        $_QLfol = "INSERT INTO `$_I8jjj` SET ActionDate=NOW(), Action='Subscribed', Member_id=".$_I8oIJ[$_Qli6J];
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
+        if( mysql_error($_QLttI) == "" ) {
+          $_QLfol = "DELETE FROM `$_I8jjj` WHERE Member_id=".$_I8oIJ[$_Qli6J]." AND Action='OptInConfirmationPending'";
+          $_QL8i1 = mysql_query($_QLfol, $_QLttI);
         }
       }
 
-      mysql_query("COMMIT", $_Q61I1);
+      mysql_query("COMMIT", $_QLttI);
   }
  }
 
- function _L0FRD($EMail) {
-  global $_Ql8C0, $_Q61I1;
+ function _J18DA($EMail) {
+  global $_I8tfQ, $_QLttI;
 
-  $_QJlJ0 = "SELECT COUNT(*) FROM $_Ql8C0 WHERE u_EMail="._OPQLR(trim($EMail));
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if($_Q60l1) {
-    $_Q6Q1C = mysql_fetch_row($_Q60l1);
-    mysql_free_result($_Q60l1);
-    return $_Q6Q1C[0] > 0;
+  $_QLfol = "SELECT COUNT(*) FROM $_I8tfQ WHERE u_EMail="._LRAFO(trim($EMail));
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if($_QL8i1) {
+    $_QLO0f = mysql_fetch_row($_QL8i1);
+    mysql_free_result($_QL8i1);
+    return $_QLO0f[0] > 0;
   }
 
   return false;
  }
 
- function _L101P($EMail, $_6Jli1, $_ItCCo="") {
-  global $_Q60QL, $_Q61I1;
+ function _J18FQ($EMail, $_fiioj, $_jjj8f="") {
+  global $_QL88I, $_QLttI;
 
-  if(!$_ItCCo) {
-    $_QJlJ0 = "SELECT LocalBlocklistTableName FROM $_Q60QL WHERE id=".intval($_6Jli1);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if($_Q60l1) {
-      $_Q6Q1C = mysql_fetch_row($_Q60l1);
-      mysql_free_result($_Q60l1);
-      $_ItCCo = $_Q6Q1C[0];
+  if(!$_jjj8f) {
+    $_QLfol = "SELECT LocalBlocklistTableName FROM $_QL88I WHERE id=".intval($_fiioj);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if($_QL8i1) {
+      $_QLO0f = mysql_fetch_row($_QL8i1);
+      mysql_free_result($_QL8i1);
+      $_jjj8f = $_QLO0f[0];
     } else
       return false;
   }
 
-  $_QJlJ0 = "SELECT COUNT(*) FROM `$_ItCCo` WHERE u_EMail="._OPQLR(trim($EMail));
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if($_Q60l1) {
-    $_Q6Q1C = mysql_fetch_row($_Q60l1);
-    mysql_free_result($_Q60l1);
-    return $_Q6Q1C[0] > 0;
+  $_QLfol = "SELECT COUNT(*) FROM `$_jjj8f` WHERE u_EMail="._LRAFO(trim($EMail));
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if($_QL8i1) {
+    $_QLO0f = mysql_fetch_row($_QL8i1);
+    mysql_free_result($_QL8i1);
+    return $_QLO0f[0] > 0;
   }
 
   return false;
  }
 
- function _L1ROL($EMail) {
-  global $_Qlt66, $_Q61I1;
+ function _J1PQO($EMail) {
+  global $_I8OoJ, $_QLttI;
 
   $EMail = trim($EMail);
-  $_Q6i6i = strpos($EMail, '@');
-  if($_Q6i6i !== false)
-     $EMail = substr($EMail, $_Q6i6i + 1);
-  $_QJlJ0 = "SELECT COUNT(*) FROM `$_Qlt66` WHERE `Domainname`="._OPQLR($EMail);
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if($_Q60l1) {
-    $_Q6Q1C = mysql_fetch_row($_Q60l1);
-    mysql_free_result($_Q60l1);
-    return $_Q6Q1C[0] > 0;
+  $_QlOjt = strpos($EMail, '@');
+  if($_QlOjt !== false)
+     $EMail = substr($EMail, $_QlOjt + 1);
+  $_QLfol = "SELECT COUNT(*) FROM `$_I8OoJ` WHERE `Domainname`="._LRAFO($EMail);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if($_QL8i1) {
+    $_QLO0f = mysql_fetch_row($_QL8i1);
+    mysql_free_result($_QL8i1);
+    return $_QLO0f[0] > 0;
   }
 
   return false;
  }
 
- function _L1RDP($EMail, $_6Jli1, $_jf1J1="") {
-  global $_Q60QL, $_Q61I1;
+ function _J1P6D($EMail, $_fiioj, $_Jj6f0="") {
+  global $_QL88I, $_QLttI;
 
-  if(!$_jf1J1) {
-    $_QJlJ0 = "SELECT LocalDomainBlocklistTableName FROM $_Q60QL WHERE id=".intval($_6Jli1);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if($_Q60l1) {
-      $_Q6Q1C = mysql_fetch_row($_Q60l1);
-      mysql_free_result($_Q60l1);
-      $_jf1J1 = $_Q6Q1C[0];
+  if(!$_Jj6f0) {
+    $_QLfol = "SELECT LocalDomainBlocklistTableName FROM $_QL88I WHERE id=".intval($_fiioj);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if($_QL8i1) {
+      $_QLO0f = mysql_fetch_row($_QL8i1);
+      mysql_free_result($_QL8i1);
+      $_Jj6f0 = $_QLO0f[0];
     } else
       return false;
   }
 
   $EMail = trim($EMail);
-  $_Q6i6i = strpos($EMail, '@');
-  if($_Q6i6i !== false)
-     $EMail = substr($EMail, $_Q6i6i + 1);
+  $_QlOjt = strpos($EMail, '@');
+  if($_QlOjt !== false)
+     $EMail = substr($EMail, $_QlOjt + 1);
 
-  $_QJlJ0 = "SELECT COUNT(*) FROM `$_jf1J1` WHERE Domainname="._OPQLR($EMail);
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if($_Q60l1) {
-    $_Q6Q1C = mysql_fetch_row($_Q60l1);
-    mysql_free_result($_Q60l1);
-    return $_Q6Q1C[0] > 0;
+  $_QLfol = "SELECT COUNT(*) FROM `$_Jj6f0` WHERE Domainname="._LRAFO($EMail);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if($_QL8i1) {
+    $_QLO0f = mysql_fetch_row($_QL8i1);
+    mysql_free_result($_QL8i1);
+    return $_QLO0f[0] > 0;
   }
 
   return false;

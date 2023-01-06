@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,7 +26,7 @@
   include_once("htmltools.inc.php");
 
   # Required client version
-  $_f1jLo = 0x100;
+  $_8oojj = 0x100;
 
   if    (
 
@@ -37,15 +37,15 @@
 
      )
   {
-    _LJ06L("Login failed, unknown or missing parameters.", 9999);
+    _JJL0F("Login failed, unknown or missing parameters.", 9999);
     exit;
   }
 
-  if ($_POST["ClientVersion"] < $_f1jLo) {
-    _LJ06L("The client software is too old. Update it with online update function.", 9998);
+  if ($_POST["ClientVersion"] < $_8oojj) {
+    _JJL0F("The client software is too old. Update it with online update function.", 9998);
     exit;
   }
-
+  
   $Action = $_POST["Action"];
 
   # login
@@ -57,32 +57,36 @@
    ( (!isset($_POST["Password"])) || ($_POST["Password"] == "") )
    )
    {
-     _LJ06L("Login failed, unknown or missing parameters.", 9999);
+     _JJL0F("Login failed, unknown or missing parameters.", 9999);
      exit;
    }
 
+   $_It0IQ = version_compare(_LBL0A(), '8.0.11') >= 0;
+   
+   $_QLfol = "SELECT id, Username FROM $_I18lo WHERE Username="._LRAFO($_POST["Username"])." AND ";
+   if(!$_It0IQ)
+     $_QLfol .= "IF(LENGTH(Password) < 80, Password=PASSWORD("._LRAFO($_POST["Password"]).")".", SUBSTRING(Password, 81)=PASSWORD("."CONCAT(SUBSTRING(Password, 1, 80), "._LRAFO($_POST["Password"]).") )".")";
+     else
+     $_QLfol .= "IF(LENGTH(Password) < 80, Password=SHA2("._LRAFO($_POST["Password"]).", 224)".", SUBSTRING(Password, 81)=SHA2("."CONCAT(SUBSTRING(Password, 1, 80), "._LRAFO($_POST["Password"])."), 224)".")";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
 
-   $_QJlJ0 = "SELECT id, Username FROM $_Q8f1L WHERE Username="._OPQLR($_POST["Username"])." AND ";
-   $_QJlJ0 .= "IF(LENGTH(Password) < 80, Password=PASSWORD("._OPQLR($_POST["Password"]).")".", SUBSTRING(Password, 81)=PASSWORD("."CONCAT(SUBSTRING(Password, 1, 80), "._OPQLR($_POST["Password"]).") )".")";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-
-   if ( (!$_Q60l1) || (mysql_num_rows($_Q60l1) == 0) ) {
-     _LJ06L("Username / Password incorrect.", 9997);
+   if ( (!$_QL8i1) || (mysql_num_rows($_QL8i1) == 0) ) {
+     _JJL0F("Username / Password incorrect.", 9997);
      exit;
    }
 
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
    // is it a user than we need the owner_id
-   $_QJlJ0 = "SELECT owner_id FROM $_QLtQO WHERE users_id=$_Q6Q1C[id]";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if ( ($_Q60l1) && (mysql_num_rows($_Q60l1) > 0) ) {
-     $_QllO8 = mysql_fetch_row($_Q60l1);
-     mysql_free_result($_Q60l1);
-     $_Q6Q1C["OwnerUserId"] = $_QllO8[0];
+   $_QLfol = "SELECT owner_id FROM $_IfOtC WHERE users_id=$_QLO0f[id]";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if ( ($_QL8i1) && (mysql_num_rows($_QL8i1) > 0) ) {
+     $_I016j = mysql_fetch_row($_QL8i1);
+     mysql_free_result($_QL8i1);
+     $_QLO0f["OwnerUserId"] = $_I016j[0];
    } else {
-     $_Q6Q1C["OwnerUserId"] = 0;
+     $_QLO0f["OwnerUserId"] = 0;
    }
 
    # ignore errors if session.auto_start = 1
@@ -91,21 +95,21 @@
 
    #session_register("UserId", "OwnerUserId", "Username", "ClientIP");
 
-   $_SESSION["UserId"] = $_Q6Q1C["id"];
-   $_SESSION["OwnerUserId"] = $_Q6Q1C["OwnerUserId"];
-   $_SESSION["Username"] = $_Q6Q1C["Username"];
+   $_SESSION["UserId"] = $_QLO0f["id"];
+   $_SESSION["OwnerUserId"] = $_QLO0f["OwnerUserId"];
+   $_SESSION["Username"] = $_QLO0f["Username"];
    $_SESSION["ClientIP"] = getOwnIP();
 
 
    # Output
-   $_f1fOo = array(
+   $_8oCJ8 = array(
       "Return" => "OK",
       "ErrorCode" => 0,
-      "UserId" => $_Q6Q1C["id"],
-      "OwnerUserId" => $_Q6Q1C["OwnerUserId"],
+      "UserId" => $_QLO0f["id"],
+      "OwnerUserId" => $_QLO0f["OwnerUserId"],
       "SessionId" => session_id()
    );
-   _LJ0AP($_f1fOo);
+   _JJJAJ($_8oCJ8);
 
    exit;
   }
@@ -116,7 +120,7 @@
   if(!ini_get("session.auto_start"))
     @session_start();
   if ( ( !isset($_SESSION["UserId"]) ) Or ( !isset($_SESSION["OwnerUserId"]) ) Or ( !isset($_SESSION["Username"])) ) {
-    _LJ06L("Login incorrect or Session expired.", 100000);
+    _JJL0F("Login incorrect or Session expired.", 100000);
     exit;
   }
   ##########################
@@ -126,11 +130,11 @@
   if($Action == "logout") {
     session_destroy();
     # Output
-    $_f1fOo = array(
+    $_8oCJ8 = array(
        "Return" => "OK",
        "ErrorCode" => 0
     );
-    _LJ0AP($_f1fOo);
+    _JJJAJ($_8oCJ8);
 
    exit;
   }
@@ -145,32 +149,33 @@
   # params none
   if($Action == "getmailinglists") {
     // default SQL query
-    $_QJlJ0 = "SELECT DISTINCT {} FROM $_Q60QL";
+    $_QLfol = "SELECT DISTINCT {} FROM $_QL88I";
     if($OwnerUserId == 0) // ist es ein Admin?
-       $_QJlJ0 .= " WHERE (users_id=$UserId)";
+       $_QLfol .= " WHERE (users_id=$UserId)";
        else {
-        $_QJlJ0 .= " LEFT JOIN $_Q6fio ON $_Q60QL.id=$_Q6fio.maillists_id WHERE (".$_Q6fio.".users_id=$UserId) AND ($_Q60QL.users_id=$OwnerUserId)";
+        $_QLfol .= " LEFT JOIN $_QlQot ON $_QL88I.id=$_QlQot.maillists_id WHERE (".$_QlQot.".users_id=$UserId) AND ($_QL88I.users_id=$OwnerUserId)";
        }
 
     // List of MailingLists SQL query
-    $_Q68ff = str_replace("{}", "id, Name", $_QJlJ0);
-    $_Q68ff .= " ORDER BY Name ASC";
+    $_QlI6f = str_replace("{}", "id, Name", $_QLfol);
+    $_QlI6f .= " ORDER BY Name ASC";
 
-    $_Q60l1 = mysql_query($_Q68ff, $_Q61I1);
-    $_f18Q0=array();
-    while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      $_f18Q0[] = $_Q6Q1C;
+    $_QL8i1 = mysql_query($_QlI6f, $_QLttI);
+    $_8oiIo=array();
+    while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      $_QLO0f["Name"] = unhtmlentities($_QLO0f["Name"], $_QLo06); // UTF-8
+      $_8oiIo[] = $_QLO0f;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_f1fOo = array(
+    $_8oCJ8 = array(
        "Return" => "OK",
        "ErrorCode" => 0,
-       "ItemsCount" => count($_f18Q0),
+       "ItemsCount" => count($_8oiIo),
        "SessionId" => session_id(),
-       "ItemsData" => $_f18Q0
+       "ItemsData" => $_8oiIo
     );
-    _LJ0AP($_f1fOo);
+    _JJJAJ($_8oCJ8);
 
     exit;
   }
@@ -180,31 +185,32 @@
   # Params MailingListId
   if($Action == "getmailinglistgroups") {
     if( !isset($_POST["MailingListId"]) || $_POST["MailingListId"] == "") {
-      _LJ06L("Mailinglist not found, MailingListId missing.", 9995);
+      _JJL0F("Mailinglist not found, MailingListId missing.", 9995);
       exit;
     }
-    _LLF8C(intval($_POST["MailingListId"]), $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo, $FormId);
-    if($_QlQC8 == "" || $_Q6t6j == "" || $_QLI68 == "") {
-      _LJ06L("Mailinglist not found.", 9995);
+    _JJODO(intval($_POST["MailingListId"]), $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f, $FormId);
+    if($_I8I6o == "" || $_QljJi == "" || $_IfJ66 == "") {
+      _JJL0F("Mailinglist not found.", 9995);
       exit;
     }
 
-    $_QJlJ0 = "SELECT id, Name FROM $_Q6t6j";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_f18Q0=array();
-    while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      $_f18Q0[] = $_Q6Q1C;
+    $_QLfol = "SELECT id, Name FROM $_QljJi";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_8oiIo=array();
+    while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      $_QLO0f["Name"] = unhtmlentities($_QLO0f["Name"], $_QLo06); // UTF-8
+      $_8oiIo[] = $_QLO0f;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_f1fOo = array(
+    $_8oCJ8 = array(
        "Return" => "OK",
        "ErrorCode" => 0,
-       "ItemsCount" => count($_f18Q0),
+       "ItemsCount" => count($_8oiIo),
        "SessionId" => session_id(),
-       "ItemsData" => $_f18Q0
+       "ItemsData" => $_8oiIo
     );
-    _LJ0AP($_f1fOo);
+    _JJJAJ($_8oCJ8);
 
     exit;
   }
@@ -214,60 +220,60 @@
   # Params Language
   if($Action == "getfieldnames") {
     if( !isset($_POST["MailingListId"]) || $_POST["MailingListId"] == "") {
-      _LJ06L("Mailinglist not found, MailingListId missing.", 9995);
+      _JJL0F("Mailinglist not found, MailingListId missing.", 9995);
       exit;
     }
     if( !isset($_POST["Language"]) || $_POST["Language"] == "") {
       $_POST["Language"] = "de";
     }
-    _LLF8C(intval($_POST["MailingListId"]), $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo, $FormId);
-    if($_QlQC8 == "" || $_Q6t6j == "" || $_QLI68 == "") {
-      _LJ06L("Mailinglist not found.", 9995);
+    _JJODO(intval($_POST["MailingListId"]), $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f, $FormId);
+    if($_I8I6o == "" || $_QljJi == "" || $_IfJ66 == "") {
+      _JJL0F("Mailinglist not found.", 9995);
       exit;
     }
 
-    $_QLLjo = array();
+    $_Iflj0 = array();
 
-    $_QJlJ0 = "SHOW COLUMNS FROM $_QlQC8";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if ($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-        while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-           foreach ($_Q6Q1C as $key => $_Q6ClO) {
+    $_QLfol = "SHOW COLUMNS FROM $_I8I6o";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if ($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+        while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+           foreach ($_QLO0f as $key => $_QltJO) {
               if ($key == "Field")  {
-                 if(strpos($_Q6ClO, "u_") !== false || $_Q6ClO == "DateOfSubscription" || $_Q6ClO == "DateOfOptInConfirmation" || $_Q6ClO == "IPOnSubscription" || $_Q6ClO == "IdentString") // only user fields
-                   $_QLLjo[$_Q6ClO] = $_Q6ClO;
+                 if(strpos($_QltJO, "u_") !== false || $_QltJO == "DateOfSubscription" || $_QltJO == "DateOfOptInConfirmation" || $_QltJO == "IPOnSubscription" || $_QltJO == "IdentString") // only user fields
+                   $_Iflj0[$_QltJO] = $_QltJO;
                  break;
               }
            }
         }
-        mysql_free_result($_Q60l1);
+        mysql_free_result($_QL8i1);
     }
 
-    $_QJlJ0 = "SELECT fieldname, text FROM $_Qofjo WHERE language=". _OPQLR($_POST["Language"]);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
+    $_QLfol = "SELECT fieldname, text FROM $_Ij8oL WHERE language=". _LRAFO($_POST["Language"]);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
       // no blanks & -
-      $_I11oJ = str_replace(" ", "_", $_Q6Q1C["text"]);
-      $_I11oJ = str_replace("-", "_", $_I11oJ);
-      $_I11oJ = unhtmlentities($_I11oJ, $_Q6QQL); // UTF-8
-      $_QLLjo[$_Q6Q1C["fieldname"]] = $_I11oJ;
+      $_IO08l = str_replace(" ", "_", $_QLO0f["text"]);
+      $_IO08l = str_replace("-", "_", $_IO08l);
+      $_IO08l = unhtmlentities($_IO08l, $_QLo06); // UTF-8
+      $_Iflj0[$_QLO0f["fieldname"]] = $_IO08l;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_f18Q0=array();
-    reset($_QLLjo);
-    foreach($_QLLjo as $key => $_Q6ClO)  {
-       $_f18Q0[] = array($key => $_Q6ClO);
+    $_8oiIo=array();
+    reset($_Iflj0);
+    foreach($_Iflj0 as $key => $_QltJO)  {
+       $_8oiIo[] = array($key => $_QltJO);
     }
 
-    $_f1fOo = array(
+    $_8oCJ8 = array(
        "Return" => "OK",
        "ErrorCode" => 0,
-       "ItemsCount" => count($_f18Q0),
+       "ItemsCount" => count($_8oiIo),
        "SessionId" => session_id(),
-       "ItemsData" => $_f18Q0
+       "ItemsData" => $_8oiIo
     );
-    _LJ0AP($_f1fOo);
+    _JJJAJ($_8oCJ8);
 
     exit;
   }
@@ -277,33 +283,33 @@
   # Params GroupName
   if($Action == "getgroupid") {
     if( !isset($_POST["MailingListId"]) || $_POST["MailingListId"] == "") {
-      _LJ06L("Mailinglist not found, MailingListId missing.", 9995);
+      _JJL0F("Mailinglist not found, MailingListId missing.", 9995);
       exit;
     }
-    _LLF8C(intval($_POST["MailingListId"]), $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo, $FormId);
-    if($_QlQC8 == "" || $_Q6t6j == "" || $_QLI68 == "") {
-      _LJ06L("Mailinglist not found.", 9995);
+    _JJODO(intval($_POST["MailingListId"]), $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f, $FormId);
+    if($_I8I6o == "" || $_QljJi == "" || $_IfJ66 == "") {
+      _JJL0F("Mailinglist not found.", 9995);
       exit;
     }
 
     if(!isset($_POST["GroupName"]) || $_POST["GroupName"] == "") {
-      _LJ06L("GroupName not found, GroupName missing.", 9994);
+      _JJL0F("GroupName not found, GroupName missing.", 9994);
       exit;
     }
 
-    $_QJlJ0 = "SELECT id FROM $_Q6t6j WHERE Name="._OPQLR($_POST["GroupName"]);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-       $_Q6Q1C = mysql_fetch_row($_Q60l1);
-       $_f1fOo = array(
+    $_QLfol = "SELECT id FROM $_QljJi WHERE Name="._LRAFO($_POST["GroupName"]);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+       $_QLO0f = mysql_fetch_row($_QL8i1);
+       $_8oCJ8 = array(
           "Return" => "OK",
           "ErrorCode" => 0,
-          "GroupsId" => $_Q6Q1C[0],
+          "GroupsId" => $_QLO0f[0],
           "SessionId" => session_id(),
        );
-       _LJ0AP($_f1fOo);
+       _JJJAJ($_8oCJ8);
     } else {
-      _LJ06L("Group not found", 9993);
+      _JJL0F("Group not found", 9993);
     }
 
     exit;
@@ -314,45 +320,45 @@
   # Params GroupsId or 0
   if($Action == "getrecipientcount") {
     if( !isset($_POST["MailingListId"]) || $_POST["MailingListId"] == "") {
-      _LJ06L("Mailinglist not found, MailingListId missing.", 9995);
+      _JJL0F("Mailinglist not found, MailingListId missing.", 9995);
       exit;
     }
-    _LLF8C(intval($_POST["MailingListId"]), $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo, $FormId);
-    if($_QlQC8 == "" || $_Q6t6j == "" || $_QLI68 == "") {
-      _LJ06L("Mailinglist not found.", 9995);
+    _JJODO(intval($_POST["MailingListId"]), $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f, $FormId);
+    if($_I8I6o == "" || $_QljJi == "" || $_IfJ66 == "") {
+      _JJL0F("Mailinglist not found.", 9995);
       exit;
     }
 
-    $_Q8otJ = array();
-    $_Q8otJ[] = "COUNT($_QlQC8.id)";
+    $_I1OoI = array();
+    $_I1OoI[] = "COUNT($_I8I6o.id)";
 
-    $_QJlJ0 = "SELECT ".join(",", $_Q8otJ)." FROM $_QlQC8";
+    $_QLfol = "SELECT ".join(",", $_I1OoI)." FROM $_I8I6o";
 
-    $_QJlJ0 .= " LEFT JOIN `$_Ql8C0` ON `$_Ql8C0`.`u_EMail` = `$_QlQC8`.`u_EMail`";
-    $_QJlJ0 .= " LEFT JOIN `$_ItCCo` ON `$_ItCCo`.`u_EMail` = `$_QlQC8`.`u_EMail`";
+    $_QLfol .= " LEFT JOIN `$_I8tfQ` ON `$_I8tfQ`.`u_EMail` = `$_I8I6o`.`u_EMail`";
+    $_QLfol .= " LEFT JOIN `$_jjj8f` ON `$_jjj8f`.`u_EMail` = `$_I8I6o`.`u_EMail`";
 
     if (isset($_POST["GroupsId"]) && $_POST["GroupsId"] != "" && $_POST["GroupsId"] > 0 ) {
-      $_QJlJ0 .= " LEFT JOIN $_QLI68 ON $_QlQC8.id=$_QLI68.Member_id";
+      $_QLfol .= " LEFT JOIN $_IfJ66 ON $_I8I6o.id=$_IfJ66.Member_id";
     }
 
-    $_QJlJ0 .= " WHERE ($_QlQC8.IsActive=1 AND $_QlQC8.SubscriptionStatus<>'OptInConfirmationPending')";
-    $_QJlJ0 .= " AND `$_Ql8C0`.`u_EMail` IS NULL AND `$_ItCCo`.`u_EMail` IS NULL ";
+    $_QLfol .= " WHERE ($_I8I6o.IsActive=1 AND $_I8I6o.SubscriptionStatus<>'OptInConfirmationPending')";
+    $_QLfol .= " AND `$_I8tfQ`.`u_EMail` IS NULL AND `$_jjj8f`.`u_EMail` IS NULL ";
 
     if (isset($_POST["GroupsId"]) && $_POST["GroupsId"] != "" && $_POST["GroupsId"] > 0 )
-      $_QJlJ0 .= " AND $_QLI68.groups_id = ".intval($_POST["GroupsId"]);
+      $_QLfol .= " AND $_IfJ66.groups_id = ".intval($_POST["GroupsId"]);
 
 
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6Q1C = mysql_fetch_row($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_row($_QL8i1);
+    mysql_free_result($_QL8i1);
 
-    $_f1fOo = array(
+    $_8oCJ8 = array(
        "Return" => "OK",
        "ErrorCode" => 0,
-       "ItemsCount" => $_Q6Q1C[0],
+       "ItemsCount" => $_QLO0f[0],
        "SessionId" => session_id(),
     );
-    _LJ0AP($_f1fOo);
+    _JJJAJ($_8oCJ8);
 
     exit;
   }
@@ -365,12 +371,12 @@
   # Params Fields
   if($Action == "getrecipients") {
     if( !isset($_POST["MailingListId"]) || $_POST["MailingListId"] == "") {
-      _LJ06L("Mailinglist not found, MailingListId missing.", 9995);
+      _JJL0F("Mailinglist not found, MailingListId missing.", 9995);
       exit;
     }
-    _LLF8C(intval($_POST["MailingListId"]), $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo, $FormId);
-    if($_QlQC8 == "" || $_Q6t6j == "" || $_QLI68 == "") {
-      _LJ06L("Mailinglist not found.", 9995);
+    _JJODO(intval($_POST["MailingListId"]), $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f, $FormId);
+    if($_I8I6o == "" || $_QljJi == "" || $_IfJ66 == "") {
+      _JJL0F("Mailinglist not found.", 9995);
       exit;
     }
     if( !isset($_POST["Language"]) || $_POST["Language"] == "") {
@@ -380,67 +386,67 @@
       $_POST["Fields"] = "*";
 
     if(strpos($_POST["Fields"], ",") !== true) {
-      $_Q8otJ = explode(',', $_POST["Fields"]);
+      $_I1OoI = explode(',', $_POST["Fields"]);
     } else
-      $_Q8otJ[] = $_POST["Fields"];
-    $_Q8otJ[] = "id AS internalRecipientsId";
+      $_I1OoI[] = $_POST["Fields"];
+    $_I1OoI[] = "id AS internalRecipientsId";
 
-    for($_Q6llo=0;$_Q6llo<count($_Q8otJ);$_Q6llo++) {
-      $_Q8otJ[$_Q6llo] = "`$_QlQC8`.".trim($_Q8otJ[$_Q6llo]);
+    for($_Qli6J=0;$_Qli6J<count($_I1OoI);$_Qli6J++) {
+      $_I1OoI[$_Qli6J] = "`$_I8I6o`.".trim($_I1OoI[$_Qli6J]);
     }
 
-    $_QJlJ0 = "SELECT ".join(",", $_Q8otJ)." FROM $_QlQC8";
+    $_QLfol = "SELECT ".join(",", $_I1OoI)." FROM $_I8I6o";
 
-    $_QJlJ0 .= " LEFT JOIN `$_Ql8C0` ON `$_Ql8C0`.`u_EMail` = `$_QlQC8`.`u_EMail`";
-    $_QJlJ0 .= " LEFT JOIN `$_ItCCo` ON `$_ItCCo`.`u_EMail` = `$_QlQC8`.`u_EMail`";
+    $_QLfol .= " LEFT JOIN `$_I8tfQ` ON `$_I8tfQ`.`u_EMail` = `$_I8I6o`.`u_EMail`";
+    $_QLfol .= " LEFT JOIN `$_jjj8f` ON `$_jjj8f`.`u_EMail` = `$_I8I6o`.`u_EMail`";
 
     if (isset($_POST["GroupsId"]) && $_POST["GroupsId"] != "" && $_POST["GroupsId"] > 0 ) {
-      $_QJlJ0 .= " LEFT JOIN $_QLI68 ON $_QlQC8.id=$_QLI68.Member_id";
+      $_QLfol .= " LEFT JOIN $_IfJ66 ON $_I8I6o.id=$_IfJ66.Member_id";
     }
 
-    $_QJlJ0 .= " WHERE ($_QlQC8.IsActive=1 AND $_QlQC8.SubscriptionStatus<>'OptInConfirmationPending')";
-    $_QJlJ0 .= " AND `$_Ql8C0`.`u_EMail` IS NULL AND `$_ItCCo`.`u_EMail` IS NULL ";
+    $_QLfol .= " WHERE ($_I8I6o.IsActive=1 AND $_I8I6o.SubscriptionStatus<>'OptInConfirmationPending')";
+    $_QLfol .= " AND `$_I8tfQ`.`u_EMail` IS NULL AND `$_jjj8f`.`u_EMail` IS NULL ";
 
     if (isset($_POST["GroupsId"]) && $_POST["GroupsId"] != "" && $_POST["GroupsId"] > 0 )
-      $_QJlJ0 .= " AND $_QLI68.groups_id = ".intval($_POST["GroupsId"]);
+      $_QLfol .= " AND $_IfJ66.groups_id = ".intval($_POST["GroupsId"]);
 
     if(isset($_POST["Start"]) && isset($_POST["Limit"]) && $_POST["Limit"] > 0) {
-      $_QJlJ0 .= " LIMIT ".intval($_POST["Start"]).", ".intval($_POST["Limit"]);
+      $_QLfol .= " LIMIT ".intval($_POST["Start"]).", ".intval($_POST["Limit"]);
     }
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
 
-    $_f18Q0=array();
-    while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      $_QfoQo = "";
-      reset($_Q6Q1C);
-      foreach($_Q6Q1C as $key => $_Q6ClO) {
+    $_8oiIo=array();
+    while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      $_I0Clj = "";
+      reset($_QLO0f);
+      foreach($_QLO0f as $key => $_QltJO) {
 
          if($key == "internalRecipientsId") continue;
          if($key == "IdentString")
-           $_Q6ClO = _OA81R($_Q6ClO, $_Q6Q1C["internalRecipientsId"], intval($_POST["MailingListId"]), $FormId, $_QlQC8);
+           $_QltJO = _LPQ8Q($_QltJO, $_QLO0f["internalRecipientsId"], intval($_POST["MailingListId"]), $FormId, $_I8I6o);
 
-         $_Q6ClO = str_replace(";", "", $_Q6ClO);
-         if($_QfoQo == "")
-           $_QfoQo = _OPQJR(unhtmlentities($_Q6ClO, "utf-8"));
+         $_QltJO = str_replace(";", "", unhtmlentities(_LCRC8($_QltJO), "utf-8"));
+         if($_I0Clj == "")
+           $_I0Clj = _LRBC0($_QltJO);
            else
-           $_QfoQo .= ";"._OPQJR(unhtmlentities($_Q6ClO, "utf-8"));
+           $_I0Clj .= ";"._LRBC0($_QltJO);
       }
 
-      $_QfoQo = str_replace("\r\n", '\n', $_QfoQo);
-      $_QfoQo = str_replace("\r", '\n', $_QfoQo);
-      $_QfoQo = str_replace("\n", '\n', $_QfoQo);
-      $_f18Q0[] = $_QfoQo;
+      $_I0Clj = str_replace("\r\n", '\n', $_I0Clj);
+      $_I0Clj = str_replace("\r", '\n', $_I0Clj);
+      $_I0Clj = str_replace("\n", '\n', $_I0Clj);
+      $_8oiIo[] = $_I0Clj;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_f1fOo = array(
+    $_8oCJ8 = array(
        "Return" => "OK",
        "ErrorCode" => 0,
-       "ItemsCount" => count($_f18Q0),
+       "ItemsCount" => count($_8oiIo),
        "SessionId" => session_id(),
-       "ItemsData" => join(chr(14).chr(15), $_f18Q0)  // #E#F as line separator
+       "ItemsData" => join(chr(14).chr(15), $_8oiIo)  // #E#F as line separator
     );
-    _LJ0AP($_f1fOo);
+    _JJJAJ($_8oCJ8);
 
     exit;
   }
@@ -449,28 +455,28 @@
   # Params MailingListId
   if($Action == "getlocalblocklistentrycount") {
     if( !isset($_POST["MailingListId"]) || $_POST["MailingListId"] == "") {
-      _LJ06L("Mailinglist not found, MailingListId missing.", 9995);
+      _JJL0F("Mailinglist not found, MailingListId missing.", 9995);
       exit;
     }
-    _LLF8C($_POST["MailingListId"], $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo, $FormId);
-    if($_QlQC8 == "" || $_Q6t6j == "" || $_QLI68 == "") {
-      _LJ06L("Mailinglist not found.", 9995);
+    _JJODO($_POST["MailingListId"], $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f, $FormId);
+    if($_I8I6o == "" || $_QljJi == "" || $_IfJ66 == "") {
+      _JJL0F("Mailinglist not found.", 9995);
       exit;
     }
 
-    $_QJlJ0 = "SELECT COUNT(*) FROM $_ItCCo";
+    $_QLfol = "SELECT COUNT(*) FROM $_jjj8f";
 
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6Q1C = mysql_fetch_row($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_row($_QL8i1);
+    mysql_free_result($_QL8i1);
 
-    $_f1fOo = array(
+    $_8oCJ8 = array(
        "Return" => "OK",
        "ErrorCode" => 0,
-       "ItemsCount" => $_Q6Q1C[0],
+       "ItemsCount" => $_QLO0f[0],
        "SessionId" => session_id(),
     );
-    _LJ0AP($_f1fOo);
+    _JJJAJ($_8oCJ8);
 
     exit;
   }
@@ -481,45 +487,45 @@
   # Params Limit
   if($Action == "getlocalblocklistentries") {
     if( !isset($_POST["MailingListId"]) || $_POST["MailingListId"] == "") {
-      _LJ06L("Mailinglist not found, MailingListId missing.", 9995);
+      _JJL0F("Mailinglist not found, MailingListId missing.", 9995);
       exit;
     }
-    _LLF8C(intval($_POST["MailingListId"]), $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo, $FormId);
-    if($_QlQC8 == "" || $_Q6t6j == "" || $_QLI68 == "") {
-      _LJ06L("Mailinglist not found.", 9995);
+    _JJODO(intval($_POST["MailingListId"]), $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f, $FormId);
+    if($_I8I6o == "" || $_QljJi == "" || $_IfJ66 == "") {
+      _JJL0F("Mailinglist not found.", 9995);
       exit;
     }
 
-    $_QJlJ0 = "SELECT u_EMail FROM $_ItCCo";
+    $_QLfol = "SELECT u_EMail FROM $_jjj8f";
 
     if(isset($_POST["Start"]) && isset($_POST["Limit"]) && $_POST["Limit"] > 0) {
-      $_QJlJ0 .= " LIMIT ".intval($_POST["Start"]).", ".intval($_POST["Limit"]);
+      $_QLfol .= " LIMIT ".intval($_POST["Start"]).", ".intval($_POST["Limit"]);
     }
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
 
-    $_f18Q0=array();
-    while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      $_QfoQo = "";
-      reset($_Q6Q1C);
-      foreach($_Q6Q1C as $key => $_Q6ClO) {
-         if($_QfoQo == "")
-           $_QfoQo = _OPQJR(unhtmlentities($_Q6ClO, "utf-8"));
+    $_8oiIo=array();
+    while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      $_I0Clj = "";
+      reset($_QLO0f);
+      foreach($_QLO0f as $key => $_QltJO) {
+         if($_I0Clj == "")
+           $_I0Clj = _LRBC0(unhtmlentities($_QltJO, "utf-8"));
            else
-           $_QfoQo .= ";"._OPQJR(unhtmlentities($_Q6ClO, "utf-8"));
+           $_I0Clj .= ";"._LRBC0(unhtmlentities($_QltJO, "utf-8"));
       }
 
-      $_f18Q0[] = $_QfoQo;
+      $_8oiIo[] = $_I0Clj;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_f1fOo = array(
+    $_8oCJ8 = array(
        "Return" => "OK",
        "ErrorCode" => 0,
-       "ItemsCount" => count($_f18Q0),
+       "ItemsCount" => count($_8oiIo),
        "SessionId" => session_id(),
-       "ItemsData" => join(chr(14).chr(15), $_f18Q0)  // #E#F as line separator
+       "ItemsData" => join(chr(14).chr(15), $_8oiIo)  // #E#F as line separator
     );
-    _LJ0AP($_f1fOo);
+    _JJJAJ($_8oCJ8);
 
     exit;
   }
@@ -528,29 +534,29 @@
   if($Action == "getglobalblocklistentrycount") {
 
     // Load User tables
-    $_ICoOt = intval($_SESSION["OwnerUserId"]);
-    if($_ICoOt == 0)
-      $_ICoOt = intval($_SESSION["UserId"]);
-    $_QJlJ0 = "SELECT * FROM $_Q8f1L WHERE id=$_ICoOt";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_j6lIj = intval($_SESSION["OwnerUserId"]);
+    if($_j6lIj == 0)
+      $_j6lIj = intval($_SESSION["UserId"]);
+    $_QLfol = "SELECT * FROM $_I18lo WHERE id=$_j6lIj";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
 
-    $_Ql8C0 = $_Q6Q1C["GlobalBlockListTableName"];
+    $_I8tfQ = $_QLO0f["GlobalBlockListTableName"];
 
-    $_QJlJ0 = "SELECT COUNT(*) FROM $_Ql8C0";
+    $_QLfol = "SELECT COUNT(*) FROM $_I8tfQ";
 
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6Q1C = mysql_fetch_row($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_row($_QL8i1);
+    mysql_free_result($_QL8i1);
 
-    $_f1fOo = array(
+    $_8oCJ8 = array(
        "Return" => "OK",
        "ErrorCode" => 0,
-       "ItemsCount" => $_Q6Q1C[0],
+       "ItemsCount" => $_QLO0f[0],
        "SessionId" => session_id(),
     );
-    _LJ0AP($_f1fOo);
+    _JJJAJ($_8oCJ8);
 
     exit;
   }
@@ -561,218 +567,218 @@
   if($Action == "getglobalblocklistentries") {
 
     // Load User tables
-    $_ICoOt = intval($_SESSION["OwnerUserId"]);
-    if($_ICoOt == 0)
-      $_ICoOt = intval($_SESSION["UserId"]);
-    $_QJlJ0 = "SELECT * FROM $_Q8f1L WHERE id=$_ICoOt";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_j6lIj = intval($_SESSION["OwnerUserId"]);
+    if($_j6lIj == 0)
+      $_j6lIj = intval($_SESSION["UserId"]);
+    $_QLfol = "SELECT * FROM $_I18lo WHERE id=$_j6lIj";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
 
-    $_QJlJ0 = "SELECT u_EMail FROM $_Ql8C0";
+    $_QLfol = "SELECT u_EMail FROM $_I8tfQ";
 
     if(isset($_POST["Start"]) && isset($_POST["Limit"]) && $_POST["Limit"] > 0) {
-      $_QJlJ0 .= " LIMIT ".intval($_POST["Start"]).", ".intval($_POST["Limit"]);
+      $_QLfol .= " LIMIT ".intval($_POST["Start"]).", ".intval($_POST["Limit"]);
     }
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
 
-    $_f18Q0=array();
-    while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      $_QfoQo = "";
-      reset($_Q6Q1C);
-      foreach($_Q6Q1C as $key => $_Q6ClO) {
-         if($_QfoQo == "")
-           $_QfoQo = _OPQJR(unhtmlentities($_Q6ClO, "utf-8"));
+    $_8oiIo=array();
+    while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      $_I0Clj = "";
+      reset($_QLO0f);
+      foreach($_QLO0f as $key => $_QltJO) {
+         if($_I0Clj == "")
+           $_I0Clj = _LRBC0(unhtmlentities($_QltJO, "utf-8"));
            else
-           $_QfoQo .= ";"._OPQJR(unhtmlentities($_Q6ClO, "utf-8"));
+           $_I0Clj .= ";"._LRBC0(unhtmlentities($_QltJO, "utf-8"));
       }
 
-      $_f18Q0[] = $_QfoQo;
+      $_8oiIo[] = $_I0Clj;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_f1fOo = array(
+    $_8oCJ8 = array(
        "Return" => "OK",
        "ErrorCode" => 0,
-       "ItemsCount" => count($_f18Q0),
+       "ItemsCount" => count($_8oiIo),
        "SessionId" => session_id(),
-       "ItemsData" => join(chr(14).chr(15), $_f18Q0)  // #E#F as line separator
+       "ItemsData" => join(chr(14).chr(15), $_8oiIo)  // #E#F as line separator
     );
-    _LJ0AP($_f1fOo);
+    _JJJAJ($_8oCJ8);
 
     exit;
   }
 
   if($Action == "updaterecipient") {
 
-    $_QLitI = 0;
+    $_IfLJj = 0;
     $MailingListId = 0;
     $FormId = 0;
     if(!empty($_POST["IdentString"])) {
-       if(!_OA8LE($_POST["IdentString"], $_QLitI, $MailingListId, $FormId)) {
-         _LJ06L("Invalid IdentString.", 9990);
+       if(!_LPQEP($_POST["IdentString"], $_IfLJj, $MailingListId, $FormId)) {
+         _JJL0F("Invalid IdentString.", 9990);
          exit;
        }
 
 
-       $_f1OQ0 = "id=".$MailingListId;
+       $_8oLif = "id=".$MailingListId;
     }
     else
     if(!empty($_POST["EMail"]) && !empty($_POST["MailingListName"])) {
 
-      $_f1OQ0 = "Name="._OPQLR($_POST["MailingListName"]);
+      $_8oLif = "Name="._LRAFO($_POST["MailingListName"]);
 
     } else {
-       _LJ06L("Invalid IdentString, EMail or MailingListName.", 9989);
+       _JJL0F("Invalid IdentString, EMail or MailingListName.", 9989);
        exit;
     }
 
 
-    $_QJlJ0 = "SELECT $_Q60QL.id, $_Q60QL.MaillistTableName, $_Q60QL.MailLogTableName FROM $_Q60QL";
+    $_QLfol = "SELECT $_QL88I.id, $_QL88I.MaillistTableName, $_QL88I.MailLogTableName FROM $_QL88I";
     if($OwnerUserId == 0) // ist es ein Admin?
-       $_QJlJ0 .= " WHERE (users_id=$UserId)";
+       $_QLfol .= " WHERE (users_id=$UserId)";
        else {
-        $_QJlJ0 .= " LEFT JOIN $_Q6fio ON $_Q60QL.id=$_Q6fio.maillists_id WHERE (".$_Q6fio.".users_id=$UserId) AND ($_Q60QL.users_id=$OwnerUserId)";
+        $_QLfol .= " LEFT JOIN $_QlQot ON $_QL88I.id=$_QlQot.maillists_id WHERE (".$_QlQot.".users_id=$UserId) AND ($_QL88I.users_id=$OwnerUserId)";
        }
 
-    $_QJlJ0 .= " AND $_f1OQ0";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if(!$_Q60l1) {
-      _LJ06L("Invalid MailingListName.", 9988);
+    $_QLfol .= " AND $_8oLif";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if(!$_QL8i1) {
+      _JJL0F("Invalid MailingListName.", 9988);
       exit;
     }
-    while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      $MailingListId = $_Q6Q1C["id"];
-      $_QlQC8 = $_Q6Q1C["MaillistTableName"];
-      $_QljIQ = $_Q6Q1C["MailLogTableName"];
+    while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      $MailingListId = $_QLO0f["id"];
+      $_I8I6o = $_QLO0f["MaillistTableName"];
+      $_I8jLt = $_QLO0f["MailLogTableName"];
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    if($_QLitI == 0) {
-      $_QJlJ0 = "SELECT id FROM $_QlQC8 WHERE `u_EMail`="._OPQLR($_POST["EMail"]);
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if(!$_Q60l1) {
-        _LJ06L("Invalid Recipient.", 9988);
+    if($_IfLJj == 0) {
+      $_QLfol = "SELECT id FROM $_I8I6o WHERE `u_EMail`="._LRAFO($_POST["EMail"]);
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if(!$_QL8i1) {
+        _JJL0F("Invalid Recipient.", 9988);
         exit;
       }
-      $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
-      $_QLitI = $_Q6Q1C["id"];
+      $_QLO0f = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
+      $_IfLJj = $_QLO0f["id"];
     }
 
-    $_JL6of = $_POST["DateTime"]." - ".$_POST["MailSubject"];
-    $_QJlJ0 = "UPDATE `$_QljIQ` SET `MailLog`=CONCAT(`MailLog`, "._OPQLR($_Q6JJJ.$_JL6of).") WHERE `Member_id`=$_QLitI";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
+    $_fji10 = $_POST["DateTime"]." - ".$_POST["MailSubject"];
+    $_QLfol = "UPDATE `$_I8jLt` SET `MailLog`=CONCAT(`MailLog`, "._LRAFO($_QLl1Q.$_fji10).") WHERE `Member_id`=$_IfLJj";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
 
-    if(mysql_affected_rows($_Q61I1) == 0) {
-      $_QJlJ0 = "INSERT INTO `$_QljIQ` SET `Member_id`=$_QLitI, `MailLog`="._OPQLR($_JL6of);
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
+    if(mysql_affected_rows($_QLttI) == 0) {
+      $_QLfol = "INSERT INTO `$_I8jLt` SET `Member_id`=$_IfLJj, `MailLog`="._LRAFO($_fji10);
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
     }
-    if($_Q60l1){
-      $_QJlJ0 = "UPDATE $_QlQC8 SET `LastEMailSent`="._OPQLR($_POST["DateTime"])." WHERE `id`=$_QLitI";
-      mysql_query($_QJlJ0, $_Q61I1);
+    if($_QL8i1){
+      $_QLfol = "UPDATE $_I8I6o SET `LastEMailSent`="._LRAFO($_POST["DateTime"])." WHERE `id`=$_IfLJj";
+      mysql_query($_QLfol, $_QLttI);
     }
-    if($_Q60l1) {
-       $_f1fOo = array(
+    if($_QL8i1) {
+       $_8oCJ8 = array(
           "Return" => "OK",
           "ErrorCode" => 0,
           "SessionId" => session_id()
        );
-       _LJ0AP($_f1fOo);
+       _JJJAJ($_8oCJ8);
     }
     else
-      _LJ06L("Can't update maillog.", 9987);
+      _JJL0F("Can't update maillog.", 9987);
     exit;
   }
 
-  function _LLF8C($_f1ol6, &$_QlQC8, &$_Q6t6j, &$_QLI68, &$_ItCCo, &$FormId) {
-   global $_Q60QL, $_Q6fio, $_Q8f1L, $_Q61I1;
-   global $UserId, $OwnerUserId, $_Ql8C0;
-   $_QlQC8 = "";
-   $_Q6t6j = "";
-   $_QLI68 = "";
+  function _JJODO($_8olOf, &$_I8I6o, &$_QljJi, &$_IfJ66, &$_jjj8f, &$FormId) {
+   global $_QL88I, $_QlQot, $_I18lo, $_QLttI;
+   global $UserId, $OwnerUserId, $_I8tfQ;
+   $_I8I6o = "";
+   $_QljJi = "";
+   $_IfJ66 = "";
    $FormId = 0;
-   $_f1ol6 = intval($_f1ol6);
+   $_8olOf = intval($_8olOf);
 
-   $_QJlJ0 = "SELECT GlobalBlockListTableName FROM $_Q8f1L WHERE id=";
+   $_QLfol = "SELECT GlobalBlockListTableName FROM $_I18lo WHERE id=";
    if($OwnerUserId == 0) // ist es ein Admin?
-      $_QJlJ0 .= $UserId;
+      $_QLfol .= $UserId;
       else
-      $_QJlJ0 .= $OwnerUserId;
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && mysql_num_rows($_Q60l1) == 1) {
-     $_Q6Q1C = mysql_fetch_row($_Q60l1);
-     mysql_free_result($_Q60l1);
-     $_Ql8C0 = $_Q6Q1C[0];
+      $_QLfol .= $OwnerUserId;
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && mysql_num_rows($_QL8i1) == 1) {
+     $_QLO0f = mysql_fetch_row($_QL8i1);
+     mysql_free_result($_QL8i1);
+     $_I8tfQ = $_QLO0f[0];
    } else {
-     _LJ06L("User not found", 9996);
+     _JJL0F("User not found", 9996);
      exit;
    }
 
-   $_QJlJ0 = "SELECT MaillistTableName, GroupsTableName, MailListToGroupsTableName, LocalBlocklistTableName, forms_id FROM $_Q60QL";
+   $_QLfol = "SELECT MaillistTableName, GroupsTableName, MailListToGroupsTableName, LocalBlocklistTableName, forms_id FROM $_QL88I";
    if($OwnerUserId == 0) // ist es ein Admin?
-      $_QJlJ0 .= " WHERE (users_id=$UserId)";
+      $_QLfol .= " WHERE (users_id=$UserId)";
       else {
-       $_QJlJ0 .= " LEFT JOIN $_Q6fio ON $_Q60QL.id=$_Q6fio.maillists_id WHERE (".$_Q6fio.".users_id=$UserId) AND ($_Q60QL.users_id=$OwnerUserId)";
+       $_QLfol .= " LEFT JOIN $_QlQot ON $_QL88I.id=$_QlQot.maillists_id WHERE (".$_QlQot.".users_id=$UserId) AND ($_QL88I.users_id=$OwnerUserId)";
       }
-   $_QJlJ0 .= " AND $_Q60QL.id=$_f1ol6";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && mysql_num_rows($_Q60l1) == 1) {
-     $_Q6Q1C = mysql_fetch_row($_Q60l1);
-     $_QlQC8 = $_Q6Q1C[0];
-     $_Q6t6j = $_Q6Q1C[1];
-     $_QLI68 = $_Q6Q1C[2];
-     $_ItCCo = $_Q6Q1C[3];
-     $FormId = $_Q6Q1C[4];
-     mysql_free_result($_Q60l1);
+   $_QLfol .= " AND $_QL88I.id=$_8olOf";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && mysql_num_rows($_QL8i1) == 1) {
+     $_QLO0f = mysql_fetch_row($_QL8i1);
+     $_I8I6o = $_QLO0f[0];
+     $_QljJi = $_QLO0f[1];
+     $_IfJ66 = $_QLO0f[2];
+     $_jjj8f = $_QLO0f[3];
+     $FormId = $_QLO0f[4];
+     mysql_free_result($_QL8i1);
    } else {
-     _LJ06L("Mailinglist not found", 9996);
+     _JJL0F("Mailinglist not found", 9996);
      exit;
    }
   }
 
 
-  function _LJ06L($_jj0JO, $_f1CCi, $_f1ClI = false) {
-     if (!$_f1ClI) {
+  function _JJL0F($_J0COJ, $_8olOL, $_8oloj = false) {
+     if (!$_8oloj) {
        print "Return: ERROR\r\n";
-       print "ErrorCode: $_f1CCi\r\n";
-       print "ErrorText: $_jj0JO\r\n";
+       print "ErrorCode: $_8olOL\r\n";
+       print "ErrorText: $_J0COJ\r\n";
        print "\r\n";
        flush();
        exit;
      } else {
        return array(
           "Return" => "ERROR",
-          "ErrorCode" => $_f1CCi,
-          "ErrorText" => $_jj0JO
+          "ErrorCode" => $_8olOL,
+          "ErrorText" => $_J0COJ
        );
      }
   }
 
-  function _LJ08E($_QJCJi) {
-   $_QJCJi = str_replace("\r", "", $_QJCJi);
-   $_QJCJi = str_replace("\n", '\n', $_QJCJi);
-   $_QJCJi = str_replace("</", '<%2F', $_QJCJi);
-   return $_QJCJi;
+  function _JJLE6($_QLJfI) {
+   $_QLJfI = str_replace("\r", "", $_QLJfI);
+   $_QLJfI = str_replace("\n", '\n', $_QLJfI);
+   $_QLJfI = str_replace("</", '<%2F', $_QLJfI);
+   return $_QLJfI;
   }
 
-  function _LJ0AP($_f1fOo) {
-    reset($_f1fOo);
-    foreach ($_f1fOo as $key => $_Q6ClO) {
-      if(!is_array($_Q6ClO)) {
-        echo "$key: $_Q6ClO\r\n";
+  function _JJJAJ($_8oCJ8) {
+    reset($_8oCJ8);
+    foreach ($_8oCJ8 as $key => $_QltJO) {
+      if(!is_array($_QltJO)) {
+        echo "$key: $_QltJO\r\n";
       } else {
-        reset($_Q6ClO);
+        reset($_QltJO);
 
         echo "$key: ";
-        for($_Q6llo=0; $_Q6llo<count($_Q6ClO); $_Q6llo++) {
-          echo "<item value=\"$_Q6llo\">";
-          if(is_array($_Q6ClO[$_Q6llo]) )
-            foreach ($_Q6ClO[$_Q6llo] as $_I1i8O => $_I1L81) {
-              echo "<$_I1i8O>"._LJ08E($_I1L81)."</$_I1i8O>";
+        for($_Qli6J=0; $_Qli6J<count($_QltJO); $_Qli6J++) {
+          echo "<item value=\"$_Qli6J\">";
+          if(is_array($_QltJO[$_Qli6J]) )
+            foreach ($_QltJO[$_Qli6J] as $_IOLil => $_IOCjL) {
+              echo "<$_IOLil>"._JJLE6($_IOCjL)."</$_IOLil>";
             }
-          if(!is_array($_Q6ClO[$_Q6llo]))
-            echo _LJ08E($_Q6ClO[$_Q6llo]);
+          if(!is_array($_QltJO[$_Qli6J]))
+            echo _JJLE6($_QltJO[$_Qli6J]);
           echo "</item>";
         }
 

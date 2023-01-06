@@ -1,0 +1,323 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<title></title>
+
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/" />
+
+<link href="css/help.css" rel="stylesheet" type="text/css" />
+<link href="css/tab-view.css" rel="stylesheet" type="text/css"  media="screen" />
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<link href="css/default.css" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" href="ipe/css/redmond/jquery-ui-1.8.14.custom.css" type="text/css" />
+<script type="text/javascript"  src="js/jquery-latest.min.js"></script>
+<script type="text/javascript" src="ipe/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="ipe/js/jq_inherit.js"></script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<script language="javascript" type="text/javascript" src="js/common.js"></script>
+<script language="javascript" type="text/javascript" src="js/help.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="js/table_highlighted.js"></script>
+
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+.ui-widget {
+    font-family: Arial, sans-serif;
+    font-size: 0.9em;
+}
+
+.ui-accordion .ui-accordion-header {
+    display: block;
+    cursor: pointer;
+    position: relative;
+    margin: 2px 0 0 0;
+    padding: .5em .5em .5em .7em;
+    font-size: 100%;
+}
+
+.ui-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -.25em;
+    position: relative;
+    text-indent: -99999px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+}
+
+.ui-accordion-icons .ui-accordion-header a {
+    padding-left: 1em;
+}
+
+.ui-accordion .ui-accordion-content-active {
+  max-height: 340px;
+}
+-->
+</style>
+</head>
+
+
+<body>
+
+
+<div class="topDialog">
+	<div class="headerDialog">
+
+      <div class="MenuTable">
+        <table style="width: 100%">
+          <tr>
+            <td style="width: 95%;">
+              <LABEL:PAGETOPIC></LABEL:PAGETOPIC><br /><br />
+            </td>
+            <td style="width: 5%;vertical-align:top" nowrap="nowrap">
+              <input type="hidden" name="HelpTopic" id="HelpTopic" />
+              <a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)"><img src="images/help_icon.gif" width="16" height="16" alt="Hilfe" style="text-align: left;" /></a>&nbsp;<a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)">Hilfe</a>&nbsp;
+            </td>
+          </tr>
+        </table>
+      </div>
+
+	</div>
+</div>
+
+
+<div class="PageContainerDialog">
+
+   <div class="container">
+      <SHOWHIDE:ERRORTOPIC>
+        <div class="errortopic">
+        <LABEL:ERRORMESSAGETEXT></LABEL:ERRORMESSAGETEXT>
+        </div>
+      </SHOWHIDE:ERRORTOPIC>
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        SourceElement = parent.document.forms['FORMNAME'].FORMFIELD;
+        IsFCK = false;
+        document.getElementById('HelpTopic').value = parent.document.getElementById('HelpTopic').value;
+      //-->
+      </script>
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+
+         // IE foreach
+         if (window.NodeList && !NodeList.prototype.forEach)
+           NodeList.prototype.forEach = Array.prototype.forEach;
+
+        function PasteText(aText) {
+          var input = SourceElement;
+          input.focus();
+          /* für Internet Explorer */
+          if(typeof parent.document.selection != 'undefined') {
+            /* Einfügen des Formatierungscodes */
+            var range = parent.document.selection.createRange();
+            var insText = range.text;
+            range.text = insText + aText;
+            /* Anpassen der Cursorposition */
+            range = parent.document.selection.createRange();
+            if (insText.length == 0) {
+              range.move('character', -aText.length);
+            } else {
+              range.moveStart('character', insText.length + aText.length);
+            }
+            range.select();
+          }
+          /* für neuere auf Gecko basierende Browser */
+          else if(typeof input.selectionStart != 'undefined')
+          {
+            /* Einfügen des Formatierungscodes */
+            var start = input.selectionStart;
+            var end = input.selectionEnd;
+            var insText = input.value.substring(start, end);
+            input.value = input.value.substr(0, start) + insText + aText + input.value.substr(end);
+            /* Anpassen der Cursorposition */
+            var pos;
+            if (insText.length == 0) {
+              pos = start + aText.length;
+            } else {
+              pos = start + aText.length + insText.length;
+            }
+            input.selectionStart = pos;
+            input.selectionEnd = pos;
+          }
+          /* für die übrigen Browser */
+          else
+          {
+          }
+        }
+
+        function InsertValue(value) {
+          if(!IsFCK)
+            PasteText(value);
+            else {
+              oEditor.focus();
+              oEditor.fire( 'saveSnapshot' );
+              oEditor.insertHtml(value);
+              oEditor.fire( 'saveSnapshot' );
+              oEditor.fire("blur");
+            }
+          var elements = parent.document.getElementsByName("MailEncoding");
+          elements.forEach(function(element) {
+            element.value="utf-8";
+            if(element.onchange())
+              element.onchange();
+          });
+
+        }
+
+      //-->
+      </script>
+
+      <script>
+      $( function() {
+
+
+      } );
+
+
+      $(document).ready(function(){
+        $( "#emojis" ).accordion(
+          {
+          collapsible: true,
+          heightStyle: "content",
+          autoHeight: false,
+          collapsible: true
+          }
+        );
+
+
+        let cells = document.querySelectorAll(".emoji");
+        for(let i=0; i<cells.length; i++) {
+          cells[i].onclick=function(e){Notify(this);};
+        }
+
+        function Notify(cell){
+          InsertValue( cell.innerHTML );
+          parent.closeDialog();
+
+        }
+
+      })
+      </script>
+
+      <form id="EmojiListsForm" name="EmojiListsForm" method="post" action="./browsefunctions.php">
+      <input type="hidden" name="_FORMNAME" />
+      <input type="hidden" name="_FORMFIELD" />
+      <input type="hidden" name="_IsFCKEditor" />
+
+      <style>
+
+      .container ul li {
+          list-style-type: none;
+          padding: 0px;
+          margin: 0px;
+      }
+
+      .container ul {
+          padding: 0px;
+          margin: 0px;
+      }
+
+      .flex-container ul li{
+          list-style-type: none;
+          padding: 0px;
+          margin: 0px;
+      }
+
+      .flex-container {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: flex-start;
+        width: calc(100vw - (100vw - 100%) - 20px);
+
+        padding: 0;
+        margin: 0;
+        list-style-type: none;
+      }
+
+      .flex-item {
+        list-style-type: none;
+        background: transparent;
+        width: 32px;
+        height: 32px;
+        padding: 1px;
+        margin: 1px;
+        text-align: center;
+        font-family: Arial, Helvetica;
+        font-size: 20px;
+        cursor: pointer;
+        border:1px transparent dotted;
+      }
+      .flex-item:hover {
+        border:1px #666666 solid;
+      }
+      .emoji{
+        width: 100%;
+        height: 100%;
+        vertical-align: middle;
+        font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+      </style>
+
+
+      <div id="emojis">
+
+        <EMOJI_GROUP>
+
+        <h3><a name="GROUPID" id="GROUPID"><GROUPNAME></GROUPNAME></a></h3>
+        <div>
+          <ul class="flex-container">
+            <EMOJI_ITEM>
+            <li class="flex-item" title="[keywords]"><span class="emoji"><emoji></emoji></span></li>
+            </EMOJI_ITEM>
+          </ul>
+        </div>
+        </EMOJI_GROUP>
+
+      </div>
+
+
+      <!--
+      <input type="button" name="CloseBtn" value="Schlie&szlig;en" class="FormButton" onclick="parent.closeDialog();" />
+      -->
+
+      </form>      
+
+      <script type="text/javascript">
+      <!--
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+   </div>
+
+
+</div>
+
+</body>
+
+</html>
+

@@ -7,10 +7,10 @@ var messageTypeWarning = 1;
 var messageTypeError = 2;
 var messageTypeConfirmation = 3;
 
-var messageOK = "OK";
-var messageCancel = "Abbrechen";
-var messageYes = "Ja";
-var messageNo = "Nein";
+var messageOK = typeof(rslocmessageOK) == "undefined" ? "OK" : rslocmessageOK;
+var messageCancel = typeof(rslocmessageCancel) == "undefined" ? "Abbrechen" : rslocmessageCancel;
+var messageYes = typeof(rslocmessageYes) == "undefined" ? "Ja" : rslocmessageYes;
+var messageNo = typeof(rslocmessageNo) == "undefined" ? "Nein" : rslocmessageNo;
 
 var messageConfirmationResult = false;
 var promptResult = "";
@@ -42,7 +42,7 @@ function MessageBox(messageTitle, messageContent, messageType, messageBoxWidth, 
 
   html =
   '<html><head><title>' + messageTitle + ' </title></head><body>' +
-  '<form name="myForm">' +
+  '<form name="MessageBoxForm" id="MessageBoxForm">' +
   '<table border="0" onselectstart="return false;" style="cursor: default;-moz-user-select: -moz-none;-khtml-user-select: none;-webkit-user-select: none;user-select: none;">';
 
 
@@ -95,13 +95,13 @@ function MessageBox(messageTitle, messageContent, messageType, messageBoxWidth, 
       html += '			<td colspan="2" width="100%" align="right"><input type="button" value="' + messageYes + '" style="width:60px" onclick="closeMessage();MessageVerify(true)">' +
       '			<input type="button" value="' + messageNo + '" style="width:60px" onclick="closeMessage();MessageVerify(false)"></td>';
       else
-      html += '			<td colspan="2" width="100%" align="right"><input type="button" value="' + messageYes + '" style="width:60px" onclick="closeMessage();' + messageConfirmationEvent + '(true)">' +
-      '			<input type="button" value="' + messageNo + '" style="width:60px" onclick="closeMessage();' + messageConfirmationEvent + '(false)"></td>';
+      html += '			<td colspan="2" width="100%" align="right"><input type="button" value="' + messageYes + '" style="width:60px" onclick="closeMessage();' + messageConfirmationEvent + '(true, this.form)">' +
+      '			<input type="button" value="' + messageNo + '" style="width:60px" onclick="closeMessage();' + messageConfirmationEvent + '(false, this.form)"></td>';
   } else {
-    if(messageConfirmationEvent == "")
+    if(!messageConfirmationEvent || messageConfirmationEvent == "undefined" || messageConfirmationEvent == "")
        html += '<td colspan="2" align="center"><input type="button" value="' + messageOK + '" style="width:60px" onclick="closeMessage();"></td>';
        else
-       html += '<td colspan="2" align="center"><input type="button" value="' + messageOK + '" style="width:60px" onclick="closeMessage();' + messageConfirmationEvent + '(false)"></td>';
+       html += '<td colspan="2" align="center"><input type="button" value="' + messageOK + '" style="width:60px" onclick="closeMessage();' + messageConfirmationEvent + '(false, this.form)"></td>';
   }
 
   html +=
@@ -114,7 +114,7 @@ function MessageBox(messageTitle, messageContent, messageType, messageBoxWidth, 
 
 }
 
-function MessagePrompt(messageTitle, messageContent, defaultValue, messageBoxWidth, messageBoxHeight, promptCallbackEvent, CloseOnEscape) {
+function MessagePrompt(messageTitle, messageContent, defaultValue, messageBoxWidth, messageBoxHeight, promptCallbackEvent, CloseOnEscape, arrPlaceholderItems, defaultPlaceholderItemsSelectedOption) {
 
   if(CloseOnEscape == null)
     CloseOnEscape = true;
@@ -135,7 +135,7 @@ function MessagePrompt(messageTitle, messageContent, defaultValue, messageBoxWid
 
   html =
   '<html><head><title>' + messageTitle + ' </title></head><body>' +
-  '<form name="myForm" onsubmit="return false;">' +
+  '<form name="MessagePromptForm" id="MessagePromptForm" onsubmit="return false;">' +
   '<table border="0" width="100%" onselectstart="return false;" style="cursor: default;-moz-user-select: -moz-none;-khtml-user-select: none;-webkit-user-select: none;user-select: none;">';
 
 
@@ -160,7 +160,24 @@ function MessagePrompt(messageTitle, messageContent, defaultValue, messageBoxWid
   '			<td>' + messageContent + '</td>' +
   '		</tr>';
 
+
   var inputwidth=messageBoxWidth - 48;
+
+  if(arrPlaceholderItems != null){
+
+  var temp =
+
+  '<select size="1" id="messagePromptPlaceHoldersCB" onchange="InsertFieldValue(\'messagePromptPlaceHoldersCB\', \'promptValue\' )" style="max-width: ' + inputwidth + 'px; margin-left: 24px;">' +
+  '<option selected="selected">' + defaultPlaceholderItemsSelectedOption + '</option>' +
+  '</select>';
+
+  html +=
+  '		<tr>' +
+  '			<td colspan="2">' + temp + '</td>' +
+  '		</tr>';
+
+  }
+
   html +=
   '		<tr>' +
   '			<td colspan="2"><input tabindex="1" type="text" id="promptValue" name= "promptValue" value="' + defaultValue + '" style="margin-left: 24px;width: '  + inputwidth + 'px; " /></td>' +
@@ -172,7 +189,7 @@ function MessagePrompt(messageTitle, messageContent, defaultValue, messageBoxWid
   '<td>&nbsp;</td>' +
   '		</tr>';
 
-    html +=
+  html +=
     '		<tr>' +
     '<td colspan="2" style=""><hr color="#7795BD" noshade="noshade" size="1" style="border:none; border-top:1px #7795BD solid; height: 1px;" /></td>' +
     '		</tr>';
@@ -189,13 +206,16 @@ function MessagePrompt(messageTitle, messageContent, defaultValue, messageBoxWid
   '	</table>' +
 
 
-  '</form></body></html>';
-  html += ' <script> document.getElementById(\'promptValue\').focus();	</script>';
+  '</form>';
+
+  html += '</body></html>';
+
 
   messageObj.CloseOnEscape = CloseOnEscape;
   messageObj.defaultButtonOnReturnKey = true;
   promptResult = "";
   displayMessageText(html, messageBoxWidth, messageBoxHeight);
+  messagePromptFillCB("messagePromptPlaceHoldersCB", arrPlaceholderItems);
   messageObj.setFocus("promptValue");
 }
 
@@ -222,7 +242,7 @@ function MessagePromptMultiLine(messageTitle, messageContent, defaultValue, mess
 
   html =
   '<html><head><title>' + messageTitle + ' </title></head><body>' +
-  '<form name="myForm" onsubmit="return false;">' +
+  '<form name="MessagePromptMultiLineForm" id="MessagePromptMultiLineForm" onsubmit="return false;">' +
   '<table border="0" width="100%" onselectstart="return false;" style="cursor: default;-moz-user-select: -moz-none;-khtml-user-select: none;-webkit-user-select: none;user-select: none;">';
 
 
@@ -277,7 +297,6 @@ function MessagePromptMultiLine(messageTitle, messageContent, defaultValue, mess
 
 
   '</form></body></html>';
-  html += ' <script> document.getElementById(\'promptValue\').focus();	</script>';
 
   messageObj.CloseOnEscape = CloseOnEscape;
   messageObj.defaultButtonOnReturnKey = true;
@@ -347,4 +366,23 @@ function displayStaticMessage(messageContent,cssClass)
 function closeMessage()
 {
 	messageObj.close();
+}
+
+function messagePrompthtml_entity_decode( string ) {
+    var ret, tarea = document.createElement('textarea');
+    tarea.innerHTML = string;
+    ret = tarea.value;
+    try {tarea.removeNode(false);}catch(e) {}
+    return ret;
+}
+
+
+function messagePromptFillCB(CBId, arrPlaceholderItems){
+   if(arrPlaceholderItems == null) return;
+   var CB = document.getElementById(CBId);
+   if(CB == null) return;
+   for(var i=0; i<arrPlaceholderItems.length; i++){
+     var newOption = new Option(messagePrompthtml_entity_decode(arrPlaceholderItems[i][1]), arrPlaceholderItems[i][0], false, false);
+     CB.options[CB.length] = newOption;
+   }
 }

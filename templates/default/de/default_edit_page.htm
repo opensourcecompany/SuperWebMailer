@@ -21,28 +21,23 @@ body {
   margin-top: 8px;
 }
 
-@media only screen and (max-width: 640px) {
-   body {
-     min-width: 640px;
-     margin: 0px;
-   }
-   .PageContainerDialog, .container, .containerDialog {width: 620px; margin:0px; padding: 0px; border: 0px}
-   table, tbody, td {display: block}
-   .FormTable td.SubscribeColumn {padding-bottom: 2px; padding-top: 5px}
-   .FormTable td.SubscribeBtnTD, .FormTable td.SubscribeAction {padding-top: 20px}
-}
+.FormTable td.SubscribeColumn {width: 30%;}
+.FormTable td.PrivacyPolicyTD {text-align: justify;}
+.FormTable td.UnsubscribeColumn{text-align: right;}
 
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 720px) {
    body {
-     min-width: 320px;
+     min-width: 99%;
      margin: 0px;
    }
-   .PageContainerDialog, .container, .containerDialog {width: 300px; margin:0px; padding: 0px; border: 0px}
-   .FormTable td.SubscribeColumn {padding-bottom: 2px; padding-top: 5px}
-   .FormTable td.SubscribeBtnTD, .FormTable td.SubscribeAction {padding-top: 20px}
+   .PageContainerDialog, .container, .containerDialog {width: 100%; margin:0px; padding: 0px; border: 0px}
+   table, tbody, td {display: block}
+   .FormTable td.SubscribeColumn {padding-bottom: 2px; padding-top: 5px; width: auto;}
+   .FormTable td.SubscribeBtnTD, .FormTable td.SubscribeAction, .FormTable.PrivacyPolicyTD {padding-top: 20px}
    input[type=text]{
-     width: 260px
+     width: 98%;
    }
+   .FormTable td.UnsubscribeColumn{text-align: inherit;}
 }
 
 -->
@@ -71,9 +66,11 @@ body {
       </SHOWHIDE:ERRORTOPIC>
 
       <form id="EditForm" name="EditForm" method="post" action="./defaultnewsletter.php">
+        <input type="hidden" name="MailingListId" />
+        <input type="hidden" name="FormId" />
         <input type="hidden" name="key" />
         <input type="hidden" name="HTMLForm" />
-        <input type="hidden" name="Action" />
+        <input type="hidden" name="Action" id="Action" />
 
         <fieldset>
         <br />
@@ -89,7 +86,7 @@ body {
 
                 <TABLE:ROW_NEW_EMAILADDRESS>
                 <tr>
-                  <td class="SubscribeColumn"><label for="NewEMail">Neue E-Mail-Adresse&nbsp;*</label>
+                  <td class="SubscribeColumn"><label for="NewEMail">Neue E-Mail-Adresse&nbsp;</label>
                   </td>
                   <td><input type="text" name="NewEMail" size="50" id="NewEMail" /></td>
                 </tr>
@@ -104,6 +101,8 @@ body {
                      <input type="radio" name="u_Gender" value="m" checked="checked" id="u_Gender1" />&nbsp;<label for="u_Gender1">m&auml;nnlich</label>
                      <br />
                      <input type="radio" name="u_Gender" value="w" id="u_Gender2" />&nbsp;<label for="u_Gender2">weiblich</label>
+                     <br />
+                     <input type="radio" name="u_Gender" value="d" id="u_Gender3" />&nbsp;<label for="u_Gender3">divers</label>
                   </td>
                 </tr>
                 </TABLE:GENDER>
@@ -127,16 +126,27 @@ body {
                 <TABLE:USERBOOL>
                 <tr>
                   <td class="SubscribeColumn">
-                    <label for="u_UserFieldBool"><DESCRIPTION></DESCRIPTION></label>&nbsp;*
+                     &nbsp;
                   </td>
                   <td>
-                    <select name="u_UserFieldBool" size="1" style="max-width: 420px;" id="u_UserFieldBool">
-                      <option value="0">FALSCH</option>
-                      <option value="1">WAHR</option>
-                    </select>
+                   <input type="checkbox" name="u_UserFieldBool" value="1" id="u_UserFieldBool" />&nbsp;<label for="u_UserFieldBool"><DESCRIPTION></DESCRIPTION></label>
                   </td>
                 </tr>
                 </TABLE:USERBOOL>
+
+                <TABLE:PERSONALIZEDTRACKING>
+                <tr>
+                  <td class="SubscribeColumn">
+                   <label for="u_PersonalizedTracking"><DESCRIPTION></DESCRIPTION></label>&nbsp;*
+                  </td>
+                  <td>
+                   <select name="u_PersonalizedTracking" id="u_PersonalizedTracking" size="1">
+                     <option value="0">Nein</option>
+                     <option value="1">Ja</option>
+                   </select>
+                  </td>
+                </tr>
+                </TABLE:PERSONALIZEDTRACKING>
 
                 <TABLE:GROUPS>
                 <tr>
@@ -146,8 +156,8 @@ body {
                 </tr>
                 <tr>
                   <td class="SubscribeColumn">
-                    Anmeldung in folgende Gruppen
-                    <span style="font-size: 8pt;">(Strg/Umsch k&ouml;nnen mehrere Gruppen gew&auml;hlt werden)</span>
+                    <GroupsDescriptionLabel></GroupsDescriptionLabel>
+                    <span style="font-size: 8pt;">(Strg/Umsch k&ouml;nnen mehrere Eintr&auml;ge gew&auml;hlt werden)</span>
                   </td>
                   <td>
                     <select name="RecipientGroups[]" size="5" multiple="multiple" style="max-width: 420px; width: 420px;">
@@ -165,7 +175,7 @@ body {
                 </tr>
                 <tr>
                   <td class="SubscribeColumn">
-                    Anmeldung in folgende Gruppen
+                    <GroupsDescriptionLabel></GroupsDescriptionLabel>
                   </td>
                   <td>
                     <checkbox></checkbox>
@@ -208,18 +218,35 @@ body {
                 <TABLE:CAPTCHA>
                 <tr>
                   <td class="SubscribeColumn" style="vertical-align:top">
-                    Geben Sie das Wort, wie im nachfolgenden Feld angezeigt, ein (Spam-Schutz)*<br />
+                    <CAPTCHA:TEXT></CAPTCHA:TEXT><br />
                   </td>
                   <td>
+                    <CAPTCHA:INTERNAL>
                     <input type="text" name="user_captcha_string" /><br /><br />
                     <img src="./captcha/require/image.php?" />
+                    </CAPTCHA:INTERNAL>
                   </td>
                 </tr>
                 </TABLE:CAPTCHA>
 
+                <if:PrivacyPolicyURL>
                 <tr>
-                  <td colspan="2" class="SubscribeBtnTD">
+                  <td colspan="2" class="PrivacyPolicyTD">
+                    <span class="PrivacyPolicy" id="PrivacyPolicy">
+                      <PrivacyPolicyURLText></PrivacyPolicyURLText>
+                    </span>
+                  </td>
+                </tr>
+                </if:PrivacyPolicyURL>
+
+                <tr>
+                  <td class="SubscribeColumn">
                     <input type="submit" value="&Auml;nderungen speichern" />
+                  </td>
+                  <td class="UnsubscribeColumn">
+                    <IF:UNSUBSCRIBE_ALLOWED>
+                    <input type="submit" value="Vom Newsletter komplett abmelden" onclick="document.getElementById('Action').value='unsubscribe';" />
+                    </IF:UNSUBSCRIBE_ALLOWED>
                   </td>
                 </tr>
 

@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `TABLE_C_STATISTICS` (
   `MailSubject` varchar(255) NOT NULL,
   `SendDateTime` datetime NOT NULL,
   `recipients_id` int(11) NOT NULL,
-  `Send` enum('Prepared','Sent','Failed','PossiblySent') NOT NULL default 'Prepared',
+  `Send` enum('Prepared','Sent','Failed','PossiblySent','Hardbounced') NOT NULL default 'Prepared',
   `SendResult` varchar(255) NOT NULL,
   `SendStat_id` int(11) NOT NULL,
   PRIMARY KEY  (`id`),

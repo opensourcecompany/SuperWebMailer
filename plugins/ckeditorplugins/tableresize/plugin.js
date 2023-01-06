@@ -1,6 +1,6 @@
 /**
- * @license Copyright (c) 2003-2017, CKSource - Frederico Knabben. All rights reserved.
- * For licensing, see LICENSE.md or http://ckeditor.com/license
+ * @license Copyright (c) 2003-2020, CKSource - Frederico Knabben. All rights reserved.
+ * For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
  */
 
 ( function() {
@@ -27,64 +27,47 @@
 				computed = 0;
 		}
 
-		return parseInt( computed, 10 );
+		return parseFloat( computed );
 	}
 
-	// Gets the table row that contains the most columns.
-	function getMasterPillarRow( table ) {
-		var $rows = table.$.rows,
-			maxCells = 0,
-			cellsCount, $elected, $tr;
-
-		for ( var i = 0, len = $rows.length; i < len; i++ ) {
-			$tr = $rows[ i ];
-			cellsCount = $tr.cells.length;
-
-			if ( cellsCount > maxCells ) {
-				maxCells = cellsCount;
-				$elected = $tr;
-			}
+	// Sets pillar height and position based on given table element (head, body, footer).
+	function setPillarDimensions( nativeTableElement ) {
+		if ( nativeTableElement ) {
+			var tableElement = new CKEDITOR.dom.element( nativeTableElement );
+			return { height: tableElement.$.offsetHeight, position: tableElement.getDocumentPosition() };
 		}
-
-		return $elected;
 	}
 
 	function buildTableColumnPillars( table ) {
 		var pillars = [],
-			pillarIndex = -1,
-			pillarHeight = 0,
-			pillarPosition = null,
+			pillarIndexMap = {},
 			rtl = ( table.getComputedStyle( 'direction' ) == 'rtl' );
 
-		// Get the raw row element that contains the most columns.
-		var $tr = getMasterPillarRow( table );
+		var rows = table.$.rows;
 
-		// Sets pillar height and position based on given table element (head, body, footer).
-		function setPillarDimensions( nativeTableElement ) {
-			if ( nativeTableElement ) {
-				var tableElement = new CKEDITOR.dom.element( nativeTableElement );
-				pillarHeight += tableElement.$.offsetHeight;
+		CKEDITOR.tools.array.forEach( rows, function( item, index ) {
+			var $tr = item,
+				pillarIndex = -1,
+				pillarRow,
+				pillarHeight = 0,
+				pillarPosition = null,
+				pillarDimensions = setPillarDimensions( $tr ),
+				isIE = CKEDITOR.env.ie && !CKEDITOR.env.edge,
+				isBorderCollapse = table.getComputedStyle( 'border-collapse' ) === 'collapse';
 
-				if ( !pillarPosition ) {
-					pillarPosition = tableElement.getDocumentPosition();
-				}
-			}
-		}
+			pillarHeight = pillarDimensions.height;
+			pillarPosition = pillarDimensions.position;
 
-		// Table may contain only one of thead, tbody or tfoot elements so its existence should be checked (#417).
-		setPillarDimensions( table.$.tHead );
-		setPillarDimensions( table.$.tBodies[ 0 ] );
-		setPillarDimensions( table.$.tFoot );
-
-		if ( $tr ) {
 			// Loop thorugh all cells, building pillars after each one of them.
 			for ( var i = 0, len = $tr.cells.length; i < len; i++ ) {
 				// Both the current cell and the successive one will be used in the
 				// pillar size calculation.
 				var td = new CKEDITOR.dom.element( $tr.cells[ i ] ),
-					nextTd = $tr.cells[ i + 1 ] && new CKEDITOR.dom.element( $tr.cells[ i + 1 ] );
+					nextTd = $tr.cells[ i + 1 ] && new CKEDITOR.dom.element( $tr.cells[ i + 1 ] ),
+					pillar;
 
 				pillarIndex += td.$.colSpan || 1;
+				pillarRow = index;
 
 				// Calculate the pillar boundary positions.
 				var pillarLeft, pillarRight, pillarWidth;
@@ -109,9 +92,18 @@
 
 				pillarWidth = Math.max( pillarRight - pillarLeft, 3 );
 
+				// In case of IE and collapsed table border, we must substract pillarWidth
+				// from the current position and recalculate pillarWidth (#2823).
+				if ( isIE && isBorderCollapse ) {
+					pillarLeft -= pillarWidth;
+
+					pillarWidth = Math.max( pillarRight - pillarLeft, 3 );
+				}
+
+
 				// The pillar should reflects exactly the shape of the hovered
 				// column border line.
-				pillars.push( {
+				pillar = {
 					table: table,
 					index: pillarIndex,
 					x: pillarLeft,
@@ -119,21 +111,32 @@
 					width: pillarWidth,
 					height: pillarHeight,
 					rtl: rtl
-				} );
+				};
+				pillarIndexMap[ pillarIndex ] = pillarIndexMap[ pillarIndex ] || [];
+				pillarIndexMap[ pillarIndex ].push( pillar );
+				pillar.alignedPillars = pillarIndexMap[ pillarIndex ];
+
+				pillars.push( pillar );
 			}
-		}
+
+		} );
 
 		return pillars;
 	}
 
-	function getPillarAtPosition( pillars, positionX ) {
+	function checkWithinDimensions( posX, posY, element ) {
+		return posX >= element.x && posX <= ( element.x + element.width ) &&
+			posY >= element.y && posY <= ( element.y + element.height );
+	}
+
+	function getPillarAtPosition( pillars, position ) {
 		for ( var i = 0, len = pillars.length; i < len; i++ ) {
 			var pillar = pillars[ i ];
 
-			if ( positionX >= pillar.x && positionX <= ( pillar.x + pillar.width ) )
+			if ( checkWithinDimensions( position.x, position.y, pillar ) ) {
 				return pillar;
+			}
 		}
-
 		return null;
 	}
 
@@ -157,7 +160,7 @@
 
 			document.getBody().setStyle( 'cursor', 'auto' );
 
-			// Hide the resizer (remove it on IE7 - http://dev.ckeditor.com/ticket/5890).
+			// Hide the resizer (remove it on IE7 - https://dev.ckeditor.com/ticket/5890).
 			needsIEHacks ? resizer.remove() : resizer.hide();
 		}
 
@@ -237,7 +240,7 @@
 
 				// Defer the resizing to avoid any interference among cells.
 				CKEDITOR.tools.setTimeout( function( leftCell, leftOldWidth, rightCell, rightOldWidth, tableWidth, sizeShift ) {
-					// 1px is the minimum valid width (http://dev.ckeditor.com/ticket/11626).
+					// 1px is the minimum valid width (https://dev.ckeditor.com/ticket/11626).
 					leftCell && leftCell.setStyle( 'width', pxUnit( Math.max( leftOldWidth + sizeShift, 1 ) ) );
 					rightCell && rightCell.setStyle( 'width', pxUnit( Math.max( rightOldWidth - sizeShift, 1 ) ) );
 
@@ -246,7 +249,7 @@
 						table.setStyle( 'width', pxUnit( tableWidth + sizeShift * ( rtl ? -1 : 1 ) ) );
 
 					// Cells resizing is asynchronous-y, so we have to use syncing
-					// to save snapshot only after all cells are resized. (http://dev.ckeditor.com/ticket/13388)
+					// to save snapshot only after all cells are resized. (https://dev.ckeditor.com/ticket/13388)
 					if ( ++cellsSaved == cellsCount ) {
 						editor.fire( 'saveSnapshot' );
 					}
@@ -262,7 +265,7 @@
 		function onMouseDown( evt ) {
 			cancel( evt );
 
-			// Save editor's state before we do any magic with cells. (http://dev.ckeditor.com/ticket/13388)
+			// Save editor's state before we do any magic with cells. (https://dev.ckeditor.com/ticket/13388)
 			editor.fire( 'saveSnapshot' );
 			resizeStart();
 
@@ -283,36 +286,44 @@
 
 		resizer = CKEDITOR.dom.element.createFromHtml( '<div data-cke-temp=1 contenteditable=false unselectable=on ' +
 			'style="position:absolute;cursor:col-resize;filter:alpha(opacity=0);opacity:0;' +
-				'padding:0;background-color:#004;background-image:none;border:0px none;z-index:10"></div>', document );
+				'padding:0;background-color:#004;background-image:none;border:0px none;z-index:10000"></div>', document );
 
 		// Clean DOM when editor is destroyed.
 		editor.on( 'destroy', function() {
 			resizer.remove();
 		} );
 
-		// Except on IE6/7 (http://dev.ckeditor.com/ticket/5890), place the resizer after body to prevent it
+		// Except on IE6/7 (https://dev.ckeditor.com/ticket/5890), place the resizer after body to prevent it
 		// from being editable.
 		if ( !needsIEHacks )
 			document.getDocumentElement().append( resizer );
 
 		this.attachTo = function( targetPillar ) {
+			var firstAligned,
+				lastAligned,
+				resizerHeight,
+				resizerY;
 			// Accept only one pillar at a time.
 			if ( isResizing )
 				return;
 
-			// On IE6/7, we append the resizer everytime we need it. (http://dev.ckeditor.com/ticket/5890)
+			// On IE6/7, we append the resizer everytime we need it. (https://dev.ckeditor.com/ticket/5890)
 			if ( needsIEHacks ) {
 				document.getBody().append( resizer );
 				currentShift = 0;
 			}
 
 			pillar = targetPillar;
+			firstAligned = pillar.alignedPillars[ 0 ];
+			lastAligned = pillar.alignedPillars[ pillar.alignedPillars.length - 1 ];
+			resizerY = firstAligned.y;
+			resizerHeight = lastAligned.height + lastAligned.y - firstAligned.y;
 
 			resizer.setStyles( {
 				width: pxUnit( targetPillar.width ),
-				height: pxUnit( targetPillar.height ),
+				height: pxUnit( resizerHeight ),
 				left: pxUnit( targetPillar.x ),
-				top: pxUnit( targetPillar.y )
+				top: pxUnit( resizerY )
 			} );
 
 			// In IE6/7, it's not possible to have custom cursors for floating
@@ -329,15 +340,14 @@
 			resizer.show();
 		};
 
-		move = this.move = function( posX ) {
+		move = this.move = function( posX, posY ) {
 				if ( !pillar )
 					return 0;
 
-				if ( !isResizing && ( posX < pillar.x || posX > ( pillar.x + pillar.width ) ) ) {
+				if ( !isResizing && !checkWithinDimensions( posX, posY, pillar ) ) {
 					detach();
 					return 0;
 				}
-
 				var resizerNewPosition = posX - Math.round( resizer.$.offsetWidth / 2 );
 
 				if ( isResizing ) {
@@ -391,15 +401,18 @@
 					var target = evt.getTarget();
 
 					// FF may return document and IE8 some UFO (object with no nodeType property...)
-					// instead of an element (http://dev.ckeditor.com/ticket/11823).
+					// instead of an element (https://dev.ckeditor.com/ticket/11823).
 					if ( target.type != CKEDITOR.NODE_ELEMENT )
 						return;
 
-					var pageX = evt.getPageOffset().x;
+					var page = {
+						x: evt.getPageOffset().x,
+						y: evt.getPageOffset().y
+					};
 
 					// If we're already attached to a pillar, simply move the
 					// resizer.
-					if ( resizer && resizer.move( pageX ) ) {
+					if ( resizer && resizer.move( page.x, page.y ) ) {
 						cancel( evt );
 						return;
 					}
@@ -426,7 +439,7 @@
 						table.on( 'mousedown', clearPillarsCache );
 					}
 
-					var pillar = getPillarAtPosition( pillars, pageX );
+					var pillar = getPillarAtPosition( pillars, page );
 					if ( pillar ) {
 						!resizer && ( resizer = new columnResizer( editor ) );
 						resizer.attachTo( pillar );

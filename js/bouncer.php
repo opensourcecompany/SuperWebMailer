@@ -10,6 +10,9 @@
 5=postmaster
 6=yahoo! groups
 7=microsoft exchange
+8=microsoftexchange
+9=microsoft outlook
+10=onmicrosoft.com
 [Subject]
 0=bermittlungsstatus (fehlgeschlagen)
 1=delivery failure
@@ -28,6 +31,9 @@
 14=zurückgeschickte mail:
 15=unzustellbar
 16=unable to process your message
+17=non remis
+18=onbestelbaar
+19=rejected
 [MailBody]
 0=account has been disabled
 1=account inactive
@@ -135,6 +141,16 @@
 103=unrouteable address
 104=Your message did not reach some or all of the intended recipients
 105=RESOLVER.ADR.RecipNotFound
+106=wasn't found at
+107=recipient's domain does not exist
+108=no such mailbox
+109=an error occurred while trying to deliver
+110=unknown mail server
+111=account suspended
+112=feedback-type: abuse
+113=email abuse report
+114=invalid domain
+115=unable to lookup dns
 [TextNotInMailBody]
 0=exhausted allowed storage
 1=is currently not permitted to
@@ -144,3 +160,5 @@
 5=quota exceeded
 6=speichervolumen ueberschritten
 7=User has too many messages on the server
+8=benutzer hat zuviele mails auf dem server
+9=per hour exceeded

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -28,130 +28,130 @@
   include_once("savedoptions.inc.php");
 
 
-  $_6Jt0Q = false;
+  $_fi0ij = false;
   if(isset($_GET["PersTrackingRcptsListColumns"]) && $_GET["PersTrackingRcptsListColumns"])
-    $_6Jt0Q = true;
+    $_fi0ij = true;
   if(isset($_POST["PersTrackingRcptsListColumns"]) && $_POST["PersTrackingRcptsListColumns"])
-    $_6Jt0Q = true;
+    $_fi0ij = true;
 
-  $_I0600 = "";
+  $_Itfj8 = "";
 
   if(isset($_POST["SaveBtn"])){
-    $_IL1fi = array();
+    $_jtCOQ = array();
     reset($_POST);
-    foreach($_POST as $key => $_Q6ClO) {
+    foreach($_POST as $key => $_QltJO) {
       if(strpos($key, "u_") !== false) {
-        $_IL1fi[] = $key;
+        $_jtCOQ[] = $key;
       }
     }
-    if(!in_array("u_EMail", $_IL1fi))
-        $_IL1fi[] = "u_EMail";
+    if(!in_array("u_EMail", $_jtCOQ))
+        $_jtCOQ[] = "u_EMail";
     if(isset($_POST["ActionsColumn"]))
-       $_IL1fi[] = "ActionsColumn;".$_POST["ActionsColumn"];
+       $_jtCOQ[] = "ActionsColumn;".$_POST["ActionsColumn"];
        else
-       $_IL1fi[] = "ActionsColumn;right";
-    $_QllO8 = serialize($_IL1fi);
-    if(!$_6Jt0Q)
-      _LQC66("RcptsListColumns", $_QllO8);
+       $_jtCOQ[] = "ActionsColumn;right";
+    $_I016j = serialize($_jtCOQ);
+    if(!$_fi0ij)
+      _JOOFF("RcptsListColumns", $_I016j);
       else
-      _LQC66("PersTrackingRcptsListColumns", $_QllO8);
-    $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["RcptsColumnsChanged"];
+      _JOOFF("PersTrackingRcptsListColumns", $_I016j);
+    $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["RcptsColumnsChanged"];
   }
 
-  $_I6ICC = "";
-  $_QJCJi = _ODFLQ($_I0600, $_I6ICC);
+  $_Iljoj = "";
+  $_QLJfI = _LCFDR($_Itfj8, $_Iljoj);
 
   if(isset($_POST["SaveBtn"])){
-    $_I6ICC .= "\r\n".'SubmitParentForm(); window.close();';
+    $_Iljoj .= "\r\n".'SubmitParentForm(); window.close();';
   }
 
-  $_QJCJi = str_replace("//AUTO_SCRIPT_CODE_PLACEHOLDER//", $_I6ICC, $_QJCJi);
+  $_QLJfI = str_replace("//AUTO_SCRIPT_CODE_PLACEHOLDER//", $_Iljoj, $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
- function _ODFLQ($_I0600, &$_I6ICC) {
-    global $_Qofjo, $resourcestrings, $INTERFACE_LANGUAGE, $_Q6JJJ, $UserId, $_6Jt0Q, $_Q61I1;
-    $_QJCJi = join("", file(_O68QF()."rcptscolumns.htm"));
+ function _LCFDR($_Itfj8, &$_Iljoj) {
+    global $_Ij8oL, $resourcestrings, $INTERFACE_LANGUAGE, $_QLl1Q, $UserId, $_fi0ij, $_QLttI;
+    $_QLJfI = _JJAQE("rcptscolumns.htm");
 
     // spam protection
     if($UserId == 0) exit;
 
-    if(!$_6Jt0Q)
-      $_IL1fi = _LQB6D("RcptsListColumns");
+    if(!$_fi0ij)
+      $_jtCOQ = _JOO1L("RcptsListColumns");
       else
-      $_IL1fi = _LQB6D("PersTrackingRcptsListColumns");
-    if( $_IL1fi != "") {
-      $_QllO8 = @unserialize($_IL1fi);
-      if($_QllO8 !== false)
-        $_IL1fi = $_QllO8;
+      $_jtCOQ = _JOO1L("PersTrackingRcptsListColumns");
+    if( $_jtCOQ != "") {
+      $_I016j = @unserialize($_jtCOQ);
+      if($_I016j !== false)
+        $_jtCOQ = $_I016j;
         else
-        $_IL1fi = array();
+        $_jtCOQ = array();
     } else
-      $_IL1fi = array();
+      $_jtCOQ = array();
 
-    if(count($_IL1fi) <= 1) {
-       if(!$_6Jt0Q) {
-         $_IL1fi[] = "u_LastName";
-         $_IL1fi[] = "u_FirstName";
-         $_IL1fi[] = "u_EMail";
-         $_IL1fi[] = "u_Salutation";
+    if(count($_jtCOQ) <= 1) {
+       if(!$_fi0ij) {
+         $_jtCOQ[] = "u_LastName";
+         $_jtCOQ[] = "u_FirstName";
+         $_jtCOQ[] = "u_EMail";
+         $_jtCOQ[] = "u_Salutation";
        } else {
-         $_IL1fi[] = "u_EMail";
+         $_jtCOQ[] = "u_EMail";
        }
-       $_IL1fi[] = "ActionsColumn;right";
+       $_jtCOQ[] = "ActionsColumn;right";
     }
 
-    $_QJlJ0 = "SELECT `text`, `fieldname` FROM `$_Qofjo` WHERE `language`='$INTERFACE_LANGUAGE'";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_I16jJ = array();
-    while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      if($_Q6Q1C["fieldname"] == "u_Comments") continue; // no comments
-      $_I16jJ[$_Q6Q1C["fieldname"]] = $_Q6Q1C["text"];
+    $_QLfol = "SELECT `text`, `fieldname` FROM `$_Ij8oL` WHERE `language`='$INTERFACE_LANGUAGE'";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_IOJoI = array();
+    while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      if($_QLO0f["fieldname"] == "u_Comments") continue; // no comments
+      $_IOJoI[$_QLO0f["fieldname"]] = $_QLO0f["text"];
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_I1OLj = _OP81D($_QJCJi, "<TABLE:ROW>", "</TABLE:ROW>");
-    $_Q6ICj = "";
+    $_IOiJ0 = _L81DB($_QLJfI, "<TABLE:ROW>", "</TABLE:ROW>");
+    $_QLoli = "";
 
     // order
-    for($_Q6llo=0; $_Q6llo<count($_IL1fi); $_Q6llo++){
-      $key = $_IL1fi[$_Q6llo];
-      if(!isset($_I16jJ[$key])) continue;
-      $_Q6ClO = $_I16jJ[$key];
-      $_Q66jQ = $_I1OLj.$_Q6JJJ;
-      $_Q66jQ = str_replace('"COLUMNNAME"', '"'.$key.'"', $_Q66jQ);
-      $_Q66jQ = str_replace('<!--COLUMNNAMELOCALIZED-->', $_Q6ClO, $_Q66jQ);
-      $_Q66jQ = str_replace('/>', 'checked="checked" />', $_Q66jQ);
-      $_Q6ICj .= $_Q66jQ;
+    for($_Qli6J=0; $_Qli6J<count($_jtCOQ); $_Qli6J++){
+      $key = $_jtCOQ[$_Qli6J];
+      if(!isset($_IOJoI[$key])) continue;
+      $_QltJO = $_IOJoI[$key];
+      $_Ql0fO = $_IOiJ0.$_QLl1Q;
+      $_Ql0fO = str_replace('"COLUMNNAME"', '"'.$key.'"', $_Ql0fO);
+      $_Ql0fO = str_replace('<!--COLUMNNAMELOCALIZED-->', $_QltJO, $_Ql0fO);
+      $_Ql0fO = str_replace('/>', 'checked="checked" />', $_Ql0fO);
+      $_QLoli .= $_Ql0fO;
     }
 
-    reset($_I16jJ);
-    foreach($_I16jJ as $key => $_Q6ClO) {
-      if(in_array($key, $_IL1fi)) continue;
-      $_Q66jQ = $_I1OLj.$_Q6JJJ;
-      $_Q66jQ = str_replace('"COLUMNNAME"', '"'.$key.'"', $_Q66jQ);
-      $_Q66jQ = str_replace('<!--COLUMNNAMELOCALIZED-->', $_Q6ClO, $_Q66jQ);
-      $_Q6ICj .= $_Q66jQ;
+    reset($_IOJoI);
+    foreach($_IOJoI as $key => $_QltJO) {
+      if(in_array($key, $_jtCOQ)) continue;
+      $_Ql0fO = $_IOiJ0.$_QLl1Q;
+      $_Ql0fO = str_replace('"COLUMNNAME"', '"'.$key.'"', $_Ql0fO);
+      $_Ql0fO = str_replace('<!--COLUMNNAMELOCALIZED-->', $_QltJO, $_Ql0fO);
+      $_QLoli .= $_Ql0fO;
     }
-    $_QJCJi = _OPR6L($_QJCJi, "<TABLE:ROW>", "</TABLE:ROW>", $_Q6ICj);
+    $_QLJfI = _L81BJ($_QLJfI, "<TABLE:ROW>", "</TABLE:ROW>", $_QLoli);
 
-    if(in_array("ActionsColumn;right", $_IL1fi))
-      $_QJCJi = str_replace('name="ActionsColumn" value="right"', 'name="ActionsColumn" value="right" checked="checked"', $_QJCJi);
+    if(in_array("ActionsColumn;right", $_jtCOQ))
+      $_QLJfI = str_replace('name="ActionsColumn" value="right"', 'name="ActionsColumn" value="right" checked="checked"', $_QLJfI);
       else
-      $_QJCJi = str_replace('name="ActionsColumn" value="left"', 'name="ActionsColumn" value="left" checked="checked"', $_QJCJi);
+      $_QLJfI = str_replace('name="ActionsColumn" value="left"', 'name="ActionsColumn" value="left" checked="checked"', $_QLJfI);
 
-    if($_I0600 == "") {
-      $_QJCJi = _OP6PQ($_QJCJi, "<SHOWHIDE:ERRORTOPIC>", "</SHOWHIDE:ERRORTOPIC>");
+    if($_Itfj8 == "") {
+      $_QLJfI = _L80DF($_QLJfI, "<SHOWHIDE:ERRORTOPIC>", "</SHOWHIDE:ERRORTOPIC>");
     } else {
-      $_QJCJi = _OPR6L($_QJCJi, "<LABEL:ERRORMESSAGETEXT>", "</LABEL:ERRORMESSAGETEXT>", $_I0600 );
-      $_I6ICC .= "ShowItem('errortopic', true);";
+      $_QLJfI = _L81BJ($_QLJfI, "<LABEL:ERRORMESSAGETEXT>", "</LABEL:ERRORMESSAGETEXT>", $_Itfj8 );
+      $_Iljoj .= "ShowItem('errortopic', true);";
     }
 
-    if($_6Jt0Q)
-      $_QJCJi = str_replace('name="PersTrackingRcptsListColumns"', 'name="PersTrackingRcptsListColumns" value="1"', $_QJCJi);
+    if($_fi0ij)
+      $_QLJfI = str_replace('name="PersTrackingRcptsListColumns"', 'name="PersTrackingRcptsListColumns" value="1"', $_QLJfI);
 
 
-    return $_QJCJi;
+    return $_QLJfI;
  }
 
 ?>

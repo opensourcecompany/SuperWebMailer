@@ -36,10 +36,42 @@ Sie in der <a href="browsercpts.htm">Empfängerliste</a> auf &quot;Neuen
 Empfänger anlegen&quot; oder im Menü Empfänger auf &quot;Empfänger
 hinzufügen&quot;.</p>
 <p>Auf der Registerkarte &quot;Informationen&quot; finden Sie Informationen zur
-Anmeldung und zum Status des Empfängers. Auf den weiteren Registerkarten
-können Sie alle Informationen verändern bzw. neu eingeben.</p>
+Anmeldung und zum Status des Empfängers.</p>
 <p>&nbsp;</p>
-<p><b>Hinweise zu einzelnen Feldern</b></p>
+<p><u>Personalisiertes Tracking erlaubt?</u></p>
+<p>Diese Angabe ist nur für die PHP Newsletter Software SuperWebMailer
+relevant.</p>
+<p>Bei Versendung von E-Mailings und E-Mails durch Responder kann das &quot;Personalisiertes
+Tracking des E-Mailings (Empfängertracking)&quot; aktiviert werden, um zu sehen
+welche Empfänger die E-Mail geöffnet oder welche Links durch den Empfänger
+der E-Mail angeklickt wurden. Durch Deaktivierung der Option &quot;Personalisiertes
+Tracking erlaubt?&quot; kann der Empfänger vom personalisierten Tracking
+ausgenommen werden, falls der Empfänger dem personalisierten Tracking
+widerspricht. Es ist ebenfalls möglich im <a href="formedit.htm">Anmelde-/Ändernformular</a>
+zum Newsletter das Feld &quot;Personalisiertes Tracking erlaubt?&quot; für die
+Anzeige im Anmeldeformular zu aktivieren, so dass der Empfänger bei der
+Anmeldung zum Newsletter selbst entscheiden kann, ob ein personalisiertes
+Tracking erlaubt sein soll.</p>
+<p>&nbsp;</p>
+<p><u>Auskunft über die gespeicherten Daten nach Art. 15 DSGVO</u></p>
+<p>Über diesen Link kann eine Auflistung der gespeicherten Daten für den
+jeweiligen Empfänger erstellt werden. Die Auflistung kann dem individuellen
+Schreiben zur Auskunftserteilung nach Art. 15 DSGVO beigefügt werden.</p>
+<p>Hinweise:</p>
+<ul>
+  <li>Der Link wird nur dargestellt, wenn ein Administrator-Nutzer angemeldet
+    ist, für eingeschränkte Nutzer ist dieser Link nicht sichtbar.</li>
+  <li>Die Auflistung der Daten wird anhand der E-Mail-Adresse über alle
+    Empfängerlisten erstellt, die dem jeweiligen Administrator-Nutzer
+    zugeordnet sind. Es erfolgt keine Auflistung der Daten über alle
+    Empfängerlisten von allen angelegten Administrator-Nutzern.</li>
+  <li>Diesen Link können Sie ebenfalls direkt an den Empfänger per E-Mail
+    versenden.</li>
+  <li>Die direkte PDF-Datei-Erstellung steht ab PHP 5.4 und neuer zur
+    Verfügung, nicht in älteren PHP-Versionen.</li>
+</ul>
+<p>&nbsp;</p>
+<p><b>Hinweise zu einzelnen Feldern auf den weiteren Registerkarten</b></p>
 <table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
   <tr valign="top">
     <td width="28%">E-Mail-Format</td>
@@ -77,8 +109,9 @@ können Sie alle Informationen verändern bzw. neu eingeben.</p>
     <td width="72%">Sollen Geburtstags-SMS mit <a href="http://www.birthdaymailer.de" target="_blank">BirthdayMailer</a>
       oder mit der <a href="http://www.superwebmailer.de" target="_blank">PHP
       Newsletter Software SuperWebMailer</a> in Verbindung mit der <a href="http://www.smsout.de" target="_blank">SMSout</a>-Software
-      versendet werden, dann muss die Mobilfunknummer in der Form &lt;landesvorwahl&gt;&lt;anbietervorwahl&gt;&lt;rufnummer&gt;
-      z.B. 00491791234567 oder &lt;anbietervorwahl&gt;&lt;rufnummer&gt; z.B.
+      versendet werden, dann muss die Mobilfunknummer in der Form
+      &lt;landesvorwahl&gt;&lt;anbietervorwahl&gt;&lt;rufnummer&gt; z.B.
+      00491791234567 oder &lt;anbietervorwahl&gt;&lt;rufnummer&gt; z.B.
       01791234567 angegeben werden, ansonsten werden die SMS nicht versendet.
       <p>&nbsp;</td>
   </tr>

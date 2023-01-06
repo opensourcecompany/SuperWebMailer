@@ -90,9 +90,9 @@ if(!function_exists("IsPEARError")){
 }
 
 if(!function_exists("PEARraiseError")){
-   function PEARraiseError($message){
+   function PEARraiseError($message, $code=null){
      // PEAR::raiseError() is not PHP 5.4 compatible
-     return new PEAR_Error($message);
+     return new PEAR_Error($message, $code=null);
    }
 }
 /**
@@ -900,7 +900,7 @@ class PEAR_Error
      * @access public
      *
      */
-    function PEAR_Error($message = 'unknown error', $code = null,
+    function __construct($message = 'unknown error', $code = null,
                         $mode = null, $options = null, $userinfo = null)
     {
         if ($mode === null) {
@@ -960,6 +960,13 @@ class PEAR_Error
             trigger_error("PEAR_ERROR_EXCEPTION is obsolete, use class PEAR_Exception for exceptions", E_USER_WARNING);
             eval('$e = new Exception($this->message, $this->code);throw($e);');
         }
+    }
+
+
+    function PEAR_Error($message = 'unknown error', $code = null,
+                        $mode = null, $options = null, $userinfo = null)
+    {
+      self::__construct($message, $code, $mode, $options, $userinfo);
     }
 
     // }}}

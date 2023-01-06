@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2014 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -27,35 +27,42 @@
   include_once("templates.inc.php");
 
   if($OwnerUserId != 0) {
-   $_QJojf = _OBOOC($UserId);
-   if(!$_QJojf["PrivilegeTemplateBrowse"]) {
-     $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-     $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-     print $_QJCJi;
+   $_QLJJ6 = _LPALQ($UserId);
+   if(!$_QLJJ6["PrivilegeTemplateBrowse"]) {
+     $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+     $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+     print $_QLJfI;
      exit;
    }
   }
 
+  if(!_LJBLD()){
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]." - Csrf");
+    print $_QLJfI;
+    exit;
+  } 
+
   // import sample newsletter templates
   include_once("defaulttexts.inc.php");
-  _O8QO8();
+  _L61BJ();
 
   if($OwnerUserId == 0)
-    $_QJlJ0 = "SELECT id, Name FROM $_Q66li WHERE 1";
+    $_QLfol = "SELECT id, Name FROM $_Ql10t WHERE 1";
     else
-    $_QJlJ0 = "SELECT id, Name FROM $_Q66li LEFT JOIN $_Q6ftI ON templates_id=id WHERE ((`UsersOption` = 0) OR (`UsersOption` <> 0 AND users_id=$UserId))";
+    $_QLfol = "SELECT id, Name FROM $_Ql10t LEFT JOIN $_Ql18I ON templates_id=id WHERE ((`UsersOption` = 0) OR (`UsersOption` <> 0 AND users_id=$UserId))";
 
   if(empty($_GET["type"]))
     $_GET["type"] = "PlainText";
 
   if($_GET["type"] == "PlainText")
-    $_QJlJ0 .= " AND MailFormat = 'PlainText'";
+    $_QLfol .= " AND MailFormat = 'PlainText'";
     else
-    $_QJlJ0 .= " AND MailFormat <> 'PlainText'";
+    $_QLfol .= " AND MailFormat <> 'PlainText'";
   if(!empty($_GET["EditType"]) && $_GET["EditType"] == "Wizard")
-    $_QJlJ0 .= " AND `IsWizardable`>0";
+    $_QLfol .= " AND `IsWizardable`>0";
 
-  $_QJlJ0 .= " ORDER BY Name";
+  $_QLfol .= " ORDER BY Name";
 
 
   // Prevent the browser from caching the result.
@@ -70,10 +77,10 @@
   @header('Pragma: no-cache') ;
 
   // Set the response format.
-  @header( 'Content-Type: text/html; charset='.$_Q6QQL ) ;
+  @header( 'Content-Type: text/html; charset='.$_QLo06 ) ;
 
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  while($_Q6Q1C = mysql_fetch_assoc($_Q60l1))
-    print '<option value="'.$_Q6Q1C["id"].'">'.$_Q6Q1C["Name"].'</option>';
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  while($_QLO0f = mysql_fetch_assoc($_QL8i1))
+    print '<option value="'.$_QLO0f["id"].'">' . $_QLO0f["Name"] . '</option>';
 
 ?>

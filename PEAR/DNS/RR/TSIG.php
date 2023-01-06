@@ -50,7 +50,7 @@ class Net_DNS_RR_TSIG extends Net_DNS_RR
 
     /* }}} */
     /* class constructor - RR(&$rro, $data, $offset = '') {{{ */
-    function __construct(&$rro, $data, $offset = '')
+    function __construct($rro, $data, $offset = '')
     {
         $this->name = $rro->name;
         $this->type = $rro->type;
@@ -107,7 +107,7 @@ class Net_DNS_RR_TSIG extends Net_DNS_RR
         }
     }
 
-    function Net_DNS_RR_TSIG(&$rro, $data, $offset = '')
+    function Net_DNS_RR_TSIG($rro, $data, $offset = '')
     {
       self::__construct($rro, $data, $offset);
     }

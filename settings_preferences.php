@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,49 +26,52 @@
   include_once("templates.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeOptionsEdit"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeOptionsEdit"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
   $errors = array();
-  $_I0600 = "";
+  $_Itfj8 = "";
   if(!isset($_POST["SaveBtn"])) {
     // Email Options
-    $_QJlJ0 = "SELECT * FROM $_jJJjO LIMIT 0,1";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
-    if($_Q6Q1C["AddUniqueIdHeaderField"] == 0)
-      unset($_Q6Q1C["AddUniqueIdHeaderField"]);
+    $_QLfol = "SELECT * FROM $_JQ1I6 LIMIT 0,1";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
+    if($_QLO0f["AddUniqueIdHeaderField"] == 0)
+      unset($_QLO0f["AddUniqueIdHeaderField"]);
 
     // Options
-    $_QJlJ0 = "SELECT * FROM $_Q88iO LIMIT 0,1";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_6tLoi = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_Q6Q1C = array_merge($_Q6Q1C, $_6tLoi);
-    if($_Q6Q1C["AddBouncedRecipientsToLocalBlocklist"] == 0)
-       unset( $_Q6Q1C["AddBouncedRecipientsToLocalBlocklist"] );
-    if($_Q6Q1C["AddBouncedRecipientsToGlobalBlocklist"] == 0)
-       unset( $_Q6Q1C["AddBouncedRecipientsToGlobalBlocklist"] );
-    if($_Q6Q1C["RemoveToOftenBouncedRecipients"] == 0)
-       unset( $_Q6Q1C["RemoveToOftenBouncedRecipients"] );
-    if($_Q6Q1C["RemoveUnknownMailsAndSoftbounces"] == 0)
-       unset( $_Q6Q1C["RemoveUnknownMailsAndSoftbounces"] );
-    if($_Q6Q1C["ECGListCheck"] == 0)
-       unset( $_Q6Q1C["ECGListCheck"] );
-    if($_Q6Q1C["MailLoggerEnabled"] == 0)
-       unset( $_Q6Q1C["MailLoggerEnabled"] );
-    if($_Q6Q1C["OptionsCronJobOptionsOnlyAsSuperAdmin"] == 0)
-       unset( $_Q6Q1C["OptionsCronJobOptionsOnlyAsSuperAdmin"] );
+    $_QLfol = "SELECT * FROM $_I1O0i LIMIT 0,1";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_8QiiO = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_QLO0f = array_merge($_QLO0f, $_8QiiO);
+    if($_QLO0f["AddBouncedRecipientsToLocalBlocklist"] == 0)
+       unset( $_QLO0f["AddBouncedRecipientsToLocalBlocklist"] );
+    if($_QLO0f["AddBouncedRecipientsToGlobalBlocklist"] == 0)
+       unset( $_QLO0f["AddBouncedRecipientsToGlobalBlocklist"] );
+    if($_QLO0f["RemoveToOftenBouncedRecipients"] == 0)
+       unset( $_QLO0f["RemoveToOftenBouncedRecipients"] );
+    if($_QLO0f["RemoveUnknownMailsAndSoftbounces"] == 0)
+       unset( $_QLO0f["RemoveUnknownMailsAndSoftbounces"] );
+    if($_QLO0f["ECGListCheck"] == 0)
+       unset( $_QLO0f["ECGListCheck"] );
+    if($_QLO0f["MailLoggerEnabled"] == 0)
+       unset( $_QLO0f["MailLoggerEnabled"] );
+    if($_QLO0f["OptionsCronJobOptionsOnlyAsSuperAdmin"] == 0)
+       unset( $_QLO0f["OptionsCronJobOptionsOnlyAsSuperAdmin"] );
 
-    if($_Q6Q1C["SendEngineFIFO"] == 0)
-       unset( $_Q6Q1C["SendEngineFIFO"] );
+    if($_QLO0f["SendEngineFIFO"] == 0)
+       unset( $_QLO0f["SendEngineFIFO"] );
+    if($_QLO0f["SendEngineBooster"] == 0)
+       unset( $_QLO0f["SendEngineBooster"] );
+
 
   } else {
     if(isset($_POST["ProductLogoURL"]))
@@ -126,7 +129,7 @@
       } else
         $_POST["spamassassinParameters"] = trim($_POST["spamassassinParameters"]);
     } else {
-      if(!isset($_POST["SpamTestExternalURL"]) || trim($_POST["SpamTestExternalURL"]) == "" || strpos($_POST["SpamTestExternalURL"], "http://") === false ) {
+      if(!isset($_POST["SpamTestExternalURL"]) || trim($_POST["SpamTestExternalURL"]) == "" || (strpos($_POST["SpamTestExternalURL"], "http://") === false && strpos($_POST["SpamTestExternalURL"], "https://") === false) ) {
         $errors[] = "SpamTestExternalURL";
       } else
         $_POST["SpamTestExternalURL"] = trim($_POST["SpamTestExternalURL"]);
@@ -135,112 +138,125 @@
     if( defined("DEMO") && isset($_POST["OptionsCronJobOptionsOnlyAsSuperAdmin"]) )
       unset($_POST["OptionsCronJobOptionsOnlyAsSuperAdmin"]);
 
-    if( count($errors) == 0 && _LO1B0()) {
-      $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000021"];
+    if( count($errors) == 0 && _JO8B1()) {
+      $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000021"];
     } else {
-      $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000020"];
+      $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000020"];
     }
-    $_Q6Q1C = $_POST;
+    $_QLO0f = $_POST;
 
     // Options, inactive fields
-    $_QJlJ0 = "SELECT * FROM $_Q88iO LIMIT 0,1";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_6tLoi = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_Q6Q1C = array_merge($_6tLoi, $_Q6Q1C);
+    $_QLfol = "SELECT * FROM $_I1O0i LIMIT 0,1";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_8QiiO = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_QLO0f = array_merge($_8QiiO, $_QLO0f);
 
-    if($_Q6Q1C["AddBouncedRecipientsToLocalBlocklist"] == 0)
-       unset( $_Q6Q1C["AddBouncedRecipientsToLocalBlocklist"] );
+    if($_QLO0f["AddBouncedRecipientsToLocalBlocklist"] == 0)
+       unset( $_QLO0f["AddBouncedRecipientsToLocalBlocklist"] );
 
-    if($_Q6Q1C["AddBouncedRecipientsToGlobalBlocklist"] == 0)
-       unset( $_Q6Q1C["AddBouncedRecipientsToGlobalBlocklist"] );
+    if($_QLO0f["AddBouncedRecipientsToGlobalBlocklist"] == 0)
+       unset( $_QLO0f["AddBouncedRecipientsToGlobalBlocklist"] );
 
-    if($_Q6Q1C["RemoveToOftenBouncedRecipients"] == 0)
-       unset( $_Q6Q1C["RemoveToOftenBouncedRecipients"] );
+    if($_QLO0f["RemoveToOftenBouncedRecipients"] == 0)
+       unset( $_QLO0f["RemoveToOftenBouncedRecipients"] );
 
-    if($_Q6Q1C["RemoveUnknownMailsAndSoftbounces"] == 0)
-       unset( $_Q6Q1C["RemoveUnknownMailsAndSoftbounces"] );
+    if($_QLO0f["RemoveUnknownMailsAndSoftbounces"] == 0)
+       unset( $_QLO0f["RemoveUnknownMailsAndSoftbounces"] );
 
-    if($_Q6Q1C["ECGListCheck"] == 0)
-       unset( $_Q6Q1C["ECGListCheck"] );
+    if($_QLO0f["ECGListCheck"] == 0)
+       unset( $_QLO0f["ECGListCheck"] );
 
-    if($_Q6Q1C["SendEngineFIFO"] == 0)
-       unset( $_Q6Q1C["SendEngineFIFO"] );
+    if($_QLO0f["SendEngineFIFO"] == 0)
+       unset( $_QLO0f["SendEngineFIFO"] );
 
-    if($_Q6Q1C["MailLoggerEnabled"] == 0)
-       unset( $_Q6Q1C["MailLoggerEnabled"] );
+    if($_QLO0f["SendEngineBooster"] == 0)
+       unset( $_QLO0f["SendEngineBooster"] );
 
-    if($_Q6Q1C["OptionsCronJobOptionsOnlyAsSuperAdmin"] == 0)
-       unset( $_Q6Q1C["OptionsCronJobOptionsOnlyAsSuperAdmin"] );
+    if($_QLO0f["MailLoggerEnabled"] == 0)
+       unset( $_QLO0f["MailLoggerEnabled"] );
+
+    if($_QLO0f["OptionsCronJobOptionsOnlyAsSuperAdmin"] == 0)
+       unset( $_QLO0f["OptionsCronJobOptionsOnlyAsSuperAdmin"] );
 
   }
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000300"], $_I0600, 'settings_preferences', 'settings_preferences_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000300"], $_Itfj8, 'settings_preferences', 'settings_preferences_snipped.htm');
   if(defined("DEMO"))
-    $_Q6Q1C["GoogleDeveloperPublicKey"] = "DEMO";
-  $_QJCJi = _OPFJA($errors, $_Q6Q1C, $_QJCJi);
+    $_QLO0f["GoogleDeveloperPublicKey"] = "DEMO";
+  $_QLJfI = _L8AOB($errors, $_QLO0f, $_QLJfI);
 
-  $_QJCJi = _OPR6L($_QJCJi, "<LABEL:PRODUCTVERSION>", "</LABEL:PRODUCTVERSION>", $AppName." ".$_QoJ8j);
+  if(!defined("ECG_APIKEY") || ECG_APIKEY == ""){
+    $_QLJfI = _JJC1E($_QLJfI, "ECGListCheck");
+    $_QLJfI = _JJDJC($_QLJfI, "ECGListCheck");
+  }  
 
-  $_QJlJ0 = "SELECT * FROM $_Q88iO LIMIT 0,1";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_Q6Q1C = mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_Q8otJ = @unserialize($_Q6Q1C["Dashboard"]);
-  if($_Q8otJ === false) {
-    $_Q6Q1C["Dashboard"] = utf8_encode($_Q6Q1C["Dashboard"]);
-    $_Q8otJ = @unserialize($_Q6Q1C["Dashboard"]);
-    if($_Q8otJ === false)
-      $_Q8otJ = array();
+  $_J80tt = intval(ini_get("max_execution_time"));
+  if($_J80tt <= 0)
+    $_J80tt = 300;
+  $_QLJfI = _L81BJ($_QLJfI, "<max_execution_time>", "</max_execution_time>", $_J80tt);
+
+  $_QLJfI = _L81BJ($_QLJfI, "<LABEL:PRODUCTVERSION>", "</LABEL:PRODUCTVERSION>", $AppName." ".$_Ij6Lj);
+
+  $_QLfol = "SELECT * FROM $_I1O0i LIMIT 0,1";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_QLO0f = mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_I1OoI = @unserialize($_QLO0f["Dashboard"]);
+  if($_I1OoI === false) {
+    $_QLO0f["Dashboard"] = utf8_encode($_QLO0f["Dashboard"]);
+    $_I1OoI = @unserialize($_QLO0f["Dashboard"]);
+    if($_I1OoI === false)
+      $_I1OoI = array();
   }
 
   if( !defined("DEMO") ) {
 
     if(function_exists("ioncube_file_is_encoded") && ioncube_file_is_encoded()){
-      $_QJCJi = _OPR6L($_QJCJi, "<LABEL:LICENCENAME>", "</LABEL:LICENCENAME>", "Test");
-      $_QJCJi = _OPR6L($_QJCJi, "<LABEL:LICENCE>", "</LABEL:LICENCE>", "Test");
+      $_QLJfI = _L81BJ($_QLJfI, "<LABEL:LICENCENAME>", "</LABEL:LICENCENAME>", "Test");
+      $_QLJfI = _L81BJ($_QLJfI, "<LABEL:LICENCE>", "</LABEL:LICENCE>", "Test");
     } else {
-      $_QJCJi = _OPR6L($_QJCJi, "<LABEL:LICENCENAME>", "</LABEL:LICENCENAME>", $_Q8otJ["DashboardUser"]);
-      $_QJCJi = _OPR6L($_QJCJi, "<LABEL:LICENCE>", "</LABEL:LICENCE>", substr($_Q8otJ["DashboardTag"], 0, 13));
+      $_QLJfI = _L81BJ($_QLJfI, "<LABEL:LICENCENAME>", "</LABEL:LICENCENAME>", $_I1OoI["DashboardUser"]);
+      $_QLJfI = _L81BJ($_QLJfI, "<LABEL:LICENCE>", "</LABEL:LICENCE>", substr($_I1OoI["DashboardTag"], 0, 13));
     }
 
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:INSTALLPATH>", "</LABEL:INSTALLPATH>", InstallPath);
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:SCRIPTBASEURL>", "</LABEL:SCRIPTBASEURL>", ScriptBaseURL);
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:WEBSITEURL>", "</LABEL:WEBSITEURL>", WebsiteURL);
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:BASEPATH>", "</LABEL:BASEPATH>", BasePath);
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:INSTALLPATH>", "</LABEL:INSTALLPATH>", InstallPath);
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:SCRIPTBASEURL>", "</LABEL:SCRIPTBASEURL>", ScriptBaseURL);
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:WEBSITEURL>", "</LABEL:WEBSITEURL>", WebsiteURL);
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:BASEPATH>", "</LABEL:BASEPATH>", BasePath);
 
   } else {
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:LICENCENAME>", "</LABEL:LICENCENAME>", "DEMO");
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:LICENCE>", "</LABEL:LICENCE>", "DEMO");
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:LICENCENAME>", "</LABEL:LICENCENAME>", "DEMO");
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:LICENCE>", "</LABEL:LICENCE>", "DEMO");
 
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:INSTALLPATH>", "</LABEL:INSTALLPATH>", "DEMO");
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:SCRIPTBASEURL>", "</LABEL:SCRIPTBASEURL>", "DEMO");
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:WEBSITEURL>", "</LABEL:WEBSITEURL>", "DEMO");
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:BASEPATH>", "</LABEL:BASEPATH>", "DEMO");
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:INSTALLPATH>", "</LABEL:INSTALLPATH>", "DEMO");
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:SCRIPTBASEURL>", "</LABEL:SCRIPTBASEURL>", "DEMO");
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:WEBSITEURL>", "</LABEL:WEBSITEURL>", "DEMO");
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:BASEPATH>", "</LABEL:BASEPATH>", "DEMO");
   }
 
   if(defined("DEMO"))
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:ISDEMO>", "</LABEL:ISDEMO>", $resourcestrings[$INTERFACE_LANGUAGE]["YES"]);
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:ISDEMO>", "</LABEL:ISDEMO>", $resourcestrings[$INTERFACE_LANGUAGE]["YES"]);
     else
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:ISDEMO>", "</LABEL:ISDEMO>", $resourcestrings[$INTERFACE_LANGUAGE]["NO"]);
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:ISDEMO>", "</LABEL:ISDEMO>", $resourcestrings[$INTERFACE_LANGUAGE]["NO"]);
 
   if( defined("SimulateMailSending") || defined("DEMO") || function_exists("ioncube_file_is_encoded") && ioncube_file_is_encoded() )
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:SIMULATEMAILSENDING>", "</LABEL:SIMULATEMAILSENDING>", $resourcestrings[$INTERFACE_LANGUAGE]["YES"]);
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:SIMULATEMAILSENDING>", "</LABEL:SIMULATEMAILSENDING>", $resourcestrings[$INTERFACE_LANGUAGE]["YES"]);
     else
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:SIMULATEMAILSENDING>", "</LABEL:SIMULATEMAILSENDING>", $resourcestrings[$INTERFACE_LANGUAGE]["NO"]);
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:SIMULATEMAILSENDING>", "</LABEL:SIMULATEMAILSENDING>", $resourcestrings[$INTERFACE_LANGUAGE]["NO"]);
 
-  $_QJCJi = _OPR6L($_QJCJi, "<LABEL:PHPVERSION>", "</LABEL:PHPVERSION>", phpversion());
+  $_QLJfI = _L81BJ($_QLJfI, "<LABEL:PHPVERSION>", "</LABEL:PHPVERSION>", phpversion());
   if(ini_get("safe_mode"))
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:PHPSAFEMODE>", "</LABEL:PHPSAFEMODE>", "On");
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:PHPSAFEMODE>", "</LABEL:PHPSAFEMODE>", "On");
     else
-    $_QJCJi = _OPR6L($_QJCJi, "<LABEL:PHPSAFEMODE>", "</LABEL:PHPSAFEMODE>", "Off");
+    $_QLJfI = _L81BJ($_QLJfI, "<LABEL:PHPSAFEMODE>", "</LABEL:PHPSAFEMODE>", "Off");
 
-  $_QJlJ0 = "SELECT VERSION()";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_Q6Q1C = mysql_fetch_row($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, "<LABEL:MYSQLVERSION>", "</LABEL:MYSQLVERSION>", $_Q6Q1C[0]);
+  $_QLfol = "SELECT VERSION(), @@character_set_database";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_QLO0f = mysql_fetch_row($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, "<LABEL:MYSQLVERSION>", "</LABEL:MYSQLVERSION>", $_QLO0f[0] . "; database encoding: " .$_QLO0f[1] . "; connection encoding: " . DefaultMySQLEncoding);
 
   if( isset($_POST["OptionsCronJobOptionsOnlyAsSuperAdmin"]) && $UserType != "SuperAdmin" ) {
     include_once("dashboard.php");
@@ -248,98 +264,105 @@
   }
 
 
-  _LJ81E($_QJCJi);
-  print $_QJCJi;
+  _JJCCF($_QLJfI);
+  print $_QLJfI;
 
 
-  function _LO1B0() {
-    global $_jJJjO, $_Q88iO, $_Q61I1;
+  function _JO8B1() {
+    global $_JQ1I6, $_I1O0i, $_QLttI;
 
     // Email Options
-    $_QJlJ0 = "UPDATE `$_jJJjO` SET ";
-    $_QJlJ0 .=
-    "`CRLF`="._OPQLR($_POST["CRLF"]).", ".
-    "`Head_Encoding`="._OPQLR($_POST["Head_Encoding"]).", ".
-    "`Text_Encoding`="._OPQLR($_POST["Text_Encoding"]).", ".
-    "`HTML_Encoding`="._OPQLR($_POST["HTML_Encoding"]).", ".
-    "`Attachment_Encoding`="._OPQLR($_POST["Attachment_Encoding"]).", ".
-    "`XMailer`="._OPQLR(trim($_POST["XMailer"])).", ";
+    $_QLfol = "UPDATE `$_JQ1I6` SET ";
+    $_QLfol .=
+    "`CRLF`="._LRAFO($_POST["CRLF"]).", ".
+    "`Head_Encoding`="._LRAFO($_POST["Head_Encoding"]).", ".
+    "`Text_Encoding`="._LRAFO($_POST["Text_Encoding"]).", ".
+    "`HTML_Encoding`="._LRAFO($_POST["HTML_Encoding"]).", ".
+    "`Attachment_Encoding`="._LRAFO($_POST["Attachment_Encoding"]).", ".
+    "`XMailer`="._LRAFO(trim($_POST["XMailer"])).", ";
     if(isset($_POST["AddUniqueIdHeaderField"]))
-      $_QJlJ0 .= "`AddUniqueIdHeaderField`=1";
+      $_QLfol .= "`AddUniqueIdHeaderField`=1";
       else
-      $_QJlJ0 .= "`AddUniqueIdHeaderField`=0";
-    mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
+      $_QLfol .= "`AddUniqueIdHeaderField`=0";
+    mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
 
     // Options
-    $_6Oj8L = 0;
+    $_8IjLf = 0;
     if(isset($_POST["AddBouncedRecipientsToLocalBlocklist"]))
-      $_6Oj8L=1;
-    $_6Oj8l = 0;
+      $_8IjLf=1;
+    $_8IJ00 = 0;
     if(isset($_POST["AddBouncedRecipientsToGlobalBlocklist"]))
-      $_6Oj8l=1;
+      $_8IJ00=1;
 
-    $_IoioQ = 0;
+    $_j60Q0 = 0;
     if(isset($_POST["RemoveToOftenBouncedRecipients"]))
-      $_IoioQ=1;
-    $_6OJ60 = 0;
+      $_j60Q0=1;
+    $_8IJCt = 0;
     if(isset($_POST["RemoveUnknownMailsAndSoftbounces"]))
-      $_6OJ60=1;
+      $_8IJCt=1;
 
-    $_Qot0C = 0;
+    $_IjO6t = 0;
     if(isset($_POST["ECGListCheck"]))
-      $_Qot0C=1;
-    $_Io0t6 = 0;
+      $_IjO6t=1;
+    $_jJIft = 0;
     if(isset($_POST["MailLoggerEnabled"]))
-      $_Io0t6=1;
-    $_6O6tf = 0;
+      $_jJIft=1;
+    $_8I6l8 = 0;
     if(isset($_POST["OptionsCronJobOptionsOnlyAsSuperAdmin"]))
-      $_6O6tf=1;
-    $_6Offt = 0;
+      $_8I6l8=1;
+    $_JflJQ = 0;
     if(isset($_POST["SendEngineFIFO"]))
-      $_6Offt=1;
+      $_JflJQ=1;
 
-    $_JlIfj = "";
+    $_J80I8 = 0;
+    if(isset($_POST["SendEngineBooster"]))
+      $_J80I8=1;
+
+    $_fJ8l0 = "";
     if(isset($_POST["GoogleDeveloperPublicKey"]))
-      $_JlIfj = $_POST["GoogleDeveloperPublicKey"];
+      $_fJ8l0 = $_POST["GoogleDeveloperPublicKey"];
 
-    $_QJlJ0 = "UPDATE `$_Q88iO` SET ";
-    $_QJlJ0 .= "`CronCleanUpDays`=".$_POST["CronCleanUpDays"].", `MailingListStatCleanUpDays`=".$_POST["MailingListStatCleanUpDays"].", `ResponderStatCleanUpDays`=".$_POST["ResponderStatCleanUpDays"].", `TrackingStatCleanUpDays`=".$_POST["TrackingStatCleanUpDays"];
-    $_QJlJ0 .= ", ";
-    $_QJlJ0 .= "`HardbounceCount`=".$_POST["HardbounceCount"].", `BounceEMailCount`=".$_POST["BounceEMailCount"].", `RemoveToOftenBouncedRecipients`=".$_IoioQ;
-    $_QJlJ0 .= ", ";
-    $_QJlJ0 .= "`SendEngineRetryCount`=".$_POST["SendEngineRetryCount"].", `SendEngineMaxEMailsToSend`=".$_POST["SendEngineMaxEMailsToSend"];
-    $_QJlJ0 .= ", ";
-    $_QJlJ0 .= "`ECGListCheck`=".$_Qot0C;
-    $_QJlJ0 .= ", ";
-    $_QJlJ0 .= "`RemoveUnknownMailsAndSoftbounces`=".$_6OJ60;
+    $_QLfol = "UPDATE `$_I1O0i` SET ";
+    $_QLfol .= "`CronCleanUpDays`=".$_POST["CronCleanUpDays"].", `MailingListStatCleanUpDays`=".$_POST["MailingListStatCleanUpDays"].", `ResponderStatCleanUpDays`=".$_POST["ResponderStatCleanUpDays"].", `TrackingStatCleanUpDays`=".$_POST["TrackingStatCleanUpDays"];
+    $_QLfol .= ", ";
+    $_QLfol .= "`HardbounceCount`=".$_POST["HardbounceCount"].", `BounceEMailCount`=".$_POST["BounceEMailCount"].", `RemoveToOftenBouncedRecipients`=".$_j60Q0;
+    $_QLfol .= ", ";
+    $_QLfol .= "`SendEngineRetryCount`=".$_POST["SendEngineRetryCount"].", `SendEngineMaxEMailsToSend`=".$_POST["SendEngineMaxEMailsToSend"];
+    $_QLfol .= ", ";
+    $_QLfol .= "`ECGListCheck`=".$_IjO6t;
+    $_QLfol .= ", ";
+    $_QLfol .= "`RemoveUnknownMailsAndSoftbounces`=".$_8IJCt;
 
-    $_QJlJ0 .= ", ";
-    $_QJlJ0 .= "`AddBouncedRecipientsToLocalBlocklist`=".$_6Oj8L;
-    $_QJlJ0 .= ", ";
-    $_QJlJ0 .= "`AddBouncedRecipientsToGlobalBlocklist`=".$_6Oj8l;
+    $_QLfol .= ", ";
+    $_QLfol .= "`AddBouncedRecipientsToLocalBlocklist`=".$_8IjLf;
+    $_QLfol .= ", ";
+    $_QLfol .= "`AddBouncedRecipientsToGlobalBlocklist`=".$_8IJ00;
 
-    $_QJlJ0 .= ", ";
-    $_QJlJ0 .= "`MailLoggerEnabled`=".$_Io0t6;
+    $_QLfol .= ", ";
+    $_QLfol .= "`MailLoggerEnabled`=".$_jJIft;
 
     if(!defined("DEMO")) {
-      $_QJlJ0 .= ", ";
-      $_QJlJ0 .= "`GoogleDeveloperPublicKey`="._OPQLR($_JlIfj);
+      $_QLfol .= ", ";
+      $_QLfol .= "`GoogleDeveloperPublicKey`="._LRAFO($_fJ8l0);
     }
 
-    $_QJlJ0 .= ", ";
-    $_QJlJ0 .= "`SendEngineFIFO`=".$_6Offt;
+    $_QLfol .= ", ";
+    $_QLfol .= "`SendEngineFIFO`=".$_JflJQ;
 
-    $_QJlJ0 .= ", ";
-    $_QJlJ0 .= "`OptionsCronJobOptionsOnlyAsSuperAdmin`=".$_6O6tf;
-    $_QJlJ0 .= ", ";
+    $_QLfol .= ", ";
+    $_QLfol .= "`SendEngineBooster`=".$_J80I8;
+
+    $_QLfol .= ", ";
+    $_QLfol .= "`OptionsCronJobOptionsOnlyAsSuperAdmin`=".$_8I6l8;
+    $_QLfol .= ", ";
     if($_POST["SpamTestExternal"] == 0)
-       $_QJlJ0 .= "`spamassassinPath`="._OPQLR($_POST["spamassassinPath"]).", `spamassassinParameters`="._OPQLR($_POST["spamassassinParameters"]).", `SpamTestExternal`=$_POST[SpamTestExternal]";
+       $_QLfol .= "`spamassassinPath`="._LRAFO($_POST["spamassassinPath"]).", `spamassassinParameters`="._LRAFO($_POST["spamassassinParameters"]).", `SpamTestExternal`=$_POST[SpamTestExternal]";
        else
-       $_QJlJ0 .= "`SpamTestExternalURL`="._OPQLR($_POST["SpamTestExternalURL"]).", `SpamTestExternal`="._OPQLR($_POST["SpamTestExternal"]);
+       $_QLfol .= "`SpamTestExternalURL`="._LRAFO($_POST["SpamTestExternalURL"]).", `SpamTestExternal`="._LRAFO($_POST["SpamTestExternal"]);
 
-    mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
+    mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
 
 
     return true;

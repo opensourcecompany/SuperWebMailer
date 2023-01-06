@@ -32,136 +32,136 @@
   @include_once("php_register_globals_off.inc.php");
 
   if(isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] == "HEAD"){
-        $_jCO1J = $commonmsgNoParameters;
-        _ORECR($_jj0JO, $_jCO1J);
+        $_JCIO0 = $commonmsgNoParameters;
+        _LJD1D($_J0COJ, $_JCIO0);
   }
 
   if( !isset($_POST["MailingListId"]) || !isset($_POST["FormId"]) || intval($_POST["MailingListId"]) == 0 || intval($_POST["FormId"]) == 0 ){
-        $_jCO1J = $commonmsgNoParameters;
-        _ORECR($_jj0JO, $_jCO1J);
+        $_JCIO0 = $commonmsgNoParameters;
+        _LJD1D($_J0COJ, $_JCIO0);
   }
 
   $MailingListId = intval($_POST["MailingListId"]);
   $FormId = intval($_POST["FormId"]);
 
-  $_QJlJ0 = "SELECT `users_id`, `MaillistTableName`, `FormsTableName`, `ReasonsForUnsubscripeTableName`, `ReasonsForUnsubscripeStatisticsTableName` FROM `$_Q60QL` WHERE `id`=$MailingListId";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-    $_jCO1J = $commonmsgMailListNotFound;
-    _ORECR($_jj0JO, $_jCO1J);
+  $_QLfol = "SELECT `users_id`, `MaillistTableName`, `FormsTableName`, `ReasonsForUnsubscripeTableName`, `ReasonsForUnsubscripeStatisticsTableName` FROM `$_QL88I` WHERE `id`=$MailingListId";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+    $_JCIO0 = $commonmsgMailListNotFound;
+    _LJD1D($_J0COJ, $_JCIO0);
   }
 
-  $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QLI8o = $_Q6Q1C["FormsTableName"];
-  $_I8Jtl = $_Q6Q1C["ReasonsForUnsubscripeTableName"];
-  $_I86jt = $_Q6Q1C["ReasonsForUnsubscripeStatisticsTableName"];
+  $_QLO0f = mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_IfJoo = $_QLO0f["FormsTableName"];
+  $_jQIIl = $_QLO0f["ReasonsForUnsubscripeTableName"];
+  $_jQIt6 = $_QLO0f["ReasonsForUnsubscripeStatisticsTableName"];
 
   // tables
-  $_QJlJ0 = "SELECT * FROM `$_Q8f1L` WHERE id=$_Q6Q1C[users_id]";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_ji0L6 = mysql_fetch_assoc($_Q60l1);
-  if(!$_ji0L6["IsActive"]) {
-    _ORECR($_jj0JO, $commonmsgUserDisabled);
+  $_QLfol = "SELECT * FROM `$_I18lo` WHERE id=$_QLO0f[users_id]";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_JCC81 = mysql_fetch_assoc($_QL8i1);
+  if(!$_JCC81["IsActive"]) {
+    _LJD1D($_J0COJ, $commonmsgUserDisabled);
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
-  _OP0D0($_ji0L6);
-  _OP10J($_ji0L6["Language"]);
-  _LQLRQ($INTERFACE_LANGUAGE);
-  _LQF1R();
+  _LR8AP($_JCC81);
+  _LRPQ6($_JCC81["Language"]);
+  _JQRLR($INTERFACE_LANGUAGE);
+  _JOLFC();
   // ***
 
-  $_QJlJ0 = "SELECT $_QLI8o.*, $_QLI8o.id AS FormId, $_QLo0Q.*, $_Q880O.Theme FROM $_QLI8o LEFT JOIN $_QLo0Q ON $_QLo0Q.id=$_QLI8o.messages_id LEFT JOIN $_Q880O ON $_Q880O.id=$_QLI8o.ThemesId WHERE $_QLI8o.id=".intval($FormId);
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-    $_jCO1J = $commonmsgHTMLFormNotFound;
-    _ORECR($_jj0JO, $_jCO1J);
+  $_QLfol = "SELECT $_IfJoo.*, $_IfJoo.id AS FormId, $_Ifi1J.*, $_I1tQf.Theme FROM $_IfJoo LEFT JOIN $_Ifi1J ON $_Ifi1J.id=$_IfJoo.messages_id LEFT JOIN $_I1tQf ON $_I1tQf.id=$_IfJoo.ThemesId WHERE $_IfJoo.id=".intval($FormId);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+    $_JCIO0 = $commonmsgHTMLFormNotFound;
+    _LJD1D($_J0COJ, $_JCIO0);
   }
 
-  $_j6ioL = mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_Jj08l = mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
 
   // we need this for confirmation string
-  $_j6ioL["MailingListId"] = $MailingListId;
-  $_j6ioL["FormId"] = $FormId;
-  $_j6ioL["ReasonsForUnsubscripeTableName"] = $_I8Jtl;
-  $_j6ioL["ReasonsForUnsubscripeStatisticsTableName"] = $_I86jt;
+  $_Jj08l["MailingListId"] = $MailingListId;
+  $_Jj08l["FormId"] = $FormId;
+  $_Jj08l["ReasonsForUnsubscripeTableName"] = $_jQIIl;
+  $_Jj08l["ReasonsForUnsubscripeStatisticsTableName"] = $_jQIt6;
 
 
   # set theme and language for correct template
-  $INTERFACE_STYLE = $_j6ioL["Theme"];
-  $INTERFACE_LANGUAGE = $_j6ioL["Language"];
+  $INTERFACE_STYLE = $_Jj08l["Theme"];
+  $INTERFACE_LANGUAGE = $_Jj08l["Language"];
 
-  _LQLRQ($INTERFACE_LANGUAGE);
+  _JQRLR($INTERFACE_LANGUAGE);
 
    // set the user paths for images, attachments....
-  _OP0AF($_Q6Q1C["users_id"]);
+  _LRRFJ($_QLO0f["users_id"]);
 
-  $_6Jojj = array();
+  $_fi1it = array();
 
-  $_6JC0o = _L0E8E(intval($_POST["ReasonsForUnsubscripe_id"]));
-  if(isset($_POST["ReasonsForUnsubscripe_id"]) && intval($_POST["ReasonsForUnsubscripe_id"]) != 0 &&  $_6JC0o != "" ){
-    $_QJlJ0 = "INSERT INTO `$_I86jt` SET `ReasonsForUnsubscripe_id`=".intval($_POST["ReasonsForUnsubscripe_id"]);
-    $_QJlJ0 .= ", `VoteDate`=NOW()";
+  $_fiQi0 = _J11L6(intval($_POST["ReasonsForUnsubscripe_id"]));
+  if(isset($_POST["ReasonsForUnsubscripe_id"]) && intval($_POST["ReasonsForUnsubscripe_id"]) != 0 &&  $_fiQi0 != "" ){
+    $_QLfol = "INSERT INTO `$_jQIt6` SET `ReasonsForUnsubscripe_id`=".intval($_POST["ReasonsForUnsubscripe_id"]);
+    $_QLfol .= ", `VoteDate`=NOW()";
     if(isset($_POST["ReasonText"]) && trim($_POST["ReasonText"]) != ""){
        if(!IsUtf8String($_POST["ReasonText"]))
-          $_POST["ReasonText"] = ConvertString("iso-8859-1", $_Q6QQL, $_POST["ReasonText"], false);
-       $_QJlJ0 .= ", `ReasonText`="._OPQLR(trim(_ODQAB(CleanUpHTML($_POST["ReasonText"]))));
+          $_POST["ReasonText"] = ConvertString("iso-8859-1", $_QLo06, $_POST["ReasonText"], false);
+       $_QLfol .= ", `ReasonText`="._LRAFO(trim(_LC6CP(_LBDA8(CleanUpHTML($_POST["ReasonText"])))));
     }
-    mysql_query($_QJlJ0, $_Q61I1);
-    //_OAL8F($_QJlJ0);
+    mysql_query($_QLfol, $_QLttI);
+    //_L8D88($_QLfol);
 
-    if($_j6ioL["ExternalReasonForUnsubscriptionScript"] != ""){
-      $_6Jojj["MailingListId"] = $MailingListId;
-      $_6Jojj["FormId"] = $FormId;
-      $_6Jojj["Reason"] = $_6JC0o;
+    if($_Jj08l["ExternalReasonForUnsubscriptionScript"] != ""){
+      $_fi1it["MailingListId"] = $MailingListId;
+      $_fi1it["FormId"] = $FormId;
+      $_fi1it["Reason"] = $_fiQi0;
       if(isset($_POST["ReasonText"]) && trim($_POST["ReasonText"]) != "")
-         $_6Jojj["ReasonText"] = trim($_POST["ReasonText"]);
-      foreach($_POST as $key => $_Q6ClO){
-        $_Q6i6i = strpos($key, "u_");
-        if($_Q6i6i !== false && $_Q6i6i == 0)
-           $_6Jojj[$key] = $_Q6ClO;
+         $_fi1it["ReasonText"] = trim($_POST["ReasonText"]);
+      foreach($_POST as $key => $_QltJO){
+        $_QlOjt = strpos($key, "u_");
+        if($_QlOjt !== false && $_QlOjt == 0)
+           $_fi1it[$key] = $_QltJO;
       }
     }
 
   }
 
-  if(count($_6Jojj))
-    _L08DC(0, array(), $_6Jojj, "ReasonForUnsubscriptionVote", $_j6ioL);
+  if(count($_fi1it))
+    _J0R06(0, array(), $_fi1it, "ReasonForUnsubscriptionVote", $_Jj08l);
 
-  $_Ql1O8 = array();
-  _L08LL(0, "", "RFUSurveyConfirmationPage", "", $_j6ioL, $_Ql1O8);
+  $_I816i = array();
+  _J06JO(0, "", "RFUSurveyConfirmationPage", "", $_Jj08l, $_I816i);
 
 
-  function _L0E8E($_6JC1j){
-    global $_I8Jtl, $_Q61I1;
-    $_QJlJ0 = "SELECT Reason FROM $_I8Jtl WHERE id=$_6JC1j";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if($_Q6Q1C = mysql_fetch_row($_Q60l1)){
-      return $_Q6Q1C[0];
-      mysql_free_result($_Q60l1);
+  function _J11L6($_fiIJ0){
+    global $_jQIIl, $_QLttI;
+    $_QLfol = "SELECT Reason FROM $_jQIIl WHERE id=$_fiIJ0";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if($_QLO0f = mysql_fetch_row($_QL8i1)){
+      return $_QLO0f[0];
+      mysql_free_result($_QL8i1);
     }
 
     return "";
   }
 
-  function _ORECR($_jj0JO, $_jCO1J) {
-    global $AppName, $_Q6QQL, $_j6ioL;
+  function _LJD1D($_J0COJ, $_JCIO0) {
+    global $AppName, $_QLo06, $_Jj08l;
 
-    SetHTMLHeaders($_Q6QQL);
+    SetHTMLHeaders($_QLo06);
 
-    if(!isset($_j6ioL) || empty($_j6ioL["UserDefinedFormsFolder"]))
-      $_Q6ICj = join("", file(_O68QF()."default_errorpage.htm"));
+    if(!isset($_Jj08l) || empty($_Jj08l["UserDefinedFormsFolder"]))
+      $_QLoli = join("", file(_LOC8P()."default_errorpage.htm"));
       else
-      $_Q6ICj = join("", file(_OBLDR(InstallPath.$_j6ioL["UserDefinedFormsFolder"])."default_errorpage.htm"));
-    $_Q6ICj = _OPLPC("<title>", "<title>".$AppName." - ".$_jj0JO, $_Q6ICj);
+      $_QLoli = join("", file(_LPC1C(InstallPath.$_Jj08l["UserDefinedFormsFolder"])."default_errorpage.htm"));
+    $_QLoli = _LRD81("<title>", "<title>".$AppName." - ".$_J0COJ, $_QLoli);
 
-    _LJ81E($_Q6ICj);
+    _JJCCF($_QLoli);
 
-    $_Q6ICj = _OPLPC("<!--ERRORTEXT//-->", $_jj0JO, $_Q6ICj);
-    $_Q6ICj = _OPLPC("<!--ERRORHTMLTEXT//-->", $_jCO1J, $_Q6ICj);
-    print $_Q6ICj;
+    $_QLoli = _LRD81("<!--ERRORTEXT//-->", $_J0COJ, $_QLoli);
+    $_QLoli = _LRD81("<!--ERRORHTMLTEXT//-->", $_JCIO0, $_QLoli);
+    print $_QLoli;
     exit;
   }
 

@@ -1,0 +1,26 @@
+All;0;category=;
+Easter;1;category=;q=easter+hare
+Helloween;2;category=;q=helloween
+Christmas;3;category=;q=christmas
+New Year;4;category=;q=new+year|silvester
+Birthday;5;category=;q=birthday
+Architecture/Buildings;100;category=buildings;
+Business/Finance;100;category=business;
+Computer/Communication;100;category=computer;
+Emotions;100;category=feelings;
+Food/Drink;100;category=food;
+Health/Medical;100;category=health;
+Backgrounds/Textures;100;category=backgrounds;
+Industry/Craft;100;category=industry;
+People;100;category=people;
+Music;100;category=music;
+Nature/Landscapes;100;category=nature;
+Places/Monuments;100;category=places;
+Travel/Vacation;100;category=travel;
+Religion;100;category=religion;
+Beauty/Fashion;100;category=fashion;
+Education;100;category=education;
+Sports;100;category=sports;
+Animals;100;category=animals;
+Transportation/Traffic;100;category=transportation;
+Science/Technology;100;category=science;

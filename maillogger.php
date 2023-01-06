@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -25,17 +25,17 @@
  include_once("config.inc.php");
  include_once("savedoptions.inc.php");
 
- class _OFBEA {
+ class _LFBOB {
 
  // @private
  var $_MailLoggerEnabled = true;
 
   // constructor
   function __construct() {
-     $this->_MailLoggerEnabled = _LQDLR("MailLoggerEnabled");
+     $this->_MailLoggerEnabled = _JOLQE("MailLoggerEnabled");
   }
 
-  function _OFBEA() {
+  function _LFBOB() {
     self::__construct();
   }
 
@@ -44,23 +44,23 @@
   }
 
   //@public
-  function _OF0FL($_QljIQ, $_JLJii, $_JL6of) {
-    global $_Q61I1, $_Q6JJJ;
+  function _LF0QR($_I8jLt, $_68JJo, $_fji10) {
+    global $_QLttI, $_QLl1Q;
     if(!$this->_MailLoggerEnabled)
        return true;
-    if($_QljIQ == "" || $_JLJii == 0)
+    if($_I8jLt == "" || $_68JJo == 0)
       return false;
 
-    #$_JL6of = strftime("%m/%d/%y %H:%M:%S")." - ".$_JL6of; // possible time zone problems
-    $_JL6of = " - ".$_JL6of;
+    #$_fji10 = strftime("%m/%d/%y %H:%M:%S")." - ".$_fji10; // possible time zone problems
+    $_fji10 = " - " . _LC6CP( $_fji10 );
 
-    #$_QJlJ0 = "UPDATE `$_QljIQ` SET MailLog=CONCAT(`MailLog`, "._OPQLR($_Q6JJJ.$_JL6of).") WHERE `Member_id`=".intval($_JLJii);
-    $_QJlJ0 = "UPDATE `$_QljIQ` SET `MailLog`=CONCAT(`MailLog`, "._OPQLR($_Q6JJJ).", DATE_FORMAT(NOW(), '%m/%d/%Y %H:%i:%S'), "._OPQLR($_JL6of).") WHERE `Member_id`=".intval($_JLJii);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if(mysql_affected_rows($_Q61I1) == 0) {
-      $_QJlJ0 = "INSERT INTO `$_QljIQ` SET `Member_id`=".intval($_JLJii).", `MailLog`=CONCAT(DATE_FORMAT(NOW(), '%m/%d/%Y %H:%i:%S'), "._OPQLR($_JL6of).")";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if(!$_Q60l1)
+    #$_QLfol = "UPDATE `$_I8jLt` SET MailLog=CONCAT(`MailLog`, "._LRAFO($_QLl1Q.$_fji10).") WHERE `Member_id`=".intval($_68JJo);
+    $_QLfol = "UPDATE `$_I8jLt` SET `MailLog`=CONCAT(`MailLog`, "._LRAFO($_QLl1Q).", DATE_FORMAT(NOW(), '%m/%d/%Y %H:%i:%S'), "._LRAFO($_fji10).") WHERE `Member_id`=".intval($_68JJo);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if(mysql_affected_rows($_QLttI) == 0) {
+      $_QLfol = "INSERT INTO `$_I8jLt` SET `Member_id`=".intval($_68JJo).", `MailLog`=CONCAT(DATE_FORMAT(NOW(), '%m/%d/%Y %H:%i:%S'), "._LRAFO($_fji10).")";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if(!$_QL8i1)
          return false;
          else
          return true;

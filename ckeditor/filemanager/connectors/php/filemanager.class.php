@@ -66,7 +66,7 @@ class Filemanager {
   var $root = '';
   var $doc_root = '';
 
-  function Filemanager($config) {
+  function __construct($config) {
      global $Config;
      $this->config = $config;
      $this->root = dirname(dirname(dirname(__FILE__))).DIRECTORY_SEPARATOR;
@@ -89,9 +89,9 @@ class Filemanager {
 
   }
 
-#  function __construct($config) {
-#    $this->Filemanager($config);
-#  }
+  function Filemanager($config) {
+    self::__construct($config);
+  }
 
   // @public
   function error($string,$textarea=false) {
@@ -142,6 +142,18 @@ class Filemanager {
     }
   }
 
+  function tofilemanagerLocalFileName($filename, $token = 1){
+    global $Config;
+    if(strpos($filename, $Config['UserFilesPath'] . 'image') === false || strpos($filename, $Config['UserFilesPath'] . 'image') > 0){
+      $filename = substr($filename, strpos($filename, "userfiles/"));
+      $filename = substr($filename, strpos($filename, "image/") + 5);
+      $filename = $Config['UserFilesPath'] . 'image' . $filename;
+    }
+    if(!$token)
+      return $filename;
+    return strpos($filename, '?') === false ? $filename . '?' . SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME . '=' . fmGetCsrfToken() :  $filename . '&' . SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME . '=' . fmGetCsrfToken();
+  }
+
   // @public
   function getinfo() {
     $this->item = array();
@@ -156,7 +168,7 @@ class Filemanager {
                         'Preview'=>$this->item['preview'],
                         'Properties'=>$this->item['properties'],
                         'Error'=>"",
-                        'Code'=>0
+                        'Code'=> !isset($this->item['fileexists']) || $this->item['fileexists'] ?  0 : 5
     );
     return $array;
   }
@@ -221,7 +233,7 @@ class Filemanager {
                                                         'Preview'=>$this->item['preview'],
                                                         'Properties'=>$this->item['properties'],
                                                         'Error'=>"",
-                                                        'Code'=>0
+                                                        'Code'=>!isset($this->item['fileexists']) || $this->item['fileexists'] ?  0 : 5
               );
             }
           }
@@ -234,8 +246,16 @@ class Filemanager {
 
   // @public
   function resample() {
+    global $Config;
 
     $filename = $this->get['filename'];
+
+    if(strpos($filename, $Config['UserFilesAbsolutePath'] . 'image') === false || strpos($filename, $Config['UserFilesAbsolutePath'] . 'image') > 0){
+      $filename = substr($filename, strpos($filename, "userfiles/"));
+      $filename = substr($filename, strpos($filename, "image/") + 5);
+      $filename = $Config['UserFilesAbsolutePath'] . 'image' . $filename;
+    }
+
     $current_width =  $this->get['current_width'];
     $current_height = $this->get['current_height'];
     $newwidth = $this->get['newwidth'];
@@ -245,9 +265,10 @@ class Filemanager {
 
     if($result == 1) {
       $array = array(
-                          'Error'=>"",
-                          'Code'=>0
-      );
+        'Error' => "",
+        'Code' => 0
+       );
+
       return $array;
     } else {
       $this->error(sprintf($this->lang('ERROR_WHILECHANGINGIMGSIZE'), $result));
@@ -257,7 +278,7 @@ class Filemanager {
   // @public
   function image_resize($src, $dst, $width, $height, $crop=0){
 
-    if(!list($w, $h) = getimagesize($src)) return $this->lang("ERROR_UNSUPPORTEDEXT");
+    if(!list($w, $h) = getimagesize($src)) return $this->lang("ERROR_UNSUPPORTEDEXT") . " " . $src;
 
     $type = strtolower(substr(strrchr($src,"."),1));
     if($type == 'jpeg') $type = 'jpg';
@@ -267,7 +288,7 @@ class Filemanager {
       case 'jpg': $img = imagecreatefromjpeg($src); break;
       case 'jpeg': $img = imagecreatefromjpeg($src); break;
       case 'png': $img = imagecreatefrompng($src); break;
-      default : return "Unsupported picture type!";
+      default : return $this->lang("ERROR_UNSUPPORTEDEXT") . " " .$type;
     }
 
     if(!$img)
@@ -448,6 +469,11 @@ class Filemanager {
       //
 
       $newfile['name'] = $this->cleanString($newfile['name'],array('.','-'));
+      if($newfile['name'] == "")
+         $newfile['name'] = "no_filename";
+         else
+         if($newfile['name'][0] == ".")
+            $newfile['name'] = "no_filename" . $newfile['name'];
       if(!$this->config['upload']['overwrite']) {
         $newfile['name'] = $this->checkFilename($this->doc_root . $this->post['currentpath'],$newfile['name']);
       }
@@ -503,13 +529,20 @@ class Filemanager {
   function download() {
 
     if(isset($this->get['path']) && file_exists($this->doc_root .$this->get['path'])) {
-      header("Content-type: application/force-download");
-      header('Content-Disposition: inline; filename="' . basename($this->get['path']) . '"');
-      header("Content-Transfer-Encoding: Binary");
+      $ext = pathinfo($this->get['path'], PATHINFO_EXTENSION);
+      if($ext)
+        header("Content-Type: image/" . $ext);
+        else
+        header("Content-Type: application/force-download");
+      //header('Content-Type: application/octet-stream');
+      header("Content-Transfer-Encoding: binary");
       header("Content-length: ".filesize($this->doc_root . $this->get['path']));
-      header('Content-Type: application/octet-stream');
       header('Content-Disposition: attachment; filename="' . basename($this->get['path']) . '"');
-      header('Expires: 0');
+      header('X-Frame-Options: SAMEORIGIN');
+      header('Expires: Mon, 26 Jul 1997 05:00:00 GMT') ;
+      header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT') ;
+      header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0') ;
+      header('Cache-Control: post-check=0, pre-check=0', false) ;
       header('Pragma: no-cache');
       readfile($this->doc_root . $this->get['path']);
     } else {
@@ -521,11 +554,15 @@ class Filemanager {
   function preview() {
 
     if(isset($this->get['path']) && file_exists($this->doc_root . $this->get['path'])) {
-      header("Content-type: image/" .$ext = pathinfo($this->get['path'], PATHINFO_EXTENSION));
-      header("Content-Transfer-Encoding: Binary");
+      header("Content-Type: image/" .$ext = pathinfo($this->get['path'], PATHINFO_EXTENSION));
+      header("Content-Transfer-Encoding: binary");
       header("Content-length: ".filesize($this->doc_root . $this->get['path']));
       header('Content-Disposition: inline; filename="' . basename($this->get['path']) . '"');
-      header('Expires: 0');
+      header('X-Frame-Options: SAMEORIGIN');
+      header('Expires: Mon, 26 Jul 1997 05:00:00 GMT') ;
+      header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT') ;
+      header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0') ;
+      header('Cache-Control: post-check=0, pre-check=0', false) ;
       header('Pragma: no-cache');
       readfile($this->doc_root . $this->get['path']);
     } else {
@@ -574,6 +611,11 @@ class Filemanager {
     $this->item['filemtime'] = filemtime($this->doc_root . $path);
     $this->item['filectime'] = filectime($this->doc_root . $path);
 
+    $this->item['fileexists'] = true;
+    if(!file_exists($this->doc_root . $path)){
+      $this->item['fileexists'] = false;
+    }
+
     $this->item['preview'] = $this->config['icons']['path'] . $this->config['icons']['default'];
 
     if(is_dir($this->doc_root . $path)) {
@@ -583,7 +625,8 @@ class Filemanager {
 
     } else if(in_array(strtolower($this->item['filetype']),$this->config['images'])) {
 
-      $this->item['preview'] = 'connectors/php/filemanager.php?mode=preview&path=' . $path;
+      //$this->item['preview'] = 'connectors/php/filemanager.php' . '?mode=preview&path=' . $path . "&". SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME . "=" . fmGetCsrfToken();
+      $this->item['preview'] = $this->tofilemanagerLocalFileName($path, (!isset($_GET["notoken"]) || !$_GET["notoken"]) );
       //if(isset($get['getsize']) && $get['getsize']=='true') {
       list($width, $height, $type, $attr) = @getimagesize($this->doc_root . $path);
       $this->item['properties']['Height'] = $height;
@@ -628,7 +671,7 @@ class Filemanager {
 
   // @public // M.B.
   function cleanString($string, $allowed = array()) {
-    $allow = null;
+    $allow = "\\[\\]";
 
     if (!empty($allowed)) {
       foreach ($allowed as $value) {
@@ -646,15 +689,15 @@ class Filemanager {
     $sFileName = str_replace("-", "_", $sFileName);
     for($i=0; $i<strlen($sFileName); $i++) {
        if (
-           (ord($sFileName{$i}) >= 0x30 && ord($sFileName{$i}) <= 0x39) ||
-           (ord($sFileName{$i}) >= 0x41 && ord($sFileName{$i}) <= 0x5A) ||
-           (ord($sFileName{$i}) >= 0x61 && ord($sFileName{$i}) <= 0x7A) ||
-           (ord($sFileName{$i}) == 0x5F) ||
-           ($sFileName{$i} == '.')
+           (ord($sFileName[$i]) >= 0x30 && ord($sFileName[$i]) <= 0x39) ||
+           (ord($sFileName[$i]) >= 0x41 && ord($sFileName[$i]) <= 0x5A) ||
+           (ord($sFileName[$i]) >= 0x61 && ord($sFileName[$i]) <= 0x7A) ||
+           (ord($sFileName[$i]) == 0x5F) ||
+           ($sFileName[$i] == '.') || ($sFileName[$i] == '[') || ($sFileName[$i] == ']')
           ) {
-            $s = $s . $sFileName{$i};
+            $s = $s . $sFileName[$i];
           } else {
-            switch(ord($sFileName{$i})) {
+            switch(ord($sFileName[$i])) {
               case 0xC4: $s = $s . "Ae";
                     break;
               case 0xDC: $s = $s . "Ue";
@@ -737,12 +780,25 @@ class Filemanager {
     $lang = $this->config['culture'];
     if(isset($this->params['langCode']) && in_array($this->params['langCode'], $this->languages)) $lang = $this->params['langCode'];
 
+    $lang = preg_replace( '/[^a-z]+/', '', strtolower( $lang ) );
     if(file_exists($this->root. 'scripts/languages/'.$lang.'.js')) {
       $stream =file_get_contents($this->root. 'scripts/languages/'.$lang.'.js');
       $this->language = json_decode($stream, true);
     } else {
       $stream =file_get_contents($this->root. 'scripts/languages/'.$lang.'.js');
       $this->language = json_decode($stream, true);
+    }
+
+    if($lang != "de"){
+      @setlocale (LC_ALL, 'en_US');
+      @setlocale (LC_TIME, 'en_US');
+      if(function_exists("date_default_timezone_set"))
+        @date_default_timezone_set("Europe/London");
+    }else{
+      @setlocale (LC_ALL, 'de_DE');
+      @setlocale (LC_TIME, 'de_DE');
+      if(function_exists("date_default_timezone_set"))
+        @date_default_timezone_set("Europe/Berlin");
     }
   }
 

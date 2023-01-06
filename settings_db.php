@@ -26,45 +26,45 @@
   include_once("templates.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeDbRepair"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeDbRepair"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
   $errors = array();
-  $_I0600 = "";
+  $_Itfj8 = "";
 
   if( isset($_POST["RepairTablesBtn"]) || isset($_POST["OptimizeTablesBtn"]) ) {
     if(isset($_POST["RepairTablesBtn"]) ) {
-      _LOQ1Q("Repair");
-      $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000331"];
+      _JO8FB("Repair");
+      $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000331"];
     } else {
-      _LOQ1Q("Optimize");
-      $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000330"];
+      _JO8FB("Optimize");
+      $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000330"];
     }
   }
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000329"], $_I0600, 'settings_db', 'settings_db_snipped.htm');
-  $_QJCJi = _OPFJA($errors, $_POST, $_QJCJi);
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000329"], $_Itfj8, 'settings_db', 'settings_db_snipped.htm');
+  $_QLJfI = _L8AOB($errors, $_POST, $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
-  function _LOQ1Q($Action) {
-    $_QJlJ0 = "SHOW TABLES";
-    $_Q60l1 = mysql_query($_QJlJ0);
-    while ($_Q6Q1C = mysql_fetch_row($_Q60l1) ) {
+  function _JO8FB($Action) {
+    $_QLfol = "SHOW TABLES";
+    $_QL8i1 = mysql_query($_QLfol);
+    while ($_QLO0f = mysql_fetch_row($_QL8i1) ) {
       if($Action == "Repair") {
-         mysql_query("REPAIR TABLE ".$_Q6Q1C[0]);
+         mysql_query("REPAIR TABLE ".$_QLO0f[0]);
       } else {
-         mysql_query("OPTIMIZE TABLE ".$_Q6Q1C[0]);
+         mysql_query("OPTIMIZE TABLE ".$_QLO0f[0]);
       }
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
     return true;
   }
 

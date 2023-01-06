@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -28,39 +28,39 @@
   include_once("templates.inc.php");
 
   // Boolean fields of form
-  $_I01C0 = Array ("SMTPPersist", "SMTPPipelining", "SMTPAuth", "SMTPSSL", "SMIMESignMail", "SMIMEIgnoreSignErrors", "SMIMEMessageAsPlainText", "DKIMIgnoreSignErrors", "DKIM", "DomainKey");
+  $_ItI0o = Array ("SMTPPersist", "SMTPPipelining", "SMTPAuth", "SMTPSSL", "SMIMESignMail", "SMIMEIgnoreSignErrors", "SMIMEMessageAsPlainText", "DKIMIgnoreSignErrors", "DKIM", "DomainKey");
 
-  $_I01lt = Array ();
+  $_ItIti = Array ();
 
   $errors = array();
-  $_IC01o = 0;
+  $_j6Qf1 = 0;
 
   if(isset($_POST['MTAId'])) // Formular speichern?
-    $_IC01o = $_POST['MTAId'];
+    $_j6Qf1 = $_POST['MTAId'];
   else
     if ( isset($_POST['OneMTAListId']) )
-       $_IC01o = $_POST['OneMTAListId'];
-  $_IC01o = intval($_IC01o);
+       $_j6Qf1 = $_POST['OneMTAListId'];
+  $_j6Qf1 = intval($_j6Qf1);
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if($_IC01o == 0 && !$_QJojf["PrivilegeMTACreate"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if($_j6Qf1 == 0 && !$_QLJJ6["PrivilegeMTACreate"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
-    if($_IC01o != 0 && !$_QJojf["PrivilegeMTAEdit"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    if($_j6Qf1 != 0 && !$_QLJJ6["PrivilegeMTAEdit"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  $_6QQfL = function_exists("openssl_pkcs7_sign") && function_exists("openssl_get_privatekey");
+  $_f8tJt = function_exists("openssl_pkcs7_sign") && function_exists("openssl_get_privatekey");
 
-  $_I0600 = "";
+  $_Itfj8 = "";
 
   if(isset($_POST['SubmitBtn'])) { // Formular speichern?
 
@@ -81,10 +81,15 @@
     if ( (!isset($_POST['MTASenderEMailAddress']))  )
        $_POST['MTASenderEMailAddress'] = '';
 
-    if ( (isset($_POST['MTASenderEMailAddress'])) && (trim($_POST['MTASenderEMailAddress']) != "") && !_OPAOJ(trim($_POST['MTASenderEMailAddress'])) )
+    if ( (isset($_POST['MTASenderEMailAddress'])) && (trim($_POST['MTASenderEMailAddress']) != "") && !_L8JEL(trim($_POST['MTASenderEMailAddress'])) ){
       $errors[] = 'MTASenderEMailAddress';
-      else
-      $_POST['MTASenderEMailAddress'] = trim($_POST['MTASenderEMailAddress']);
+      $_POST['MTASenderEMailAddress'] = _L86JE($_POST['MTASenderEMailAddress']);
+     }
+      else if(isset($_POST['MTASenderEMailAddress'])) {
+        $_POST['MTASenderEMailAddress'] = trim($_POST['MTASenderEMailAddress']);
+        if( $_POST['MTASenderEMailAddress'] != $_POST['MTASenderEMailAddress'] = _L86JE($_POST['MTASenderEMailAddress']) )
+          $errors[] = 'MTASenderEMailAddress';
+      }
 
     if(! isset($_POST["Type"]) )
       $errors[] = 'Type';
@@ -96,12 +101,20 @@
             $_POST["SMTPTimeout"] = 0;
           if( !isset($_POST["SMTPServer"]) || trim($_POST["SMTPServer"]) == "")
             $errors[] = 'SMTPServer';
+            else{
+              $_POST["SMTPServer"] = trim($_POST["SMTPServer"]);
+              if($_POST["SMTPServer"] != $_POST["SMTPServer"] = _L86JE($_POST["SMTPServer"]))
+                $errors[] = 'SMTPServer';
+            }
+            
           if( !isset($_POST["SMTPPort"]) || trim($_POST["SMTPPort"]) == "" || intval($_POST["SMTPPort"]) == 0 )
             $errors[] = 'SMTPPort';
           if( isset($_POST["SMTPAuth"]) ) {
             if( !isset($_POST["SMTPUsername"]) || trim($_POST["SMTPUsername"]) == "")
                $errors[] = 'SMTPUsername';
             if( !isset($_POST["SMTPPassword"]) || trim($_POST["SMTPPassword"]) == "")
+               $errors[] = 'SMTPPassword';
+            if(!$_j6Qf1 && isset($_POST["SMTPPassword"]) && $_POST["SMTPPassword"] == "*PASSWORDSET*")   
                $errors[] = 'SMTPPassword';
           }
        }
@@ -119,6 +132,34 @@
             $errors[] = 'sendmail_path';
        }
 
+       if($_POST["Type"] == "savetodir") {
+          $_POST["MailThreadCount"] = 1; // ever 1
+          if( !isset($_POST["savetodir_pathname"]) || trim($_POST["savetodir_pathname"]) == "")
+            $errors[] = 'savetodir_pathname';
+            else{
+                $_I0lji = @fopen( _LPC1C($_POST["savetodir_pathname"]) . "writecheck.txt", "w");
+                if($_I0lji !== false) {
+                   fclose($_I0lji);
+                   @unlink(_LPC1C($_POST["savetodir_pathname"]) . "writecheck.txt");
+                }else{
+                  $errors[] = 'savetodir_pathname';
+                  $_Itfj8 = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["CantWriteToDirectory"], _LPC1C($_POST["savetodir_pathname"]));
+                }
+            }
+       }
+
+       if(!isset($_POST["MailThreadCount"]))
+         $_POST["MailThreadCount"] = 1;
+       $_POST["MailThreadCount"] = intval($_POST["MailThreadCount"]);
+       if($_POST["MailThreadCount"] < 1)
+         $_POST["MailThreadCount"] = 1;
+
+       if(!isset($_POST["MaxMailsPerThread"]))
+         $_POST["MaxMailsPerThread"] = 2;
+       $_POST["MaxMailsPerThread"] = intval($_POST["MaxMailsPerThread"]);
+       if($_POST["MaxMailsPerThread"] < 1) $_POST["MaxMailsPerThread"] = 1;
+
+
     }
 
     if(!isset($_POST["mailheaderfieldscheckbox"]))
@@ -127,21 +168,21 @@
     if(isset($_POST["MailHeaderFields"])){
       if(!is_array($_POST["MailHeaderFields"]))
         $_POST["MailHeaderFields"] = array();
-      $_6Q6LQ = array();
-      for($_Q6llo=0; $_Q6llo<count($_POST["MailHeaderFields"]); $_Q6llo++){
-        $_Q8otJ = explode(":", $_POST["MailHeaderFields"][$_Q6llo]);
-        if(count($_Q8otJ) < 2 || trim($_Q8otJ[0]) == "" || trim($_Q8otJ[1]) == "") continue;
-        $_6Q6LQ[$_Q8otJ[0]] = $_Q8otJ[1];
+      $_f8CCL = array();
+      for($_Qli6J=0; $_Qli6J<count($_POST["MailHeaderFields"]); $_Qli6J++){
+        $_I1OoI = explode(":", $_POST["MailHeaderFields"][$_Qli6J]);
+        if(count($_I1OoI) < 2 || trim($_I1OoI[0]) == "" || trim($_I1OoI[1]) == "") continue;
+        $_f8CCL[$_I1OoI[0]] = $_I1OoI[1];
       }
 
-      $_POST["MailHeaderFields"] = $_6Q6LQ;
+      $_POST["MailHeaderFields"] = $_f8CCL;
     } else{
       $_POST["MailHeaderFields"] = array();
     }
     $_POST["MailHeaderFields"] = serialize($_POST["MailHeaderFields"]);
 
 
-    if(!$_6QQfL){
+    if(!$_f8tJt){
       if(isset($_POST["SMIMESignMail"]))
         unset($_POST["SMIMESignMail"]);
       if(isset($_POST["DomainKeyDKIM"]))
@@ -179,14 +220,26 @@
              $errors[] = 'SMIMESignPrivKeyPassword';
          }
 
+      if(!empty($_POST["SMIMESignExtraCerts"])){
+        $_POST["SMIMESignExtraCerts"] = trim($_POST["SMIMESignExtraCerts"]);
+      }  
+
+      if(!empty($_POST["SMIMESignExtraCerts"]) ){
+        if(strpos($_POST["SMIMESignExtraCerts"], "file://") === false)
+          $_POST["SMIMESignExtraCerts"] = "file://" . $_POST["SMIMESignExtraCerts"];
+        if( !file_exists( substr($_POST["SMIMESignExtraCerts"], 7) ) || !is_readable(substr($_POST["SMIMESignExtraCerts"], 7)) ){
+          $errors[] = 'SMIMESignExtraCerts';
+        }  
+      }   
+         
       if(count($errors) == 0) {
         if(openssl_pkey_get_public($_POST["SMIMESignCert"]) == false) {
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["CantLoadCert"];
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["CantLoadCert"];
           $errors[] = 'SMIMESignCert';
         }
 
         if(openssl_get_privatekey($_POST["SMIMESignPrivKey"], $_POST["SMIMESignPrivKeyPassword"]) == false) {
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["CantLoadCert"];
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["CantLoadCert"];
           $errors[] = 'SMIMESignPrivKey';
           $errors[] = 'SMIMESignPrivKeyPassword';
         }
@@ -227,12 +280,12 @@
       }
 
       if(count($errors) == 0) {
-        $_Q6i6i = "";
+        $_QlOjt = "";
         if(isset($_POST["DKIMPrivKeyPassword"]))
-           $_Q6i6i = $_POST["DKIMPrivKeyPassword"];
+           $_QlOjt = $_POST["DKIMPrivKeyPassword"];
 
-        if(openssl_get_privatekey($_POST["DKIMPrivKey"], $_Q6i6i) == false) {
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["CantLoadCert"];
+        if(openssl_get_privatekey($_POST["DKIMPrivKey"], $_QlOjt) == false) {
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["CantLoadCert"];
           $errors[] = 'DKIMPrivKey';
         }
 
@@ -241,43 +294,52 @@
     }
 
     if(count($errors) > 0) {
-        if($_I0600 != "")
-           $_I0600 = "<br />"."<br />".$_I0600;
-        $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000020"].$_I0600;
+        if($_Itfj8 != "")
+           $_Itfj8 = "<br />"."<br />".$_Itfj8;
+        $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000020"].$_Itfj8;
       }
       else {
-        $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000021"];
+        $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000021"];
 
-        $_II1Ot = $_POST;
-        _OFD0D($_IC01o, $_II1Ot);
-        if($_IC01o != 0)
-           $_POST["MTAId"] = $_IC01o;
+        $_IoLOO = $_POST;
+        if($_j6Qf1 && isset($_IoLOO["SMTPPassword"]) && $_IoLOO["SMTPPassword"] == "*PASSWORDSET*")
+          unset($_IoLOO["SMTPPassword"]);
+        _LFC6E($_j6Qf1, $_IoLOO);
+        if($_j6Qf1 != 0)
+           $_POST["MTAId"] = $_j6Qf1;
       }
   }
 
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000078"], $_I0600, 'mtaedit', 'mtaedit_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000078"], $_Itfj8, 'mtaedit', 'mtaedit_snipped.htm');
 
-  $_QJCJi = str_replace ('name="MTAId"', 'name="MTAId" value="'.$_IC01o.'"', $_QJCJi);
+  $_QLJfI = str_replace ('name="MTAId"', 'name="MTAId" value="'.$_j6Qf1.'"', $_QLJfI);
 
-  if($_6QQfL){
-    $_QJCJi = _OP6PQ($_QJCJi, "<if:noSSL>", "</if:noSSL>");
+  if($_f8tJt){
+    $_QLJfI = _L80DF($_QLJfI, "<if:noSSL>", "</if:noSSL>");
   } else{
-    $_QJCJi = _OP6PQ($_QJCJi, "<if:SSL>", "</if:SSL>");
+    $_QLJfI = _L80DF($_QLJfI, "<if:SSL>", "</if:SSL>");
   }
+  $_QLJfI = _L8OF8($_QLJfI, "<if:noSSL>");
+  $_QLJfI = _L8OF8($_QLJfI, "<if:SSL>");
+
+  if(!function_exists("curl_multi_init") || version_compare(PHP_VERSION, '5.3') < 0 )
+    $_QLJfI = _L80DF($_QLJfI, "<if:curl_installed>", "</if:curl_installed>");
+    else
+    $_QLJfI = _L8OF8($_QLJfI, "<if:curl_installed>");
 
   # MTA laden
   if(isset($_POST['SubmitBtn'])) { // Formular speichern?
     $ML = $_POST;
   } else {
-    if($_IC01o > 0) {
-      $_QJlJ0= "SELECT * FROM `$_Qofoi` WHERE `id`=$_IC01o";
-      $_Q60l1 = mysql_query($_QJlJ0);
-      _OAL8F($_QJlJ0);
-      $ML=mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
-      for($_Q6llo=0; $_Q6llo<count($_I01C0); $_Q6llo++)
-        if(isset($ML[$_I01C0[$_Q6llo]]) && $ML[$_I01C0[$_Q6llo]] == 0)
-           unset($ML[$_I01C0[$_Q6llo]]);
+    if($_j6Qf1 > 0) {
+      $_QLfol= "SELECT * FROM `$_Ijt0i` WHERE `id`=$_j6Qf1";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      $ML=mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
+      for($_Qli6J=0; $_Qli6J<count($_ItI0o); $_Qli6J++)
+        if(isset($ML[$_ItI0o[$_Qli6J]]) && $ML[$_ItI0o[$_Qli6J]] == 0)
+           unset($ML[$_ItI0o[$_Qli6J]]);
 
     } else {
      $ML = array();
@@ -290,8 +352,14 @@
      $ML["sendmail_args"] = "-i";
      $ML["MailHeaderFields"] = array();
      $ML["SMIMEMessageAsPlainText"] = true;
+     $ML["MailThreadCount"] = 1;
+     $ML["MaxMailsPerThread"] = 2;
     }
   }
+
+  if($_j6Qf1 && isset($ML["SMTPPassword"]) && $ML["SMTPPassword"] !== "*PASSWORDSET*")   
+    $ML["SMTPPassword"] = "*PASSWORDSET*";
+
   if(isset($ML["HELOName"]) && ($ML["HELOName"] == "localhost"))
       if (function_exists('posix_uname')) {
           $ML["HELOName"] = posix_uname();
@@ -322,90 +390,96 @@
     if(isset($ML["DomainKeyDKIM"]))
      unset($ML["DomainKeyDKIM"]);
 
-  $_QfoQo = _OP81D($_QJCJi, "<MailHeaderFields>", "</MailHeaderFields>");
+  $_I0Clj = _L81DB($_QLJfI, "<MailHeaderFields>", "</MailHeaderFields>");
   reset($ML["MailHeaderFields"]);
-  $_Q66jQ = "";
-  foreach($ML["MailHeaderFields"] as $key => $_Q6ClO){
-    $_Q66jQ .= $_QfoQo;
-    $_Q66jQ = _OPR6L($_Q66jQ, "<MailHeaderFieldText>", "</MailHeaderFieldText>", "$key:$_Q6ClO");
+  $_Ql0fO = "";
+  foreach($ML["MailHeaderFields"] as $key => $_QltJO){
+    $_Ql0fO .= $_I0Clj;
+    $_Ql0fO = _L81BJ($_Ql0fO, "<MailHeaderFieldText>", "</MailHeaderFieldText>", "$key:$_QltJO");
   }
-  $_QJCJi = _OPR6L($_QJCJi, "<MailHeaderFields>", "</MailHeaderFields>", $_Q66jQ);
+  $_QLJfI = _L81BJ($_QLJfI, "<MailHeaderFields>", "</MailHeaderFields>", $_Ql0fO);
   unset($ML["MailHeaderFields"]);
 
-  $_QJCJi = _OPFJA($errors, $ML, $_QJCJi);
+  if($ML["MailThreadCount"] > 1)
+   $ML["enablemultithreadedsending"] = true;
+   else
+   if(isset($ML["enablemultithreadedsending"]))
+     unset($ML["enablemultithreadedsending"]);
 
-  $_II6C6 = "";
-  $_QJCJi = str_replace('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_II6C6, $_QJCJi);
+  $_QLJfI = _L8AOB($errors, $ML, $_QLJfI);
 
-  print $_QJCJi;
+  $_ICI0L = "";
+  $_QLJfI = str_replace('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_ICI0L, $_QLJfI);
 
-  function _OFD0D(&$_IC01o, $_Qi8If) {
-    global $_Qofoi, $_I01C0, $_I01lt;
+  print $_QLJfI;
+
+  function _LFC6E(&$_j6Qf1, $_I6tLJ) {
+    global $_Ijt0i, $_ItI0o, $_ItIti;
     global $OwnerUserId, $UserId;
 
-    $_QLLjo = array();
-    $_QJlJ0 = "SHOW COLUMNS FROM `$_Qofoi`";
-    $_Q60l1 = mysql_query($_QJlJ0);
-    if (!$_Q60l1) {
-        _OAL8F($_QJlJ0);
+    $_Iflj0 = array();
+    $_QLfol = "SHOW COLUMNS FROM `$_Ijt0i`";
+    $_QL8i1 = mysql_query($_QLfol);
+    if (!$_QL8i1) {
+        _L8D88($_QLfol);
         exit;
     }
-    if (mysql_num_rows($_Q60l1) > 0) {
-        while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-           foreach ($_Q6Q1C as $key => $_Q6ClO) {
+    if (mysql_num_rows($_QL8i1) > 0) {
+        while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+           foreach ($_QLO0f as $key => $_QltJO) {
               if($key == "Field") {
-                 $_QLLjo[] = $_Q6ClO;
+                 $_Iflj0[] = $_QltJO;
                  break;
               }
            }
         }
-        mysql_free_result($_Q60l1);
+        mysql_free_result($_QL8i1);
     }
 
     // new entry?
-    if($_IC01o == 0) {
+    if($_j6Qf1 == 0) {
 
-      $_QJlJ0 = "INSERT INTO `$_Qofoi` (`CreateDate`) VALUES(NOW())";
-      mysql_query($_QJlJ0);
-      _OAL8F($_QJlJ0);
-      $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()");
-      $_Q6Q1C=mysql_fetch_array($_Q60l1);
-      $_IC01o = $_Q6Q1C[0];
-      mysql_free_result($_Q60l1);
+      $_QLfol = "INSERT INTO `$_Ijt0i` (`CreateDate`) VALUES(NOW())";
+      mysql_query($_QLfol);
+      _L8D88($_QLfol);
+      $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()");
+      $_QLO0f=mysql_fetch_array($_QL8i1);
+      $_j6Qf1 = $_QLO0f[0];
+      mysql_free_result($_QL8i1);
     }
 
 
-    $_QJlJ0 = "UPDATE `$_Qofoi` SET ";
-    $_I1l61 = array();
-    for($_Q6llo=0; $_Q6llo<count($_QLLjo); $_Q6llo++) {
-      $key = $_QLLjo[$_Q6llo];
-      if ( isset($_Qi8If[$_QLLjo[$_Q6llo]]) ) {
-        if(in_array($key, $_I01C0))
-          if( $_Qi8If[$key] == "1" || intval($_Qi8If[$key]) == 0 )
-             $_I1l61[] = "`$key`=1";
+    $_QLfol = "UPDATE `$_Ijt0i` SET ";
+    $_Io01j = array();
+    for($_Qli6J=0; $_Qli6J<count($_Iflj0); $_Qli6J++) {
+      $key = $_Iflj0[$_Qli6J];
+      if ( isset($_I6tLJ[$_Iflj0[$_Qli6J]]) ) {
+        if(in_array($key, $_ItI0o))
+          if( $_I6tLJ[$key] == "1" || intval($_I6tLJ[$key]) == 0 )
+             $_Io01j[] = "`$key`=1";
              else
               ;
         else {
-           $_I1l61[] = "`$key`="._OPQLR(trim($_Qi8If[$key]) );
+           $_Io01j[] = "`$key`="._LRAFO(trim($_I6tLJ[$key]) );
         }
       } else {
-         if(in_array($key, $_I01C0)) {
-           $key = $_QLLjo[$_Q6llo];
-           $_I1l61[] = "`$key`=0";
+         if(in_array($key, $_ItI0o)) {
+           $key = $_Iflj0[$_Qli6J];
+           $_Io01j[] = "`$key`=0";
          } else {
-           if(in_array($key, $_I01lt)) {
-             $key = $_QLLjo[$_Q6llo];
-             $_I1l61[] = "`$key`=0";
+           if(in_array($key, $_ItIti)) {
+             $key = $_Iflj0[$_Qli6J];
+             $_Io01j[] = "`$key`=0";
            }
          }
       }
     }
 
-    $_QJlJ0 .= join(", ", $_I1l61);
-    $_QJlJ0 .= " WHERE `id`=$_IC01o";
-    $_Q60l1 = mysql_query($_QJlJ0);
-    if (!$_Q60l1) {
-        _OAL8F($_QJlJ0);
+    $_QLfol .= join(", ", $_Io01j);
+    $_QLfol .= " WHERE `id`=$_j6Qf1";
+    $_QL8i1 = mysql_query($_QLfol);
+    if (!$_QL8i1) {
+        _L8D88($_QLfol);
         exit;
     }
 

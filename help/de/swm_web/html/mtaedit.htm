@@ -97,6 +97,16 @@ sein muss.</p>
             sendmail-Verzeichnis und Parameter kennen.</p>
             <p>&nbsp;</td>
         </tr>
+        <tr>
+          <td width="50%" valign="top">In Verzeichnis speichern</td>
+          <td width="50%">Dies erstellt und speichert die fertigen E-Mails in
+            das angegebene Verzeichnis im RFC822-Format. Der eigentliche Versand
+            muss danach mit einem eigenen Script oder Programm erfolgen.<br>
+            <br>
+            Hinweis: Es muss genügend Speicherplatz zur Verfügung stehen um
+            100te oder 1000te E-Mails speichern zu können.
+            <p>&nbsp;</td>
+        </tr>
       </table>
       <p>&nbsp;</td>
   </tr>
@@ -114,6 +124,41 @@ sein muss.</p>
       um E-Mails zu versenden, dann kann diese hier definiert werden. Diese
       Angabe hat Vorrang vor allem Absender-E-Mail-Adressen, die Sie für
       Formulare, Mailings und Responder definieren.
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="100%" colspan="2"><b>Einstellungen für den Versand mit mehreren
+      Threads</b>
+      <p><b>Dies ist eine Profi-Funktion und sollte nur bei einem eigenen Server
+      verwendet werden!</b></p>
+      <p><b>Voraussetzung: PHP 5.3 oder neuer mit cURL</b></p>
+      <p><b>Beachten Sie unbedingt die <a href="#curl">Hinweise am Ende dieser
+      Seite</a>.</b></p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">multi-threaded Versand verwenden</td>
+    <td width="72%">Aktivieren Sie diese Einstellung, um die Versand mit
+      mehreren Threads zu aktivieren.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Anzahl Versandthreads
+      <p>&nbsp;</td>
+    <td width="72%">Geben Sie an wie viele Threads = http(s)://-Aufrufe
+      gleichzeitig für den Versand der E-Mails verwendet werden sollen.</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Maximale Anzahl E-Mails, die pro Versandthread versendet
+      werden dürfen</td>
+    <td width="72%">Geben Sie die maximale Anzahl E-Mails an, die pro
+      Versand-Thread = http(s)://-Aufruf, versendet werden sollen. Wurde die
+      Anzahl E-Mails versendet, wird ein neuer Versand-Thread =
+      http(s)://-Aufruf ausgeführt, falls noch E-Mails zu versenden sind.
       <p>&nbsp;</td>
   </tr>
 </table>
@@ -418,6 +463,131 @@ sein muss.</p>
   </tr>
 </table>
 <p>&nbsp;</p>
+<p><b><a name="curl"></a>E-Mail-Versand mit mehreren Threads</b></p>
+<p>Der Versand mit mehreren Threads wird durch http(s)://-Aufrufe mit cURL
+ausgeführt, da PHP von Haus aus keine Threads unterstützt. Die Aufrufe sind in
+Wirklichkeit keine Threads sondern dies wird als &quot;fork&quot; bezeichnet,
+es wird durch PHP ein cURL-Prozess erzeugt, der mehrere http(s)://-Aufrufe
+ausführt. Diese mehreren http(s)://-Aufrufe führen zu einer starken
+Serverbelastung, da jeder Aufruf die E-Mails erzeugt und anschließend
+versendet.</p>
+<p><b>Durch die starke Serverbelastung sollte immer ein eigener Webserver
+verwendet werden, auf einem normalen Webspace-Account könnten ansonsten
+während des Versands andere Webpräsenzen nur schwer oder gar nicht mehr
+aufrufbar sein.</b></p>
+<p>&nbsp;</p>
+<p><u>Wie wird der Versand durchgeführt?</u></p>
+<p>Bei Ausführung der http(s)://-Aufrufe wird jeweils das Script
+sendmail_mt.php mehrfach aufgerufen, die Anzahl richtet sich nach der Angabe im
+Feld &quot;Anzahl Versandthreads&quot;. Per HTTP POST werden dem Script
+sendmail_mt.php die Daten zum E-Mail-Text und Datensätze der Empfänger
+übermittelt. Die Anzahl Empfänger richtet sich nach der Angabe im Feld
+&quot;Maximale Anzahl E-Mails, die pro Versandthread versendet werden
+dürfen&quot;. Das sendmail_mt.php personalisiert die E-Mail für den jeweiligen
+Empfänger und versendet diese.</p>
+<p>Wichtig für SuperWebMailer: Es sollte bei jedem E-Mailing und Responder
+immer die Option &quot;Cache für E-Mail-Versand verwenden&quot; unter dem
+E-Mail-Betreff aktiviert werden, dadurch muss nicht bei jeder E-Mail der
+E-Mail-Text im HTML- und Text-Format erneut übertragen werden. Dies führt zu
+einer Verringerung der Menge an Daten, die per HTTP POST übermittelt werden
+müssen.</p>
+<p>&nbsp;</p>
+<p><u>Notwendige Einstellungen für einen schnelleren Versand</u></p>
+<p>Die mögliche Laufzeit von PHP-Scripten muss in der php.ini bzw. für die
+virtuelle Webpräsenz erhöht werden, da in der Standard-Einstellung von 30
+Sekunden kein Versand mit mehreren Threads ausführbar ist. Ein empfohlener Wert
+liegt bei 4-5 Minuten, um Scriptabbrüche während des Versands zu vermeiden.</p>
+<p>Die Anzahl Versandthreads solle niedrig gewählt werden, höchstens 2-3 und
+dafür der Wert &quot;Maximale Anzahl E-Mails, die pro Versandthread versendet
+werden dürfen&quot; höher gewählt werden, z.B. 20 oder 30. Dies verringert
+die Versandzeit, da jeder http(s)://-Aufruf Zeit für den Verbindungsaufbau und
+Übermittlung der Daten per HTTP POST benötigt.</p>
+<p>Nur SuperWebMailer: Bei jedem E-Mailing, Responder und Verteilerlisten sollte
+die Anzahl vorzubereitender E-Mails auf 1000 oder höher eingestellt werden, nur
+dann stehen für den späteren Versand genügend E-Mails in der
+Ausgangswarteschlange zur Verfügung.</p>
+<p>Nur SuperMailingList Professional: Bei jeder Verteilerlisten sollte die
+Anzahl vorzubereitender E-Mails auf 1000 oder höher eingestellt werden, nur
+dann stehen für den späteren Versand genügend E-Mails in der
+Ausgangswarteschlange zur Verfügung.</p>
+<p>&nbsp;</p>
+<p><u>Wie viel schneller ist der Versand?</u></p>
+<p>Nur bei einer höheren Anzahl E-Mails von mehr als 1000 ist es sinnvoll den
+multi-threaded Versand zu aktivieren. Je nach Geschwindigkeit und Auslastung des
+Webservers und Annahme-Geschwindigkeit der E-Mails durch den Zielserver beträgt
+die Einsparung mehrere Sekunden, bei einer höheren Anzahl entsprechend mehrere
+Minuten oder Stunden.<br>
+Hinweis: Unter Einstellungen - Optionen, E-Mail-Versand kann die Option
+&quot;Booster verwenden&quot; aktiviert werden, mit einer hohen Scriptlaufzeit
+für PHP-Scripte ist ebenfalls eine höhere oder gleich hohe
+Versandgeschwindigkeit möglich, da die zusätzlichen http(s)://-Aufrufe
+entfallen.</p>
+<p>&nbsp;</p>
+<p><u>Fehler während des Versands</u></p>
+<p>Alle Fehler während des Versands finden Sie nur im Ereignisprotokoll und bei
+schweren Fehlern im error_log des Server bzw. virtuellen Webpräsenz.</p>
+<p>&nbsp;</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">HTTP Fehler 403</td>
+    <td width="72%">Der Zugriff auf das Script sendmail_mt.php wurde verweigert.
+      Auf dem Server gibt es Limits bei http(s)://-Aufrufen auf das gleiche
+      Script, diese Limits müssen durch den Serverbetreiber aufgehoben werden
+      oder Anzahl Versandthreads verringern.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">HTTP Fehler 410</td>
+    <td width="72%">Der Server ist abgestürzt oder wurde neu gestartet. Die
+      Anzahl Versandthreads und Anzahl zu versendender E-Mails sollte verringert
+      werden.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">HTTP Fehler 413 oder 414</td>
+    <td width="72%">Die per POST übermittelte Datenmenge war zu groß, der Wert
+      für &quot;Maximale Anzahl E-Mails, die pro Versandthread versendet werden
+      dürfen&quot; sollte verringert werden. Prüfen Sie ebenfalls die PHP
+      Einstellung für post_max_size.
+      <p>Für SuperWebMailer: Die Option &quot;Cache für E-Mail-Versand
+      verwenden&quot; sollte aktiviert werden, damit nur einmal der Text der
+      E-Mail im HTML- und Text-Format übermittelt werden muss.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">HTTP Fehler 500 oder 503</td>
+    <td width="72%">Die per HTTP POST übermittelte Datenmenge ist zu hoch oder
+      es trat ein interner Serverfehler auf, der Wert für &quot;Maximale Anzahl
+      E-Mails, die pro Versandthread versendet werden dürfen&quot; sollte
+      verringert werden.
+      <p>Für SuperWebMailer: Die Option &quot;Cache für E-Mail-Versand
+      verwenden&quot; sollte aktiviert werden, damit nur einmal der Text der
+      E-Mail im HTML- und Text-Format übermittelt werden muss.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">HTTP Fehler 504 oder Einträge im error_log mit
+      &quot;Connection timed out&quot;</td>
+    <td width="72%">Es ist zu einer Zeitüberschreitung/Timeout gekommen, das
+      Script sendmail_mt.php wurde abgebrochen, da es zu lange ausgeführt
+      wurde.
+      <ul>
+        <li>Die Angabe im Feld &quot;Maximale Anzahl E-Mails, die pro
+          Versandthread versendet werden dürfen&quot; muss verringert werden,
+          damit der Versand schneller durchgeführt und das Script schneller
+          beendet wird.</li>
+        <li>Die Script-Laufzeit von PHP-Scripten muss erhöht werden.</li>
+        <li><a name="fastcgi"></a>Für Webserver mit Apache &amp; nginx: Der
+          Wert für <code><span class="pln">proxy_read_timeout</span></code> und
+          die Timeouts für FastCGI müssen erhöht werden. Siehe dazu auch <a href="https://stackoverflow.com/questions/13905004/how-to-fix-fastcgi-timeout-issues-in-plesk" target="_blank">How
+          to fix FastCGI timeout issues in Plesk?</a></li>
+      </ul>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
 </body>
 
 </html>

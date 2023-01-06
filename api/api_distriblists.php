@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -39,20 +39,20 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_listDistributionLists() {
-   global $_Q61I1, $_QoOft, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
-   $_Q8COf = array();
-   $_QJlJ0 = "SELECT id, Name FROM `$_QoOft`";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_Q8COf[] = $_Q6Q1C;
+   $_I1o8o = array();
+   $_QLfol = "SELECT id, Name FROM `$_IjC0Q`";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_I1o8o[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
-   return $_Q8COf;
+   return $_I1o8o;
  }
 
 
@@ -65,21 +65,21 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_listDistributionListEntries($apiDistribListId) {
-   global $_Q61I1, $_Qoo8o, $UserId, $UserType;
+   global $_QLttI, $_IjCfJ, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
-   $_Q8COf = array();
-   $_QJlJ0 = "SELECT * FROM `$_Qoo8o` WHERE `DistribList_id`=".intval($apiDistribListId);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     unset($_Q6Q1C["DistribList_id"]);
-     $_Q8COf[] = $_Q6Q1C;
+   $_I1o8o = array();
+   $_QLfol = "SELECT * FROM `$_IjCfJ` WHERE `DistribList_id`=".intval($apiDistribListId);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     unset($_QLO0f["DistribList_id"]);
+     $_I1o8o[] = _LC806($_QLO0f);
    }
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
-   return $_Q8COf;
+   return $_I1o8o;
  }
 
  /**
@@ -105,23 +105,23 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_createDistributionList($apiDistribListName, $apiDescription, $apiMailingListId, $apiarrayGroupsIds, $apiarrayNotInGroupsIds, $apiInboxesId, $apiLeaveMessagesInInbox, $apiDistribListReqSubjects, $apiMaxEMailsToRETR, $apiMaxEMailsSendToQueue) {
-   global $_Q61I1, $_Q60QL, $_QoOft, $_QolLi, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $_IjC0Q, $_IjljI, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiMailingListId = intval($apiMailingListId);
    $apiInboxesId = intval($apiInboxesId);
 
-   if(!_OCJCC($apiMailingListId)){
+   if(!_LAEJL($apiMailingListId)){
      return $this->api_Error("You don't have permissions for this MailingList.");
    }
 
-   $_QJlJ0 = "SELECT COUNT(`id`) FROM `$_QolLi` WHERE `id`=$apiInboxesId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_Qt1OL = mysql_fetch_row($_Q60l1);
-   $_QC0jO = $_Qt1OL[0];
-   mysql_free_result($_Q60l1);
-   if(!$_QC0jO)
+   $_QLfol = "SELECT COUNT(`id`) FROM `$_IjljI` WHERE `id`=$apiInboxesId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_I1ltJ = mysql_fetch_row($_QL8i1);
+   $_Ijli6 = $_I1ltJ[0];
+   mysql_free_result($_QL8i1);
+   if(!$_Ijli6)
      return $this->api_Error("Inbox doesn't exists.");
 
    $apiDistribListName = trim($apiDistribListName);
@@ -133,29 +133,29 @@ class api_DistributionLists extends api_base {
      $apiarrayGroupsIds = array($apiarrayGroupsIds);
    if(!is_array($apiarrayNotInGroupsIds))
      $apiarrayNotInGroupsIds = array($apiarrayNotInGroupsIds);
-   for($_Q6llo=0; $_Q6llo<count($apiarrayGroupsIds); $_Q6llo++)
-     $apiarrayGroupsIds[$_Q6llo] = intval($apiarrayGroupsIds[$_Q6llo]);
-   for($_Q6llo=0; $_Q6llo<count($apiarrayNotInGroupsIds); $_Q6llo++)
-     $apiarrayNotInGroupsIds[$_Q6llo] = intval($apiarrayNotInGroupsIds[$_Q6llo]);
+   for($_Qli6J=0; $_Qli6J<count($apiarrayGroupsIds); $_Qli6J++)
+     $apiarrayGroupsIds[$_Qli6J] = intval($apiarrayGroupsIds[$_Qli6J]);
+   for($_Qli6J=0; $_Qli6J<count($apiarrayNotInGroupsIds); $_Qli6J++)
+     $apiarrayNotInGroupsIds[$_Qli6J] = intval($apiarrayNotInGroupsIds[$_Qli6J]);
 
 
-   $_QJlJ0 = "SELECT id FROM `$_QoOft` WHERE `Name`="._OPQLR($apiDistribListName);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) > 0) {
+   $_QLfol = "SELECT id FROM `$_IjC0Q` WHERE `Name`="._LRAFO($apiDistribListName);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) > 0) {
      return $this->api_Error("A distribution list with DistribListName always exists.");
    }
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `GroupsTableName` FROM `$_Q60QL` WHERE id=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) > 0) {
-     $_Qt1OL = mysql_fetch_assoc($_Q60l1);
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `GroupsTableName` FROM `$_QL88I` WHERE id=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) > 0) {
+     $_I1ltJ = mysql_fetch_assoc($_QL8i1);
+     mysql_free_result($_QL8i1);
    } else
       return $this->api_Error("Mailinglist not found.");
 
-  $_QC0i6 = _O8QBA($apiDistribListName, $apiDescription, $apiMailingListId, $apiInboxesId, false);
-  if(!$_QC0i6){
+  $_IJ0OQ = _L61FQ($apiDistribListName, $apiDescription, $apiMailingListId, $apiInboxesId, false);
+  if(!$_IJ0OQ){
     return $this->api_Error("Distribution list not created.");
   }
 
@@ -166,55 +166,55 @@ class api_DistributionLists extends api_base {
   if($apiMaxEMailsToRETR <= 0)
    $apiMaxEMailsToRETR = 1;
 
-  $_QJlJ0 = "UPDATE `$_QoOft` SET ";
-  $_QJlJ0 .= "`LeaveMessagesInInbox`="._OC60P($apiLeaveMessagesInInbox).", ";
-  $_QJlJ0 .= "`DistribListSubjects`="._OPQLR($apiDistribListReqSubjects).", ";
-  $_QJlJ0 .= "`MaxEMailsToProcess`=$apiMaxEMailsToRETR, ";
-  $_QJlJ0 .= "`MaxEMailsToSend`=$apiMaxEMailsSendToQueue";
-  $_QJlJ0 .= " WHERE `id`=$_QC0i6";
-  mysql_query($_QJlJ0, $_Q61I1);
+  $_QLfol = "UPDATE `$_IjC0Q` SET ";
+  $_QLfol .= "`LeaveMessagesInInbox`="._LAF0F($apiLeaveMessagesInInbox).", ";
+  $_QLfol .= "`DistribListSubjects`="._LRAFO($apiDistribListReqSubjects).", ";
+  $_QLfol .= "`MaxEMailsToProcess`=$apiMaxEMailsToRETR, ";
+  $_QLfol .= "`MaxEMailsToSend`=$apiMaxEMailsSendToQueue";
+  $_QLfol .= " WHERE `id`=$_IJ0OQ";
+  mysql_query($_QLfol, $_QLttI);
 
   if(count($apiarrayGroupsIds) > 0) {
 
-    $_QJlJ0 = "SELECT id FROM `$_Qt1OL[GroupsTableName]`";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_QtIIi = array();
-    while($_Q6Q1C = mysql_fetch_row($_Q60l1))
-      $_QtIIi[] = $_Q6Q1C[0];
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT id FROM `$_I1ltJ[GroupsTableName]`";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_IQ0tJ = array();
+    while($_QLO0f = mysql_fetch_row($_QL8i1))
+      $_IQ0tJ[] = $_QLO0f[0];
+    mysql_free_result($_QL8i1);
 
 
-    for($_Q6llo=0; $_Q6llo< count($apiarrayGroupsIds); $_Q6llo++) {
-      if(!in_array($apiarrayGroupsIds[$_Q6llo], $_QtIIi))
-        return $this->api_Error("Group ID ". $apiarrayGroupsIds[$_Q6llo] . " not found, no groups set.");
+    for($_Qli6J=0; $_Qli6J< count($apiarrayGroupsIds); $_Qli6J++) {
+      if(!in_array($apiarrayGroupsIds[$_Qli6J], $_IQ0tJ))
+        return $this->api_Error("Group ID ". $apiarrayGroupsIds[$_Qli6J] . " not found, no groups set.");
     }
 
-    for($_Q6llo=0; $_Q6llo< count($apiarrayNotInGroupsIds); $_Q6llo++) {
-      if(!in_array($apiarrayNotInGroupsIds[$_Q6llo], $_QtIIi))
-        return $this->api_Error("Group ID ". $apiarrayNotInGroupsIds[$_Q6llo] . " not found, no groups set.");
+    for($_Qli6J=0; $_Qli6J< count($apiarrayNotInGroupsIds); $_Qli6J++) {
+      if(!in_array($apiarrayNotInGroupsIds[$_Qli6J], $_IQ0tJ))
+        return $this->api_Error("Group ID ". $apiarrayNotInGroupsIds[$_Qli6J] . " not found, no groups set.");
     }
 
-    $_QJlJ0 = "SELECT `GroupsTableName`, `NotInGroupsTableName` FROM `$_QoOft` WHERE id=$_QC0i6";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
-    mysql_query("DELETE FROM `$_Q6Q1C[GroupsTableName]`", $_Q61I1);
-    mysql_query("DELETE FROM `$_Q6Q1C[NotInGroupsTableName]`", $_Q61I1);
+    $_QLfol = "SELECT `GroupsTableName`, `NotInGroupsTableName` FROM `$_IjC0Q` WHERE id=$_IJ0OQ";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
+    mysql_query("DELETE FROM `$_QLO0f[GroupsTableName]`", $_QLttI);
+    mysql_query("DELETE FROM `$_QLO0f[NotInGroupsTableName]`", $_QLttI);
 
-    for($_Q6llo=0; $_Q6llo< count($apiarrayGroupsIds); $_Q6llo++) {
-      $_QJlJ0 = "INSERT INTO `$_Q6Q1C[GroupsTableName]` SET `ml_groups_id`=".$apiarrayGroupsIds[$_Q6llo];
-      mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0, $this);
+    for($_Qli6J=0; $_Qli6J< count($apiarrayGroupsIds); $_Qli6J++) {
+      $_QLfol = "INSERT INTO `$_QLO0f[GroupsTableName]` SET `ml_groups_id`=".$apiarrayGroupsIds[$_Qli6J];
+      mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol, $this);
     }
 
-    for($_Q6llo=0; $_Q6llo< count($apiarrayNotInGroupsIds); $_Q6llo++) {
-      $_QJlJ0 = "INSERT INTO `$_Q6Q1C[NotInGroupsTableName]` SET `ml_groups_id`=".$apiarrayNotInGroupsIds[$_Q6llo];
-      mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0, $this);
+    for($_Qli6J=0; $_Qli6J< count($apiarrayNotInGroupsIds); $_Qli6J++) {
+      $_QLfol = "INSERT INTO `$_QLO0f[NotInGroupsTableName]` SET `ml_groups_id`=".$apiarrayNotInGroupsIds[$_Qli6J];
+      mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol, $this);
     }
   }
 
-  return $_QC0i6;
+  return $_IJ0OQ;
  }
 
  /**
@@ -226,7 +226,7 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_removeDistributionList($apiDistribListId) {
-   global $_Q61I1, $_QoOft, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
@@ -235,18 +235,18 @@ class api_DistributionLists extends api_base {
    if($this->api_isDistributionListSending($apiDistribListId) || $this->api_isDistributionListResending($apiDistribListId))
      return $this->api_Error("You can't remove distrib list it sends / resends something.");
 
-   $_QJlJ0 = "SELECT id FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT id FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
       return $this->api_Error("There is no distribution list with this id.");
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
-   $_QtIiC = array();
-   _O8PP1(array($apiDistribListId), $_QtIiC);
-   if(count($_QtIiC) == 0)
+   $_IQ0Cj = array();
+   _L68QD(array($apiDistribListId), $_IQ0Cj);
+   if(count($_IQ0Cj) == 0)
      return true;
      else
-      return $this->api_Error("Error while removing distribution list: ".join("\r\n", $_QtIiC));
+      return $this->api_Error("Error while removing distribution list: ".join("\r\n", $_IQ0Cj));
  }
 
  /**
@@ -258,19 +258,19 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_duplicateDistributionList($apiDistribListId) {
-   global $_Q61I1, $_QoOft, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiDistribListId = intval($apiDistribListId);
 
-   $_QJlJ0 = "SELECT id FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT id FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
       return $this->api_Error("There is no distribution list with this id.");
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
-   return _O88F8(array($apiDistribListId));
+   return _L6RRB(array($apiDistribListId));
  }
 
  /**
@@ -282,28 +282,28 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_isDistributionListSending($apiDistribListId) {
-   global $_Q61I1, $_QoOft, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiDistribListId = intval($apiDistribListId);
 
-   $_QJlJ0 = "SELECT * FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT * FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
       return $this->api_Error("There is no distribution list with this id.");
-   $_QC0L0 = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_IJ1IQ = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QC1Q6 = false;
-   $_QJlJ0 = "SELECT `id` FROM `$_QC0L0[CurrentSendTableName]` WHERE SendState<>"._OPQLR('Done')." LIMIT 0,1";
-   $_Q8Oj8 = mysql_query($_QJlJ0);
-   if(mysql_num_rows($_Q8Oj8) > 0) {
-      $_QC1Q6 = true;
+   $_IJQ01 = false;
+   $_QLfol = "SELECT `id` FROM `$_IJ1IQ[CurrentSendTableName]` WHERE SendState<>"._LRAFO('Done')." LIMIT 0,1";
+   $_I1O6j = mysql_query($_QLfol);
+   if(mysql_num_rows($_I1O6j) > 0) {
+      $_IJQ01 = true;
    }
-   mysql_free_result($_Q8Oj8);
+   mysql_free_result($_I1O6j);
 
-   return $_QC1Q6;
+   return $_IJQ01;
  }
 
  /**
@@ -315,28 +315,28 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_isDistributionListResending($apiDistribListId) {
-   global $_Q61I1, $_QoOft, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiDistribListId = intval($apiDistribListId);
 
-   $_QJlJ0 = "SELECT * FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT * FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
       return $this->api_Error("There is no distribution list with this id.");
-   $_QC0L0 = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_IJ1IQ = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QC1OC = false;
-   $_QJlJ0 = "SELECT `id` FROM `$_QC0L0[CurrentSendTableName]` WHERE SendState="._OPQLR('ReSending')." LIMIT 0,1";
-   $_Q8Oj8 = mysql_query($_QJlJ0);
-   if(mysql_num_rows($_Q8Oj8) > 0) {
-      $_QC1OC = true;
+   $_IJQQt = false;
+   $_QLfol = "SELECT `id` FROM `$_IJ1IQ[CurrentSendTableName]` WHERE SendState="._LRAFO('ReSending')." LIMIT 0,1";
+   $_I1O6j = mysql_query($_QLfol);
+   if(mysql_num_rows($_I1O6j) > 0) {
+      $_IJQQt = true;
    }
-   mysql_free_result($_Q8Oj8);
+   mysql_free_result($_I1O6j);
 
-   return $_QC1OC;
+   return $_IJQQt;
  }
 
  /**
@@ -350,7 +350,7 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_ActivateDeactivateDistributionList($apiDistribListId, $apiIsActive) {
-   global $_Q61I1, $_QoOft, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
@@ -360,9 +360,9 @@ class api_DistributionLists extends api_base {
      else
      $apiIsActive = 0;
 
-   $_QJlJ0 = "UPDATE `$_QoOft` SET `IsActive`=$apiIsActive WHERE id=$apiDistribListId";
-   mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_affected_rows($_Q61I1) == 0)
+   $_QLfol = "UPDATE `$_IjC0Q` SET `IsActive`=$apiIsActive WHERE id=$apiDistribListId";
+   mysql_query($_QLfol, $_QLttI);
+   if(mysql_affected_rows($_QLttI) == 0)
       return false;
       else
       return true;
@@ -386,31 +386,31 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_setDistributionListSecuritySettings($apiDistribListId, $apiConfirmationRequired, $apiAcceptSenderEMailAddresses, $apiEMailAddresses) {
-   global $_Q61I1, $_QoOft, $UserId, $UserType, $_Q6JJJ;
+   global $_QLttI, $_IjC0Q, $UserId, $UserType, $_QLl1Q;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiDistribListId = intval($apiDistribListId);
 
-   $_QJlJ0 = "SELECT id FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT id FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
       return $this->api_Error("There is no distribution list with this id.");
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
    if($apiAcceptSenderEMailAddresses < 0 || $apiAcceptSenderEMailAddresses > 2){
       return $this->api_Error("apiAcceptSenderEMailAddresses is invalid.");
    }
 
-   $_Q8otJ = array();
+   $_I1OoI = array();
    if($apiAcceptSenderEMailAddresses == 0 && trim($apiEMailAddresses) != ""){
 
     $apiarrayEMailAddresses = explode(";", $apiEMailAddresses);
-    foreach($apiarrayEMailAddresses as $key => $_Q6ClO){
-      $_Q6ClO = trim($_Q6ClO);
-      if(!_OPAOJ($_Q6ClO))
-        return $this->api_Error("email address '$_Q6ClO' is invalid.");
-      $_Q8otJ[] = $_Q6ClO;
+    foreach($apiarrayEMailAddresses as $key => $_QltJO){
+      $_QltJO = trim($_QltJO);
+      if(!_L8JLR($_QltJO))
+        return $this->api_Error("email address '$_QltJO' is invalid.");
+      $_I1OoI[] = $_QltJO;
     }
 
    } else {
@@ -418,18 +418,18 @@ class api_DistributionLists extends api_base {
       $apiAcceptSenderEMailAddresses = 1;
    }
 
-   $_QJlJ0 = "UPDATE `$_QoOft` SET ";
-   $_QJlJ0 .= " `SendConfirmationRequired`="._OC60P($apiConfirmationRequired).", ";
-   $_QJlJ0 .= " `AcceptAllSenderEMailAddresses`=".intval($apiAcceptSenderEMailAddresses).", ";
-   $_QJlJ0 .= " `AcceptSenderEMailAddresses`="._OPQLR(join($_Q6JJJ, $_Q8otJ));
+   $_QLfol = "UPDATE `$_IjC0Q` SET ";
+   $_QLfol .= " `SendConfirmationRequired`="._LAF0F($apiConfirmationRequired).", ";
+   $_QLfol .= " `AcceptAllSenderEMailAddresses`=".intval($apiAcceptSenderEMailAddresses).", ";
+   $_QLfol .= " `AcceptSenderEMailAddresses`="._LRAFO(join($_QLl1Q, $_I1OoI));
 
-   $_QJlJ0 .= " WHERE id=$apiDistribListId";
-   mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol .= " WHERE id=$apiDistribListId";
+   mysql_query($_QLfol, $_QLttI);
 
-   if(mysql_error($_Q61I1) == "")
+   if(mysql_error($_QLttI) == "")
      return true;
      else
-     return $this->api_Error("SQL error: ".mysql_error($_Q61I1));
+     return $this->api_Error("SQL error: ".mysql_error($_QLttI));
  }
 
  /**
@@ -446,28 +446,28 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_setDistributionListReportSettings($apiDistribListId, $apiSendReportToYourSelf, $apiSendReportToListAdmin, $apiSendReportToMailingListUsers, $apiSendReportToEMailAddress, $apiSendReportToEMailAddressEMailAddress) {
-   global $_Q61I1, $_QoOft, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiDistribListId = intval($apiDistribListId);
 
-   if(_OC60P($apiSendReportToEMailAddress) > 0 && ($apiSendReportToEMailAddressEMailAddress == ""))
+   if(_LAF0F($apiSendReportToEMailAddress) > 0 && ($apiSendReportToEMailAddressEMailAddress == ""))
      $apiSendReportToEMailAddress = 0;
 
-   $_QJlJ0 = "UPDATE `$_QoOft` SET ";
-   $_QJlJ0 .= "`SendReportToYourSelf`="._OC60P($apiSendReportToYourSelf).',';
-   $_QJlJ0 .= "`SendReportToListAdmin`="._OC60P($apiSendReportToListAdmin).',';
-   $_QJlJ0 .= "`SendReportToMailingListUsers`="._OC60P($apiSendReportToMailingListUsers).',';
-   $_QJlJ0 .= "`SendReportToEMailAddress`="._OC60P($apiSendReportToEMailAddress).',';
-   $_QJlJ0 .= "`SendReportToEMailAddressEMailAddress`="._OPQLR($apiSendReportToEMailAddressEMailAddress);
-   $_QJlJ0 .= " WHERE id=$apiDistribListId";
-   mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol = "UPDATE `$_IjC0Q` SET ";
+   $_QLfol .= "`SendReportToYourSelf`="._LAF0F($apiSendReportToYourSelf).',';
+   $_QLfol .= "`SendReportToListAdmin`="._LAF0F($apiSendReportToListAdmin).',';
+   $_QLfol .= "`SendReportToMailingListUsers`="._LAF0F($apiSendReportToMailingListUsers).',';
+   $_QLfol .= "`SendReportToEMailAddress`="._LAF0F($apiSendReportToEMailAddress).',';
+   $_QLfol .= "`SendReportToEMailAddressEMailAddress`="._LRAFO($apiSendReportToEMailAddressEMailAddress);
+   $_QLfol .= " WHERE id=$apiDistribListId";
+   mysql_query($_QLfol, $_QLttI);
 
-   if(mysql_error($_Q61I1) == "")
+   if(mysql_error($_QLttI) == "")
      return true;
      else
-     return $this->api_Error("SQL error: ".mysql_error($_Q61I1));
+     return $this->api_Error("SQL error: ".mysql_error($_QLttI));
  }
 
  /**
@@ -489,30 +489,30 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_setDistributionListEMailAddressSettings($apiDistribListId, $apiOverwriteSenderEMailAddresses, $apiSenderFromName, $apiSenderFromAddress, $apiReplyToEMailAddress, $apiReturnPathEMailAddress, $apiCcEMailAddresses, $apiBCcEMailAddresses, $apiAddListUnsubscribe) {
-   global $_Q61I1, $_QoOft, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $UserId, $UserType;
    global $resourcestrings;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiDistribListId = intval($apiDistribListId);
 
-   $_QJlJ0 = "UPDATE `$_QoOft` SET ";
-   $_QJlJ0 .= "`OverwriteSenderAddress`="._OC60P($apiOverwriteSenderEMailAddresses).",";
-   $_QJlJ0 .= "`SenderFromName`="._OPQLR($apiSenderFromName).",";
-   $_QJlJ0 .= "`SenderFromAddress`="._OPQLR($apiSenderFromAddress).",";
-   $_QJlJ0 .= "`ReplyToEMailAddress`="._OPQLR($apiReplyToEMailAddress).",";
-   $_QJlJ0 .= "`ReturnPathEMailAddress`="._OPQLR($apiReturnPathEMailAddress).",";
-   $_QJlJ0 .= "`CcEMailAddresses`="._OPQLR($apiCcEMailAddresses).",";
-   $_QJlJ0 .= "`BCcEMailAddresses`="._OPQLR($apiBCcEMailAddresses).",";
+   $_QLfol = "UPDATE `$_IjC0Q` SET ";
+   $_QLfol .= "`OverwriteSenderAddress`="._LAF0F($apiOverwriteSenderEMailAddresses).",";
+   $_QLfol .= "`SenderFromName`="._LRAFO($apiSenderFromName).",";
+   $_QLfol .= "`SenderFromAddress`="._LRAFO($apiSenderFromAddress).",";
+   $_QLfol .= "`ReplyToEMailAddress`="._LRAFO($apiReplyToEMailAddress).",";
+   $_QLfol .= "`ReturnPathEMailAddress`="._LRAFO($apiReturnPathEMailAddress).",";
+   $_QLfol .= "`CcEMailAddresses`="._LRAFO($apiCcEMailAddresses).",";
+   $_QLfol .= "`BCcEMailAddresses`="._LRAFO($apiBCcEMailAddresses).",";
 
-   $_QJlJ0 .= "`AddListUnsubscribe`="._OC60P($apiAddListUnsubscribe);
+   $_QLfol .= "`AddListUnsubscribe`="._LAF0F($apiAddListUnsubscribe);
 
-   $_QJlJ0 .= " WHERE id=$apiDistribListId";
-   mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol .= " WHERE id=$apiDistribListId";
+   mysql_query($_QLfol, $_QLttI);
 
-   if(mysql_error($_Q61I1) == "")
+   if(mysql_error($_QLttI) == "")
      return true;
      else
-     return $this->api_Error("SQL error: ".mysql_error($_Q61I1));
+     return $this->api_Error("SQL error: ".mysql_error($_QLttI));
  }
 
  /**
@@ -527,7 +527,7 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_setDistributionListMTASettings($apiDistribListId, $apiarrayMTAs) {
-   global $_Q61I1, $_QoOft, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $UserId, $UserType;
    global $resourcestrings;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
@@ -536,35 +536,35 @@ class api_DistributionLists extends api_base {
    if(count($apiarrayMTAs) == 0)
      return $this->api_Error("One MTA is required.");
 
-   $_QJlJ0 = "SELECT `MTAsTableName`, `CurrentUsedMTAsTableName` FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `MTAsTableName`, `CurrentUsedMTAsTableName` FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "DELETE FROM `$_Q6Q1C[MTAsTableName]`";
-   mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_error($_Q61I1) != "")
-      return $this->api_Error("SQL error: ".mysql_error($_Q61I1));
+   $_QLfol = "DELETE FROM `$_QLO0f[MTAsTableName]`";
+   mysql_query($_QLfol, $_QLttI);
+   if(mysql_error($_QLttI) != "")
+      return $this->api_Error("SQL error: ".mysql_error($_QLttI));
 
-   $_QJlJ0 = "DELETE FROM `$_Q6Q1C[CurrentUsedMTAsTableName]`";
-   mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_error($_Q61I1) != "")
-      return $this->api_Error("SQL error: ".mysql_error($_Q61I1));
+   $_QLfol = "DELETE FROM `$_QLO0f[CurrentUsedMTAsTableName]`";
+   mysql_query($_QLfol, $_QLttI);
+   if(mysql_error($_QLttI) != "")
+      return $this->api_Error("SQL error: ".mysql_error($_QLttI));
 
-   $_QO1QO = 0;
+   $_IIQff = 0;
    reset($apiarrayMTAs);
-   foreach($apiarrayMTAs as $key => $_Q6ClO){
-     $_QJlJ0 = "INSERT INTO `$_Q6Q1C[MTAsTableName]` SET `mtas_id`=".intval($_Q6ClO).", `sortorder`=$_QO1QO";
-     mysql_query($_QJlJ0, $_Q61I1);
-     if(mysql_error($_Q61I1) != "")
-        return $this->api_Error("SQL error: ".mysql_error($_Q61I1));
-     $_QO1QO++;
+   foreach($apiarrayMTAs as $key => $_QltJO){
+     $_QLfol = "INSERT INTO `$_QLO0f[MTAsTableName]` SET `mtas_id`=".intval($_QltJO).", `sortorder`=$_IIQff";
+     mysql_query($_QLfol, $_QLttI);
+     if(mysql_error($_QLttI) != "")
+        return $this->api_Error("SQL error: ".mysql_error($_QLttI));
+     $_IIQff++;
    }
 
-   if(mysql_error($_Q61I1) == "")
+   if(mysql_error($_QLttI) == "")
      return true;
      else
-     return $this->api_Error("SQL error: ".mysql_error($_Q61I1));
+     return $this->api_Error("SQL error: ".mysql_error($_QLttI));
  }
 
  /**
@@ -580,7 +580,7 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_setDistributionListTrackingSettings($apiDistribListId, $apiTrackLinks, $apiTrackLinksByRecipient, $apiTrackEMailOpenings, $apiTrackEMailOpeningsByRecipient, $apiTrackingIPBlocking) {
-   global $_Q61I1, $_QoOft, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $UserId, $UserType;
    global $resourcestrings;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
@@ -590,31 +590,31 @@ class api_DistributionLists extends api_base {
    if($this->api_isDistribListSending($apiDistribListId) || $this->api_isDistribListResending($apiDistribListId))
      return $this->api_Error("You can't change settings distribution list sends / resends something.");
 
-   $_QJlJ0 = "SELECT id FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT id FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Distribution list not found.");
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "UPDATE `$_QoOft` SET ";
-   $_QJlJ0 .= "`TrackLinks`="._OC60P($apiTrackLinks).",";
-   $_QJlJ0 .= "`TrackLinksByRecipient`="._OC60P($apiTrackLinksByRecipient).",";
-   $_QJlJ0 .= "`TrackEMailOpenings`="._OC60P($apiTrackEMailOpenings).",";
-   $_QJlJ0 .= "`TrackEMailOpeningsByRecipient`="._OC60P($apiTrackEMailOpeningsByRecipient).",";
-   $_QJlJ0 .= "`TrackingIPBlocking`="._OC60P($apiTrackingIPBlocking);
-   $_QJlJ0 .= " WHERE id=$apiDistribListId";
-   mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol = "UPDATE `$_IjC0Q` SET ";
+   $_QLfol .= "`TrackLinks`="._LAF0F($apiTrackLinks).",";
+   $_QLfol .= "`TrackLinksByRecipient`="._LAF0F($apiTrackLinksByRecipient).",";
+   $_QLfol .= "`TrackEMailOpenings`="._LAF0F($apiTrackEMailOpenings).",";
+   $_QLfol .= "`TrackEMailOpeningsByRecipient`="._LAF0F($apiTrackEMailOpeningsByRecipient).",";
+   $_QLfol .= "`TrackingIPBlocking`="._LAF0F($apiTrackingIPBlocking);
+   $_QLfol .= " WHERE id=$apiDistribListId";
+   mysql_query($_QLfol, $_QLttI);
 
-   if(mysql_error($_Q61I1) != "")
-     return $this->api_Error("SQL error: ".mysql_error($_Q61I1));
+   if(mysql_error($_QLttI) != "")
+     return $this->api_Error("SQL error: ".mysql_error($_QLttI));
 
-   $_QJlJ0 = "SELECT * FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT * FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Distribution list not found.");
-   $_QC0L0 = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
-   $this->_internal_refreshTracking($_QC0L0);
+   $_IJ1IQ = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
+   $this->_internal_refreshTracking($_IJ1IQ);
 
    return true;
  }
@@ -633,97 +633,97 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_setDistributionListGoogleAnalyticsSettings($apiDistribListId, $apiGoogleAnalyticsActive, $apiGoogleAnalytics_utm_source, $apiGoogleAnalytics_utm_medium, $apiGoogleAnalytics_utm_term, $apiGoogleAnalytics_utm_content, $apiGoogleAnalytics_utm_campaign) {
-   global $_Q61I1, $_QoOft, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $UserId, $UserType;
    global $resourcestrings;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    if(defined("SML")){return false;}
    $apiDistribListId = intval($apiDistribListId);
 
-   $_QJlJ0 = "SELECT `id` FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `id` FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Distribution list not found.");
-   $_QC0L0 = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_IJ1IQ = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "UPDATE `$_QoOft` SET ";
+   $_QLfol = "UPDATE `$_IjC0Q` SET ";
 
-   $_QJlJ0 .= "`GoogleAnalyticsActive`="._OC60P($apiGoogleAnalyticsActive).",";
-   $_QJlJ0 .= "`GoogleAnalytics_utm_source`="._OPQLR($apiGoogleAnalytics_utm_source).",";
-   $_QJlJ0 .= "`GoogleAnalytics_utm_medium`="._OPQLR($apiGoogleAnalytics_utm_medium).",";
-   $_QJlJ0 .= "`GoogleAnalytics_utm_term`="._OPQLR($apiGoogleAnalytics_utm_term).",";
-   $_QJlJ0 .= "`GoogleAnalytics_utm_content`="._OPQLR($apiGoogleAnalytics_utm_content).",";
-   $_QJlJ0 .= "`GoogleAnalytics_utm_campaign`="._OPQLR($apiGoogleAnalytics_utm_campaign);
+   $_QLfol .= "`GoogleAnalyticsActive`="._LAF0F($apiGoogleAnalyticsActive).",";
+   $_QLfol .= "`GoogleAnalytics_utm_source`="._LRAFO($apiGoogleAnalytics_utm_source).",";
+   $_QLfol .= "`GoogleAnalytics_utm_medium`="._LRAFO($apiGoogleAnalytics_utm_medium).",";
+   $_QLfol .= "`GoogleAnalytics_utm_term`="._LRAFO($apiGoogleAnalytics_utm_term).",";
+   $_QLfol .= "`GoogleAnalytics_utm_content`="._LRAFO($apiGoogleAnalytics_utm_content).",";
+   $_QLfol .= "`GoogleAnalytics_utm_campaign`="._LRAFO($apiGoogleAnalytics_utm_campaign);
 
-   $_QJlJ0 .= " WHERE id=$apiDistribListId";
-   mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol .= " WHERE id=$apiDistribListId";
+   mysql_query($_QLfol, $_QLttI);
 
-   if(mysql_error($_Q61I1) == "")
+   if(mysql_error($_QLttI) == "")
      return true;
      else
-     return $this->api_Error("SQL error: ".mysql_error($_Q61I1));
+     return $this->api_Error("SQL error: ".mysql_error($_QLttI));
  }
 
  /**
   * refresh tracking params, internal function
   *
-  * @param array $_QCJ0f
+  * @param array $_IJJt6
   * @return boolean
   * @access private
   */
- function _internal_refreshTracking($_QCJ0f){
-   global $_Q61I1, $_QoOft, $_Qoo8o, $_QOifL;
-   global $resourcestrings, $_Q6QQL;
+ function _internal_refreshTracking($_IJJt6){
+   global $_QLttI, $_IjC0Q, $_IjCfJ, $_Ij08l;
+   global $resourcestrings, $_QLo06;
 
    if(defined("SML")){return false;}
 
-   $_QCJ0l = $_QCJ0f["id"];
+   $_IJ6I8 = $_IJJt6["id"];
 
-    if( $_QCJ0f["TrackLinks"] || $_QCJ0f["TrackLinksByRecipient"] ){
-      $_QJlJ0 = "SELECT `id`, `MailHTMLText` FROM `$_Qoo8o` WHERE `DistribList_id`=$_QCJ0l AND (`MailFormat`='HTML' OR `MailFormat`='Multipart') AND `SendScheduler`<>'Sent'";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
-      while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
+    if( $_IJJt6["TrackLinks"] || $_IJJt6["TrackLinksByRecipient"] ){
+      $_QLfol = "SELECT `id`, `MailHTMLText` FROM `$_IjCfJ` WHERE `DistribList_id`=$_IJ6I8 AND (`MailFormat`='HTML' OR `MailFormat`='Multipart') AND `SendScheduler`<>'Sent'";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
 
-       if(substr($_Q6Q1C["MailHTMLText"], 0, 4) == "xb64"){
-         $_Q6Q1C["MailHTMLText"] = base64_decode( substr($_Q6Q1C["MailHTMLText"], 4) );
+       if(substr($_QLO0f["MailHTMLText"], 0, 4) == "xb64"){
+         $_QLO0f["MailHTMLText"] = base64_decode( substr($_QLO0f["MailHTMLText"], 4) );
        }
 
-       $_QCJtj = $_Q6Q1C["MailHTMLText"];
+       $_IJfIf = $_QLO0f["MailHTMLText"];
 
-       $_QOLIl = array();
-       $_QOLCo = array();
-       _OBBPD($_QCJtj, $_QOLIl, $_QOLCo);
+       $_IjQI8 = array();
+       $_IjQCO = array();
+       _LAL0C($_IJfIf, $_IjQI8, $_IjQCO);
 
        # Add links
-       for($_Q6llo=0; $_Q6llo<count($_QOLIl); $_Q6llo++) {
-         if(strpos($_QOLIl[$_Q6llo], $_QOifL["AltBrowserLink_SME_URLEncoded"]) !== false) continue; // ignore social media
+       for($_Qli6J=0; $_Qli6J<count($_IjQI8); $_Qli6J++) {
+         if(strpos($_IjQI8[$_Qli6J], $_Ij08l["AltBrowserLink_SME_URLEncoded"]) !== false) continue; // ignore social media
          // Phishing?
-         if( strpos($_QOLCo[$_Q6llo], "http://") !== false && strpos($_QOLCo[$_Q6llo], "http://") == 0 ) continue;
-         if( strpos($_QOLCo[$_Q6llo], "https://") !== false && strpos($_QOLCo[$_Q6llo], "https://") == 0 ) continue;
-         if( strpos($_QOLCo[$_Q6llo], "www.") !== false && strpos($_QOLCo[$_Q6llo], "www.") == 0 ) continue;
-         $_QC6IO = 1;
-         if(strpos($_QOLIl[$_Q6llo], "[") !== false)
-            $_QC6IO = 0;
+         if( strpos($_IjQCO[$_Qli6J], "http://") !== false && strpos($_IjQCO[$_Qli6J], "http://") == 0 ) continue;
+         if( strpos($_IjQCO[$_Qli6J], "https://") !== false && strpos($_IjQCO[$_Qli6J], "https://") == 0 ) continue;
+         if( strpos($_IjQCO[$_Qli6J], "www.") !== false && strpos($_IjQCO[$_Qli6J], "www.") == 0 ) continue;
+         $_IJ81i = 1;
+         if(strpos($_IjQI8[$_Qli6J], "[") !== false)
+            $_IJ81i = 0;
 
-         $_QJlJ0 = "SELECT `id` FROM `$_QCJ0f[LinksTableName]` WHERE `distriblistentry_id`=$_Q6Q1C[id] AND `Link`="._OPQLR($_QOLIl[$_Q6llo]);
-         $_QCfQJ = mysql_query($_QJlJ0, $_Q61I1);
-         if( mysql_num_rows($_QCfQJ) > 0 ) {
-           mysql_free_result($_QCfQJ);
+         $_QLfol = "SELECT `id` FROM `$_IJJt6[LinksTableName]` WHERE `distriblistentry_id`=$_QLO0f[id] AND `Link`="._LRAFO($_IjQI8[$_Qli6J]);
+         $_IJ8QC = mysql_query($_QLfol, $_QLttI);
+         if( mysql_num_rows($_IJ8QC) > 0 ) {
+           mysql_free_result($_IJ8QC);
          } else {
-           $_QOLCo[$_Q6llo] = str_replace("&", " ", $_QOLCo[$_Q6llo]);
-           $_QOLCo[$_Q6llo] = str_replace("\r\n", " ", $_QOLCo[$_Q6llo]);
-           $_QOLCo[$_Q6llo] = str_replace("\r", " ", $_QOLCo[$_Q6llo]);
-           $_QOLCo[$_Q6llo] = str_replace("\n", " ", $_QOLCo[$_Q6llo]);
-           $_QJlJ0 = "INSERT INTO `$_QCJ0f[LinksTableName]` SET `distriblistentry_id`=$_Q6Q1C[id], `IsActive`=$_QC6IO, `Link`="._OPQLR($_QOLIl[$_Q6llo]).", `Description`="._OPQLR(str_replace("&", " ", trim($_QOLCo[$_Q6llo])));
-           mysql_query($_QJlJ0, $_Q61I1);
+           $_IjQCO[$_Qli6J] = str_replace("&", " ", $_IjQCO[$_Qli6J]);
+           $_IjQCO[$_Qli6J] = str_replace("\r\n", " ", $_IjQCO[$_Qli6J]);
+           $_IjQCO[$_Qli6J] = str_replace("\r", " ", $_IjQCO[$_Qli6J]);
+           $_IjQCO[$_Qli6J] = str_replace("\n", " ", $_IjQCO[$_Qli6J]);
+           $_QLfol = "INSERT INTO `$_IJJt6[LinksTableName]` SET `distriblistentry_id`=$_QLO0f[id], `IsActive`=$_IJ81i, `Link`="._LRAFO($_IjQI8[$_Qli6J]).", `Description`="._LRAFO( preg_replace("/\&(?!\#)/", " ", $_IjQCO[$_Qli6J]) );
+           mysql_query($_QLfol, $_QLttI);
          }
        }
 
 
       }
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
     }
  }
 
@@ -737,31 +737,31 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_getDistributionListSentEntry($apiDistribListId, $apiDistribListEntryId) {
-   global $_Q61I1, $_QoOft, $_Qoo8o, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $_IjCfJ, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiDistribListId = intval($apiDistribListId);
    $apiDistribListEntryId = intval($apiDistribListEntryId);
 
-   $_QJlJ0 = "SELECT `CurrentSendTableName` FROM `$_QoOft` WHERE `id`=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `CurrentSendTableName` FROM `$_IjC0Q` WHERE `id`=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Distribution list not found.");
-   $_QC0L0 = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_IJ1IQ = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT * FROM `$_QC0L0[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     if(isset($_Q6Q1C["TwitterUpdate"])) unset($_Q6Q1C["TwitterUpdate"]);
-     if(isset($_Q6Q1C["TwitterUpdateErrorText"])) unset($_Q6Q1C["TwitterUpdateErrorText"]);
-     unset($_Q6Q1C["id"]);
-     unset($_Q6Q1C["distriblistentry_id"]);
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT * FROM `$_IJ1IQ[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     if(isset($_QLO0f["TwitterUpdate"])) unset($_QLO0f["TwitterUpdate"]);
+     if(isset($_QLO0f["TwitterUpdateErrorText"])) unset($_QLO0f["TwitterUpdateErrorText"]);
+     unset($_QLO0f["id"]);
+     unset($_QLO0f["distriblistentry_id"]);
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
  /**
@@ -776,7 +776,7 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_getDistributionListSentLog($apiDistribListId, $apiDistribListEntryId, $apiStart, $apiCount) {
-   global $_Q61I1, $_QoOft, $_Qoo8o, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $_IjCfJ, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    $apiDistribListId = intval($apiDistribListId);
@@ -784,39 +784,39 @@ class api_DistributionLists extends api_base {
    $apiStart = intval($apiStart);
    $apiCount = intval($apiCount);
 
-   $_QJlJ0 = "SELECT `CurrentSendTableName`, `RStatisticsTableName` FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `CurrentSendTableName`, `RStatisticsTableName` FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Distribution list not found.");
-   $_QC0L0 = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_IJ1IQ = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT COUNT(id) FROM `$_QC0L0[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT COUNT(id) FROM `$_IJ1IQ[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Entry for distribution list not found.");
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
    if($apiCount == -1) {
-     $_QJlJ0 = "SELECT COUNT(*) AS `EntryCount`  FROM `$_QC0L0[RStatisticsTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-       mysql_free_result($_Q60l1);
-       return $_Q6Q1C;
+     $_QLfol = "SELECT COUNT(*) AS `EntryCount`  FROM `$_IJ1IQ[RStatisticsTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+       mysql_free_result($_QL8i1);
+       return $_QLO0f;
      }
-     $_QoQOL = array("EntryCount" => 0);
-     return $_QoQOL;
+     $_Ijj6Q = array("EntryCount" => 0);
+     return $_Ijj6Q;
    }
 
-   $_QJlJ0 = "SELECT * FROM `$_QC0L0[RStatisticsTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     unset($_Q6Q1C["distriblistentry_id"]);
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT * FROM `$_IJ1IQ[RStatisticsTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     unset($_QLO0f["distriblistentry_id"]);
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
  /**
@@ -831,7 +831,7 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_getDistributionListOpeningStatistics($apiDistribListId, $apiDistribListEntryId, $apiStart, $apiCount) {
-   global $_Q61I1, $_QoOft, $_Qoo8o, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $_IjCfJ, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    if(defined("SML")){return false;}
@@ -840,40 +840,40 @@ class api_DistributionLists extends api_base {
    $apiStart = intval($apiStart);
    $apiCount = intval($apiCount);
 
-   $_QJlJ0 = "SELECT `CurrentSendTableName`, `TrackingOpeningsTableName` FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `CurrentSendTableName`, `TrackingOpeningsTableName` FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Distribution list not found.");
-   $_QC0L0 = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_IJ1IQ = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `id` FROM `$_QC0L0[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `id` FROM `$_IJ1IQ[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Entry for distribution list not found.");
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   $_QC8QQ = $_Q6Q1C["id"];
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   $_IJtjj = $_QLO0f["id"];
+   mysql_free_result($_QL8i1);
 
    if($apiCount == -1) {
-     $_QJlJ0 = "SELECT COUNT(*) AS `EntryCount`  FROM `$_QC0L0[TrackingOpeningsTableName]` WHERE `SendStat_id`=$_QC8QQ";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-       mysql_free_result($_Q60l1);
-       return $_Q6Q1C;
+     $_QLfol = "SELECT COUNT(*) AS `EntryCount`  FROM `$_IJ1IQ[TrackingOpeningsTableName]` WHERE `SendStat_id`=$_IJtjj";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+       mysql_free_result($_QL8i1);
+       return $_QLO0f;
      }
-     $_QoQOL = array("EntryCount" => 0);
-     return $_QoQOL;
+     $_Ijj6Q = array("EntryCount" => 0);
+     return $_Ijj6Q;
    }
 
-   $_QJlJ0 = "SELECT * FROM `$_QC0L0[TrackingOpeningsTableName]` WHERE `SendStat_id`=$_QC8QQ LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT * FROM `$_IJ1IQ[TrackingOpeningsTableName]` WHERE `SendStat_id`=$_IJtjj LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
  /**
@@ -888,7 +888,7 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_getDistributionListOpeningStatisticsByRecipient($apiDistribListId, $apiDistribListEntryId, $apiStart, $apiCount) {
-   global $_Q61I1, $_QoOft, $_Qoo8o, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $_IjCfJ, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    if(defined("SML")){return false;}
@@ -897,42 +897,42 @@ class api_DistributionLists extends api_base {
    $apiStart = intval($apiStart);
    $apiCount = intval($apiCount);
 
-   $_QJlJ0 = "SELECT `CurrentSendTableName`, `TrackingOpeningsByRecipientTableName` FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `CurrentSendTableName`, `TrackingOpeningsByRecipientTableName` FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Distribution list not found.");
-   $_QC0L0 = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_IJ1IQ = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `id` FROM `$_QC0L0[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `id` FROM `$_IJ1IQ[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Entry for distribution list not found.");
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   $_QC8QQ = $_Q6Q1C["id"];
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   $_IJtjj = $_QLO0f["id"];
+   mysql_free_result($_QL8i1);
 
    if($apiCount == -1) {
-     $_QJlJ0 = "SELECT COUNT(*) AS `EntryCount`  FROM `$_QC0L0[TrackingOpeningsByRecipientTableName]` WHERE `SendStat_id`=$_QC8QQ";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-       mysql_free_result($_Q60l1);
-       return $_Q6Q1C;
+     $_QLfol = "SELECT COUNT(*) AS `EntryCount`  FROM `$_IJ1IQ[TrackingOpeningsByRecipientTableName]` WHERE `SendStat_id`=$_IJtjj";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+       mysql_free_result($_QL8i1);
+       return $_QLO0f;
      }
-     $_QoQOL = array("EntryCount" => 0);
-     return $_QoQOL;
+     $_Ijj6Q = array("EntryCount" => 0);
+     return $_Ijj6Q;
    }
 
-   $_QJlJ0 = "SELECT * FROM `$_QC0L0[TrackingOpeningsByRecipientTableName]` WHERE `SendStat_id`=$_QC8QQ LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_Q6Q1C["recipients_id"] = $_Q6Q1C["Member_id"];
-     unset($_Q6Q1C["Member_id"]);
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT * FROM `$_IJ1IQ[TrackingOpeningsByRecipientTableName]` WHERE `SendStat_id`=$_IJtjj LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_QLO0f["recipients_id"] = $_QLO0f["Member_id"];
+     unset($_QLO0f["Member_id"]);
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
  /**
@@ -947,7 +947,7 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_getDistributionListLinkClickStatistics($apiDistribListId, $apiDistribListEntryId, $apiStart, $apiCount) {
-   global $_Q61I1, $_QoOft, $_Qoo8o, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $_IjCfJ, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    if(defined("SML")){return false;}
@@ -956,40 +956,40 @@ class api_DistributionLists extends api_base {
    $apiStart = intval($apiStart);
    $apiCount = intval($apiCount);
 
-   $_QJlJ0 = "SELECT `CurrentSendTableName`, `TrackingLinksTableName` FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `CurrentSendTableName`, `TrackingLinksTableName` FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Distribution list not found.");
-   $_QC0L0 = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_IJ1IQ = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `id` FROM `$_QC0L0[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `id` FROM `$_IJ1IQ[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Entry for distribution list not found.");
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   $_QC8QQ = $_Q6Q1C["id"];
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   $_IJtjj = $_QLO0f["id"];
+   mysql_free_result($_QL8i1);
 
    if($apiCount == -1) {
-     $_QJlJ0 = "SELECT COUNT(*) AS `EntryCount`  FROM `$_QC0L0[TrackingLinksTableName]` WHERE `SendStat_id`=$_QC8QQ";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-       mysql_free_result($_Q60l1);
-       return $_Q6Q1C;
+     $_QLfol = "SELECT COUNT(*) AS `EntryCount`  FROM `$_IJ1IQ[TrackingLinksTableName]` WHERE `SendStat_id`=$_IJtjj";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+       mysql_free_result($_QL8i1);
+       return $_QLO0f;
      }
-     $_QoQOL = array("EntryCount" => 0);
-     return $_QoQOL;
+     $_Ijj6Q = array("EntryCount" => 0);
+     return $_Ijj6Q;
    }
 
-   $_QJlJ0 = "SELECT * FROM `$_QC0L0[TrackingLinksTableName]` WHERE `SendStat_id`=$_QC8QQ LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT * FROM `$_IJ1IQ[TrackingLinksTableName]` WHERE `SendStat_id`=$_IJtjj LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
  /**
@@ -1004,7 +1004,7 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_getDistributionListLinkClickStatisticsByRecipient($apiDistribListId, $apiDistribListEntryId, $apiStart, $apiCount) {
-   global $_Q61I1, $_QoOft, $_Qoo8o, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $_IjCfJ, $UserId, $UserType;
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
    if(defined("SML")){return false;}
@@ -1013,42 +1013,42 @@ class api_DistributionLists extends api_base {
    $apiStart = intval($apiStart);
    $apiCount = intval($apiCount);
 
-   $_QJlJ0 = "SELECT `CurrentSendTableName`, `TrackingLinksByRecipientTableName` FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `CurrentSendTableName`, `TrackingLinksByRecipientTableName` FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Distribution list not found.");
-   $_QC0L0 = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_IJ1IQ = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `id` FROM `$_QC0L0[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `id` FROM `$_IJ1IQ[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Entry for distribution list not found.");
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   $_QC8QQ = $_Q6Q1C["id"];
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   $_IJtjj = $_QLO0f["id"];
+   mysql_free_result($_QL8i1);
 
    if($apiCount == -1) {
-     $_QJlJ0 = "SELECT COUNT(*) AS `EntryCount`  FROM `$_QC0L0[TrackingLinksByRecipientTableName]` WHERE `SendStat_id`=$_QC8QQ";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-       mysql_free_result($_Q60l1);
-       return $_Q6Q1C;
+     $_QLfol = "SELECT COUNT(*) AS `EntryCount`  FROM `$_IJ1IQ[TrackingLinksByRecipientTableName]` WHERE `SendStat_id`=$_IJtjj";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+       mysql_free_result($_QL8i1);
+       return $_QLO0f;
      }
-     $_QoQOL = array("EntryCount" => 0);
-     return $_QoQOL;
+     $_Ijj6Q = array("EntryCount" => 0);
+     return $_Ijj6Q;
    }
 
-   $_QJlJ0 = "SELECT * FROM `$_QC0L0[TrackingLinksByRecipientTableName]` WHERE `SendStat_id`=$_QC8QQ LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_Q6Q1C["recipients_id"] = $_Q6Q1C["Member_id"];
-     unset($_Q6Q1C["Member_id"]);
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT * FROM `$_IJ1IQ[TrackingLinksByRecipientTableName]` WHERE `SendStat_id`=$_IJtjj LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_QLO0f["recipients_id"] = $_QLO0f["Member_id"];
+     unset($_QLO0f["Member_id"]);
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
  /**
@@ -1063,7 +1063,7 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_getDistributionListUserAgentsStatistics($apiDistribListId, $apiDistribListEntryId, $apiStart, $apiCount) {
-   global $_Q61I1, $_QoOft, $_Qoo8o, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $_IjCfJ, $UserId, $UserType;
 
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
@@ -1073,36 +1073,36 @@ class api_DistributionLists extends api_base {
    $apiStart = intval($apiStart);
    $apiCount = intval($apiCount);
 
-   $_QJlJ0 = "SELECT `CurrentSendTableName`, `TrackingUserAgentsTableName` FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `CurrentSendTableName`, `TrackingUserAgentsTableName` FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Distribution list not found.");
-   $_QC0L0 = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_IJ1IQ = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT id FROM `$_QC0L0[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT id FROM `$_IJ1IQ[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Entry for distribution list not found.");
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   $_QC8QQ = $_Q6Q1C["id"];
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   $_IJtjj = $_QLO0f["id"];
+   mysql_free_result($_QL8i1);
 
    if($apiCount == -1) {
-     $_QJlJ0 = "SELECT SUM(`Clicks`) AS `ClicksCount`, `UserAgent` FROM `$_QC0L0[TrackingUserAgentsTableName]` WHERE `SendStat_id`=$_QC8QQ GROUP BY `UserAgent` ORDER BY `ClicksCount` DESC";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     $_QoQOL = array("EntryCount" => mysql_num_rows($_Q60l1));
-     return $_QoQOL;
+     $_QLfol = "SELECT SUM(`Clicks`) AS `ClicksCount`, `UserAgent` FROM `$_IJ1IQ[TrackingUserAgentsTableName]` WHERE `SendStat_id`=$_IJtjj GROUP BY `UserAgent` ORDER BY `ClicksCount` DESC";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     $_Ijj6Q = array("EntryCount" => mysql_num_rows($_QL8i1));
+     return $_Ijj6Q;
    }
 
-   $_QJlJ0 = "SELECT SUM(`Clicks`) AS `ClicksCount`, `UserAgent` FROM `$_QC0L0[TrackingUserAgentsTableName]` WHERE `SendStat_id`=$_QC8QQ GROUP BY `UserAgent` ORDER BY `ClicksCount` DESC LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT SUM(`Clicks`) AS `ClicksCount`, `UserAgent` FROM `$_IJ1IQ[TrackingUserAgentsTableName]` WHERE `SendStat_id`=$_IJtjj GROUP BY `UserAgent` ORDER BY `ClicksCount` DESC LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 
  /**
@@ -1117,7 +1117,7 @@ class api_DistributionLists extends api_base {
   * @access public
   */
  function api_getDistributionListOSStatistics($apiDistribListId, $apiDistribListEntryId, $apiStart, $apiCount) {
-   global $_Q61I1, $_QoOft, $_Qoo8o, $UserId, $UserType;
+   global $_QLttI, $_IjC0Q, $_IjCfJ, $UserId, $UserType;
 
 
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
@@ -1127,36 +1127,36 @@ class api_DistributionLists extends api_base {
    $apiStart = intval($apiStart);
    $apiCount = intval($apiCount);
 
-   $_QJlJ0 = "SELECT `CurrentSendTableName`, `TrackingOSsTableName` FROM `$_QoOft` WHERE id=$apiDistribListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT `CurrentSendTableName`, `TrackingOSsTableName` FROM `$_IjC0Q` WHERE id=$apiDistribListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Distribution list not found.");
-   $_QC0L0 = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_IJ1IQ = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT id FROM `$_QC0L0[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
+   $_QLfol = "SELECT id FROM `$_IJ1IQ[CurrentSendTableName]` WHERE `distriblistentry_id`=$apiDistribListEntryId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
      return $this->api_Error("Entry for distribution list not found.");
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   $_QC8QQ = $_Q6Q1C["id"];
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   $_IJtjj = $_QLO0f["id"];
+   mysql_free_result($_QL8i1);
 
    if($apiCount == -1) {
-     $_QJlJ0 = "SELECT SUM(`Clicks`) AS `ClicksCount`, `OS` FROM `$_QC0L0[TrackingOSsTableName]` WHERE `SendStat_id`=$_QC8QQ GROUP BY `OS` ORDER BY `ClicksCount` DESC";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     $_QoQOL = array("EntryCount" => mysql_num_rows($_Q60l1));
-     return $_QoQOL;
+     $_QLfol = "SELECT SUM(`Clicks`) AS `ClicksCount`, `OS` FROM `$_IJ1IQ[TrackingOSsTableName]` WHERE `SendStat_id`=$_IJtjj GROUP BY `OS` ORDER BY `ClicksCount` DESC";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     $_Ijj6Q = array("EntryCount" => mysql_num_rows($_QL8i1));
+     return $_Ijj6Q;
    }
 
-   $_QJlJ0 = "SELECT SUM(`Clicks`) AS `ClicksCount`, `OS` FROM `$_QC0L0[TrackingOSsTableName]` WHERE `SendStat_id`=$_QC8QQ GROUP BY `OS` ORDER BY `ClicksCount` DESC LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoQOL = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_QoQOL[] = $_Q6Q1C;
+   $_QLfol = "SELECT SUM(`Clicks`) AS `ClicksCount`, `OS` FROM `$_IJ1IQ[TrackingOSsTableName]` WHERE `SendStat_id`=$_IJtjj GROUP BY `OS` ORDER BY `ClicksCount` DESC LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijj6Q = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_Ijj6Q[] = $_QLO0f;
    }
-   mysql_free_result($_Q60l1);
-   return $_QoQOL;
+   mysql_free_result($_QL8i1);
+   return $_Ijj6Q;
  }
 }
 

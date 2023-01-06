@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -28,254 +28,255 @@
 
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeViewProcessLog"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeViewProcessLog"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  $_Q6QiO = "'%d.%m.%Y %H:%i:%s'";
-  $_If0Ql = "'%d.%m.%Y'";
+  $_QLo60 = "'%d.%m.%Y %H:%i:%s'";
+  $_j01CJ = "'%d.%m.%Y'";
   if($INTERFACE_LANGUAGE != "de") {
-     $_Q6QiO = "'%Y-%m-%d %H:%i:%s'";
-     $_If0Ql = "'%Y-%m-%d'";
+     $_QLo60 = "'%Y-%m-%d %H:%i:%s'";
+     $_j01CJ = "'%Y-%m-%d'";
   }
 
 
   if(isset($_GET["Result_id"])) {
     $_GET["Result_id"] = intval($_GET["Result_id"]);
-    $_QJCJi = join("", file(_O68QF()."processlog_view_result.htm"));
+    $_QLJfI = _JJAQE("processlog_view_result.htm");
 
-    $_QJlJ0 = "SELECT $_jJ6Qf.id, $_jJJtf.JobType, Result, ResultText, DATE_FORMAT(StartDateTime, $_Q6QiO) AS StartDate, DATE_FORMAT(EndDateTime, $_Q6QiO) AS EndDate FROM $_jJ6Qf LEFT JOIN $_jJJtf ON $_jJJtf.id=cronoptions_id WHERE $_jJ6Qf.id=".$_GET["Result_id"];
+    $_QLfol = "SELECT $_JQQoC.id, $_JQQI1.JobType, Result, ResultText, DATE_FORMAT(StartDateTime, $_QLo60) AS StartDate, DATE_FORMAT(EndDateTime, $_QLo60) AS EndDate FROM $_JQQoC LEFT JOIN $_JQQI1 ON $_JQQI1.id=cronoptions_id WHERE $_JQQoC.id=".$_GET["Result_id"];
 
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if($_Q60l1 && $_Q6Q1C = mysql_fetch_array($_Q60l1)) {
-     $_QJCJi = _OPR6L($_QJCJi, "<RESULTTEXT>", "</RESULTTEXT>", $_Q6Q1C["ResultText"]);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if($_QL8i1 && $_QLO0f = mysql_fetch_array($_QL8i1)) {
+     $_QLJfI = _L81BJ($_QLJfI, "<RESULTTEXT>", "</RESULTTEXT>", $_QLO0f["ResultText"]);
 
-     if($_Q6Q1C["Result"] > 0)
-       $_6itQQ = '<img src="images/check16.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["EXECUTED"].'" />&nbsp;';
+     if($_QLO0f["Result"] > 0)
+       $_8fQ0J = '<img src="images/check16.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["EXECUTED"].'" />&nbsp;';
        else
-       if($_Q6Q1C["Result"] == 0)
-          $_6itQQ = '<img src="images/cross16.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["FAILED"].'" />&nbsp;';
+       if($_QLO0f["Result"] == 0)
+          $_8fQ0J = '<img src="images/cross16.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["FAILED"].'" />&nbsp;';
           else
-         if($_Q6Q1C["Result"] == -1)
-           $_6itQQ = '<img src="images/minus16.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["NOT_EXECUTED"].'" />&nbsp;';
+         if($_QLO0f["Result"] == -1)
+           $_8fQ0J = '<img src="images/minus16.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["NOT_EXECUTED"].'" />&nbsp;';
            else
-             $_6itQQ = '<img src="images/hourglass.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["EXECUTING"].'" />&nbsp;';
+             $_8fQ0J = '<img src="images/hourglass.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["EXECUTING"].'" />&nbsp;';
 
-     $_QJCJi = _OPR6L($_QJCJi, "<LIST:PROCESSNAME>", "</LIST:PROCESSNAME>", $_6itQQ.$resourcestrings[$INTERFACE_LANGUAGE]["Cron".$_Q6Q1C["JobType"]]);
-     $_QJCJi = _OPR6L($_QJCJi, "<LIST:START>", "</LIST:START>", $_Q6Q1C["StartDate"]);
-     $_QJCJi = _OPR6L($_QJCJi, "<LIST:END>", "</LIST:END>", $_Q6Q1C["EndDate"]);
+     $_QLJfI = _L81BJ($_QLJfI, "<LIST:PROCESSNAME>", "</LIST:PROCESSNAME>", $_8fQ0J.$resourcestrings[$INTERFACE_LANGUAGE]["Cron".$_QLO0f["JobType"]]);
+     $_QLJfI = _L81BJ($_QLJfI, "<LIST:START>", "</LIST:START>", $_QLO0f["StartDate"]);
+     $_QLJfI = _L81BJ($_QLJfI, "<LIST:END>", "</LIST:END>", $_QLO0f["EndDate"]);
     }
 
-    SetHTMLHeaders($_Q6QQL);
+    SetHTMLHeaders($_QLo06);
 
-    print $_QJCJi;
+    print $_QLJfI;
     exit;
   }
 
-  $_I0600 = "";
+  $_Itfj8 = "";
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000340"], $_I0600, 'stat_processlog', 'browse_processlog_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000340"], $_Itfj8, 'stat_processlog', 'browse_processlog_snipped.htm');
 
   // language
-  $_QJCJi = str_replace('ChangeLanguageCode("de");', 'ChangeLanguageCode("'.$INTERFACE_LANGUAGE.'");', $_QJCJi);
+  $_QLJfI = str_replace('ChangeLanguageCode("de");', 'ChangeLanguageCode("'.$INTERFACE_LANGUAGE.'");', $_QLJfI);
+  $_QLJfI = str_replace('dateFormat = "de"', 'dateFormat = "'.$INTERFACE_LANGUAGE.'"', $_QLJfI);
 
 
-  $_jC1lo = "";
-  $_jCQ0I = "";
+  $_JoiCQ = "";
+  $_JoL0L = "";
 
   if(! ( isset($_POST["startdate"]) && isset($_POST["enddate"])) ) {
 
-    $_QJlJ0 = "SELECT DATE_FORMAT(NOW(), $_If0Ql) AS ENDDATE, DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 10 DAY), $_If0Ql) AS STARTDATE ";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6Q1C = mysql_fetch_row($_Q60l1);
-    $_jCQ0I = $_Q6Q1C[0];
-    $_jC1lo = $_Q6Q1C[1];
-    $_POST["startdate"] = $_jC1lo;
-    $_POST["enddate"] = $_jCQ0I;
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT DATE_FORMAT(NOW(), $_j01CJ) AS ENDDATE, DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 10 DAY), $_j01CJ) AS STARTDATE ";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_row($_QL8i1);
+    $_JoL0L = $_QLO0f[0];
+    $_JoiCQ = $_QLO0f[1];
+    $_POST["startdate"] = $_JoiCQ;
+    $_POST["enddate"] = $_JoL0L;
+    mysql_free_result($_QL8i1);
   }
 
   if( isset($_POST["startdate"]) && isset($_POST["enddate"]) ) {
     if($INTERFACE_LANGUAGE != "de") {
-      $_jC1lo = $_POST["startdate"];
-      $_jCQ0I = $_POST["enddate"];
+      $_JoiCQ = $_POST["startdate"];
+      $_JoL0L = $_POST["enddate"];
     } else {
-      $_Q8otJ = explode('.', $_POST["startdate"]);
-      $_jC1lo = $_Q8otJ[2]."-".$_Q8otJ[1]."-".$_Q8otJ[0];
-      $_Q8otJ = explode('.', $_POST["enddate"]);
-      $_jCQ0I = $_Q8otJ[2]."-".$_Q8otJ[1]."-".$_Q8otJ[0];
+      $_I1OoI = explode('.', $_POST["startdate"]);
+      $_JoiCQ = $_I1OoI[2]."-".$_I1OoI[1]."-".$_I1OoI[0];
+      $_I1OoI = explode('.', $_POST["enddate"]);
+      $_JoL0L = $_I1OoI[2]."-".$_I1OoI[1]."-".$_I1OoI[0];
     }
   }
 
 
-  $_jC1lo .= " 00:00:00";
-  $_jCQ0I .= " 23:59:59";
+  $_JoiCQ .= " 00:00:00";
+  $_JoL0L .= " 23:59:59";
 
-  $_QJlJ0 = "AND $_jJJtf.JobType <> 'EventResponderChecking'";
+  $_QLfol = "AND $_JQQI1.JobType <> 'EventResponderChecking'";
   if(defined("SWM") && $OwnerOwnerUserId == 90){
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'ResponderStatCleanUp'";
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'AutoresponderChecking'";
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'FollowUpResponderChecking'";
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'BirthdayResponderChecking'";
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'RSS2EMailResponderChecking'";
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'DistribListChecking'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'ResponderStatCleanUp'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'AutoresponderChecking'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'FollowUpResponderChecking'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'BirthdayResponderChecking'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'RSS2EMailResponderChecking'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'DistribListChecking'";
   }
   if(defined("SML") && $OwnerOwnerUserId == 0x41){
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'ResponderStatCleanUp'";
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'DistribListChecking'";
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'SendEngineChecking'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'ResponderStatCleanUp'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'DistribListChecking'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'SendEngineChecking'";
   }
 
   if(empty($_POST["ShowTasks"]))
     $_POST["ShowTasks"] = "ALL";
 
   if($_POST["ShowTasks"] == "EXECUTED")
-    $_QJlJ0 .= " AND `$_jJ6Qf`.Result>0";
+    $_QLfol .= " AND `$_JQQoC`.Result>0";
     else
   if($_POST["ShowTasks"] == "FAILED")
-    $_QJlJ0 .= " AND `$_jJ6Qf`.Result=0";
+    $_QLfol .= " AND `$_JQQoC`.Result=0";
     else
   if($_POST["ShowTasks"] == "NOT_EXECUTED")
-    $_QJlJ0 .= " AND `$_jJ6Qf`.Result=-1";
+    $_QLfol .= " AND `$_JQQoC`.Result=-1";
     else
   if($_POST["ShowTasks"] == "EXECUTING")
-    $_QJlJ0 .= " AND `$_jJ6Qf`.Result<-1";
+    $_QLfol .= " AND `$_JQQoC`.Result<-1";
 
-  $_QJlJ0 = "SELECT {} FROM `$_jJ6Qf` LEFT JOIN `$_jJJtf` ON `$_jJJtf`.id=cronoptions_id WHERE StartDateTime BETWEEN "._OPQLR($_jC1lo)." AND "._OPQLR($_jCQ0I)." $_QJlJ0 ORDER BY StartDateTime DESC";
+  $_QLfol = "SELECT {} FROM `$_JQQoC` LEFT JOIN `$_JQQI1` ON `$_JQQI1`.id=cronoptions_id WHERE StartDateTime BETWEEN "._LRAFO($_JoiCQ)." AND "._LRAFO($_JoL0L)." $_QLfol ORDER BY StartDateTime DESC";
 
-  $_QJCJi = _LLBE8($_QJlJ0, $_QJCJi);
+  $_QLJfI = _JLFDC($_QLfol, $_QLJfI);
 
-  $_QJCJi = str_replace('name="startdate"', 'name="startdate" value="'.$_POST["startdate"].'"', $_QJCJi);
-  $_QJCJi = str_replace('name="enddate"', 'name="enddate" value="'.$_POST["enddate"].'"', $_QJCJi);
-  $_QJCJi = str_replace('<option value="'.$_POST["ShowTasks"].'">', '<option value="'.$_POST["ShowTasks"].'" selected="selected">', $_QJCJi);
+  $_QLJfI = str_replace('name="startdate"', 'name="startdate" value="'.$_POST["startdate"].'"', $_QLJfI);
+  $_QLJfI = str_replace('name="enddate"', 'name="enddate" value="'.$_POST["enddate"].'"', $_QLJfI);
+  $_QLJfI = str_replace('<option value="'.$_POST["ShowTasks"].'">', '<option value="'.$_POST["ShowTasks"].'" selected="selected">', $_QLJfI);
 
   if($INTERFACE_LANGUAGE != "de")
-    $_QJCJi = str_replace("'dd.mm.yyyy'", "'yyyy-mm-dd'", $_QJCJi);
+    $_QLJfI = str_replace("'dd.mm.yyyy'", "'yyyy-mm-dd'", $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
-  function _LLBE8($_QJlJ0, $_Q6ICj) {
-    global $UserId, $_SESSION, $INTERFACE_LANGUAGE, $resourcestrings, $_jJJtf, $_jJ6Qf, $_jC1lo, $_jCQ0I, $_Q6QiO, $_Q61I1;
-    $_I61Cl = array();
+  function _JLFDC($_QLfol, $_QLoli) {
+    global $UserId, $_SESSION, $INTERFACE_LANGUAGE, $resourcestrings, $_JQQI1, $_JQQoC, $_JoiCQ, $_JoL0L, $_QLo60, $_QLttI;
+    $_Il0o6 = array();
 
     // wie viele pro Seite?
-    $_I6Q68 = 20;
+    $_Il1jO = 20;
     if(isset($_POST["ItemsPerPage"])) {
-       $_QllO8 = intval($_POST["ItemsPerPage"]);
-       if ($_QllO8 <= 0) $_QllO8 = 20;
-       $_I6Q68 = $_QllO8;
+       $_I016j = intval($_POST["ItemsPerPage"]);
+       if ($_I016j <= 0) $_I016j = 20;
+       $_Il1jO = $_I016j;
     }
-    $_I61Cl["ItemsPerPage"] = $_I6Q68;
+    $_Il0o6["ItemsPerPage"] = $_Il1jO;
 
-    $_IJQQI = 0;
+    $_Iil6i = 0;
     if ( (!isset($_POST['PageSelected'])) || ($_POST['PageSelected'] == 0) )
-      $_I6Q6O = 1;
+      $_IlQQ6 = 1;
       else
-      $_I6Q6O = intval($_POST['PageSelected']);
+      $_IlQQ6 = intval($_POST['PageSelected']);
 
     // zaehlen wie viele es sind
-    $_I6Qfj = 0;
-    $_QtjtL = $_QJlJ0;
-    $_QtjtL = str_replace('{}', "COUNT($_jJ6Qf.id)", $_QtjtL);
-    $_Q60l1 = mysql_query($_QtjtL, $_Q61I1);
-    _OAL8F($_QtjtL);
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_I6Qfj = $_Q6Q1C[0];
-    $_I6IJ8 = $_I6Qfj / $_I6Q68;
-    $_I6IJ8 = ceil($_I6IJ8);
-    if(intval($_I6IJ8 * $_I6Q68) - $_I6Q68 > $_I6Qfj)
-       if($_I6IJ8 > 1) $_I6IJ8--;
-    $_Q6ICj = str_replace ('%RECIPIENTCOUNT%', $_I6Qfj, $_Q6ICj);
+    $_IlQll = 0;
+    $_QLlO6 = $_QLfol;
+    $_QLlO6 = str_replace('{}', "COUNT($_JQQoC.id)", $_QLlO6);
+    $_QL8i1 = mysql_query($_QLlO6, $_QLttI);
+    _L8D88($_QLlO6);
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_IlQll = $_QLO0f[0];
+    $_IlILC = $_IlQll / $_Il1jO;
+    $_IlILC = ceil($_IlILC);
+    if(intval($_IlILC * $_Il1jO) - $_Il1jO > $_IlQll)
+       if($_IlILC > 1) $_IlILC--;
+    $_QLoli = str_replace ('%RECIPIENTCOUNT%', $_IlQll, $_QLoli);
 
     if( isset( $_POST["OneProcessLogId"] ) && ($_POST["OneProcessLogId"] == "Top") )
-       $_I6Q6O = 1;
+       $_IlQQ6 = 1;
     if( isset( $_POST["OneProcessLogId"] ) && ($_POST["OneProcessLogId"] == "Prev") )
-       $_I6Q6O = $_I6Q6O - 1;
+       $_IlQQ6 = $_IlQQ6 - 1;
     if( isset( $_POST["OneProcessLogId"] ) && ($_POST["OneProcessLogId"] == "Next") )
-       $_I6Q6O = $_I6Q6O + 1;
+       $_IlQQ6 = $_IlQQ6 + 1;
     if( isset( $_POST["OneProcessLogId"] ) && ($_POST["OneProcessLogId"] == "End") )
-       $_I6Q6O = $_I6IJ8;
+       $_IlQQ6 = $_IlILC;
 
-    if ( ($_I6Q6O > $_I6IJ8) || ($_I6Q6O <= 0) )
-       $_I6Q6O = 1;
+    if ( ($_IlQQ6 > $_IlILC) || ($_IlQQ6 <= 0) )
+       $_IlQQ6 = 1;
 
-    $_IJQQI = ($_I6Q6O - 1) * $_I6Q68;
+    $_Iil6i = ($_IlQQ6 - 1) * $_Il1jO;
 
-    $_Q6i6i = "";
-    for($_Q6llo=1; $_Q6llo<=$_I6IJ8; $_Q6llo++)
-      if($_Q6llo != $_I6Q6O)
-       $_Q6i6i .= "<option>$_Q6llo</option>";
+    $_QlOjt = "";
+    for($_Qli6J=1; $_Qli6J<=$_IlILC; $_Qli6J++)
+      if($_Qli6J != $_IlQQ6)
+       $_QlOjt .= "<option>$_Qli6J</option>";
        else
-       $_Q6i6i .= '<option selected="selected">'.$_Q6llo.'</option>';
+       $_QlOjt .= '<option selected="selected">'.$_Qli6J.'</option>';
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<OPTION:PAGES>", "</OPTION:PAGES>", $_Q6i6i);
+    $_QLoli = _L81BJ($_QLoli, "<OPTION:PAGES>", "</OPTION:PAGES>", $_QlOjt);
 
     // Nav-Buttons
-    $_I6ICC = "";
-    if($_I6Q6O == 1) {
-      $_I6ICC .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
+    $_Iljoj = "";
+    if($_IlQQ6 == 1) {
+      $_Iljoj .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
     }
-    if ( ($_I6Q6O == $_I6IJ8) || ($_I6Qfj == 0) ) {
-      $_I6ICC .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
+    if ( ($_IlQQ6 == $_IlILC) || ($_IlQll == 0) ) {
+      $_Iljoj .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
     }
 
-    if($_I6Qfj == 0)
-      $_I6ICC .= "  DisableItem('PageSelected', false);\r\n";
+    if($_IlQll == 0)
+      $_Iljoj .= "  DisableItem('PageSelected', false);\r\n";
 
-    $_Q6ICj = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_I6ICC, $_Q6ICj);
+    $_QLoli = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_Iljoj, $_QLoli);
     //
 
-    $_QJlJ0 .= " LIMIT $_IJQQI, $_I6Q68";
+    $_QLfol .= " LIMIT $_Iil6i, $_Il1jO";
 
-    $_Iijl0 = "$_jJ6Qf.id, $_jJJtf.JobType, Result, ResultText, DATE_FORMAT(StartDateTime, $_Q6QiO) AS StartDate, DATE_FORMAT(EndDateTime, $_Q6QiO) AS EndDate";
-    $_QJlJ0 = str_replace('{}', $_Iijl0, $_QJlJ0);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
+    $_jf8JI = "$_JQQoC.id, $_JQQI1.JobType, Result, ResultText, DATE_FORMAT(StartDateTime, $_QLo60) AS StartDate, DATE_FORMAT(EndDateTime, $_QLo60) AS EndDate";
+    $_QLfol = str_replace('{}', $_jf8JI, $_QLfol);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
 
-    $_Q6tjl = "";
-    $_IIJi1 = _OP81D($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>");
-    $_IIJi1 = str_replace ('<LIST:ENTRY>', '', $_IIJi1);
-    $_IIJi1 = str_replace ('</LIST:ENTRY>', '', $_IIJi1);
+    $_QlIf1 = "";
+    $_IC1C6 = _L81DB($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>");
+    $_IC1C6 = str_replace ('<LIST:ENTRY>', '', $_IC1C6);
+    $_IC1C6 = str_replace ('</LIST:ENTRY>', '', $_IC1C6);
 
-    while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-      $_Q66jQ = $_IIJi1;
-      if($_Q6Q1C["Result"] > 0)
-        $_6itQQ = '<img src="images/check16.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["EXECUTED"].'" />&nbsp;';
+    while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+      $_Ql0fO = $_IC1C6;
+      if($_QLO0f["Result"] > 0)
+        $_8fQ0J = '<img src="images/check16.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["EXECUTED"].'" />&nbsp;';
         else
-        if($_Q6Q1C["Result"] == 0)
-           $_6itQQ = '<img src="images/cross16.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["FAILED"].'" />&nbsp;';
+        if($_QLO0f["Result"] == 0)
+           $_8fQ0J = '<img src="images/cross16.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["FAILED"].'" />&nbsp;';
            else
-        if($_Q6Q1C["Result"] == -1)
-           $_6itQQ = '<img src="images/minus16.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["NOT_EXECUTED"].'" />&nbsp;';
+        if($_QLO0f["Result"] == -1)
+           $_8fQ0J = '<img src="images/minus16.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["NOT_EXECUTED"].'" />&nbsp;';
            else
-           $_6itQQ = '<img src="images/hourglass.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["EXECUTING"].'" />&nbsp;';
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:PROCESSNAME>", "</LIST:PROCESSNAME>", $_6itQQ.$resourcestrings[$INTERFACE_LANGUAGE]["Cron".$_Q6Q1C["JobType"]]);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:START>", "</LIST:START>", $_Q6Q1C["StartDate"]);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:END>", "</LIST:END>", $_Q6Q1C["EndDate"]);
-      $_Q66jQ = str_replace("Result_id=", "Result_id=".$_Q6Q1C["id"], $_Q66jQ);
+           $_8fQ0J = '<img src="images/hourglass.gif" width="16" height="16" alt="'.$resourcestrings[$INTERFACE_LANGUAGE]["EXECUTING"].'" />&nbsp;';
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:PROCESSNAME>", "</LIST:PROCESSNAME>", $_8fQ0J.$resourcestrings[$INTERFACE_LANGUAGE]["Cron".$_QLO0f["JobType"]]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:START>", "</LIST:START>", $_QLO0f["StartDate"]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:END>", "</LIST:END>", $_QLO0f["EndDate"]);
+      $_Ql0fO = str_replace("Result_id=", "Result_id=".$_QLO0f["id"], $_Ql0fO);
 
-      $_Q6tjl .= $_Q66jQ;
+      $_QlIf1 .= $_Ql0fO;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>", $_Q6tjl);
+    $_QLoli = _L81BJ($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>", $_QlIf1);
 
-    $_Q6ICj = _OPFJA(array(), $_I61Cl, $_Q6ICj);
+    $_QLoli = _L8AOB(array(), $_Il0o6, $_QLoli);
 
-    return $_Q6ICj;
+    return $_QLoli;
   }
 
 ?>

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -33,10 +33,10 @@
        $MailingListId = intval($_POST["MailingListId"]);
 
   if ( isset($_GET["FormId"]) )
-     $_jfoCi = intval($_GET["FormId"]);
+     $_Jjlll = intval($_GET["FormId"]);
      else
      if ( isset($_POST["FormId"]) )
-       $_jfoCi = intval($_POST["FormId"]);
+       $_Jjlll = intval($_POST["FormId"]);
 
   if ( isset($_GET["MailTemplate"]) )
      $MailTemplate = $_GET["MailTemplate"];
@@ -64,14 +64,14 @@
      if ( isset($_POST["ResponderMailItemId"]) && $_POST["ResponderMailItemId"] != "" )
        $ResponderMailItemId = intval($_POST["ResponderMailItemId"]);
 
-  if(!isset($MailingListId) || !isset($_jfoCi) || !isset($MailTemplate) )
+  if(!isset($MailingListId) || !isset($_Jjlll) || !isset($MailTemplate) )
     exit;
 
-  $MailTemplate = _OPQLR($MailTemplate);
+  $MailTemplate = _LRAFO($MailTemplate);
   $MailTemplate = str_replace("'", "", $MailTemplate);
   $MailTemplate = str_replace('"', "", $MailTemplate);
   $_POST["MailingListId"] = $MailingListId;
-  $_POST["FormId"] = $_jfoCi;
+  $_POST["FormId"] = $_Jjlll;
   $_POST["MailTemplate"] = $MailTemplate;
 
   // ** unset blank vars
@@ -111,35 +111,35 @@
   if(isset($ResponderMailItemId))
     $_POST["ResponderMailItemId"] = $ResponderMailItemId;
 
-  $_I0600 = "";
+  $_Itfj8 = "";
   //
-  $_QJlJ0 = "SELECT MaillistTableName, FormsTableName, LocalBlocklistTableName, forms_id FROM $_Q60QL WHERE id=$MailingListId";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-    $_I0600 = $commonmsgMailListNotFound;
+  $_QLfol = "SELECT MaillistTableName, FormsTableName, LocalBlocklistTableName, forms_id FROM $_QL88I WHERE id=$MailingListId";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+    $_Itfj8 = $commonmsgMailListNotFound;
   } else {
-    $_Q6Q1C = mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_QLO0f = mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
   }
-  $_QLI8o = $_Q6Q1C["FormsTableName"];
-  $_QlQC8 = $_Q6Q1C["MaillistTableName"];
-  $_ItCCo = $_Q6Q1C["LocalBlocklistTableName"];
+  $_IfJoo = $_QLO0f["FormsTableName"];
+  $_I8I6o = $_QLO0f["MaillistTableName"];
+  $_jjj8f = $_QLO0f["LocalBlocklistTableName"];
 
   if(isset($ResponderType)) {
-    $_jfoLl = $_jfoCi;
-    $_jfoCi = $_Q6Q1C["forms_id"];
+    $_JJ0t1 = $_Jjlll;
+    $_Jjlll = $_QLO0f["forms_id"];
   }
 
   // Responder
   if(isset($_POST["ResponderId"])) {
     if(isset($ResponderType) && $ResponderType == "FollowUpResponder") {
-      $_QJlJ0 = "SELECT FUMailsTableName FROM $_QCLCI WHERE id=$ResponderId";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-        mysql_free_result($_Q60l1);
-        $_ItJIf = $_Q6Q1C["FUMailsTableName"];
+      $_QLfol = "SELECT FUMailsTableName FROM $_I616t WHERE id=$ResponderId";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+        mysql_free_result($_QL8i1);
+        $_jIt0L = $_QLO0f["FUMailsTableName"];
       } else {
-        $_I0600 = $commonmsgHTMLFormNotFound;
+        $_Itfj8 = $commonmsgHTMLFormNotFound;
         return;
       }
     }
@@ -150,113 +150,120 @@
     //
 
     // check there is a attachment field
-    $_6tt10 = "";
-    $_QLLjo = array();
-    _OAJL1($_QLI8o, $_QLLjo);
-    if(in_array($MailTemplate."Attachments", $_QLLjo))
-      $_6tt10 = ", ".$MailTemplate."Attachments";
+    $_ffo11 = "";
+    $_Iflj0 = array();
+    _L8EOB($_IfJoo, $_Iflj0);
+    if(in_array($MailTemplate."Attachments", $_Iflj0))
+      $_ffo11 = ", ".$MailTemplate."Attachments";
 
-    $_QJlJ0 = "SELECT $MailTemplate"."MailFormat, ".$MailTemplate."MailEncoding $_6tt10 FROM $_QLI8o WHERE id=$_jfoCi";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-      $_I0600 = $commonmsgHTMLFormNotFound;
+    $_QLfol = "SELECT $MailTemplate"."MailFormat, ".$MailTemplate."MailEncoding $_ffo11 FROM $_IfJoo WHERE id=$_Jjlll";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+      $_Itfj8 = $commonmsgHTMLFormNotFound;
       return;
     } else {
-      $_j6ioL = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
+      $_Jj08l = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
     }
   } else
    if($ResponderType == "AutoResponder" || $ResponderType == "BirthdayResponder" || $ResponderType == "EventResponder" || $ResponderType == "Campaign" || $ResponderType == "RSS2EMailResponder"){
-    $_jj1tl = _OAP0L($ResponderType);
-    $_Jfi0i = _OABJE($_jj1tl);
-    if(empty($_Jfi0i) && $ResponderType == "AutoResponder"){
-      $_Jfi0i = $_IQL81;
+    $_J0ifL = _LPO6C($ResponderType);
+    $_6Ol6i = _LPLBQ($_J0ifL);
+    if(empty($_6Ol6i) && $ResponderType == "AutoResponder"){
+      $_6Ol6i = $_IoCo0;
     }
-    $_QJlJ0 = "SELECT `MailFormat`, `MailEncoding`, `Attachments`";
+    $_QLfol = "SELECT `MailFormat`, `MailEncoding`, `Attachments`";
     if($ResponderType == "Campaign")
-      $_QJlJ0 .= ", `PersAttachments`";
-    $_QJlJ0 .= " FROM `$_Jfi0i` WHERE `id`=$ResponderId";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-      $_I0600 = $commonmsgHTMLFormNotFound;
+      $_QLfol .= ", `PersAttachments`";
+    $_QLfol .= " FROM `$_6Ol6i` WHERE `id`=$ResponderId";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+      $_Itfj8 = $commonmsgHTMLFormNotFound;
       return;
     } else {
-      $_j6ioL = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
+      $_Jj08l = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
     }
   } else
    if($ResponderType == "FollowUpResponder"){
     // FUResponder
-    $_QJlJ0 = "SELECT `MailFormat`, `MailEncoding`, `Attachments`, `PersAttachments` FROM $_ItJIf WHERE id=$ResponderMailItemId";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-      $_I0600 = $commonmsgHTMLFormNotFound;
+    $_QLfol = "SELECT `MailFormat`, `MailEncoding`, `Attachments`, `PersAttachments` FROM $_jIt0L WHERE id=$ResponderMailItemId";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+      $_Itfj8 = $commonmsgHTMLFormNotFound;
       return;
     } else {
-      $_j6ioL = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
+      $_Jj08l = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
     }
   } else
    if($ResponderType == "SMSCampaign"){
-      $_j6ioL["MailFormat"] = "PlainText";
-      $_j6ioL["MailEncoding"] = "utf-8";
+      $_Jj08l["MailFormat"] = "PlainText";
+      $_Jj08l["MailEncoding"] = "utf-8";
   } else
    if($ResponderType == "DistributionList"){
-    $_QJlJ0 = "SELECT `MailFormat`, `MailEncoding`, `Attachments`, `DistribSenderEMailAddress` FROM $_Qoo8o WHERE id=$ResponderMailItemId AND DistribList_id=$ResponderId";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-      $_I0600 = $commonmsgHTMLFormNotFound;
+    $_QLfol = "SELECT `MailFormat`, `MailEncoding`, `Attachments`, `DistribSenderEMailAddress` FROM $_IjCfJ";
+    $_QLfol .= " WHERE id=$ResponderMailItemId AND DistribList_id=$ResponderId";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+      $_Itfj8 = $commonmsgHTMLFormNotFound;
       return;
     } else {
-      $_j6ioL = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
+      $_Jj08l = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
     }
   }
 
   // Count members
    if(isset($ResponderType) && $ResponderType == "Campaign") {
     include_once("campaignstools.inc.php");
-    $_jQIIi = ""; // dummy
-    $_Q6Q1C[0] = _O6OLL($ResponderId, $_jQIIi);
+    $_jLiOt = ""; // dummy
+    $_QLO0f[0] = _LO6DQ($ResponderId, $_jLiOt);
    }
    else
    if(isset($ResponderType) && $ResponderType == "SMSCampaign") {
       include_once("smscampaignstools.inc.php");
-      $_jQIIi = ""; // dummy
-      $_Q6Q1C[0] = _LOBEC($ResponderId, $_jQIIi);
+      $_jLiOt = ""; // dummy
+      $_QLO0f[0] = _JLO8F($ResponderId, $_jLiOt);
    }
    else
    if(isset($ResponderType) && $ResponderType == "DistributionList") {
       include_once("distribliststools.inc.php");
-      $_jQIIi = ""; // dummy
-      $_Q6Q1C[0] = _O8RPL($ResponderId, $_j6ioL["DistribSenderEMailAddress"], $_jQIIi);
+      $_jLiOt = ""; // dummy
+      $_QLO0f[0] = _L6J68($ResponderId, array("DistribSenderEMailAddress" => $_Jj08l["DistribSenderEMailAddress"], "INBOXEMailAddress" => ""), $_jLiOt);
+   }
+   else
+   if(isset($ResponderType) && $ResponderType == "RSS2EMailResponder") {
+      include_once("rss2emailrespondertools.inc.php");
+      $_jLiOt = ""; // dummy
+      $_QLO0f[0] = _JQE18($ResponderId, $_jLiOt);
    }
    else
    {
-    $_IO1Oj = " LEFT JOIN `$_Ql8C0` ON `$_Ql8C0`.`u_EMail` = `$_QlQC8`.`u_EMail`".$_Q6JJJ;
-    $_IO1Oj .= " LEFT JOIN `$_ItCCo` ON `$_ItCCo`.`u_EMail` = `$_QlQC8`.`u_EMail`".$_Q6JJJ;
-    $_IOQf6 = " `$_QlQC8`.IsActive=1 AND `$_QlQC8`.SubscriptionStatus<>'OptInConfirmationPending'".$_Q6JJJ;
-    $_IOQf6 .= " AND `$_Ql8C0`.`u_EMail` IS NULL AND `$_ItCCo`.`u_EMail` IS NULL ".$_Q6JJJ;
+    $_jj8Ci = " LEFT JOIN `$_I8tfQ` ON `$_I8tfQ`.`u_EMail` = `$_I8I6o`.`u_EMail`".$_QLl1Q;
+    $_jj8Ci .= " LEFT JOIN `$_jjj8f` ON `$_jjj8f`.`u_EMail` = `$_I8I6o`.`u_EMail`".$_QLl1Q;
+    $_jjtQf = " `$_I8I6o`.IsActive=1 AND `$_I8I6o`.SubscriptionStatus<>'OptInConfirmationPending'".$_QLl1Q;
+    $_jjtQf .= " AND `$_I8tfQ`.`u_EMail` IS NULL AND `$_jjj8f`.`u_EMail` IS NULL ".$_QLl1Q;
 
-    $_QJlJ0 = "SELECT COUNT(*) FROM `$_QlQC8` $_IO1Oj WHERE $_IOQf6";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6Q1C = mysql_fetch_row($_Q60l1);
-    _OAL8F($_QJlJ0);
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT COUNT(*) FROM `$_I8I6o` $_jj8Ci WHERE $_jjtQf";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_row($_QL8i1);
+    _L8D88($_QLfol);
+    mysql_free_result($_QL8i1);
    }
 
   if(!isset($_POST["CurrentMail"]) )
      $_POST["CurrentMail"] = 0;
   $CurrentMail = intval($_POST["CurrentMail"]);
 
-  $_6ttIl = "";
+  $_8QQOl = "";
   if(isset($_POST["OnePreviewListAction"]))
     switch($_POST["OnePreviewListAction"]) {
       case "FirstMailBtn":
           $CurrentMail = 0;
           break;
       case "LastMailBtn":
-          $CurrentMail = $_Q6Q1C[0] - 1;
+          $CurrentMail = $_QLO0f[0] - 1;
           break;
       case "PrevMailBtn":
           $CurrentMail--;
@@ -268,93 +275,93 @@
 
   if($CurrentMail < 0)
      $CurrentMail = 0;
-  if($CurrentMail > $_Q6Q1C[0])
-     $CurrentMail = $_Q6Q1C[0] - 1;
+  if($CurrentMail > $_QLO0f[0])
+     $CurrentMail = $_QLO0f[0] - 1;
 
   if($CurrentMail == 0) {
-    $_6ttIl .= 'DisableItemCursorPointer("FirstMailBtn", false);'.$_Q6JJJ;
-    $_6ttIl .= 'DisableItemCursorPointer("PrevMailBtn", false);'.$_Q6JJJ;
+    $_8QQOl .= 'DisableItemCursorPointer("FirstMailBtn", false);'.$_QLl1Q;
+    $_8QQOl .= 'DisableItemCursorPointer("PrevMailBtn", false);'.$_QLl1Q;
 
-    $_6ttIl .= 'ChangeImage("FirstMailBtn", "images/blind16x16.gif");'.$_Q6JJJ;
-    $_6ttIl .= 'ChangeImage("PrevMailBtn", "images/blind16x16.gif");'.$_Q6JJJ;
+    $_8QQOl .= 'ChangeImage("FirstMailBtn", "images/blind16x16.gif");'.$_QLl1Q;
+    $_8QQOl .= 'ChangeImage("PrevMailBtn", "images/blind16x16.gif");'.$_QLl1Q;
 
   }
-  if($CurrentMail >= $_Q6Q1C[0] - 1) {
-    $_6ttIl .= 'DisableItemCursorPointer("NextMailBtn", false);'.$_Q6JJJ;
-    $_6ttIl .= 'DisableItemCursorPointer("LastMailBtn", false);'.$_Q6JJJ;
-    $_6ttIl .= 'ChangeImage("NextMailBtn", "images/blind16x16.gif");'.$_Q6JJJ;
-    $_6ttIl .= 'ChangeImage("LastMailBtn", "images/blind16x16.gif");'.$_Q6JJJ;
+  if($CurrentMail >= $_QLO0f[0] - 1) {
+    $_8QQOl .= 'DisableItemCursorPointer("NextMailBtn", false);'.$_QLl1Q;
+    $_8QQOl .= 'DisableItemCursorPointer("LastMailBtn", false);'.$_QLl1Q;
+    $_8QQOl .= 'ChangeImage("NextMailBtn", "images/blind16x16.gif");'.$_QLl1Q;
+    $_8QQOl .= 'ChangeImage("LastMailBtn", "images/blind16x16.gif");'.$_QLl1Q;
   }
   $_POST["CurrentMail"] = $CurrentMail;
 
   // Template
   if(isset($ResponderType) && $ResponderType == "SMSCampaign") {
-     $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000201"].$resourcestrings[$INTERFACE_LANGUAGE]["RecipientCount"].$resourcestrings[$INTERFACE_LANGUAGE]["SMSCount"], $_I0600, 'DISABLED', 'serialmailpreviewframe.htm', "", $_j6ioL[$MailTemplate."MailEncoding"]);
-     $_QJCJi = str_replace('%TabCaptionEMailAsHTML%', $resourcestrings[$INTERFACE_LANGUAGE]["TabCaptionSMSAsPlainText"], $_QJCJi);
-     $_QJCJi = str_replace('%TabCaptionEMailAsPlainText%', $resourcestrings[$INTERFACE_LANGUAGE]["TabCaptionSMSAsPlainText"], $_QJCJi);
+     $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000201"].$resourcestrings[$INTERFACE_LANGUAGE]["RecipientCount"].$resourcestrings[$INTERFACE_LANGUAGE]["SMSCount"], $_Itfj8, 'DISABLED', 'serialmailpreviewframe.htm', "", $_Jj08l[$MailTemplate."MailEncoding"]);
+     $_QLJfI = str_replace('%TabCaptionEMailAsHTML%', $resourcestrings[$INTERFACE_LANGUAGE]["TabCaptionSMSAsPlainText"], $_QLJfI);
+     $_QLJfI = str_replace('%TabCaptionEMailAsPlainText%', $resourcestrings[$INTERFACE_LANGUAGE]["TabCaptionSMSAsPlainText"], $_QLJfI);
     }
   else {
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000200"].$resourcestrings[$INTERFACE_LANGUAGE]["RecipientCount"].$resourcestrings[$INTERFACE_LANGUAGE]["EMailCount"], $_I0600, 'DISABLED', 'serialmailpreviewframe.htm', "", $_j6ioL[$MailTemplate."MailEncoding"]);
-    $_QJCJi = str_replace('%TabCaptionEMailAsHTML%', $resourcestrings[$INTERFACE_LANGUAGE]["TabCaptionEMailAsHTML"], $_QJCJi);
-    $_QJCJi = str_replace('%TabCaptionEMailAsPlainText%', $resourcestrings[$INTERFACE_LANGUAGE]["TabCaptionEMailAsPlainText"], $_QJCJi);
-    $_QJCJi = str_replace('%TabCaptionEMailAttachments%', $resourcestrings[$INTERFACE_LANGUAGE]["TabCaptionEMailAttachments"], $_QJCJi);
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000200"].$resourcestrings[$INTERFACE_LANGUAGE]["RecipientCount"].$resourcestrings[$INTERFACE_LANGUAGE]["EMailCount"], $_Itfj8, 'DISABLED', 'serialmailpreviewframe.htm', "", $_Jj08l[$MailTemplate."MailEncoding"]);
+    $_QLJfI = str_replace('%TabCaptionEMailAsHTML%', $resourcestrings[$INTERFACE_LANGUAGE]["TabCaptionEMailAsHTML"], $_QLJfI);
+    $_QLJfI = str_replace('%TabCaptionEMailAsPlainText%', $resourcestrings[$INTERFACE_LANGUAGE]["TabCaptionEMailAsPlainText"], $_QLJfI);
+    $_QLJfI = str_replace('%TabCaptionEMailAttachments%', $resourcestrings[$INTERFACE_LANGUAGE]["TabCaptionEMailAttachments"], $_QLJfI);
   }
 
-  $_QffOf = "&MailingListId=$MailingListId&FormId=$_jfoCi&MailTemplate=$MailTemplate&CurrentMail=$CurrentMail&nocache=".md5(date("r"));
+  $_I08CQ = "&MailingListId=$MailingListId&FormId=$_Jjlll&MailTemplate=$MailTemplate&CurrentMail=$CurrentMail&nocache=".md5(date("r"));
 
   if(isset($ResponderType)) {
-    $_QffOf .= "&ResponderType=$ResponderType&ResponderId=$ResponderId";
+    $_I08CQ .= "&ResponderType=$ResponderType&ResponderId=$ResponderId";
     if(isset($ResponderMailItemId))
-      $_QffOf .= "&ResponderMailItemId=$ResponderMailItemId";
+      $_I08CQ .= "&ResponderMailItemId=$ResponderMailItemId";
   } else {
     // forms can only be created in HTML and plain text therefore HTML is multipart
-    if($_j6ioL[$MailTemplate."MailFormat"] == "HTML")
-      $_j6ioL[$MailTemplate."MailFormat"] = "Multipart";
+    if($_Jj08l[$MailTemplate."MailFormat"] == "HTML")
+      $_Jj08l[$MailTemplate."MailFormat"] = "Multipart";
   }
 
-  if ($_j6ioL[$MailTemplate."MailFormat"] == "HTML")
-    $_QJCJi = _OP6PQ($_QJCJi, "<if:TEXT>", "</if:TEXT>");
+  if ($_Jj08l[$MailTemplate."MailFormat"] == "HTML")
+    $_QLJfI = _L80DF($_QLJfI, "<if:TEXT>", "</if:TEXT>");
   else
-    $_6ttIl .= "textiframe.src='./serialmailpreviewitem.php?format=text$_QffOf';".$_Q6JJJ;
+    $_8QQOl .= "CreateFormAndPostIt('./serialmailpreviewitem.php?format=text$_I08CQ', {}, 'post', 'text_iframe');".$_QLl1Q;
 
-  if($_j6ioL[$MailTemplate."MailFormat"] == "HTML" || $_j6ioL[$MailTemplate."MailFormat"] == "Multipart") {
-    $_6ttIl .= "htmliframe.src='./serialmailpreviewitem.php?format=".strtolower($_j6ioL[$MailTemplate."MailFormat"])."$_QffOf';".$_Q6JJJ;
+  if($_Jj08l[$MailTemplate."MailFormat"] == "HTML" || $_Jj08l[$MailTemplate."MailFormat"] == "Multipart") {
+    $_8QQOl .= "CreateFormAndPostIt('./serialmailpreviewitem.php?format=".strtolower($_Jj08l[$MailTemplate."MailFormat"])."$_I08CQ', {}, 'post', 'html_iframe');".$_QLl1Q;
     }
     else {
-      $_QJCJi = _OP6PQ($_QJCJi, "<if:HTML>", "</if:HTML>");
+      $_QLJfI = _L80DF($_QLJfI, "<if:HTML>", "</if:HTML>");
     }
 
-  if(!empty($_j6ioL[$MailTemplate."Attachments"])){
-    $_j6ioL[$MailTemplate."Attachments"] = @unserialize($_j6ioL[$MailTemplate."Attachments"]);
-    if($_j6ioL[$MailTemplate."Attachments"] === false)
-       $_j6ioL[$MailTemplate."Attachments"] = array();
+  if(!empty($_Jj08l[$MailTemplate."Attachments"])){
+    $_Jj08l[$MailTemplate."Attachments"] = @unserialize($_Jj08l[$MailTemplate."Attachments"]);
+    if($_Jj08l[$MailTemplate."Attachments"] === false)
+       $_Jj08l[$MailTemplate."Attachments"] = array();
   }
 
-  if(!empty($_j6ioL[$MailTemplate."PersAttachments"])){
-    $_j6ioL[$MailTemplate."PersAttachments"] = @unserialize($_j6ioL[$MailTemplate."PersAttachments"]);
-    if($_j6ioL[$MailTemplate."PersAttachments"] === false)
-       $_j6ioL[$MailTemplate."PersAttachments"] = array();
+  if(!empty($_Jj08l[$MailTemplate."PersAttachments"])){
+    $_Jj08l[$MailTemplate."PersAttachments"] = @unserialize($_Jj08l[$MailTemplate."PersAttachments"]);
+    if($_Jj08l[$MailTemplate."PersAttachments"] === false)
+       $_Jj08l[$MailTemplate."PersAttachments"] = array();
   }
 
-  $_II1Ot = empty($_j6ioL[$MailTemplate."Attachments"]) || !is_array($_j6ioL[$MailTemplate."Attachments"]) || count($_j6ioL[$MailTemplate."Attachments"]) == 0;
-  $_II1Ot = $_II1Ot && (empty($_j6ioL[$MailTemplate."PersAttachments"]) || !is_array($_j6ioL[$MailTemplate."PersAttachments"]) || count($_j6ioL[$MailTemplate."PersAttachments"]) == 0);
+  $_IoLOO = empty($_Jj08l[$MailTemplate."Attachments"]) || !is_array($_Jj08l[$MailTemplate."Attachments"]) || count($_Jj08l[$MailTemplate."Attachments"]) == 0;
+  $_IoLOO = $_IoLOO && (empty($_Jj08l[$MailTemplate."PersAttachments"]) || !is_array($_Jj08l[$MailTemplate."PersAttachments"]) || count($_Jj08l[$MailTemplate."PersAttachments"]) == 0);
 
-  if($_II1Ot)
-     $_QJCJi = _OP6PQ($_QJCJi, "<if:ATTACHMENTS>", "</if:ATTACHMENTS>");
+  if($_IoLOO)
+     $_QLJfI = _L80DF($_QLJfI, "<if:ATTACHMENTS>", "</if:ATTACHMENTS>");
      else {
-       $_QJCJi = str_replace("<if:ATTACHMENTS>", "", $_QJCJi);
-       $_QJCJi = str_replace("</if:ATTACHMENTS>", "", $_QJCJi);
-       $_6ttIl .= "attachmentsiframe.src='./serialmailpreviewitem.php?format=text&attachments=show"."$_QffOf';".$_Q6JJJ;
+       $_QLJfI = str_replace("<if:ATTACHMENTS>", "", $_QLJfI);
+       $_QLJfI = str_replace("</if:ATTACHMENTS>", "", $_QLJfI);
+       $_8QQOl .= "CreateFormAndPostIt('./serialmailpreviewitem.php?format=text&attachments=show"."$_I08CQ', {}, 'post', 'attachments_iframe');".$_QLl1Q;
      }
 
-  $_QJCJi = str_replace("<if:HTML>", "", $_QJCJi);
-  $_QJCJi = str_replace("</if:HTML>", "", $_QJCJi);
-  $_QJCJi = str_replace("<if:TEXT>", "", $_QJCJi);
-  $_QJCJi = str_replace("</if:TEXT>", "", $_QJCJi);
+  $_QLJfI = str_replace("<if:HTML>", "", $_QLJfI);
+  $_QLJfI = str_replace("</if:HTML>", "", $_QLJfI);
+  $_QLJfI = str_replace("<if:TEXT>", "", $_QLJfI);
+  $_QLJfI = str_replace("</if:TEXT>", "", $_QLJfI);
 
-  $_POST["RecipientsCount"] = $_Q6Q1C[0];
-  $_QJCJi = str_replace("%RECIPIENTCOUNT%", $_Q6Q1C[0], $_QJCJi);
-  $_QJCJi = str_replace("%EMAILCOUNT%", $CurrentMail + 1, $_QJCJi);
+  $_POST["RecipientsCount"] = $_QLO0f[0];
+  $_QLJfI = str_replace("%RECIPIENTCOUNT%", $_QLO0f[0], $_QLJfI);
+  $_QLJfI = str_replace("%EMAILCOUNT%", $CurrentMail + 1, $_QLJfI);
 
   if(isset($_POST["OnePreviewListAction"]))
     unset($_POST["OnePreviewListAction"]);
@@ -362,14 +369,14 @@
   if(isset($_POST["OnePreviewListId"]))
     unset($_POST["OnePreviewListId"]);
 
-  $_QJCJi = _OPFJA(array(), $_POST, $_QJCJi);
+  $_QLJfI = _L8AOB(array(), $_POST, $_QLJfI);
 
-  $_QJCJi = str_replace("//AUTO_SCRIPT_CODE_PLACEHOLDER//", $_6ttIl, $_QJCJi);
+  $_QLJfI = str_replace("//AUTO_SCRIPT_CODE_PLACEHOLDER//", $_8QQOl, $_QLJfI);
 
-  $_QJCJi = SetHTMLCharSet($_QJCJi, $_j6ioL[$MailTemplate."MailEncoding"], true);
+  $_QLJfI = SetHTMLCharSet($_QLJfI, $_Jj08l[$MailTemplate."MailEncoding"], true);
 
-  $_QJCJi = str_replace("Subject:", $resourcestrings[$INTERFACE_LANGUAGE]["Subject"].":", $_QJCJi);
+  $_QLJfI = str_replace("Subject:", $resourcestrings[$INTERFACE_LANGUAGE]["Subject"].":", $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 ?>

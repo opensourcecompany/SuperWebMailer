@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,7 +26,7 @@
   include_once("htmltools.inc.php");
 
   # Required client version
-  $_f1jLo = 0x100;
+  $_8oojj = 0x100;
 
   if    (
 
@@ -37,12 +37,12 @@
 
      )
   {
-    _LJ06L("Login failed, unknown or missing parameters.", 9999);
+    _JJL0F("Login failed, unknown or missing parameters.", 9999);
     exit;
   }
 
-  if ($_POST["ClientVersion"] < $_f1jLo) {
-    _LJ06L("The client software is too old. Update it with online update function.", 9998);
+  if ($_POST["ClientVersion"] < $_8oojj) {
+    _JJL0F("The client software is too old. Update it with online update function.", 9998);
     exit;
   }
 
@@ -57,32 +57,36 @@
    ( (!isset($_POST["Password"])) || ($_POST["Password"] == "") )
    )
    {
-     _LJ06L("Login failed, unknown or missing parameters.", 9999);
+     _JJL0F("Login failed, unknown or missing parameters.", 9999);
      exit;
    }
 
+   $_It0IQ = version_compare(_LBL0A(), '8.0.11') >= 0;
+   
+   $_QLfol = "SELECT id, Username, Language FROM $_I18lo WHERE Username="._LRAFO($_POST["Username"])." AND ";
+   if(!$_It0IQ)
+     $_QLfol .= "IF(LENGTH(Password) < 80, Password=PASSWORD("._LRAFO($_POST["Password"]).")".", SUBSTRING(Password, 81)=PASSWORD("."CONCAT(SUBSTRING(Password, 1, 80), "._LRAFO($_POST["Password"]).") )".")";
+     else
+     $_QLfol .= "IF(LENGTH(Password) < 80, Password=SHA2("._LRAFO($_POST["Password"]).", 224)".", SUBSTRING(Password, 81)=SHA2("."CONCAT(SUBSTRING(Password, 1, 80), "._LRAFO($_POST["Password"])."), 224)".")";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
 
-   $_QJlJ0 = "SELECT id, Username, Language FROM $_Q8f1L WHERE Username="._OPQLR($_POST["Username"])." AND ";
-   $_QJlJ0 .= "IF(LENGTH(Password) < 80, Password=PASSWORD("._OPQLR($_POST["Password"]).")".", SUBSTRING(Password, 81)=PASSWORD("."CONCAT(SUBSTRING(Password, 1, 80), "._OPQLR($_POST["Password"]).") )".")";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-
-   if ( (!$_Q60l1) || (mysql_num_rows($_Q60l1) == 0) ) {
-     _LJ06L("Username / Password incorrect.", 9997);
+   if ( (!$_QL8i1) || (mysql_num_rows($_QL8i1) == 0) ) {
+     _JJL0F("Username / Password incorrect.", 9997);
      exit;
    }
 
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
    // is it a user than we need the owner_id
-   $_QJlJ0 = "SELECT owner_id FROM $_QLtQO WHERE users_id=$_Q6Q1C[id]";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if ( ($_Q60l1) && (mysql_num_rows($_Q60l1) > 0) ) {
-     $_QllO8 = mysql_fetch_row($_Q60l1);
-     mysql_free_result($_Q60l1);
-     $_Q6Q1C["OwnerUserId"] = $_QllO8[0];
+   $_QLfol = "SELECT owner_id FROM $_IfOtC WHERE users_id=$_QLO0f[id]";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if ( ($_QL8i1) && (mysql_num_rows($_QL8i1) > 0) ) {
+     $_I016j = mysql_fetch_row($_QL8i1);
+     mysql_free_result($_QL8i1);
+     $_QLO0f["OwnerUserId"] = $_I016j[0];
    } else {
-     $_Q6Q1C["OwnerUserId"] = 0;
+     $_QLO0f["OwnerUserId"] = 0;
    }
 
    # ignore errors if session.auto_start = 1
@@ -91,34 +95,34 @@
 
    #session_register("UserId", "OwnerUserId", "Username", "ClientIP", "Language");
 
-   $_SESSION["UserId"] = $_Q6Q1C["id"];
-   $_SESSION["OwnerUserId"] = $_Q6Q1C["OwnerUserId"];
-   $_SESSION["Username"] = $_Q6Q1C["Username"];
-   $_SESSION["Language"] = $_Q6Q1C["Language"];
+   $_SESSION["UserId"] = $_QLO0f["id"];
+   $_SESSION["OwnerUserId"] = $_QLO0f["OwnerUserId"];
+   $_SESSION["Username"] = $_QLO0f["Username"];
+   $_SESSION["Language"] = $_QLO0f["Language"];
    $_SESSION["ClientIP"] = getOwnIP();
 
    // paths
-   if($_Q6Q1C["OwnerUserId"] != 0)
-     _OP0AF($_Q6Q1C["OwnerUserId"]);
+   if($_QLO0f["OwnerUserId"] != 0)
+     _LRRFJ($_QLO0f["OwnerUserId"]);
      else
-     _OP0AF($_Q6Q1C["id"]);
+     _LRRFJ($_QLO0f["id"]);
 
    # Output
-   $_f1fOo = array(
+   $_8oCJ8 = array(
       "Return" => "OK",
       "ErrorCode" => 0,
-      "UserId" => $_Q6Q1C["id"],
-      "OwnerUserId" => $_Q6Q1C["OwnerUserId"],
-      "UserFilesPath" => $_jjC06,
-      "UserURL" => $_jjCtI,
-      "ImportFilesPath" => $_I0lQJ,
-      "ExportFilesPath" => $_jji0C,
-      "AttachmentsFilesPath" => $_QOCJo,
-      "ImagesFilesPath" => $_QCo6j,
-      "MediaFilesPath" =>$_jji0i,
+      "UserId" => $_QLO0f["id"],
+      "OwnerUserId" => $_QLO0f["OwnerUserId"],
+      "UserFilesPath" => $_J18oI,
+      "UserURL" => $_jfOJj,
+      "ImportFilesPath" => $_ItL8f,
+      "ExportFilesPath" => $_J1t6J,
+      "AttachmentsFilesPath" => $_IIlfi,
+      "ImagesFilesPath" => $_IJi8f,
+      "MediaFilesPath" =>$_J1tfC,
       "SessionId" => session_id()
    );
-   _LJ0AP($_f1fOo);
+   _JJJAJ($_8oCJ8);
 
    exit;
   }
@@ -129,7 +133,7 @@
   if(!ini_get("session.auto_start"))
     @session_start();
   if ( ( !isset($_SESSION["UserId"]) ) Or ( !isset($_SESSION["OwnerUserId"]) ) Or ( !isset($_SESSION["Username"]))  ) {
-    _LJ06L("Login incorrect or Session expired.", 100000);
+    _JJL0F("Login incorrect or Session expired.", 100000);
     exit;
   }
   ##########################
@@ -139,11 +143,11 @@
   if($Action == "logout") {
     session_destroy();
     # Output
-    $_f1fOo = array(
+    $_8oCJ8 = array(
        "Return" => "OK",
        "ErrorCode" => 0
     );
-    _LJ0AP($_f1fOo);
+    _JJJAJ($_8oCJ8);
 
    exit;
   }
@@ -157,29 +161,29 @@
 
   // paths
   if($OwnerUserId != 0)
-    _OP0AF($OwnerUserId);
+    _LRRFJ($OwnerUserId);
     else
-    _OP0AF($UserId);
+    _LRRFJ($UserId);
 
   // Load User tables
-  $_ICoOt = $OwnerUserId;
-  if($_ICoOt == 0)
-    $_ICoOt = $UserId;
-  $_QJlJ0 = "SELECT * FROM $_Q8f1L WHERE id=$_ICoOt";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_ICQQo = mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_j6lIj = $OwnerUserId;
+  if($_j6lIj == 0)
+    $_j6lIj = $UserId;
+  $_QLfol = "SELECT * FROM $_I18lo WHERE id=$_j6lIj";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_j661I = mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
 
-  _OP0D0($_ICQQo);
+  _LR8AP($_j661I);
 
-  _OP10J($Language);
-  _LQLRQ($Language);
+  _LRPQ6($Language);
+  _JQRLR($Language);
 
   # check privileges
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeTemplateCreate"]) {
-      _LJ06L("You have no permissions to create new email templates.", 100001);
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeTemplateCreate"]) {
+      _JJL0F("You have no permissions to create new email templates.", 100001);
       exit;
     }
   }
@@ -187,34 +191,34 @@
   # Upload image
   if($Action == "uploadimage") {
     if ( isset( $_FILES['FileName'] ) && !is_null( $_FILES['FileName']['tmp_name'] ) ) {
-       $_Jj0IQ = $_FILES['FileName']['name'];
-       $_Jj0IQ = _LJ11Q($_Jj0IQ);
+       $_661t1 = $_FILES['FileName']['name'];
+       $_661t1 = _JJ6RE($_661t1);
 
-       $_f1iQI = _OBLDR($_QCo6j).$_Jj0IQ;
+       $_8oloC = _LPC1C($_IJi8f).$_661t1;
 
-       if(!move_uploaded_file($_FILES['FileName']['tmp_name'], $_f1iQI) && !copy($_FILES['FileName']['tmp_name'], $_f1iQI)) {
-         _LJ06L("Can't move file to $_f1iQI.", 1001);
+       if(!move_uploaded_file($_FILES['FileName']['tmp_name'], $_8oloC) && !copy($_FILES['FileName']['tmp_name'], $_8oloC)) {
+         _JJL0F("Can't move file to $_8oloC.", 1001);
          exit;
        }
 
        if($OwnerUserId != 0)
-         $_jt8IL = BasePath."userfiles/".$OwnerUserId."/image/";
+         $_Jf1C8 = BasePath."userfiles/".$OwnerUserId."/image/";
          else
-         $_jt8IL = BasePath."userfiles/".$UserId."/image/";
+         $_Jf1C8 = BasePath."userfiles/".$UserId."/image/";
 
        # Output
-       $_f1fOo = array(
+       $_8oCJ8 = array(
           "Return" => "OK",
           "ErrorCode" => 0,
-          "FileName" => $_jt8IL.$_Jj0IQ,
-          "CompleteFileNameAndPath" => $_f1iQI,
+          "FileName" => $_Jf1C8.$_661t1,
+          "CompleteFileNameAndPath" => $_8oloC,
           "SessionId" => session_id()
        );
-       _LJ0AP($_f1fOo);
+       _JJJAJ($_8oCJ8);
 
 
     } else{
-        _LJ06L("Filename missing.", 1000);
+        _JJL0F("Filename missing.", 1000);
         exit;
     }
 
@@ -223,34 +227,34 @@
   # Upload file
   if($Action == "uploadfile") {
     if ( isset( $_FILES['FileName'] ) && !is_null( $_FILES['FileName']['tmp_name'] ) ) {
-       $_Jj0IQ = $_FILES['FileName']['name'];
-       $_Jj0IQ = _LJ11Q($_Jj0IQ);
+       $_661t1 = $_FILES['FileName']['name'];
+       $_661t1 = _JJ6RE($_661t1);
 
-       $_f1iQI = _OBLDR($_QOCJo).$_Jj0IQ;
+       $_8oloC = _LPC1C($_IIlfi).$_661t1;
 
-       if(!move_uploaded_file($_FILES['FileName']['tmp_name'], $_f1iQI) && !copy($_FILES['FileName']['tmp_name'], $_f1iQI)) {
-         _LJ06L("Can't move file to $_f1iQI.", 1001);
+       if(!move_uploaded_file($_FILES['FileName']['tmp_name'], $_8oloC) && !copy($_FILES['FileName']['tmp_name'], $_8oloC)) {
+         _JJL0F("Can't move file to $_8oloC.", 1001);
          exit;
        }
 
        if($OwnerUserId != 0)
-         $_jt8IL = BasePath."userfiles/".$OwnerUserId."/file/";
+         $_Jf1C8 = BasePath."userfiles/".$OwnerUserId."/file/";
          else
-         $_jt8IL = BasePath."userfiles/".$UserId."/file/";
+         $_Jf1C8 = BasePath."userfiles/".$UserId."/file/";
 
        # Output
-       $_f1fOo = array(
+       $_8oCJ8 = array(
           "Return" => "OK",
           "ErrorCode" => 0,
-          "FileName" => $_jt8IL.$_Jj0IQ,
-          "CompleteFileNameAndPath" => $_f1iQI,
+          "FileName" => $_Jf1C8.$_661t1,
+          "CompleteFileNameAndPath" => $_8oloC,
           "SessionId" => session_id()
        );
-       _LJ0AP($_f1fOo);
+       _JJJAJ($_8oCJ8);
 
 
     } else{
-        _LJ06L("Filename missing.", 1000);
+        _JJL0F("Filename missing.", 1000);
         exit;
     }
 
@@ -259,152 +263,152 @@
   # Upload html
   if($Action == "uploadhtml") { // utf-8 encoded!
 
-       $_QJCJi = $_POST["Text"];
-       if($_QJCJi == "") {
-         _LJ06L("Text is empty.", 1002);
+       $_QLJfI = $_POST["Text"];
+       if($_QLJfI == "") {
+         _JJL0F("Text is empty.", 1002);
          exit;
        }
 
-       $_Q6QiO = "d.m.Y H:i:s";
+       $_QLo60 = "d.m.Y H:i:s";
        if($Language != "de") {
-          $_Q6QiO = "Y-m-d H:i:s";
+          $_QLo60 = "Y-m-d H:i:s";
        }
 
-       $_jiOiQ = 0;
+       $_JiIoi = 0;
        if(isset($_POST["IsWizardable"]) && intval($_POST["IsWizardable"]) == 1)
-         $_jiOiQ = 1;
-       $_f1iLl = "Upload ".date($_Q6QiO);
-       $_QJlJ0 = "INSERT INTO $_Q66li SET CreateDate=NOW(), Name="._OPQLR( $_f1iLl ).", MailFormat='HTML', MailHTMLText="._OPQLR(CleanUpHTML($_QJCJi)).", `IsWizardable`=$_jiOiQ";
-       mysql_query($_QJlJ0, $_Q61I1);
-       if(mysql_error($_Q61I1) != "") {
-         _LJ06L("Can't insert template, error: ".mysql_error($_Q61I1), 1003);
+         $_JiIoi = 1;
+       $_8C0jf = "Upload ".date($_QLo60);
+       $_QLfol = "INSERT INTO $_Ql10t SET CreateDate=NOW(), Name="._LRAFO( $_8C0jf ).", MailFormat='HTML', MailHTMLText="._LRAFO(CleanUpHTML($_QLJfI)).", `IsWizardable`=$_JiIoi";
+       mysql_query($_QLfol, $_QLttI);
+       if(mysql_error($_QLttI) != "") {
+         _JJL0F("Can't insert template, error: ".mysql_error($_QLttI), 1003);
          exit;
        }
 
        # Output
-       $_f1fOo = array(
+       $_8oCJ8 = array(
           "Return" => "OK",
           "ErrorCode" => 0,
-          "TemplateName" => $_f1iLl,
+          "TemplateName" => $_8C0jf,
           "SessionId" => session_id()
        );
-       _LJ0AP($_f1fOo);
+       _JJJAJ($_8oCJ8);
   }
 
   # Upload text
   if($Action == "uploadtext") { // utf-8 encoded!
 
-       $_QJCJi = $_POST["Text"];
-       if($_QJCJi == "") {
-         _LJ06L("Text is empty.", 1002);
+       $_QLJfI = $_POST["Text"];
+       if($_QLJfI == "") {
+         _JJL0F("Text is empty.", 1002);
          exit;
        }
 
-       $_Q6QiO = "d.m.Y H:i:s";
+       $_QLo60 = "d.m.Y H:i:s";
        if($Language != "de") {
-          $_Q6QiO = "Y-m-d H:i:s";
+          $_QLo60 = "Y-m-d H:i:s";
        }
 
-       $_f1iLl = "Upload ".date($_Q6QiO);
-       $_QJlJ0 = "INSERT INTO $_Q66li SET CreateDate=NOW(), Name="._OPQLR( $_f1iLl ).", MailFormat='PlainText', MailPlainText="._OPQLR($_QJCJi);
-       mysql_query($_QJlJ0, $_Q61I1);
-       if(mysql_error($_Q61I1) != "") {
-         _LJ06L("Can't insert template, error: ".mysql_error($_Q61I1), 1003);
+       $_8C0jf = "Upload ".date($_QLo60);
+       $_QLfol = "INSERT INTO $_Ql10t SET CreateDate=NOW(), Name="._LRAFO( $_8C0jf ).", MailFormat='PlainText', MailPlainText="._LRAFO($_QLJfI);
+       mysql_query($_QLfol, $_QLttI);
+       if(mysql_error($_QLttI) != "") {
+         _JJL0F("Can't insert template, error: ".mysql_error($_QLttI), 1003);
          exit;
        }
 
        # Output
-       $_f1fOo = array(
+       $_8oCJ8 = array(
           "Return" => "OK",
           "ErrorCode" => 0,
-          "TemplateName" => $_f1iLl,
+          "TemplateName" => $_8C0jf,
           "SessionId" => session_id()
        );
-       _LJ0AP($_f1fOo);
+       _JJJAJ($_8oCJ8);
 
 
   }
 
 
-  function _LJ11Q($_Jj0IQ) {
-    if(IsUTF8string($_Jj0IQ))
-      $_Jj0IQ =  utf8_decode($_Jj0IQ);
-    $_QJCJi = "";
-    $_Jj0IQ = str_replace(" ", "_", $_Jj0IQ);
-    $_Jj0IQ = str_replace("-", "_", $_Jj0IQ);
-    for($_Q6llo=0; $_Q6llo<strlen($_Jj0IQ); $_Q6llo++) {
+  function _JJ6RE($_661t1) {
+    if(IsUTF8string($_661t1))
+      $_661t1 =  utf8_decode($_661t1);
+    $_QLJfI = "";
+    $_661t1 = str_replace(" ", "_", $_661t1);
+    $_661t1 = str_replace("-", "_", $_661t1);
+    for($_Qli6J=0; $_Qli6J<strlen($_661t1); $_Qli6J++) {
        if (
-           (ord($_Jj0IQ{$_Q6llo}) >= 0x30 && ord($_Jj0IQ{$_Q6llo}) <= 0x39) ||
-           (ord($_Jj0IQ{$_Q6llo}) >= 0x41 && ord($_Jj0IQ{$_Q6llo}) <= 0x5A) ||
-           (ord($_Jj0IQ{$_Q6llo}) >= 0x61 && ord($_Jj0IQ{$_Q6llo}) <= 0x7A) ||
-           (ord($_Jj0IQ{$_Q6llo}) == 0x5F) ||
-           ($_Jj0IQ{$_Q6llo} == '.')
+           (ord($_661t1[$_Qli6J]) >= 0x30 && ord($_661t1[$_Qli6J]) <= 0x39) ||
+           (ord($_661t1[$_Qli6J]) >= 0x41 && ord($_661t1[$_Qli6J]) <= 0x5A) ||
+           (ord($_661t1[$_Qli6J]) >= 0x61 && ord($_661t1[$_Qli6J]) <= 0x7A) ||
+           (ord($_661t1[$_Qli6J]) == 0x5F) ||
+           ($_661t1[$_Qli6J] == '.')
           ) {
-            $_QJCJi = $_QJCJi . $_Jj0IQ{$_Q6llo};
+            $_QLJfI = $_QLJfI . $_661t1[$_Qli6J];
           } else {
-            switch(ord($_Jj0IQ{$_Q6llo})) {
-              case 0xC4: $_QJCJi = $_QJCJi . "Ae";
+            switch(ord($_661t1[$_Qli6J])) {
+              case 0xC4: $_QLJfI = $_QLJfI . "Ae";
                     break;
-              case 0xDC: $_QJCJi = $_QJCJi . "Ue";
+              case 0xDC: $_QLJfI = $_QLJfI . "Ue";
                     break;
-              case 0xD6: $_QJCJi = $_QJCJi . "Oe";
+              case 0xD6: $_QLJfI = $_QLJfI . "Oe";
                     break;
-              case 0xE4: $_QJCJi = $_QJCJi . "ae";
+              case 0xE4: $_QLJfI = $_QLJfI . "ae";
                     break;
-              case 0xFC: $_QJCJi = $_QJCJi . "ue";
+              case 0xFC: $_QLJfI = $_QLJfI . "ue";
                     break;
-              case 0xF6: $_QJCJi = $_QJCJi . "oe";
+              case 0xF6: $_QLJfI = $_QLJfI . "oe";
                     break;
-              case 0xDF: $_QJCJi = $_QJCJi . "ss";
+              case 0xDF: $_QLJfI = $_QLJfI . "ss";
                     break;
             }
           }
     }
-    return $_QJCJi;
+    return $_QLJfI;
   }
 
 
-  function _LJ06L($_jj0JO, $_f1CCi, $_f1ClI = false) {
-     if (!$_f1ClI) {
+  function _JJL0F($_J0COJ, $_8olOL, $_8oloj = false) {
+     if (!$_8oloj) {
        print "Return: ERROR\r\n";
-       print "ErrorCode: $_f1CCi\r\n";
-       print "ErrorText: $_jj0JO\r\n";
+       print "ErrorCode: $_8olOL\r\n";
+       print "ErrorText: $_J0COJ\r\n";
        print "\r\n";
        flush();
        exit;
      } else {
        return array(
           "Return" => "ERROR",
-          "ErrorCode" => $_f1CCi,
-          "ErrorText" => $_jj0JO
+          "ErrorCode" => $_8olOL,
+          "ErrorText" => $_J0COJ
        );
      }
   }
 
-  function _LJ08E($_QJCJi) {
-   $_QJCJi = str_replace("\r", "", $_QJCJi);
-   $_QJCJi = str_replace("\n", '\n', $_QJCJi);
-   $_QJCJi = str_replace("</", '<%2F', $_QJCJi);
-   return $_QJCJi;
+  function _JJLE6($_QLJfI) {
+   $_QLJfI = str_replace("\r", "", $_QLJfI);
+   $_QLJfI = str_replace("\n", '\n', $_QLJfI);
+   $_QLJfI = str_replace("</", '<%2F', $_QLJfI);
+   return $_QLJfI;
   }
 
-  function _LJ0AP($_f1fOo) {
-    reset($_f1fOo);
-    foreach ($_f1fOo as $key => $_Q6ClO) {
-      if(!is_array($_Q6ClO)) {
-        echo "$key: $_Q6ClO\r\n";
+  function _JJJAJ($_8oCJ8) {
+    reset($_8oCJ8);
+    foreach ($_8oCJ8 as $key => $_QltJO) {
+      if(!is_array($_QltJO)) {
+        echo "$key: $_QltJO\r\n";
       } else {
-        reset($_Q6ClO);
+        reset($_QltJO);
 
         echo "$key: ";
-        for($_Q6llo=0; $_Q6llo<count($_Q6ClO); $_Q6llo++) {
-          echo "<item value=\"$_Q6llo\">";
-          if(is_array($_Q6ClO[$_Q6llo]) )
-            foreach ($_Q6ClO[$_Q6llo] as $_I1i8O => $_I1L81) {
-              echo "<$_I1i8O>"._LJ08E($_I1L81)."</$_I1i8O>";
+        for($_Qli6J=0; $_Qli6J<count($_QltJO); $_Qli6J++) {
+          echo "<item value=\"$_Qli6J\">";
+          if(is_array($_QltJO[$_Qli6J]) )
+            foreach ($_QltJO[$_Qli6J] as $_IOLil => $_IOCjL) {
+              echo "<$_IOLil>"._JJLE6($_IOCjL)."</$_IOLil>";
             }
-          if(!is_array($_Q6ClO[$_Q6llo]))
-            echo _LJ08E($_Q6ClO[$_Q6llo]);
+          if(!is_array($_QltJO[$_Qli6J]))
+            echo _JJLE6($_QltJO[$_Qli6J]);
           echo "</item>";
         }
 

@@ -18,7 +18,7 @@
 //
 // $Id: Mail.php,v 1.20 2007/10/06 17:00:00 chagenbu Exp $
 
-require_once("PEAR/PEAR_.php");
+require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . "PEAR_.php");
 
 /**
  * PEAR's Mail:: interface. Defines the interface for implementing
@@ -49,7 +49,7 @@ class Mail
     function &factory($driver, $params = array())
     {
         $driver = strtolower($driver);
-        @include_once 'PEAR/Mail_' . $driver . '.php';
+        @include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Mail_' . $driver . '.php';
         $class = 'Mail_' . $driver;
         if (class_exists($class)) {
             $mailer = new $class($params);
@@ -130,7 +130,7 @@ class Mail
         foreach ($headers as $key => $value) {
             $headers[$key] =
                 preg_replace('=((<CR>|<LF>|0x0A/%0A|0x0D/%0D|\\n|\\r)\S).*=i',
-                             null, $value);
+                             '', $value);
         }
     }
 
@@ -157,7 +157,7 @@ class Mail
 
         foreach ($headers as $key => $value) {
             if (strcasecmp($key, 'From') === 0) {
-                include_once 'PEAR/RFC822.php';
+                include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'RFC822.php';
                 $parser = new Mail_RFC822();
                 $addresses = $parser->parseAddressList($value, 'localhost', false);
                 if (is_a($addresses, 'PEAR_Error')) {
@@ -192,6 +192,16 @@ class Mail
                 if (is_array($value)) {
                     $value = implode(', ', $value);
                 }
+                
+                $hl = strlen($key) + 2; // 2 ': '
+                $lv = strlen($value);
+                if($lv + $hl > 76 && strpos($value, '=?') !== 0 && strpos($value, "\t") === false){ // no qp/base64 lines, this gives problems with utf-8
+                  if($value[0] !== "<" || $key == "Subject" || $lv > 998) // don't break e.g. Message-Id: <>
+                    $value = wordwrap($value, 76 - $hl, $this->sep . "\t", true); // Outlook Express doesn't use Space it use TAB
+                    else
+                    $value = $this->sep . "\t" . $value; // set header field on 1 line, value on next, like Office 365
+                }
+                
                 $lines[] = $key . ': ' . $value;
             }
         }
@@ -214,7 +224,7 @@ class Mail
      */
     function parseRecipients($recipients)
     {
-        include_once 'PEAR/RFC822.php';
+        include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'RFC822.php';
 
         // if we're passed an array, assume addresses are valid and
         // implode them before parsing.

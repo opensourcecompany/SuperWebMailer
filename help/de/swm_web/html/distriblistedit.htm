@@ -3,13 +3,13 @@
 
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<meta name="GENERATOR" content="Microsoft FrontPage 12.0">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
 <meta name="ProgId" content="FrontPage.Editor.Document">
 <link type="text/css" rel="stylesheet" href="../CSS/layout.css">
 <meta name="MS-HKWD" content="Verteilerliste ändern">
 <meta name="MS-HKWD" content="Verteilerliste bearbeiten">
-<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Verteilerliste ändern</title>
-
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer -
+Verteilerliste ändern</title>
 <meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,Verteilerliste ändern, Verteilerliste bearbeiten">
 <meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Verteilerliste ändern, Verteilerliste bearbeiten">
 <meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
@@ -22,15 +22,16 @@
 <meta http-equiv="content-language" content="de">
 <meta name="copyright" content="Mirko Boeer">
 <script LANGUAGE="JavaScript" SRC="jscript.js"></script>
-<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/distriblistedit.htm">
-<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<link rel="canonical" href="https://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/distriblistedit.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 
 <body>
 
 <h1>Verteilerliste ändern</h1>
 <p>Nutzen Sie diese Funktion um die Einstellungen einer bestehenden
 Verteilerliste zu ändern.</p>
-<p><img border="0" src="../images/distriblistedit1.png" width="933" height="472"></p>
+<p><img border="0" src="../images/distriblistedit1.png" width="716" height="439"></p>
 <p>&nbsp;</p>
 <p><b>Registerkarte Allgemein</b></p>
 <table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
@@ -54,6 +55,61 @@ Verteilerliste zu ändern.</p>
     </td>
   </tr>
   <tr valign="top">
+    <td width="28%"><a name="Verhalten_der_Verteilerliste">Verhalten der
+	Verteilerliste</a></td>
+    <td width="72%"><strong>Deaktivieren</strong> Sie diese Einstellung
+	(Standard deaktiviert), um die eingehende E-Mail wie eine Serien-E-Mail an
+	alle Empfänger der zugewiesenen Empfängerliste versenden zu lassen. Alle zu
+	versendenden E-Mails haben dabei im Ziel-E-Mail-Programm des Empfängers
+	folgenden Aufbau:<br><br><strong>Return-Path/Bounce-E-Mail:</strong>
+	&lt;definierte Return-Path-E-Mail-Adresse dieser Verteilerliste, wenn nicht
+	definiert wird der Absender verwendet&gt;<br><strong>Absender:</strong>
+	&lt;E-Mail-Adresse des Versenders der E-Mail an die Verteilerliste&gt; ||
+	&lt;überschriebene Absender-E-Mail-Adresse&gt;<br><strong>Empfänger:</strong>
+	&lt;Name und E-Mail-Adresse des Empfängers aus der zugewiesenen Empfängerliste&gt;<br>
+	<strong>Cc:</strong> &lt;keine&gt; || &lt;etwaige Cc-E-Mail-Adressen, die bei dieser
+	Verteilerliste definiert wurden&gt;<br><strong>BCc:</strong> &lt;keine&gt; ||
+	&lt;etwaige BCc-E-Mail-Adressen, die bei dieser Verteilerliste definiert
+	wurden&gt;<br><strong>Antwort-E-Mail:</strong> &lt;E-Mail-Adresse des
+	Postfachs&gt; || &lt;überschriebene
+	Antwort-E-Mail-Adresse dieser Verteilerliste&gt;<br><strong>List-Post:</strong>
+	&lt;mailto:E-Mail-Adresse des Postfachs&gt;<br><br>&lt;Text der E-Mail,
+	<a href="browsedistriblists.htm#personalization_fields">der optional
+	personalisiert werden kann</a>&gt;<br><br>Versendet wird die E-Mail an die
+	definierten E-Mail-Adressen im Feld Empfänger, Cc und BCc.<br><br>Für den
+	Versand als Serien-E-Mail stehen alle Versandvarianten (PHP mail(), SMTP...)
+	zur Verfügung.<br><br><strong><br>Aktivieren</strong> Sie diese Einstellung,
+	um die eingehende E-Mail wie durch einen Mailing List Server mit originalen
+	Absender-/Empfängerdaten versenden zu lassen. Die ankommende E-Mail im
+	Ziel-E-Mail-Programm des Empfängers werden damit falsche
+	Absender-/Empfänger-Angaben übermittelt, diese entsprechen nicht den wahren
+	Absender/Empfänger der E-Mail. Ermöglicht wird dies offiziell durch eine
+	Spezifikation (&quot;envelope sender&quot;/&quot;envelope recipient&quot;) im SMTP-Protokoll.<br>
+	Alle zu versendenden E-Mails haben dabei im Ziel-E-Mail-Programm des
+	Empfängers folgenden Aufbau:<br><br><strong>Return-Path/Bounce-E-Mail:</strong>
+	&lt;definierte Return-Path-E-Mail-Adresse der Empfängerliste&gt;<br><strong>
+	Absender:</strong> &lt;E-Mail-Adresse des Versenders der E-Mail an die
+	Verteilerliste&gt;<br><strong>Empfänger:</strong> &lt;Originale E-Mail-Adresse(n)
+	aus der E-Mail, die an den Verteiler versendet wurde&gt;<br><strong>Cc:</strong>
+	&lt;Originale E-Mail-Adresse(n) aus der E-Mail, die an den Verteiler versendet
+	wurde&gt;<br><strong>BCc:</strong> &lt;keine&gt;<br><strong>Antwort-E-Mail:</strong>
+	&lt;E-Mail-Adresse des Postfachs&gt;<br><strong>List-Post:</strong>
+	&lt;mailto:E-Mail-Adresse des Postfachs&gt;<br><br>&lt;Text der E-Mail,
+	<a href="browsedistriblists.htm#personalization_fields">der optional
+	personalisiert werden kann</a>&gt;<br><br>Versendet wird die E-Mail in
+	Wirklichkeit an die E-Mail-Adresse des Empfängers aus der Empfängerliste und
+	etwaige definierte Cc:/BCc:-E-Mail-Adressen dieser Verteilerliste. Die
+	definierten Empfänger und Cc:-E-Mail-Adressen aus der E-Mail, die an den
+	Verteiler gesendet wurde, erhalten keine E-Mails, außer diese befinden sich
+	in der Empfängerliste oder wurde als Cc:/BCc-Empfänger in der Verteilerliste
+	angegeben. <br><br>Für den Versand dieser E-Mails kann PHP mail() nicht
+	verwendet werden, da PHP mail() keine abweichenden Empfänger-/Cc- und BCc-E-Mail-Adressen
+	für den Versand und den Header der E-Mail erlaubt. Zur Behandlung
+	unzustellbarer E-Mails muss eine E-Mail-Adresse im Feld
+	Return-Path-E-Mail-Adresse in der zugewiesenen Empfängerliste definiert
+	werden.<br><br><br></td>
+  </tr>
+  <tr valign="top">
     <td width="28%"><img src="../images/icon_warning.gif" width="24" height="24">
       <strong>Sicherheit</strong></td>
     <td width="72%"><br>
@@ -64,9 +120,10 @@ Verteilerliste zu ändern.</p>
       E-Mail-Versands versenden</td>
     <td width="72%"><strong>Die Verwendung dieser Einstellung ist empfohlen.</strong>
       <p>Aktivieren Sie diese Einstellung damit nach Versand einer E-Mail an den
-      Verteiler eine E-Mail mit Bestätigungslink an den Versender der E-Mail
-      oder an den Administrator versendet wird. Erst nach Klick auf den
-      Bestätigungslink wird der Versand der E-Mail begonnen.</p>
+      Verteiler eine E-Mail mit Bestätigungslink an den Versender der E-Mail,
+      an den Administrator oder eine beliebige E-Mail-Adresse, z.B. Moderator,
+      versendet wird. Erst nach Klick auf den Bestätigungslink wird der Versand
+      der E-Mail begonnen.</p>
       <p><strong>Hinweise:</strong></p>
       <ul>
         <li>Sollte gewollt/ungewollt eine E-Mail mit Malware oder einem Virus an
@@ -74,11 +131,13 @@ Verteilerliste zu ändern.</p>
           des Bestätigungslinks ist nicht aktiviert, dann wird die
           Schadsoftware an <strong>alle Empfänger</strong> der zugewiesenen
           Empfängerliste gesendet.</li>
-        <li>Nur bei gewählter Option &quot;&quot;Bestätigungslink an den Admin
-          versenden&quot;&quot;: Aktivieren Sie &quot;Informations-E-Mail an den
-          Versender der E-Mail senden&quot;, um eine E-Mail mit einer
-          Information zur notwendigen Freigabe durch den Admin an den Versender
-          E-Mail versenden zu lassen.</li>
+        <li>Bei gewählter Option &quot;Bestätigungslink an den Admin
+          versenden&quot; oder &quot;Bestätigungslink an folgende
+          E-Mail-Adresse versenden&quot;: Aktivieren Sie
+          &quot;Informations-E-Mail an den Versender der E-Mail senden&quot;, um
+          eine E-Mail mit einer Information zur notwendigen Freigabe durch den
+          Admin oder Beauftragter Moderator an den Versender der E-Mail
+          versenden zu lassen.</li>
       </ul>
       <p>&nbsp;</p>
       <p>&nbsp;</td>
@@ -224,6 +283,10 @@ der E-Mails an ein oder mehrere Empfängergruppen sehr hoch ist.</p>
       normalerweise die Absenderangaben von der eingehenden E-Mail übernommen.
       Mit Hilfe dieser Einstellung können Sie die Absenderangaben
       überschreiben lassen.</p>
+	  <p>Diese Option steht nur zur Verfügung, wenn die Option &quot;Verteilerliste
+	  soll wie ein Mailing List Server E-Mails mit originalen
+	  Absender-/Empfänger-Angaben versenden&quot; nicht
+	  <a href="#Verhalten_der_Verteilerliste">aktiviert</a> wurde.</p>
       <p>&nbsp;</p>
     </td>
   </tr>
@@ -269,7 +332,14 @@ der E-Mails an ein oder mehrere Empfängergruppen sehr hoch ist.</p>
     <td width="28%">E-Mail-Adresse für die Return-Path-Angabe</td>
     <td width="72%">Geben Sie die E-Mail-Adresse an, an welche die
       Bounce-E-Mails zurückgesendet werden sollen. Diese Angabe wird für die
-      Rückläufer/Bounce-Behandlung benötigt.<br>
+      Rückläufer/Bounce-Behandlung benötigt. Es sollte immer eine Behandlung
+	<a href="bouncemanagement.htm">unzustellbarer E-Mails</a> durchgeführt
+	werden.<br>
+	<p>Diese Option steht nur zur Verfügung, wenn die Option &quot;Verteilerliste
+	soll wie ein Mailing List Server E-Mails mit originalen
+	Absender-/Empfänger-Angaben versenden&quot; nicht
+	<a href="#Verhalten_der_Verteilerliste">aktiviert</a> wurde.</p>
+      <br>
       <br>
     </td>
   </tr>
@@ -295,7 +365,20 @@ der E-Mails an ein oder mehrere Empfängergruppen sehr hoch ist.</p>
       Anbieter wie Microsoft Hotmail/Outlook.com oder Google Mail zeigen bei
       Vorhandensein dieses Header-Felds eine Schaltfläche &quot;Abmelden&quot;
       oder einen Link für die direkte Abmeldung vom Newsletter-Verteiler
-      oberhalb der E-Mail an.<br>
+      oberhalb der E-Mail an.
+      <p>Wurde bei der jeweiligen <a href="mtaedit.htm">Versandvariante</a> das
+      Hinzufügen einer DKIM/Domainkey-Signatur aktiviert, dann wird zusätzlich
+      der List-Unsubscribe-Post-Header hinzugefügt. Soll der
+      List-Unsubscribe-Post-Header immer hinzugefügt werden, weil der
+      Postausgangsserver automatisch eine DKIM/Domainkey-Signatur für jede
+      ausgehende E-Mail hinzufügt, dann kann in der Datei userdefined.inc.php
+      die Konstante define(&quot;ListUnsubscribePostOnNoDKIMSignature&quot;, 1);
+      angegeben bzw. das Kommentar-Zeichen vor der Konstante in der Datei
+      userdefined.inc.php entfernt werden.<br>
+      Siehe dazu auch:<br>
+      <a href="https://tools.ietf.org/html/rfc8058" target="_blank">Signaling
+      One-Click Functionality for List Email Headers</a></p>
+      <p>&nbsp;</p>
     </td>
   </tr>
   <tr valign="top">
@@ -307,7 +390,12 @@ der E-Mails an ein oder mehrere Empfängergruppen sehr hoch ist.</p>
       Mehrere Versandvarianten werden nur verwendet, wenn die gewählten
       Versandvarianten ein Limit besitzen. Das <a href="mtaedit.htm">Limit kann
       für jede Versandvariante</a> einzeln definiert werden und wird nur beim
-      Versand durch Verteilerlisten und E-Mailings berücksichtigt.<br>
+      Versand durch Verteilerlisten und E-Mailings berücksichtigt.<br><br>
+	<p>Wurde die Option &quot;Verteilerliste soll wie ein Mailing List Server E-Mails
+	mit originalen Absender-/Empfänger-Angaben versenden&quot;
+	<a href="#Verhalten_der_Verteilerliste">aktiviert</a>, dann kann PHP mail()
+	nicht für den Versand der E-Mails verwendet werden.</p>
+      <br>
       <br>
     </td>
   </tr>

@@ -51,18 +51,22 @@
       	 );
 
         function ConfirmEditPagesEvent(value) {
-         if(value)
-           window.location.href="./browsepages.php";
+
+         if(value){
+           CreateFormAndPostIt("./browsepages.php");
+         }
         }
 
         function ConfirmEditMessagesEvent(value) {
-         if(value)
-           window.location.href="./browsemessages.php";
+         if(value){
+           CreateFormAndPostIt("./browsemessages.php");
+         }
         }
 
         function ConfirmEditMTAsEvent(value) {
-         if(value)
-           window.location.href="./browsemtas.php";
+         if(value){
+           CreateFormAndPostIt("./browsemtas.php");
+         }
         }
 
 
@@ -107,6 +111,50 @@
              moveOptionsDown("mtas[]");
         }
 
+
+        function DoSamplePreview(){
+          var postParams = "key=samplePreview&rid=smp&samplePreview=" + encodeURIComponent( $("#SamplePreviewBtn").val() );
+          $("input[type=hidden]").each(function(){
+            postParams += "&" + $(this).attr('name') + "=" + encodeURIComponent( $(this).val() );
+         	});
+
+          $("#InfoBar").find("input").each(function(){
+            if($(this).attr('name')){
+               if($(this).attr('type') == "checkbox"){
+                 if($(this).prop("checked")){
+                   var name = $(this).attr('name');
+                   if(name.indexOf('[') > -1){
+                     name = name.substring(name.indexOf('[') + 1);
+                     name = name.substring(0, name.indexOf(']') );
+
+
+                     if(name != "" && document.getElementById( "URL[" + name + "]" ) && document.getElementById( "URL[" + name + "]" ).value.trim() != "")
+                        postParams += "&" + $(this).attr('name') + "=" + encodeURIComponent( $(this).val() );
+                   }else
+                     postParams += "&" + $(this).attr('name') + "=" + encodeURIComponent( $(this).val() );
+                 }
+               }
+               else
+                 postParams += "&" + $(this).attr('name') + "=" + encodeURIComponent( $(this).val() );
+            }
+         	});
+          $("#InfoBar").find("select").each(function(){
+            postParams += "&" + $(this).attr('name') + "=" + encodeURIComponent( $(this).val() );
+         	});
+          $("#InfoBar").find("textarea").each(function(){
+            postParams += "&" + $(this).attr('name') + "=" + encodeURIComponent( $(this).val() );
+         	});
+
+          postParams += "&" + "nocache=" + getNoCache();
+
+          var w = document.body.clientWidth || window.innerWidth || document.documentElement.clientWidth;
+
+          ShowModalDialog("browser.php?" + postParams, w * .75, 250, "Schlie&szlig;en");
+
+          $("#modaldialogTitle_text").html( $("#SamplePreviewBtn").val() );
+
+          return false;
+        }
 
       //-->
       </script>
@@ -156,6 +204,43 @@
                       <fieldset>
                       <legend>
                       <SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Bei Verwendung des internen Formulars f&uuml;r die An-/Abmeldungen bzw. zur &Auml;nderung der Newsletter-Anmeldung kann das Layout des Formulars nicht angepasst werden.<br />Zur Anpassung des Formulars k&ouml;nnen Sie die Dateien default_subscribeunsubscribe_page.htm, default_edit_page.htm und default_errorpage.htm aus dem Verzeichnis %TEMPLATES_DIR% in ein neues Unterverzeichnis der PRODUCTAPPNAME-Installation kopieren, das Layout anpassen und danach den Verzeichnisnamen hier angeben.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>EU Datenschutz-Grundverordnung (EU-DSGVO)</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">URL zur eigenen Datenschutzerkl&auml;rung
+                                </td>
+                                 <td>
+                                   <input type="text" id="PrivacyPolicyURL" name="PrivacyPolicyURL" maxlength="128" size="50" />
+                                   <br /><br />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Akzeptanz der eigenen Datenschutzerkl&auml;rung
+                                </td>
+                                 <td>
+                                   <input type="checkbox" name="PrivacyPolicyAcceptanceAsMandatoryField" id="PrivacyPolicyAcceptanceAsMandatoryField" onclick="document.getElementById('PrivacyPolicyURLTextPlaceHoldersCB').options[2].disabled = !this.checked; if(this.checked && document.getElementById('PrivacyPolicyURLText').value.indexOf('PrivacyPolicyAccepted') == -1){document.getElementById('PrivacyPolicyURLText').value += String.fromCharCode(10) + String.fromCharCode(10) + '<br />' + document.getElementById('PrivacyPolicyURLTextPlaceHoldersCB').options[2].value;}" /><label for="PrivacyPolicyAcceptanceAsMandatoryField">&nbsp;Die eigene Datenschutzerkl&auml;rung muss akzeptiert werden</label>.
+                                   <br /><br />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" colspan="2"><label for="PrivacyPolicyURLText">Hinweistext zur Verwendung und Speicherung der Daten im Anmelde-/&Auml;ndern-Formular</label><br /><br />
+                                  <select size="1" id="PrivacyPolicyURLTextPlaceHoldersCB" onchange="InsertFieldValue('PrivacyPolicyURLTextPlaceHoldersCB', 'PrivacyPolicyURLText')">
+                                    <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                                    <option value="[PrivacyPolicyURL]">URL zur Datenschutzerkl&auml;rung</option>
+                                    <option value="<input type=&quot;checkbox&quot; name=&quot;PrivacyPolicyAccepted&quot; id=&quot;PrivacyPolicyAccepted&quot; value=&quot;1&quot; /><label for=&quot;PrivacyPolicyAccepted&quot;>&nbsp;Ich akzeptiere die <a href=&quot;[PrivacyPolicyURL]&quot; target=&quot;_blank&quot; style=&quot;font-size: inherit;&quot;>Datenschutzerkl&auml;rung.</a>&nbsp;*</label><br /><br />">Kontrollk&auml;stchen Akzeptanz der Datenschutzerkl&auml;rung</option>
+                                  </select><br />
+                                  <textarea name="PrivacyPolicyURLText" id="PrivacyPolicyURLText" style="width: 55%;" cols="10" rows="10" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      <fieldset>
+                      <legend>
+                      <SHOWHIDE:TOOLTIPS>
                                   <img onmouseover="showTooltip(event, 'Ein Captcha ist eine kleine Grafik mit einem Wort, welches vor dem Absenden eines HTML-Formulars eingegeben werden muss. Es kann so ein automatisches Ausf&uuml;llen und Absenden des Formulars durch Spambots verhindert werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
                                   </SHOWHIDE:TOOLTIPS>Sicherheit</legend>
                       <br />
@@ -184,28 +269,33 @@
                                 <td class="MessageDescriptionColumn">&nbsp;
                                 </td>
                                 <td>
-                                  <input type="radio" id="UseCaptcha2" name="UseACaptcha" value="2" onclick="ShowHidereCAPTACHKeys()" /><label for="UseCaptcha2">&nbsp;Google reCAPTCHA verwenden</label><SHOWHIDE:TOOLTIPS>
-                                  <img onmouseover="showTooltip(event, 'Es ist eine Anmeldung unter http://www.google.com/recaptcha notwendig, nach Anmeldung erhalten Sie die notwendigen Schl&uuml;ssel.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  <input type="radio" id="UseCaptcha2" name="UseACaptcha" value="2" onclick="ShowHidereCAPTACHKeys()" /><label for="UseCaptcha2">&nbsp;Google reCAPTCHA v2 verwenden</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Es ist eine Anmeldung unter https://www.google.com/recaptcha notwendig, nach Anmeldung erhalten Sie die notwendigen Schl&uuml;ssel.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
                                   </SHOWHIDE:TOOLTIPS>
+                                  <br />
+                                  <input type="radio" id="UseCaptcha3" name="UseACaptcha" value="3" onclick="ShowHidereCAPTACHKeys()" /><label for="UseCaptcha3">&nbsp;Google reCAPTCHA v3 verwenden</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Es ist eine Anmeldung unter https://www.google.com/recaptcha notwendig, nach Anmeldung erhalten Sie die notwendigen Schl&uuml;ssel.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                  </SHOWHIDE:TOOLTIPS>
+
                                    <br /> <br />
                                    <span id="reCAPTACHKeys">
                                      <table class="InnerTable" cellspacing="0" cellpadding="0" border="0">
                                        <tbody>
                                         <tr>
                                          <td class="LabelColumn">
-                                           Websiteschl&uuml;ssel(&Ouml;ffentlicher Schl&uuml;ssel):
+                                           <label for="PublicReCaptchaKey">Websiteschl&uuml;ssel (&Ouml;ffentlicher Schl&uuml;ssel):</label>
                                          </td>
                                          <td>
-                                           <input type="text" name="PublicReCaptchaKey" size="60" />
+                                           <input type="text" name="PublicReCaptchaKey" id="PublicReCaptchaKey" size="60" />
                                         </td>
                                         </tr>
 
                                         <tr>
                                          <td class="LabelColumn">
-                                           Geheimer Schl&uuml;ssel (Privater Schl&uuml;ssel):
+                                           <label for="PrivateReCaptchaKey">Geheimer Schl&uuml;ssel (Privater Schl&uuml;ssel):</label>
                                          </td>
                                          <td>
-                                           <input type="text" name="PrivateReCaptchaKey" size="60" />
+                                           <input type="text" name="PrivateReCaptchaKey" id="PrivateReCaptchaKey" size="60" />
                                         </td>
                                         </tr>
 
@@ -652,17 +742,17 @@
                           <tbody>
                              <tr>
                               <td colspan="2">
-                                <input type="radio" id="GroupsOption1" name="GroupsOption" value="1" onclick="DisableItem('groups_id', document.FormEditForm.GroupsOption[2].checked); DisableItem('GroupsAsCheckBoxes', document.FormEditForm.GroupsOption[1].checked); DisableItem('GroupsAsMandatoryField', document.FormEditForm.GroupsOption[1].checked);" /><label for="GroupsOption1">&nbsp;Eintragung in bestehende Gruppen nicht erlaubt</label>
+                                <input type="radio" id="GroupsOption1" name="GroupsOption" value="1" onclick="DisableItem('groups_id', document.FormEditForm.GroupsOption[2].checked); DisableItem('GroupsAsCheckBoxes', document.FormEditForm.GroupsOption[1].checked); DisableItem('GroupsAsMandatoryField', document.FormEditForm.GroupsOption[1].checked); DisableItem('GroupsDescriptionLabel', document.FormEditForm.GroupsOption[1].checked);" /><label for="GroupsOption1">&nbsp;Eintragung in bestehende Gruppen nicht erlaubt</label>
                               </td>
                              </tr>
                              <tr>
                               <td colspan="2">
-                                <input type="radio" id="GroupsOption2" name="GroupsOption" value="2" onclick="DisableItem('groups_id', document.FormEditForm.GroupsOption[2].checked); DisableItem('GroupsAsCheckBoxes', document.FormEditForm.GroupsOption[1].checked); DisableItem('GroupsAsMandatoryField', document.FormEditForm.GroupsOption[1].checked);" /><label for="GroupsOption2">&nbsp;Eintragung in alle bestehenden Gruppen erlaubt</label>
+                                <input type="radio" id="GroupsOption2" name="GroupsOption" value="2" onclick="DisableItem('groups_id', document.FormEditForm.GroupsOption[2].checked); DisableItem('GroupsAsCheckBoxes', document.FormEditForm.GroupsOption[1].checked); DisableItem('GroupsAsMandatoryField', document.FormEditForm.GroupsOption[1].checked); DisableItem('GroupsDescriptionLabel', document.FormEditForm.GroupsOption[1].checked);" /><label for="GroupsOption2">&nbsp;Eintragung in alle bestehenden Gruppen erlaubt</label>
                               </td>
                              </tr>
                              <tr>
                               <td colspan="2">
-                               <input type="radio" id="GroupsOption3" name="GroupsOption" value="3" onclick="DisableItem('groups_id', document.FormEditForm.GroupsOption[2].checked); DisableItem('GroupsAsCheckBoxes', document.FormEditForm.GroupsOption[1].checked); DisableItem('GroupsAsMandatoryField', document.FormEditForm.GroupsOption[1].checked);" /><label for="GroupsOption3">&nbsp;Eintragung ohne Nutzereingriff immer in folgende Gruppe&nbsp;</label>
+                               <input type="radio" id="GroupsOption3" name="GroupsOption" value="3" onclick="DisableItem('groups_id', document.FormEditForm.GroupsOption[2].checked); DisableItem('GroupsAsCheckBoxes', document.FormEditForm.GroupsOption[1].checked); DisableItem('GroupsAsMandatoryField', document.FormEditForm.GroupsOption[1].checked); DisableItem('GroupsDescriptionLabel', document.FormEditForm.GroupsOption[1].checked);" /><label for="GroupsOption3">&nbsp;Eintragung ohne Nutzereingriff immer in folgende Gruppe&nbsp;</label>
                                <select size="1" id="groups_id" name="groups_id">
                                  <SHOW:GROUPS>
                                  </SHOW:GROUPS>
@@ -684,6 +774,15 @@
                                 <input type="checkbox" id="GroupsAsMandatoryField" name="GroupsAsMandatoryField" /><label for="GroupsAsMandatoryField">&nbsp;Eintragung in mindestens eine Gruppe soll Pflichtfeld sein.</label>
                               </td>
                              </tr>
+
+                             <tr>
+                              <td colspan="2">
+                                <br /><label for="GroupsDescriptionLabel">&Uuml;berschrift im Anmelde-/&Auml;nderungsformular f&uuml;r die Eintragung in Gruppen</label><br />
+                                <input type="text" id="GroupsDescriptionLabel" name="GroupsDescriptionLabel" size="80" maxlength="255" />
+                              </td>
+                             </tr>
+
+
                           </tbody>
                         </table>
                       </fieldset>
@@ -818,7 +917,7 @@
                       <span id="OptInConfirmation">
                       <fieldset>
                       <legend>Inhaltsangaben
-                         <input type="image" onclick="DoShowSerialMailPreviewDialog('FormEditForm', 'OptInConfirmation'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
+                         <input type="image" onclick="DoShowSerialMailPreviewDialog(this.form.id, 'OptInConfirmation'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
                       </legend>
                         <br />
                           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
@@ -867,10 +966,17 @@
                             <tbody>
                               <tr>
                                 <td colspan="2" valign="middle">
-                                <select size="1" id="SubscribeSubjectPlaceHoldersCB" onchange="InsertFieldValue('SubscribeSubjectPlaceHoldersCB', 'OptInConfirmationMailSubject')">
+
+                                <select size="1" id="SubscribeSubjectPlaceHoldersCB" title="Feld in E-Mail-Betreff einf&uuml;gen" onchange="InsertFieldValue(this.id, this.parentNode.querySelector('input[type=text]').id)">
                                   <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
-                                </select>&nbsp;<input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptInConfirmationMailSubject', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" />
+                                </select>
+                                &nbsp;
+                                <input type="image" src="images/blind.gif" width="24" height="24" class="FctButton ExternalButton" onclick="DoShowFunctionsDialog(this.form.id, this.parentNode.querySelector('input[type=text]').id, false); return false;" alt="Funktionen" title="Funktionen in E-Mail-Betreff einf&uuml;gen" style="vertical-align:bottom" />
+                                &nbsp;
+                                <input type="image" src="images/blind.gif" width="24" height="24" class="EmojiButton ExternalButton" onclick="EmojisOpen(this.form.id, this.parentNode.querySelector('input[type=text]').id, false); return false;" alt="Emoji einf&uuml;gen" title="Emoji in E-Mail-Betreff einf&uuml;gen" style="vertical-align:bottom" />
+
                                 <p>&nbsp;</p>
+
                                 <input type="text" name="OptInConfirmationMailSubject" id="OptInConfirmationMailSubject" size="100" style="width: 99%;" />
                                 </td>
                               </tr>
@@ -915,10 +1021,14 @@
                            <tbody>
                              <tr>
                                <td colspan="2" valign="middle">
-                                 <select size="1" id="SubscribePlainTextPlaceHoldersCB" onchange="InsertFieldValue('SubscribePlainTextPlaceHoldersCB', 'OptInConfirmationMailPlainText')">
+
+                                 <select size="1" id="SubscribePlainTextPlaceHoldersCB" title="Feld in E-Mail-Text einf&uuml;gen" onchange="InsertFieldValue(this.id, this.parentNode.querySelector('textarea').id)">
                                    <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
-                                 </select>&nbsp;<input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptInConfirmationMailPlainText', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" />
+                                 </select>
+                                 &nbsp;
+                                 <input type="image" src="images/blind.gif" width="24" height="24" class="FctButton ExternalButton" onclick="DoShowFunctionsDialog(this.form.id, this.parentNode.querySelector('textarea').id, false); return false;" alt="Funktionen" title="Funktionen in E-Mail-Text einf&uuml;gen" style="vertical-align:bottom" />
                                  <p>&nbsp;</p>
+
                                  <textarea name="OptInConfirmationMailPlainText" id="OptInConfirmationMailPlainText" style="width: 99%; height: 568px"></textarea>
                                </td>
                              </tr>
@@ -947,7 +1057,7 @@
                       <span id="OptOutConfirmation">
                       <fieldset>
                       <legend>Inhaltsangaben
-                         <input type="image" onclick="DoShowSerialMailPreviewDialog('FormEditForm', 'OptOutConfirmation'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
+                         <input type="image" onclick="DoShowSerialMailPreviewDialog(this.form.id, 'OptOutConfirmation'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
                       </legend>
                         <br />
                           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
@@ -994,9 +1104,17 @@
                             <tbody>
                               <tr>
                                 <td colspan="2" valign="middle">
-                                <select size="1" id="UnsubscribeSubjectPlaceHoldersCB" onchange="InsertFieldValue('UnsubscribeSubjectPlaceHoldersCB', 'OptOutConfirmationMailSubject')">
+
+                                <select size="1" id="UnsubscribeSubjectPlaceHoldersCB" title="Feld in E-Mail-Betreff einf&uuml;gen" onchange="InsertFieldValue(this.id, this.parentNode.querySelector('input[type=text]').id)">
                                   <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
-                                </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptOutConfirmationMailSubject', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" /><p>&nbsp;</p>
+                                </select>
+                                &nbsp;
+                                <input type="image" src="images/blind.gif" width="24" height="24" class="FctButton ExternalButton" onclick="DoShowFunctionsDialog(this.form.id, this.parentNode.querySelector('input[type=text]').id, false); return false;" alt="Funktionen" title="Funktionen in E-Mail-Betreff einf&uuml;gen" style="vertical-align:bottom" />
+                                &nbsp;
+                                <input type="image" src="images/blind.gif" width="24" height="24" class="EmojiButton ExternalButton" onclick="EmojisOpen(this.form.id, this.parentNode.querySelector('input[type=text]').id, false); return false;" alt="Emoji einf&uuml;gen" title="Emoji in E-Mail-Betreff einf&uuml;gen" style="vertical-align:bottom" />
+
+                                <p>&nbsp;</p>
+
                                 <input type="text" name="OptOutConfirmationMailSubject" id="OptOutConfirmationMailSubject" size="100" style="width: 99%;" />
                                 </td>
                               </tr>
@@ -1042,9 +1160,14 @@
                             <tbody>
                               <tr>
                                 <td colspan="2" valign="middle">
-                                 <select size="1" id="UnsubscribePlainTextPlaceHoldersCB" onchange="InsertFieldValue('UnsubscribePlainTextPlaceHoldersCB', 'OptOutConfirmationMailPlainText')">
+
+                                 <select size="1" id="UnsubscribePlainTextPlaceHoldersCB" title="Feld in E-Mail-Text einf&uuml;gen" onchange="InsertFieldValue(this.id, this.parentNode.querySelector('textarea').id)">
                                    <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
-                                 </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptOutConfirmationMailPlainText', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" /><p>&nbsp;<p>
+                                 </select>
+                                 &nbsp;
+                                 <input type="image" src="images/blind.gif" width="24" height="24" class="FctButton ExternalButton" onclick="DoShowFunctionsDialog(this.form.id, this.parentNode.querySelector('textarea').id, false); return false;" alt="Funktionen" title="Funktionen in E-Mail-Text einf&uuml;gen" style="vertical-align:bottom" />
+                                 <p>&nbsp;</p>
+
                                  <textarea name="OptOutConfirmationMailPlainText" id="OptOutConfirmationMailPlainText" style="width: 99%; height: 568px"></textarea>
                                 </td>
                               </tr>
@@ -1086,7 +1209,7 @@
                       <span id="EditConfirmation">
                       <fieldset>
                       <legend>Inhaltsangaben
-                         <input type="image" onclick="DoShowSerialMailPreviewDialog('FormEditForm', 'EditConfirmation'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
+                         <input type="image" onclick="DoShowSerialMailPreviewDialog(this.form.id, 'EditConfirmation'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
                       </legend>
                         <br />
                           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
@@ -1135,10 +1258,17 @@
                             <tbody>
                               <tr>
                                 <td colspan="2" valign="middle">
-                                <select size="1" id="EditSubjectPlaceHoldersCB" onchange="InsertFieldValue('EditSubjectPlaceHoldersCB', 'EditConfirmationMailSubject')">
+
+                                <select size="1" id="EditSubjectPlaceHoldersCB" title="Feld in E-Mail-Betreff einf&uuml;gen" onchange="InsertFieldValue(this.id, this.parentNode.querySelector('input[type=text]').id)">
                                   <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
-                                </select>&nbsp;<input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'EditConfirmationMailSubject', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" />
+                                </select>
+                                &nbsp;
+                                <input type="image" src="images/blind.gif" width="24" height="24" class="FctButton ExternalButton" onclick="DoShowFunctionsDialog(this.form.id, this.parentNode.querySelector('input[type=text]').id, false); return false;" alt="Funktionen" title="Funktionen in E-Mail-Betreff einf&uuml;gen" style="vertical-align:bottom" />
+                                &nbsp;
+                                <input type="image" src="images/blind.gif" width="24" height="24" class="EmojiButton ExternalButton" onclick="EmojisOpen(this.form.id, this.parentNode.querySelector('input[type=text]').id, false); return false;" alt="Emoji einf&uuml;gen" title="Emoji in E-Mail-Betreff einf&uuml;gen" style="vertical-align:bottom" />
+
                                 <p>&nbsp;</p>
+
                                 <input type="text" name="EditConfirmationMailSubject" id="EditConfirmationMailSubject" size="100" style="width: 99%;" />
                                 </td>
                               </tr>
@@ -1183,10 +1313,14 @@
                            <tbody>
                              <tr>
                                <td colspan="2" valign="middle">
-                                 <select size="1" id="EditPlainTextPlaceHoldersCB" onchange="InsertFieldValue('EditPlainTextPlaceHoldersCB', 'EditConfirmationMailPlainText')">
+
+                                 <select size="1" id="EditPlainTextPlaceHoldersCB" title="Feld in E-Mail-Text einf&uuml;gen" onchange="InsertFieldValue(this.id, this.parentNode.querySelector('textarea').id)">
                                    <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
-                                 </select>&nbsp;<input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'EditConfirmationMailPlainText', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" />
+                                 </select>
+                                 &nbsp;
+                                 <input type="image" src="images/blind.gif" width="24" height="24" class="FctButton ExternalButton" onclick="DoShowFunctionsDialog(this.form.id, this.parentNode.querySelector('textarea').id, false); return false;" alt="Funktionen" title="Funktionen in E-Mail-Text einf&uuml;gen" style="vertical-align:bottom" />
                                  <p>&nbsp;</p>
+
                                  <textarea name="EditConfirmationMailPlainText" id="EditConfirmationMailPlainText" style="width: 99%; height: 486px"></textarea>
                                </td>
                              </tr>
@@ -1231,7 +1365,7 @@
                       <span id="OptInConfirmed">
                       <fieldset>
                       <legend>Inhaltsangaben
-                         <input type="image" onclick="DoShowSerialMailPreviewDialog('FormEditForm', 'OptInConfirmed'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
+                         <input type="image" onclick="DoShowSerialMailPreviewDialog(this.form.id, 'OptInConfirmed'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
                       </legend>
                         <br />
                           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
@@ -1280,9 +1414,17 @@
                             <tbody>
                               <tr>
                                 <td colspan="2" valign="middle">
-                                <select size="1" id="OptInConfirmedSubjectPlaceHoldersCB" onchange="InsertFieldValue('OptInConfirmedSubjectPlaceHoldersCB', 'OptInConfirmedMailSubject')">
+
+                                <select size="1" id="OptInConfirmedSubjectPlaceHoldersCB" title="Feld in E-Mail-Betreff einf&uuml;gen" onchange="InsertFieldValue(this.id, this.parentNode.querySelector('input[type=text]').id)">
                                   <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
-                                </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptInConfirmedMailSubject', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" /><p>&nbsp;</p>
+                                </select>
+                                &nbsp;
+                                <input type="image" src="images/blind.gif" width="24" height="24" class="FctButton ExternalButton" onclick="DoShowFunctionsDialog(this.form.id, this.parentNode.querySelector('input[type=text]').id, false); return false;" alt="Funktionen" title="Funktionen in E-Mail-Betreff einf&uuml;gen" style="vertical-align:bottom" />
+                                &nbsp;
+                                <input type="image" src="images/blind.gif" width="24" height="24" class="EmojiButton ExternalButton" onclick="EmojisOpen(this.form.id, this.parentNode.querySelector('input[type=text]').id, false); return false;" alt="Emoji einf&uuml;gen" title="Emoji in E-Mail-Betreff einf&uuml;gen" style="vertical-align:bottom" />
+
+                                <p>&nbsp;</p>
+
                                 <input type="text" name="OptInConfirmedMailSubject" id="OptInConfirmedMailSubject" size="100" style="width: 99%;" />
                                 </td>
                               </tr>
@@ -1327,9 +1469,14 @@
                            <tbody>
                              <tr>
                                <td colspan="2" valign="middle">
-                                 <select size="1" id="OptInConfirmedPlainTextPlaceHoldersCB" onchange="InsertFieldValue('OptInConfirmedPlainTextPlaceHoldersCB', 'OptInConfirmedMailPlainText')">
+
+                                 <select size="1" id="OptInConfirmedPlainTextPlaceHoldersCB" title="Feld in E-Mail-Text einf&uuml;gen" onchange="InsertFieldValue(this.id, this.parentNode.querySelector('textarea').id)">
                                    <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
-                                 </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptInConfirmedMailPlainText', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" /><p>&nbsp;</p>
+                                 </select>
+                                 &nbsp;
+                                 <input type="image" src="images/blind.gif" width="24" height="24" class="FctButton ExternalButton" onclick="DoShowFunctionsDialog(this.form.id, this.parentNode.querySelector('textarea').id, false); return false;" alt="Funktionen" title="Funktionen in E-Mail-Text einf&uuml;gen" style="vertical-align:bottom" />
+                                 <p>&nbsp;</p>
+
                                  <textarea name="OptInConfirmedMailPlainText" id="OptInConfirmedMailPlainText" style="width: 99%; height: 486px"></textarea>
                                </td>
                              </tr>
@@ -1357,8 +1504,8 @@
                                      <span class="scrollboxSpan"><input type="checkbox" name="OptInConfirmedAttachments[]" value="<AttachmentsName></AttachmentsName>" id="AttachmentsId" />&nbsp;<label for="AttachmentsId"><AttachmentsName></AttachmentsName></label><br /></span>
                                    </OptInConfirmedAttachments>
                                  </div>
-                                 <input type="button" class="button" name="OptInConfirmedAttachmentsUploadBtn" value="Neue Datei(en) &uuml;bertragen" onclick="AttachmentUpload('FormEditForm', 'OptInConfirmedAttachmentsScrollbox', 'OptInConfirmedAttachments[]', 'OptOutConfirmedAttachmentsScrollbox', 'OptOutConfirmedAttachments[]'); return false;" />&nbsp;&nbsp;
-                                 <input type="button" class="button" name="OptInConfirmedAttachmentsDeleteBtn" value="Datei(en) l&ouml;schen" onclick="AttachmentDelete('FormEditForm', 'OptInConfirmedAttachments[]', 'OptOutConfirmedAttachments[]'); return false;" />
+                                 <input type="button" class="button" name="OptInConfirmedAttachmentsUploadBtn" value="Neue Datei(en) &uuml;bertragen" onclick="AttachmentUpload(this.form.id, 'OptInConfirmedAttachmentsScrollbox', 'OptInConfirmedAttachments[]', 'OptOutConfirmedAttachmentsScrollbox', 'OptOutConfirmedAttachments[]'); return false;" />&nbsp;&nbsp;
+                                 <input type="button" class="button" name="OptInConfirmedAttachmentsDeleteBtn" value="Datei(en) l&ouml;schen" onclick="AttachmentDelete(this.form.id, 'OptInConfirmedAttachments[]', 'OptOutConfirmedAttachments[]'); return false;" />
 
                                </td>
                              </tr>
@@ -1403,7 +1550,7 @@
                       <span id="OptOutConfirmed">
                       <fieldset>
                       <legend>Inhaltsangaben
-                         <input type="image" onclick="DoShowSerialMailPreviewDialog('FormEditForm', 'OptOutConfirmed'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
+                         <input type="image" onclick="DoShowSerialMailPreviewDialog(this.form.id, 'OptOutConfirmed'); return false;" onmouseover="showTooltip(event, 'Zeigt die E-Mail in der Serien-E-Mail-Vorschau an.<br /><br /><b>Wichtig</b> &Auml;nderungen am Text werden nur nach dem Speichern der Einstellungen dieses Formulars angezeigt.');return false" onmouseout="hideTooltip()" src="images/serialmailpreview.gif" class="hintimage" alt="" />
                       </legend>
                         <br />
                           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
@@ -1450,9 +1597,17 @@
                             <tbody>
                               <tr>
                                 <td colspan="2" valign="middle">
-                                <select size="1" id="OptOutConfirmedSubjectPlaceHoldersCB" onchange="InsertFieldValue('OptOutConfirmedSubjectPlaceHoldersCB', 'OptOutConfirmedMailSubject')">
+
+                                <select size="1" id="OptOutConfirmedSubjectPlaceHoldersCB" title="Feld in E-Mail-Betreff einf&uuml;gen" onchange="InsertFieldValue(this.id, this.parentNode.querySelector('input[type=text]').id)">
                                   <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
-                                </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptOutConfirmedMailSubject', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" /><p>&nbsp;</p>
+                                </select>
+                                &nbsp;
+                                <input type="image" src="images/blind.gif" width="24" height="24" class="FctButton ExternalButton" onclick="DoShowFunctionsDialog(this.form.id, this.parentNode.querySelector('input[type=text]').id, false); return false;" alt="Funktionen" title="Funktionen in E-Mail-Betreff einf&uuml;gen" style="vertical-align:bottom" />
+                                &nbsp;
+                                <input type="image" src="images/blind.gif" width="24" height="24" class="EmojiButton ExternalButton" onclick="EmojisOpen(this.form.id, this.parentNode.querySelector('input[type=text]').id, false); return false;" alt="Emoji einf&uuml;gen" title="Emoji in E-Mail-Betreff einf&uuml;gen" style="vertical-align:bottom" />
+
+                                <p>&nbsp;</p>
+
                                 <input type="text" name="OptOutConfirmedMailSubject" id="OptOutConfirmedMailSubject" size="100" style="width: 99%;" />
                                 </td>
                               </tr>
@@ -1498,9 +1653,14 @@
                             <tbody>
                               <tr>
                                 <td colspan="2" valign="middle">
-                                 <select size="1" id="OptOutConfirmedPlainTextPlaceHoldersCB" onchange="InsertFieldValue('OptOutConfirmedPlainTextPlaceHoldersCB', 'OptOutConfirmedMailPlainText')">
+
+                                 <select size="1" id="OptOutConfirmedPlainTextPlaceHoldersCB" title="Feld in E-Mail-Text einf&uuml;gen" onchange="InsertFieldValue(this.id, this.parentNode.querySelector('textarea').id)">
                                    <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
-                                 </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('FormEditForm', 'OptOutConfirmedMailPlainText', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" /><p>&nbsp;<p>
+                                 </select>
+                                 &nbsp;
+                                 <input type="image" src="images/blind.gif" width="24" height="24" class="FctButton ExternalButton" onclick="DoShowFunctionsDialog(this.form.id, this.parentNode.querySelector('textarea').id, false); return false;" alt="Funktionen" title="Funktionen in E-Mail-Text einf&uuml;gen" style="vertical-align:bottom" />
+                                 <p>&nbsp;</p>
+
                                  <textarea name="OptOutConfirmedMailPlainText" id="OptOutConfirmedMailPlainText" style="width: 99%; height: 486px"></textarea>
                                 </td>
                               </tr>
@@ -1528,8 +1688,8 @@
                                      <span class="scrollboxSpan"><input type="checkbox" name="OptOutConfirmedAttachments[]" value="<AttachmentsName></AttachmentsName>" id="AttachmentsId" />&nbsp;<label for="AttachmentsId"><AttachmentsName></AttachmentsName></label><br /></span>
                                    </OptOutConfirmedAttachments>
                                  </div>
-                                 <input type="button" class="button" name="OptOutConfirmedAttachmentsUploadBtn" value="Neue Datei(en) &uuml;bertragen" onclick="AttachmentUpload('FormEditForm', 'OptOutConfirmedAttachmentsScrollbox', 'OptOutConfirmedAttachments[]', 'OptInConfirmedAttachmentsScrollbox', 'OptInConfirmedAttachments[]'); return false;" />&nbsp;&nbsp;
-                                 <input type="button" class="button" name="OptOutConfirmedAttachmentsDeleteBtn" value="Datei(en) l&ouml;schen" onclick="AttachmentDelete('FormEditForm', 'OptOutConfirmedAttachments[]', 'OptInConfirmedAttachments[]'); return false;" />
+                                 <input type="button" class="button" name="OptOutConfirmedAttachmentsUploadBtn" value="Neue Datei(en) &uuml;bertragen" onclick="AttachmentUpload(this.form.id, 'OptOutConfirmedAttachmentsScrollbox', 'OptOutConfirmedAttachments[]', 'OptInConfirmedAttachmentsScrollbox', 'OptInConfirmedAttachments[]'); return false;" />&nbsp;&nbsp;
+                                 <input type="button" class="button" name="OptOutConfirmedAttachmentsDeleteBtn" value="Datei(en) l&ouml;schen" onclick="AttachmentDelete(this.form.id, 'OptOutConfirmedAttachments[]', 'OptInConfirmedAttachments[]'); return false;" />
                                </td>
                              </tr>
                            </tbody>
@@ -1546,6 +1706,115 @@
                   	<!-- ####### TAB END -->
                   	</OptOutConfirmed>
 
+                   <IS:SWM>
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Browserlink');
+                    //-->
+                    </script>
+                  	 <div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Bei Anzeige einer Newsletter-E-Mail im Browser kann eine immer oben positionierte Info-Leiste mit weiteren Links dargestellt werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Info-Leiste alternativer Browserlink</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0" id="InfoBar">
+                            <tbody>
+                              <tr>
+                               <td colspan="2" style="text-align: left">
+                                <input type="checkbox" name="InfoBarActive" id="InfoBarActive" onclick="InfoBarActiveClick();" />&nbsp;<label for="InfoBarActive">Info-Leiste mit Links zur Anmeldung, Abmeldung, &Uuml;bersetzung... anzeigen</label><br /><br />
+
+                                <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                                  <tbody>
+                                    <tr>
+                                     <td class="MessageDescriptionColumn">
+                                        <label for="InfoBarSchemeColorName">Farbschema</label>
+                                    </td>
+                                     <td>
+                                       <select name="InfoBarSchemeColorName" id="InfoBarSchemeColorName" size="1">
+                                         <InfoBarSchemeColor>
+                                         <option value="colorValue">colorName</option>
+                                         </InfoBarSchemeColor>
+                                       </select>
+                                        <input type="submit" value="Beispieldarstellung" id="SamplePreviewBtn" style="float: right;" onclick="DoSamplePreview(); return false;">
+                                      </td>
+                                    </tr>
+
+                                    <tr>
+                                     <td class="MessageDescriptionColumn">
+                                        <label for="InfoBarSrcLanguage">Sprache des Newsletter-E-Mail-Inhalts</label>
+                                     </td>
+                                     <td>
+                                       <select name="InfoBarSrcLanguage" id="InfoBarSrcLanguage" size="1">
+                                         <InfoBarSrcLanguage>
+                                         <option value="LangCode">LangName</option>
+                                         </InfoBarSrcLanguage>
+                                       </select>
+                                     </td>
+                                    </tr>
+
+                                    <tr>
+                                     <td class="MessageDescriptionColumn">
+                                        <label for="InfoBarSpacer">Optional: HTML-Code direkt nach der Info-Leiste</label>
+                                     </td>
+                                     <td>
+                                       <textarea name="InfoBarSpacer" id="InfoBarSpacer" cols="30" rows="3" style="width: 95%; min-width: 20%; min-height: 64px;"></textarea>
+                                     </td>
+                                    </tr>
+
+                                    <tr>
+                                     <td class="MessageDescriptionColumn">
+                                        &nbsp;
+                                     </td>
+                                     <td>
+                                       <label for="InfoBarLinksList">Anzuzeigende Links</label><br />
+                                       <table id="InfoBarLinksList" name="InfoBarLinksList" class="FixedTable">
+                                       	<thead>
+                                       		<tr>
+                                       			<td class="NoWrap" width="17%">Link</td>
+                                       			<td class="NoWrap" width="1%">&nbsp;</td>
+                                       			<td class="NoWrap" width="25%">URL</td>
+                                       			<td class="NoWrap" width="1%">&nbsp;</td>
+                                       			<td class="NoWrap" width="25%">Schnellhinweis</td>
+                                       			<td class="NoWrap" width="1%">&nbsp;</td>
+                                       			<td class="NoWrap" width="27%">Link-Text</td>
+                                       		</tr>
+                                       	</thead>
+                                       	<tbody id="InfoBarLinksList_tbody">
+                                         <InfoBarLinks>
+                                       		<tr>
+                                        			<td><input type="checkbox" name="Link[X]" id="LinkX" onclick="if(!this.disabled) DisableSiblingElements(this, this.checked);" /><label for="LinkX">&nbsp;<LINKTEXT></LINKTEXT></label></td>
+                                        			<td>&nbsp;</td>
+                                        			<td><input type="text" name="URL[X]" id="URL[X]" value="<URL[X]></URL[X]>" style="width: 98%;" oncontextmenu="if(!this.readOnly)ShowAltBrowserLinkPlaceholders('URL[X]'); return false;" title="Geben Sie die URL korrekt mit http(s):// an."
+                                           onfocus="if(this.readOnly) return true; var p = this.getBoundingClientRect(); this.style.width=p.width*2 + 'px';" onblur="if(!this.readOnly) this.style.width='98%'" /></td>
+                                        			<td>&nbsp;</td>
+                                        			<td><input type="text" name="Title[X]" value="<Title[X]></Title[X]>" style="width: 98%;" /></td>
+                                        			<td>&nbsp;</td>
+                                        			<td><input type="text" name="Text[X]" value="<Text[X]></Text[X]>" style="width: 98%;" /></td>
+                                       		</tr>
+                                         </InfoBarLinks>
+                                       	</tbody>
+                                       </table>
+
+                                     </td>
+                                    </tr>
+
+
+                                  <tbody>
+                                </table>
+
+                               </td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                      </fieldset>
+                  	 </div>
+                  	 <!-- ####### TAB END -->
+                   </IS:SWM>
+
+
                   </div>
 
                   <br />
@@ -1553,6 +1822,7 @@
 
 
                   <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+                  <script type="text/javascript" src="templates/default/de/ckeditor_imageresize.js"></script>
 
 
                   <script type="text/javascript">
@@ -1566,14 +1836,14 @@
 
                      CKEDITOR.config.BasePath	= sBasePath;
 
-                     CKEDITOR.replace('OptInConfirmationMailHTMLText',
+                     AddImageSizeChangedEventToCKEditor(CKEDITOR.replace('OptInConfirmationMailHTMLText',
                       {
                         customConfig : myBasePath + 'plugins/swm_sml_ckeditor_config.js',
                         toolbar : 'MyDefaultToolbar',
                         width : '100%',
                         height: 464
                       }
-                     );
+                     ));
 
                   	}
 
@@ -1583,14 +1853,14 @@
 
                      CKEDITOR.config.BasePath	= sBasePath;
 
-                     CKEDITOR.replace('OptOutConfirmationMailHTMLText',
+                     AddImageSizeChangedEventToCKEditor(CKEDITOR.replace('OptOutConfirmationMailHTMLText',
                       {
                         customConfig : myBasePath + 'plugins/swm_sml_ckeditor_config.js',
                         toolbar : 'MyDefaultToolbar',
                         width : '100%',
                         height: 464
                       }
-                     );
+                     ));
 
                   	}
                    /////////////////////////////////////////////////////////////////////
@@ -1600,14 +1870,14 @@
 
                      CKEDITOR.config.BasePath	= sBasePath;
 
-                     CKEDITOR.replace('EditConfirmationMailHTMLText',
+                     AddImageSizeChangedEventToCKEditor(CKEDITOR.replace('EditConfirmationMailHTMLText',
                       {
                         customConfig : myBasePath + 'plugins/swm_sml_ckeditor_config.js',
                         toolbar : 'MyDefaultToolbar',
                         width : '100%',
                         height: 402
                       }
-                     );
+                     ));
 
                   	}
 
@@ -1617,14 +1887,14 @@
 
                      CKEDITOR.config.BasePath	= sBasePath;
 
-                     CKEDITOR.replace('OptInConfirmedMailHTMLText',
+                     AddImageSizeChangedEventToCKEditor(CKEDITOR.replace('OptInConfirmedMailHTMLText',
                       {
                         customConfig : myBasePath + 'plugins/swm_sml_ckeditor_config.js',
                         toolbar : 'MyDefaultToolbar',
                         width : '100%',
                         height: 402
                       }
-                     );
+                     ));
 
                   	}
 
@@ -1634,14 +1904,14 @@
 
                      CKEDITOR.config.BasePath	= sBasePath;
 
-                     CKEDITOR.replace('OptOutConfirmedMailHTMLText',
+                     AddImageSizeChangedEventToCKEditor(CKEDITOR.replace('OptOutConfirmedMailHTMLText',
                       {
                         customConfig : myBasePath + 'plugins/swm_sml_ckeditor_config.js',
                         toolbar : 'MyDefaultToolbar',
                         width : '100%',
                         height: 402
                       }
-                     );
+                     ));
 
                   	}
                    /////////////////////////////////////////////////////////////////////
@@ -1669,26 +1939,28 @@
                     }
 
 
-                    if(SubscribeInnerTabListArray.length){
-                      initTabs('dhtmlgoodies_SubscribeHTMLTexttabView', SubscribeInnerTabListArray, 0, 894, 648);
-                      AddAutoUpdateTextPart('dhtmlgoodies_SubscribeHTMLTexttabView', 'OptInConfirmationMailFormat', 'OptInConfirmationMailHTMLText', 'OptInConfirmationMailPlainText');
-                    }
-                    if(UnsubscribeInnerTabListArray.length){
-                      initTabs('dhtmlgoodies_UnsubscribeHTMLTexttabView', UnsubscribeInnerTabListArray, 0, 894, 648);
-                      AddAutoUpdateTextPart('dhtmlgoodies_UnsubscribeHTMLTexttabView', 'OptOutConfirmationMailFormat', 'OptOutConfirmationMailHTMLText', 'OptOutConfirmationMailPlainText');
-                    }
-                    if(EditInnerTabListArray.length){
-                      initTabs('dhtmlgoodies_EditHTMLTexttabView', EditInnerTabListArray, 0, 894, 566);
-                      AddAutoUpdateTextPart('dhtmlgoodies_EditHTMLTexttabView', 'EditConfirmationMailFormat', 'EditConfirmationMailHTMLText', 'EditConfirmationMailPlainText');
-                    }
-                    if(OptInConfirmedInnerTabListArray.length){
-                      initTabs('dhtmlgoodies_OptInConfirmedHTMLTexttabView', OptInConfirmedInnerTabListArray, 0, 894, 566);
-                      AddAutoUpdateTextPart('dhtmlgoodies_OptInConfirmedHTMLTexttabView', 'OptInConfirmedMailFormat', 'OptInConfirmedMailHTMLText', 'OptInConfirmedMailPlainText');
-                    }
-                    if(OptOutConfirmedInnerTabListArray.length){
-                      initTabs('dhtmlgoodies_OptOutConfirmedHTMLTexttabView', OptOutConfirmedInnerTabListArray, 0, 894, 566);
-                      AddAutoUpdateTextPart('dhtmlgoodies_OptOutConfirmedHTMLTexttabView', 'OptOutConfirmedMailFormat', 'OptOutConfirmedMailHTMLText', 'OptOutConfirmedMailPlainText');
-                    }
+                    $(document).ready(function(){
+                      if(SubscribeInnerTabListArray.length){
+                        initTabs('dhtmlgoodies_SubscribeHTMLTexttabView', SubscribeInnerTabListArray, 0, 894, 648);
+                        AddAutoUpdateTextPart('dhtmlgoodies_SubscribeHTMLTexttabView', 'OptInConfirmationMailFormat', 'OptInConfirmationMailHTMLText', 'OptInConfirmationMailPlainText');
+                      }
+                      if(UnsubscribeInnerTabListArray.length){
+                        initTabs('dhtmlgoodies_UnsubscribeHTMLTexttabView', UnsubscribeInnerTabListArray, 0, 894, 648);
+                        AddAutoUpdateTextPart('dhtmlgoodies_UnsubscribeHTMLTexttabView', 'OptOutConfirmationMailFormat', 'OptOutConfirmationMailHTMLText', 'OptOutConfirmationMailPlainText');
+                      }
+                      if(EditInnerTabListArray.length){
+                        initTabs('dhtmlgoodies_EditHTMLTexttabView', EditInnerTabListArray, 0, 894, 566);
+                        AddAutoUpdateTextPart('dhtmlgoodies_EditHTMLTexttabView', 'EditConfirmationMailFormat', 'EditConfirmationMailHTMLText', 'EditConfirmationMailPlainText');
+                      }
+                      if(OptInConfirmedInnerTabListArray.length){
+                        initTabs('dhtmlgoodies_OptInConfirmedHTMLTexttabView', OptInConfirmedInnerTabListArray, 0, 894, 566);
+                        AddAutoUpdateTextPart('dhtmlgoodies_OptInConfirmedHTMLTexttabView', 'OptInConfirmedMailFormat', 'OptInConfirmedMailHTMLText', 'OptInConfirmedMailPlainText');
+                      }
+                      if(OptOutConfirmedInnerTabListArray.length){
+                        initTabs('dhtmlgoodies_OptOutConfirmedHTMLTexttabView', OptOutConfirmedInnerTabListArray, 0, 894, 566);
+                        AddAutoUpdateTextPart('dhtmlgoodies_OptOutConfirmedHTMLTexttabView', 'OptOutConfirmedMailFormat', 'OptOutConfirmedMailHTMLText', 'OptOutConfirmedMailPlainText');
+                      }
+                   	});
 
                     function html_entity_decode( string ) {
                         var ret, tarea = document.createElement('textarea');
@@ -1714,7 +1986,7 @@
                             'OptOutConfirmedPlainTextPlaceHoldersCB'
                         )
 
-          	            for(j=0; j<CBs.length; j++) {
+          	            for(var j=0; j<CBs.length; j++) {
                             var CB = document.getElementById(CBs[j]);
                             if(CB == null) continue;
                             while (CB.length > 1)
@@ -1755,30 +2027,40 @@
                         }
                     }
 
-                    FillComboBoxes();
+                    $(document).ready(function(){
+                      FillComboBoxes();
 
-                    DisableItem('groups_id', document.FormEditForm.GroupsOption[2].checked);
-                    DisableItem('GroupsAsCheckBoxes', document.FormEditForm.GroupsOption[1].checked);
-                    DisableItem('GroupsAsMandatoryField', document.FormEditForm.GroupsOption[1].checked);
+                      DisableItem('groups_id', document.FormEditForm.GroupsOption[2].checked);
+                      DisableItem('GroupsAsCheckBoxes', document.FormEditForm.GroupsOption[1].checked);
+                      DisableItem('GroupsAsMandatoryField', document.FormEditForm.GroupsOption[1].checked);
+                      DisableItem('GroupsDescriptionLabel', document.FormEditForm.GroupsOption[1].checked);
 
-                    if(document.FormEditForm.groups_id.length == 0) {
-                      DisableControlsArray(false, Array(document.FormEditForm.GroupsOption[1], document.FormEditForm.GroupsOption[2]), Array());
-                    }
+                      if(document.FormEditForm.groups_id && document.FormEditForm.groups_id.length == 0) {
+                        DisableControlsArray(false, Array(document.FormEditForm.GroupsOption[1], document.FormEditForm.GroupsOption[2]), Array());
+                      }
+    	               });
 
                   -->
                   </script>
 
                   <script language="javascript" type="text/javascript">
                   <!--
-                    DisableControlsArray(document.getElementById('SubscriptionType').value == "DoubleOptIn", Array( document.getElementById('SubscribeAcceptedPage'), document.getElementById('EditAcceptedPage') ), Array( document.getElementById('SubscribeAcceptedPageLabel'), document.getElementById('EditAcceptedPageLabel') ) );
-                    DisableControlsArray(document.getElementById('UnsubscriptionType').value == "DoubleOptOut", Array( document.getElementById('UnsubscribeAcceptedPage') ), Array( document.getElementById('UnsubscribeAcceptedPageLabel') ) );
+                    $(document).ready(function(){
+                      DisableControlsArray(document.getElementById('SubscriptionType').value == "DoubleOptIn", Array( document.getElementById('SubscribeAcceptedPage'), document.getElementById('EditAcceptedPage') ), Array( document.getElementById('SubscribeAcceptedPageLabel'), document.getElementById('EditAcceptedPageLabel') ) );
+                      DisableControlsArray(document.getElementById('UnsubscriptionType').value == "DoubleOptOut", Array( document.getElementById('UnsubscribeAcceptedPage') ), Array( document.getElementById('UnsubscribeAcceptedPageLabel') ) );
 
-                    DisableControlsById('RequestReasonForUnsubscription', Array('ReasonsForUnsubscriptionBtn', 'ExternalReasonForUnsubscriptionScript'));
+                      DisableControlsById('RequestReasonForUnsubscription', Array('ReasonsForUnsubscriptionBtn', 'ExternalReasonForUnsubscriptionScript'));
 
-                    ShowItem('OptInConfirmed', document.getElementById('SendOptInConfirmedMail').checked);
-                    ShowItem('OptOutConfirmed', document.getElementById('SendOptOutConfirmedMail').checked);
-                    ShowHideEMailTexts();
+                      ShowItem('OptInConfirmed', document.getElementById('SendOptInConfirmedMail').checked);
+                      ShowItem('OptOutConfirmed', document.getElementById('SendOptOutConfirmedMail').checked);
+                      ShowHideEMailTexts();
 
+                      document.getElementById('PrivacyPolicyURLTextPlaceHoldersCB').options[2].disabled = !document.getElementById('PrivacyPolicyAcceptanceAsMandatoryField').checked;
+
+                      if(document.getElementById('PrivacyPolicyURLText').value.indexOf("<!--PrivacyPolicyAcceptanceAsMandatoryFieldCheckBox-->") != -1){
+                         document.getElementById('PrivacyPolicyURLText').value = document.getElementById('PrivacyPolicyURLText').value.replace("<!--PrivacyPolicyAcceptanceAsMandatoryFieldCheckBox-->", String.fromCharCode(10) + String.fromCharCode(10) + '<br />' + document.getElementById('PrivacyPolicyURLTextPlaceHoldersCB').options[2].value);
+                      }
+    	               });
 
                     function ShowNATextOnTab(TabId, Page, fieldId) {
                       var NA="Angabe nicht notwendig";
@@ -1833,13 +2115,62 @@
                     }
                     
                     function ShowHidereCAPTACHKeys(){
-                      var ShowIt = (document.getElementById('UseCaptcha2') != null && document.getElementById('UseCaptcha2').checked);
+                      var ShowIt = (document.getElementById('UseCaptcha2') != null && document.getElementById('UseCaptcha2').checked) || (document.getElementById('UseCaptcha3') != null && document.getElementById('UseCaptcha3').checked);
                       ShowItem('reCAPTACHKeys', ShowIt );
                     }
                     
-                    ShowHidereCAPTACHKeys();
+                    $(document).ready(function(){
+                      ShowHidereCAPTACHKeys();
+    	               });
 
+                   function InfoBarActiveClick(){
+                     var InfoBarActive = document.getElementById('InfoBarActive');
+                     if(InfoBarActive == null) return;
+                     var InfoBarLinksList_tbody = document.getElementById('InfoBarLinksList_tbody');
+                     DisableControlsById('InfoBarActive', Array('InfoBarSchemeColorName', 'InfoBarSrcLanguage', 'InfoBarSpacer', 'InfoBarLinksList', 'SamplePreviewBtn'));
+                     if(InfoBarLinksList_tbody != null)
+                       DisableChildElements(InfoBarLinksList_tbody, InfoBarActive.checked );
 
+                     if(InfoBarActive.checked && InfoBarLinksList_tbody != null){
+                        var childs = InfoBarLinksList_tbody.childNodes;
+                        if(childs == null) return;
+                        for(var i=0; i<childs.length; i++){
+                           if(childs[i].nodeType == 1){ // tr?
+                             var subchilds = childs[i].childNodes;
+                             if(subchilds == null) continue;
+                             for(var j=0; j<subchilds.length; j++){
+                               if(subchilds[j].nodeType != 1) continue; // td?
+                               var subsubchilds = subchilds[j].childNodes;
+                               if(subsubchilds == null) continue;
+                               for(var k=0; k<subsubchilds.length; k++){
+                                if(subsubchilds[k].nodeType != 1 || subsubchilds[k].tagName != "INPUT") continue; // checkbox?
+                                subsubchilds[k].onclick();
+                                break;
+                               }
+                               break;
+                             }
+                           }
+                        }
+                     }
+                   }
+
+                   var fieldname;
+
+                   function ShowAltBrowserLinkPlaceholders(Xfieldname){
+                     // paste directly from Dialog not possible it says text field is hidden oncontextmenu
+                     fieldname = Xfieldname;
+                     ShowModalDialog("browser_altbrowserlinkplaceholders.htm" + "?nocache=" + getNoCache() + "&FormEdit=" + Xfieldname, 708, 200);
+                   }
+
+                   function ShowAltBrowserLinkPlaceholdersCallback(value){
+                     PasteText(fieldname, value);
+                   }
+
+                    $(document).ready(function(){
+                      InfoBarActiveClick();
+    	               });
+
+                   InsertLoadingStatusOnSubmit();
                   	//AUTO_SCRIPT_CODE_PLACEHOLDER//
 
                   -->

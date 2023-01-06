@@ -1,0 +1,9 @@
+Hallo,
+
+an die Verteilerliste "[DISTRIBLISTNAME]" wurde eine E-Mail mit Betreff "[SUBJECT]" von der E-Mail-Adresse [FROMADDRESS] gesendet. 
+
+Die E-Mail hat eine Größe von [EMAILSIZE] Byte und damit das festgelegte Limit von [DISTRIBLISTMAXEMAILSIZE] Byte für diese Verteilerliste überschritten. Diese E-Mail wurde nicht über die Verteilerliste versendet und im Postfach belassen.
+
+
+Mit freundlichen Grüßen
+

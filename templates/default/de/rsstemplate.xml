@@ -13,6 +13,7 @@
    <guid isPermaLink="false"></guid>
    <pubDate></pubDate>
    <description></description>
+   <enclosure url="ENCLOSUREURL" length="ENCLOSURESIZE" type="ENCLOSURETYPE" />
   </item>
  </channel>
 </rss>

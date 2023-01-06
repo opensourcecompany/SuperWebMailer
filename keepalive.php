@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2019 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -27,32 +27,35 @@
   @require_once("templates.inc.php");
 
   @session_cache_limiter('public');
+  @session_set_cookie_params(0, "/", "");
 
   # check session OK, ignore errors if session.auto_start = 1
   if(!ini_get("session.auto_start") && !defined("LoginDone") ) {
     @session_start();
   }
 
+  SetHTMLHeaders($_QLo06);
+
   if (
      isset($_SESSION["UserId"])
      ) {
-      // dummy
+      $_SESSION["_6iltt"] = time();
      } else {
        print "Session expired";
      }
 
-  $_Qf6OO = "uq_mt=".rawurlencode(microtime());
+  $_I0flt = "uq_mt=".rawurlencode(microtime(true));
 
   if(empty($_GET["caller"]))
-    print '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="120;URL='.ScriptBaseURL.'keepalive.php?"'.$_Qf6OO.'></head><body></body></html>';
+    print '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="120;URL='.ScriptBaseURL.'keepalive.php?"'.$_I0flt.'></head><body></body></html>';
     else {
-      $_JJLf0 = $_GET["caller"];
-      $_Q6i6i = strpos_reverse($_JJLf0, "/");
-      if($_Q6i6i !== false)
-        $_JJLf0 = substr($_JJLf0, 0, $_Q6i6i+1);
+      $URL = $_GET["caller"];
+      $_QlOjt = strpos_reverse($URL, "/");
+      if($_QlOjt !== false)
+        $URL = substr($URL, 0, $_QlOjt+1);
         else
-        $_JJLf0 = ScriptBaseURL;
-      print '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="120;URL='.$_JJLf0.'keepalive.php?caller='.$_GET["caller"].'&'.$_Qf6OO.'"></head><body></body></html>';
+        $URL = ScriptBaseURL;
+      print '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="120;URL='.$URL.'keepalive.php?caller='.$_GET["caller"].'&'.$_I0flt.'"></head><body></body></html>';
     }
 
 ?>

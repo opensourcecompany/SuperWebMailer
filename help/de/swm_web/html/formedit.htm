@@ -50,7 +50,7 @@ Empfängerliste/Newsletter-Verteiler zu akzeptieren. Für jede Empfängerliste
 können mehrere Formulare z.B. in unterschiedlichen Sprachen oder mit
 unterschiedlichen Pflichtfeldern oder optionalen Feldern definiert werden.</p>
 <p><b>Registerkarte Allgemein</b></p>
-<p><img border="0" src="../images/formedit1.png" width="949" height="676"></p>
+<p><img border="0" src="../images/formedit1.png" width="961" height="448"></p>
 <p>&nbsp;</p>
 <table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
   <tr valign="top">
@@ -60,16 +60,105 @@ unterschiedlichen Pflichtfeldern oder optionalen Feldern definiert werden.</p>
     </td>
   </tr>
   <tr>
+    <td width="28%" valign="top">EU Datenschutz-Grundverordnung (EU-DSGVO)</td>
+    <td width="72%">Die EU Datenschutz-Grundverordnung erfordert es anzugeben
+      aus welchem Grund die Daten gespeichert werden und die eigene
+      Datenschutzerklärung muss verlinkt werden.
+      <p>&nbsp;</p>
+      <table border="0" width="100%" cellspacing="0">
+        <tr>
+          <td width="28%" valign="top">URL zur eigenen Datenschutzerklärung</td>
+          <td width="72%">Geben Sie die komplette URL zur eigenen
+            Datenschutzerklärung an. Die URL wird in das An-/Abmeldeformular
+            mit einem beschreibenden Hinweistext zur Verwendung und Speicherung
+            der Daten Platzhalter [PrivacyPolicyURL] übernommen. Wurde diese
+            URL nicht angegeben, dann wird im An-/Abmeldeformular <b>kein</b>
+            Hinweistext und ebenfalls nicht das Kontrollkästchen/Checkbox zur
+            Akzeptanz der eigenen Datenschutzerklärung eingefügt.
+            <p>Hinweise</p>
+            <ul>
+              <li>Die URL sollte immer angegeben werden, da die
+                Datenschutzerklärung im Newsletteranmeldeformular mit einem
+                beschreibenden Text für den Grund zur Speicherung der Daten
+                angegeben werden muss.</li>
+              <li>Beim Neuanlegen einer Empfängerliste wird die URL zur
+                Datenschutzerklärung automatisch aus dem Benutzerkonto des
+                Administrator-Nutzers übernommen.</li>
+            </ul>
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="28%" valign="top">Die eigene Datenschutzerklärung muss
+            akzeptiert werden.</td>
+          <td width="72%">Aktivieren Sie diese Einstellung, damit ein
+            Kontrollkästchen/Checkbox im Hinweistext zur Verwendung und
+            Speicherung der Daten automatisch eingefügt wird. Ebenfalls ist es
+            möglich selbst das Kontrollkästchen einzufügen.
+            <p>Hinweis: Es muss das Kontrollkästchen eingefügt werden, sobald
+            diese Option aktiviert wird, ansonsten kann der sich anzumeldende
+            Empfänger nicht das Anmeldeformular absenden bzw. bei einer
+            Änderung der Daten, die geänderten Daten nicht speichern.</p>
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="28%" valign="top">Hinweistext zur Verwendung und
+            Speicherung der Daten im Anmelde-/Ändern-Formular</td>
+          <td width="72%">Es wird ein Standard-Text als HTML-Code eingefügt.
+            Dieser HTML-Code kann beliebig verändert und erweitert werden. Die
+            Verwendung von JavaScript ist erlaubt.
+            <p>Verwenden Sie den Platzhalter [PrivacyPolicyURL], um die URL zur
+            Ihrer eigenen Datenschutzerklärung an dieser Stelle bei Darstellung
+            der Formulars einfügen zu lassen.</p>
+            <p>Ist die Option &quot;Die eigene Datenschutzerklärung muss
+            akzeptiert werden.&quot; aktiviert, dann wird automatisch der
+            HTML-Code für ein Kontrollkästchen/Checkbox an das Ende des Texts
+            eingefügt. Das Kontrollkästchen/Checkbox kann beliebig im Text
+            positioniert werden, es muss dabei enthalten sein, sobald die Option
+            &quot;Die eigene Datenschutzerklärung muss akzeptiert werden.&quot;
+            aktiviert wurde.</p>
+            <p>&nbsp;</td>
+        </tr>
+      </table>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr>
     <td width="28%">Sicherheit</td>
     <td width="72%">Aktivieren Sie die Einstellung &quot;Internes Captcha
       verwenden&quot;, so dass beim Ausfüllen des Formulars ein Text, der auf
       einem Bild dargestellt wird, korrekt eingegeben werden muss. Diese Option
       ist nur verfügbar wenn Ihr Webserver dies unterstützt
-      (GDLib-Unterstützung)
-      <p>Verwenden Sie die Option &quot;Google reCAPTCHA verwenden&quot; und
-      geben Sie den öffentlichen und privaten reCAPTCHA-Schlüssel ein, welchen
-      Sie nach Anmeldung unter <a href="https://www.google.com/recaptcha/" target="_blank">https://www.google.com/recaptcha/</a>
-      erhalten.</p>
+      (GDLib-Unterstützung).
+      <p><b>Zur Verwendung dieser Option muss die Datei</b> <a href="https://www.superwebmailer.de/pub/captcha_image_maker.zip" target="_blank">https://www.superwebmailer.de/pub/captcha_image_maker.zip</a>
+      geladen, ausgepackt und ins Verzeichnis captcha auf dem Webspace
+      übertragen werden.</p>
+      <p><u>Google reCAPTCHA v2 verwenden<br>
+      </u>Verwenden Sie die Option &quot;Google reCAPTCHA v2 verwenden&quot; und
+      geben Sie den öffentlichen und privaten reCAPTCHA <b>v2</b>-Schlüssel
+      ein, welchen Sie nach Anmeldung unter <a href="https://www.google.com/recaptcha/" target="_blank">https://www.google.com/recaptcha/</a>
+      erhalten.<br>
+      Bei Verwendung dieser Option sollte unter Menü Webseite - Meldungstexte
+      der Text für &quot;Text wenn die Captcha-Zeichenkette nicht oder nicht
+      korrekt eingegegeben worden ist&quot; auf z.B. &quot;Das reCaptcha wurde
+      nicht betätigt.&quot; angepasst werden.</p>
+      <p><u>Google reCAPTCHA v3 verwenden<br>
+      </u>Verwenden Sie die Option &quot;Google reCAPTCHAv3 verwenden&quot; und
+      geben Sie den öffentlichen und privaten reCAPTCHA <b>v3</b>-Schlüssel
+      ein, welchen Sie nach Anmeldung unter <a href="https://www.google.com/recaptcha/" target="_blank">https://www.google.com/recaptcha/</a>
+      erhalten.<br>
+      <br>
+      Das reCAPTCHA v3 ist für den Besucher der Webseite nur als
+      reCAPTCHA-Symbol unten rechts auf der Webseite sichtbar und erfordert
+      einen Browser mit aktivierten JavaScript, ansonsten wird nach dem Absenden
+      des Formulars immer die Anmeldung verweigert werden. Nach Absenden des
+      Formulars mit aktivierten JavaScript erfolgt eine Bewertung des Besuchers
+      durch Google. Ab einer Bewertung von &lt; 0,5 wird von einer Spamanmeldung
+      ausgegangen und die Anmeldung verweigert.<br>
+      <br>
+      Bei Verwendung dieser Option sollte unter Menü Webseite - Meldungstexte
+      der Text für &quot;Text wenn die Captcha-Zeichenkette nicht oder nicht
+      korrekt eingegegeben worden ist&quot; auf z.B. &quot;Ihre Anmeldungen
+      können wird ncht akzeptieren.&quot; angepasst werden.</p>
       <p>&nbsp;</td>
   </tr>
   <tr>
@@ -91,7 +180,7 @@ unterschiedlichen Pflichtfeldern oder optionalen Feldern definiert werden.</p>
       <p>&nbsp;</td>
   </tr>
   <tr>
-    <td width="28%">Alternativer http://-Aufruf für Anmeldungen/Abmeldungen</td>
+    <td width="28%">Alternativer http(s)://-Aufruf für Anmeldungen/Abmeldungen</td>
     <td width="72%"><b>NUR FÜR PROFIS</b>, werden falsche Angaben gemacht, dann
       funktionieren die Newsletter An-/Abmelde-Formulare und die
       An-/Abmeldelinks nicht mehr.
@@ -108,7 +197,7 @@ unterschiedlichen Pflichtfeldern oder optionalen Feldern definiert werden.</p>
       <p>&nbsp;</td>
   </tr>
   <tr>
-    <td width="28%">Alternativer http://-Aufruf für das Tracking</td>
+    <td width="28%">Alternativer http(s)://-Aufruf für das Tracking</td>
     <td width="72%"><b>NUR FÜR PROFIS</b>, werden falsche Angaben gemacht, dann
       funktionieren die getrackten Links im Newsletter nicht mehr.
       <p>Sollte auf dem Webspace gleichzeitig eine andere Domain konnektiert
@@ -148,7 +237,7 @@ unterschiedlichen Pflichtfeldern oder optionalen Feldern definiert werden.</p>
     <td width="28%">Meldungstexte</td>
     <td width="72%">Wählen Sie das Meldungstexte-Set für das Formular.
       <p><b>Siehe dazu auch</b><br>
-      <a href="messageedit.htm">Meldungtexte bearbeiten</a></p>
+      <a href="messageedit.htm">Meldungstexte bearbeiten</a></p>
       <p>&nbsp;</td>
   </tr>
   <tr valign="top">
@@ -232,6 +321,15 @@ unterschiedlichen Pflichtfeldern oder optionalen Feldern definiert werden.</p>
       <p>&nbsp;</td>
   </tr>
   <tr valign="top">
+    <td width="28%">Überschrift im Anmelde-/Änderungsformular für die
+      Eintragung in Gruppen</td>
+    <td width="72%">Sie können den beschreibenden Text im
+      Anmelde-/Änderungsformular für die Auswahl der Gruppen hier angeben,
+      z.B. anstatt &quot;Anmeldung in folgende Gruppen&quot;, &quot;Anmeldung zu
+      folgenden Themen&quot; verwenden.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
     <td width="28%">Formular-Felder</td>
     <td width="72%">Aktivieren Sie alle Formularfelder, die im HTML-Formular
       angezeigt werden sollen.
@@ -243,6 +341,20 @@ unterschiedlichen Pflichtfeldern oder optionalen Feldern definiert werden.</p>
       nicht an.</p>
       <p>Hinweis: Das Feld &quot;E-Mail-Adresse&quot; ist ein Pflichtfeld, es
       kann nicht deaktiviert oder zum optionalen Feld geändert werden.</p>
+      <p>&nbsp;</p>
+      <p><u>Feld &quot;Personalisiertes Tracking erlaubt?&quot;</u></p>
+      <p>Diese Angabe ist nur für die PHP Newsletter Software SuperWebMailer
+      relevant.<br>
+      Bei Versendung von E-Mailings und E-Mails durch Responder kann das
+      &quot;Personalisiertes Tracking des E-Mailings (Empfängertracking)&quot;
+      aktiviert werden, um zu sehen welche Empfänger die E-Mail geöffnet oder
+      welche Links durch den Empfänger der E-Mail angeklickt wurden. Durch
+      Deaktivierung der Option &quot;Personalisiertes Tracking erlaubt?&quot;
+      kann der Empfänger vom personalisierten Tracking ausgenommen werden,
+      falls der Empfänger dem personalisierten Tracking widerspricht. Das Feld
+      &quot;Personalisiertes Tracking erlaubt?&quot; kann ebenfalls im
+      Anmelde-/Ändernformular zur Anzeige aktiviert werden, so dass der
+      Newsletter-Empfänger selbst entscheiden kann.</p>
       <p>&nbsp;</td>
   </tr>
 </table>
@@ -736,6 +848,83 @@ nach Abmeldung versendet.</p>
       <p>&nbsp;</td>
   </tr>
 </table>
+<p>&nbsp;</p>
+<p><b>Registerkarte Browserlink (nur in der <a href="https://www.superwebmailer.de/" target="_blank">PHP
+Newsletter Software SuperWebMailer</a> verfügbar)</b></p>
+<p>Bei Aktivierung der Info-Leiste wird, immer oben fixiert, eine Leiste mit
+Anmeldung, Abmeldung, Übersetzung, Newsletterarchiv, Newsletterarchiv als
+RSS-Feed and zu Facebook und Twitter angezeigt.</p>
+<p>Hinweis: Zur Übersetzung wird der Dienst Google Übersetzer verwendet.</p>
+<table border="1" width="100%" cellspacing="0">
+  <tr>
+    <td width="50%" valign="top">Farbschema</td>
+    <td width="50%">Wählen Sie das gewünschte Farbschema, klicken Sie auf
+      &quot;Beispieldarstellung&quot;, um ein Beispiel des Farbschemas zu sehen.
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">Sprache des Newsletterinhalts</td>
+    <td width="50%">Wählen Sie die Sprache des Newsletters, diese Angabe wird
+      an den Google Übersetzer als Quellsprache übermittelt.
+      <p><b>Hinweis</b></p>
+      <p>Werden für Newsletter unterschiedlichen Sprachen verwendet, dann
+      sollte im Quelltext des Newsletters am HTML-Tag &lt;html&gt; die Sprache
+      mit lang=&quot;&quot; definiert werden, alternativ verwenden Sie im
+      Quelltext &lt;meta http-equiv=&quot;content-language&quot;
+      content=&quot;sprachkürzel&quot;&gt;, z.B.</p>
+      <p>&lt;html&gt; ändern in &lt;html lang=&quot;en&quot;&gt;</p>
+      <p>oder</p>
+      <p>&lt;meta http-equiv=&quot;content-language&quot;
+      content=&quot;en&quot;&gt;</p>
+      <p>Das Script sucht nach der Sprachangabe und verwendet diese für den
+      Dienst Google Übersetzer als Quellsprache. Es dürfen natürlich nur
+      Sprachkürzel verwendet werden, die Google Übersetzer unterstützt.</p>
+      <p>SuperWebMailer unterstützt</p>
+      <ul>
+        <li>en - English</li>
+        <li>cs - &#268;esky</li>
+        <li>nl - Nederlands</li>
+        <li>fr - Français</li>
+        <li>it - Italiano</li>
+        <li>pl - Polski</li>
+        <li>pt - Português</li>
+        <li>ru - &#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;</li>
+        <li>es - Español</li>
+        <li>tr - Türkçe</li>
+      </ul>
+      <p>&nbsp;</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">Anzuzeigende Links</td>
+    <td width="50%">Sie können die sichtbaren Bezeichner und URLs ändern.
+      Aktivieren Sie den Link, um diesen in der Info-Leiste anzeigen zu lassen.
+      <p>Hinweise zu den Links:</p>
+      <ul>
+        <li>Die Links Newsletterarchiv, Übersetzen und RSS-Feed werden immer
+          rechts in der Info-Leiste ausgerichtet, alle anderen Links immer
+          links.</li>
+        <li>Der Link &quot;Abmeldung&quot; wird automatisch entfernt, sobald auf
+          die Links Facebook oder Twitter geklickt wird, damit werden keine
+          persönlichen Daten an das soziale Netzwerk übermittelt.</li>
+        <li>Beim Klick auf die Links Facebook und Twitter werden persönliche
+          Daten des Newsletter-Empfängers aus dem Link immer entfernt, damit
+          werden keine persönlichen Daten an das soziale Netzwerk übermittelt.</li>
+      </ul>
+      <p>&nbsp;</td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">Optional: HTML-Code direkt nach Info-Leiste</td>
+    <td width="50%">Geben Sie eigenen HTML-Code an, der nach der Info-Leiste
+      bzw. genau vor dem Newsletterinhalt eingefügt werden soll. z.B.
+      &lt;p&gt;&amp;nbsp;&lt;/p&gt;&lt;p&gt;&amp;nbsp;&lt;/p&gt; um 2 Leerzeilen
+      einzufügen, so dass der Beginn des Newsletters sich nicht unter der
+      Info-Leiste befindet.
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><b>Siehe dazu auch</b></p>
 <p><a href="interface.htm">Oberfläche</a></p>

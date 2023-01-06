@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -35,7 +35,7 @@ class api_Common extends api_base {
   * @access public
 	 */
  function api_testAPI() {
-   return array("APIVersion" => api_getAPIVersion(), "ScriptName" => api_getScriptName(), "ScriptVersion" => api_getScriptVersion() );
+   return array("APIVersion" => $this->api_getAPIVersion(), "ScriptName" => $this->api_getScriptName(), "ScriptVersion" => $this->api_getScriptVersion() );
  }
 
  /**
@@ -67,8 +67,8 @@ class api_Common extends api_base {
   * @access public
 	 */
  function api_getScriptVersion() {
-   global $_QoJ8j;
-   return $_QoJ8j;
+   global $_Ij6Lj;
+   return $_Ij6Lj;
  }
 
  /**
@@ -78,14 +78,14 @@ class api_Common extends api_base {
   * @access public
 	 */
  function api_getThemes() {
-   global $_Q61I1, $_Q880O;
-   $_QJlJ0 = "SELECT * FROM $_Q880O";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_Q8COf = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1))
-      $_Q8COf[] = $_Q6Q1C;
-   mysql_free_result($_Q60l1);
-   return $_Q8COf;
+   global $_QLttI, $_I1tQf;
+   $_QLfol = "SELECT * FROM $_I1tQf";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_I1o8o = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1))
+      $_I1o8o[] = $_QLO0f;
+   mysql_free_result($_QL8i1);
+   return $_I1o8o;
  }
 
  /**
@@ -95,14 +95,14 @@ class api_Common extends api_base {
   * @access public
 	 */
  function api_getLanguages() {
-   global $_Q61I1, $_Qo6Qo;
-   $_QJlJ0 = "SELECT * FROM $_Qo6Qo";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_Q8COf = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1))
-      $_Q8COf[] = $_Q6Q1C;
-   mysql_free_result($_Q60l1);
-   return $_Q8COf;
+   global $_QLttI, $_Ijf8l;
+   $_QLfol = "SELECT * FROM $_Ijf8l";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_I1o8o = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1))
+      $_I1o8o[] = $_QLO0f;
+   mysql_free_result($_QL8i1);
+   return $_I1o8o;
  }
 
  /**
@@ -113,16 +113,16 @@ class api_Common extends api_base {
   * @access public
 	 */
  function api_getRecipientsFieldnames($apiLanguageCode) {
-   global $_Q61I1, $_Qofjo;
+   global $_QLttI, $_Ij8oL;
    if($apiLanguageCode == "") $apiLanguageCode = "en";
-   $_QJlJ0 = "SELECT `fieldname`, `text` FROM $_Qofjo WHERE `language`="._OPQLR($apiLanguageCode);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_Q8COf = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      $_Q8COf[] = array("fieldname" => $_Q6Q1C["fieldname"], "text" => $_Q6Q1C["text"]);
+   $_QLfol = "SELECT `fieldname`, `text` FROM $_Ij8oL WHERE `language`="._LRAFO($apiLanguageCode);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_I1o8o = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      $_I1o8o[] = array("fieldname" => $_QLO0f["fieldname"], "text" => $_QLO0f["text"]);
    }
-   mysql_free_result($_Q60l1);
-   return $_Q8COf;
+   mysql_free_result($_QL8i1);
+   return $_I1o8o;
  }
 
  /**
@@ -132,14 +132,14 @@ class api_Common extends api_base {
   * @access public
 	 */
  function api_getMTAs() {
-   global $_Q61I1, $_Qofoi;
-   $_QJlJ0 = "SELECT * FROM $_Qofoi";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_Q8COf = array();
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1))
-      $_Q8COf[] = $_Q6Q1C;
-   mysql_free_result($_Q60l1);
-   return $_Q8COf;
+   global $_QLttI, $_Ijt0i;
+   $_QLfol = "SELECT * FROM $_Ijt0i";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_I1o8o = array();
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1))
+      $_I1o8o[] = $_QLO0f;
+   mysql_free_result($_QL8i1);
+   return $_I1o8o;
  }
 
  /**
@@ -149,68 +149,89 @@ class api_Common extends api_base {
   * @access public
 	 */
  function api_getSupportedMailEncodings() {
-   global $_Qo8OO;
+   global $_Ijt8j;
 
-   $_Qot0C[] = "iso-8859-1";
-   $_Qot0C[] = "utf-8";
-   if ( function_exists('iconv') || function_exists('mb_convert_encoding') ) {
-     reset($_Qo8OO);
-     foreach($_Qo8OO as $key => $_Q6ClO) {
-        $_Qot0C[] = $key;
+   $_IjO6t[] = "iso-8859-1";
+   $_IjO6t[] = "utf-8";
+   if ( iconvExists || mbfunctionsExists ) {
+     reset($_Ijt8j);
+     foreach($_Ijt8j as $key => $_QltJO) {
+        $_IjO6t[] = $key;
      }
    }
 
-   return $_Qot0C;
+   return $_IjO6t;
  }
 
  /**
-  * gets firm logo, allowed as user superadmin only
+  * gets firm logo
   *
 	 * @return string
   * @access public
  */
  function api_getFirmLogo() {
-  global $UserType;
-  global $_Q61I1, $_Q88iO;
-		if($UserType != "SuperAdmin" || defined("DEMO")) {
-    return $this->api_Error("User superadmin can use this function only.");
+  global $_QLttI, $_I1O0i, $_I18lo, $UserId, $UserType;
+
+  $_IjOiO = "";
+  
+  if($UserType == "Admin"){
+    $_QLfol = "SELECT ProductLogoURL FROM $_I18lo WHERE id=$UserId";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1))
+       $_IjOiO = $_QLO0f["ProductLogoURL"];
+    mysql_free_result($_QL8i1);
   }
-  $_QJlJ0 = "SELECT ProductLogoURL FROM $_Q88iO";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1))
-     return $_Q6Q1C["ProductLogoURL"];
-     else
-     return "";
+
+  if($_IjOiO == ""){
+    $_QLfol = "SELECT ProductLogoURL FROM $_I1O0i";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1))
+       $_IjOiO = $_QLO0f["ProductLogoURL"];
+    mysql_free_result($_QL8i1);
+  }
+  return $_IjOiO;   
 	}
 
  /**
-  * set firm logo, allowed as user superadmin only
+  * set firm logo
   *
   * @param string $apiURL
 	 * @return boolean
   * @access public
 	 */
 	function api_setFirmLogo($apiURL) {
-  global $UserType;
-  global $_Q61I1, $_Q88iO, $ProductLogoURL;
-		if($UserType != "SuperAdmin" || defined("DEMO")) {
-    return $this->api_Error("User superadmin can use this function only.");
+  global $_I18lo, $UserId, $UserType;
+  global $_QLttI, $_I1O0i, $ProductLogoURL;
+		if(defined("DEMO")) {
+    return $this->api_Error("DEMO version function not available.");
   }
 
-  $apiURL = _OPQLR($apiURL);
+  $apiURL = _LRAFO($apiURL);
   $apiURL = str_replace("'", "", $apiURL);
   $apiURL = str_replace('"', "", $apiURL);
   $apiURL = str_replace('<', "", $apiURL);
   $apiURL = str_replace('>', "", $apiURL);
   $apiURL = str_replace("\\", "", $apiURL);
 
-  $_QJlJ0 = "UPDATE $_Q88iO SET ";
-  $_QJlJ0 .= "ProductLogoURL="._OPQLR($apiURL);
-  mysql_query($_QJlJ0, $_Q61I1);
-  $_QoOQO = $this->api_ShowSQLError($_QJlJ0); if($_QoOQO) return $_QoOQO;
+  if($UserType == "SuperAdmin"){
+    $_QLfol = "UPDATE $_I1O0i SET ";
+    $_QLfol .= "ProductLogoURL="._LRAFO($apiURL);
+    mysql_query($_QLfol, $_QLttI);
+    $_Ijoj6 = $this->api_ShowSQLError($_QLfol); if($_Ijoj6) return $_Ijoj6;
 
-  $ProductLogoURL = $apiURL;
-  return mysql_affected_rows($_Q61I1) > 0;
+    $ProductLogoURL = $apiURL;
+    return mysql_affected_rows($_QLttI) > 0;
+  }else{
+    $_QLfol = "UPDATE $_I18lo SET ";
+    $_QLfol .= "ProductLogoURL="._LRAFO($apiURL);
+    $_QLfol .= " WHERE id=$UserId";
+    mysql_query($_QLfol, $_QLttI);
+    $_Ijoj6 = $this->api_ShowSQLError($_QLfol); if($_Ijoj6) return $_Ijoj6;
+
+    $ProductLogoURL = $apiURL;
+    return mysql_affected_rows($_QLttI) > 0;
+  }
+  
 	}
 
 }

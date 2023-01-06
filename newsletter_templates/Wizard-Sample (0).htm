@@ -1,0 +1,1245 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+<title>SuperWebMailer sample template for wizard/IPE</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="author" content="newsletter template (c) 2001-2022 Mirko Boeer, www.supermailer.de, www.superwebmailer.de">
+
+<!--[if gte mso 9]><xml>
+ <o:OfficeDocumentSettings>
+  <o:AllowPNG/>
+  <o:PixelsPerInch>96</o:PixelsPerInch>
+ </o:OfficeDocumentSettings>
+</xml>
+<![endif]-->
+
+<!--COLORSCHEME
+grey=grau;
+white=wei&szlig;;
+black=schwarz;
+blue=blau;
+darkblue=dunkelblau;
+mint=mint;
+green=gr&uuml;n;
+brown=braun;
+red=rot;
+lightred=hellrot;
+purple=pink;
+yellow=gelb;
+orange=orange;
+gold=gold;
+bronze=bronze;
+silver=silber;
+/COLORSCHEME-->
+
+<style>
+  * {box-sizing: border-box; padding: 0;}
+  .ReadMsgBody { width: 100%; }
+  .ExternalClass { width: 100%; display:block !important; }
+  .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height: 100%; }
+
+  body {width:100% !important; min-width:100%; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;}
+  a img {border:none;}
+  img {display:block;}
+
+
+  table {border-spacing: 0px;}
+  table td {border-collapse: collapse;}
+  .yshortcuts a {border-bottom: none !important;}
+
+  table.fullWidth {width: 780px; max-width: 780px !important;}
+  td.halfWidth {width:350px; max-width:350px !important;vertical-align:top;text-align:center;}
+  img.firmlogo {max-width: 780px !important;}
+  img.plogo {max-width:350px !important}
+  div.text {text-align: justify;}
+  div.text img {max-width: 720px !important;}
+
+  h2 {font-size: 18px; font-weight:bold;}
+
+  .LinkAsButton {display: inline-block;}
+
+  body, table, td, a, span, div, select {
+     font-family: Arial, Helvetica, sans-serif;
+     font-size: 16px;
+     color: #4e4a47; /*grey #4e4a47*/ /*silver #696969*/ /*lightred #FF3300*/ /*darkblue #000099*/ /*white #000000*/ /*mint #000000*/ /*black #000000*/ /*blue #3399ff*/ /*green #339900*/ /*brown #660000*/ /*red #CC0000*/ /*purple #990099*/ /*yellow #000000*/ /*gold #000000*/ /*orange #000000*/ /*bronze #CC9933*/
+  }
+
+  a {
+     text-decoration: underline; /*grey underline*/
+     color: #4a4a4a; /*grey #4a4a4a*/ /*silver #696969*/ /*lightred #FF3300*/ /*darkblue #000099*/ /*white #000000*/ /*mint #000000*/ /*black #000000*/ /*blue #3399ff*/ /*green #339900*/ /*brown #660000*/ /*red #CC0000*/ /*purple #990099*/ /*yellow #000000*/ /*gold #000000*/ /*orange #000000*/ /*bronze #CC9933*/
+  }
+
+  .AltBrowserLinkText{
+     color: #4e4a47; /*grey #4e4a47*/ /*silver #696969*/ /*lightred #FF3300*/ /*darkblue #000099*/ /*white #000000*/ /*mint #000000*/ /*black #000000*/ /*blue #0033CC*/ /*green #339900*/ /*brown #660000*/ /*red #CC0000*/ /*purple #990099*/ /*yellow #000000*/ /*gold #000000*/ /*orange #000000*/ /*bronze #CC9933*/
+  }
+  .AltBrowserLink{
+     text-decoration: underline; /*grey underline*/
+     color: #4a4a4a; /*grey #4a4a4a*/ /*silver #696969*/ /*lightred #FF3300*/ /*darkblue #000099*/ /*white #000000*/ /*mint #000000*/ /*black #000000*/ /*blue #3399ff*/ /*green #339900*/ /*brown #660000*/ /*red #CC0000*/ /*purple #990099*/ /*yellow #000000*/ /*gold #000000*/ /*orange #000000*/ /*bronze #CC9933*/
+  }
+
+  .subheadline {
+     background-color: #4a4a4a; /*grey #4a4a4a*/ /*silver #C0C0C0*/ /*lightred #FF3300*/ /*darkblue #000099*/ /*mint #99FFFF*/ /*white #FFFFFF*/ /*black #000000*/ /*blue #3399ff*/ /*green #339900*/ /*brown #660000*/  /*red #CC0000*/ /*purple #660066*/ /*yellow #FFFF00*/ /*gold #FFFF66*/ /*orange #FFCC00*/ /*bronze #CC9933*/
+     color: #FFFFFF; /*grey #FFFFFF*/ /*white #000000*/ /*mint #000000*/ /*yellow #000000*/ /*gold #000000*/ /*orange #000000*/
+  }
+
+  .imprint {
+     background-color: #4a4a4a; /*grey #4a4a4a*/ /*silver #C0C0C0*/ /*lightred #FF3300*/ /*darkblue #000099*/ /*white #FFFFFF*/ /*mint #99FFFF*/ /*black #000000*/ /*blue #3399ff*/ /*green #339900*/ /*brown #660000*/ /*red #CC0000*/ /*purple #660066*/ /*yellow #FFFF00*/ /*gold #FFFF66*/ /*orange #FFCC00*/ /*bronze #CC9933*/
+  }
+  .imprintText {
+     color: #FFFFFF; /*grey #FFFFFF*/ /*silver #696969*/ /*white #000000*/ /*mint #000000*/ /*yellow #000000*/ /*gold #000000*/ /*orange #000000*/
+  }
+
+  .imprintLink{
+     text-decoration: underline;
+     color: #FFFFFF; /*grey #FFFFFF*/ /*white #000000*/ /*mint #000000*/ /*yellow #000000*/ /*gold #000000*/ /*orange #000000*/
+  }
+
+  a.orderButton, v:roundrect, center.orderButton {
+     text-decoration: none; /*grey none*/
+     color: #FFFFFF; /*grey #FFFFFF*/ /*mint #000000*/ /*yellow #000000*/ /*gold #000000*/ /*orange #000000*/
+     border: #4a4a4a 10px solid; /*grey #4a4a4a 10px solid*/ /*silver #C0C0C0 10px solid*/ /*lightred #FF3300 10px solid*/ /*darkblue #000099 10px solid*/ /*white #000000 10px solid*/ /*mint #99FFFF 10px solid*/ /*black #000000 10px solid*/ /*blue #3399ff 10px solid*/ /*green #339900 10px solid*/ /*brown #660000 10px solid*/ /*red #CC0000 10px solid*/ /*purple #660066 10px solid*/ /*yellow #FFFF00 10px solid*/ /*gold #FFFF66 10px solid*/ /*orange #FFCC00 10px solid*/ /*bronze #CC9933 10px solid*/
+     background-color: #4a4a4a; /*grey #4a4a4a*/ /*silver #C0C0C0*/ /*lightred #FF3300*/ /*darkblue #000099*/ /*white #000000*/ /*mint #99FFFF*/ /*black #000000*/ /*blue #3399ff*/ /*green #339900*/ /*brown #660000*/ /*red #CC0000*/ /*purple #660066*/ /*yellow #FFFF00*/ /*gold #FFFF66*/ /*orange #FFCC00*/ /*bronze #CC9933*/
+  }
+
+  td.content {
+     color: #4e4a47; /*grey #4e4a47*/ /*silver #696969*/ /*lightred #FF3300*/ /*darkblue #000099*/ /*white #FFFFFF*/ /*mint #000000*/ /*black #000000*/ /*blue #0033CC*/ /*green #339900*/ /*brown #660000*/ /*red #CC0000*/ /*purple #990099*/ /*yellow #000000*/ /*gold #000000*/ /*orange #000000*/ /*bronze #000000*/
+  }
+
+
+  @media only screen and (max-width: 780px) {
+     table.fullWidth{width: 100%;}
+     td.content, h2{padding: 0px; padding-left: 4px; padding-right: 4px;}
+
+     td.hideCell {display:none; width:0px; height:0px;visibility: collapse;}
+     .firmlogo, .fs_productlogo{width: 100% !important; height: auto; float:none;}
+     div.text img {max-width: 100% !important; width: calc(100%);} /*width: calc(100%); for IE11*/
+     img.plogo {width: 100% !important;; height: auto}
+     img.social {width: auto; height: auto}
+     .td-wrap {width: 100% !important; display: block !important;}
+
+     a.orderButton {text-align:left;}
+     div.text, td.content {text-align: left;}
+  }
+
+</style>
+
+
+<!--[if gt mso 9]><style type="text/css" media="all">
+ table, tr, td {border-collapse: collapse;border-spacing: 0;}
+ tr { font-size:0px; line-height:0px; border-collapse: collapse; }
+ mso-table-lspace: 0pt !important;
+ mso-table-rspace: 0pt !important;
+ </style>
+<![endif]-->
+
+<meta content="width=device-width, initial-scale=1" name="viewport" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+</head>
+
+<body style="background-color:#FFFFFF;padding-bottom: 0px; padding-top: 0px; padding-left: 0px; margin: 0px; padding-right: 0px;color: #4e4a47;" bgcolor="#FFFFFF">
+
+<div style="text-align: left; margin: 10px; padding: 12px; display: inline-block;" id="COLORSCHEME_SELECT" class="imprint">
+  <form action="" id="COLORSCHEME_SELECT_FORM">
+    <input type="hidden" id="TemplateFileName" name="TemplateFileName" />
+    <div style="color: #FFFFFF;" class="imprintText">
+    Farbschema/Color scheme<br /><br />
+    <select id="COLORSCHEME_SELECT_CB" name="COLORSCHEME_SELECT_CB" size="1">
+      <!--COLORSCHEME_SELECT-->
+      <option value="%colorValue%">%colorText%</option>
+      <!--/COLORSCHEME_SELECT-->
+    </select>
+    </div>
+    <div style="text-align: right;">
+      <span title="Schlie&szlig;en/Close" style="cursor:pointer;color: #FFFFFF;" class="imprintText" id="COLORSCHEME_SELECT_REMOVE">&#10006;</span>
+    </div>
+</div>
+
+
+<div align="center" >
+
+<repeater disableOtherElements="true" label="Header">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+    <tr>
+      <td>
+      &nbsp;
+      </td>
+    </tr>
+    <tr>
+      <td style="text-align:center;">
+        <div style="color: #4e4a47;" class="AltBrowserLinkText">
+           <singleline>Nachricht nicht korrekt dargestellt/Message not showed correctly, </singleline>&nbsp;<a href="[AltBrowserLink]" style="color: #4a4a4a; font-weight:bold; text-decoration: underline;" class="AltBrowserLink" editable="true">Web Version</a>.
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      &nbsp;
+      </td>
+    </tr>
+
+ 	<tr>
+		<td>
+		  <table width="100%" style="width:100%;" cellSpacing="0" cellPadding="0" border="0">
+		  <tr>
+            <td style="text-align: center;">
+               <center>
+               <img editable="true" class="firmlogo" src="logo780x120.png" style="border: 0px; margin: 0px; padding: 0px; max-width:780px; display: block; min-width: 100px" alt="Logo">
+               </center>
+            </td>
+  		  </tr>
+		  </table>
+		</td>
+
+
+	</tr>
+
+ <tr>
+   <td ><img src="blind.gif" width="1" height="10" ></td>
+ </tr>
+
+</table>
+</repeater>
+
+
+<repeater disableOtherElements="true" label="Intro Text">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+
+        <td class="content">
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+
+
+            <tr>
+              <td colspan="2" width="100%"><img src="blind.gif" width="1" height="20" ></td>
+            </tr>
+
+            <tr>
+              <td colspan="2" style="vertical-align:top;word-wrap: break-word;color: #4e4a47;" class="content">
+                <div class="text" align="justify">
+                  <multiline>
+                  <p>
+                  Dies ist eine Vorlage zur Nutzung mit dem Assistenten/Inplace Editor.
+                  </p>
+                  <p>
+                  Verwenden Sie diese Vorlage <b>nicht</b> mit dem WYSIWYG-Editor.
+                  </p>
+                  <p>
+                  Zum Laden einer anderen Vorlage klicken Sie links auf &quot;Newsletter-Vorlagen&quot; und laden Sie eine andere Vorlage.
+                  </p>
+                  <p>&nbsp;</p>
+                  <hr>
+                  <p>&nbsp;</p>
+                  <p>
+                  This is as template for use with Wizard/Inplace Editor.
+                  </p>
+                  <p>
+                  Don't use this template with WYSIWYG editor.
+                  </p>
+                  <p>
+                  Click left on &quot;Newsletter templates&quot; to load another template.
+                  </p>
+                  </multiline>
+                </div>
+              </td>
+            </tr>
+
+
+            <tr>
+              <td colspan="2"><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+          </table>
+
+
+
+		</td>
+
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1" ></td>
+	</tr>
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Leerzeile/Blank line 20px">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+
+        <td class="content">
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+
+
+            <tr>
+              <td width="100%"><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+
+            <tr>
+              <td><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+          </table>
+
+
+
+		</td>
+
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1" ></td>
+	</tr>
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Flie&szlig;text / flowing text">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1" ></td>
+
+        <td>
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+            <tr>
+              <td width="30" bgcolor="#4a4a4a" class="hideCell subheadline" style="width:30px; background-color:#4a4a4a;"><img src="blind.gif" width="30" height="1"></td>
+              <td width="100%" bgcolor="#4a4a4a" class="subheadline" style="width:100%; background-color:#4a4a4a; color: #FFFFFF; text-align: left;">
+                <h2 style="font-size: 18px; font-weight:bold; color: #FFFFFF;" class="subheadline">
+                  <singleline>Flie&szlig;text / flowing text</singleline>
+                </h2>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="2"><img src="blind.gif" width="1" height="20" ></td>
+            </tr>
+
+            <tr>
+              <td colspan="2" style="color: #4e4a47; vertical-align:top;word-wrap: break-word;" class="content">
+                <div class="text" align="justify">
+                <multiline>
+                  Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                  Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                  sed diam voluptua.
+                </multiline>
+                </div>
+              </td>
+            </tr>
+
+
+            <tr>
+              <td colspan="2"><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+          </table>
+
+
+
+		</td>
+
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1" ></td>
+	</tr>
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Leerzeile/Blank line 20px">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+
+        <td class="content">
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+
+
+            <tr>
+              <td width="100%"><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+
+            <tr>
+              <td><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+          </table>
+
+
+
+		</td>
+
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1" ></td>
+	</tr>
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Bild oben Text folgt / image top text follows">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+
+        <td>
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+            <tr>
+              <td width="30" bgcolor="#4a4a4a" class="hideCell subheadline" style="width:30px; background-color:#4a4a4a;"><img src="blind.gif" width="30" height="1"></td>
+              <td width="100%" bgcolor="#4a4a4a" class="subheadline" style="width:100%; background-color:#4a4a4a; color: #FFFFFF; text-align: left;">
+                <h2 style="font-size: 18px; font-weight:bold; color: #FFFFFF;" class="subheadline">
+                  <singleline>Bild oben Text folgt / image top text follows</singleline>
+                </h2>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="2"><img src="blind.gif" width="1" height="20"></td>
+            </tr>
+
+            <tr>
+              <td colspan="2" style="color: #4e4a47;" class="content">
+
+              <table style="width:100%" cellSpacing="0" cellPadding="0" border="0" width="100%">
+                <tr>
+                  <td style="vertical-align:top; text-align:center" width="100%">
+                    <center>
+                    <img editable="true" class="fs_productlogo" src="image700x230.png" alt="Produktbild" style="max-width:700px;display: block; min-width: 100px">
+                    </center>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td height="10" style="height:10px;"><img src="blind.gif" width="1" height="10"></td>
+                </tr>
+
+
+                <tr>
+
+                  <td style="color: #4e4a47; vertical-align:top; width:100%; word-wrap: break-word;" class="content">
+                    <div class="text" align="justify">
+                    <multiline>
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                      Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                      sed diam voluptua.
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                      Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                      sed diam voluptua.
+                    </multiline>
+                    </div>
+
+                    <div>&nbsp;</div>
+
+                    <div class="LinkAsButton">
+                      <!--[if mso]>
+                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.superwebmailer.de" style="height:40px;v-text-anchor:middle;width:500px;" arcsize="25%" strokecolor="#4a4a4a" fillcolor="#4a4a4a">
+                          <w:anchorlock/>
+                          <center style="color:#ffffff;font-family:arial,helvetica,sans-serif;font-size:18px;" class="orderButton">Jetzt bestellen/Order now</center>
+                        </v:roundrect>
+                      <![endif]-->
+                      <a class="orderButton"
+                      style="color: #FFFFFF;font-size: 18px; text-decoration: none; border: #4a4a4a 10px solid; display: inline-block; background-color: #4a4a4a; border-radius: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px; -ms-border-radius: 10px; -khtml-border-radius: 10px; -webkit-text-size-adjust: none;mso-hide:all;"
+                      href="https://www.superwebmailer.de/" editable="true">Jetzt bestellen/Order now</a>
+                    </div>
+
+                  </td>
+                  </tr>
+
+                  <tr>
+                    <td height="10" style="height:10px;"><img src="blind.gif" width="1" height="10"></td>
+                  </tr>
+
+                </table>
+
+              </td>
+
+            </tr>
+
+          </table>
+
+
+
+		</td>
+
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+	</tr>
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Leerzeile/Blank line 20px">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+
+        <td class="content">
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+
+
+            <tr>
+              <td width="100%"><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+
+            <tr>
+              <td><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+          </table>
+
+
+
+		</td>
+
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1" ></td>
+	</tr>
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Bild links / Image left">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+
+        <td>
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+            <tr>
+              <td width="30" bgcolor="#4a4a4a" class="hideCell subheadline" style="width:30px; background-color:#4a4a4a;"><img src="blind.gif" width="30" height="1"></td>
+              <td width="100%" bgcolor="#4a4a4a" class="subheadline" style="width:100%; background-color:#4a4a4a; color: #FFFFFF; text-align: left;">
+                <h2 style="font-size: 18px; font-weight:bold; color: #FFFFFF;" class="subheadline">
+                  <singleline>Bild links / Image left</singleline>
+                </h2>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="2"><img src="blind.gif" width="1" height="20"></td>
+            </tr>
+
+            <tr>
+              <td colspan="2" style="color: #4e4a47;" class="content">
+
+              <table style="width:100%" cellSpacing="0" cellPadding="0" border="0" width="100%">
+                <tr>
+                  <td class="halfWidth td-wrap halfWidth" width="350">
+                    <center>
+                    <img editable="true" src="image350x230.png" alt="Produktbild links" class="plogo" style="max-width:350px;display: block; min-width: 100px;">
+                    </center>
+                  </td>
+
+                  <td width="10" style="width:10px;" class="td-wrap"><img src="blind.gif" width="10" height="1"></td>
+
+                  <td class="td-wrap content" style="color: #4e4a47; vertical-align:top;word-wrap: break-word;" width="100%">
+                    <div class="text" align="justify">
+                    <multiline>
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                      Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                      sed diam voluptua.
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                      Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                      sed diam voluptua.
+                    </multiline>
+                    </div>
+
+                    <div>&nbsp;</div>
+
+                    <div class="LinkAsButton">
+                      <!--[if mso]>
+                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.superwebmailer.de" style="height:40px;v-text-anchor:middle;width:350px;" arcsize="25%" strokecolor="#4a4a4a" fillcolor="#4a4a4a">
+                          <w:anchorlock/>
+                          <center style="color:#ffffff;font-family:arial,helvetica,sans-serif;font-size:18px;" class="orderButton">Jetzt bestellen/Order now</center>
+                        </v:roundrect>
+                      <![endif]-->
+                      <a class="orderButton"
+                      style="color: #FFFFFF;font-size: 18px; text-decoration: none; border: #4a4a4a 10px solid; display: inline-block; background-color: #4a4a4a; border-radius: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px; -ms-border-radius: 10px; -khtml-border-radius: 10px; -webkit-text-size-adjust: none;mso-hide:all;"
+                      href="https://www.superwebmailer.de/" editable="true">Jetzt bestellen/Order now</a>
+                    </div>
+
+                  </td>
+                  </tr>
+
+                  <tr>
+                    <td height="10" style="height:10px;"><img src="blind.gif" width="1" height="10"></td>
+                  </tr>
+
+                </table>
+
+              </td>
+
+            </tr>
+
+          </table>
+
+
+
+		</td>
+
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+	</tr>
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Leerzeile/Blank line 20px">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+
+        <td class="content">
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+
+
+            <tr>
+              <td width="100%"><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+
+            <tr>
+              <td><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+          </table>
+
+
+
+		</td>
+
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1" ></td>
+	</tr>
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Bild rechts / Image right">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+
+        <td>
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+            <tr>
+              <td width="30" bgcolor="#4a4a4a" class="hideCell subheadline" style="width:30px; background-color:#4a4a4a;"><img src="blind.gif" width="30" height="1"></td>
+              <td width="100%" bgcolor="#4a4a4a" class="subheadline" style="width:100%; background-color:#4a4a4a; color: #FFFFFF; text-align: left;">
+                <h2 style="font-size: 18px; font-weight:bold; color: #FFFFFF;" class="subheadline">
+                  <singleline>Bild rechts / Image right</singleline>
+                </h2>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="2"><img src="blind.gif" width="1" height="20"></td>
+            </tr>
+
+            <tr>
+              <td colspan="2" style="color: #4e4a47;" class="content">
+
+              <table style="width:100%" cellSpacing="0" cellPadding="0" border="0" width="100%">
+                <tr>
+
+                  <td class="td-wrap content" style="color: #4e4a47; vertical-align:top; word-wrap: break-word;" width="100%">
+                    <div class="text" align="justify">
+                    <multiline>
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                      Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                      sed diam voluptua.
+                    </multiline>
+                    </div>
+
+                    <div>&nbsp;</div>
+
+                    <div class="LinkAsButton">
+                      <!--[if mso]>
+                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.superwebmailer.de" style="height:40px;v-text-anchor:middle;width:350px;" arcsize="25%" strokecolor="#4a4a4a" fillcolor="#4a4a4a">
+                          <w:anchorlock/>
+                          <center style="color:#ffffff;font-family:arial,helvetica,sans-serif;font-size:18px;" class="orderButton">Jetzt bestellen/Order now</center>
+                        </v:roundrect>
+                      <![endif]-->
+                      <a class="orderButton"
+                      style="color: #FFFFFF;font-size: 18px; text-decoration: none; border: #4a4a4a 10px solid; display: inline-block; background-color: #4a4a4a; border-radius: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px; -ms-border-radius: 10px; -khtml-border-radius: 10px; -webkit-text-size-adjust: none;mso-hide:all;"
+                      href="https://www.superwebmailer.de/" editable="true">Jetzt bestellen/Order now</a>
+                    </div>
+
+                  </td>
+
+                  <td class="td-wrap" width="10" style="width:10px;"><img src="blind.gif" width="10" height="1"></td>
+
+                  <td class="halfWidth td-wrap" width="350">
+                    <center>
+                    <img editable="true" src="image350x230.png" alt="Produktbild right" class="plogo" style="max-width:350px;display: block; min-width: 100px;">
+                    </center>
+                  </td>
+
+                  </tr>
+
+                  <tr>
+                    <td height="10" style="height:10px;"><img src="blind.gif" width="1" height="10"></td>
+                  </tr>
+
+                </table>
+
+              </td>
+
+            </tr>
+
+          </table>
+
+
+
+		</td>
+
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+	</tr>
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Leerzeile/Blank line 20px">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+
+        <td class="content">
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+
+
+            <tr>
+              <td width="100%"><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+
+            <tr>
+              <td><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+          </table>
+
+
+
+		</td>
+
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1" ></td>
+	</tr>
+</table>
+</repeater>
+
+
+<repeater disableOtherElements="true" label="Bild oben / Image top">
+
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+
+        <td>
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+            <tr>
+              <td width="30" bgcolor="#4a4a4a" class="hideCell subheadline" style="width:30px; background-color:#4a4a4a;"><img src="blind.gif" width="30" height="1"></td>
+              <td width="100%" bgcolor="#4a4a4a" class="subheadline" style="width:100%; background-color:#4a4a4a; color: #FFFFFF; text-align: left;">
+                <h2 style="font-size: 18px; font-weight:bold; color: #FFFFFF;" class="subheadline">
+                  <singleline>Bild oben / Image top</singleline>
+                </h2>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="2"><img src="blind.gif" width="1" height="20"></td>
+            </tr>
+
+            <tr>
+              <td colspan="2" style="color: #4e4a47;" class="content">
+
+              <table style="width:100%" cellSpacing="0" cellPadding="0" border="0" width="100%">
+
+                <tr>
+                  <td class="halfWidth" width="350">
+                    <center>
+                    <img editable="true" src="image350x230.png" alt="Produktbild oben links" class="plogo" style="max-width:350px;display: block; min-width: 100px;">
+                    </center>
+                  </td>
+
+                  <td width="10"><img src="blind.gif" width="10" height="1"></td>
+
+                  <td class="halfWidth" width="350">
+                    <center>
+                    <img editable="true" src="image350x230.png" alt="Produktbild oben rechts" class="plogo" style="max-width:350px;display: block; min-width: 100px;">
+                    </center>
+                  </td>
+
+                </tr>
+
+                <tr>
+                  <td height="10"><img src="blind.gif" width="1" height="10"></td>
+                  <td width="10"><img src="blind.gif" width="10" height="1"></td>
+                  <td height="10"><img src="blind.gif" width="1" height="10"></td>
+                </tr>
+
+                <tr>
+
+                  <td style="color: #4e4a47; vertical-align:top;width:350px;word-wrap: break-word;" width="350" class="content">
+                    <div class="text" align="justify">
+                    <multiline>
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                      Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                      sed diam voluptua.
+                    </multiline>
+                    </div>
+
+                  </td>
+
+                  <td width="10"><img src="blind.gif" width="10" height="1"></td>
+
+                  <td style="color: #4e4a47; vertical-align:top;width:350px;word-wrap: break-word;" width="350" class="content">
+                    <div class="text" align="justify">
+                    <multiline>
+                      Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
+                      Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                      sed diam voluptua.
+                    </multiline>
+                    </div>
+
+                  </td>
+
+                  </tr>
+
+                 <tr>
+                   <td height="10"><img src="blind.gif" width="1" height="10"></td>
+                   <td width="10"><img src="blind.gif" width="10" height="1"></td>
+                   <td height="10"><img src="blind.gif" width="1" height="10"></td>
+                 </tr>
+
+                <tr>
+                  <td style="text-align: left" class="halfWidth">
+
+                    <div class="LinkAsButton">
+                      <!--[if mso]>
+                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.superwebmailer.de" style="height:40px;v-text-anchor:middle;width:350px;" arcsize="25%" strokecolor="#4a4a4a" fillcolor="#4a4a4a">
+                          <w:anchorlock/>
+                          <center style="color:#ffffff;font-family:arial,helvetica,sans-serif;font-size:18px;" class="orderButton">Jetzt bestellen/Order now</center>
+                        </v:roundrect>
+                      <![endif]-->
+                      <a class="orderButton"
+                      style="color: #FFFFFF;font-size: 18px; text-decoration: none; border: #4a4a4a 10px solid; display: inline-block; background-color: #4a4a4a; border-radius: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px; -ms-border-radius: 10px; -khtml-border-radius: 10px; -webkit-text-size-adjust: none;mso-hide:all;"
+                      href="https://www.superwebmailer.de/" editable="true">Jetzt bestellen/Order now</a>
+                    </div>
+
+                  </td>
+
+                  <td width="10"><img src="blind.gif" width="10" height="1"></td>
+
+                  <td style="text-align: left" class="halfWidth">
+
+                    <div class="LinkAsButton">
+                      <!--[if mso]>
+                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.superwebmailer.de" style="height:40px;v-text-anchor:middle;width:350px;" arcsize="25%" strokecolor="#4a4a4a" fillcolor="#4a4a4a">
+                          <w:anchorlock/>
+                          <center style="color:#ffffff;font-family:arial,helvetica,sans-serif;font-size:18px;" class="orderButton">Jetzt bestellen/Order now</center>
+                        </v:roundrect>
+                      <![endif]-->
+                      <a class="orderButton"
+                      style="color: #FFFFFF;font-size: 18px; text-decoration: none; border: #4a4a4a 10px solid; display: inline-block; background-color: #4a4a4a; border-radius: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px; -ms-border-radius: 10px; -khtml-border-radius: 10px; -webkit-text-size-adjust: none;mso-hide:all;"
+                      href="https://www.superwebmailer.de/" editable="true">Jetzt bestellen/Order now</a>
+                    </div>
+
+                  </td>
+                </tr>
+
+                </table>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td colspan="2"><img src="blind.gif" width="1" height="10"></td>
+            </tr>
+
+          </table>
+
+
+
+		</td>
+
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+	</tr>
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Leerzeile/Blank line 20px">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+
+        <td class="content">
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+
+
+            <tr>
+              <td width="100%"><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+
+            <tr>
+              <td><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+          </table>
+
+
+
+		</td>
+
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1" ></td>
+	</tr>
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Impressum / Imprint">
+
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth imprint" style="background-color:#4a4a4a;" bgcolor="#4a4a4a">
+    <tr>
+      <td colspan="3" class="hideCell imprint" bgcolor="#4a4a4a" style="background-color:#4a4a4a;"><img src="blind.gif" width="1" height="30"></td>
+    </tr>
+
+	<tr>
+		<td width="30" bgcolor="#4a4a4a" style="background-color:#4a4a4a;" class="hideCell imprint"><img src="blind.gif" width="30" height="1"></td>
+
+        <td class="content">
+
+           <table style="width:100%" cellSpacing="0" cellPadding="0" border="0" width="100%">
+             <tr>
+
+               <td style="text-align:left; vertical-align:top; width:75%;color: #FFFFFF" class="imprintText">
+
+                  <div style="font-size: 18px; font-weight:bold; color: #FFFFFF;" class="imprintText">
+                    <singleline>So erreichen Sie uns</singleline><br><br>
+                  </div>
+
+                  <div style="color: #FFFFFF;" class="imprintText">
+
+                    <multiline>
+                    SuperMailer Corporation<br>
+                    Corporation Street 128<br>
+                    456799 Corporation Town<br><br>
+
+                    Telefon: <a href="tel:1234/5789012" style="color: #FFFFFF; text-decoration: underline;" class="imprintLink">1234/5789012</a>
+
+                    </multiline>
+
+                  </div>
+
+                  <div>&nbsp;</div>
+
+               </td>
+               <td style="text-align:left; vertical-align:top; width:25%;">
+                 <div style="color: #FFFFFF; font-size: 18px; font-weight:bold;" class="imprintText">
+                   <singleline>Sie finden uns auch in sozialen Medien</singleline>
+                 </div>
+
+                 <div>&nbsp;</div>
+
+                 <table style="width:100%" cellSpacing="0" cellPadding="0" border="0"  width="100%">
+                   <tr>
+                     <td><a href="https://www.facebook.com/yourfirm/" editable="true"><img src="facebook39.png" alt="Facebook" border="0" class="social" style="max-width:39px;display: block; min-width: 39px;" editable="true"></a></td>
+                     <td><a href="https://twitter.com/yourfirm" editable="true"><img src="twitter39.png" alt="Twitter" border="0" class="social" style="max-width:39px;display: block; min-width: 39px;" editable="true"></a></td>
+                   </tr>
+                   <tr>
+                     <td><a href="https://www.youtube.com/yourfirm?gl=DE&hl=de" editable="true"><img src="youtube39.png" alt="Youtube" border="0" class="social" style="max-width:39px;display: block; min-width: 39px;" editable="true"></a></td>
+                     <td><a href="https://www.pinterest.de/yourfirm/" editable="true"><img src="pinterest39.png" alt="Pinterest" border="0" class="social" style="max-width:39px;display: block; min-width: 39px;" editable="true"></a></td>
+                   </tr>
+                 </table>
+
+               </td>
+             </tr>
+           </table>
+
+		</td>
+
+		<td width="30" bgcolor="#4a4a4a" style="background-color:#4a4a4a;" class="hideCell imprint"><img src="blind.gif" width="30" height="1"></td>
+	</tr>
+
+
+	<tr>
+		<td width="30" bgcolor="#4a4a4a" style="background-color:#4a4a4a;" class="hideCell imprint"><img src="blind.gif" width="30" height="1"></td>
+
+        <td>
+
+           <table style="width:100%" cellSpacing="0" cellPadding="0" border="0">
+             <tr>
+
+               <td style="text-align:left; vertical-align:top; width:75%;" colspan="2">
+
+                  <div style="color: #FFFFFF;" class="imprintText">
+                    <multiline>
+                    Webseite: <a href="https://www.yourfirm.com" style="color: #FFFFFF; text-decoration: underline;" class="imprintLink">https://www.yourfirm.com</a><br>
+
+                    <div>&nbsp;</div>
+
+                    E-Mail: <a href="mailto:yourfirm@yourfirm.com" style="color: #FFFFFF; text-decoration: underline;" class="imprintLink">yourfirm@yourfirm.com</a><br>
+
+                    <div>&nbsp;</div>
+
+                    <a href="[UnsubscribeLink]" style="color: #FFFFFF; text-decoration: underline;" class="imprintLink">Abmeldung vom Newsletter</a>
+
+                    </multiline>
+                  </div>
+
+
+               </td>
+             </tr>
+           </table>
+
+           <div>&nbsp;</div>
+           <!--[if (mso)|(mso 16)]>
+           <div>&nbsp;</div>
+           <![endif]-->
+
+		</td>
+
+		<td width="30" bgcolor="#4a4a4a" style="background-color:#4a4a4a;" class="hideCell imprint"><img src="blind.gif" width="30" height="1"></td>
+	</tr>
+
+
+<!--
+    <tr>
+      <td colspan="3" bgcolor="#4a4a4a" style="background-color:#4a4a4a;" class="hideCell imprint"><img src="blind.gif" width="1" height="10"></td>
+    </tr>
+-->
+
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Bestellen/Order now L">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+
+        <td>
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+
+            <tr>
+              <td><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+            <tr>
+              <td style="text-align:left;">
+                    <div class="LinkAsButton">
+                      <!--[if mso]>
+                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.superwebmailer.de" style="height:40px;v-text-anchor:middle;width:500px;" arcsize="25%" strokecolor="#4a4a4a" fillcolor="#4a4a4a">
+                          <w:anchorlock/>
+                          <center style="color:#ffffff;font-family:arial,helvetica,sans-serif;font-size:18px;" class="orderButton">Jetzt bestellen/Order now</center>
+                        </v:roundrect>
+                      <![endif]-->
+                      <a class="orderButton"
+                      style="color: #FFFFFF;font-size: 18px; text-decoration: none; border: #4a4a4a 10px solid; display: inline-block; background-color: #4a4a4a; border-radius: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px; -ms-border-radius: 10px; -khtml-border-radius: 10px; -webkit-text-size-adjust: none;mso-hide:all;"
+                      href="https://www.superwebmailer.de/" editable="true">Jetzt bestellen/Order now</a>
+                    </div>
+              </td>
+            </tr>
+
+            <tr>
+              <td><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+          </table>
+
+		</td>
+
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1" ></td>
+	</tr>
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Bestellen/Order now R">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1"></td>
+
+        <td>
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+
+            <tr>
+              <td><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+            <tr>
+              <td style="text-align:right;">
+                    <div class="LinkAsButton">
+                      <!--[if mso]>
+                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.superwebmailer.de" style="height:40px;v-text-anchor:middle;width:500px;" arcsize="25%" strokecolor="#4a4a4a" fillcolor="#4a4a4a">
+                          <w:anchorlock/>
+                          <center style="color:#ffffff;font-family:arial,helvetica,sans-serif;font-size:18px;" class="orderButton">Jetzt bestellen/Order now</center>
+                        </v:roundrect>
+                      <![endif]-->
+                      <a class="orderButton"
+                      style="color: #FFFFFF;font-size: 18px; text-decoration: none; border: #4a4a4a 10px solid; display: inline-block; background-color: #4a4a4a; border-radius: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px; -ms-border-radius: 10px; -khtml-border-radius: 10px; -webkit-text-size-adjust: none;mso-hide:all;"
+                      href="https://www.superwebmailer.de/" editable="true">Jetzt bestellen/Order now</a>
+                    </div>
+              </td>
+            </tr>
+
+           <tr>
+              <td><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+
+          </table>
+
+		</td>
+
+		<td class="hideCell" width="30"><img src="blind.gif" width="30" height="1" ></td>
+	</tr>
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Bestellen/Order now">
+
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell"><img src="blind.gif" width="30" height="1"></td>
+
+        <td>
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+
+            <tr>
+              <td colspan="2"><img src="blind.gif" width="1" height="10"></td>
+            </tr>
+
+            <tr>
+              <td colspan="2">
+
+              <table style="width:100%" cellSpacing="0" cellPadding="0" border="0" width="100%">
+
+                <tr>
+
+                  <td class="halfWidth" width="350" style="text-align: left;">
+                    <div class="LinkAsButton">
+                      <!--[if mso]>
+                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.superwebmailer.de" style="height:40px;v-text-anchor:middle;width:350px;" arcsize="25%" strokecolor="#4a4a4a" fillcolor="#4a4a4a">
+                          <w:anchorlock/>
+                          <center style="color:#ffffff;font-family:arial,helvetica,sans-serif;font-size:18px;" class="orderButton">Jetzt bestellen/Order now</center>
+                        </v:roundrect>
+                      <![endif]-->
+                      <a class="orderButton"
+                      style="color: #FFFFFF;font-size: 18px; text-decoration: none; border: #4a4a4a 10px solid; display: inline-block; background-color: #4a4a4a; border-radius: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px; -ms-border-radius: 10px; -khtml-border-radius: 10px; -webkit-text-size-adjust: none;mso-hide:all;"
+                      href="https://www.superwebmailer.de/" editable="true">Jetzt bestellen/Order now</a>
+                    </div>
+                  </td>
+
+                  <td width="10"><img src="blind.gif" width="10" height="1"></td>
+
+                  <td class="halfWidth" width="350" style="text-align: right;">
+                    <div class="LinkAsButton">
+                      <!--[if mso]>
+                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://www.superwebmailer.de" style="height:40px;v-text-anchor:middle;width:350px;" arcsize="25%" strokecolor="#4a4a4a" fillcolor="#4a4a4a">
+                          <w:anchorlock/>
+                          <center style="color:#ffffff;font-family:arial,helvetica,sans-serif;font-size:18px;" class="orderButton">Jetzt bestellen/Order now</center>
+                        </v:roundrect>
+                      <![endif]-->
+                      <a class="orderButton"
+                      style="color: #FFFFFF;font-size: 18px; text-decoration: none; border: #4a4a4a 10px solid; display: inline-block; background-color: #4a4a4a; border-radius: 10px; -webkit-border-radius: 10px; -moz-border-radius: 10px; -ms-border-radius: 10px; -khtml-border-radius: 10px; -webkit-text-size-adjust: none;mso-hide:all;"
+                      href="https://www.superwebmailer.de/" editable="true">Jetzt bestellen/Order now</a>
+                    </div>
+                  </td>
+
+                  </tr>
+                </table>
+
+              </td>
+
+            </tr>
+
+            <tr>
+              <td colspan="2"><img src="blind.gif" width="1" height="10"></td>
+            </tr>
+
+          </table>
+		</td>
+
+		<td class="hideCell"><img src="blind.gif" width="30" height="1"></td>
+	</tr>
+</table>
+
+</repeater>
+
+<repeater disableOtherElements="true" label="Leerzeile/Blank line 20px">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell"><img src="blind.gif" width="30" height="1"></td>
+
+        <td class="content">
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+
+
+            <tr>
+              <td width="100%"><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+
+            <tr>
+              <td><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+          </table>
+
+
+
+		</td>
+
+		<td class="hideCell"><img src="blind.gif" width="30" height="1" ></td>
+	</tr>
+</table>
+</repeater>
+
+<repeater disableOtherElements="true" label="Leerzeile/Blank line 30px">
+<table width="780" cellSpacing="0" cellPadding="0" border="0" class="fullWidth">
+	<tr>
+		<td class="hideCell"><img src="blind.gif" width="30" height="1"></td>
+
+        <td class="content">
+
+
+          <table style="width:100%;" cellSpacing="0" cellPadding="0" border="0" width="100%">
+
+
+            <tr>
+              <td width="100%"><img src="blind.gif" width="1" height="20" ></td>
+            </tr>
+
+
+            <tr>
+              <td><img src="blind.gif" width="1" height="10" ></td>
+            </tr>
+
+          </table>
+
+
+
+		</td>
+
+		<td class="hideCell"><img src="blind.gif" width="30" height="1" ></td>
+	</tr>
+</table>
+</repeater>
+
+</div>
+
+<div>&nbsp;</div>
+
+
+</body>
+</html>

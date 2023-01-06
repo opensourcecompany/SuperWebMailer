@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -24,105 +24,158 @@
 
  include_once("savedoptions.inc.php");
 
- function _OFEOP(&$_6Ijo6, $_I16jJ, $_QLl1Q, $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo, $_jf1J1, &$errors, &$_Ql1O8) {
-    global $_Ql8C0, $_Qlt66, $_Q61I1;
-    if(!isset($_SESSION))
-      global $_SESSION;
+ function _LFDR8($_ftO66, $_IflO6, &$errors, &$_I816i){
+   if(!isset($_SESSION))
+     global $_SESSION;
 
-    if( $_QLl1Q["UseCaptcha"]  ) {
-      if ( (!isset($_6Ijo6['user_captcha_string'])) || ($_6Ijo6['user_captcha_string'] == '') || $_6Ijo6['user_captcha_string'] != $GLOBALS['crypt_class']->base64_decode_advanced( $_SESSION['captcha_string']) ) {
+    if( $_IflO6["UseCaptcha"]  ) {
+      if ( (!isset($_ftO66['user_captcha_string'])) || ($_ftO66['user_captcha_string'] == '') || $_ftO66['user_captcha_string'] != $GLOBALS['crypt_class']->base64_decode_advanced( $_SESSION['captcha_string']) ) {
          $errors[] = "user_captcha_string";
-         $_Ql1O8[] = $_QLl1Q["CaptchaStringIncorrect"]."<br /><br />";
+         $_I816i[] = $_IflO6["CaptchaStringIncorrect"]."<br /><br />";
+         @session_destroy();
       }
       # FF Bug we can't forget word $_SESSION['captcha_string']) = ''; # forget the captcha word!
     }
 
     if(count($errors) > 0) return false;
 
-    if( $_QLl1Q["UseReCaptcha"]  ) {
-        if(empty($_6Ijo6["g-recaptcha-response"])){
+    if( $_IflO6["UseReCaptcha"] || $_IflO6["UseReCaptchav3"]  ) {
+        // https://developers.google.com/recaptcha/docs/v3
+        if(empty($_ftO66["g-recaptcha-response"])){
           $errors[] = "user_captcha_string";
-          $_Ql1O8[] = $_QLl1Q["CaptchaStringIncorrect"]."(1)<br /><br />";
+          $_I816i[] = $_IflO6["CaptchaStringIncorrect"]."(1)<br /><br />";
         }
-        if(!empty($_6Ijo6["g-recaptcha-response"])){
-          $_JJQJ1 = isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : getOwnIP();
-          $_Qf1i1 = "secret=".$_QLl1Q["PrivateReCaptchaKey"]."&response=".$_6Ijo6["g-recaptcha-response"]."&remoteip=".$_JJQJ1;
-          $_j88of = "";
-          $_j8t8L = "";
+        if(!empty($_ftO66["g-recaptcha-response"])){
+          $_6f6oC = isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : getOwnIP();
+          $_I0QjQ = "secret=".$_IflO6["PrivateReCaptchaKey"]."&response=".$_ftO66["g-recaptcha-response"]."&remoteip=".$_6f6oC;
+          $_JJl1I = "";
+          $_J600J = "";
 
           if(function_exists("DoHTTPPOSTRequest"))
-            $_6I61l = DoHTTPPOSTRequest("www.google.com", "/recaptcha/api/siteverify", $_Qf1i1, 443);
+            $_ftoQt = DoHTTPPOSTRequest("www.google.com", "/recaptcha/api/siteverify", $_I0QjQ, 443);
           else
-            $_6I61l = _OCQ6E("www.google.com", "POST", "/recaptcha/api/siteverify", $_Qf1i1, 0, 443, false, "", "", $_j88of, $_j8t8L);
+            $_ftoQt = DoHTTPRequest("www.google.com", "POST", "/recaptcha/api/siteverify", $_I0QjQ, 0, 443, false, "", "", $_JJl1I, $_J600J);
 
-          #recaptchav1 recaptcha_check_answer ($_QLl1Q["PrivateReCaptchaKey"], isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : getOwnIP(), $_6Ijo6["recaptcha_challenge_field"], $_6Ijo6["recaptcha_response_field"]);
+          #recaptchav1 recaptcha_check_answer ($_IflO6["PrivateReCaptchaKey"], isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : getOwnIP(), $_ftO66["recaptcha_challenge_field"], $_ftO66["recaptcha_response_field"]);
 
-          if (!$_6I61l) {
+          if (!$_ftoQt) {
             $errors[] = "user_captcha_string";
-            $_Ql1O8[] = $_QLl1Q["CaptchaStringIncorrect"]."(2)<br /><br />";
+            $_I816i[] = $_IflO6["CaptchaStringIncorrect"]."(2)<br /><br />";
           }
-          if ($_6I61l && strpos($_6I61l, '"success": true') === false) {
+          
+          $_ftC0C = json_decode($_ftoQt,true);
+          if( !isset($_ftC0C) ){
             $errors[] = "user_captcha_string";
-            $_Ql1O8[] = $_QLl1Q["CaptchaStringIncorrect"]."(3)<br /><br />";
+            $_I816i[] = $_IflO6["CaptchaStringIncorrect"]."(2.1)<br /><br />";
+          }
+          
+          if ( !isset($_ftC0C["success"]) || !$_ftC0C["success"] ) {
+            $errors[] = "user_captcha_string";
+            $_I816i[] = $_IflO6["CaptchaStringIncorrect"]."(3)<br /><br />";
+          }
+          if ( $_IflO6["UseReCaptchav3"] && (!isset($_ftC0C["action"]) || $_ftC0C["action"] != "newslettersubunsub") ) {
+            $errors[] = "user_captcha_string";
+            $_I816i[] = $_IflO6["CaptchaStringIncorrect"]."(4)<br /><br />";
+          }
+
+          $_ftCiL = 0.5;
+          if ( $_IflO6["UseReCaptchav3"] && ( !isset($_ftC0C["score"]) || floatval(str_replace(",", ".", $_ftC0C["score"])) < $_ftCiL ) ) {
+            $errors[] = "user_captcha_string";
+            $_I816i[] = $_IflO6["CaptchaStringIncorrect"]."(5)<br /><br />";
           }
         }
     }
-    if(count($errors) > 0) return false;
 
-    if($_QLl1Q["GroupsAsMandatoryField"] && $_QLl1Q["GroupsOption"] == 2) {
-      if( !isset($_6Ijo6["RecipientGroups"]) || !is_array($_6Ijo6["RecipientGroups"]) || count($_6Ijo6["RecipientGroups"]) == 0 ){
+    if(count($errors) > 0) return false;
+    
+    return true;
+ }
+
+ function _LFD8Q(&$_ftO66, $_IOJoI, $_IflO6, $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f, $_Jj6f0, &$errors, &$_I816i) {
+    global $_I8tfQ, $_I8OoJ, $_QLttI;
+
+    if(!_LFDR8($_ftO66, $_IflO6, $errors, $_I816i))
+      return false;
+
+
+    if($_IflO6["GroupsAsMandatoryField"] && $_IflO6["GroupsOption"] == 2) {
+      if( !isset($_ftO66["RecipientGroups"]) || !is_array($_ftO66["RecipientGroups"]) || count($_ftO66["RecipientGroups"]) == 0 ){
          $errors[] = "RecipientGroups";
-         $_Ql1O8[] = $_QLl1Q["GroupsAsMandatoryFieldError"]."<br /><br />";
+         $_I816i[] = $_IflO6["GroupsAsMandatoryFieldError"]."<br /><br />";
       }
     }
 
-    if(count($errors) > 0) return false;
+    if($_IflO6["PrivacyPolicyAcceptanceAsMandatoryField"]){
+      if (!isset($_ftO66["PrivacyPolicyAccepted"]) || trim($_ftO66["PrivacyPolicyAccepted"]) != "1"){
+         $errors[] = "PrivacyPolicyAccepted";
+         $_I816i[] = $_IflO6["PrivacyPolicyAcceptanceError"]."<br /><br />";
+      }
+    }
 
-    foreach($_I16jJ as $_I1i8O => $_I1L81) {
+    foreach($_IOJoI as $_IOLil => $_IOCjL) {
       # first letter uppercase
-      if($_I1i8O == "u_FirstName" || $_I1i8O == "u_LastName" || $_I1i8O == "u_MiddleName")
-        if(isset($_6Ijo6[$_I1i8O]))
-          $_6Ijo6[$_I1i8O] = ucfirst($_6Ijo6[$_I1i8O]);
+      if($_IOLil == "u_FirstName" || $_IOLil == "u_LastName" || $_IOLil == "u_MiddleName")
+        if(isset($_ftO66[$_IOLil]))
+          $_ftO66[$_IOLil] = ucfirst($_ftO66[$_IOLil]);
 
-      if ( $_I1L81 == "visiblerequired" && ( (!isset($_6Ijo6[$_I1i8O]) || trim($_6Ijo6[$_I1i8O]) == "") || ($_I1i8O == "u_Salutation" && $_6Ijo6[$_I1i8O] == "---" ) )  ) {
-         $errors[] = $_I1i8O;
-         if(count($_Ql1O8) == 0)
-            $_Ql1O8[] = $_QLl1Q["RequiredFieldsErrorText"]."<br /><br />";
-         $_Ql1O8[] = $_QLl1Q[$_I1i8O]."<br />";
+       # when it's a checkbox, value can't be set
+       # same checking on Subscribe and Edit
+       # don't check for empty("0"), this gives true
+      $_ftCL8 = (!isset($_ftO66[$_IOLil]) || trim($_ftO66[$_IOLil]) == "");
+      if ( ($_IOLil == "u_PersonalizedTracking" || strpos($_IOLil, "u_UserFieldBool") !== false) && ($_IOCjL == "visiblerequired" || $_IOCjL == "visible") && $_ftCL8  )
+        $_ftO66[$_IOLil] = ($_IOCjL == "visiblerequired") ? "" : "0";
+
+      // u_PersonalizedTracking must be ever 0 or 1
+      $_ftCL8 = (!isset($_ftO66[$_IOLil]) || trim($_ftO66[$_IOLil]) == "");
+      if ( $_IOLil == "u_PersonalizedTracking" && ($_IOCjL == "visiblerequired" || $_IOCjL == "visible") && ( $_ftCL8 || !is_numeric($_ftO66[$_IOLil]) ) )
+        $_ftO66[$_IOLil] = ($_IOCjL == "visiblerequired") ? "" : "0";
+
+      $_ftCL8 = (!isset($_ftO66[$_IOLil]) || trim($_ftO66[$_IOLil]) == "");
+      if ( $_IOLil == "u_PersonalizedTracking" && !$_ftCL8 && (intval($_ftO66[$_IOLil]) > 1 || intval($_ftO66[$_IOLil]) < 0) )
+        $_ftO66[$_IOLil] = ($_IOCjL == "visiblerequired") ? "" : "0";
+
+      $_ftCL8 = (!isset($_ftO66[$_IOLil]) || trim($_ftO66[$_IOLil]) == "");
+      if ( $_IOCjL == "visiblerequired" && ( $_ftCL8 || ($_IOLil == "u_Salutation" && $_ftO66[$_IOLil] == "---" ) )  ) {
+         $errors[] = $_IOLil;
+         if(count($_I816i) == 0)
+            $_I816i[] = $_IflO6["RequiredFieldsErrorText"]."<br /><br />";
+         $_I816i[] = $_IflO6[$_IOLil]."<br />";
          continue;
       }
 
       // spezial email address
-      if($_I1i8O == "u_EMail") {
-        if(!_OPAOJ($_6Ijo6[$_I1i8O])) {
-           $errors[] = $_I1i8O;
-           $_Ql1O8[] = $_QLl1Q["EMailFormatErrorText"]."<br />";
+      if($_IOLil == "u_EMail") {
+        if(!_L8JEL($_ftO66[$_IOLil])) {
+           $errors[] = $_IOLil;
+           $_I816i[] = $_IflO6["EMailFormatErrorText"]."<br />";
+        } else{
+          $_ftO66[$_IOLil] = _L86JE($_ftO66[$_IOLil]);
         }
       }
 
       // spezial birthday
-      if($_I1i8O == "u_Birthday" && !empty($_6Ijo6[$_I1i8O]) && $_6Ijo6[$_I1i8O] != "") {
-        if(strlen($_6Ijo6[$_I1i8O]) < 10) {
-          $errors[] = $_I1i8O;
-          if(count($_Ql1O8) == 0)
-             $_Ql1O8[] = $_QLl1Q["RequiredFieldsErrorText"]."<br /><br />";
-          $_Ql1O8[] = $_QLl1Q[$_I1i8O]."<br />";
+      if($_IOLil == "u_Birthday" && !empty($_ftO66[$_IOLil]) && $_ftO66[$_IOLil] != "") {
+        if(strlen($_ftO66[$_IOLil]) < 10) {
+          $errors[] = $_IOLil;
+          if(count($_I816i) == 0)
+             $_I816i[] = $_IflO6["RequiredFieldsErrorText"]."<br /><br />";
+          $_I816i[] = $_IflO6[$_IOLil]."<br />";
         } else {
-          $_6I6jO = ".";
-          if( strpos($_6Ijo6[$_I1i8O], ".") === false ) {
-            if( strpos($_6Ijo6[$_I1i8O], "-") === false ) {
-              if( strpos($_6Ijo6[$_I1i8O], "/") === false ) {
-              } else $_6I6jO = "/";
+          $_fti1L = ".";
+          if( strpos($_ftO66[$_IOLil], ".") === false ) {
+            if( strpos($_ftO66[$_IOLil], "-") === false ) {
+              if( strpos($_ftO66[$_IOLil], "/") === false ) {
+              } else $_fti1L = "/";
             }
-            else $_6I6jO = "-";
+            else $_fti1L = "-";
           }
 
-          $_Q8otJ = explode($_6I6jO, $_6Ijo6[$_I1i8O]);
-          if ( count($_Q8otJ) != 3 ) {
-            $errors[] = $_I1i8O;
-            if(count($_Ql1O8) == 0)
-               $_Ql1O8[] = $_QLl1Q["RequiredFieldsErrorText"]."<br /><br />";
-            $_Ql1O8[] = $_QLl1Q[$_I1i8O]."<br />";
+          $_I1OoI = explode($_fti1L, $_ftO66[$_IOLil]);
+          if ( count($_I1OoI) != 3 ) {
+            $errors[] = $_IOLil;
+            if(count($_I816i) == 0)
+               $_I816i[] = $_IflO6["RequiredFieldsErrorText"]."<br /><br />";
+            $_I816i[] = $_IflO6[$_IOLil]."<br />";
           }
         }
 
@@ -132,59 +185,60 @@
 
     // local blacklist check
     if(count($errors) == 0) {
-      $_QJlJ0 = "SELECT id FROM $_ItCCo WHERE u_EMail="._OPQLR($_6Ijo6["u_EMail"]);
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if(mysql_num_rows($_Q60l1) > 0) {
+      $_QLfol = "SELECT id FROM $_jjj8f WHERE u_EMail="._LRAFO($_ftO66["u_EMail"]);
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if(mysql_num_rows($_QL8i1) > 0) {
         $errors[] = "u_EMail";
-        $_Ql1O8[] = $_QLl1Q["EMailAddressBlacklisted"];
+        $_I816i[] = $_IflO6["EMailAddressBlacklisted"];
       }
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
     }
 
-    if(!empty($_6Ijo6["u_EMail"]))
-      $_jfjC6 = trim($_6Ijo6["u_EMail"]);
+    if(!empty($_ftO66["u_EMail"]))
+      $_JjOjI = trim($_ftO66["u_EMail"]);
       else
-      $_jfjC6 = "";
-    $_jfjC6 = substr($_jfjC6, strpos($_jfjC6, '@') + 1);
+      $_JjOjI = "";
+    $_JjOjI = substr($_JjOjI, strpos($_JjOjI, '@') + 1);
 
     // local domain blacklist check
     if(count($errors) == 0) {
-      $_QJlJ0 = "SELECT id FROM $_jf1J1 WHERE Domainname="._OPQLR($_jfjC6);
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if(mysql_num_rows($_Q60l1) > 0) {
+      $_QLfol = "SELECT id FROM $_Jj6f0 WHERE Domainname="._LRAFO($_JjOjI);
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if(mysql_num_rows($_QL8i1) > 0) {
         $errors[] = "u_EMail";
-        $_Ql1O8[] = $_QLl1Q["EMailAddressBlacklisted"];
+        $_I816i[] = $_IflO6["EMailAddressBlacklisted"];
       }
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
     }
 
     // global blacklist check
     if(count($errors) == 0) {
-      $_QJlJ0 = "SELECT id FROM $_Ql8C0 WHERE u_EMail="._OPQLR($_6Ijo6["u_EMail"]);
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if(mysql_num_rows($_Q60l1) > 0) {
+      $_QLfol = "SELECT id FROM $_I8tfQ WHERE u_EMail="._LRAFO($_ftO66["u_EMail"]);
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if(mysql_num_rows($_QL8i1) > 0) {
         $errors[] = "u_EMail";
-        $_Ql1O8[] = $_QLl1Q["EMailAddressBlacklisted"];
+        $_I816i[] = $_IflO6["EMailAddressBlacklisted"];
       }
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
     }
 
     // global domain blacklist check
     if(count($errors) == 0) {
-      $_QJlJ0 = "SELECT id FROM $_Qlt66 WHERE Domainname="._OPQLR($_jfjC6);
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if(mysql_num_rows($_Q60l1) > 0) {
+      $_QLfol = "SELECT id FROM $_I8OoJ WHERE Domainname="._LRAFO($_JjOjI);
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if(mysql_num_rows($_QL8i1) > 0) {
         $errors[] = "u_EMail";
-        $_Ql1O8[] = $_QLl1Q["EMailAddressBlacklisted"];
+        $_I816i[] = $_IflO6["EMailAddressBlacklisted"];
       }
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
     }
 
     // ECGlist check
-    if(count($errors) == 0 && _LQDLR("ECGListCheck")) {
-      if( _OC0DR( $_6Ijo6["u_EMail"] ) ){
+    if(count($errors) == 0 && _JOLQE("ECGListCheck")) {
+      $_I016j = _L6AJP( $_ftO66["u_EMail"] );
+      if( (is_bool($_I016j) && $_I016j) || is_string($_I016j) ){
         $errors[] = "u_EMail";
-        $_Ql1O8[] = $_QLl1Q["EMailAddressBlacklisted"];
+        $_I816i[] = $_IflO6["EMailAddressBlacklisted"];
       }
     }
 
@@ -192,50 +246,57 @@
     if(count($errors) == 0) {
 
       // duplicate check
-      $_QJlJ0 = "SELECT id, SubscriptionStatus FROM $_QlQC8 WHERE u_EMail="._OPQLR($_6Ijo6["u_EMail"]);
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if(mysql_num_rows($_Q60l1) > 0) {
-        $_Q8OiJ = mysql_fetch_row($_Q60l1);
-        $_QLitI = $_Q8OiJ[0];
-        $_jfI81 = $_Q8OiJ[1];
-        mysql_free_result($_Q60l1);
+      $_QLfol = "SELECT `id`, `SubscriptionStatus`, `IsActive` FROM `$_I8I6o` WHERE `u_EMail`="._LRAFO($_ftO66["u_EMail"]);
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if(mysql_num_rows($_QL8i1) > 0) {
+        $_I1OfI = mysql_fetch_row($_QL8i1);
+        $_IfLJj = $_I1OfI[0];
+        $_Jj8iQ = $_I1OfI[1];
+        $_IjIfQ = $_I1OfI[2];
+        mysql_free_result($_QL8i1);
+
+        if(!$_IjIfQ){
+          $errors[] = "u_EMail";
+          $_I816i[] = $_IflO6["EMailAddressBlacklisted"];
+          return false;
+        }
 
         // send confirmation mail again, ignore groups
-        if($_jfI81 == 'OptInConfirmationPending') {
+        if($_Jj8iQ == 'OptInConfirmationPending') {
           // tricky set SubscriptionStatus and send in main script opt-in mail again
-          $_6Ijo6["SubscriptionStatus"] = 'OptInConfirmationPending';
-          $_6Ijo6["RecipientId"] = $_QLitI;
+          $_ftO66["SubscriptionStatus"] = 'OptInConfirmationPending';
+          $_ftO66["RecipientId"] = $_IfLJj;
           return true;
         }
 
         // Group check
-        if(isset($_6Ijo6["RecipientGroups"])) {
-          $_QJlJ0 = "SELECT $_Q6t6j.id FROM $_QLI68 LEFT JOIN $_Q6t6j ON groups_id=id WHERE Member_id=".intval($_QLitI);
-          $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-          $_IitLf = array();
-          while($_Q8OiJ = mysql_fetch_row($_Q60l1)) {
-            $_IitLf[] = $_Q8OiJ[0];
+        if(isset($_ftO66["RecipientGroups"])) {
+          $_QLfol = "SELECT $_QljJi.id FROM $_IfJ66 LEFT JOIN $_QljJi ON groups_id=id WHERE Member_id=".intval($_IfLJj);
+          $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+          $_jt0QC = array();
+          while($_I1OfI = mysql_fetch_row($_QL8i1)) {
+            $_jt0QC[] = $_I1OfI[0];
           }
-          mysql_free_result($_Q60l1);
-          $_6I6OQ = false;
+          mysql_free_result($_QL8i1);
+          $_ftiC1 = false;
           // remove duplicate groups
-          for($_Q6llo=0; $_Q6llo<count($_IitLf); $_Q6llo++) {
-            if(array_key_exists($_IitLf[$_Q6llo], $_6Ijo6["RecipientGroups"])) {
-              $_6I6OQ = true;
-              unset($_6Ijo6["RecipientGroups"][$_IitLf[$_Q6llo]]);
+          for($_Qli6J=0; $_Qli6J<count($_jt0QC); $_Qli6J++) {
+            if(array_key_exists($_jt0QC[$_Qli6J], $_ftO66["RecipientGroups"])) {
+              $_ftiC1 = true;
+              unset($_ftO66["RecipientGroups"][$_jt0QC[$_Qli6J]]);
             }
           }
-          if($_6I6OQ && count($_6Ijo6["RecipientGroups"]) == 0 ) {
+          if($_ftiC1 && count($_ftO66["RecipientGroups"]) == 0 ) {
             $errors[] = "u_EMail";
-            $_Ql1O8[] = $_QLl1Q["EMailAddressAlwaysInList"];
+            $_I816i[] = $_IflO6["EMailAddressAlwaysInList"];
           } else {
             // tricky set DuplicateEntry to change the groups
-            $_6Ijo6["DuplicateEntry"] = $_QLitI; // exists but group change
+            $_ftO66["DuplicateEntry"] = $_IfLJj; // exists but group change
           }
 
         } else {
           $errors[] = "u_EMail";
-          $_Ql1O8[] = $_QLl1Q["EMailAddressAlwaysInList"];
+          $_I816i[] = $_IflO6["EMailAddressAlwaysInList"];
         }
 
       }
@@ -245,56 +306,19 @@
    return count($errors) == 0 ? true : false;
  }
 
- function _OFEP8(&$_6Ijo6, $_I16jJ, $_QLl1Q, $_QlQC8, &$errors, &$_Ql1O8, $_6If80 = false) {
-    global $_Q61I1;
-    if(!isset($_SESSION))
-      global $_SESSION;
+ function _LFD8C(&$_ftO66, $_IOJoI, $_IflO6, $_I8I6o, &$errors, &$_I816i, $_ftL0O = false) {
+    global $_QLttI;
 
-    if( $_QLl1Q["UseCaptcha"]  ) {
-      if ( (!isset($_6Ijo6['user_captcha_string'])) || ($_6Ijo6['user_captcha_string'] == '') || $_6Ijo6['user_captcha_string'] != $GLOBALS['crypt_class']->base64_decode_advanced( $_SESSION['captcha_string']) ) {
-         $errors[] = "user_captcha_string";
-         $_Ql1O8[] = $_QLl1Q["CaptchaStringIncorrect"]."<br /><br />";
-         @session_destroy();
-      }
-    }
-    if(count($errors) > 0) return false;
+    // UnsubscribeLink in emails IsNLUPHP
+    if( !defined('IsNLUPHP') && !_LFDR8($_ftO66, $_IflO6, $errors, $_I816i))
+      return false;
 
-    if( $_QLl1Q["UseReCaptcha"]  ) {
-        if(empty($_6Ijo6["g-recaptcha-response"])){
-          $errors[] = "user_captcha_string";
-          $_Ql1O8[] = $_QLl1Q["CaptchaStringIncorrect"]."<br /><br />";
-        }
-        if(!empty($_6Ijo6["g-recaptcha-response"])){
-          $_JJQJ1 = isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : getOwnIP();
-          $_Qf1i1 = "secret=".$_QLl1Q["PrivateReCaptchaKey"]."&response=".$_6Ijo6["g-recaptcha-response"]."&remoteip=".$_JJQJ1;
-          $_j88of = "";
-          $_j8t8L = "";
-
-          if(function_exists("DoHTTPPOSTRequest"))
-            $_6I61l = DoHTTPPOSTRequest("www.google.com", "/recaptcha/api/siteverify", $_Qf1i1, 443);
-          else
-            $_6I61l = _OCQ6E("www.google.com", "POST", "/recaptcha/api/siteverify", $_Qf1i1, 0, 443, false, "", "", $_j88of, $_j8t8L);
-
-          #recaptchav1 recaptcha_check_answer ($_QLl1Q["PrivateReCaptchaKey"], isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : getOwnIP(), $_6Ijo6["recaptcha_challenge_field"], $_6Ijo6["recaptcha_response_field"]);
-
-          if (!$_6I61l) {
-            $errors[] = "user_captcha_string";
-            $_Ql1O8[] = $_QLl1Q["CaptchaStringIncorrect"]."<br /><br />";
-          }
-          if ($_6I61l && strpos($_6I61l, '"success": true') === false) {
-            $errors[] = "user_captcha_string";
-            $_Ql1O8[] = $_QLl1Q["CaptchaStringIncorrect"]."<br /><br />";
-          }
-        }
-    }
-    if(count($errors) > 0) return false;
-
-    foreach($_I16jJ as $_I1i8O => $_I1L81) {
-      if ( $_I1i8O == "u_EMail" && $_I1L81 == "visiblerequired" && ( (!isset($_6Ijo6[$_I1i8O]) || trim($_6Ijo6[$_I1i8O]) == "")  )  ) {
-         $errors[] = $_I1i8O;
-         if(count($_Ql1O8) == 0)
-            $_Ql1O8[] = $_QLl1Q["RequiredFieldsErrorText"]."<br /><br />";
-         $_Ql1O8[] = $_QLl1Q[$_I1i8O]."<br />";
+    foreach($_IOJoI as $_IOLil => $_IOCjL) {
+      if ( $_IOLil == "u_EMail" && $_IOCjL == "visiblerequired" && ( (!isset($_ftO66[$_IOLil]) || trim($_ftO66[$_IOLil]) == "")  )  ) {
+         $errors[] = $_IOLil;
+         if(count($_I816i) == 0)
+            $_I816i[] = $_IflO6["RequiredFieldsErrorText"]."<br /><br />";
+         $_I816i[] = $_IflO6[$_IOLil]."<br />";
          continue;
       }
     }
@@ -302,111 +326,111 @@
     if(count($errors) > 0) return false;
 
     $u_EMail = "";
-    if( isset($_6Ijo6["u_EMail"]) && trim($_6Ijo6["u_EMail"]) != "")
-       $u_EMail = trim($_6Ijo6["u_EMail"]);
+    if( isset($_ftO66["u_EMail"]) && trim($_ftO66["u_EMail"]) != "")
+       $u_EMail = trim($_ftO66["u_EMail"]);
        else
-       if( isset($_6Ijo6["EMail"]) && trim($_6Ijo6["EMail"]) != "")
-          $u_EMail = trim($_6Ijo6["EMail"]);
-     $_6Ijo6["u_EMail"] = $u_EMail;
+       if( isset($_ftO66["EMail"]) && trim($_ftO66["EMail"]) != "")
+          $u_EMail = trim($_ftO66["EMail"]);
+     $_ftO66["u_EMail"] = _L86JE($u_EMail);
 
     // special email address
-    if( $u_EMail != "" && !_OPAOJ($u_EMail) ) {
+    if( $u_EMail != "" && !_L8JLR($u_EMail) ) {
        $errors[] = "u_EMail";
-       $_Ql1O8[] = $_QLl1Q["EMailFormatErrorText"]."<br />";
+       $_I816i[] = $_IflO6["EMailFormatErrorText"]."<br />";
     }
 
     // special email address
-    if( $u_EMail == "" && !isset($_6Ijo6["key"]) ) {
+    if( $u_EMail == "" && !isset($_ftO66["key"]) ) {
        $errors[] = "u_EMail";
-       $_Ql1O8[] = $_QLl1Q["EMailFormatErrorText"]."<br />";
+       $_I816i[] = $_IflO6["EMailFormatErrorText"]."<br />";
     }
 
     if(count($errors) == 0) {
       // check it is in list
-      $_6Ijo6["MaillistTableName"] = $_QlQC8;
+      $_ftO66["MaillistTableName"] = $_I8I6o;
       // email address or key specified?
       if($u_EMail != "") {
-        $_QJlJ0 = "SELECT id, SubscriptionStatus FROM $_QlQC8 WHERE u_EMail="._OPQLR($_6Ijo6["u_EMail"]);
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        if(mysql_num_rows($_Q60l1) == 0) {
+        $_QLfol = "SELECT id, SubscriptionStatus FROM $_I8I6o WHERE u_EMail="._LRAFO($_ftO66["u_EMail"]);
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        if(mysql_num_rows($_QL8i1) == 0) {
           $errors[] = "u_EMail";
-          $_Ql1O8[] = $_QLl1Q["EMailAddressNotInList"];
+          $_I816i[] = $_IflO6["EMailAddressNotInList"];
         } else {
-           $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-           $_6Ijo6["RecipientId"] = $_Q6Q1C["id"];
-           if($_6If80) {
-             if($_Q6Q1C["SubscriptionStatus"] == 'OptInConfirmationPending') {
+           $_QLO0f = mysql_fetch_assoc($_QL8i1);
+           $_ftO66["RecipientId"] = $_QLO0f["id"];
+           if($_ftL0O) {
+             if($_QLO0f["SubscriptionStatus"] == 'OptInConfirmationPending') {
                $errors[] = "u_EMail";
-               $_Ql1O8[] = $_QLl1Q["SubscribeTextOnConfirmationFailure"];
+               $_I816i[] = $_IflO6["SubscribeTextOnConfirmationFailure"];
              }
            }
 
         }
       } else {
-        $_Q60l1 = _L0O80($_6Ijo6, $_QLl1Q, $errors, $_Ql1O8);
-        if(!$_Q60l1) return false;
+        $_QL8i1 = _J0QQJ($_ftO66, $_IflO6, $errors, $_I816i);
+        if(!$_QL8i1) return false;
 
         // 3. check recipient exists
-        $_QJlJ0 = "SELECT IdentString, id, SubscriptionStatus FROM $_6Ijo6[MaillistTableName] WHERE IdentString="._OPQLR($_6Ijo6["key"]);
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-           $errors[] = $_QLl1Q["EMailAddressNotInList"];
-           $_Ql1O8[] = $_QLl1Q["EMailAddressNotInList"];
+        $_QLfol = "SELECT IdentString, id, SubscriptionStatus FROM $_ftO66[MaillistTableName] WHERE IdentString="._LRAFO($_ftO66["key"]);
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+           $errors[] = $_IflO6["EMailAddressNotInList"];
+           $_I816i[] = $_IflO6["EMailAddressNotInList"];
            return false;
         }
-        $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-        mysql_free_result($_Q60l1);
+        $_QLO0f = mysql_fetch_assoc($_QL8i1);
+        mysql_free_result($_QL8i1);
 
         # is id = recipient id?
-        $_6Ijo6["RecipientId"] = intval($_6Ijo6["RecipientId"]);
-        if($_Q6Q1C["id"] != $_6Ijo6["RecipientId"]) {
-           $errors[] = $_QLl1Q["EMailAddressNotInList"];;
-           $_Ql1O8[] = $_QLl1Q["EMailAddressNotInList"];;
+        $_ftO66["RecipientId"] = intval($_ftO66["RecipientId"]);
+        if($_QLO0f["id"] != $_ftO66["RecipientId"]) {
+           $errors[] = $_IflO6["EMailAddressNotInList"];;
+           $_I816i[] = $_IflO6["EMailAddressNotInList"];;
            return false;
         }
 
-        if($_6If80) {
-          if($_Q6Q1C["SubscriptionStatus"] == 'OptInConfirmationPending') {
+        if($_ftL0O) {
+          if($_QLO0f["SubscriptionStatus"] == 'OptInConfirmationPending') {
             $errors[] = "u_EMail";
-            $_Ql1O8[] = $_QLl1Q["SubscribeTextOnConfirmationFailure"];
+            $_I816i[] = $_IflO6["SubscribeTextOnConfirmationFailure"];
           }
         }
 
       }
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
     }
 
    return count($errors) == 0 ? true : false;
  }
 
- function _OFEAQ(&$_6Ijo6, &$_QLl1Q, &$errors, &$_Ql1O8) {
-   global $_Q61I1;
-   $_Q60l1 = _L0O80($_6Ijo6, $_QLl1Q, $errors, $_Ql1O8);
-   if(!$_Q60l1) return false;
+ function _LFDAF(&$_ftO66, &$_IflO6, &$errors, &$_I816i) {
+   global $_QLttI;
+   $_QL8i1 = _J0QQJ($_ftO66, $_IflO6, $errors, $_I816i);
+   if(!$_QL8i1) return false;
 
    // 3. check recipient exists
-   $_QJlJ0 = "SELECT IdentString, id, SubscriptionStatus FROM $_6Ijo6[MaillistTableName] WHERE IdentString="._OPQLR($_6Ijo6["key"]);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-      $errors[] = $_QLl1Q["SubscribeTextOnConfirmationFailure"];
-      $_Ql1O8[] = $_QLl1Q["SubscribeTextOnConfirmationFailure"];
+   $_QLfol = "SELECT IdentString, id, SubscriptionStatus FROM $_ftO66[MaillistTableName] WHERE IdentString="._LRAFO($_ftO66["key"]);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+      $errors[] = $_IflO6["SubscribeTextOnConfirmationFailure"];
+      $_I816i[] = $_IflO6["SubscribeTextOnConfirmationFailure"];
       return false;
    }
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
    # is id = recipient id?
-   $_6Ijo6["RecipientId"] = intval($_6Ijo6["RecipientId"]);
-   if($_Q6Q1C["id"] != $_6Ijo6["RecipientId"]) {
-      $errors[] = $_QLl1Q["SubscribeTextOnConfirmationFailure"];
-      $_Ql1O8[] = $_QLl1Q["SubscribeTextOnConfirmationFailure"];
+   $_ftO66["RecipientId"] = intval($_ftO66["RecipientId"]);
+   if($_QLO0f["id"] != $_ftO66["RecipientId"]) {
+      $errors[] = $_IflO6["SubscribeTextOnConfirmationFailure"];
+      $_I816i[] = $_IflO6["SubscribeTextOnConfirmationFailure"];
       return false;
    }
 
    # check SubscriptionStatus
-   if($_Q6Q1C["SubscriptionStatus"] != 'OptInConfirmationPending') {
-      $errors[] = $_QLl1Q["SubscribeTextOnConfirmationAgain"];
-      $_Ql1O8[] = $_QLl1Q["SubscribeTextOnConfirmationAgain"];
+   if($_QLO0f["SubscriptionStatus"] != 'OptInConfirmationPending') {
+      $errors[] = $_IflO6["SubscribeTextOnConfirmationAgain"];
+      $_I816i[] = $_IflO6["SubscribeTextOnConfirmationAgain"];
       return false;
    }
 
@@ -414,35 +438,35 @@
    return count($errors) == 0 ? true : false;
  }
 
- function _OFFQO(&$_6Ijo6, &$_QLl1Q, &$errors, &$_Ql1O8) {
-   global $_Q61I1;
+ function _LFDER(&$_ftO66, &$_IflO6, &$errors, &$_I816i) {
+   global $_QLttI;
 
-   $_Q60l1 = _L0O80($_6Ijo6, $_QLl1Q, $errors, $_Ql1O8);
-   if(!$_Q60l1) return false;
+   $_QL8i1 = _J0QQJ($_ftO66, $_IflO6, $errors, $_I816i);
+   if(!$_QL8i1) return false;
 
    // 3. check recipient exists
-   $_QJlJ0 = "SELECT IdentString, id, SubscriptionStatus FROM $_6Ijo6[MaillistTableName] WHERE IdentString="._OPQLR($_6Ijo6["key"]);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-      $errors[] = $_QLl1Q["EMailAddressNotInList"];
-      $_Ql1O8[] = $_QLl1Q["EMailAddressNotInList"];
+   $_QLfol = "SELECT IdentString, id, SubscriptionStatus FROM $_ftO66[MaillistTableName] WHERE IdentString="._LRAFO($_ftO66["key"]);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+      $errors[] = $_IflO6["EMailAddressNotInList"];
+      $_I816i[] = $_IflO6["EMailAddressNotInList"];
       return false;
    }
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
    # is id = recipient id?
-   $_6Ijo6["RecipientId"] = intval($_6Ijo6["RecipientId"]);
-   if($_Q6Q1C["id"] != $_6Ijo6["RecipientId"]) {
-      $errors[] = $_QLl1Q["EMailAddressNotInList"];
-      $_Ql1O8[] = $_QLl1Q["EMailAddressNotInList"];
+   $_ftO66["RecipientId"] = intval($_ftO66["RecipientId"]);
+   if($_QLO0f["id"] != $_ftO66["RecipientId"]) {
+      $errors[] = $_IflO6["EMailAddressNotInList"];
+      $_I816i[] = $_IflO6["EMailAddressNotInList"];
       return false;
    }
 
    # check SubscriptionStatus
-   if($_Q6Q1C["SubscriptionStatus"] != 'OptInConfirmationPending') {
-      $errors[] = $_QLl1Q["SubscribeTextOnConfirmationAgain"];
-      $_Ql1O8[] = $_QLl1Q["SubscribeTextOnConfirmationAgain"];
+   if($_QLO0f["SubscriptionStatus"] != 'OptInConfirmationPending') {
+      $errors[] = $_IflO6["SubscribeTextOnConfirmationAgain"];
+      $_I816i[] = $_IflO6["SubscribeTextOnConfirmationAgain"];
       return false;
    }
 
@@ -450,35 +474,35 @@
    return count($errors) == 0 ? true : false;
  }
 
- function _OFFPJ(&$_6Ijo6, &$_QLl1Q, &$errors, &$_Ql1O8) {
-   global $_Q61I1;
-   $_Q60l1 = _L0O80($_6Ijo6, $_QLl1Q, $errors, $_Ql1O8);
-   if(!$_Q60l1) return false;
+ function _LFE80(&$_ftO66, &$_IflO6, &$errors, &$_I816i) {
+   global $_QLttI;
+   $_QL8i1 = _J0QQJ($_ftO66, $_IflO6, $errors, $_I816i);
+   if(!$_QL8i1) return false;
 
    // 3. check recipient exists
-   $_QJlJ0 = "SELECT IdentString, id, SubscriptionStatus, u_EMail FROM $_6Ijo6[MaillistTableName] WHERE IdentString="._OPQLR($_6Ijo6["key"]);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-      $errors[] = $_QLl1Q["UnsubscribeTextOnConfirmationFailure"];
-      $_Ql1O8[] = $_QLl1Q["UnsubscribeTextOnConfirmationFailure"];
+   $_QLfol = "SELECT IdentString, id, SubscriptionStatus, u_EMail FROM $_ftO66[MaillistTableName] WHERE IdentString="._LRAFO($_ftO66["key"]);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+      $errors[] = $_IflO6["UnsubscribeTextOnConfirmationFailure"];
+      $_I816i[] = $_IflO6["UnsubscribeTextOnConfirmationFailure"];
       return false;
    }
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
-   $_6Ijo6["u_EMail"] = $_Q6Q1C["u_EMail"];
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
+   $_ftO66["u_EMail"] = $_QLO0f["u_EMail"];
 
    # is id = recipient id?
-   $_6Ijo6["RecipientId"] = intval($_6Ijo6["RecipientId"]);
-   if($_Q6Q1C["id"] != $_6Ijo6["RecipientId"]) {
-      $errors[] = $_QLl1Q["UnsubscribeTextOnConfirmationFailure"];
-      $_Ql1O8[] = $_QLl1Q["UnsubscribeTextOnConfirmationFailure"];
+   $_ftO66["RecipientId"] = intval($_ftO66["RecipientId"]);
+   if($_QLO0f["id"] != $_ftO66["RecipientId"]) {
+      $errors[] = $_IflO6["UnsubscribeTextOnConfirmationFailure"];
+      $_I816i[] = $_IflO6["UnsubscribeTextOnConfirmationFailure"];
       return false;
    }
 
    # check SubscriptionStatus
-   if($_Q6Q1C["SubscriptionStatus"] != 'OptOutConfirmationPending') {
-      $errors[] = $_QLl1Q["UnsubscribeTextOnConfirmationFailure"];
-      $_Ql1O8[] = $_QLl1Q["UnsubscribeTextOnConfirmationFailure"];
+   if($_QLO0f["SubscriptionStatus"] != 'OptOutConfirmationPending') {
+      $errors[] = $_IflO6["UnsubscribeTextOnConfirmationFailure"];
+      $_I816i[] = $_IflO6["UnsubscribeTextOnConfirmationFailure"];
       return false;
    }
 
@@ -486,35 +510,35 @@
    return count($errors) == 0 ? true : false;
  }
 
- function _L006O(&$_6Ijo6, &$_QLl1Q, &$errors, &$_Ql1O8) {
-   global $_Q61I1;
+ function _LFEBB(&$_ftO66, &$_IflO6, &$errors, &$_I816i) {
+   global $_QLttI;
 
-   $_Q60l1 = _L0O80($_6Ijo6, $_QLl1Q, $errors, $_Ql1O8);
-   if(!$_Q60l1) return false;
+   $_QL8i1 = _J0QQJ($_ftO66, $_IflO6, $errors, $_I816i);
+   if(!$_QL8i1) return false;
 
    // 3. check recipient exists
-   $_QJlJ0 = "SELECT IdentString, id, SubscriptionStatus FROM $_6Ijo6[MaillistTableName] WHERE IdentString="._OPQLR($_6Ijo6["key"]);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-      $errors[] = $_QLl1Q["EMailAddressNotInList"];
-      $_Ql1O8[] = $_QLl1Q["EMailAddressNotInList"];
+   $_QLfol = "SELECT IdentString, id, SubscriptionStatus FROM $_ftO66[MaillistTableName] WHERE IdentString="._LRAFO($_ftO66["key"]);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+      $errors[] = $_IflO6["EMailAddressNotInList"];
+      $_I816i[] = $_IflO6["EMailAddressNotInList"];
       return false;
    }
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
    # is id = recipient id?
-   $_6Ijo6["RecipientId"] = intval($_6Ijo6["RecipientId"]);
-   if($_Q6Q1C["id"] != $_6Ijo6["RecipientId"]) {
-      $errors[] = $_QLl1Q["EMailAddressNotInList"];
-      $_Ql1O8[] = $_QLl1Q["EMailAddressNotInList"];
+   $_ftO66["RecipientId"] = intval($_ftO66["RecipientId"]);
+   if($_QLO0f["id"] != $_ftO66["RecipientId"]) {
+      $errors[] = $_IflO6["EMailAddressNotInList"];
+      $_I816i[] = $_IflO6["EMailAddressNotInList"];
       return false;
    }
 
    # check SubscriptionStatus
-   if($_Q6Q1C["SubscriptionStatus"] != 'OptOutConfirmationPending') {
-      $errors[] = $_QLl1Q["UnsubscribeTextOnConfirmationFailure"];
-      $_Ql1O8[] = $_QLl1Q["UnsubscribeTextOnConfirmationFailure"];
+   if($_QLO0f["SubscriptionStatus"] != 'OptOutConfirmationPending') {
+      $errors[] = $_IflO6["UnsubscribeTextOnConfirmationFailure"];
+      $_I816i[] = $_IflO6["UnsubscribeTextOnConfirmationFailure"];
       return false;
    }
 
@@ -522,302 +546,388 @@
    return count($errors) == 0 ? true : false;
  }
 
- function _L00B8(&$_6Ijo6, $_I16jJ, $_QLl1Q, $_QlQC8, $_ItCCo, $_jf1J1, &$errors, &$_Ql1O8) {
-    global $_Ql8C0, $_Qlt66, $_Q61I1, $INTERFACE_LANGUAGE;
+ function _LFFPD(&$_ftO66, $_IOJoI, $_IflO6, $_I8I6o, $_jjj8f, $_Jj6f0, &$errors, &$_I816i) {
+    global $_I8tfQ, $_I8OoJ, $_QLttI, $INTERFACE_LANGUAGE;
 
-    foreach($_I16jJ as $_I1i8O => $_I1L81) {
-      if ( $_I1i8O == "u_EMail" && $_I1L81 == "visiblerequired" && ( (!isset($_6Ijo6[$_I1i8O]) || trim($_6Ijo6[$_I1i8O]) == "")  )  ) {
-         $errors[] = $_I1i8O;
-         if(count($_Ql1O8) == 0)
-            $_Ql1O8[] = $_QLl1Q["RequiredFieldsErrorText"]."<br /><br />";
-         $_Ql1O8[] = $_QLl1Q[$_I1i8O]."<br />";
+    if(!_LFDR8($_ftO66, $_IflO6, $errors, $_I816i))
+      return false;
+
+    if($_IflO6["GroupsAsMandatoryField"] && $_IflO6["GroupsOption"] == 2) {
+      if( !isset($_ftO66["RecipientGroups"]) || !is_array($_ftO66["RecipientGroups"]) || count($_ftO66["RecipientGroups"]) == 0 ){
+         $errors[] = "RecipientGroups";
+         $_I816i[] = $_IflO6["GroupsAsMandatoryFieldError"]."<br /><br />";
+      }
+    }
+
+    if($_IflO6["PrivacyPolicyAcceptanceAsMandatoryField"]){
+      if (!isset($_ftO66["PrivacyPolicyAccepted"]) || trim($_ftO66["PrivacyPolicyAccepted"]) != "1"){
+         $errors[] = "PrivacyPolicyAccepted";
+         $_I816i[] = $_IflO6["PrivacyPolicyAcceptanceError"]."<br /><br />";
+      }
+    }
+
+    // see CheckOnSubscribe
+    foreach($_IOJoI as $_IOLil => $_IOCjL) {
+      # first letter uppercase
+      if($_IOLil == "u_FirstName" || $_IOLil == "u_LastName" || $_IOLil == "u_MiddleName")
+        if(isset($_ftO66[$_IOLil]))
+          $_ftO66[$_IOLil] = ucfirst($_ftO66[$_IOLil]);
+
+       # when it's a checkbox, value can't be set
+       # same checking on Subscribe and Edit
+       # don't check for empty("0"), this gives true
+      $_ftCL8 = (!isset($_ftO66[$_IOLil]) || trim($_ftO66[$_IOLil]) == "");
+      if ( ($_IOLil == "u_PersonalizedTracking" || strpos($_IOLil, "u_UserFieldBool") !== false) && ($_IOCjL == "visiblerequired" || $_IOCjL == "visible") && $_ftCL8  )
+        $_ftO66[$_IOLil] = ($_IOCjL == "visiblerequired") ? "" : "0";
+
+      // u_PersonalizedTracking must be ever 0 or 1
+      $_ftCL8 = (!isset($_ftO66[$_IOLil]) || trim($_ftO66[$_IOLil]) == "");
+      if ( $_IOLil == "u_PersonalizedTracking" && ($_IOCjL == "visiblerequired" || $_IOCjL == "visible") && ( $_ftCL8 || !is_numeric($_ftO66[$_IOLil]) ) )
+        $_ftO66[$_IOLil] = ($_IOCjL == "visiblerequired") ? "" : "0";
+      $_ftCL8 = (!isset($_ftO66[$_IOLil]) || trim($_ftO66[$_IOLil]) == "");
+      if ( $_IOLil == "u_PersonalizedTracking" && !$_ftCL8 && (intval($_ftO66[$_IOLil]) > 1 || intval($_ftO66[$_IOLil]) < 0) )
+        $_ftO66[$_IOLil] = ($_IOCjL == "visiblerequired") ? "" : "0";
+
+      $_ftCL8 = (!isset($_ftO66[$_IOLil]) || trim($_ftO66[$_IOLil]) == "");
+
+      if ( $_IOCjL == "visiblerequired" && ( $_ftCL8 || ($_IOLil == "u_Salutation" && $_ftO66[$_IOLil] == "---" ) )  ) {
+         $errors[] = $_IOLil;
+         if(count($_I816i) == 0)
+            $_I816i[] = $_IflO6["RequiredFieldsErrorText"]."<br /><br />";
+         $_I816i[] = $_IflO6[$_IOLil]."<br />";
          continue;
       }
+
+      // spezial email address
+      if($_IOLil == "u_EMail") {
+        if(!_L8JEL($_ftO66[$_IOLil])) {
+           $errors[] = $_IOLil;
+           $_I816i[] = $_IflO6["EMailFormatErrorText"]."<br />";
+        }else{
+         $_ftO66[$_IOLil] = _L86JE($_ftO66[$_IOLil]);
+        }
+      }
+
+      // spezial birthday
+      if($_IOLil == "u_Birthday" && !empty($_ftO66[$_IOLil]) && $_ftO66[$_IOLil] != "") {
+        if(strlen($_ftO66[$_IOLil]) < 10) {
+          $errors[] = $_IOLil;
+          if(count($_I816i) == 0)
+             $_I816i[] = $_IflO6["RequiredFieldsErrorText"]."<br /><br />";
+          $_I816i[] = $_IflO6[$_IOLil]."<br />";
+        } else {
+          $_fti1L = ".";
+          if( strpos($_ftO66[$_IOLil], ".") === false ) {
+            if( strpos($_ftO66[$_IOLil], "-") === false ) {
+              if( strpos($_ftO66[$_IOLil], "/") === false ) {
+              } else $_fti1L = "/";
+            }
+            else $_fti1L = "-";
+          }
+
+          $_I1OoI = explode($_fti1L, $_ftO66[$_IOLil]);
+          if ( count($_I1OoI) != 3 ) {
+            $errors[] = $_IOLil;
+            if(count($_I816i) == 0)
+               $_I816i[] = $_IflO6["RequiredFieldsErrorText"]."<br /><br />";
+            $_I816i[] = $_IflO6[$_IOLil]."<br />";
+          }
+        }
+
+      } // spezial birthday END
+
     }
 
     if(count($errors) > 0) return false;
+    //
 
-    if( isset($_6Ijo6["NewEMail"]) ) {
-      $_6Ijo6["NewEMail"] = trim($_6Ijo6["NewEMail"]);
-      if(!_OPAOJ($_6Ijo6["NewEMail"])) {
+    if( isset($_ftO66["NewEMail"]) ) {
+      $_ftO66["NewEMail"] = trim($_ftO66["NewEMail"]);
+      if(!_L8JEL($_ftO66["NewEMail"])) {
         $errors[] = "NewEMail";
-        $_Ql1O8[] = $_QLl1Q["EMailFormatErrorText"]."<br />";
+        $_I816i[] = $_IflO6["EMailFormatErrorText"]."<br />";
         return false;
+      }else{
+        $_ftO66["NewEMail"] = _L86JE($_ftO66["NewEMail"]);
       }
 
       // always exists?
-      if(strtolower($_6Ijo6["NewEMail"]) != strtolower(trim($_6Ijo6["u_EMail"]))) {
-        $_QJlJ0 = "SELECT id FROM $_QlQC8 WHERE u_EMail="._OPQLR($_6Ijo6["NewEMail"]);
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        if(mysql_num_rows($_Q60l1) > 0) {
+      if(strtolower($_ftO66["NewEMail"]) != strtolower(trim($_ftO66["u_EMail"]))) {
+        $_QLfol = "SELECT id FROM $_I8I6o WHERE u_EMail="._LRAFO($_ftO66["NewEMail"]);
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        if(mysql_num_rows($_QL8i1) > 0) {
           $errors[] = "NewEMail";
-          $_Ql1O8[] = $_QLl1Q["EMailAddressAlwaysInList"];
-          mysql_free_result($_Q60l1);
+          $_I816i[] = $_IflO6["EMailAddressAlwaysInList"];
+          mysql_free_result($_QL8i1);
           return false;
         }
-        mysql_free_result($_Q60l1);
+        mysql_free_result($_QL8i1);
       }
 
-      $_jfjC6 = trim($_6Ijo6["NewEMail"]);
-      $_jfjC6 = substr($_jfjC6, strpos($_jfjC6, '@') + 1);
+      $_JjOjI = trim($_ftO66["NewEMail"]);
+      $_JjOjI = substr($_JjOjI, strpos($_JjOjI, '@') + 1);
 
       // local blacklist check
       if(count($errors) == 0) {
-        $_QJlJ0 = "SELECT id FROM $_ItCCo WHERE u_EMail="._OPQLR($_6Ijo6["NewEMail"]);
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        if(mysql_num_rows($_Q60l1) > 0) {
+        $_QLfol = "SELECT id FROM $_jjj8f WHERE u_EMail="._LRAFO($_ftO66["NewEMail"]);
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        if(mysql_num_rows($_QL8i1) > 0) {
           $errors[] = "NewEMail";
-          $_Ql1O8[] = $_QLl1Q["EMailAddressBlacklisted"];
-          mysql_free_result($_Q60l1);
+          $_I816i[] = $_IflO6["EMailAddressBlacklisted"];
+          mysql_free_result($_QL8i1);
           return false;
         }
-        mysql_free_result($_Q60l1);
+        mysql_free_result($_QL8i1);
       }
 
       // local domain blacklist check
       if(count($errors) == 0) {
-        $_QJlJ0 = "SELECT id FROM $_jf1J1 WHERE Domainname="._OPQLR($_jfjC6);
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        if(mysql_num_rows($_Q60l1) > 0) {
+        $_QLfol = "SELECT id FROM $_Jj6f0 WHERE Domainname="._LRAFO($_JjOjI);
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        if(mysql_num_rows($_QL8i1) > 0) {
           $errors[] = "NewEMail";
-          $_Ql1O8[] = $_QLl1Q["EMailAddressBlacklisted"];
-          mysql_free_result($_Q60l1);
+          $_I816i[] = $_IflO6["EMailAddressBlacklisted"];
+          mysql_free_result($_QL8i1);
           return false;
         }
-        mysql_free_result($_Q60l1);
+        mysql_free_result($_QL8i1);
       }
 
       // global blacklist check
       if(count($errors) == 0) {
-        $_QJlJ0 = "SELECT id FROM $_Ql8C0 WHERE u_EMail="._OPQLR($_6Ijo6["NewEMail"]);
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        if(mysql_num_rows($_Q60l1) > 0) {
+        $_QLfol = "SELECT id FROM $_I8tfQ WHERE u_EMail="._LRAFO($_ftO66["NewEMail"]);
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        if(mysql_num_rows($_QL8i1) > 0) {
           $errors[] = "NewEMail";
-          $_Ql1O8[] = $_QLl1Q["EMailAddressBlacklisted"];
-          mysql_free_result($_Q60l1);
+          $_I816i[] = $_IflO6["EMailAddressBlacklisted"];
+          mysql_free_result($_QL8i1);
           return false;
         }
-        mysql_free_result($_Q60l1);
+        mysql_free_result($_QL8i1);
       }
 
       // global domain blacklist check
       if(count($errors) == 0) {
-        $_QJlJ0 = "SELECT id FROM $_Qlt66 WHERE Domainname="._OPQLR($_jfjC6);
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        if(mysql_num_rows($_Q60l1) > 0) {
+        $_QLfol = "SELECT id FROM $_I8OoJ WHERE Domainname="._LRAFO($_JjOjI);
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        if(mysql_num_rows($_QL8i1) > 0) {
           $errors[] = "NewEMail";
-          $_Ql1O8[] = $_QLl1Q["EMailAddressBlacklisted"];
-          mysql_free_result($_Q60l1);
+          $_I816i[] = $_IflO6["EMailAddressBlacklisted"];
+          mysql_free_result($_QL8i1);
           return false;
         }
-        mysql_free_result($_Q60l1);
+        mysql_free_result($_QL8i1);
       }
 
       // ECGlist check
-      if(count($errors) == 0 && _LQDLR("ECGListCheck")) {
-        if( _OC0DR( $_6Ijo6["NewEMail"] ) ){
+      if(count($errors) == 0 && _JOLQE("ECGListCheck")) {
+        $_I016j = _L6AJP( $_ftO66["NewEMail"] );
+        if( (is_bool($_I016j) && $_I016j) || is_string($_I016j) ){
           $errors[] = "NewEMail";
-          $_Ql1O8[] = $_QLl1Q["EMailAddressBlacklisted"];
+          $_I816i[] = $_IflO6["EMailAddressBlacklisted"];
           return false;
         }
       }
 
     }
 
-    if($_QLl1Q["GroupsAsMandatoryField"] && $_QLl1Q["GroupsOption"] == 2) {
-      if( !isset($_6Ijo6["RecipientGroups"]) || !is_array($_6Ijo6["RecipientGroups"]) || count($_6Ijo6["RecipientGroups"]) == 0 ){
+    if($_IflO6["GroupsAsMandatoryField"] && $_IflO6["GroupsOption"] == 2) {
+      if( !isset($_ftO66["RecipientGroups"]) || !is_array($_ftO66["RecipientGroups"]) || count($_ftO66["RecipientGroups"]) == 0 ){
          $errors[] = "RecipientGroups";
-         $_Ql1O8[] = $_QLl1Q["GroupsAsMandatoryFieldError"]."<br /><br />";
+         $_I816i[] = $_IflO6["GroupsAsMandatoryFieldError"]."<br /><br />";
       }
     }
 
-   return _OFEP8($_6Ijo6, $_I16jJ, $_QLl1Q, $_QlQC8, $errors, $_Ql1O8, true);
+   // no Captcha on Edit
+   $_IflO6["UseCaptcha"] = 0;
+   $_IflO6["UseReCaptcha"] = 0;
+   return _LFD8C($_ftO66, $_IOJoI, $_IflO6, $_I8I6o, $errors, $_I816i, true);
  }
 
- function _L00D8(&$_6Ijo6, &$_QLl1Q, &$errors, &$_Ql1O8) {
-   global $_Q61I1;
-   $_Q60l1 = _L0O80($_6Ijo6, $_QLl1Q, $errors, $_Ql1O8);
-   if(!$_Q60l1) return false;
+ function _LFFEL(&$_ftO66, &$_IflO6, &$errors, &$_I816i) {
+   global $_QLttI;
+   $_QL8i1 = _J0QQJ($_ftO66, $_IflO6, $errors, $_I816i);
+   if(!$_QL8i1) return false;
 
    // 3. check recipient exists
-   $_QJlJ0 = "SELECT IdentString, id, SubscriptionStatus, u_EMail FROM $_6Ijo6[MaillistTableName] WHERE IdentString="._OPQLR($_6Ijo6["key"]);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-      $errors[] = $_QLl1Q["SubscribeTextOnConfirmationFailure"];
-      $_Ql1O8[] = $_QLl1Q["SubscribeTextOnConfirmationFailure"];
+   $_QLfol = "SELECT IdentString, id, SubscriptionStatus, u_EMail FROM $_ftO66[MaillistTableName] WHERE IdentString="._LRAFO($_ftO66["key"]);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+      $errors[] = $_IflO6["SubscribeTextOnConfirmationFailure"];
+      $_I816i[] = $_IflO6["SubscribeTextOnConfirmationFailure"];
       return false;
    }
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_6Ijo6["u_EMail"] = $_Q6Q1C["u_EMail"];
+   $_ftO66["u_EMail"] = $_QLO0f["u_EMail"];
 
    # is id = recipient id?
-   $_6Ijo6["RecipientId"] = intval($_6Ijo6["RecipientId"]);
-   if($_Q6Q1C["id"] != $_6Ijo6["RecipientId"]) {
-      $errors[] = $_QLl1Q["SubscribeTextOnConfirmationFailure"];
-      $_Ql1O8[] = $_QLl1Q["SubscribeTextOnConfirmationFailure"];
+   $_ftO66["RecipientId"] = intval($_ftO66["RecipientId"]);
+   if($_QLO0f["id"] != $_ftO66["RecipientId"]) {
+      $errors[] = $_IflO6["SubscribeTextOnConfirmationFailure"];
+      $_I816i[] = $_IflO6["SubscribeTextOnConfirmationFailure"];
       return false;
    }
 
    # check Edit Status
-   $_QJlJ0 = "SELECT `ChangedDetails` FROM $_6Ijo6[EditTableName] WHERE `Member_id`=$_6Ijo6[RecipientId]";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_num_rows($_Q60l1) > 0) {
-     $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-     mysql_free_result($_Q60l1);
-     $_6Ijo6["ChangedDetails"] = $_Q6Q1C["ChangedDetails"];
+   $_QLfol = "SELECT `ChangedDetails` FROM $_ftO66[EditTableName] WHERE `Member_id`=$_ftO66[RecipientId]";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_num_rows($_QL8i1) > 0) {
+     $_QLO0f = mysql_fetch_assoc($_QL8i1);
+     mysql_free_result($_QL8i1);
+     $_ftO66["ChangedDetails"] = $_QLO0f["ChangedDetails"];
    } else {
-      $errors[] = $_QLl1Q["SubscribeTextOnConfirmationAgain"];
-      $_Ql1O8[] = $_QLl1Q["SubscribeTextOnConfirmationAgain"];
+      $errors[] = $_IflO6["SubscribeTextOnConfirmationAgain"];
+      $_I816i[] = $_IflO6["SubscribeTextOnConfirmationAgain"];
       return false;
    }
 
    return count($errors) == 0 ? true : false;
  }
 
- function _L01PA(&$_6Ijo6, &$_QLl1Q, &$errors, &$_Ql1O8) {
-   global $_Q61I1;
+ function _LFFEC(&$_ftO66, &$_IflO6, &$errors, &$_I816i) {
+   global $_QLttI;
 
-   $_Q60l1 = _L0O80($_6Ijo6, $_QLl1Q, $errors, $_Ql1O8);
-   if(!$_Q60l1) return false;
+   $_QL8i1 = _J0QQJ($_ftO66, $_IflO6, $errors, $_I816i);
+   if(!$_QL8i1) return false;
 
    // 3. check recipient exists
-   $_QJlJ0 = "SELECT IdentString, id, SubscriptionStatus FROM $_6Ijo6[MaillistTableName] WHERE IdentString="._OPQLR($_6Ijo6["key"]);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-      $errors[] = $_QLl1Q["EMailAddressNotInList"];
-      $_Ql1O8[] = $_QLl1Q["EMailAddressNotInList"];
+   $_QLfol = "SELECT IdentString, id, SubscriptionStatus FROM $_ftO66[MaillistTableName] WHERE IdentString="._LRAFO($_ftO66["key"]);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+      $errors[] = $_IflO6["EMailAddressNotInList"];
+      $_I816i[] = $_IflO6["EMailAddressNotInList"];
       return false;
    }
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
    # is id = recipient id?
-   $_6Ijo6["RecipientId"] = intval($_6Ijo6["RecipientId"]);
-   if($_Q6Q1C["id"] != $_6Ijo6["RecipientId"]) {
-      $errors[] = $_QLl1Q["EMailAddressNotInList"];
-      $_Ql1O8[] = $_QLl1Q["EMailAddressNotInList"];
+   $_ftO66["RecipientId"] = intval($_ftO66["RecipientId"]);
+   if($_QLO0f["id"] != $_ftO66["RecipientId"]) {
+      $errors[] = $_IflO6["EMailAddressNotInList"];
+      $_I816i[] = $_IflO6["EMailAddressNotInList"];
       return false;
    }
 
    # check Edit Status
-   $_QJlJ0 = "SELECT `Member_id` FROM `$_6Ijo6[EditTableName]` WHERE `Member_id`=".intval($_6Ijo6["RecipientId"]);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && mysql_num_rows($_Q60l1) == 0) {
-      $errors[] = $_QLl1Q["SubscribeTextOnConfirmationAgain"];
-      $_Ql1O8[] = $_QLl1Q["SubscribeTextOnConfirmationAgain"];
+   $_QLfol = "SELECT `Member_id` FROM `$_ftO66[EditTableName]` WHERE `Member_id`=".intval($_ftO66["RecipientId"]);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && mysql_num_rows($_QL8i1) == 0) {
+      $errors[] = $_IflO6["SubscribeTextOnConfirmationAgain"];
+      $_I816i[] = $_IflO6["SubscribeTextOnConfirmationAgain"];
       return false;
    }
     else
-     if($_Q60l1)
-       mysql_free_result($_Q60l1);
+     if($_QL8i1)
+       mysql_free_result($_QL8i1);
 
 
    return count($errors) == 0 ? true : false;
  }
 
 
- function _L0QRE($_IIJi1, $_6IfCt = true) {
-   global $_Q60QL, $_Q61I1;
+ function _J00LP($_IC1C6, $_ftLi0 = true) {
+   global $_QL88I, $_QLttI;
 
-   $_QJlJ0 = "SELECT id FROM $_Q60QL WHERE Name="._OPQLR($_IIJi1);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-     $_Q6Q1C = mysql_fetch_row($_Q60l1);
-     mysql_free_result($_Q60l1);
-     return $_Q6Q1C[0];
+   $_QLfol = "SELECT id FROM $_QL88I WHERE Name="._LRAFO($_IC1C6);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+     $_QLO0f = mysql_fetch_row($_QL8i1);
+     mysql_free_result($_QL8i1);
+     return $_QLO0f[0];
    } else {
-     if($_Q60l1)
-       mysql_free_result($_Q60l1);
+     if($_QL8i1)
+       mysql_free_result($_QL8i1);
 
-     if($_6IfCt && !IsUtf8String($_IIJi1)) {
-       $_IIJi1 = utf8_encode($_IIJi1);
-       return _L0QRE($_IIJi1, false);
+     if($_ftLi0 && !IsUtf8String($_IC1C6)) {
+       $_IC1C6 = utf8_encode($_IC1C6);
+       return _J00LP($_IC1C6, false);
      }
    }
-   return $_IIJi1;
+   return $_IC1C6;
  }
 
- function _L0QBJ($MailingListId, $_IIJi1, $_6IfCt = true) {
-   global $_Q60QL, $_Q61I1;
+ function _J011E($MailingListId, $_IC1C6, $_ftLi0 = true) {
+   global $_QL88I, $_QLttI;
 
-   if(!IsUtf8String($_IIJi1))
-     $_IIJi1 = utf8_encode($_IIJi1);
+   if(!IsUtf8String($_IC1C6))
+     $_IC1C6 = utf8_encode($_IC1C6);
 
-   $_QJlJ0 = "SELECT FormsTableName FROM $_Q60QL WHERE id=".intval($MailingListId);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-     $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-     mysql_free_result($_Q60l1);
-     $_QJlJ0 = "SELECT id FROM $_Q6Q1C[FormsTableName] WHERE Name="._OPQLR($_IIJi1);
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-       $_Q6Q1C = mysql_fetch_row($_Q60l1);
-       mysql_free_result($_Q60l1);
-       return $_Q6Q1C[0];
+   $_QLfol = "SELECT FormsTableName FROM $_QL88I WHERE id=".intval($MailingListId);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+     $_QLO0f = mysql_fetch_assoc($_QL8i1);
+     mysql_free_result($_QL8i1);
+     $_QLfol = "SELECT id FROM $_QLO0f[FormsTableName] WHERE Name="._LRAFO($_IC1C6);
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+       $_QLO0f = mysql_fetch_row($_QL8i1);
+       mysql_free_result($_QL8i1);
+       return $_QLO0f[0];
      }
    } else {
 
-     if($_Q60l1)
-       mysql_free_result($_Q60l1);
+     if($_QL8i1)
+       mysql_free_result($_QL8i1);
 
-     if($_6IfCt && !IsUtf8String($_IIJi1)) {
-       $_IIJi1 = utf8_encode($_IIJi1);
-       return _L0QBJ($MailingListId, $_IIJi1, false);
+     if($_ftLi0 && !IsUtf8String($_IC1C6)) {
+       $_IC1C6 = utf8_encode($_IC1C6);
+       return _J011E($MailingListId, $_IC1C6, false);
      }
 
    }
-   return $_IIJi1;
+   return $_IC1C6;
  }
 
- function _L0QEJ($ML, $_6IfiO, $_6IfCt = true) {
-   global $_Q60QL, $_Q61I1;
+ function _J016F($ML, $_j1liQ, $_ftLi0 = true) {
+   global $_QL88I, $_QLttI;
 
-   if( (string)(intval($_6IfiO) * 1) == (string)$_6IfiO ) // name?
-      return $_6IfiO;
+   if( (string)(intval($_j1liQ) * 1) == (string)$_j1liQ ) // name?
+      return $_j1liQ;
 
-   $_QJlJ0 = "SELECT GroupsTableName FROM $_Q60QL WHERE id=".intval($ML);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-     $_Q6Q1C = mysql_fetch_row($_Q60l1);
-     mysql_free_result($_Q60l1);
-     $_Q6t6j = $_Q6Q1C[0];
+   $_QLfol = "SELECT GroupsTableName FROM $_QL88I WHERE id=".intval($ML);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+     $_QLO0f = mysql_fetch_row($_QL8i1);
+     mysql_free_result($_QL8i1);
+     $_QljJi = $_QLO0f[0];
    } else
      return false;
 
-   $_QJlJ0 = "SELECT id FROM $_Q6t6j WHERE Name="._OPQLR($_6IfiO);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-     $_Q6Q1C = mysql_fetch_row($_Q60l1);
-     mysql_free_result($_Q60l1);
-     return $_Q6Q1C[0];
+   $_QLfol = "SELECT id FROM $_QljJi WHERE Name="._LRAFO($_j1liQ);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+     $_QLO0f = mysql_fetch_row($_QL8i1);
+     mysql_free_result($_QL8i1);
+     return $_QLO0f[0];
    } else {
-     if($_Q60l1)
-       mysql_free_result($_Q60l1);
+     if($_QL8i1)
+       mysql_free_result($_QL8i1);
 
-     if($_6IfCt && !IsUtf8String($_6IfiO)) {
-       $_6IfiO = utf8_encode($_6IfiO);
-       return _L0QEJ($ML, $_6IfiO, false);
+     if($_ftLi0 && !IsUtf8String($_j1liQ)) {
+       $_j1liQ = utf8_encode($_j1liQ);
+       return _J016F($ML, $_j1liQ, false);
      }
    }
    return false;
  }
 
- function _L0O6B($key, $MailingListId) {
-   global $_Q60QL, $_Q61I1;
+ function _J01BO($key, $MailingListId) {
+   global $_QL88I, $_QLttI;
 
-   $_QJlJ0 = "SELECT MaillistTableName FROM $_Q60QL WHERE id=".intval($MailingListId);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-     $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-     mysql_free_result($_Q60l1);
-     $_QJlJ0 = "SELECT * FROM $_Q6Q1C[MaillistTableName] WHERE IdentString="._OPQLR($key);
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-       $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-       mysql_free_result($_Q60l1);
-       return $_Q6Q1C;
+   $_QLfol = "SELECT MaillistTableName FROM $_QL88I WHERE id=".intval($MailingListId);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+     $_QLO0f = mysql_fetch_assoc($_QL8i1);
+     mysql_free_result($_QL8i1);
+     $_QLfol = "SELECT * FROM $_QLO0f[MaillistTableName] WHERE IdentString="._LRAFO($key);
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+       $_QLO0f = mysql_fetch_assoc($_QL8i1);
+       mysql_free_result($_QL8i1);
+       return $_QLO0f;
      }
    }
    return false;
@@ -825,79 +935,83 @@
 
  include_once("onlineupdate.inc.php");
 
- function _L0O80(&$_6Ijo6, &$_QLl1Q, &$errors, &$_Ql1O8) {
-   global $commonmsgMailListNotFound, $commonmsgHTMLFormNotFound, $commonmsgParamKeyInvalid, $_jJO6j, $_Q60QL, $_Q880O, $_Q8f1L;
-   global $_QolLi, $_Qofoi, $_ICljl, $_QLo0Q, $_Q88iO, $_Ql8C0;
-   global $_Q61I1;
+ function _J0QQJ(&$_ftO66, &$_IflO6, &$errors, &$_I816i) {
+   global $commonmsgMailListNotFound, $commonmsgHTMLFormNotFound, $commonmsgParamKeyInvalid, $_JQJll, $_QL88I, $_I1tQf, $_I18lo;
+   global $_IjljI, $_Ijt0i, $_jfQtI, $_Ifi1J, $_I1O0i, $_I8tfQ;
+   global $_QLttI;
 
    global $INTERFACE_STYLE, $INTERFACE_LANGUAGE;
 
-   $_jj0JO = "";
+   $_J0COJ = "";
 
-   if( !isset($_6Ijo6["key"]) ) {
-     $_jCO1J = $commonmsgParamKeyInvalid;
-     _ORECR($_jj0JO, $_jCO1J);
+   if( !isset($_ftO66["key"]) ) {
+     $_JCIO0 = $commonmsgParamKeyInvalid;
+     _LJD1D($_J0COJ, $_JCIO0);
      return false;
    }
 
-   $key = $_6Ijo6["key"];
-   if(!_OA8LE($key, $_QLitI, $MailingListId, $FormId, !empty($_6Ijo6["rid"]) ? $_6Ijo6["rid"] : "" )) {
-     $_jCO1J = $commonmsgParamKeyInvalid;
-     _ORECR($_jj0JO, $_jCO1J);
+   $key = $_ftO66["key"];
+   if(!_LPQEP($key, $_IfLJj, $MailingListId, $FormId, !empty($_ftO66["rid"]) ? $_ftO66["rid"] : "" )) {
+     $_JCIO0 = $commonmsgParamKeyInvalid;
+     _LJD1D($_J0COJ, $_JCIO0);
      return false;
    }
 
-   $_6Ijo6["MailingListId"] = intval($MailingListId);
-   $_6Ijo6["FormId"] = intval($FormId);
-   $_6Ijo6["RecipientId"] = intval($_QLitI);
+   $_ftO66["MailingListId"] = intval($MailingListId);
+   $_ftO66["FormId"] = intval($FormId);
+   $_ftO66["RecipientId"] = intval($_IfLJj);
 
    // 1. check maillist exists
-   $_QJlJ0 = "SELECT users_id, MaillistTableName, StatisticsTableName, FormsTableName, EditTableName FROM $_Q60QL WHERE id=".intval($MailingListId);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-     $_jCO1J = $commonmsgMailListNotFound;
-     _ORECR($_jj0JO, $_jCO1J);
+   $_QLfol = "SELECT users_id, MaillistTableName, StatisticsTableName, FormsTableName, EditTableName, `ReasonsForUnsubscripeTableName`, `ExternalSubscriptionScript`, `ExternalUnsubscriptionScript`, `ExternalEditScript` FROM $_QL88I WHERE id=".intval($MailingListId);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+     $_JCIO0 = $commonmsgMailListNotFound;
+     _LJD1D($_J0COJ, $_JCIO0);
      return false;
    }
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   $_QlQC8 = $_Q6Q1C["MaillistTableName"];
-   $_QLI8o = $_Q6Q1C["FormsTableName"];
-   $_QlIf6 = $_Q6Q1C["StatisticsTableName"];
-   $_Qljli = $_Q6Q1C["EditTableName"];
+   $_I8I6o = $_QLO0f["MaillistTableName"];
+   $_IfJoo = $_QLO0f["FormsTableName"];
+   $_I8jjj = $_QLO0f["StatisticsTableName"];
+   $_I8Jti = $_QLO0f["EditTableName"];
+   $_jQIIl = $_QLO0f["ReasonsForUnsubscripeTableName"];
+   $_JCOJ6 = $_QLO0f["ExternalSubscriptionScript"];
+   $_JCOit = $_QLO0f["ExternalUnsubscriptionScript"];
+   $_JCojC = $_QLO0f["ExternalEditScript"];
 
    // tables
-   $_QJlJ0 = "SELECT * FROM $_Q8f1L WHERE id=$_Q6Q1C[users_id]";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_ji0L6 = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT * FROM $_I18lo WHERE id=$_QLO0f[users_id]";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_JCC81 = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   _OP0D0($_ji0L6);
+   _LR8AP($_JCC81);
 
-   _LQLRQ($INTERFACE_LANGUAGE);
+   _JQRLR($INTERFACE_LANGUAGE);
 
    // set the user paths for images, attachments....
-   _OP0AF($_Q6Q1C["users_id"]);
+   _LRRFJ($_QLO0f["users_id"]);
 
-   $_jolLf = "";
-   $_jC0t8 = 0;
-   $_6I8lO = 0;
-   if(!_L0P8D($_jolLf, $_jC0t8, $_6I8lO, false))
-       mysql_query("DELETE FROM $_Q88iO WHERE id=$_6I8lO", $_Q61I1);
-   $_QJlJ0 = "SELECT Dashboard FROM $_Q88iO LIMIT 0,1";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_Q8OiJ = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
-   $_Q8otJ = _LQEQR($_Q8OiJ);
-   if(count($_Q8otJ) == 0 ||
-      !isset($_Q8otJ["DashboardDate"]) ||
-      $_Q8otJ["DashboardDate"] == "" ||
-      !isset($_Q8otJ["DashboardUser"]) ||
-      $_Q8otJ["DashboardUser"] == "" ||
-      !isset($_Q8otJ["DashboardTag"]) ||
-      $_Q8otJ["DashboardTag"] == "" ||
-      (strlen($_Q8otJ["DashboardTag"]) != $_jJO6j - 108)
+   $_JoiQi = "";
+   $_JoiJL = 0;
+   $_ftLil = 0;
+   if(!_J0RCP($_JoiQi, $_JoiJL, $_ftLil, false))
+       mysql_query("DELETE FROM $_I1O0i WHERE id=$_ftLil", $_QLttI);
+   $_QLfol = "SELECT Dashboard FROM $_I1O0i LIMIT 0,1";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_I1OfI = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
+   $_I1OoI = _JOLOA($_I1OfI);
+   if(count($_I1OoI) == 0 ||
+      !isset($_I1OoI["DashboardDate"]) ||
+      $_I1OoI["DashboardDate"] == "" ||
+      !isset($_I1OoI["DashboardUser"]) ||
+      $_I1OoI["DashboardUser"] == "" ||
+      !isset($_I1OoI["DashboardTag"]) ||
+      $_I1OoI["DashboardTag"] == "" ||
+      (strlen($_I1OoI["DashboardTag"]) != $_JQJll - 108)
 
      ) {
        print "@KEYINVALID";
@@ -905,28 +1019,38 @@
      }
    // ***
 
-   $_6Ijo6["MaillistTableName"] = $_QlQC8;
-   $_6Ijo6["FormsTableName"] = $_QLI8o;
-   $_6Ijo6["StatisticsTableName"] = $_QlIf6;
-   $_6Ijo6["EditTableName"] = $_Qljli;
+   $_ftO66["MaillistTableName"] = $_I8I6o;
+   $_ftO66["FormsTableName"] = $_IfJoo;
+   $_ftO66["StatisticsTableName"] = $_I8jjj;
+   $_ftO66["EditTableName"] = $_I8Jti;
 
    // 2. check form exists
-   $_QJlJ0 = "SELECT $_QLI8o.*, $_QLI8o.id AS FormId, $_QLo0Q.*, $_Q880O.Theme FROM $_QLI8o LEFT JOIN $_QLo0Q ON $_QLo0Q.id=$_QLI8o.messages_id LEFT JOIN $_Q880O ON $_Q880O.id=$_QLI8o.ThemesId WHERE $_QLI8o.id=".intval($FormId);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-     $_jCO1J = $commonmsgHTMLFormNotFound;
-     _ORECR($_jj0JO, $_jCO1J);
+   $_QLfol = "SELECT $_IfJoo.*, $_IfJoo.id AS FormId, $_Ifi1J.*, $_I1tQf.Theme FROM $_IfJoo LEFT JOIN $_Ifi1J ON $_Ifi1J.id=$_IfJoo.messages_id LEFT JOIN $_I1tQf ON $_I1tQf.id=$_IfJoo.ThemesId WHERE $_IfJoo.id=".intval($FormId);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+     $_JCIO0 = $commonmsgHTMLFormNotFound;
+     _LJD1D($_J0COJ, $_JCIO0);
    }
 
-   $_QLl1Q = mysql_fetch_assoc($_Q60l1);
-   mysql_free_result($_Q60l1);
-   $_QLl1Q["MailingListId"] = intval($MailingListId);
+   $_IflO6 = mysql_fetch_assoc($_QL8i1);
+   mysql_free_result($_QL8i1);
+
+   $_IflO6["MailingListId"] = intval($MailingListId);
+   // External Scripts
+   $_IflO6["ExternalSubscriptionScript"] = $_JCOJ6;
+   $_IflO6["ExternalUnsubscriptionScript"] = $_JCOit;
+   $_IflO6["ExternalEditScript"] = $_JCojC;
+   // Reasons for unsubscripe
+   $_IflO6["ReasonsForUnsubscripeTableName"] = $_jQIIl;
+
+   if(isset($_ftO66["Action"]))
+     $_IflO6["Action"] = $_ftO66["Action"];
 
    # set theme and language for correct template
-   $INTERFACE_STYLE = $_QLl1Q["Theme"];
-   $INTERFACE_LANGUAGE = $_QLl1Q["Language"];
+   $INTERFACE_STYLE = $_IflO6["Theme"];
+   $INTERFACE_LANGUAGE = $_IflO6["Language"];
 
-   _LQLRQ($INTERFACE_LANGUAGE);
+   _JQRLR($INTERFACE_LANGUAGE);
 
    return count($errors) == 0 ? true : false;
  }

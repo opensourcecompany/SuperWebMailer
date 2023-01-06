@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2014 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,128 +26,133 @@
   include_once("templates.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeCron"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeCron"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  $_I0600 = "";
+  $_Itfj8 = "";
   $errors = array();
 
-  $_Q6QiO = "'%d.%m.%Y %H:%i:%s'";
-  $_If0Ql = "'%d.%m.%Y'";
+  $_QLo60 = "'%d.%m.%Y %H:%i:%s'";
+  $_j01CJ = "'%d.%m.%Y'";
   if($INTERFACE_LANGUAGE != "de") {
-     $_Q6QiO = "'%Y-%m-%d %H:%i:%s'";
-     $_If0Ql = "'%Y-%m-%d'";
+     $_QLo60 = "'%Y-%m-%d %H:%i:%s'";
+     $_j01CJ = "'%Y-%m-%d'";
   }
 
+  $_8QoCl = false;
 
   // save
   if(isset($_POST["SaveBtn"])) {
     if (!isset($_POST["JobWorkingInterval"]) || !isset($_POST["JobWorkingIntervalType"]) ) {
       $errors[] = "JobWorkingInterval";
       $errors[] = "JobWorkingIntervalType";
-      $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000346"];
+      $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000346"];
     }
 
     if(count($errors) == 0 && count($_POST["JobWorkingInterval"]) != count($_POST["JobWorkingIntervalType"]) ) {
       $errors[] = "JobWorkingInterval";
       $errors[] = "JobWorkingIntervalType";
-      $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000346"];
+      $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000346"];
     }
 
     if(count($errors) == 0) {
-      foreach($_POST["JobWorkingInterval"] as $key => $_Q6ClO) {
-        if(intval($_Q6ClO) <= 0)
+      foreach($_POST["JobWorkingInterval"] as $key => $_QltJO) {
+        if(intval($_QltJO) <= 0)
           $_POST["JobWorkingInterval"][$key] = 1;
           else
-          $_POST["JobWorkingInterval"][$key] = intval($_Q6ClO);
+          $_POST["JobWorkingInterval"][$key] = intval($_QltJO);
+        if(strpos($_POST["JobWorkingIntervalType"][$key], "Second") !== false)
+          $_8QoCl = true;
       }
     }
 
     // save
     if(count($errors) == 0) {
-      foreach($_POST["JobWorkingInterval"] as $key => $_Q6ClO) {
-        $_QJlJ0 = "UPDATE $_jJJtf SET JobWorkingInterval="._OPQLR($_Q6ClO).", JobWorkingIntervalType="._OPQLR($_POST["JobWorkingIntervalType"][$key])." WHERE id=".intval($key);
-        mysql_query($_QJlJ0, $_Q61I1);
-        _OAL8F($_QJlJ0);
+      foreach($_POST["JobWorkingInterval"] as $key => $_QltJO) {
+        $_QLfol = "UPDATE $_JQQI1 SET JobWorkingInterval="._LRAFO($_QltJO).", JobWorkingIntervalType="._LRAFO($_POST["JobWorkingIntervalType"][$key])." WHERE id=".intval($key);
+        mysql_query($_QLfol, $_QLttI);
+        _L8D88($_QLfol);
       }
-      $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000021"];
+      $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000021"];
+      if($_8QoCl)
+        $_Itfj8 .= "<br /><br />" . $resourcestrings[$INTERFACE_LANGUAGE]["WarningCronTasksInSecondsInterval"];
     }
   }
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000345"], $_I0600, 'settings_cron', 'browse_cron_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000345"], $_Itfj8, 'settings_cron', 'browse_cron_snipped.htm');
 
 
-  $_Q6tjl = "";
-  $_IIJi1 = _OP81D($_QJCJi, "<LIST:ENTRY>", "</LIST:ENTRY>");
-  $_IIJi1 = str_replace ('<LIST:ENTRY>', '', $_IIJi1);
-  $_IIJi1 = str_replace ('</LIST:ENTRY>', '', $_IIJi1);
+  $_QlIf1 = "";
+  $_IC1C6 = _L81DB($_QLJfI, "<LIST:ENTRY>", "</LIST:ENTRY>");
+  $_IC1C6 = str_replace ('<LIST:ENTRY>', '', $_IC1C6);
+  $_IC1C6 = str_replace ('</LIST:ENTRY>', '', $_IC1C6);
 
-  $_QJlJ0 = "WHERE $_jJJtf.JobType <> 'EventResponderChecking'";
+  $_QLfol = "WHERE $_JQQI1.JobType <> 'EventResponderChecking'";
   if(!defined("SML") && $OwnerOwnerUserId == 90){
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'ResponderStatCleanUp'";
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'AutoresponderChecking'";
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'FollowUpResponderChecking'";
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'BirthdayResponderChecking'";
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'RSS2EMailResponderChecking'";
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'DistribListChecking'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'ResponderStatCleanUp'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'AutoresponderChecking'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'FollowUpResponderChecking'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'BirthdayResponderChecking'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'RSS2EMailResponderChecking'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'DistribListChecking'";
   }
   if(defined("SML") && $OwnerOwnerUserId == 0x41){
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'ResponderStatCleanUp'";
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'DistribListChecking'";
-    $_QJlJ0 .= " AND $_jJJtf.JobType <> 'SendEngineChecking'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'ResponderStatCleanUp'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'DistribListChecking'";
+    $_QLfol .= " AND $_JQQI1.JobType <> 'SendEngineChecking'";
   }
 
-  $_QJlJ0 = "SELECT *, DATE_FORMAT(LastExecution, $_Q6QiO) AS LastExec FROM $_jJJtf $_QJlJ0 ORDER BY id";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
+  $_QLfol = "SELECT *, DATE_FORMAT(LastExecution, $_QLo60) AS LastExec FROM $_JQQI1 $_QLfol ORDER BY id";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
 
-    if($_Q6Q1C["JobType"] == 'EventResponderChecking') continue; // skip at this time
+    if($_QLO0f["JobType"] == 'EventResponderChecking') continue; // skip at this time
 
     // compatibily
-    if($_Q6Q1C["JobWorkingIntervalType"] == "") {
-       $_Q6Q1C["JobWorkingIntervalType"] = "Day";
-       mysql_query("UPDATE $_jJJtf SET JobWorkingIntervalType='$_Q6Q1C[JobWorkingIntervalType]' WHERE id=$_Q6Q1C[id] ");
+    if($_QLO0f["JobWorkingIntervalType"] == "") {
+       $_QLO0f["JobWorkingIntervalType"] = "Day";
+       mysql_query("UPDATE $_JQQI1 SET JobWorkingIntervalType='$_QLO0f[JobWorkingIntervalType]' WHERE id=$_QLO0f[id] ");
     }
 
-    $_Q66jQ = $_IIJi1;
-    $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:JOBNAME>", "</LIST:JOBNAME>", $resourcestrings[$INTERFACE_LANGUAGE]["Cron".$_Q6Q1C["JobType"]]);
-    $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:LASTEXECUTION>", "</LIST:LASTEXECUTION>", $_Q6Q1C["LastExec"]);
+    $_Ql0fO = $_IC1C6;
+    $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:JOBNAME>", "</LIST:JOBNAME>", $resourcestrings[$INTERFACE_LANGUAGE]["Cron".$_QLO0f["JobType"]]);
+    $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:LASTEXECUTION>", "</LIST:LASTEXECUTION>", $_QLO0f["LastExec"]);
 
-    $_6tifO = _OP81D($_Q66jQ, "<LIST:JOBINTERVAL>", "</LIST:JOBINTERVAL>");
-    $_6tifO = str_replace ('<LIST:JOBINTERVAL>', '', $_6tifO);
-    $_6tifO = str_replace ('</LIST:JOBINTERVAL>', '', $_6tifO);
+    $_8QC8l = _L81DB($_Ql0fO, "<LIST:JOBINTERVAL>", "</LIST:JOBINTERVAL>");
+    $_8QC8l = str_replace ('<LIST:JOBINTERVAL>', '', $_8QC8l);
+    $_8QC8l = str_replace ('</LIST:JOBINTERVAL>', '', $_8QC8l);
 
-    $_6tifO = _OPFJA(array(), $_Q6Q1C, $_6tifO);
-    $_6tifO = str_replace ('name="JobWorkingInterval"', 'name="JobWorkingInterval['.$_Q6Q1C["id"].']"', $_6tifO);
-    $_6tifO = str_replace ('name="JobWorkingIntervalType"', 'name="JobWorkingIntervalType['.$_Q6Q1C["id"].']"', $_6tifO);
+    $_8QC8l = _L8AOB(array(), $_QLO0f, $_8QC8l);
+    $_8QC8l = str_replace ('name="JobWorkingInterval"', 'name="JobWorkingInterval['.$_QLO0f["id"].']"', $_8QC8l);
+    $_8QC8l = str_replace ('name="JobWorkingIntervalType"', 'name="JobWorkingIntervalType['.$_QLO0f["id"].']"', $_8QC8l);
 
-    $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:JOBINTERVAL>", "</LIST:JOBINTERVAL>", $_6tifO);
+    $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:JOBINTERVAL>", "</LIST:JOBINTERVAL>", $_8QC8l);
 
-    $_Q6tjl .= $_Q66jQ;
+    $_QlIf1 .= $_Ql0fO;
 
   }
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, "<LIST:ENTRY>", "</LIST:ENTRY>", $_Q6tjl);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, "<LIST:ENTRY>", "</LIST:ENTRY>", $_QlIf1);
 
 
-  $_QJCJi = str_replace ('?language=', '?language='.$INTERFACE_LANGUAGE, $_QJCJi);
-  $_QJCJi = str_replace ('<crons_php>', ScriptBaseURL.'crons.php', $_QJCJi);
-  $_QJCJi = str_replace ('&lt;crons_php&gt;', ScriptBaseURL.'crons.php', $_QJCJi);
+  $_QLJfI = str_replace ('?language=', '?language='.$INTERFACE_LANGUAGE, $_QLJfI);
+  $_QLJfI = str_replace ('<crons_php>', ScriptBaseURL.'crons.php', $_QLJfI);
+  $_QLJfI = str_replace ('&lt;crons_php&gt;', ScriptBaseURL.'crons.php', $_QLJfI);
 
 
   if($INTERFACE_LANGUAGE != "de")
-    $_QJCJi = str_replace("'dd.mm.yyyy'", "'yyyy-mm-dd'", $_QJCJi);
+    $_QLJfI = str_replace("'dd.mm.yyyy'", "'yyyy-mm-dd'", $_QLJfI);
 
-  $_QJCJi = _OPFJA($errors, array(), $_QJCJi);
+  $_QLJfI = _L8AOB($errors, array(), $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 ?>

@@ -4,17 +4,17 @@
 
         function ConfirmEditFormsEvent(value) {
          if(value)
-           window.location.href="./browseforms.php?MailingListId=" + document.getElementById("MailingListId").value;
+           CreateFormAndPostIt("./browseforms.php?MailingListId=" + document.getElementById("MailingListId").value);
         }
 
         function ConfirmEditMTAsEvent(value) {
          if(value)
-           window.location.href="./browsemtas.php";
+           CreateFormAndPostIt("./browsemtas.php");
         }
 
         function ConfirmEditInboxesEvent(value) {
          if(value)
-           window.location.href="./browseinboxes.php";
+           CreateFormAndPostIt("./browseinboxes.php");
         }
 
         /* from page http://blog.pothoven.net/2006/10/move-options-up-and-down-select-lists.html */
@@ -684,7 +684,10 @@
 
                       var Groups = document.getElementById("Groups[]");
                       var newGroupName = value;
-                      newGroupName = newGroupName.replace(/,/, '');
+                      newGroupName = newGroupName.replace(/,/g, '');
+                      newGroupName = newGroupName.replace(/;/g, '');
+                      newGroupName = newGroupName.replace(/\</g, '');
+                      newGroupName = newGroupName.replace(/\>/g, '');
 
                       var notallowed = "0123456789";
                       if (notallowed.indexOf(newGroupName.charAt(0)) >= 0) {
@@ -730,7 +733,10 @@
 
 
                       var newGroupName = value;
-                      newGroupName = newGroupName.replace(/,/, '');
+                      newGroupName = newGroupName.replace(/,/g, '');
+                      newGroupName = newGroupName.replace(/;/g, '');
+                      newGroupName = newGroupName.replace(/\</g, '');
+                      newGroupName = newGroupName.replace(/\>/g, '');
                       if(newGroupName == option.text) return;
 
                       var notallowed = "0123456789";
@@ -817,6 +823,7 @@
                       addScrollboxRolloverEffect('UsersScrollbox','scrollboxRollOverEffect', 'scrollboxclickEffect');
                     }
 
+                    InsertLoadingStatusOnSubmit();
                     //AUTO_SCRIPT_CODE_PLACEHOLDER//
 
                   -->

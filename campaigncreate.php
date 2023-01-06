@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -28,89 +28,89 @@
   include_once("campaigncreate.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeCampaignCreate"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeCampaignCreate"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  if (count($_POST) == 0) {
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000600"], '', 'new_campaign', 'new_campaign_snipped.htm');
+  if (count($_POST) == 0 || (count($_POST) == 1 && isset($_POST[SMLSWM_TOKEN_COOKIE_NAME])) ) {
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000600"], '', 'new_campaign', 'new_campaign_snipped.htm');
     if(isset($_POST["PageSelected"]))
-       $_QJCJi = str_replace('name="PageSelected"', 'name="PageSelected" value="'.$_POST["PageSelected"].'"', $_QJCJi);
+       $_QLJfI = str_replace('name="PageSelected"', 'name="PageSelected" value="'.$_POST["PageSelected"].'"', $_QLJfI);
     //
-    $_QJCJi = _OJDA0($_QJCJi);
+    $_QLJfI = _LQFFP($_QLJfI);
 
     // mail encodings
-    $_Q6ICj = "";
-    if ( function_exists('iconv') || function_exists('mb_convert_encoding') ) {
-      reset($_Qo8OO);
-      foreach($_Qo8OO as $key => $_Q6ClO) {
-         $_Q6ICj .= '<option value="'.$key.'">'.$_Q6ClO.'</option>'.$_Q6JJJ;
+    $_QLoli = "";
+    if ( iconvExists || mbfunctionsExists ) {
+      reset($_Ijt8j);
+      foreach($_Ijt8j as $key => $_QltJO) {
+         $_QLoli .= '<option value="'.$key.'">'.$_QltJO.'</option>'.$_QLl1Q;
       }
     }
-    $_QJCJi = _OPR6L($_QJCJi, "<MAILENCODINGS>", "</MAILENCODINGS>", $_Q6ICj);
+    $_QLJfI = _L81BJ($_QLJfI, "<MAILENCODINGS>", "</MAILENCODINGS>", $_QLoli);
 
-    $_QJCJi = str_replace('value="Multipart"', 'value="Multipart" selected="selected"', $_QJCJi);
+    $_QLJfI = str_replace('value="Multipart"', 'value="Multipart" selected="selected"', $_QLJfI);
 
-    print $_QJCJi;
+    print $_QLJfI;
 
     exit;
   }
 
   if ( (!isset($_POST['Name'])) || (trim($_POST['Name']) == "") ) {
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000600"], $resourcestrings[$INTERFACE_LANGUAGE]["000601"], 'new_campaign', 'new_campaign_snipped.htm');
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000600"], $resourcestrings[$INTERFACE_LANGUAGE]["000601"], 'new_campaign', 'new_campaign_snipped.htm');
     if(isset($_POST["PageSelected"]))
-       $_QJCJi = str_replace('name="PageSelected"', 'name="PageSelected" value="'.$_POST["PageSelected"].'"', $_QJCJi);
-    $_Q8otJ = array();
-    $_Q8otJ[] = 'Name';
-    $_QJCJi = _OJDA0($_QJCJi);
+       $_QLJfI = str_replace('name="PageSelected"', 'name="PageSelected" value="'.$_POST["PageSelected"].'"', $_QLJfI);
+    $_I1OoI = array();
+    $_I1OoI[] = 'Name';
+    $_QLJfI = _LQFFP($_QLJfI);
 
     // mail encodings
-    $_Q6ICj = "";
-    if ( function_exists('iconv') || function_exists('mb_convert_encoding') ) {
-      reset($_Qo8OO);
-      foreach($_Qo8OO as $key => $_Q6ClO) {
-         $_Q6ICj .= '<option value="'.$key.'">'.$_Q6ClO.'</option>'.$_Q6JJJ;
+    $_QLoli = "";
+    if ( iconvExists || mbfunctionsExists ) {
+      reset($_Ijt8j);
+      foreach($_Ijt8j as $key => $_QltJO) {
+         $_QLoli .= '<option value="'.$key.'">'.$_QltJO.'</option>'.$_QLl1Q;
       }
     }
-    $_QJCJi = _OPR6L($_QJCJi, "<MAILENCODINGS>", "</MAILENCODINGS>", $_Q6ICj);
+    $_QLJfI = _L81BJ($_QLJfI, "<MAILENCODINGS>", "</MAILENCODINGS>", $_QLoli);
 
-    $_QJCJi = _OPFJA($_Q8otJ, $_POST, $_QJCJi);
-    print $_QJCJi;
+    $_QLJfI = _L8AOB($_I1OoI, $_POST, $_QLJfI);
+    print $_QLJfI;
     exit;
   }
 
   if ( (!isset($_POST['maillists_id'])) || (intval(trim($_POST['maillists_id'])) == 0) ) {
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000600"], $resourcestrings[$INTERFACE_LANGUAGE]["000602"], 'new_campaign', 'new_campaign_snipped.htm');
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000600"], $resourcestrings[$INTERFACE_LANGUAGE]["000602"], 'new_campaign', 'new_campaign_snipped.htm');
     if(isset($_POST["PageSelected"]))
-       $_QJCJi = str_replace('name="PageSelected"', 'name="PageSelected" value="'.$_POST["PageSelected"].'"', $_QJCJi);
-    $_Q8otJ = array();
-    $_Q8otJ[] = 'maillists_id';
-    $_QJCJi = _OJDA0($_QJCJi);
+       $_QLJfI = str_replace('name="PageSelected"', 'name="PageSelected" value="'.$_POST["PageSelected"].'"', $_QLJfI);
+    $_I1OoI = array();
+    $_I1OoI[] = 'maillists_id';
+    $_QLJfI = _LQFFP($_QLJfI);
 
     // mail encodings
-    $_Q6ICj = "";
-    if ( function_exists('iconv') || function_exists('mb_convert_encoding') ) {
-      reset($_Qo8OO);
-      foreach($_Qo8OO as $key => $_Q6ClO) {
-         $_Q6ICj .= '<option value="'.$key.'">'.$_Q6ClO.'</option>'.$_Q6JJJ;
+    $_QLoli = "";
+    if ( iconvExists || mbfunctionsExists ) {
+      reset($_Ijt8j);
+      foreach($_Ijt8j as $key => $_QltJO) {
+         $_QLoli .= '<option value="'.$key.'">'.$_QltJO.'</option>'.$_QLl1Q;
       }
     }
-    $_QJCJi = _OPR6L($_QJCJi, "<MAILENCODINGS>", "</MAILENCODINGS>", $_Q6ICj);
+    $_QLJfI = _L81BJ($_QLJfI, "<MAILENCODINGS>", "</MAILENCODINGS>", $_QLoli);
 
-    $_QJCJi = _OPFJA($_Q8otJ, $_POST, $_QJCJi);
-    print $_QJCJi;
+    $_QLJfI = _L8AOB($_I1OoI, $_POST, $_QLJfI);
+    print $_QLJfI;
     exit;
   } else {
     $_POST['maillists_id'] = intval($_POST['maillists_id']);
-    if(!_OCJCC($_POST['maillists_id'])){
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    if(!_LAEJL($_POST['maillists_id'])){
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
@@ -119,95 +119,100 @@
   if(!isset($_POST["Description"]))
     $_POST["Description"] = "";
 
-  $_QJlJ0 = "SELECT id FROM $_Q6jOo WHERE Name="._OPQLR($_POST["Name"]);
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if(mysql_num_rows($_Q60l1) > 0) {
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000600"], $resourcestrings[$INTERFACE_LANGUAGE]["000601"], 'new_campaign', 'new_campaign_snipped.htm');
+  $_QLfol = "SELECT `id` FROM `$_QLi60` WHERE `Name`="._LRAFO($_POST["Name"]);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if(mysql_num_rows($_QL8i1) > 0) {
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000600"], $resourcestrings[$INTERFACE_LANGUAGE]["000601"], 'new_campaign', 'new_campaign_snipped.htm');
     if(isset($_POST["PageSelected"]))
-       $_QJCJi = str_replace('name="PageSelected"', 'name="PageSelected" value="'.$_POST["PageSelected"].'"', $_QJCJi);
-    $_Q8otJ = array();
-    $_Q8otJ[] = 'Name';
-    $_QJCJi = _OJDA0($_QJCJi);
+       $_QLJfI = str_replace('name="PageSelected"', 'name="PageSelected" value="'.$_POST["PageSelected"].'"', $_QLJfI);
+    $_I1OoI = array();
+    $_I1OoI[] = 'Name';
+    $_QLJfI = _LQFFP($_QLJfI);
 
     // mail encodings
-    $_Q6ICj = "";
-    if ( function_exists('iconv') || function_exists('mb_convert_encoding') ) {
-      reset($_Qo8OO);
-      foreach($_Qo8OO as $key => $_Q6ClO) {
-         $_Q6ICj .= '<option value="'.$key.'">'.$_Q6ClO.'</option>'.$_Q6JJJ;
+    $_QLoli = "";
+    if ( iconvExists || mbfunctionsExists ) {
+      reset($_Ijt8j);
+      foreach($_Ijt8j as $key => $_QltJO) {
+         $_QLoli .= '<option value="'.$key.'">'.$_QltJO.'</option>'.$_QLl1Q;
       }
     }
-    $_QJCJi = _OPR6L($_QJCJi, "<MAILENCODINGS>", "</MAILENCODINGS>", $_Q6ICj);
+    $_QLJfI = _L81BJ($_QLJfI, "<MAILENCODINGS>", "</MAILENCODINGS>", $_QLoli);
 
-    $_QJCJi = _OPFJA($_Q8otJ, $_POST, $_QJCJi);
-    print $_QJCJi;
+    $_QLJfI = _L8AOB($_I1OoI, $_POST, $_QLJfI);
+    print $_QLJfI;
     exit;
   }
 
-  $_j0O01 = _OJCCP($_POST["Name"], $_POST["Description"], $_POST["maillists_id"]);
+  $_ji160 = _LQFEB($_POST["Name"], $_POST["Description"], $_POST["maillists_id"], isset($_POST["CampaignSaveSetting"]) ? false : true);
 
   if(empty($_POST["MailEditType"]))
     $_POST["MailEditType"] = "Editor";
 
-  $_QJlJ0 = "UPDATE $_Q6jOo SET MailFormat="._OPQLR($_POST["MailFormat"]).", MailEncoding="._OPQLR($_POST["MailEncoding"]).", MailEditType="._OPQLR($_POST["MailEditType"]);
-  $_QJlJ0 .= " WHERE id=$_j0O01";
-  mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
+  $_QLfol = "UPDATE `$_QLi60` SET `MailFormat`="._LRAFO($_POST["MailFormat"]).", `MailEncoding`="._LRAFO($_POST["MailEncoding"]).", `MailEditType`="._LRAFO($_POST["MailEditType"]);
+  $_QLfol .= " WHERE `id`=$_ji160";
+  mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
 
   // jetzt edit machen, dabei muss die Info als fehler "Kampagne wurde erstellt" erscheinen
   // CampaignCreateBtn abchecken
-  $_POST["OneCampaignListId"] = $_j0O01;
+  $_POST["OneCampaignListId"] = $_ji160;
 
 
   if(!empty($_POST["NewsletterTemplate"]) && $_POST["NewsletterTemplate"] != "none") {
     if($OwnerUserId == 0)
-      $_QJlJ0 = "SELECT `MailHTMLText`, `MailPlainText`, `MailFormat` FROM $_Q66li WHERE id=".intval($_POST["NewsletterTemplate"]);
+      $_QLfol = "SELECT `MailHTMLText`, `MailPlainText`, `MailFormat` FROM `$_Ql10t` WHERE id=".intval($_POST["NewsletterTemplate"]);
       else
-      $_QJlJ0 = "SELECT `MailHTMLText`, `MailPlainText`, `MailFormat` FROM $_Q66li LEFT JOIN $_Q6ftI ON templates_id=id WHERE ((`UsersOption` = 0) OR (`UsersOption` <> 0 AND users_id=$UserId)) AND id=".intval($_POST["NewsletterTemplate"]);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    if($_Q6Q1C = mysql_fetch_assoc($_Q60l1) ){
-      $_QJlJ0 = "UPDATE $_Q6jOo SET";
-      if($_Q6Q1C == "PlainText")
-        $_QJlJ0 .= "`MailPlainText`="._OPQLR($_Q6Q1C["MailPlainText"]);
+      $_QLfol = "SELECT `MailHTMLText`, `MailPlainText`, `MailFormat` FROM `$_Ql10t` LEFT JOIN `$_Ql18I` ON templates_id=id WHERE ((`UsersOption` = 0) OR (`UsersOption` <> 0 AND users_id=$UserId)) AND id=".intval($_POST["NewsletterTemplate"]);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    if($_QLO0f = mysql_fetch_assoc($_QL8i1) ){
+      $_QLfol = "UPDATE `$_QLi60` SET";
+      if($_QLO0f["MailFormat"] == "PlainText")
+        $_QLfol .= "`MailPlainText`="._LRAFO($_QLO0f["MailPlainText"]);
         else
-        $_QJlJ0 .= "`MailHTMLText`="._OPQLR($_Q6Q1C["MailHTMLText"]);
+        $_QLfol .= "`MailHTMLText`="._LRAFO($_QLO0f["MailHTMLText"]);
       if($_POST["MailEditType"] == "Wizard")
-        $_QJlJ0 .= ", `WizardHTMLText`="._OPQLR($_Q6Q1C["MailHTMLText"]);
+        $_QLfol .= ", `WizardHTMLText`="._LRAFO($_QLO0f["MailHTMLText"]);
 
-      $_QJlJ0 .= " WHERE id=$_j0O01";
-      mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
+      $_QLfol .= " WHERE id=$_ji160";
+      mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
 
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
     }
+  }else {
+      $_QLfol = "UPDATE `$_QLi60` SET";
+      $_QLfol .= "`MailHTMLText`="._LRAFO($_IC18i);
+      $_QLfol .= " WHERE id=$_ji160";
+      mysql_query($_QLfol, $_QLttI);
   }
 
   include_once("campaignedit.php");
 
-  function _OJDA0($_QJCJi) {
-    global $_Q60QL, $_Q6fio, $OwnerUserId, $UserId, $_Q6JJJ, $_Q61I1;
+  function _LQFFP($_QLJfI) {
+    global $_QL88I, $_QlQot, $OwnerUserId, $UserId, $_QLl1Q, $_QLttI;
     // ********* List of MailingLists SQL query
-    $_Q68ff = "SELECT DISTINCT id, Name FROM $_Q60QL";
+    $_QlI6f = "SELECT DISTINCT id, Name FROM `$_QL88I`";
     if($OwnerUserId == 0) // ist es ein Admin?
-       $_Q68ff .= " WHERE (users_id=$UserId)";
+       $_QlI6f .= " WHERE (users_id=$UserId)";
        else {
-        $_Q68ff .= " LEFT JOIN $_Q6fio ON $_Q60QL.id=$_Q6fio.maillists_id WHERE (".$_Q6fio.".users_id=$UserId) AND ($_Q60QL.users_id=$OwnerUserId)";
+        $_QlI6f .= " LEFT JOIN $_QlQot ON $_QL88I.id=$_QlQot.maillists_id WHERE (".$_QlQot.".users_id=$UserId) AND ($_QL88I.users_id=$OwnerUserId)";
        }
-    $_Q68ff .= " ORDER BY Name ASC";
+    $_QlI6f .= " ORDER BY Name ASC";
 
-    $_Q60l1 = mysql_query($_Q68ff, $_Q61I1);
-    _OAL8F($_Q68ff);
+    $_QL8i1 = mysql_query($_QlI6f, $_QLttI);
+    _L8D88($_QlI6f);
 
-    $_I10Cl = "";
-    while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-      $_I10Cl .= '<option value="'.$_Q6Q1C["id"].'">'.$_Q6Q1C["Name"].'</option>'.$_Q6JJJ;
+    $_ItlLC = "";
+    while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      $_ItlLC .= '<option value="'.$_QLO0f["id"].'">'.$_QLO0f["Name"].'</option>'.$_QLl1Q;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_QJCJi = _OPR6L($_QJCJi, "<SHOW:MailingLists>", "</SHOW:MailingLists>", $_I10Cl);
+    $_QLJfI = _L81BJ($_QLJfI, "<SHOW:MailingLists>", "</SHOW:MailingLists>", $_ItlLC);
 
-    return $_QJCJi;
+    return $_QLJfI;
   }
 
 ?>

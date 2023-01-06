@@ -26,7 +26,8 @@
       });
       $(window).bind('resize.dialog-overlay', $.ui.dialog.overlay.resize);
     }
-    var $el = $('').appendTo(document.body).addClass('ui-widget-overlay').css({
+    // this must be <div></div> not nothing
+    var $el = $('<div></div>').appendTo(document.body).addClass('ui-widget-overlay').css({
       width: this.width(),
       height: this.height()
     });

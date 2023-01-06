@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2019 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -28,23 +28,23 @@
   include_once("campaignstools.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeViewCampaignTrackingStat"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeViewCampaignTrackingStat"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
   if(isset($_POST['CampaignId']))
-    $_I6lOO = intval($_POST['CampaignId']);
+    $_j01fj = intval($_POST['CampaignId']);
   else
     if(isset($_GET['CampaignId']))
-      $_I6lOO = intval($_GET['CampaignId']);
+      $_j01fj = intval($_GET['CampaignId']);
       else
       if ( isset($_POST['OneCampaignListId']) )
-         $_I6lOO = intval($_POST['OneCampaignListId']);
+         $_j01fj = intval($_POST['OneCampaignListId']);
 
   if(isset($_POST['SendStatId']))
     $SendStatId = intval($_POST['SendStatId']);
@@ -60,11 +60,11 @@
   if(!isset($ResponderType))
     $ResponderType="Campaign";
 
-  if(!isset($_I6lOO) && isset($_POST["ResponderId"]))
-     $_I6lOO = intval($_POST["ResponderId"]);
+  if(!isset($_j01fj) && isset($_POST["ResponderId"]))
+     $_j01fj = intval($_POST["ResponderId"]);
      else
-     if(!isset($_I6lOO) && isset($_GET["ResponderId"]))
-         $_I6lOO = intval($_GET["ResponderId"]);
+     if(!isset($_j01fj) && isset($_GET["ResponderId"]))
+         $_j01fj = intval($_GET["ResponderId"]);
 
   if(isset($_POST['MailingListId']))
     $MailingListId = $_POST['MailingListId'];
@@ -72,31 +72,31 @@
     if ( isset($_GET['MailingListId']) )
        $MailingListId = $_GET['MailingListId'];
 
-  if(!isset($_I6lOO) || !isset($SendStatId) || !isset($ResponderType) || !isset($MailingListId) ) {
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-    $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-    print $_QJCJi;
+  if(!isset($_j01fj) || !isset($SendStatId) || !isset($ResponderType) || !isset($MailingListId) ) {
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+    print $_QLJfI;
     exit;
   }
 
 
   if($OwnerUserId == 0)
-    $_Ii016 = $UserId;
+    $_jfIoi = $UserId;
     else
-    $_Ii016 = $OwnerUserId;
+    $_jfIoi = $OwnerUserId;
 
-  $_JL0f0 = _OAP0L($ResponderType);
+  $_fj1fI = _LPO6C($ResponderType);
 
-  $rid = sprintf("%02X", $SendStatId)."_".sprintf("%02X", $_Ii016)."_".sprintf("%02X", $_JL0f0)."_".sprintf("%02X", $_I6lOO);
+  $rid = sprintf("%02X", $SendStatId)."_".sprintf("%02X", $_jfIoi)."_".sprintf("%02X", $_fj1fI)."_".sprintf("%02X", $_j01fj);
   $FormId = 1; // default
-  $_QJlJ0 = "SELECT `forms_id` FROM $_Q60QL WHERE id=$MailingListId";
-  $_Q60l1 = mysql_query($_QJlJ0);
-  if($_Q60l1 && mysql_num_rows($_Q60l1) > 0){
-    $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-    $FormId = $_Q6Q1C["forms_id"];
-    mysql_free_result($_Q60l1);
+  $_QLfol = "SELECT `forms_id` FROM $_QL88I WHERE id=$MailingListId";
+  $_QL8i1 = mysql_query($_QLfol);
+  if($_QL8i1 && mysql_num_rows($_QL8i1) > 0){
+    $_QLO0f = mysql_fetch_assoc($_QL8i1);
+    $FormId = $_QLO0f["forms_id"];
+    mysql_free_result($_QL8i1);
   }
-  $key = _OARCF(-1, $MailingListId, $FormId);
+  $key = _LPQ08(-1, $MailingListId, $FormId);
 
   // use alt browserlink
   $_GET["rid"] = $rid;

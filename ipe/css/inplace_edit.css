@@ -10,13 +10,19 @@
 .ipe_item img {
 	min-height:16px;
  min-width:14px;
-	background-image:url(noimage.gif);
+	background-image:url('noimage.gif');
 	background-repeat:no-repeat;
 	background-position:50% 50%;
 }
 
-.ipe_hover {
-	outline:1px dashed #ff0000;
+/* not for images */
+.ipe_hover:not([rel=img]) {
+	outline:2px solid #ff0000;
+}
+
+/* for images */
+.ipe_hover[rel=img] > img {
+	outline:2px solid #ff0000;
 }
 
 .ipe_toolbar {
@@ -33,26 +39,36 @@
 .ipe_edit {
 	cursor:pointer;
 	float:left;
+ min-height: 20px;
+ min-width: 20px;
 }
 
 .ipe_cssedit {
 	cursor:pointer;
 	float:left;
+ min-height: 20px;
+ min-width: 20px;
 }
 
 .ipe_delete {
 	cursor:pointer;
 	float:left;
+ min-height: 20px;
+ min-width: 20px;
 }
 
 .ipe_targetgroups {
 	cursor:pointer;
 	float:left;
+ min-height: 20px;
+ min-width: 20px;
 }
 
 .ipe_move {
 	cursor: move;
 	float:left;
+ min-height: 20px;
+ min-width: 20px;
 }
 
 .ipe_repeater_toolbar {
@@ -68,7 +84,7 @@
 }
 
 .ipe_repeater{
-	width:100%;
+	width:99.5%;
 	min-height:50px;
  display: inline-block;
 }
@@ -78,12 +94,21 @@
 }
 
 .ipe_repeater_item_hover{
-	outline:1px dashed #F00;
+ outline:2px dashed #3333FF;
 }
 
 .show_repeaterborder{
-	border: 1px dashed #6600FF;
+	border: 4px dashed #6600FF;
 	margin:-1px;
 	min-height: 100px;
+}
+
+.ui-button-text{
+ font-family: Arial, Helvetica, sans-serif;
+ font-size: 1.1em;
+ font-style: normal;
+ font-variant: normal;
+ font-weight: normal;
+ color: #2e6e9e;
 }
 

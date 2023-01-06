@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="GENERATOR" content="SuperWebMailer https://www.superwebmailer.de">
+<meta name="robots" content="index,follow">
+
+<title><STARTPAGETITLE></STARTPAGETITLE></title>
+
+<na_infobarcssjs>
+
+<!--COLORSCHEME
+black=schwarz;
+grey=grau;
+blue=blau;
+lightblue=hellblau;
+green=gr&uuml;n;
+brown=braun;
+red=rot;
+purple=pink;
+/COLORSCHEME-->
+
+<!--MUST BE FIRST STYLE!-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap');
+  #NewsletterArchive{
+    z-index: 1000;
+    position:fixed; top:0px; left: 0px; width: 100%;
+    font-family: Roboto, Arial, Verdana, Helvetica;
+    font-size: 16px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6);
+  }
+  #NewsletterArchiveAttachments{
+    z-index: 1000;
+    position:fixed; bottom: 0px; left: 0px; width: 100%;
+    font-family: Roboto, Arial, Verdana, Helvetica;
+    font-size: 16px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6);
+  }
+  #NewsletterArchive .float-r {float: right;}
+  #NewsletterArchive .float-c {text-align: center;}
+  #NewsletterArchive ul, #NewsletterArchiveAttachments ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333333; /*black #333333*/ /*blue #000066*/ /*lightblue #99ccff*/ /*green #003300*/ /*brown #330000*/ /*red #990000*/ /*purple #990099*/ /*grey #666666*/
+    background: rgba(51, 51, 51,.90); /*black 51, 51, 51,.90*/ /*blue 00, 00, 102,.90*/ /*lightblue 153, 204, 255,.90*/ /*green 00, 51, 00,.90*/ /*brown 51, 00, 00,.90*/ /*red 153, 00, 00,.90*/ /*purple 153, 00, 153,.90*/ /*grey 102, 102, 102,.90*/
+  }
+  #NewsletterArchive ul li, #NewsletterArchiveAttachments ul li {
+    float: left;
+    list-style-type: none;
+    font-family: Roboto, Arial, Verdana, Helvetica;
+    font-size: 16px;
+  }
+  #NewsletterArchive ul li a, #NewsletterArchiveAttachments ul li a {
+    display: block;
+    color: #FFFFFF; /*black #FFFFFF*/ /*lightblue #000000*/
+    text-align: left;
+    padding: 16px;
+    text-decoration: none;
+  }
+
+  #NewsletterArchive ul li a:hover, #NewsletterArchiveAttachments ul li a:hover {
+    background-color: #555555; /*black #555555*/ /*blue #000099*/ /*lightblue #0099ff*/ /*green #006600*/ /*brown #660000*/ /*red #cc0033*/ /*purple #9933cc*/ /*grey #999999*/
+  }
+
+  #NewsletterArchive ul ul, #NewsletterArchiveAttachments ul ul {
+    z-index: 1001;
+    position: absolute;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.6);
+    visibility: hidden;
+    max-height: 200px !important;
+    overflow: hidden;
+    overflow-y: auto;
+  }
+  #NewsletterArchive ul ul li, #NewsletterArchiveAttachments ul ul li {
+    float: none;
+    width: auto;
+    min-width: 180px;
+    max-width: 300px !important;
+    border-bottom: 1px solid #555555;  /*black #555555*/ /*blue #000099*/ /*lightblue #0099ff*/ /*green #006600*/ /*brown #660000*/ /*red #cc0033*/ /*purple #9933cc*/ /*grey #999999*/
+  }
+
+  #NewsletterArchive ul ul li a, #NewsletterArchiveAttachments ul ul li a {
+    padding: 10px 20px;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #NewsletterArchive li a.home {
+    font-size: 24px;
+    font-weight: bolder;
+    padding-top: 8px;
+  }
+
+  #NewsletterArchive ul li ul#nayears li {
+    width: auto;
+    max-width: 300px !important;
+  }
+
+  #NewsletterArchive ul li ul#naentries li, #NewsletterArchiveAttachments ul li ul#naattachments li {
+    width: auto;
+    max-width: 600px !important;
+  }
+
+  #NewsletterArchive ul ul li a.Year::before{
+    content: "\A0";
+    display: inline-block;
+    padding: 0 6px 0 0;
+    width: 18px;
+  }
+
+  #NewsletterArchive ul ul li a.selectedYear::before{
+    content: '\2713';
+    display: inline-block;
+    padding: 0 6px 0 0;
+    width: 18px;
+  }
+
+  #NewsletterArchive ul ul li a.Entry::before{
+    content: "\A0";
+    display: inline-block;
+    padding: 0 6px 0 0;
+    width: 18px;
+  }
+
+  #NewsletterArchiveAttachments ul ul li a.naattachment::before{
+    content: '\1F4CE';
+    display: inline-block;
+    padding: 0 6px 0 0;
+    width: 18px;
+  }
+
+  #NewsletterArchive ul ul li a.selectedEntry::before{
+    content: '\2713';
+    display: inline-block;
+    padding: 0 6px 0 0;
+    width: 18px;
+  }
+
+  /* FF */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #555555 #333333; /*black #555555 #333333*/ /*blue #000099 #000066*/ /*lightblue #0099ff #99ccff*/ /*green #006600 #003300*/ /*brown #660000 #330000*/ /*red #cc0033 #990000*/ /*purple #9933cc #990099*/ /*grey #999999 #666666*/
+  }
+
+  /* webkit based */
+  *::-webkit-scrollbar {
+    width: 17px;
+  }
+
+  *::-webkit-scrollbar-track {
+    background-color: #333333; /*black #333333*/ /*blue #000066*/ /*lightblue #99ccff*/ /*green #003300*/ /*brown #330000*/ /*red #990000*/ /*purple #990099*/ /*grey #666666*/
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: #555555; /*black #555555*/ /*blue #000099*/ /*lightblue #0099ff*/ /*green #006600*/ /*brown #660000*/ /*red #cc0033*/ /*purple #9933cc*/ /*grey #999999*/
+    border-radius: 20px;
+    border: 2px solid #333333; /*black #333333*/ /*blue #000066*/ /*lightblue #99ccff*/ /*green #003300*/ /*brown #330000*/ /*red #990000*/ /*purple #990099*/ /*grey #666666*/
+  }
+
+  /*STARTPAGE*/
+  body {
+    background-color: #EEEEEE; /*black #EEEEEE*/
+    margin: 0;
+    padding: 0px;
+    text-align: center;
+    -webkit-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    font-family: Roboto, Arial, Verdana, Helvetica;
+    font-size: 14px;
+  }
+
+  .wrapper{
+    width: 600px;
+    margin: 0 auto 10px auto;
+    text-align: left;
+  }
+
+  #wrapperspacer{
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+  }
+
+  .wrapper h1 {
+    font-size: 28px;
+    line-height: 110%;
+    margin-bottom: 30px;
+    margin-top: 0;
+    padding: 0;
+    color: #333333; /*black #333333*/ /*blue #000066*/ /*lightblue #000000*/ /*green #003300*/ /*brown #330000*/ /*red #990000*/ /*purple #990099*/ /*grey #666666*/
+  }
+
+  .wrapper #na_logo{
+    max-width: 600px !important;
+    height: auto;
+  }
+
+  #newsletterArchveBody, #newsletterArchveImpress, #newsletterArchveSuperMailerLink{
+    background-color: #FFFFFF;
+    line-height: 150%;
+    font-family: Roboto, Arial, Verdana, Helvetica;
+    font-size: 14px;
+    color: #333333; /*black #333333*/ /*blue #000066*/ /*lightblue #000000*/ /*green #003300*/ /*brown #330000*/ /*red #990000*/ /*purple #990099*/ /*grey #666666*/
+    padding: 20px;
+  }
+
+  #newsletterArchveBody a.na_subscribeLink{
+    background-color: #333333; /*black #333333*/ /*blue #000066*/ /*lightblue #99ccff*/ /*green #003300*/ /*brown #330000*/ /*red #990000*/ /*purple #990099*/ /*grey #666666*/
+    background: rgba(51, 51, 51,.90); /*black 51, 51, 51,.90*/ /*blue 00, 00, 102,.90*/ /*lightblue 153, 204, 255,.90*/ /*green 00, 51, 00,.90*/ /*brown 51, 00, 00,.90*/ /*red 153, 00, 00,.90*/ /*purple 153, 00, 153,.90*/ /*grey 102, 102, 102,.90*/
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 10px;
+    color: #FFFFFF;
+    border-radius: 3px;
+  }
+
+  #newsletterArchveBody h2, #newsletterArchveImpress h2 {
+    font-size: 22px;
+    line-height: 28px;
+    margin: 0 0 12px 0;
+  }
+
+  #newsletterArchveImpress a{
+    color: #333333;  /*black #333333*/ /*blue #000066*/ /*lightblue #0099FF*/ /*green #003300*/ /*brown #330000*/ /*red #990000*/ /*purple #990099*/ /*grey #666666*/
+  }
+
+  #newsletterArchveSuperMailerLink h2 {
+    font-size: 12px;
+    margin: 0;
+    font-weight: normal;
+  }
+
+  #newsletterArchveSuperMailerLink h2 a {
+    font-size: 12px;
+    margin: 0;
+    font-weight: normal;
+    color: #333333;  /*black #333333*/ /*blue #000066*/ /*lightblue #0099FF*/ /*green #003300*/ /*brown #330000*/ /*red #990000*/ /*purple #990099*/ /*grey #666666*/
+  }
+
+  #latestentriesList{
+    display: block;
+    margin: 15px 0;
+    padding: 0;
+    border-top: 1px solid #EEEEEE; /*black #EEEEEE*/
+  }
+
+  #latestentriesList li.latestentry {
+    display: block;
+    list-style: none;
+    margin: 0;
+    padding: 6px 10px;
+    border-bottom: 1px solid #EEEEEE; /*black #EEEEEE*/
+  }
+
+  #latestentriesList a {
+    color: #333333; /*black #333333*/ /*blue #000066*/ /*lightblue #0099FF*/ /*green #003300*/ /*brown #330000*/ /*red #990000*/ /*purple #990099*/ /*grey #666666*/
+  }
+
+  #latestentriesList li.latestentry a {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /*STARTPAGE/*/
+
+  @media only print {
+   #NewsletterArchive, #NewsletterArchiveAttachments{
+     display: none;
+   }
+  }
+
+  @media only screen and (max-width: 1100px) {
+   #NewsletterArchive .socialLink{
+     display: none;
+   }
+  }
+
+  @media only screen and (max-width: 1000px) {
+   #NewsletterArchive .socialLink1{
+     display: none;
+   }
+  }
+
+  @media only screen and (max-width: 600px) {
+   /*STARTPAGE*/
+   .wrapper{
+     width: 100%;
+   }
+   .wrapper #na_logo{
+     width: 100%;
+     max-width: 100% !important;
+   }
+   /*STARTPAGE/*/
+   #NewsletterArchive .socialLink,
+   #NewsletterArchive .float-r{
+     display: none;
+   }
+   #NewsletterArchive ul li ul#naentries li {
+     width: auto;
+     max-width: calc(90vw) !important;
+   }
+  }
+</style>
+
+<noscript>
+ <style>
+   #NewsletterArchive, #NewsletterArchiveAttachments {display: none;}
+ </style>
+</noscript>
+
+<script>
+
+var _lastvisiblemenu;
+
+function MenuShowFunction(_currentMenuItem, doShow, popupUp){
+  if(!_currentMenuItem || !_currentMenuItem.parentNode) return;
+
+  if( (doShow == null && _currentMenuItem.style.visibility == "visible") || doShow == false ){
+    _currentMenuItem.style.visibility = "hidden";
+    _lastvisiblemenu = null;
+    return;
+  }
+
+  if(_lastvisiblemenu){
+    _lastvisiblemenu.style.visibility = "hidden";
+    _lastvisiblemenu = null;
+  }
+
+  var w = document.body.clientWidth || window.innerWidth || document.documentElement.clientWidth;
+  var positionInfo = _currentMenuItem.parentNode.getBoundingClientRect();
+  var left = positionInfo.left + _currentMenuItem.parentNode.scrollLeft;
+
+  var positionInfo = _currentMenuItem.getBoundingClientRect();
+  var width = positionInfo.width;
+  var height = positionInfo.height;
+
+  if(!width){
+    // for <IE9
+    width = _currentMenuItem.offsetWidth;
+  }
+
+  if(!height){
+    // for <IE9
+    height = _currentMenuItem.offsetHeigth;
+  }
+
+  if(left + width > w){
+    _currentMenuItem.style.left = (w - width - 12) + 'px';
+  }else
+    _currentMenuItem.style.left = left + 'px';
+
+  if(!popupUp)
+    _currentMenuItem.style.top = _currentMenuItem.parentNode.offsetHeight + -1 + "px";
+    else
+    _currentMenuItem.style.top = (height * -1) + "px";
+
+  _currentMenuItem.style.visibility = "visible";
+  _lastvisiblemenu = _currentMenuItem;
+}
+
+function ReplaceAllLinks(){
+  try{
+   var links = document.querySelectorAll('A');
+  }catch(e){
+   var links = document.getElementsByTagName('A');
+  }
+  var link = window.location.href;
+
+  for(var i=0; i<links.length; i++){
+    links[i].href = links[i].href.replace("*SHARELINKURL*", encodeURIComponent(link));
+  }
+  /*DEMO*/
+}
+
+function Loaded(){
+  ReplaceAllLinks();
+
+  var supportsTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
+
+  if(supportsTouch){
+    var A = ["nayears", "naentries", "translate", "naattachments"];
+    for(var i=0; i<A.length; i++){
+      var el = document.getElementById(A[i]);
+      if(el){
+        while(el != null && el.tagName != "LI")
+           el = el.parentNode;
+        el.onmouseover = null;
+        el.onmouseout = null;
+      }
+    }
+  }
+
+}
+
+if (window.addEventListener)
+window.addEventListener("load", Loaded, false)
+else if (window.attachEvent)
+window.attachEvent("onload", Loaded)
+
+</script>
+</na_infobarcssjs>
+
+</head>
+
+<body>
+
+ <INFOBAR>
+ <div id="NewsletterArchive">
+
+   <ul>
+
+     <HOMELINK>
+     <li><a class="home" href="[URL]" title="[TITLE]">[LINKTEXT]</a></li>
+     </HOMELINK>
+
+     <NAYEARSBLOCK>
+     <li onmouseover="MenuShowFunction(document.getElementById('nayears'), true)" onmouseout="MenuShowFunction(document.getElementById('nayears'), false)">
+       <a href="javascript:;" onclick="MenuShowFunction(document.getElementById('nayears'), null)" title="[NAYEARPrefix] [NAYEAR]">[NAYEARPrefix]&nbsp;[NAYEAR]</a>
+       <ul id="nayears">
+         <NAYEAR_ITEMS />
+         <NAYEAR_ITEM>
+         <li><a class="Year" title="[NAYEARPrefix] [NAYEAR]" href="[NASCRIPTURL]&selectedYear=[NAYEAR]">[NAYEARPrefix]&nbsp;[NAYEAR]</a> </li>
+         </NAYEAR_ITEM>
+       </ul>
+     </li>
+     </NAYEARSBLOCK>
+
+     <NAENTRIESBLOCK>
+     <li onmouseover="MenuShowFunction(document.getElementById('naentries'), true)" onmouseout="MenuShowFunction(document.getElementById('naentries'), false)">
+       <a href="javascript:;" onclick="MenuShowFunction(document.getElementById('naentries'), null)" title="[NAENTRYPrefix] [NAENTRYDATE] - [NAENTRYSUBJECT]">[NAENTRYPrefix]&nbsp;[NAENTRYDATE]</a>
+       <ul id="naentries">
+         <NA_ITEMS />
+         <NA_ITEM>
+         <li><a class="Entry" title="[NAENTRYPrefix] [NAENTRYDATE] - [NAENTRYSUBJECT]" href="[NASCRIPTURL]&showEntry=[NAENTRYINDEX]&selectedYear=[NAYEAR]">[NAENTRYPrefix]&nbsp;[NAENTRYDATE]&nbsp;-&nbsp;[NAENTRYSUBJECT]</a> </li>
+         </NA_ITEM>
+       </ul>
+     </li>
+     </NAENTRIESBLOCK>
+
+     <SOCIALLINK>
+     <li class="socialLink"><a rel="nofollow" href="[URL]" title="[TITLE]" target="_blank">[LINKTEXT]</a></li>
+     </SOCIALLINK>
+
+     <SUBSCRIBELINK>
+     <li class="float-r socialLink1"><a href="[URL]" title="[TITLE]" target="_blank">[LINKTEXT]</a></li>
+     </SUBSCRIBELINK>
+
+     <RSSFEEDLINK>
+     <li class="float-r socialLink1"><a href="[URL]" title="[TITLE]">[LINKTEXT]</a></li>
+     </RSSFEEDLINK>
+
+     <TRANSLATE_BLOCK>
+     <li class="float-r" onmouseover="MenuShowFunction(document.getElementById('translate'), true)" onmouseout="MenuShowFunction(document.getElementById('translate'), false)">
+       <a href="javascript:;" onclick="MenuShowFunction(document.getElementById('translate'), null)" title="[TITLE]">[LINKTEXT]</a>
+       <ul id="translate">
+         <TRANSLATE_ITEMS />
+         <TRANSLATE_ITEM>
+         <li><a rel="nofollow" class="float-c" title="[TITLE]" href="https://translate.google.com/translate?hl=auto&sl=[SRCLANGUAGE]&tl=[LANGUAGE]&u=*SHARELINKURL*&sandbox=1">[LINKTEXT]</a></li>
+         </TRANSLATE_ITEM>
+       </ul>
+     </li>
+     </TRANSLATE_BLOCK>
+
+   </ul>
+
+ </div>
+
+ <p>&nbsp;</p>
+ <spacer></spacer>
+
+ <ATTACHMENTSBLOCK>
+ <div id="NewsletterArchiveAttachments">
+   <ul>
+
+     <li onmouseover="MenuShowFunction(document.getElementById('naattachments'), true, true)" onmouseout="MenuShowFunction(document.getElementById('naattachments'), false)">
+       <a href="javascript:;" onclick="MenuShowFunction(document.getElementById('naattachments'), null, true)" title="[TITLE]">[LINKTEXT]</a>
+       <ul id="naattachments">
+         <ATTACHMENTBLOCK>
+         <li><a class="naattachment" rel="nofollow" title="[ATTACHMENTSTITLE]" href="[NASCRIPTURL]&showEntry=[NAENTRYINDEX]&selectedYear=[NAYEAR]&attachmentsIndex=[NAATTACHMENTSINDEX]" target="_blank">[ATTACHMENTSFILENAME]</a> </li>
+         </ATTACHMENTBLOCK>
+       </ul>
+     </li>
+
+   </ul>
+ </div
+ </ATTACHMENTSBLOCK>
+
+ </INFOBAR>
+
+ <div class="wrapper">
+   <p>&nbsp;</p>
+   <h1>
+     <STARTPAGEHEADLINE>
+       Newsletter Software SuperWebMailer
+     </STARTPAGEHEADLINE>
+     <STARTPAGELOGO>
+       <img id="na_logo" src="[URL]" alt="[STARTPAGEHEADLINE]" border="0">
+     </STARTPAGELOGO>
+   </h1>
+
+   <div id="newsletterArchveBody">
+     <h2>
+       <STARTPAGESUBHEADLINE1>
+       Newsletterarchiv
+       </STARTPAGESUBHEADLINE1>
+     </h2>
+     <div>
+       <STARTPAGESUBHEADLINE2>
+       von SuperMailer
+       </STARTPAGESUBHEADLINE2>
+     </div>
+
+     <STARTPAGESHOWSUBSCRIBELINK>
+     <a class="na_subscribeLink" href="[URL]" title="[TITLE]">[LINKTEXT]</a>
+     </STARTPAGESHOWSUBSCRIBELINK>
+
+     <STARTPAGELATESTENTRIESBLOCK>
+     <ul id="latestentriesList">
+       <LATESTENTRIESB_ITEMS />
+       <LATESTENTRIESB_ITEM>
+       <li class="latestentry"><a href="[NASCRIPTURL]&showEntry=[NAENTRYINDEX]&selectedYear=[NAYEAR]" title="[NAENTRYPrefix] [NAENTRYDATE] - [NAENTRYSUBJECT]">[NAENTRYPrefix]&nbsp;[NAENTRYDATE]&nbsp;-&nbsp;[NAENTRYSUBJECT]</a></li>
+       </LATESTENTRIESB_ITEM>
+     </ul>
+     </STARTPAGELATESTENTRIESBLOCK>
+
+   </div>
+
+ </div>
+
+ <STARTPAGESHOWIMPRESS>
+ <div id="wrapperspacer"></div>
+
+ <div class="wrapper">
+   <div id="newsletterArchveImpress">
+     <h2><IMPRESSHEADLINE></IMPRESSHEADLINE></h2>
+     <div>
+       <IMPRESS></IMPRESS>
+     </div>
+   </div>
+ </div>
+ </STARTPAGESHOWIMPRESS>
+
+ <SuperMailerLink>
+ <div class="wrapper">
+   <div id="newsletterArchveSuperMailerLink">
+     <SuperMailerLink_de>
+     <h2>
+       Newsletter-Archiv erstellt mit <a href="https://www.superwebmailer.de/" target="_blank">Newsletter Software SuperWebMailer</a>
+     </h2>
+     </SuperMailerLink_de>
+     <SuperMailerLink_en>
+     <h2>
+       Newsletter archive created with <a href="https://www.superwebmailer.de/" target="_blank">Newsletter Software SuperWebMailer</a>
+     </h2>
+     </SuperMailerLink_en>
+   </div>
+ </div>
+ </SuperMailerLink>
+
+ <!--TRACKING-->
+
+</body>
+</html>

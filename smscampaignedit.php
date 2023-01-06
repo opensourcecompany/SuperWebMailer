@@ -27,27 +27,27 @@
   include_once("templates.inc.php");
   include_once("smscampaignstools.inc.php");
 
-  if (count($_POST) == 0) {
+  if (count($_POST) <= 1) {
     include_once("browsesmscampaigns.php");
     exit;
   }
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeSMSCampaignEdit"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeSMSCampaignEdit"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
   // Boolean fields of form
-  $_I01C0 = Array ();
-  $_I01lt = Array ();
+  $_ItI0o = Array ();
+  $_ItIti = Array ();
 
   $errors = array();
-  $_I0600 = "";
+  $_Itfj8 = "";
 
   if(isset($_POST['CampaignListId'])) { // Formular speichern?
       $CampaignListId = intval($_POST['CampaignListId']);
@@ -58,7 +58,7 @@
 
   # Kommen wir vom campaigncreate.php??
   if(isset($_POST["SMSCampaignCreateBtn"])) {
-    $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001603"];
+    $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001603"];
     $_POST["SetupLevel"] = 2; // skip mailing list selection
   }
 
@@ -89,36 +89,36 @@
   if(isset($_POST["SetupLevel"]))
     $_POST["SetupLevel"] = intval($_POST["SetupLevel"]);
 
-  $_QtILf = false;
-  $_Qtj08 = false;
+  $_IQ1ji = false;
+  $_IQ1L6 = false;
 
-  $_j0l0O = "";
+  $_ji8LC = "";
 
   if(isset($_POST["NextBtn"]) || isset($_POST["AddRuleBtn"]) || isset($_POST["OneRuleAction"])) {
     switch($_POST["SetupLevel"]) {
       case 1:
-           $_QJlJ0 = "SELECT maillists_id, CurrentSendTableName, RStatisticsTableName, GroupsTableName, NotInGroupsTableName FROM $_IoCtL WHERE id=$CampaignListId";
-           $_Q60l1 = mysql_query($_QJlJ0);
-           $_Q6Q1C = mysql_fetch_array($_Q60l1);
-           mysql_free_result($_Q60l1);
+           $_QLfol = "SELECT maillists_id, CurrentSendTableName, RStatisticsTableName, GroupsTableName, NotInGroupsTableName FROM $_jJLLf WHERE id=$CampaignListId";
+           $_QL8i1 = mysql_query($_QLfol);
+           $_QLO0f = mysql_fetch_array($_QL8i1);
+           mysql_free_result($_QL8i1);
 
-           if(!_OCJCC($_Q6Q1C['maillists_id'])){
-             $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-             $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-             print $_QJCJi;
+           if(!_LAEJL($_QLO0f['maillists_id'])){
+             $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+             $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+             print $_QLJfI;
              exit;
            }
 
-           $_QJlJ0 = "SELECT id FROM $_Q6Q1C[CurrentSendTableName] WHERE SendState<>'Done' LIMIT 0,1";
-           $_Q8Oj8 = mysql_query($_QJlJ0);
-           if(mysql_num_rows($_Q8Oj8) > 0) {
-              $_QtILf = true;
+           $_QLfol = "SELECT id FROM $_QLO0f[CurrentSendTableName] WHERE SendState<>'Done' LIMIT 0,1";
+           $_I1O6j = mysql_query($_QLfol);
+           if(mysql_num_rows($_I1O6j) > 0) {
+              $_IQ1ji = true;
            }
-           mysql_free_result($_Q8Oj8);
+           mysql_free_result($_I1O6j);
 
            if(!isset($_POST["Name"]) || trim($_POST["Name"]) == "")
              $errors[] = "Name";
-           if(!$_QtILf) {
+           if(!$_IQ1ji) {
              if(!isset($_POST["maillists_id"]) || intval($_POST["maillists_id"]) <= 0)
                $errors[] = "maillists_id";
                else
@@ -129,51 +129,51 @@
                $_POST["forms_id"] = intval($_POST["forms_id"]);
             }
            if(count($errors) == 0) {
-             if(!$_QtILf) {
-               if($_QtILf && $_Q6Q1C["maillists_id"] != $_POST["maillists_id"]) {
+             if(!$_IQ1ji) {
+               if($_IQ1ji && $_QLO0f["maillists_id"] != $_POST["maillists_id"]) {
                  $errors[] = "maillists_id";
-                 $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001610"];
-                 $_POST["maillists_id"] = $_Q6Q1C["maillists_id"]; // recall it
+                 $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001610"];
+                 $_POST["maillists_id"] = $_QLO0f["maillists_id"]; // recall it
                }
 
-               if($_Q6Q1C["maillists_id"] != $_POST["maillists_id"]) { // remove all references
-                 reset($_Q6Q1C);
-                 foreach($_Q6Q1C as $key => $_Q6ClO) {
+               if($_QLO0f["maillists_id"] != $_POST["maillists_id"]) { // remove all references
+                 reset($_QLO0f);
+                 foreach($_QLO0f as $key => $_QltJO) {
                    if($key == "maillists_id") continue;
-                   $_QJlJ0 = "DELETE FROM $_Q6ClO";
-                   mysql_query($_QJlJ0);
-                   _OAL8F($_QJlJ0);
+                   $_QLfol = "DELETE FROM $_QltJO";
+                   mysql_query($_QLfol);
+                   _L8D88($_QLfol);
                  }
                }
              }
-             $_Qi8If = array();
-             $_Qi8If["Name"] = $_POST["Name"];
+             $_I6tLJ = array();
+             $_I6tLJ["Name"] = $_POST["Name"];
              if(isset($_POST["Description"]))
-               $_Qi8If["Description"] = $_POST["Description"];
+               $_I6tLJ["Description"] = $_POST["Description"];
 
-             if(!$_QtILf){
-               $_Qi8If["maillists_id"] = $_POST["maillists_id"];
-               $_Qi8If["forms_id"] = $_POST["forms_id"];
+             if(!$_IQ1ji){
+               $_I6tLJ["maillists_id"] = $_POST["maillists_id"];
+               $_I6tLJ["forms_id"] = $_POST["forms_id"];
              }
 
 
-             _OJFER($CampaignListId, $_Qi8If, isset($_POST["SetupComplete"]) ? -1 : $_POST["SetupLevel"] );
+             _LO1JP($CampaignListId, $_I6tLJ, isset($_POST["SetupComplete"]) ? -1 : $_POST["SetupLevel"] );
            }
            break;
       case 2:
-            $_QJlJ0 = "SELECT CurrentSendTableName FROM $_IoCtL WHERE id=$CampaignListId";
-            $_Q60l1 = mysql_query($_QJlJ0);
-            $_Q6Q1C = mysql_fetch_array($_Q60l1);
-            mysql_free_result($_Q60l1);
+            $_QLfol = "SELECT CurrentSendTableName FROM $_jJLLf WHERE id=$CampaignListId";
+            $_QL8i1 = mysql_query($_QLfol);
+            $_QLO0f = mysql_fetch_array($_QL8i1);
+            mysql_free_result($_QL8i1);
 
-            $_QJlJ0 = "SELECT id FROM $_Q6Q1C[CurrentSendTableName] WHERE SendState<>'Done' LIMIT 0,1";
-            $_Q8Oj8 = mysql_query($_QJlJ0);
-            if(mysql_num_rows($_Q8Oj8) > 0) {
-               $_QtILf = true;
+            $_QLfol = "SELECT id FROM $_QLO0f[CurrentSendTableName] WHERE SendState<>'Done' LIMIT 0,1";
+            $_I1O6j = mysql_query($_QLfol);
+            if(mysql_num_rows($_I1O6j) > 0) {
+               $_IQ1ji = true;
             }
-            mysql_free_result($_Q8Oj8);
+            mysql_free_result($_I1O6j);
 
-            if(!$_QtILf) {
+            if(!$_IQ1ji) {
               if(!isset($_POST["GroupsOption"]) )
                 $errors[] = "GroupsOption";
               if(isset($_POST["GroupsOption"]) && $_POST["GroupsOption"] == 2) {
@@ -183,39 +183,39 @@
 
               if(count($errors) == 0) {
                 if( $_POST["GroupsOption"] == 1) {
-                  $_QJlJ0 = "SELECT `GroupsTableName`, `NotInGroupsTableName` FROM `$_IoCtL` WHERE id=$CampaignListId";
-                  $_Q60l1 = mysql_query($_QJlJ0);
-                  $_Q6Q1C = mysql_fetch_array($_Q60l1);
-                  mysql_free_result($_Q60l1);
-                  mysql_query("DELETE FROM `$_Q6Q1C[GroupsTableName]`");
-                  mysql_query("DELETE FROM `$_Q6Q1C[NotInGroupsTableName]`");
+                  $_QLfol = "SELECT `GroupsTableName`, `NotInGroupsTableName` FROM `$_jJLLf` WHERE id=$CampaignListId";
+                  $_QL8i1 = mysql_query($_QLfol);
+                  $_QLO0f = mysql_fetch_array($_QL8i1);
+                  mysql_free_result($_QL8i1);
+                  mysql_query("DELETE FROM `$_QLO0f[GroupsTableName]`");
+                  mysql_query("DELETE FROM `$_QLO0f[NotInGroupsTableName]`");
                 }
 
                 if( $_POST["GroupsOption"] == 2) {
-                  $_QJlJ0 = "SELECT `GroupsTableName`, `NotInGroupsTableName` FROM `$_IoCtL` WHERE id=$CampaignListId";
-                  $_Q60l1 = mysql_query($_QJlJ0);
-                  $_Q6Q1C = mysql_fetch_array($_Q60l1);
-                  mysql_free_result($_Q60l1);
-                  mysql_query("DELETE FROM `$_Q6Q1C[GroupsTableName]`");
-                  mysql_query("DELETE FROM `$_Q6Q1C[NotInGroupsTableName]`");
-                  for($_Q6llo=0; $_Q6llo< count($_POST["groups"]); $_Q6llo++) {
-                    $_QJlJ0 = "INSERT INTO $_Q6Q1C[GroupsTableName] SET `ml_groups_id`=".intval($_POST["groups"][$_Q6llo]);
-                    mysql_query($_QJlJ0);
-                    _OAL8F($_QJlJ0);
+                  $_QLfol = "SELECT `GroupsTableName`, `NotInGroupsTableName` FROM `$_jJLLf` WHERE id=$CampaignListId";
+                  $_QL8i1 = mysql_query($_QLfol);
+                  $_QLO0f = mysql_fetch_array($_QL8i1);
+                  mysql_free_result($_QL8i1);
+                  mysql_query("DELETE FROM `$_QLO0f[GroupsTableName]`");
+                  mysql_query("DELETE FROM `$_QLO0f[NotInGroupsTableName]`");
+                  for($_Qli6J=0; $_Qli6J< count($_POST["groups"]); $_Qli6J++) {
+                    $_QLfol = "INSERT INTO $_QLO0f[GroupsTableName] SET `ml_groups_id`=".intval($_POST["groups"][$_Qli6J]);
+                    mysql_query($_QLfol);
+                    _L8D88($_QLfol);
                   }
                   if(isset($_POST["notingroups"]) && isset($_POST["NotInGroupsChkBox"])) {
-                    for($_Q6llo=0; $_Q6llo< count($_POST["notingroups"]); $_Q6llo++) {
-                      $_QJlJ0 = "INSERT INTO $_Q6Q1C[NotInGroupsTableName] SET `ml_groups_id`=".intval($_POST["notingroups"][$_Q6llo]);
-                      mysql_query($_QJlJ0);
-                      _OAL8F($_QJlJ0);
+                    for($_Qli6J=0; $_Qli6J< count($_POST["notingroups"]); $_Qli6J++) {
+                      $_QLfol = "INSERT INTO $_QLO0f[NotInGroupsTableName] SET `ml_groups_id`=".intval($_POST["notingroups"][$_Qli6J]);
+                      mysql_query($_QLfol);
+                      _L8D88($_QLfol);
                     }
                   }
                 }
              }
-            } # if(!$_QtILf)
+            } # if(!$_IQ1ji)
 
-           $_Qi8If = array();
-           _OJFER($CampaignListId, $_Qi8If, isset($_POST["SetupComplete"]) ? -1 : $_POST["SetupLevel"] );
+           $_I6tLJ = array();
+           _LO1JP($CampaignListId, $_I6tLJ, isset($_POST["SetupComplete"]) ? -1 : $_POST["SetupLevel"] );
 
            break;
       case 3:
@@ -231,124 +231,124 @@
                $_POST["logicaloperator"] = "OR";
 
              if(count($errors) == 0) {
-               $_QJlJ0 = "SELECT SendRules FROM $_IoCtL WHERE id=$CampaignListId";
-               $_Q60l1 = mysql_query($_QJlJ0);
-               $_Q6Q1C = mysql_fetch_array($_Q60l1);
-               mysql_free_result($_Q60l1);
-               if($_Q6Q1C["SendRules"] != "") {
-                   $_j1I60 = @unserialize($_Q6Q1C["SendRules"]);
-                   if($_j1I60 === false)
-                     $_j1I60 = array();
+               $_QLfol = "SELECT SendRules FROM $_jJLLf WHERE id=$CampaignListId";
+               $_QL8i1 = mysql_query($_QLfol);
+               $_QLO0f = mysql_fetch_array($_QL8i1);
+               mysql_free_result($_QL8i1);
+               if($_QLO0f["SendRules"] != "") {
+                   $_jioJ6 = @unserialize($_QLO0f["SendRules"]);
+                   if($_jioJ6 === false)
+                     $_jioJ6 = array();
                  }
                  else
-                 $_j1I60 = array();
-               $_j1I60[] = array("fieldname" => $_POST["fieldname"], "operator" => $_POST["operator"], "comparestring" => $_POST["comparestring"], "logicaloperator" => $_POST["logicaloperator"]);
-               $_QJlJ0 = "UPDATE $_IoCtL SET SendRules= "._OPQLR(serialize($_j1I60))." WHERE id=$CampaignListId";
-               mysql_query($_QJlJ0);
-               _OAL8F($_QJlJ0);
+                 $_jioJ6 = array();
+               $_jioJ6[] = array("fieldname" => $_POST["fieldname"], "operator" => $_POST["operator"], "comparestring" => $_POST["comparestring"], "logicaloperator" => $_POST["logicaloperator"]);
+               $_QLfol = "UPDATE $_jJLLf SET SendRules= "._LRAFO(serialize($_jioJ6))." WHERE id=$CampaignListId";
+               mysql_query($_QLfol);
+               _L8D88($_QLfol);
              }
 
            } # if(isset($_POST["AddRuleBtn"]))
            else
              if(isset($_POST["OneRuleAction"]) && $_POST["OneRuleAction"] == "DeleteRule" && isset($_POST["OneRuleActionId"]) ) {
-                 $_QJlJ0 = "SELECT SendRules FROM $_IoCtL WHERE id=$CampaignListId";
-                 $_Q60l1 = mysql_query($_QJlJ0);
-                 $_Q6Q1C = mysql_fetch_array($_Q60l1);
-                 mysql_free_result($_Q60l1);
-                 if($_Q6Q1C["SendRules"] != "") {
-                     $_j1I60 = @unserialize($_Q6Q1C["SendRules"]);
-                     if($_j1I60 === false)
-                       $_j1I60 = array();
+                 $_QLfol = "SELECT SendRules FROM $_jJLLf WHERE id=$CampaignListId";
+                 $_QL8i1 = mysql_query($_QLfol);
+                 $_QLO0f = mysql_fetch_array($_QL8i1);
+                 mysql_free_result($_QL8i1);
+                 if($_QLO0f["SendRules"] != "") {
+                     $_jioJ6 = @unserialize($_QLO0f["SendRules"]);
+                     if($_jioJ6 === false)
+                       $_jioJ6 = array();
                    }
                    else
-                   $_j1I60 = array();
+                   $_jioJ6 = array();
 
-                 if(isset( $_j1I60[ $_POST["OneRuleActionId"] ] )) {
-                    $_j1IlI = array();
-                    for($_Q6llo=0; $_Q6llo<count($_j1I60); $_Q6llo++) {
-                      if($_Q6llo != $_POST["OneRuleActionId"])
-                        $_j1IlI[] = $_j1I60[$_Q6llo];
+                 if(isset( $_jioJ6[ $_POST["OneRuleActionId"] ] )) {
+                    $_jiCft = array();
+                    for($_Qli6J=0; $_Qli6J<count($_jioJ6); $_Qli6J++) {
+                      if($_Qli6J != $_POST["OneRuleActionId"])
+                        $_jiCft[] = $_jioJ6[$_Qli6J];
                     }
 
-                    $_QJlJ0 = "UPDATE $_IoCtL SET SendRules= "._OPQLR(serialize($_j1IlI))." WHERE id=$CampaignListId";
-                    mysql_query($_QJlJ0);
-                    _OAL8F($_QJlJ0);
+                    $_QLfol = "UPDATE $_jJLLf SET SendRules= "._LRAFO(serialize($_jiCft))." WHERE id=$CampaignListId";
+                    mysql_query($_QLfol);
+                    _L8D88($_QLfol);
                  }
              } # if(isset($_POST["OneRuleAction"]) && $_POST["OneRuleAction"] == "DeleteRule" && isset($_POST["OneRuleActionId"]) )
              else
              if(isset($_POST["OneRuleAction"]) && $_POST["OneRuleAction"] == "UpBtn" && isset($_POST["OneRuleActionId"]) ) {
 
-                 $_QJlJ0 = "SELECT SendRules FROM $_IoCtL WHERE id=$CampaignListId";
-                 $_Q60l1 = mysql_query($_QJlJ0);
-                 $_Q6Q1C = mysql_fetch_array($_Q60l1);
-                 mysql_free_result($_Q60l1);
-                 if($_Q6Q1C["SendRules"] != "") {
-                     $_j1I60 = @unserialize($_Q6Q1C["SendRules"]);
-                     if($_j1I60 === false)
-                       $_j1I60 = array();
+                 $_QLfol = "SELECT SendRules FROM $_jJLLf WHERE id=$CampaignListId";
+                 $_QL8i1 = mysql_query($_QLfol);
+                 $_QLO0f = mysql_fetch_array($_QL8i1);
+                 mysql_free_result($_QL8i1);
+                 if($_QLO0f["SendRules"] != "") {
+                     $_jioJ6 = @unserialize($_QLO0f["SendRules"]);
+                     if($_jioJ6 === false)
+                       $_jioJ6 = array();
                    }
                    else
-                   $_j1I60 = array();
+                   $_jioJ6 = array();
 
-                 $_j1IlI=_OJFJP($_j1I60, $_POST["OneRuleActionId"], -1);
+                 $_jiCft=_LO0FL($_jioJ6, $_POST["OneRuleActionId"], -1);
 
-                 $_QJlJ0 = "UPDATE $_IoCtL SET SendRules= "._OPQLR(@serialize($_j1IlI))." WHERE id=$CampaignListId";
-                 mysql_query($_QJlJ0);
-                 _OAL8F($_QJlJ0);
+                 $_QLfol = "UPDATE $_jJLLf SET SendRules= "._LRAFO(@serialize($_jiCft))." WHERE id=$CampaignListId";
+                 mysql_query($_QLfol);
+                 _L8D88($_QLfol);
              }
              else
              if(isset($_POST["OneRuleAction"]) && $_POST["OneRuleAction"] == "DownBtn" && isset($_POST["OneRuleActionId"]) ) {
 
-                 $_QJlJ0 = "SELECT SendRules FROM $_IoCtL WHERE id=$CampaignListId";
-                 $_Q60l1 = mysql_query($_QJlJ0);
-                 $_Q6Q1C = mysql_fetch_array($_Q60l1);
-                 mysql_free_result($_Q60l1);
-                 if($_Q6Q1C["SendRules"] != "") {
-                     $_j1I60 = @unserialize($_Q6Q1C["SendRules"]);
-                     if($_j1I60 === false)
-                       $_j1I60 = array();
+                 $_QLfol = "SELECT SendRules FROM $_jJLLf WHERE id=$CampaignListId";
+                 $_QL8i1 = mysql_query($_QLfol);
+                 $_QLO0f = mysql_fetch_array($_QL8i1);
+                 mysql_free_result($_QL8i1);
+                 if($_QLO0f["SendRules"] != "") {
+                     $_jioJ6 = @unserialize($_QLO0f["SendRules"]);
+                     if($_jioJ6 === false)
+                       $_jioJ6 = array();
                    }
                    else
-                   $_j1I60 = array();
+                   $_jioJ6 = array();
 
-                 $_j1IlI=_OJFJP($_j1I60, $_POST["OneRuleActionId"], +1);
-                 $_QJlJ0 = "UPDATE $_IoCtL SET SendRules= "._OPQLR(@serialize($_j1IlI))." WHERE id=$CampaignListId";
-                 mysql_query($_QJlJ0);
-                 _OAL8F($_QJlJ0);
+                 $_jiCft=_LO0FL($_jioJ6, $_POST["OneRuleActionId"], +1);
+                 $_QLfol = "UPDATE $_jJLLf SET SendRules= "._LRAFO(@serialize($_jiCft))." WHERE id=$CampaignListId";
+                 mysql_query($_QLfol);
+                 _L8D88($_QLfol);
 
              }
              else {
-               $_Qi8If = array();
+               $_I6tLJ = array();
 
-               _OJFER($CampaignListId, $_Qi8If, isset($_POST["SetupComplete"]) ? -1 : $_POST["SetupLevel"]);
+               _LO1JP($CampaignListId, $_I6tLJ, isset($_POST["SetupComplete"]) ? -1 : $_POST["SetupLevel"]);
              }
 
            break;
       case 4:
            # sending?
-           $_QJlJ0 = "SELECT CurrentSendTableName FROM $_IoCtL WHERE id=$CampaignListId";
-           $_Q60l1 = mysql_query($_QJlJ0);
-           $_Q6Q1C = mysql_fetch_array($_Q60l1);
-           mysql_free_result($_Q60l1);
+           $_QLfol = "SELECT CurrentSendTableName FROM $_jJLLf WHERE id=$CampaignListId";
+           $_QL8i1 = mysql_query($_QLfol);
+           $_QLO0f = mysql_fetch_array($_QL8i1);
+           mysql_free_result($_QL8i1);
 
-           $_QJlJ0 = "SELECT id FROM $_Q6Q1C[CurrentSendTableName] WHERE SendState<>'Done' LIMIT 0,1";
-           $_Q8Oj8 = mysql_query($_QJlJ0);
-           if(mysql_num_rows($_Q8Oj8) > 0) {
-              $_QtILf = true;
+           $_QLfol = "SELECT id FROM $_QLO0f[CurrentSendTableName] WHERE SendState<>'Done' LIMIT 0,1";
+           $_I1O6j = mysql_query($_QLfol);
+           if(mysql_num_rows($_I1O6j) > 0) {
+              $_IQ1ji = true;
            }
-           mysql_free_result($_Q8Oj8);
+           mysql_free_result($_I1O6j);
 
-           if( isset($_POST["SendReportToEMailAddress"]) && !empty($_POST["SendReportToEMailAddressEMailAddress"]) && !_OPAOJ($_POST["SendReportToEMailAddressEMailAddress"]) ){
+           if( isset($_POST["SendReportToEMailAddress"]) && !empty($_POST["SendReportToEMailAddressEMailAddress"]) && !_L8JLR($_POST["SendReportToEMailAddressEMailAddress"]) ){
              $errors[] = "SendReportToEMailAddressEMailAddress";
            }
 
-           if(!$_QtILf) {
+           if(!$_IQ1ji) {
              // Scheduler
              if(!isset($_POST["SendScheduler"]))
                $_POST["SendScheduler"] = "SaveOnly";
 
              # user has no sending rights
-             if($OwnerUserId != 0 && !$_QJojf["PrivilegeSMSCampaignSending"])
+             if($OwnerUserId != 0 && !$_QLJJ6["PrivilegeSMSCampaignSending"])
                 $_POST["SendScheduler"] = "SaveOnly";
 
              if($_POST["SendScheduler"] == "SendInFutureOnce" && !isset($_POST["SendInFutureOnceDateTime"]) || ( isset($_POST["SendInFutureOnceDateTime"]) && strlen($_POST["SendInFutureOnceDateTime"]) < 16) ) {
@@ -358,26 +358,26 @@
                if(!isset($_POST["SendInFutureMultipleTime"]) || trim($_POST["SendInFutureMultipleTime"]) == "") {
                  $errors[] = "SendInFutureMultipleTime";
                } else{
-                 $_Q8otJ = explode(":", $_POST["SendInFutureMultipleTime"]);
-                 if(count($_Q8otJ) < 3)
+                 $_I1OoI = explode(":", $_POST["SendInFutureMultipleTime"]);
+                 if(count($_I1OoI) < 3)
                    $errors[] = "SendInFutureMultipleTime";
                    else {
-                     for($_Q6llo=0; $_Q6llo<count($_Q8otJ); $_Q6llo++) {
-                       $_Q8otJ[$_Q6llo] = intval($_Q8otJ[$_Q6llo]);
-                       if($_Q6llo == 0) {
-                         if($_Q8otJ[$_Q6llo] < 0 || $_Q8otJ[$_Q6llo] > 23)
+                     for($_Qli6J=0; $_Qli6J<count($_I1OoI); $_Qli6J++) {
+                       $_I1OoI[$_Qli6J] = intval($_I1OoI[$_Qli6J]);
+                       if($_Qli6J == 0) {
+                         if($_I1OoI[$_Qli6J] < 0 || $_I1OoI[$_Qli6J] > 23)
                             $errors[] = "SendInFutureMultipleTime";
                        }
-                       if($_Q6llo > 0) {
-                         if($_Q8otJ[$_Q6llo] < 0 || $_Q8otJ[$_Q6llo] > 59)
+                       if($_Qli6J > 0) {
+                         if($_I1OoI[$_Qli6J] < 0 || $_I1OoI[$_Qli6J] > 59)
                             $errors[] = "SendInFutureMultipleTime";
                        }
-                       if($_Q8otJ[$_Q6llo] < 9)
-                         $_Q8otJ[$_Q6llo] = "0".$_Q8otJ[$_Q6llo];
+                       if($_I1OoI[$_Qli6J] < 9)
+                         $_I1OoI[$_Qli6J] = "0".$_I1OoI[$_Qli6J];
                      }
 
-                     if(count($errors == 0))
-                       $_POST["SendInFutureMultipleTime"] = join(":", $_Q8otJ);
+                     if(count($errors) == 0)
+                       $_POST["SendInFutureMultipleTime"] = join(":", $_I1OoI);
                    }
                }
 
@@ -393,65 +393,65 @@
            }
            // Save values
            if(count($errors) == 0) {
-             $_QtjtL = " Creator_users_id=".$UserId;
+             $_QLlO6 = " Creator_users_id=".$UserId;
 
-             $_j18jo = 0;
+             $_jLQ6Q = 0;
              if(isset($_POST["SendReportToYourSelf"]))
-               $_j18jo = 1;
-             $_QtjtL .= ", SendReportToYourSelf=$_j18jo";
+               $_jLQ6Q = 1;
+             $_QLlO6 .= ", SendReportToYourSelf=$_jLQ6Q";
 
-             $_j18ff = 0;
+             $_jLQLO = 0;
              if(isset($_POST["SendReportToListAdmin"]))
-               $_j18ff = 1;
-             $_QtjtL .= ", SendReportToListAdmin=$_j18ff";
+               $_jLQLO = 1;
+             $_QLlO6 .= ", SendReportToListAdmin=$_jLQLO";
 
-             $_j18oi = 0;
+             $_jLIjo = 0;
              if(isset($_POST["SendReportToMailingListUsers"]))
-               $_j18oi = 1;
-             $_QtjtL .= ", SendReportToMailingListUsers=$_j18oi";
+               $_jLIjo = 1;
+             $_QLlO6 .= ", SendReportToMailingListUsers=$_jLIjo";
 
-             $_j1jil = 0;
+             $_jiiJj = 0;
              if(isset($_POST["SendReportToEMailAddress"]))
-               $_j1jil = 1;
-             if($_j1jil && empty($_POST["SendReportToEMailAddressEMailAddress"]))
-                $_j1jil = 0;
-             $_QtjtL .= ", SendReportToEMailAddress=$_j1jil";
+               $_jiiJj = 1;
+             if($_jiiJj && empty($_POST["SendReportToEMailAddressEMailAddress"]))
+                $_jiiJj = 0;
+             $_QLlO6 .= ", SendReportToEMailAddress=$_jiiJj";
              if(!empty($_POST["SendReportToEMailAddressEMailAddress"]))
-                $_QtjtL .= ", SendReportToEMailAddressEMailAddress="._OPQLR($_POST["SendReportToEMailAddressEMailAddress"]);
+                $_QLlO6 .= ", SendReportToEMailAddressEMailAddress="._LRAFO($_POST["SendReportToEMailAddressEMailAddress"]);
 
-             if(!$_QtILf) {
-               $_QtjtL .= ", SendScheduler="._OPQLR($_POST["SendScheduler"]);
+             if(!$_IQ1ji) {
+               $_QLlO6 .= ", SendScheduler="._LRAFO($_POST["SendScheduler"]);
                if (isset($_POST["SendInFutureOnceDateTime"])) {
                   $_POST["SendInFutureOnceDateTime"] .= ':00'; // seconds
-                  $_j16JO = _OAOD0($_POST["SendInFutureOnceDateTime"], $INTERFACE_LANGUAGE);
-                  $_QtjtL .= ", SendInFutureOnceDateTime="._OPQLR($_j16JO);
+                  $_jiLfL = _L8CE0($_POST["SendInFutureOnceDateTime"], $INTERFACE_LANGUAGE);
+                  $_QLlO6 .= ", SendInFutureOnceDateTime="._LRAFO($_jiLfL);
                }
 
                if($_POST["SendScheduler"] == "SendInFutureMultiple") {
-                  $_QtjtL .= ", SendInFutureMultipleTime="._OPQLR($_POST["SendInFutureMultipleTime"]);
+                  $_QLlO6 .= ", SendInFutureMultipleTime="._LRAFO($_POST["SendInFutureMultipleTime"]);
                   if(isset($_POST["SendInFutureMultipleDays"]))
-                    $_QtjtL .= ", SendInFutureMultipleDays="._OPQLR(join(",", $_POST["SendInFutureMultipleDays"]));
+                    $_QLlO6 .= ", SendInFutureMultipleDays="._LRAFO(join(",", $_POST["SendInFutureMultipleDays"]));
                     else
-                    $_QtjtL .= ", SendInFutureMultipleDays=''";
+                    $_QLlO6 .= ", SendInFutureMultipleDays=''";
 
                   if(isset($_POST["SendInFutureMultipleDayNames"]))
-                    $_QtjtL .= ", SendInFutureMultipleDayNames="._OPQLR(join(",", $_POST["SendInFutureMultipleDayNames"]));
+                    $_QLlO6 .= ", SendInFutureMultipleDayNames="._LRAFO(join(",", $_POST["SendInFutureMultipleDayNames"]));
                     else
-                    $_QtjtL .= ", SendInFutureMultipleDayNames=''";
+                    $_QLlO6 .= ", SendInFutureMultipleDayNames=''";
 
-                  $_QtjtL .= ", SendInFutureMultipleMonths="._OPQLR(join(",", $_POST["SendInFutureMultipleMonths"]));
+                  $_QLlO6 .= ", SendInFutureMultipleMonths="._LRAFO(join(",", $_POST["SendInFutureMultipleMonths"]));
                }
              }
 
              if(isset($_POST["SetupComplete"]))
-                $_j1toJ = "";
+                $_jLI6l = "";
                 else
-                $_j1toJ ="SetupLevel=$_POST[SetupLevel], ";
+                $_jLI6l ="SetupLevel=$_POST[SetupLevel], ";
 
-             if($_QtjtL != "" || $_j1toJ != "") {
-               $_QJlJ0 = "UPDATE $_IoCtL SET $_j1toJ $_QtjtL WHERE id=$CampaignListId";
-               mysql_query($_QJlJ0);
-               _OAL8F($_QJlJ0);
+             if($_QLlO6 != "" || $_jLI6l != "") {
+               $_QLfol = "UPDATE $_jJLLf SET $_jLI6l $_QLlO6 WHERE id=$CampaignListId";
+               mysql_query($_QLfol);
+               _L8D88($_QLfol);
              }
            }
 
@@ -459,17 +459,17 @@
 
       case 5:
            # sending?
-           $_QJlJ0 = "SELECT CurrentSendTableName FROM $_IoCtL WHERE id=$CampaignListId";
-           $_Q60l1 = mysql_query($_QJlJ0);
-           $_Q6Q1C = mysql_fetch_array($_Q60l1);
-           mysql_free_result($_Q60l1);
+           $_QLfol = "SELECT CurrentSendTableName FROM $_jJLLf WHERE id=$CampaignListId";
+           $_QL8i1 = mysql_query($_QLfol);
+           $_QLO0f = mysql_fetch_array($_QL8i1);
+           mysql_free_result($_QL8i1);
 
-           $_QJlJ0 = "SELECT id FROM $_Q6Q1C[CurrentSendTableName] WHERE SendState<>'Done' LIMIT 0,1";
-           $_Q8Oj8 = mysql_query($_QJlJ0);
-           if(mysql_num_rows($_Q8Oj8) > 0) {
-              $_QtILf = true;
+           $_QLfol = "SELECT id FROM $_QLO0f[CurrentSendTableName] WHERE SendState<>'Done' LIMIT 0,1";
+           $_I1O6j = mysql_query($_QLfol);
+           if(mysql_num_rows($_I1O6j) > 0) {
+              $_IQ1ji = true;
            }
-           mysql_free_result($_Q8Oj8);
+           mysql_free_result($_I1O6j);
 
 
            if ( (!isset($_POST['SMSoutUsername'])) || (trim($_POST['SMSoutUsername']) == "")  )
@@ -478,10 +478,10 @@
            if ( (!isset($_POST['SMSoutPassword'])) || (trim($_POST['SMSoutPassword']) == "")  )
              $errors[] = 'SMSoutPassword';
 
-           if ( !$_QtILf && (!isset($_POST['SMSSendVariant'])) || (trim($_POST['SMSSendVariant']) == "")  )
+           if ( !$_IQ1ji && (!isset($_POST['SMSSendVariant'])) || (trim($_POST['SMSSendVariant']) == "")  )
              $errors[] = 'SMSSendVariant';
 
-           if(!$_QtILf) {
+           if(!$_IQ1ji) {
              if(!isset($_POST["MaxSMSToProcess"]) || intval($_POST["MaxSMSToProcess"]) <= 0 )
                $_POST["MaxSMSToProcess"] = 25;
              $_POST["MaxSMSToProcess"] = intval($_POST["MaxSMSToProcess"]);
@@ -490,16 +490,16 @@
            // Save values
            if(count($errors) == 0) {
              if(isset($_POST["SetupComplete"])) {
-               $_j1OoO = $_POST["SetupLevel"];
+               $_jLfQO = $_POST["SetupLevel"];
                unset($_POST["SetupLevel"]);
              }
 
-             $_II1Ot = $_POST;
+             $_IoLOO = $_POST;
 
-             _OJFER($CampaignListId, $_II1Ot, isset($_POST["SetupComplete"]) ? -1 : $_POST["SetupLevel"]);
+             _LO1JP($CampaignListId, $_IoLOO, isset($_POST["SetupComplete"]) ? -1 : $_POST["SetupLevel"]);
 
-             if(isset($_j1OoO))
-               $_POST["SetupLevel"] = $_j1OoO;
+             if(isset($_jLfQO))
+               $_POST["SetupLevel"] = $_jLfQO;
 
            } # if(count($errors) == 0)
 
@@ -517,8 +517,8 @@
 
         if(count($errors) == 0) {
           $_POST['SMSText'] = trim($_POST['SMSText']);
-          if(!_OB16R("utf-8", "iso-8859-1", $_POST['SMSText'])) {
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["SMSTextFormatNotApplicable"];
+          if(!_LP8C1("utf-8", "iso-8859-1", $_POST['SMSText'])) {
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["SMSTextFormatNotApplicable"];
             $errors[] = 'SMSText';
           }
         }
@@ -527,12 +527,12 @@
         if(count($errors) == 0) {
 
 
-          $_II1Ot = $_POST;
-          if(isset($_II1Ot["SetupLevel"]))
-            unset($_II1Ot["SetupLevel"]);
+          $_IoLOO = $_POST;
+          if(isset($_IoLOO["SetupLevel"]))
+            unset($_IoLOO["SetupLevel"]);
 
           // save
-          _OJFER($CampaignListId, $_II1Ot, isset($_POST["SetupComplete"]) ? -1 : $_POST["SetupLevel"]);
+          _LO1JP($CampaignListId, $_IoLOO, isset($_POST["SetupComplete"]) ? -1 : $_POST["SetupLevel"]);
 
         }
 
@@ -541,33 +541,33 @@
       break;
       case 8:
         // Test server
-        $_jQIIi = _LOP60($CampaignListId);
-        $_jQIIi .= " LIMIT 0, 1";
+        $_jLiOt = _JL110($CampaignListId);
+        $_jLiOt .= " LIMIT 0, 1";
 
-        $_jQIjl = mysql_query($_jQIIi, $_Q61I1);
-        if(mysql_error($_Q61I1) != "") {
-          $_j0l0O = "<b>MySQL Error: </b>".mysql_error($_Q61I1)."<br />";
+        $_jLil1 = mysql_query($_jLiOt, $_QLttI);
+        if(mysql_error($_QLttI) != "") {
+          $_ji8LC = "<b>MySQL Error: </b>".mysql_error($_QLttI)."<br />";
         } else
-          mysql_free_result($_jQIjl);
+          mysql_free_result($_jLil1);
 
-        if($_j0l0O == ""){
+        if($_ji8LC == ""){
           // save DONE STATE
-          $_II1Ot = array();
-          $_II1Ot["ReSendFlag"] = 1;
-          _OJFER($CampaignListId, $_II1Ot, isset($_POST["SetupComplete"]) ? -1 : 99); // DONE STATE
+          $_IoLOO = array();
+          $_IoLOO["ReSendFlag"] = 1;
+          _LO1JP($CampaignListId, $_IoLOO, isset($_POST["SetupComplete"]) ? -1 : 99); // DONE STATE
         }
       break;
      /* case 9:
         // Test server
-        $_jQIIi = "";
-        $_j0l0O = _O6QLR($CampaignListId, $_jQIIi);
-        if(is_numeric($_j0l0O))
-          $_j0l0O = "";
+        $_jLiOt = "";
+        $_ji8LC = _LOL8J($CampaignListId, $_jLiOt);
+        if(is_numeric($_ji8LC))
+          $_ji8LC = "";
 
         // save DONE STATE
-        $_II1Ot = array();
-        $_II1Ot["ReSendFlag"] = 1;
-        _OJFER($CampaignListId, $_II1Ot, isset($_POST["SetupComplete"]) ? -1 : 99); // DONE STATE
+        $_IoLOO = array();
+        $_IoLOO["ReSendFlag"] = 1;
+        _LO1JP($CampaignListId, $_IoLOO, isset($_POST["SetupComplete"]) ? -1 : 99); // DONE STATE
       break;*/
     } # switch
   } # if
@@ -579,7 +579,7 @@
           $_POST["SetupLevel"]--;
         // remove values
         reset($_POST);
-        foreach($_POST as $key => $_Q6ClO) {
+        foreach($_POST as $key => $_QltJO) {
           if($key != "SetupLevel")
             unset($_POST[$key]);
         }
@@ -591,421 +591,421 @@
           $_POST["SetupLevel"]++;
       }
   } else {
-    if($_I0600 == "")
-       $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000020"];
+    if($_Itfj8 == "")
+       $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000020"];
   }
 
-  $_Q6QiO = "'%d.%m.%Y %H:%i'";
+  $_QLo60 = "'%d.%m.%Y %H:%i'";
   if($INTERFACE_LANGUAGE != "de") {
-    #$_QJCJi = str_replace("'dd.mm.yyyy hh:mm'", "'yyyy-mm-dd hh:ii'", $_QJCJi);
-    $_Q6QiO = "'%Y-%m-%d %H:%i'";
+    #$_QLJfI = str_replace("'dd.mm.yyyy hh:mm'", "'yyyy-mm-dd hh:ii'", $_QLJfI);
+    $_QLo60 = "'%Y-%m-%d %H:%i'";
   }
 
-  $_I6ICC = "";
-  $_QJlJ0 = "SELECT *, IF(SendInFutureOnceDateTime<>'0000-00-00 00:00:00', DATE_FORMAT(SendInFutureOnceDateTime, $_Q6QiO), DATE_FORMAT(NOW(), $_Q6QiO)) AS SendInFutureOnceDateTimeLong FROM `$_IoCtL` WHERE `id`=$CampaignListId";
-  $_Q60l1 = mysql_query($_QJlJ0);
-  _OAL8F($_QJlJ0);
-  $_Q6J0Q = mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_Iljoj = "";
+  $_QLfol = "SELECT *, IF(SendInFutureOnceDateTime<>'0000-00-00 00:00:00', DATE_FORMAT(SendInFutureOnceDateTime, $_QLo60), DATE_FORMAT(NOW(), $_QLo60)) AS SendInFutureOnceDateTimeLong FROM `$_jJLLf` WHERE `id`=$CampaignListId";
+  $_QL8i1 = mysql_query($_QLfol);
+  _L8D88($_QLfol);
+  $_QLL16 = mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
 
-  if($_Q6J0Q["SetupLevel"] == 99) {
+  if($_QLL16["SetupLevel"] == 99) {
     $_POST["SetupComplete"] = 1;
   }
 
   // sending?
-  $_QJlJ0 = "SELECT `id` FROM `$_Q6J0Q[CurrentSendTableName]` WHERE SendState<>'Done' LIMIT 0,1";
-  $_Q8Oj8 = mysql_query($_QJlJ0);
-  if(mysql_num_rows($_Q8Oj8) > 0) {
-     $_QtILf = true;
+  $_QLfol = "SELECT `id` FROM `$_QLL16[CurrentSendTableName]` WHERE SendState<>'Done' LIMIT 0,1";
+  $_I1O6j = mysql_query($_QLfol);
+  if(mysql_num_rows($_I1O6j) > 0) {
+     $_IQ1ji = true;
   }
-  mysql_free_result($_Q8Oj8);
+  mysql_free_result($_I1O6j);
 
   // Resending?
-  $_QJlJ0 = "SELECT `id` FROM `$_Q6J0Q[CurrentSendTableName]` WHERE SendState='ReSending' LIMIT 0,1";
-  $_Q8Oj8 = mysql_query($_QJlJ0);
-  if(mysql_num_rows($_Q8Oj8) > 0) {
-     $_Qtj08 = true;
+  $_QLfol = "SELECT `id` FROM `$_QLL16[CurrentSendTableName]` WHERE SendState='ReSending' LIMIT 0,1";
+  $_I1O6j = mysql_query($_QLfol);
+  if(mysql_num_rows($_I1O6j) > 0) {
+     $_IQ1L6 = true;
   }
-  mysql_free_result($_Q8Oj8);
+  mysql_free_result($_I1O6j);
 
 
-  $_jQIJo = false;
-  while(!$_jQIJo) {
+  $_jLLOI = false;
+  while(!$_jLLOI) {
      switch($_POST["SetupLevel"]) {
        case 1:
-         $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001604"], $_Q6J0Q["Name"]), $_I0600, 'smscampaignedit1', 'smscampaign1_snipped.htm');
-         $_jQIJo = true;
+         $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001604"], $_QLL16["Name"]), $_Itfj8, 'smscampaignedit1', 'smscampaign1_snipped.htm');
+         $_jLLOI = true;
 
-         if(!$_QtILf) {
-           $_QJCJi = str_replace("<IF:CANCHANGEMAILINGLIST>", "", $_QJCJi);
-           $_QJCJi = str_replace("</IF:CANCHANGEMAILINGLIST>", "", $_QJCJi);
+         if(!$_IQ1ji) {
+           $_QLJfI = str_replace("<IF:CANCHANGEMAILINGLIST>", "", $_QLJfI);
+           $_QLJfI = str_replace("</IF:CANCHANGEMAILINGLIST>", "", $_QLJfI);
          } else{
-           if($_QtILf)
-             $_QJCJi = _OPR6L($_QJCJi, "<IF:CANCHANGEMAILINGLIST>", "</IF:CANCHANGEMAILINGLIST>", $resourcestrings[$INTERFACE_LANGUAGE]["001610"]);
+           if($_IQ1ji)
+             $_QLJfI = _L81BJ($_QLJfI, "<IF:CANCHANGEMAILINGLIST>", "</IF:CANCHANGEMAILINGLIST>", $resourcestrings[$INTERFACE_LANGUAGE]["001610"]);
          }
 
-         if(!$_QtILf) {
+         if(!$_IQ1ji) {
            // ********* List of MailingLists SQL query
-           $_Q68ff = "SELECT DISTINCT id, Name, `FormsTableName` FROM $_Q60QL";
+           $_QlI6f = "SELECT DISTINCT id, Name, `FormsTableName` FROM $_QL88I";
            if($OwnerUserId == 0) // ist es ein Admin?
-              $_Q68ff .= " WHERE (users_id=$UserId)";
+              $_QlI6f .= " WHERE (users_id=$UserId)";
               else {
-               $_Q68ff .= " LEFT JOIN $_Q6fio ON $_Q60QL.id=$_Q6fio.maillists_id WHERE (".$_Q6fio.".users_id=$UserId) AND ($_Q60QL.users_id=$OwnerUserId)";
+               $_QlI6f .= " LEFT JOIN $_QlQot ON $_QL88I.id=$_QlQot.maillists_id WHERE (".$_QlQot.".users_id=$UserId) AND ($_QL88I.users_id=$OwnerUserId)";
               }
-           $_Q68ff .= " ORDER BY Name ASC";
+           $_QlI6f .= " ORDER BY Name ASC";
 
-           $_Q60l1 = mysql_query($_Q68ff);
-           _OAL8F($_Q68ff);
-           $_I10Cl = "";
-           $_jQIoJ = "";
-           while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-             $_I10Cl .= '<option value="'.$_Q6Q1C["id"].'">'.$_Q6Q1C["Name"].'</option>'.$_Q6JJJ;
-             if($_Q6Q1C["id"] == $_Q6J0Q["maillists_id"])
-                $_jQIoJ = $_Q6Q1C["FormsTableName"];
+           $_QL8i1 = mysql_query($_QlI6f);
+           _L8D88($_QlI6f);
+           $_ItlLC = "";
+           $_jLlfj = "";
+           while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+             $_ItlLC .= '<option value="'.$_QLO0f["id"].'">'.$_QLO0f["Name"].'</option>'.$_QLl1Q;
+             if($_QLO0f["id"] == $_QLL16["maillists_id"])
+                $_jLlfj = $_QLO0f["FormsTableName"];
            }
-           mysql_free_result($_Q60l1);
-           $_QJCJi = _OPR6L($_QJCJi, "<SHOW:MailingLists>", "</SHOW:MailingLists>", $_I10Cl);
+           mysql_free_result($_QL8i1);
+           $_QLJfI = _L81BJ($_QLJfI, "<SHOW:MailingLists>", "</SHOW:MailingLists>", $_ItlLC);
            // ********* List of MailingLists SQL query END
 
-           if(!empty($_jQIoJ)){
-             $_Q68ff = "SELECT DISTINCT `id`, `Name` FROM `$_jQIoJ` ORDER BY `Name` ASC";
-             $_Q60l1 = mysql_query($_Q68ff);
-             $_I10Cl = "";
-             while($_Q6Q1C=mysql_fetch_assoc($_Q60l1)) {
-               $_I10Cl .= '<option value="'.$_Q6Q1C["id"].'">'.$_Q6Q1C["Name"].'</option>'.$_Q6JJJ;
+           if(!empty($_jLlfj)){
+             $_QlI6f = "SELECT DISTINCT `id`, `Name` FROM `$_jLlfj` ORDER BY `Name` ASC";
+             $_QL8i1 = mysql_query($_QlI6f);
+             $_ItlLC = "";
+             while($_QLO0f=mysql_fetch_assoc($_QL8i1)) {
+               $_ItlLC .= '<option value="'.$_QLO0f["id"].'">'.$_QLO0f["Name"].'</option>'.$_QLl1Q;
              }
-             mysql_free_result($_Q60l1);
-             $_QJCJi = _OPR6L($_QJCJi, "<SHOW:Forms>", "</SHOW:Forms>", $_I10Cl);
+             mysql_free_result($_QL8i1);
+             $_QLJfI = _L81BJ($_QLJfI, "<SHOW:Forms>", "</SHOW:Forms>", $_ItlLC);
            } else
-             $_QJCJi = _OPR6L($_QJCJi, "<SHOW:Forms>", "</SHOW:Forms>", "");
+             $_QLJfI = _L81BJ($_QLJfI, "<SHOW:Forms>", "</SHOW:Forms>", "");
 
          }
 
        break;
        case 2:
-         $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001604"], $_Q6J0Q["Name"]), $_I0600, 'smscampaignedit2', 'smscampaign2_snipped.htm');
-         $_jQIJo = true;
+         $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001604"], $_QLL16["Name"]), $_Itfj8, 'smscampaignedit2', 'smscampaign2_snipped.htm');
+         $_jLLOI = true;
 
-         if(!$_QtILf) {
-           $_QJCJi = str_replace("<IF_CAN_CHANGE_GROUPS>", "", $_QJCJi);
-           $_QJCJi = str_replace("</IF_CAN_CHANGE_GROUPS>", "", $_QJCJi);
+         if(!$_IQ1ji) {
+           $_QLJfI = str_replace("<IF_CAN_CHANGE_GROUPS>", "", $_QLJfI);
+           $_QLJfI = str_replace("</IF_CAN_CHANGE_GROUPS>", "", $_QLJfI);
          } else{
-           if($_QtILf)
-             $_QJCJi = _OPR6L($_QJCJi, "<IF_CAN_CHANGE_GROUPS>", "</IF_CAN_CHANGE_GROUPS>", $resourcestrings[$INTERFACE_LANGUAGE]["000610"]);
+           if($_IQ1ji)
+             $_QLJfI = _L81BJ($_QLJfI, "<IF_CAN_CHANGE_GROUPS>", "</IF_CAN_CHANGE_GROUPS>", $resourcestrings[$INTERFACE_LANGUAGE]["000610"]);
          }
 
          // ********* List of Groups SQL query
-         $_QJlJ0 = "SELECT GroupsTableName FROM $_Q60QL WHERE id=$_Q6J0Q[maillists_id]";
-         $_Q60l1 = mysql_query($_QJlJ0);
-         $_Q6Q1C = mysql_fetch_array($_Q60l1);
-         mysql_free_result($_Q60l1);
-         $_Q6t6j = $_Q6Q1C["GroupsTableName"];
+         $_QLfol = "SELECT GroupsTableName FROM $_QL88I WHERE id=$_QLL16[maillists_id]";
+         $_QL8i1 = mysql_query($_QLfol);
+         $_QLO0f = mysql_fetch_array($_QL8i1);
+         mysql_free_result($_QL8i1);
+         $_QljJi = $_QLO0f["GroupsTableName"];
 
-         $_Q68ff = "SELECT DISTINCT id, Name FROM $_Q6t6j";
-         $_Q68ff .= " ORDER BY Name ASC";
-         $_Q60l1 = mysql_query($_Q68ff);
-         _OAL8F($_Q68ff);
-         $_I10Cl = "";
-         $_IIJi1 = _OP81D($_QJCJi, "<SHOW:GROUPS>", "</SHOW:GROUPS>");
-         $_II6ft = 0;
-         while($_Q6Q1C=mysql_fetch_assoc($_Q60l1)) {
-           $_I10Cl .= $_IIJi1;
+         $_QlI6f = "SELECT DISTINCT id, Name FROM $_QljJi";
+         $_QlI6f .= " ORDER BY Name ASC";
+         $_QL8i1 = mysql_query($_QlI6f);
+         _L8D88($_QlI6f);
+         $_ItlLC = "";
+         $_IC1C6 = _L81DB($_QLJfI, "<SHOW:GROUPS>", "</SHOW:GROUPS>");
+         $_ICQjo = 0;
+         while($_QLO0f=mysql_fetch_assoc($_QL8i1)) {
+           $_ItlLC .= $_IC1C6;
 
-           $_I10Cl = _OPR6L($_I10Cl, "<GroupsId>", "</GroupsId>", $_Q6Q1C["id"]);
-           $_I10Cl = _OPR6L($_I10Cl, "&lt;GroupsId&gt;", "&lt;/GroupsId&gt;", $_Q6Q1C["id"]);
-           $_I10Cl = _OPR6L($_I10Cl, "<GroupsName>", "</GroupsName>", $_Q6Q1C["Name"]);
-           $_I10Cl = _OPR6L($_I10Cl, "&lt;GroupsName&gt;", "&lt;/GroupsName&gt;", $_Q6Q1C["Name"]);
-           $_II6ft++;
-           $_I10Cl = str_replace("GroupsLabelId", 'groupchkbox_'.$_II6ft, $_I10Cl);
+           $_ItlLC = _L81BJ($_ItlLC, "<GroupsId>", "</GroupsId>", $_QLO0f["id"]);
+           $_ItlLC = _L81BJ($_ItlLC, "&lt;GroupsId&gt;", "&lt;/GroupsId&gt;", $_QLO0f["id"]);
+           $_ItlLC = _L81BJ($_ItlLC, "<GroupsName>", "</GroupsName>", $_QLO0f["Name"]);
+           $_ItlLC = _L81BJ($_ItlLC, "&lt;GroupsName&gt;", "&lt;/GroupsName&gt;", $_QLO0f["Name"]);
+           $_ICQjo++;
+           $_ItlLC = str_replace("GroupsLabelId", 'groupchkbox_'.$_ICQjo, $_ItlLC);
          }
 
-         $_QJCJi = _OPR6L($_QJCJi, "<SHOW:GROUPS>", "</SHOW:GROUPS>", $_I10Cl);
+         $_QLJfI = _L81BJ($_QLJfI, "<SHOW:GROUPS>", "</SHOW:GROUPS>", $_ItlLC);
 
-         if($_Q60l1 && mysql_num_rows($_Q60l1))
-           mysql_data_seek($_Q60l1, 0);
+         if($_QL8i1 && mysql_num_rows($_QL8i1))
+           mysql_data_seek($_QL8i1, 0);
 
-         $_I10Cl = "";
-         $_IIJi1 = _OP81D($_QJCJi, "<SHOW:NOTINGROUPS>", "</SHOW:NOTINGROUPS>");
-         $_II6ft = 0;
-         while($_Q6Q1C=mysql_fetch_assoc($_Q60l1)) {
-           $_I10Cl .= $_IIJi1;
+         $_ItlLC = "";
+         $_IC1C6 = _L81DB($_QLJfI, "<SHOW:NOTINGROUPS>", "</SHOW:NOTINGROUPS>");
+         $_ICQjo = 0;
+         while($_QLO0f=mysql_fetch_assoc($_QL8i1)) {
+           $_ItlLC .= $_IC1C6;
 
-           $_I10Cl = _OPR6L($_I10Cl, "<GroupsId>", "</GroupsId>", $_Q6Q1C["id"]);
-           $_I10Cl = _OPR6L($_I10Cl, "&lt;GroupsId&gt;", "&lt;/GroupsId&gt;", $_Q6Q1C["id"]);
-           $_I10Cl = _OPR6L($_I10Cl, "<GroupsName>", "</GroupsName>", $_Q6Q1C["Name"]);
-           $_I10Cl = _OPR6L($_I10Cl, "&lt;GroupsName&gt;", "&lt;/GroupsName&gt;", $_Q6Q1C["Name"]);
-           $_II6ft++;
-           $_I10Cl = str_replace("NotInGroupsLabelId", 'nogroupchkbox_'.$_II6ft, $_I10Cl);
+           $_ItlLC = _L81BJ($_ItlLC, "<GroupsId>", "</GroupsId>", $_QLO0f["id"]);
+           $_ItlLC = _L81BJ($_ItlLC, "&lt;GroupsId&gt;", "&lt;/GroupsId&gt;", $_QLO0f["id"]);
+           $_ItlLC = _L81BJ($_ItlLC, "<GroupsName>", "</GroupsName>", $_QLO0f["Name"]);
+           $_ItlLC = _L81BJ($_ItlLC, "&lt;GroupsName&gt;", "&lt;/GroupsName&gt;", $_QLO0f["Name"]);
+           $_ICQjo++;
+           $_ItlLC = str_replace("NotInGroupsLabelId", 'nogroupchkbox_'.$_ICQjo, $_ItlLC);
          }
 
-         $_QJCJi = _OPR6L($_QJCJi, "<SHOW:NOTINGROUPS>", "</SHOW:NOTINGROUPS>", $_I10Cl);
+         $_QLJfI = _L81BJ($_QLJfI, "<SHOW:NOTINGROUPS>", "</SHOW:NOTINGROUPS>", $_ItlLC);
 
-         mysql_free_result($_Q60l1);
+         mysql_free_result($_QL8i1);
          // ********* List of Groupss query END
 
          // select groups
-         $_QJlJ0 = "SELECT DISTINCT $_Q6t6j.id, $_Q6t6j.Name FROM $_Q6t6j RIGHT JOIN $_Q6J0Q[GroupsTableName] ON $_Q6J0Q[GroupsTableName].`ml_groups_id`=$_Q6t6j.id";
-         $_Q60l1 = mysql_query($_QJlJ0);
-         if(mysql_num_rows($_Q60l1) == 0)
-            $_Q6J0Q["GroupsOption"] = 1;
+         $_QLfol = "SELECT DISTINCT $_QljJi.id, $_QljJi.Name FROM $_QljJi RIGHT JOIN $_QLL16[GroupsTableName] ON $_QLL16[GroupsTableName].`ml_groups_id`=$_QljJi.id";
+         $_QL8i1 = mysql_query($_QLfol);
+         if(mysql_num_rows($_QL8i1) == 0)
+            $_QLL16["GroupsOption"] = 1;
             else
-            $_Q6J0Q["GroupsOption"] = 2;
-         if(isset($_Q6J0Q["groups"]))
-            unset($_Q6J0Q["groups"]);
-         while($_Q6Q1C = mysql_fetch_array($_Q60l1)) {
-           $_QJCJi = str_replace('name="groups[]" value="'.$_Q6Q1C["id"].'"', 'name="groups[]" value="'.$_Q6Q1C["id"].'" checked="checked"', $_QJCJi);
+            $_QLL16["GroupsOption"] = 2;
+         if(isset($_QLL16["groups"]))
+            unset($_QLL16["groups"]);
+         while($_QLO0f = mysql_fetch_array($_QL8i1)) {
+           $_QLJfI = str_replace('name="groups[]" value="'.$_QLO0f["id"].'"', 'name="groups[]" value="'.$_QLO0f["id"].'" checked="checked"', $_QLJfI);
          }
-         mysql_free_result($_Q60l1);
+         mysql_free_result($_QL8i1);
 
          // select NOgroups
-         $_QJlJ0 = "SELECT DISTINCT $_Q6t6j.id, $_Q6t6j.Name FROM $_Q6t6j RIGHT JOIN $_Q6J0Q[NotInGroupsTableName] ON $_Q6J0Q[NotInGroupsTableName].`ml_groups_id`=$_Q6t6j.id";
-         $_Q60l1 = mysql_query($_QJlJ0);
-         _OAL8F($_QJlJ0);
-         if(isset($_Q6J0Q["nogroups"]))
-            unset($_Q6J0Q["nogroups"]);
-         $_jQj1O = 0;
-         while($_Q6Q1C = mysql_fetch_array($_Q60l1)) {
-           $_QJCJi = str_replace('name="notingroups[]" value="'.$_Q6Q1C["id"].'"', 'name="notingroups[]" value="'.$_Q6Q1C["id"].'" checked="checked"', $_QJCJi);
-           $_jQj1O++;
+         $_QLfol = "SELECT DISTINCT $_QljJi.id, $_QljJi.Name FROM $_QljJi RIGHT JOIN $_QLL16[NotInGroupsTableName] ON $_QLL16[NotInGroupsTableName].`ml_groups_id`=$_QljJi.id";
+         $_QL8i1 = mysql_query($_QLfol);
+         _L8D88($_QLfol);
+         if(isset($_QLL16["nogroups"]))
+            unset($_QLL16["nogroups"]);
+         $_jLlfJ = 0;
+         while($_QLO0f = mysql_fetch_array($_QL8i1)) {
+           $_QLJfI = str_replace('name="notingroups[]" value="'.$_QLO0f["id"].'"', 'name="notingroups[]" value="'.$_QLO0f["id"].'" checked="checked"', $_QLJfI);
+           $_jLlfJ++;
          }
-         mysql_free_result($_Q60l1);
-         if($_jQj1O > 0)
-           $_Q6J0Q["NotInGroupsChkBox"] = 1;
+         mysql_free_result($_QL8i1);
+         if($_jLlfJ > 0)
+           $_QLL16["NotInGroupsChkBox"] = 1;
            else
-           if(isset($_Q6J0Q["NotInGroupsChkBox"]))
-             unset($_Q6J0Q["NotInGroupsChkBox"]);
+           if(isset($_QLL16["NotInGroupsChkBox"]))
+             unset($_QLL16["NotInGroupsChkBox"]);
 
-         if($_II6ft == 0){
-            $_QJCJi = str_replace('//AUTO_SCRIPT_CODE_PLACEHOLDER//', "if(document.getElementById('GroupsOption1'))document.getElementsByName('GroupsOption')[1].disabled = true;", $_QJCJi);
+         if($_ICQjo == 0){
+            $_QLJfI = str_replace('//AUTO_SCRIPT_CODE_PLACEHOLDER//', "if(document.getElementById('GroupsOption1'))document.getElementsByName('GroupsOption')[1].disabled = true;", $_QLJfI);
          }
 
 
        break;
        case 3:
-         $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001604"], $_Q6J0Q["Name"]), $_I0600, 'smscampaignedit3', 'smscampaign3_snipped.htm');
-         $_jQIJo = true;
+         $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001604"], $_QLL16["Name"]), $_Itfj8, 'smscampaignedit3', 'smscampaign3_snipped.htm');
+         $_jLLOI = true;
 
-         if(!$_QtILf) {
-           $_QJCJi = str_replace("<IF_CAN_CHANGE_RULES>", "", $_QJCJi);
-           $_QJCJi = str_replace("</IF_CAN_CHANGE_RULES>", "", $_QJCJi);
+         if(!$_IQ1ji) {
+           $_QLJfI = str_replace("<IF_CAN_CHANGE_RULES>", "", $_QLJfI);
+           $_QLJfI = str_replace("</IF_CAN_CHANGE_RULES>", "", $_QLJfI);
          } else{
-           if($_QtILf)
-             $_QJCJi = _OPR6L($_QJCJi, "<IF_CAN_CHANGE_RULES>", "</IF_CAN_CHANGE_RULES>", $resourcestrings[$INTERFACE_LANGUAGE]["000610"]);
+           if($_IQ1ji)
+             $_QLJfI = _L81BJ($_QLJfI, "<IF_CAN_CHANGE_RULES>", "</IF_CAN_CHANGE_RULES>", $resourcestrings[$INTERFACE_LANGUAGE]["000610"]);
          }
 
-         $_QJCJi = _OPR6L($_QJCJi, "<contains>", "</contains>", $resourcestrings[$INTERFACE_LANGUAGE]["contains"] );
-         $_QJCJi = _OPR6L($_QJCJi, "<contains_not>", "</contains_not>", $resourcestrings[$INTERFACE_LANGUAGE]["contains_not"] );
-         $_QJCJi = _OPR6L($_QJCJi, "<starts_with>", "</starts_with>", $resourcestrings[$INTERFACE_LANGUAGE]["starts_with"] );
-         $_QJCJi = _OPR6L($_QJCJi, "<REGEXP>", "</REGEXP>", $resourcestrings[$INTERFACE_LANGUAGE]["REGEXP"] );
+         $_QLJfI = _L81BJ($_QLJfI, "<contains>", "</contains>", $resourcestrings[$INTERFACE_LANGUAGE]["contains"] );
+         $_QLJfI = _L81BJ($_QLJfI, "<contains_not>", "</contains_not>", $resourcestrings[$INTERFACE_LANGUAGE]["contains_not"] );
+         $_QLJfI = _L81BJ($_QLJfI, "<starts_with>", "</starts_with>", $resourcestrings[$INTERFACE_LANGUAGE]["starts_with"] );
+         $_QLJfI = _L81BJ($_QLJfI, "<REGEXP>", "</REGEXP>", $resourcestrings[$INTERFACE_LANGUAGE]["REGEXP"] );
 
          #### normal placeholders
-         $_QJlJ0 = "SELECT `text`, `fieldname` FROM $_Qofjo WHERE `language`='$INTERFACE_LANGUAGE' AND `fieldname` <> 'u_EMailFormat'";
-         $_Q60l1 = mysql_query($_QJlJ0);
-         _OAL8F($_QJlJ0);
-         $_jQjOO = array();
-         $_QLLjo = array();
-         $_jQjOO[] = '<option value="id">id</option>';
-         $_QLLjo["id"] = "id";
-         while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-          $_jQjOO[] = '<option value="'.$_Q6Q1C["fieldname"].'">'.$_Q6Q1C["text"].'</option>';
-          $_QLLjo[$_Q6Q1C["fieldname"]] = $_Q6Q1C["text"];
+         $_QLfol = "SELECT `text`, `fieldname` FROM $_Ij8oL WHERE `language`='$INTERFACE_LANGUAGE' AND `fieldname` <> 'u_EMailFormat'";
+         $_QL8i1 = mysql_query($_QLfol);
+         _L8D88($_QLfol);
+         $_jl0Ii = array();
+         $_Iflj0 = array();
+         $_jl0Ii[] = '<option value="id">id</option>';
+         $_Iflj0["id"] = "id";
+         while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+          $_jl0Ii[] = '<option value="'.$_QLO0f["fieldname"].'">'.$_QLO0f["text"].'</option>';
+          $_Iflj0[$_QLO0f["fieldname"]] = $_QLO0f["text"];
          }
 
-         $_QllO8 = array();
-         $_QllO8["DateOfOptInConfirmation"] = $resourcestrings[$INTERFACE_LANGUAGE]["DateOfOptInConfirmation"];
-         $_QllO8["MembersAge"] = $resourcestrings[$INTERFACE_LANGUAGE]["MembersAge"];
-         $_QllO8["LastEMailSent"] = $resourcestrings[$INTERFACE_LANGUAGE]["LastEMailSent"];
+         $_I016j = array();
+         $_I016j["DateOfOptInConfirmation"] = $resourcestrings[$INTERFACE_LANGUAGE]["DateOfOptInConfirmation"];
+         $_I016j["MembersAge"] = $resourcestrings[$INTERFACE_LANGUAGE]["MembersAge"];
+         $_I016j["LastEMailSent"] = $resourcestrings[$INTERFACE_LANGUAGE]["LastEMailSent"];
 
-         $_QLLjo = array_merge($_QLLjo, $_QllO8);
-         reset($_QllO8);
-         foreach($_QllO8 as $key => $_Q6ClO)
-            $_jQjOO[] = '<option value="'.$key.'">'.$_Q6ClO.'</option>';
+         $_Iflj0 = array_merge($_Iflj0, $_I016j);
+         reset($_I016j);
+         foreach($_I016j as $key => $_QltJO)
+            $_jl0Ii[] = '<option value="'.$key.'">'.$_QltJO.'</option>';
 
-         $_QJCJi = _OPR6L($_QJCJi, "<fieldnames>", "</fieldnames>", join("\r\n", $_jQjOO));
-         mysql_free_result($_Q60l1);
+         $_QLJfI = _L81BJ($_QLJfI, "<fieldnames>", "</fieldnames>", join("\r\n", $_jl0Ii));
+         mysql_free_result($_QL8i1);
          #
 
-         $_IIJi1 = _OP81D($_QJCJi, "<LIST:RULES>", "</LIST:RULES>");
-         $_Q6ICj = "";
-         if($_Q6J0Q["SendRules"] != "") {
-             $_j1I60 = @unserialize($_Q6J0Q["SendRules"]);
-             if($_j1I60 === false)
-               $_j1I60 = array();
+         $_IC1C6 = _L81DB($_QLJfI, "<LIST:RULES>", "</LIST:RULES>");
+         $_QLoli = "";
+         if($_QLL16["SendRules"] != "") {
+             $_jioJ6 = @unserialize($_QLL16["SendRules"]);
+             if($_jioJ6 === false)
+               $_jioJ6 = array();
            }
            else
-           $_j1I60 = array();
-         for($_Q6llo=0; $_Q6llo<count($_j1I60); $_Q6llo++) {
-           $_Q66jQ = $_IIJi1;
-           $_Q66jQ = _OPR6L($_Q66jQ, "<IF>", "</IF>", $resourcestrings[$INTERFACE_LANGUAGE]["IF"]);
-           $_Q66jQ = _OPR6L($_Q66jQ, "<FIELDNAME>", "</FIELDNAME>", $_QLLjo[$_j1I60[$_Q6llo]["fieldname"] ]);
-           $_Q66jQ = _OPR6L($_Q66jQ, "<COMP_OPERATOR>", "</COMP_OPERATOR>", _OJERP($_j1I60[$_Q6llo]["operator"]));
-           $_Q66jQ = _OPR6L($_Q66jQ, "<COMP_VALUE>", "</COMP_VALUE>", '&quot;'.$_j1I60[$_Q6llo]["comparestring"].'&quot;');
-           if($_Q6llo != count($_j1I60) - 1)
-             $_Q66jQ = _OPR6L($_Q66jQ, "<LINK_OPERATOR>", "</LINK_OPERATOR>", $resourcestrings[$INTERFACE_LANGUAGE][$_j1I60[$_Q6llo]["logicaloperator"]]);
+           $_jioJ6 = array();
+         for($_Qli6J=0; $_Qli6J<count($_jioJ6); $_Qli6J++) {
+           $_Ql0fO = $_IC1C6;
+           $_Ql0fO = _L81BJ($_Ql0fO, "<IF>", "</IF>", $resourcestrings[$INTERFACE_LANGUAGE]["IF"]);
+           $_Ql0fO = _L81BJ($_Ql0fO, "<FIELDNAME>", "</FIELDNAME>", $_Iflj0[$_jioJ6[$_Qli6J]["fieldname"] ]);
+           $_Ql0fO = _L81BJ($_Ql0fO, "<COMP_OPERATOR>", "</COMP_OPERATOR>", _LO06Q($_jioJ6[$_Qli6J]["operator"]));
+           $_Ql0fO = _L81BJ($_Ql0fO, "<COMP_VALUE>", "</COMP_VALUE>", '&quot;'.$_jioJ6[$_Qli6J]["comparestring"].'&quot;');
+           if($_Qli6J != count($_jioJ6) - 1)
+             $_Ql0fO = _L81BJ($_Ql0fO, "<LINK_OPERATOR>", "</LINK_OPERATOR>", $resourcestrings[$INTERFACE_LANGUAGE][$_jioJ6[$_Qli6J]["logicaloperator"]]);
              else
-             $_Q66jQ = _OPR6L($_Q66jQ, "<LINK_OPERATOR>", "</LINK_OPERATOR>", "(".$resourcestrings[$INTERFACE_LANGUAGE][$_j1I60[$_Q6llo]["logicaloperator"]].")" );
+             $_Ql0fO = _L81BJ($_Ql0fO, "<LINK_OPERATOR>", "</LINK_OPERATOR>", "(".$resourcestrings[$INTERFACE_LANGUAGE][$_jioJ6[$_Qli6J]["logicaloperator"]].")" );
 
-           $_Q66jQ = str_replace('name="DeleteRule"', 'name="DeleteRule" value="'.$_Q6llo.'"', $_Q66jQ);
+           $_Ql0fO = str_replace('name="DeleteRule"', 'name="DeleteRule" value="'.$_Qli6J.'"', $_Ql0fO);
 
-           $_Q66jQ = str_replace ('name="UpBtn"', 'name="UpBtn" id="UpBtn_'.$_Q6llo.'" value="'.$_Q6llo.'"', $_Q66jQ);
-           $_Q66jQ = str_replace ('name="DownBtn"', 'name="DownBtn" id="DownBtn_'.$_Q6llo.'" value="'.$_Q6llo.'"', $_Q66jQ);
+           $_Ql0fO = str_replace ('name="UpBtn"', 'name="UpBtn" id="UpBtn_'.$_Qli6J.'" value="'.$_Qli6J.'"', $_Ql0fO);
+           $_Ql0fO = str_replace ('name="DownBtn"', 'name="DownBtn" id="DownBtn_'.$_Qli6J.'" value="'.$_Qli6J.'"', $_Ql0fO);
 
-           if($_Q6llo == 0) {
-             $_I6ICC .= "  ChangeImage('UpBtn_$_Q6llo', 'images/blind16x16.gif');\r\n";
-             $_I6ICC .= "  DisableItemCursorPointer('UpBtn_$_Q6llo', false);\r\n";
+           if($_Qli6J == 0) {
+             $_Iljoj .= "  ChangeImage('UpBtn_$_Qli6J', 'images/blind16x16.gif');\r\n";
+             $_Iljoj .= "  DisableItemCursorPointer('UpBtn_$_Qli6J', false);\r\n";
            }
 
-           if($_Q6llo == count($_j1I60) - 1) {
-             $_I6ICC .= "  ChangeImage('DownBtn_$_Q6llo', 'images/blind16x16.gif');\r\n";
-             $_I6ICC .= "  DisableItemCursorPointer('DownBtn_$_Q6llo', false);\r\n";
+           if($_Qli6J == count($_jioJ6) - 1) {
+             $_Iljoj .= "  ChangeImage('DownBtn_$_Qli6J', 'images/blind16x16.gif');\r\n";
+             $_Iljoj .= "  DisableItemCursorPointer('DownBtn_$_Qli6J', false);\r\n";
            }
 
-           $_Q6ICj .= $_Q66jQ;
+           $_QLoli .= $_Ql0fO;
          }
 
-         $_QJCJi = _OPR6L($_QJCJi, "<LIST:RULES>", "</LIST:RULES>", $_Q6ICj);
+         $_QLJfI = _L81BJ($_QLJfI, "<LIST:RULES>", "</LIST:RULES>", $_QLoli);
 
-         $_QJCJi = _OPR6L($_QJCJi, "<RECIPIENTSCOUNT>", "</RECIPIENTSCOUNT>", _LOAFR($_Q6J0Q, $_jQIIi));
-         $_QJCJi = _OPR6L($_QJCJi, "<SQL>", "</SQL>", $_jQIIi);
+         $_QLJfI = _L81BJ($_QLJfI, "<RECIPIENTSCOUNT>", "</RECIPIENTSCOUNT>", _JLQEF($_QLL16, $_jLiOt));
+         $_QLJfI = _L81BJ($_QLJfI, "<SQL>", "</SQL>", $_jLiOt);
 
 
        break;
        case 4:
-         $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001604"], $_Q6J0Q["Name"]), $_I0600, 'smscampaignedit4', 'smscampaign4_snipped.htm');
-         $_jQIJo = true;
+         $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001604"], $_QLL16["Name"]), $_Itfj8, 'smscampaignedit4', 'smscampaign4_snipped.htm');
+         $_jLLOI = true;
 
-         if(!$_QtILf) {
-           $_QJCJi = str_replace("<IF_CAN_CHANGE_TIMING>", "", $_QJCJi);
-           $_QJCJi = str_replace("</IF_CAN_CHANGE_TIMING>", "", $_QJCJi);
+         if(!$_IQ1ji) {
+           $_QLJfI = str_replace("<IF_CAN_CHANGE_TIMING>", "", $_QLJfI);
+           $_QLJfI = str_replace("</IF_CAN_CHANGE_TIMING>", "", $_QLJfI);
          } else{
-           if($_QtILf)
-             $_QJCJi = _OPR6L($_QJCJi, "<IF_CAN_CHANGE_TIMING>", "</IF_CAN_CHANGE_TIMING>", $resourcestrings[$INTERFACE_LANGUAGE]["000610"]);
+           if($_IQ1ji)
+             $_QLJfI = _L81BJ($_QLJfI, "<IF_CAN_CHANGE_TIMING>", "</IF_CAN_CHANGE_TIMING>", $resourcestrings[$INTERFACE_LANGUAGE]["000610"]);
          }
 
          # user has no sending rights
-         if($OwnerUserId != 0 && !$_QJojf["PrivilegeSMSCampaignSending"]) {
-           $_QJCJi = _OP6PQ($_QJCJi, "<IF_HAS_SENDING_RIGHTS>", "</IF_HAS_SENDING_RIGHTS>");
-           $_Q6J0Q["SendScheduler"] = 'SaveOnly'; # only saving
+         if($OwnerUserId != 0 && !$_QLJJ6["PrivilegeSMSCampaignSending"]) {
+           $_QLJfI = _L80DF($_QLJfI, "<IF_HAS_SENDING_RIGHTS>", "</IF_HAS_SENDING_RIGHTS>");
+           $_QLL16["SendScheduler"] = 'SaveOnly'; # only saving
          } else {
-           $_QJCJi = str_replace("<IF_HAS_SENDING_RIGHTS>", "", $_QJCJi);
-           $_QJCJi = str_replace("</IF_HAS_SENDING_RIGHTS>", "", $_QJCJi);
+           $_QLJfI = str_replace("<IF_HAS_SENDING_RIGHTS>", "", $_QLJfI);
+           $_QLJfI = str_replace("</IF_HAS_SENDING_RIGHTS>", "", $_QLJfI);
          }
 
          // language
-         $_QJCJi = str_replace('ChangeLanguageCode("de");', 'ChangeLanguageCode("'.$INTERFACE_LANGUAGE.'");', $_QJCJi);
-         $_Q6J0Q["SendInFutureOnceDateTime"] = $_Q6J0Q["SendInFutureOnceDateTimeLong"];
+         $_QLJfI = str_replace('ChangeLanguageCode("de");', 'ChangeLanguageCode("'.$INTERFACE_LANGUAGE.'");', $_QLJfI);
+         $_QLL16["SendInFutureOnceDateTime"] = $_QLL16["SendInFutureOnceDateTimeLong"];
 
          // *************** fill days, months list
-         $_I118Q = _OA68J($_IoCtL, "SendInFutureMultipleDays");
-         $_I118Q = substr($_I118Q, 5);
-         $_I118Q = substr($_I118Q, 0, strlen($_I118Q) - 1);
-         $_I118Q = str_replace("'", "", $_I118Q);
-         $_Q8otJ = explode(",", $_I118Q);
-         $_Q66jQ = "";
-         for($_Q6llo=1; $_Q6llo<count($_Q8otJ); $_Q6llo++) {
-           if($_Q8otJ[$_Q6llo] == "every day")
-              $_I11oJ = $resourcestrings[$INTERFACE_LANGUAGE]["EveryDay"];
+         $_IO08Q = _LP006($_jJLLf, "SendInFutureMultipleDays");
+         $_IO08Q = substr($_IO08Q, 5);
+         $_IO08Q = substr($_IO08Q, 0, strlen($_IO08Q) - 1);
+         $_IO08Q = str_replace("'", "", $_IO08Q);
+         $_I1OoI = explode(",", $_IO08Q);
+         $_Ql0fO = "";
+         for($_Qli6J=1; $_Qli6J<count($_I1OoI); $_Qli6J++) {
+           if($_I1OoI[$_Qli6J] == "every day")
+              $_IO08l = $resourcestrings[$INTERFACE_LANGUAGE]["EveryDay"];
               else
-              $_I11oJ = $_Q8otJ[$_Q6llo].".";
-           $_Q66jQ .= sprintf('<option value="%s">%s</option>', $_Q8otJ[$_Q6llo], $_I11oJ);
+              $_IO08l = $_I1OoI[$_Qli6J].".";
+           $_Ql0fO .= sprintf('<option value="%s">%s</option>', $_I1OoI[$_Qli6J], $_IO08l);
          }
-         $_QJCJi = _OPR6L($_QJCJi, "<SendInFutureMultipleDays>", "</SendInFutureMultipleDays>", $_Q66jQ);
+         $_QLJfI = _L81BJ($_QLJfI, "<SendInFutureMultipleDays>", "</SendInFutureMultipleDays>", $_Ql0fO);
 
-         $_I118Q = _OA68J($_IoCtL, "SendInFutureMultipleDayNames");
-         $_I118Q = substr($_I118Q, 5);
-         $_I118Q = substr($_I118Q, 0, strlen($_I118Q) - 1);
-         $_I118Q = str_replace("'", "", $_I118Q);
-         $_Q8otJ = explode(",", $_I118Q);
-         $_Q66jQ = "";
-         for($_Q6llo=1; $_Q6llo<count($_Q8otJ); $_Q6llo++) {
-           if($_Q8otJ[$_Q6llo] == "every day")
-              $_I11oJ = $resourcestrings[$INTERFACE_LANGUAGE]["EveryDay"];
+         $_IO08Q = _LP006($_jJLLf, "SendInFutureMultipleDayNames");
+         $_IO08Q = substr($_IO08Q, 5);
+         $_IO08Q = substr($_IO08Q, 0, strlen($_IO08Q) - 1);
+         $_IO08Q = str_replace("'", "", $_IO08Q);
+         $_I1OoI = explode(",", $_IO08Q);
+         $_Ql0fO = "";
+         for($_Qli6J=1; $_Qli6J<count($_I1OoI); $_Qli6J++) {
+           if($_I1OoI[$_Qli6J] == "every day")
+              $_IO08l = $resourcestrings[$INTERFACE_LANGUAGE]["EveryDay"];
               else
-              $_I11oJ = $resourcestrings[$INTERFACE_LANGUAGE][$DayNumToDayName[$_Q8otJ[$_Q6llo]]];
-           $_Q66jQ .= sprintf('<option value="%s">%s</option>', $_Q8otJ[$_Q6llo], $_I11oJ);
+              $_IO08l = $resourcestrings[$INTERFACE_LANGUAGE][$DayNumToDayName[$_I1OoI[$_Qli6J]]];
+           $_Ql0fO .= sprintf('<option value="%s">%s</option>', $_I1OoI[$_Qli6J], $_IO08l);
          }
-         $_QJCJi = _OPR6L($_QJCJi, "<SendInFutureMultipleDayNames>", "</SendInFutureMultipleDayNames>", $_Q66jQ);
+         $_QLJfI = _L81BJ($_QLJfI, "<SendInFutureMultipleDayNames>", "</SendInFutureMultipleDayNames>", $_Ql0fO);
 
-         $_I118Q = _OA68J($_IoCtL, "SendInFutureMultipleMonths");
-         $_I118Q = substr($_I118Q, 5);
-         $_I118Q = substr($_I118Q, 0, strlen($_I118Q) - 1);
-         $_I118Q = str_replace("'", "", $_I118Q);
-         $_Q8otJ = explode(",", $_I118Q);
-         $_Q66jQ = "";
-         for($_Q6llo=1; $_Q6llo<count($_Q8otJ); $_Q6llo++) {
-           if($_Q8otJ[$_Q6llo] == "every month")
-              $_I11oJ = $resourcestrings[$INTERFACE_LANGUAGE]["EveryMonth"];
+         $_IO08Q = _LP006($_jJLLf, "SendInFutureMultipleMonths");
+         $_IO08Q = substr($_IO08Q, 5);
+         $_IO08Q = substr($_IO08Q, 0, strlen($_IO08Q) - 1);
+         $_IO08Q = str_replace("'", "", $_IO08Q);
+         $_I1OoI = explode(",", $_IO08Q);
+         $_Ql0fO = "";
+         for($_Qli6J=1; $_Qli6J<count($_I1OoI); $_Qli6J++) {
+           if($_I1OoI[$_Qli6J] == "every month")
+              $_IO08l = $resourcestrings[$INTERFACE_LANGUAGE]["EveryMonth"];
               else
-              $_I11oJ = $resourcestrings[$INTERFACE_LANGUAGE][$MonthNumToMonthName[$_Q8otJ[$_Q6llo]]];
-           $_Q66jQ .= sprintf('<option value="%s">%s</option>', $_Q8otJ[$_Q6llo], $_I11oJ);
+              $_IO08l = $resourcestrings[$INTERFACE_LANGUAGE][$MonthNumToMonthName[$_I1OoI[$_Qli6J]]];
+           $_Ql0fO .= sprintf('<option value="%s">%s</option>', $_I1OoI[$_Qli6J], $_IO08l);
          }
-         $_QJCJi = _OPR6L($_QJCJi, "<SendInFutureMultipleMonths>", "</SendInFutureMultipleMonths>", $_Q66jQ);
+         $_QLJfI = _L81BJ($_QLJfI, "<SendInFutureMultipleMonths>", "</SendInFutureMultipleMonths>", $_Ql0fO);
          // *************** fill days, months list
 
          // build arrays for selection
-         $_Q6J0Q["SendInFutureMultipleDays"] = explode(",", $_Q6J0Q["SendInFutureMultipleDays"]);
-         $_Q6J0Q["SendInFutureMultipleDayNames"] = explode(",", $_Q6J0Q["SendInFutureMultipleDayNames"]);
-         $_Q6J0Q["SendInFutureMultipleMonths"] = explode(",", $_Q6J0Q["SendInFutureMultipleMonths"]);
+         $_QLL16["SendInFutureMultipleDays"] = explode(",", $_QLL16["SendInFutureMultipleDays"]);
+         $_QLL16["SendInFutureMultipleDayNames"] = explode(",", $_QLL16["SendInFutureMultipleDayNames"]);
+         $_QLL16["SendInFutureMultipleMonths"] = explode(",", $_QLL16["SendInFutureMultipleMonths"]);
 
-         if($_Q6J0Q["SendReportToYourSelf"] <= 0)
-           unset($_Q6J0Q["SendReportToYourSelf"]);
-         if($_Q6J0Q["SendReportToListAdmin"] <= 0)
-           unset($_Q6J0Q["SendReportToListAdmin"]);
-         if($_Q6J0Q["SendReportToMailingListUsers"] <= 0)
-           unset($_Q6J0Q["SendReportToMailingListUsers"]);
-         if($_Q6J0Q["SendReportToEMailAddress"] <= 0)
-           unset($_Q6J0Q["SendReportToEMailAddress"]);
+         if($_QLL16["SendReportToYourSelf"] <= 0)
+           unset($_QLL16["SendReportToYourSelf"]);
+         if($_QLL16["SendReportToListAdmin"] <= 0)
+           unset($_QLL16["SendReportToListAdmin"]);
+         if($_QLL16["SendReportToMailingListUsers"] <= 0)
+           unset($_QLL16["SendReportToMailingListUsers"]);
+         if($_QLL16["SendReportToEMailAddress"] <= 0)
+           unset($_QLL16["SendReportToEMailAddress"]);
 
-         $_QJlJ0 = "SELECT EMail FROM $_Q8f1L WHERE id=$UserId";
-         $_Q60l1 = mysql_query($_QJlJ0);
-         $_IIjlQ = mysql_fetch_array($_Q60l1);
-         mysql_free_result($_Q60l1);
-         $_QJCJi = str_replace("[EMAILADDRESS]", $_IIjlQ["EMail"], $_QJCJi);
+         $_QLfol = "SELECT EMail FROM $_I18lo WHERE id=$UserId";
+         $_QL8i1 = mysql_query($_QLfol);
+         $_IC1oC = mysql_fetch_array($_QL8i1);
+         mysql_free_result($_QL8i1);
+         $_QLJfI = str_replace("[EMAILADDRESS]", $_IC1oC["EMail"], $_QLJfI);
 
        break;
        case 5:
-         $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001604"], $_Q6J0Q["Name"]), $_I0600, 'smscampaignedit5', 'smscampaign5_snipped.htm');
-         $_jQIJo = true;
+         $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001604"], $_QLL16["Name"]), $_Itfj8, 'smscampaignedit5', 'smscampaign5_snipped.htm');
+         $_jLLOI = true;
 
-         if(!$_QtILf) {
-           $_QJCJi = str_replace("<IF:CANCHANGESMSSENDVARIANT>", "", $_QJCJi);
-           $_QJCJi = str_replace("</IF:CANCHANGESMSSENDVARIANT>", "", $_QJCJi);
+         if(!$_IQ1ji) {
+           $_QLJfI = str_replace("<IF:CANCHANGESMSSENDVARIANT>", "", $_QLJfI);
+           $_QLJfI = str_replace("</IF:CANCHANGESMSSENDVARIANT>", "", $_QLJfI);
          } else{
-           if($_QtILf)
-             $_QJCJi = _OPR6L($_QJCJi, "<IF:CANCHANGESMSSENDVARIANT>", "</IF:CANCHANGESMSSENDVARIANT>", $resourcestrings[$INTERFACE_LANGUAGE]["001610"]);
+           if($_IQ1ji)
+             $_QLJfI = _L81BJ($_QLJfI, "<IF:CANCHANGESMSSENDVARIANT>", "</IF:CANCHANGESMSSENDVARIANT>", $resourcestrings[$INTERFACE_LANGUAGE]["001610"]);
          }
 
        break;
        case 6:
-         $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001604"], $_Q6J0Q["Name"]), $_I0600, 'smscampaignedit6', 'smscampaign6_snipped.htm');
-         $_jQIJo = true;
+         $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001604"], $_QLL16["Name"]), $_Itfj8, 'smscampaignedit6', 'smscampaign6_snipped.htm');
+         $_jLLOI = true;
 
          // Forms id
-         $_Q6J0Q["FormId"] = $_Q6J0Q["forms_id"];
-         $_Q6J0Q["MailingListId"] = $_Q6J0Q["maillists_id"];
+         $_QLL16["FormId"] = $_QLL16["forms_id"];
+         $_QLL16["MailingListId"] = $_QLL16["maillists_id"];
 
          #### normal placeholders
-         $_QJlJ0 = "SELECT text, fieldname FROM $_Qofjo WHERE language='$INTERFACE_LANGUAGE' AND fieldname <> 'u_EMailFormat'";
-         $_Q60l1 = mysql_query($_QJlJ0);
-         _OAL8F($_QJlJ0);
-         $_Q8otJ=array();
-         while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-          $_Q8otJ[] =  sprintf("new Array('[%s]', '%s')", $_Q6Q1C["fieldname"], $_Q6Q1C["text"]);
+         $_QLfol = "SELECT text, fieldname FROM $_Ij8oL WHERE language='$INTERFACE_LANGUAGE' AND fieldname <> 'u_EMailFormat'";
+         $_QL8i1 = mysql_query($_QLfol);
+         _L8D88($_QLfol);
+         $_I1OoI=array();
+         while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+          $_I1OoI[] =  sprintf("new Array('[%s]', '%s')", $_QLO0f["fieldname"], $_QLO0f["text"]);
          }
          # defaults
-         foreach ($_IIQI8 as $key => $_Q6ClO)
-           $_Q8otJ[] =  sprintf("new Array('%s', '%s')", $_Q6ClO, $resourcestrings[$INTERFACE_LANGUAGE][$key]);
+         foreach ($_Iol8t as $key => $_QltJO)
+           $_I1OoI[] =  sprintf("new Array('%s', '%s')", $_QltJO, $resourcestrings[$INTERFACE_LANGUAGE][$key]);
 
-         $_QJCJi = str_replace ("new Array('[PLACEHOLDER]', 'PLACEHOLDERTEXT')", join(",\r\n", $_Q8otJ), $_QJCJi);
-         mysql_free_result($_Q60l1);
+         $_QLJfI = str_replace ("new Array('[PLACEHOLDER]', 'PLACEHOLDERTEXT')", join(",\r\n", $_I1OoI), $_QLJfI);
+         mysql_free_result($_QL8i1);
 
          $_POST["maxsmslen"] = 160;
 
-         if($_Q6J0Q["SMSSendVariant"] == 6) {
+         if($_QLL16["SMSSendVariant"] == 6) {
            $_POST["maxsmslen"] = 1560;
          }
 
-         $_Q6J0Q["maxsmslen"] = $_POST["maxsmslen"];
+         $_QLL16["maxsmslen"] = $_POST["maxsmslen"];
 
        break;
        case 7:
@@ -1013,276 +1013,276 @@
           //
          break;
        case 8:
-         $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001604"], $_Q6J0Q["Name"]), $_I0600, 'smscampaignedit8', 'smscampaign8_snipped.htm');
-         $_jQIJo = true;
+         $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001604"], $_QLL16["Name"]), $_Itfj8, 'smscampaignedit8', 'smscampaign8_snipped.htm');
+         $_jLLOI = true;
 
          // LastSent
-         $_QJlJ0 = "SELECT DATE_FORMAT(EndSendDateTime, $_Q6QiO) AS LastSentDateTime FROM $_Q6J0Q[CurrentSendTableName] WHERE SendState='Done' ORDER BY EndSendDateTime DESC LIMIT 0,1";
-         $_Q8Oj8 = mysql_query($_QJlJ0);
-         if(mysql_num_rows($_Q8Oj8) == 0) {
-           $_Q6J0Q["LastSent"] = $resourcestrings[$INTERFACE_LANGUAGE]["NEVER"];
+         $_QLfol = "SELECT DATE_FORMAT(EndSendDateTime, $_QLo60) AS LastSentDateTime FROM $_QLL16[CurrentSendTableName] WHERE SendState='Done' ORDER BY EndSendDateTime DESC LIMIT 0,1";
+         $_I1O6j = mysql_query($_QLfol);
+         if(mysql_num_rows($_I1O6j) == 0) {
+           $_QLL16["LastSent"] = $resourcestrings[$INTERFACE_LANGUAGE]["NEVER"];
          } else {
-           $_Q8OiJ = mysql_fetch_assoc($_Q8Oj8);
-           $_Q6J0Q["LastSent"] = $_Q8OiJ["LastSentDateTime"];
+           $_I1OfI = mysql_fetch_assoc($_I1O6j);
+           $_QLL16["LastSent"] = $_I1OfI["LastSentDateTime"];
          }
-         mysql_free_result($_Q8Oj8);
+         mysql_free_result($_I1O6j);
          // LastSent /
 
          // ********* List of Groups SQL query
-         $_QJlJ0 = "SELECT Name, GroupsTableName FROM $_Q60QL WHERE id=$_Q6J0Q[maillists_id]";
-         $_Q60l1 = mysql_query($_QJlJ0);
-         $_Q6Q1C = mysql_fetch_array($_Q60l1);
-         mysql_free_result($_Q60l1);
-         $_Q6t6j = $_Q6Q1C["GroupsTableName"];
-         $_Q6J0Q["MailingListName"] = $_Q6Q1C["Name"];
-         $_Q6J0Q["MailingListId"] = $_Q6J0Q["maillists_id"];
-         $_Q6J0Q["FormId"] = $_Q6J0Q["forms_id"];
+         $_QLfol = "SELECT Name, GroupsTableName FROM $_QL88I WHERE id=$_QLL16[maillists_id]";
+         $_QL8i1 = mysql_query($_QLfol);
+         $_QLO0f = mysql_fetch_array($_QL8i1);
+         mysql_free_result($_QL8i1);
+         $_QljJi = $_QLO0f["GroupsTableName"];
+         $_QLL16["MailingListName"] = $_QLO0f["Name"];
+         $_QLL16["MailingListId"] = $_QLL16["maillists_id"];
+         $_QLL16["FormId"] = $_QLL16["forms_id"];
          // ********* List of Groups query END
 
          // select groups
-         $_QJlJ0 = "SELECT DISTINCT $_Q6t6j.id, $_Q6t6j.Name FROM $_Q6t6j RIGHT JOIN $_Q6J0Q[GroupsTableName] ON $_Q6J0Q[GroupsTableName].`ml_groups_id`=$_Q6t6j.id";
-         $_Q60l1 = mysql_query($_QJlJ0);
-         if(mysql_num_rows($_Q60l1) == 0)
-            $_Q6J0Q["GroupsOption"] = 1;
+         $_QLfol = "SELECT DISTINCT $_QljJi.id, $_QljJi.Name FROM $_QljJi RIGHT JOIN $_QLL16[GroupsTableName] ON $_QLL16[GroupsTableName].`ml_groups_id`=$_QljJi.id";
+         $_QL8i1 = mysql_query($_QLfol);
+         if(mysql_num_rows($_QL8i1) == 0)
+            $_QLL16["GroupsOption"] = 1;
             else
-            $_Q6J0Q["GroupsOption"] = 2;
-         $_Q6J0Q["groups"] = array();
-         while($_Q6Q1C = mysql_fetch_array($_Q60l1)) {
-           $_Q6J0Q["groups"][] = $_Q6Q1C["Name"];
+            $_QLL16["GroupsOption"] = 2;
+         $_QLL16["groups"] = array();
+         while($_QLO0f = mysql_fetch_array($_QL8i1)) {
+           $_QLL16["groups"][] = $_QLO0f["Name"];
          }
-         mysql_free_result($_Q60l1);
+         mysql_free_result($_QL8i1);
 
          //
 
          // select NO groups
-         $_QJlJ0 = "SELECT DISTINCT $_Q6t6j.id, $_Q6t6j.Name FROM $_Q6t6j RIGHT JOIN $_Q6J0Q[NotInGroupsTableName] ON $_Q6J0Q[NotInGroupsTableName].`ml_groups_id`=$_Q6t6j.id";
-         $_Q60l1 = mysql_query($_QJlJ0);
-         $_Q6J0Q["nogroups"] = array();
-         while($_Q6Q1C = mysql_fetch_array($_Q60l1)) {
-           $_Q6J0Q["nogroups"][] = $_Q6Q1C["Name"];
+         $_QLfol = "SELECT DISTINCT $_QljJi.id, $_QljJi.Name FROM $_QljJi RIGHT JOIN $_QLL16[NotInGroupsTableName] ON $_QLL16[NotInGroupsTableName].`ml_groups_id`=$_QljJi.id";
+         $_QL8i1 = mysql_query($_QLfol);
+         $_QLL16["nogroups"] = array();
+         while($_QLO0f = mysql_fetch_array($_QL8i1)) {
+           $_QLL16["nogroups"][] = $_QLO0f["Name"];
          }
-         mysql_free_result($_Q60l1);
+         mysql_free_result($_QL8i1);
          //
 
-         if( $_Q6J0Q["GroupsOption"] == 2 ) {
-            $_Q6J0Q["MailingListGroupNames"] = join('; ', $_Q6J0Q["groups"]);
-            $_Q6J0Q["MailingListNoGroupNames"] = join('; ', $_Q6J0Q["nogroups"]);
+         if( $_QLL16["GroupsOption"] == 2 ) {
+            $_QLL16["MailingListGroupNames"] = join('; ', $_QLL16["groups"]);
+            $_QLL16["MailingListNoGroupNames"] = join('; ', $_QLL16["nogroups"]);
            }
            else {
-             $_Q6J0Q["MailingListGroupNames"] = "-";
-             $_Q6J0Q["MailingListNoGroupNames"] = "-";
+             $_QLL16["MailingListGroupNames"] = "-";
+             $_QLL16["MailingListNoGroupNames"] = "-";
            }
 
          // Rules
-         if($_Q6J0Q["SendRules"] != "") {
-             $_j1I60 = @unserialize($_Q6J0Q["SendRules"]);
-             if($_j1I60 === false)
-               $_j1I60 = array();
+         if($_QLL16["SendRules"] != "") {
+             $_jioJ6 = @unserialize($_QLL16["SendRules"]);
+             if($_jioJ6 === false)
+               $_jioJ6 = array();
            }
            else
-           $_j1I60 = array();
-         if( count($_j1I60) > 0 )
-           $_Q6J0Q["RulesDefined"] = $resourcestrings[$INTERFACE_LANGUAGE]["YES"].", ".count($_j1I60);
+           $_jioJ6 = array();
+         if( count($_jioJ6) > 0 )
+           $_QLL16["RulesDefined"] = $resourcestrings[$INTERFACE_LANGUAGE]["YES"].", ".count($_jioJ6);
            else
-           $_Q6J0Q["RulesDefined"] = $resourcestrings[$INTERFACE_LANGUAGE]["NO"];
+           $_QLL16["RulesDefined"] = $resourcestrings[$INTERFACE_LANGUAGE]["NO"];
 
-         $_jQIIi = "";
-         $_Q6J0Q["RECIPIENTSCOUNT"] = _LOAFR($_Q6J0Q, $_jQIIi);
+         $_jLiOt = "";
+         $_QLL16["RECIPIENTSCOUNT"] = _JLQEF($_QLL16, $_jLiOt);
 
          // Report
-         if($_Q6J0Q["SendReportToYourSelf"])
-           $_Q6J0Q["SendReportToYourSelf"] = $resourcestrings[$INTERFACE_LANGUAGE]["YES"];
+         if($_QLL16["SendReportToYourSelf"])
+           $_QLL16["SendReportToYourSelf"] = $resourcestrings[$INTERFACE_LANGUAGE]["YES"];
            else
-           $_Q6J0Q["SendReportToYourSelf"] = $resourcestrings[$INTERFACE_LANGUAGE]["NO"];
-         if($_Q6J0Q["SendReportToListAdmin"])
-           $_Q6J0Q["SendReportToListAdmin"] = $resourcestrings[$INTERFACE_LANGUAGE]["YES"];
+           $_QLL16["SendReportToYourSelf"] = $resourcestrings[$INTERFACE_LANGUAGE]["NO"];
+         if($_QLL16["SendReportToListAdmin"])
+           $_QLL16["SendReportToListAdmin"] = $resourcestrings[$INTERFACE_LANGUAGE]["YES"];
            else
-           $_Q6J0Q["SendReportToListAdmin"] = $resourcestrings[$INTERFACE_LANGUAGE]["NO"];
-         if($_Q6J0Q["SendReportToMailingListUsers"])
-           $_Q6J0Q["SendReportToMailingListUsers"] = $resourcestrings[$INTERFACE_LANGUAGE]["YES"];
+           $_QLL16["SendReportToListAdmin"] = $resourcestrings[$INTERFACE_LANGUAGE]["NO"];
+         if($_QLL16["SendReportToMailingListUsers"])
+           $_QLL16["SendReportToMailingListUsers"] = $resourcestrings[$INTERFACE_LANGUAGE]["YES"];
            else
-           $_Q6J0Q["SendReportToMailingListUsers"] = $resourcestrings[$INTERFACE_LANGUAGE]["NO"];
-         if($_Q6J0Q["SendReportToEMailAddress"])
-           $_Q6J0Q["SendReportToEMailAddress"] = $resourcestrings[$INTERFACE_LANGUAGE]["YES"].", ".$_Q6J0Q["SendReportToEMailAddressEMailAddress"];
+           $_QLL16["SendReportToMailingListUsers"] = $resourcestrings[$INTERFACE_LANGUAGE]["NO"];
+         if($_QLL16["SendReportToEMailAddress"])
+           $_QLL16["SendReportToEMailAddress"] = $resourcestrings[$INTERFACE_LANGUAGE]["YES"].", ".$_QLL16["SendReportToEMailAddressEMailAddress"];
            else
-           $_Q6J0Q["SendReportToEMailAddress"] = $resourcestrings[$INTERFACE_LANGUAGE]["NO"];
+           $_QLL16["SendReportToEMailAddress"] = $resourcestrings[$INTERFACE_LANGUAGE]["NO"];
 
          // Scheduler
-         if($_Q6J0Q["SendScheduler"] == 'SaveOnly') {
-           $_QJCJi = str_replace('<SendSchedulerSaveOnly>', '', $_QJCJi);
-           $_QJCJi = str_replace('</SendSchedulerSaveOnly>', '', $_QJCJi);
+         if($_QLL16["SendScheduler"] == 'SaveOnly') {
+           $_QLJfI = str_replace('<SendSchedulerSaveOnly>', '', $_QLJfI);
+           $_QLJfI = str_replace('</SendSchedulerSaveOnly>', '', $_QLJfI);
          }
-         if($_Q6J0Q["SendScheduler"] == 'SendManually') {
-           $_QJCJi = str_replace('<SendSchedulerSendManually>', '', $_QJCJi);
-           $_QJCJi = str_replace('</SendSchedulerSendManually>', '', $_QJCJi);
+         if($_QLL16["SendScheduler"] == 'SendManually') {
+           $_QLJfI = str_replace('<SendSchedulerSendManually>', '', $_QLJfI);
+           $_QLJfI = str_replace('</SendSchedulerSendManually>', '', $_QLJfI);
          }
-         if($_Q6J0Q["SendScheduler"] == 'SendImmediately') {
-           $_QJCJi = str_replace('<SendSchedulerSendImmediately>', '', $_QJCJi);
-           $_QJCJi = str_replace('</SendSchedulerSendImmediately>', '', $_QJCJi);
+         if($_QLL16["SendScheduler"] == 'SendImmediately') {
+           $_QLJfI = str_replace('<SendSchedulerSendImmediately>', '', $_QLJfI);
+           $_QLJfI = str_replace('</SendSchedulerSendImmediately>', '', $_QLJfI);
          }
-         if($_Q6J0Q["SendScheduler"] == 'SendInFutureOnce') {
-           $_QJCJi = str_replace('<SendSchedulerSendInFutureOnce>', '', $_QJCJi);
-           $_QJCJi = str_replace('</SendSchedulerSendInFutureOnce>', '', $_QJCJi);
-           $_QJCJi = str_replace('[SENDDATETIME]', $_Q6J0Q["SendInFutureOnceDateTimeLong"], $_QJCJi);
+         if($_QLL16["SendScheduler"] == 'SendInFutureOnce') {
+           $_QLJfI = str_replace('<SendSchedulerSendInFutureOnce>', '', $_QLJfI);
+           $_QLJfI = str_replace('</SendSchedulerSendInFutureOnce>', '', $_QLJfI);
+           $_QLJfI = str_replace('[SENDDATETIME]', $_QLL16["SendInFutureOnceDateTimeLong"], $_QLJfI);
          }
-         if($_Q6J0Q["SendScheduler"] == 'SendInFutureMultiple') {
-           $_QJCJi = str_replace('<SendSchedulerSendInFutureMultiple>', '', $_QJCJi);
-           $_QJCJi = str_replace('</SendSchedulerSendInFutureMultiple>', '', $_QJCJi);
+         if($_QLL16["SendScheduler"] == 'SendInFutureMultiple') {
+           $_QLJfI = str_replace('<SendSchedulerSendInFutureMultiple>', '', $_QLJfI);
+           $_QLJfI = str_replace('</SendSchedulerSendInFutureMultiple>', '', $_QLJfI);
          }
 
-         $_QJCJi = _OP6PQ($_QJCJi, '<SendSchedulerSaveOnly>', '</SendSchedulerSaveOnly>');
-         $_QJCJi = _OP6PQ($_QJCJi, '<SendSchedulerSendManually>', '</SendSchedulerSendManually>');
-         $_QJCJi = _OP6PQ($_QJCJi, '<SendSchedulerSendImmediately>', '</SendSchedulerSendImmediately>');
-         $_QJCJi = _OP6PQ($_QJCJi, '<SendSchedulerSendInFutureOnce>', '</SendSchedulerSendInFutureOnce>');
-         $_QJCJi = _OP6PQ($_QJCJi, '<SendSchedulerSendInFutureMultiple>', '</SendSchedulerSendInFutureMultiple>');
+         $_QLJfI = _L80DF($_QLJfI, '<SendSchedulerSaveOnly>', '</SendSchedulerSaveOnly>');
+         $_QLJfI = _L80DF($_QLJfI, '<SendSchedulerSendManually>', '</SendSchedulerSendManually>');
+         $_QLJfI = _L80DF($_QLJfI, '<SendSchedulerSendImmediately>', '</SendSchedulerSendImmediately>');
+         $_QLJfI = _L80DF($_QLJfI, '<SendSchedulerSendInFutureOnce>', '</SendSchedulerSendInFutureOnce>');
+         $_QLJfI = _L80DF($_QLJfI, '<SendSchedulerSendInFutureMultiple>', '</SendSchedulerSendInFutureMultiple>');
 
 
-         $_QJCJi = str_replace('<SMSType'.$_Q6J0Q["SMSSendVariant"].'>', '', $_QJCJi);
-         $_QJCJi = str_replace('</SMSType'.$_Q6J0Q["SMSSendVariant"].'>', '', $_QJCJi);
-         for($_Q6llo=1;$_Q6llo<7;$_Q6llo++)
-           $_QJCJi = _OP6PQ($_QJCJi, '<SMSType'.$_Q6llo.'>', '</SMSType'.$_Q6llo.'>');
+         $_QLJfI = str_replace('<SMSType'.$_QLL16["SMSSendVariant"].'>', '', $_QLJfI);
+         $_QLJfI = str_replace('</SMSType'.$_QLL16["SMSSendVariant"].'>', '', $_QLJfI);
+         for($_Qli6J=1;$_Qli6J<7;$_Qli6J++)
+           $_QLJfI = _L80DF($_QLJfI, '<SMSType'.$_Qli6J.'>', '</SMSType'.$_Qli6J.'>');
 
-         $_QJlJ0 = "SELECT EMail FROM $_Q8f1L WHERE id=$UserId";
-         $_Q60l1 = mysql_query($_QJlJ0);
-         $_IIjlQ = mysql_fetch_array($_Q60l1);
-         mysql_free_result($_Q60l1);
-         $_QJCJi = str_replace("[EMAILADDRESS]", $_IIjlQ["EMail"], $_QJCJi);
+         $_QLfol = "SELECT EMail FROM $_I18lo WHERE id=$UserId";
+         $_QL8i1 = mysql_query($_QLfol);
+         $_IC1oC = mysql_fetch_array($_QL8i1);
+         mysql_free_result($_QL8i1);
+         $_QLJfI = str_replace("[EMAILADDRESS]", $_IC1oC["EMail"], $_QLJfI);
 
-         if($_Q6J0Q["SMSText"] != "")
-           $_Q6J0Q["SMSTextDefined"] = $resourcestrings[$INTERFACE_LANGUAGE]["YES"];
+         if($_QLL16["SMSText"] != "")
+           $_QLL16["SMSTextDefined"] = $resourcestrings[$INTERFACE_LANGUAGE]["YES"];
            else
-           $_Q6J0Q["SMSTextDefined"] = $resourcestrings[$INTERFACE_LANGUAGE]["NO"];
+           $_QLL16["SMSTextDefined"] = $resourcestrings[$INTERFACE_LANGUAGE]["NO"];
 
-         if($_Q6J0Q["SMSSendVariant"] != 6)
-           $_jOiLi = 160;
+         if($_QLL16["SMSSendVariant"] != 6)
+           $_JOIJl = 160;
            else
-           $_jOiLi = 1560;
+           $_JOIJl = 1560;
 
-         $_Q6J0Q["SMSTextLength"] = strlen($_Q6J0Q["SMSText"]);
-         $_Q6J0Q["SMSCount"] = ceil (strlen($_Q6J0Q["SMSText"]) / $_jOiLi);
+         $_QLL16["SMSTextLength"] = strlen($_QLL16["SMSText"]);
+         $_QLL16["SMSCount"] = ceil (strlen($_QLL16["SMSText"]) / $_JOIJl);
 
-         reset($_Q6J0Q);
-         foreach($_Q6J0Q as $key => $_Q6ClO) {
-           $_QJCJi = _OPR6L($_QJCJi, "<$key>", "</$key>", $_Q6ClO);
+         reset($_QLL16);
+         foreach($_QLL16 as $key => $_QltJO) {
+           $_QLJfI = _L81BJ($_QLJfI, "<$key>", "</$key>", $_QltJO);
          }
 
 
-         if($_Q6J0Q["LastSent"] == $resourcestrings[$INTERFACE_LANGUAGE]["NEVER"])
-            $_QJCJi = _OP6PQ($_QJCJi, "<if:AlwaysSent>", "</if:AlwaysSent>");
+         if($_QLL16["LastSent"] == $resourcestrings[$INTERFACE_LANGUAGE]["NEVER"])
+            $_QLJfI = _L80DF($_QLJfI, "<if:AlwaysSent>", "</if:AlwaysSent>");
             else {
-              $_QJCJi = str_replace("<if:AlwaysSent>", "", $_QJCJi);
-              $_QJCJi = str_replace("</if:AlwaysSent>", "", $_QJCJi);
+              $_QLJfI = str_replace("<if:AlwaysSent>", "", $_QLJfI);
+              $_QLJfI = str_replace("</if:AlwaysSent>", "", $_QLJfI);
 
-              if( $_Q6J0Q["SendScheduler"] == 'SendManually' ) {
-                $_QJCJi = str_replace("<if:SendManually>", "", $_QJCJi);
-                $_QJCJi = str_replace("</if:SendManually>", "", $_QJCJi);
-                $_QJCJi = _OP6PQ($_QJCJi, "<if:SendImmediately>", "</if:SendImmediately>");
-              } else if( $_Q6J0Q["SendScheduler"] == 'SendImmediately' ) {
-                $_QJCJi = str_replace("<if:SendImmediately>", "", $_QJCJi);
-                $_QJCJi = str_replace("</if:SendImmediately>", "", $_QJCJi);
-                $_QJCJi = _OP6PQ($_QJCJi, "<if:SendManually>", "</if:SendManually>");
+              if( $_QLL16["SendScheduler"] == 'SendManually' ) {
+                $_QLJfI = str_replace("<if:SendManually>", "", $_QLJfI);
+                $_QLJfI = str_replace("</if:SendManually>", "", $_QLJfI);
+                $_QLJfI = _L80DF($_QLJfI, "<if:SendImmediately>", "</if:SendImmediately>");
+              } else if( $_QLL16["SendScheduler"] == 'SendImmediately' ) {
+                $_QLJfI = str_replace("<if:SendImmediately>", "", $_QLJfI);
+                $_QLJfI = str_replace("</if:SendImmediately>", "", $_QLJfI);
+                $_QLJfI = _L80DF($_QLJfI, "<if:SendManually>", "</if:SendManually>");
               }
             }
 
-         if($_Qtj08){
-            $_QJCJi = _OP6PQ($_QJCJi, "<if:CanApplyNow>", "</if:CanApplyNow>");
+         if($_IQ1L6){
+            $_QLJfI = _L80DF($_QLJfI, "<if:CanApplyNow>", "</if:CanApplyNow>");
          } else{
-            $_QJCJi = str_replace("<if:CanApplyNow>", "", $_QJCJi);
-            $_QJCJi = str_replace("</if:CanApplyNow>", "", $_QJCJi);
+            $_QLJfI = str_replace("<if:CanApplyNow>", "", $_QLJfI);
+            $_QLJfI = str_replace("</if:CanApplyNow>", "", $_QLJfI);
          }
 
        break;
        case 9:
-         $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001605"], $_Q6J0Q["Name"]), $_I0600, 'smscampaignedit9', 'smscampaign9_snipped.htm');
-         $_jQIJo = true;
+         $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001605"], $_QLL16["Name"]), $_Itfj8, 'smscampaignedit9', 'smscampaign9_snipped.htm');
+         $_jLLOI = true;
 
          # SQL server test
-         if($_j0l0O == ""){
-           $_QJCJi = _OP6PQ($_QJCJi, "<if:SQLPROBLEMS>", "</if:SQLPROBLEMS>");
-           $_QJCJi = str_replace("<if:NOSQLPROBLEMS>", "", $_QJCJi);
-           $_QJCJi = str_replace("</if:NOSQLPROBLEMS>", "", $_QJCJi);
+         if($_ji8LC == ""){
+           $_QLJfI = _L80DF($_QLJfI, "<if:SQLPROBLEMS>", "</if:SQLPROBLEMS>");
+           $_QLJfI = str_replace("<if:NOSQLPROBLEMS>", "", $_QLJfI);
+           $_QLJfI = str_replace("</if:NOSQLPROBLEMS>", "", $_QLJfI);
          } else{
-           $_QJCJi = _OP6PQ($_QJCJi, "<if:NOSQLPROBLEMS>", "</if:NOSQLPROBLEMS>");
-           $_QJCJi = _OPR6L($_QJCJi, "<SQLSERVER:ERROR></SQLSERVER:ERROR>", "<SQLSERVER:ERROR></SQLSERVER:ERROR>", $_j0l0O);
-           $_QJCJi = str_replace("<if:SQLPROBLEMS>", "", $_QJCJi);
-           $_QJCJi = str_replace("</if:SQLPROBLEMS>", "", $_QJCJi);
+           $_QLJfI = _L80DF($_QLJfI, "<if:NOSQLPROBLEMS>", "</if:NOSQLPROBLEMS>");
+           $_QLJfI = _L81BJ($_QLJfI, "<SQLSERVER:ERROR></SQLSERVER:ERROR>", "<SQLSERVER:ERROR></SQLSERVER:ERROR>", $_ji8LC);
+           $_QLJfI = str_replace("<if:SQLPROBLEMS>", "", $_QLJfI);
+           $_QLJfI = str_replace("</if:SQLPROBLEMS>", "", $_QLJfI);
          }
 
          // LastSent
-         $_QJlJ0 = "SELECT DATE_FORMAT(EndSendDateTime, $_Q6QiO) AS LastSentDateTime FROM $_Q6J0Q[CurrentSendTableName] WHERE SendState='Done' ORDER BY EndSendDateTime DESC LIMIT 0,1";
-         $_Q8Oj8 = mysql_query($_QJlJ0);
-         if(mysql_num_rows($_Q8Oj8) == 0) {
-           $_Q6J0Q["LastSent"] = $resourcestrings[$INTERFACE_LANGUAGE]["NEVER"];
+         $_QLfol = "SELECT DATE_FORMAT(EndSendDateTime, $_QLo60) AS LastSentDateTime FROM $_QLL16[CurrentSendTableName] WHERE SendState='Done' ORDER BY EndSendDateTime DESC LIMIT 0,1";
+         $_I1O6j = mysql_query($_QLfol);
+         if(mysql_num_rows($_I1O6j) == 0) {
+           $_QLL16["LastSent"] = $resourcestrings[$INTERFACE_LANGUAGE]["NEVER"];
          } else {
-           $_Q8OiJ = mysql_fetch_assoc($_Q8Oj8);
-           $_Q6J0Q["LastSent"] = $_Q8OiJ["LastSentDateTime"];
+           $_I1OfI = mysql_fetch_assoc($_I1O6j);
+           $_QLL16["LastSent"] = $_I1OfI["LastSentDateTime"];
          }
-         mysql_free_result($_Q8Oj8);
+         mysql_free_result($_I1O6j);
          // LastSent /
 
 
-         $_QJCJi = _OPR6L($_QJCJi, "<CAMPAIGNNAME>", "</CAMPAIGNNAME>", $_Q6J0Q["Name"]);
-         $_QJCJi = _OPR6L($_QJCJi, "<LastSent>", "</LastSent>", $_Q6J0Q["LastSent"]);
+         $_QLJfI = _L81BJ($_QLJfI, "<CAMPAIGNNAME>", "</CAMPAIGNNAME>", $_QLL16["Name"]);
+         $_QLJfI = _L81BJ($_QLJfI, "<LastSent>", "</LastSent>", $_QLL16["LastSent"]);
 
 
-         if($_Q6J0Q["LastSent"] == $resourcestrings[$INTERFACE_LANGUAGE]["NEVER"])
-            $_QJCJi = _OP6PQ($_QJCJi, "<if:AlwaysSent>", "</if:AlwaysSent>");
+         if($_QLL16["LastSent"] == $resourcestrings[$INTERFACE_LANGUAGE]["NEVER"])
+            $_QLJfI = _L80DF($_QLJfI, "<if:AlwaysSent>", "</if:AlwaysSent>");
             else {
-              $_QJCJi = str_replace("<if:AlwaysSent>", "", $_QJCJi);
-              $_QJCJi = str_replace("</if:AlwaysSent>", "", $_QJCJi);
+              $_QLJfI = str_replace("<if:AlwaysSent>", "", $_QLJfI);
+              $_QLJfI = str_replace("</if:AlwaysSent>", "", $_QLJfI);
             }
 
-         if($_Q6J0Q["SendScheduler"] == 'SendManually') {
-           if(!$_QtILf) {
-             $_QJCJi = str_replace("<if:SendManually>", "", $_QJCJi);
-             $_QJCJi = str_replace("</if:SendManually>", "", $_QJCJi);
+         if($_QLL16["SendScheduler"] == 'SendManually') {
+           if(!$_IQ1ji) {
+             $_QLJfI = str_replace("<if:SendManually>", "", $_QLJfI);
+             $_QLJfI = str_replace("</if:SendManually>", "", $_QLJfI);
            } else {
-             $_QJCJi = _OPR6L($_QJCJi, "<if:SendManually>", "</if:SendManually>", "<br /><br /><b>".$resourcestrings[$INTERFACE_LANGUAGE]["EMailCampaignSendingInProgress"]."</b>");
+             $_QLJfI = _L81BJ($_QLJfI, "<if:SendManually>", "</if:SendManually>", "<br /><br /><b>".$resourcestrings[$INTERFACE_LANGUAGE]["EMailCampaignSendingInProgress"]."</b>");
            }
          } else
-           $_QJCJi = _OP6PQ($_QJCJi, "<if:SendManually>", "</if:SendManually>");
+           $_QLJfI = _L80DF($_QLJfI, "<if:SendManually>", "</if:SendManually>");
        break;
        default:
-        $_QJCJi = "Error: Can''t find correct SetupLevel. Check HTML code of WYSIWYG editor for not allowed Java scripts, Java applets, ActiveX controls, flash files or HTML forms.";
-        $_jQIJo = true;
+        $_QLJfI = "Error: Can''t find correct SetupLevel. Check HTML code of WYSIWYG editor for not allowed Java scripts, Java applets, ActiveX controls, flash files or HTML forms.";
+        $_jLLOI = true;
      }
   } # while
 
-  $_QJCJi = str_replace ('name="CampaignListId"', 'name="CampaignListId" value="'.$CampaignListId.'"', $_QJCJi);
+  $_QLJfI = str_replace ('name="CampaignListId"', 'name="CampaignListId" value="'.$CampaignListId.'"', $_QLJfI);
   if(isset($_POST["PageSelected"]))
-     $_QJCJi = str_replace('name="PageSelected"', 'name="PageSelected" value="'.$_POST["PageSelected"].'"', $_QJCJi);
+     $_QLJfI = str_replace('name="PageSelected"', 'name="PageSelected" value="'.$_POST["PageSelected"].'"', $_QLJfI);
 
   if(!isset($_POST["SetupComplete"]))
-    $_QJCJi = _OP6PQ($_QJCJi, "<if:SetupComplete>", "</if:SetupComplete>");
+    $_QLJfI = _L80DF($_QLJfI, "<if:SetupComplete>", "</if:SetupComplete>");
     else
     unset($_POST["SetupComplete"]); // don't fill it
 
-  $_QJCJi = str_replace("<if:SetupComplete>", "", $_QJCJi);
-  $_QJCJi = str_replace("</if:SetupComplete>", "", $_QJCJi);
+  $_QLJfI = str_replace("<if:SetupComplete>", "", $_QLJfI);
+  $_QLJfI = str_replace("</if:SetupComplete>", "", $_QLJfI);
 
   // it is set in HTML files
   if(isset($_POST["SetupLevel"]))
      unset($_POST["SetupLevel"]);
-  if(isset($_Q6J0Q["SetupLevel"]))
-     unset($_Q6J0Q["SetupLevel"]);
+  if(isset($_QLL16["SetupLevel"]))
+     unset($_QLL16["SetupLevel"]);
   if(count($errors) == 0)
-    $_QJCJi = _OPFJA($errors, $_Q6J0Q, $_QJCJi);
+    $_QLJfI = _L8AOB($errors, $_QLL16, $_QLJfI);
     else {
-      $_QJCJi = _OPFJA($errors, array_merge($_Q6J0Q, $_POST), $_QJCJi); //$_POST as last param
+      $_QLJfI = _L8AOB($errors, array_merge($_QLL16, $_POST), $_QLJfI); //$_POST as last param
     }
 
 
-  $_QJCJi = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_I6ICC, $_QJCJi);
+  $_QLJfI = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_Iljoj, $_QLJfI);
 
-  $_QJojf = _OBOOC($UserId);
+  $_QLJJ6 = _LPALQ($UserId);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 
-  function _OJERP($_I8C10) {
+  function _LO06Q($_jQoQi) {
     global $resourcestrings, $INTERFACE_LANGUAGE;
 
-    switch($_I8C10) {
+    switch($_jQoQi) {
       case "eq":
            return "=";
            break;
@@ -1308,116 +1308,116 @@
            return "&gt; (num)";
            break;
       case "contains":
-           return $resourcestrings[$INTERFACE_LANGUAGE][$_I8C10];
+           return $resourcestrings[$INTERFACE_LANGUAGE][$_jQoQi];
            break;
       case "contains_not":
-           return $resourcestrings[$INTERFACE_LANGUAGE][$_I8C10];
+           return $resourcestrings[$INTERFACE_LANGUAGE][$_jQoQi];
            break;
       case "starts_with":
-           return $resourcestrings[$INTERFACE_LANGUAGE][$_I8C10];
+           return $resourcestrings[$INTERFACE_LANGUAGE][$_jQoQi];
            break;
       case "REGEXP":
-           return $resourcestrings[$INTERFACE_LANGUAGE][$_I8C10];
+           return $resourcestrings[$INTERFACE_LANGUAGE][$_jQoQi];
            break;
     }
   }
 
-  function _OJFJP ($_jQOjl, $_IJQOL, $_jQoQ0) {
+  function _LO0FL ($_jlJoJ, $_Iiloo, $_jlJoC) {
 
     // This method moves an element within the array
     // index = the array item you want to move
     // delta = the direction and number of spaces to move the item.
     //
     // For example:
-    // _OJFJP(myarray, 5, -1); // move up one space
-    // _OJFJP(myarray, 2, 1); // move down one space
+    // _LO0FL(myarray, 5, -1); // move up one space
+    // _LO0FL(myarray, 2, 1); // move down one space
     //
     // Returns true for success, false for error.
 
   //  var index2, temp_item;
 
     // Make sure the index is within the array bounds
-    if ($_IJQOL < 0 || $_IJQOL >= count($_jQOjl)) {
-      return $_jQOjl;
+    if ($_Iiloo < 0 || $_Iiloo >= count($_jlJoJ)) {
+      return $_jlJoJ;
     }
 
     // Make sure the target index is within the array bounds
-    $_jQoC0 = $_IJQOL + $_jQoQ0;
-    if ($_jQoC0 < 0 || $_jQoC0 >= count($_jQOjl) || $_jQoC0 == $_IJQOL) {
-      return $_jQOjl;
+    $_jl6Jj = $_Iiloo + $_jlJoC;
+    if ($_jl6Jj < 0 || $_jl6Jj >= count($_jlJoJ) || $_jl6Jj == $_Iiloo) {
+      return $_jlJoJ;
     }
 
     // Move the elements in the array
-    $_jQolt = $_jQOjl[$_jQoC0];
-    $_jQOjl[$_jQoC0] = $_jQOjl[$_IJQOL];
-    $_jQOjl[$_IJQOL] = $_jQolt;
+    $_jl6tC = $_jlJoJ[$_jl6Jj];
+    $_jlJoJ[$_jl6Jj] = $_jlJoJ[$_Iiloo];
+    $_jlJoJ[$_Iiloo] = $_jl6tC;
 
-    return $_jQOjl;
+    return $_jlJoJ;
   }
 
-  function _OJFER($_I6lOO, $_Qi8If, $_j0Cti) {
-    global $_IoCtL, $_I01C0, $_I01lt;
-    global $OwnerUserId, $_QJojf;
+  function _LO1JP($_j01fj, $_I6tLJ, $_ji6if) {
+    global $_jJLLf, $_ItI0o, $_ItIti;
+    global $OwnerUserId, $_QLJJ6;
 
     # no sending rights
-    if($OwnerUserId != 0 && !$_QJojf["PrivilegeSMSCampaignSending"]) {
-      $_Qi8If["SendScheduler"] = 'SaveOnly';
+    if($OwnerUserId != 0 && !$_QLJJ6["PrivilegeSMSCampaignSending"]) {
+      $_I6tLJ["SendScheduler"] = 'SaveOnly';
     }
 
-    $_QLLjo = array();
-    $_QJlJ0 = "SHOW COLUMNS FROM `$_IoCtL`";
-    $_Q60l1 = mysql_query($_QJlJ0);
-    if (!$_Q60l1) {
-        _OAL8F($_QJlJ0);
+    $_Iflj0 = array();
+    $_QLfol = "SHOW COLUMNS FROM `$_jJLLf`";
+    $_QL8i1 = mysql_query($_QLfol);
+    if (!$_QL8i1) {
+        _L8D88($_QLfol);
         exit;
     }
-    if (mysql_num_rows($_Q60l1) > 0) {
-        while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-           foreach ($_Q6Q1C as $key => $_Q6ClO) {
+    if (mysql_num_rows($_QL8i1) > 0) {
+        while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+           foreach ($_QLO0f as $key => $_QltJO) {
               if($key == "Field") {
-                 $_QLLjo[] = $_Q6ClO;
+                 $_Iflj0[] = $_QltJO;
                  break;
               }
            }
         }
-        mysql_free_result($_Q60l1);
+        mysql_free_result($_QL8i1);
     }
 
-    $_QJlJ0 = "UPDATE `$_IoCtL` SET ";
-    $_I1l61 = array();
-    for($_Q6llo=0; $_Q6llo<count($_QLLjo); $_Q6llo++) {
-      $key = $_QLLjo[$_Q6llo];
-      if ( isset($_Qi8If[$_QLLjo[$_Q6llo]]) ) {
-        if(in_array($key, $_I01C0))
-          if( $_Qi8If[$key] == "1" || intval($_Qi8If[$key]) == 0 )
-             $_I1l61[] = "`$key`=1";
+    $_QLfol = "UPDATE `$_jJLLf` SET ";
+    $_Io01j = array();
+    for($_Qli6J=0; $_Qli6J<count($_Iflj0); $_Qli6J++) {
+      $key = $_Iflj0[$_Qli6J];
+      if ( isset($_I6tLJ[$_Iflj0[$_Qli6J]]) ) {
+        if(in_array($key, $_ItI0o))
+          if( $_I6tLJ[$key] == "1" || intval($_I6tLJ[$key]) == 0 )
+             $_Io01j[] = "`$key`=1";
              else
               ;
         else {
-           $_I1l61[] = "`$key`="._OPQLR(trim($_Qi8If[$key]))."";
+           $_Io01j[] = "`$key`="._LRAFO(trim($_I6tLJ[$key]))."";
         }
       } else {
-         if(in_array($key, $_I01C0)) {
-           $key = $_QLLjo[$_Q6llo];
-           $_I1l61[] = "`$key`=0";
+         if(in_array($key, $_ItI0o)) {
+           $key = $_Iflj0[$_Qli6J];
+           $_Io01j[] = "`$key`=0";
          } else {
-           if(in_array($key, $_I01lt)) {
-             $key = $_QLLjo[$_Q6llo];
-             $_I1l61[] = "`$key`=0";
+           if(in_array($key, $_ItIti)) {
+             $key = $_Iflj0[$_Qli6J];
+             $_Io01j[] = "`$key`=0";
            }
          }
       }
     }
 
-    if(!isset($_Qi8If["SetupLevel"]) && intval($_j0Cti) > 0)
-      $_I1l61[] = "`SetupLevel`=".intval($_j0Cti);
+    if(!isset($_I6tLJ["SetupLevel"]) && intval($_ji6if) > 0)
+      $_Io01j[] = "`SetupLevel`=".intval($_ji6if);
 
-    if(count($_I1l61) > 0) {
-      $_QJlJ0 .= join(", ", $_I1l61);
-      $_QJlJ0 .= " WHERE `id`=$_I6lOO";
-      $_Q60l1 = mysql_query($_QJlJ0);
-      if (!$_Q60l1) {
-          _OAL8F($_QJlJ0);
+    if(count($_Io01j) > 0) {
+      $_QLfol .= join(", ", $_Io01j);
+      $_QLfol .= " WHERE `id`=$_j01fj";
+      $_QL8i1 = mysql_query($_QLfol);
+      if (!$_QL8i1) {
+          _L8D88($_QLfol);
           exit;
       }
     }
@@ -1425,11 +1425,11 @@
   }
 
 
-  function array_equal($_jQC1O, $_jQCji) {
-    if(count($_jQC1O) != count($_jQCji))
+  function array_equal($_jlfI0, $_jlffJ) {
+    if(count($_jlfI0) != count($_jlffJ))
       return false;
-    foreach($_jQC1O as $key => $_Q6ClO)
-      if($_jQCji[$key] != $_Q6ClO)
+    foreach($_jlfI0 as $key => $_QltJO)
+      if($_jlffJ[$key] != $_QltJO)
         return false;
     return true;
   }

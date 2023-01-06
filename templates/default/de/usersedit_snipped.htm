@@ -34,7 +34,7 @@
           <input type="hidden" name="UserId" id="UserId" />
           <input type="hidden" name="ShowUsername" />
           <IS:OWNACCOUNT>
-          <input type="hidden" name="OwnAccount" />
+          <input type="hidden" name="OwnAccount" id="OwnAccount" />
           </IS:OWNACCOUNT>
           <span class="Backlink"><a href="./browseusers.php">Zur&uuml;ck</a></span><br />
           <br />
@@ -180,7 +180,7 @@
                                 </td>
                               </tr>
                               <tr>
-                                <td class="MessageDescriptionColumn">URL / http://-Aufruf der Grafikdatei<SHOWHIDE:TOOLTIPS>
+                                <td class="MessageDescriptionColumn">URL / http(s)://-Aufruf der Grafikdatei<SHOWHIDE:TOOLTIPS>
                                   <img onmouseover="showTooltip(event, 'Geben die vollst&auml;ndige URL zu einer Grafikdatei an. Die Datei sollte eine Gr&ouml;&szlig;e von 173x89 Pixeln nicht &uuml;berschreiten.<br /><br />Lassen Sie das Feld leer, um das Standardbild darstellen zu lassen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
                                   </SHOWHIDE:TOOLTIPS>
                                 </td>
@@ -193,6 +193,50 @@
                             </tbody>
                           </table>
                       </fieldset>
+
+                      <ISNOT:OWNACCOUNT>
+                      <IS2F>
+                      <fieldset>
+                      <legend>2-Faktor-Authentisierung - Secret/Seed</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+
+                             <IS2F:SECRETSET>
+                             <tr>
+                               <td colspan="2">
+                                 <img src="%QRCODEURL%" alt="%SECRET%" border="0" />
+                               </td>
+                             </tr>
+                             <tr>
+                               <td class="LabelColumn" valign="top"><pre style="font-weight: bold; font-size: 16px">%SECRET%</pre>
+                               </td>
+                             </tr>
+                             <tr>
+                               <td colspan="2">
+                                 <input type="checkbox" name="2FAResetSecret" id="2FAResetSecret" onclick="if(document.getElementById('2FAResetSecret').checked) DoShow2FResetWarning();" /><label for="2FAResetSecret">&nbsp;Secret/Seed zur&uuml;cksetzen</label>
+                                 <script>
+                                    function DoShow2FResetWarning(){
+                                      MessageBox('Warnung', 'Wenn Sie das Secret/Seed zur&uuml;cksetzen muss der jeweilige Nutzer bei der n&auml;chsten Anmeldung erneut das Secret/Seed in der App Google Authenticator hinzuf&uuml;gen.', 1, 380, 180, '');
+                                    }
+                                 </script>
+                               </td>
+                             </tr>
+                             </IS2F:SECRETSET>
+
+                             <IS2F:NOTSECRETSET>
+                             <tr>
+                               <td colspan="2">
+                                 Derzeit nicht festgelegt.
+                               </td>
+                             </tr>
+                             </IS2F:NOTSECRETSET>
+
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      </IS2F>
+                      </ISNOT:OWNACCOUNT>
 
                       <SHOW:API>
                       <fieldset>
@@ -240,6 +284,7 @@
 
                       </ISUSER:SUPERADMIN>
 
+                      <IS:SWM>
                       <ISUSER:ADMIN>
                       <IS:OWNACCOUNT>
                       <fieldset>
@@ -268,6 +313,7 @@
                       </fieldset>
                       </IS:OWNACCOUNT>
                       </ISUSER:ADMIN>
+                      </IS:SWM>
                       </SHOW:LIMITS>
 
                       <ISUSER:ADMIN>
@@ -364,241 +410,29 @@
                                 <td>
 
                                   <select name="Country" size="1">
-                                  <option value="DEU" >Deutschland</option>
-                                  <option value="AUT" >&Ouml;sterreich</option>
-                                  <option value="CHE" >Schweiz</option>
-                                  <option value="AFG" >Afghanistan</option>
-                                  <option value="EGY" >&Auml;gypten</option>
-                                  <option value="ALB" >Albanien</option>
-                                  <option value="DZA" >Algerien</option>
-                                  <option value="ASM" >Amerikanisch Samoa</option>
-                                  <option value="AND" >Andorra</option>
-                                  <option value="AGO" >Angola</option>
-                                  <option value="AIA" >Anguilla</option>
-                                  <option value="ATA" >Antarktis</option>
-                                  <option value="ATG" >Antigua und Barbuda</option>
-                                  <option value="GNQ" >&Auml;quatorial-Guinea</option>
-                                  <option value="ARG" >Argentinien</option>
-                                  <option value="ARM" >Armenien</option>
-                                  <option value="ABW" >Aruba</option>
-                                  <option value="AZE" >Aserbaidschan</option>
-                                  <option value="ETH" >&Auml;thiopien</option>
-                                  <option value="AUS" >Australien</option>
-                                  <option value="BHS" >Bahamas</option>
-                                  <option value="BHR" >Bahrain</option>
-                                  <option value="BGD" >Bangladesch</option>
-                                  <option value="BRB" >Barbados</option>
-                                  <option value="BEL" >Belgien</option>
-                                  <option value="BLZ" >Belize</option>
-                                  <option value="BEN" >Benin</option>
-                                  <option value="BMU" >Bermudas</option>
-                                  <option value="BTN" >Bhutan</option>
-                                  <option value="BOL" >Bolivien</option>
-                                  <option value="BIH" >Bosnien-Herzegowina</option>
-                                  <option value="BWA" >Botswana</option>
-                                  <option value="BVT" >Bouvet Insel</option>
-                                  <option value="BRA" >Brasilien</option>
-                                  <option value="IOT" >Britische Gebiete im Ind. Ozean</option>
-                                  <option value="BRN" >Brunei</option>
-                                  <option value="BGR" >Bulgarien</option>
-                                  <option value="BFA" >Burkina Faso</option>
-                                  <option value="BDI" >Burundi</option>
-                                  <option value="CYM" >Cayman Inseln</option>
-                                  <option value="CHL" >Chile</option>
-                                  <option value="CHN" >China People`s Pepublic of</option>
-                                  <option value="CCK" >Cocos (Keeling) Inseln</option>
-                                  <option value="COK" >Cook Inseln</option>
-                                  <option value="CRI" >Costa Rica</option>
-                                  <option value="CIV" >Cote d'Ivoire</option>
-                                  <option value="DNK" >D&auml;nemark</option>
-                                  <option value="DMA" >Dominica</option>
-                                  <option value="DOM" >Dominikanische Republik</option>
-                                  <option value="DJI" >Dschibuti</option>
-                                  <option value="ECU" >Ecuador</option>
-                                  <option value="SLV" >El Salvador</option>
-                                  <option value="ERI" >Eritrea</option>
-                                  <option value="EST" >Estland</option>
-                                  <option value="FLK" >Falkland Inseln</option>
-                                  <option value="FRO" >F&auml;r&ouml;er Inseln</option>
-                                  <option value="FIN" >Finnland</option>
-                                  <option value="FRA" >Frankreich</option>
-                                  <option value="ATF" >Franz&ouml;s. S&uuml;dl. Gebiete</option>
-                                  <option value="PYF" >Franz&ouml;sisch Polynesien</option>
-                                  <option value="GUF" >Franz&ouml;sisch-Guyana</option>
-                                  <option value="GAB" >Gabun</option>
-                                  <option value="GMB" >Gambia</option>
-                                  <option value="GEO" >Georgien</option>
-                                  <option value="GHA" >Ghana</option>
-                                  <option value="GIB" >Gibraltar</option>
-                                  <option value="GRD" >Grenada</option>
-                                  <option value="GRC" >Griechenland</option>
-                                  <option value="GRL" >Gr&ouml;nland</option>
-                                  <option value="GRB" >Gro&szlig;britannien</option>
-                                  <option value="GLP" >Guadeloupe</option>
-                                  <option value="GUM" >Guam</option>
-                                  <option value="GTM" >Guatemala</option>
-                                  <option value="GIN" >Guinea</option>
-                                  <option value="GNB" >Guinea-Bissau</option>
-                                  <option value="GUY" >Guyana</option>
-                                  <option value="HTI" >Haiti</option>
-                                  <option value="HMD" >Heard und McDonald Inseln</option>
-                                  <option value="HND" >Honduras</option>
-                                  <option value="HKG" >Hong Kong</option>
-                                  <option value="IND" >Indien</option>
-                                  <option value="IDN" >Indonesien</option>
-                                  <option value="IRQ" >Irak</option>
-                                  <option value="IRN" >Iran (Islamic Republic of</option>
-                                  <option value="IRL" >Irland</option>
-                                  <option value="ISL" >Island</option>
-                                  <option value="ISR" >Israel</option>
-                                  <option value="ITA" >Italien</option>
-                                  <option value="JAM" >Jamaika</option>
-                                  <option value="JPN" >Japan</option>
-                                  <option value="YEM" >Jemen</option>
-                                  <option value="JOR" >Jordanien</option>
-                                  <option value="KHM" >Kambodscha</option>
-                                  <option value="CMR" >Kamerun</option>
-                                  <option value="CAN" >Kanada</option>
-                                  <option value="CPV" >Kap Verde</option>
-                                  <option value="KAZ" >Kasachstan</option>
-                                  <option value="QAT" >Katar</option>
-                                  <option value="KEN" >Kenia</option>
-                                  <option value="KGZ" >Kirgistan</option>
-                                  <option value="KIR" >Kiribati</option>
-                                  <option value="COL" >Kolumbien</option>
-                                  <option value="COM" >Komoren</option>
-                                  <option value="PRK" >Korea, Nord</option>
-                                  <option value="KOR" >Korea, s&uuml;d</option>
-                                  <option value="KOS" >Kosovo</option>
-                                  <option value="COG" >Kongo</option>
-                                  <option value="KWT" >Kuwait</option>
-                                  <option value="HRV" >Kroatien</option>
-                                  <option value="CUB" >Kuba</option>
-                                  <option value="LAO" >Laos</option>
-                                  <option value="LVA" >Lettland</option>
-                                  <option value="LBN" >Libanon</option>
-                                  <option value="LSO" >Lesotho</option>
-                                  <option value="LBR" >Liberia</option>
-                                  <option value="LBY" >Libyen</option>
-                                  <option value="LIE" >Liechtenstein</option>
-                                  <option value="LTU" >Litauen</option>
-                                  <option value="LUX" >Luxemburg</option>
-                                  <option value="MAC" >Macau</option>
-                                  <option value="MDG" >Madagaskar</option>
-                                  <option value="MWI" >Malawi</option>
-                                  <option value="MYS" >Malaysia</option>
-                                  <option value="MDV" >Malediven</option>
-                                  <option value="MLI" >Mali</option>
-                                  <option value="MLT" >Malta</option>
-                                  <option value="MAR" >Marokko</option>
-                                  <option value="MHL" >Marshall Inseln</option>
-                                  <option value="MTQ" >Martinique</option>
-                                  <option value="MRT" >Mauritanien</option>
-                                  <option value="MUS" >Mauritius</option>
-                                  <option value="MYT" >Mayotte</option>
-                                  <option value="MKD" >Mazedonien</option>
-                                  <option value="MEX" >Mexiko</option>
-                                  <option value="FSM" >Mikronesien</option>
-                                  <option value="MDA" >Moldawien</option>
-                                  <option value="MCO" >Monaco</option>
-                                  <option value="MNG" >Mongolei</option>
-                                  <option value="MSR" >Montserrat</option>
-                                  <option value="MOZ" >Mosambik</option>
-                                  <option value="MMR" >Myanmar</option>
-                                  <option value="NAM" >Namibia</option>
-                                  <option value="NRU" >Nauru</option>
-                                  <option value="NPL" >Nepal</option>
-                                  <option value="NCL" >Neu Caledonien</option>
-                                  <option value="NZL" >Neuseeland</option>
-                                  <option value="NIC" >Nicaragua</option>
-                                  <option value="NLD" >Niederlande</option>
-                                  <option value="ANT" >Niederl&auml;ndische Antillen</option>
-                                  <option value="NER" >Niger</option>
-                                  <option value="NGA" >Nigeria</option>
-                                  <option value="NIU" >Niue</option>
-                                  <option value="MNP" >N&ouml;rdliche Mariana Inseln</option>
-                                  <option value="NFK" >Norfolk Inseln</option>
-                                  <option value="NOR" >Norwegen</option>
-                                  <option value="OMN" >Oman</option>
-                                  <option value="TMP" >Ost Timor</option>
-                                  <option value="PAK" >Pakistan</option>
-                                  <option value="PLW" >Palau</option>
-                                  <option value="PAN" >Panama</option>
-                                  <option value="PNG" >Papua-Neuguinea</option>
-                                  <option value="PRY" >Paraguay</option>
-                                  <option value="PER" >Peru</option>
-                                  <option value="PHL" >Philippinen</option>
-                                  <option value="PCN" >Pitcairn</option>
-                                  <option value="POL" >Polen</option>
-                                  <option value="PRT" >Portugal</option>
-                                  <option value="PRI" >Puerto Rico</option>
-                                  <option value="REU" >Reunion</option>
-                                  <option value="RWA" >Ruanda</option>
-                                  <option value="ROM" >Rum&auml;nien</option>
-                                  <option value="RUS" >Russische F&ouml;deration</option>
-                                  <option value="SHN" >Saint Helena</option>
-                                  <option value="KNA" >Saint Kitts und Nevis</option>
-                                  <option value="LCA" >Saint Lucia</option>
-                                  <option value="SPM" >Saint Pierre und Miquelon</option>
-                                  <option value="VCT" >St Vincent und die Grenadinen</option>
-                                  <option value="ZMB" >Sambia</option>
-                                  <option value="WSM" >Samoa</option>
-                                  <option value="SMR" >San Marino</option>
-                                  <option value="STP" >Sao Tome und Principe</option>
-                                  <option value="SAU" >Saudi Arabien</option>
-                                  <option value="SWE" >Schweden</option>
-                                  <option value="SEN" >Senegal</option>
-                                  <option value="SCG" >Serbien und Montenegro</option>
-                                  <option value="SYC" >Seychellen</option>
-                                  <option value="SLE" >Sierra Leone</option>
-                                  <option value="SGP" >Singapur</option>
-                                  <option value="SVK" >Slowakei</option>
-                                  <option value="SVN" >Slowenien</option>
-                                  <option value="SGS" >So Georgia und So Sandwich Inseln</option>
-                                  <option value="SLB" >Solomon Islands</option>
-                                  <option value="SOM" >Somalia</option>
-                                  <option value="ESP" >Spanien</option>
-                                  <option value="LKA" >Sri Lanka</option>
-                                  <option value="ZAF" >S&uuml;d Afrika</option>
-                                  <option value="SDN" >Sudan</option>
-                                  <option value="SUR" >Surinam</option>
-                                  <option value="SJM" >Svalbard und Jan Mayen Inseln</option>
-                                  <option value="SWZ" >Swaziland</option>
-                                  <option value="SYR" >Syrien</option>
-                                  <option value="TJK" >Tadschikistan</option>
-                                  <option value="TWN" >Taiwan</option>
-                                  <option value="TZA" >Tansania</option>
-                                  <option value="THA" >Thailand</option>
-                                  <option value="TGO" >Togo</option>
-                                  <option value="TKL" >Tokelau</option>
-                                  <option value="TON" >Tonga</option>
-                                  <option value="TTO" >Trinidad und Tobago</option>
-                                  <option value="TCD" >Tschad</option>
-                                  <option value="CZE" >Tschechische Republik</option>
-                                  <option value="TUN" >Tunesien</option>
-                                  <option value="TUR" >T&uuml;rkei</option>
-                                  <option value="TKM" >Turkmenistan</option>
-                                  <option value="TCA" >Turks und Caicos Inseln</option>
-                                  <option value="TUV" >Tuvalu</option>
-                                  <option value="UGA" >Uganda</option>
-                                  <option value="UKR" >Ukraine</option>
-                                  <option value="HUN" >Ungarn</option>
-                                  <option value="URY" >Uruguay</option>
-                                  <option value="UZB" >Usbekistan</option>
-                                  <option value="VUT" >Vanuatu</option>
-                                  <option value="VAT" >Vatikanstadt</option>
-                                  <option value="VEN" >Venezuela</option>
-                                  <option value="ARE" >Vereinigte Arabische Emirate</option>
-                                  <option value="USA" >Vereinigte Staaten von Amerika</option>
-                                  <option value="VNM" >Viet Nam</option>
-                                  <option value="VGB" >Virgin Islands (Britisch)</option>
-                                  <option value="VIR" >Virgin Islands (USA)</option>
-                                  <option value="WLF" >Wallis und Futuna Inseln</option>
-                                  <option value="CXR" >Weihnachtsinseln</option>
-                                  <option value="BLR" >Wei&szlig;russland</option>
-                                  <option value="CAF" >Zentralafrikanische Republik</option>
-                                  <option value="ZWE" >Zimbabwe</option>
-                                  <option value="CYP" >Zypern</option>
+                                    <option value="Deutschland">Deutschland</option>
+                                    <option value="&Ouml;sterreich">&Ouml;sterreich</option>
+                                    <option value="Schweiz">Schweiz</option>
+                                    <option value="Belgien">Belgien</option>
+                                    <option value="Frankreich">Frankreich</option>
+                                    <option value="Griechenland">Griechenland</option>
+                                    <option value="Gro&szlig;britannien">Gro&szlig;britannien</option>
+                                    <option value="Liechtenstein">Liechtenstein</option>
+                                    <option value="Luxemburg">Luxemburg</option>
+                                    <option value="Niederlande">Niederlande</option>
+                                    <option value="Polen">Polen</option>
+                                    <option value="Portugal">Portugal</option>
+                                    <option value="Rum&auml;nien">Rum&auml;nien</option>
+                                    <option value="Russische F&ouml;deration">Russische F&ouml;deration</option>
+                                    <option value="Schweden">Schweden</option>
+                                    <option value="Slowakei">Slowakei</option>
+                                    <option value="Slowenien">Slowenien</option>
+                                    <option value="Spanien">Spanien</option>
+                                    <option value="Thailand">Thailand</option>
+                                    <option value="T&uuml;rkei">T&uuml;rkei</option>
+                                    <option value="Ungarn">Ungarn</option>
+                                    <option value="Vereinigte Staaten von Amerika">Vereinigte Staaten von Amerika</option>
+                                    <option value="Zypern">Zypern</option>
                                   </select>
                                 </td>
                               </tr>
@@ -618,9 +452,14 @@
                                 <td><input type="text" id="Fax" name="Fax" maxlength="64" size="50" /></td>
                               </tr>
                               <tr>
-                                <td class="MessageDescriptionColumn">Webseite (mit http://)
+                                <td class="MessageDescriptionColumn">Webseite (mit http(s)://)
                                 </td>
                                 <td><input type="text" id="Website" name="Website" maxlength="255" size="50" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">URL der eigenen Datenschutzerkl&auml;rung (mit http(s)://)
+                                </td>
+                                <td><input type="text" id="PrivacyPolicyURL" name="PrivacyPolicyURL" maxlength="255" size="50" /></td>
                               </tr>
                             </tbody>
                           </table>
@@ -660,6 +499,11 @@
                           <br /><br />
                           </CopyPermissionsFromUsers_table>
                           </ISNOT:OWNACCOUNT>
+
+                          <style>
+                             #Privileges td {font-size: 16px;}
+                             #Privileges input[type=checkbox] {width: 20px; height: 20px}
+                          </style>
 
                           <table class="FixedTable" id="Privileges" name="Privileges">
                           	<thead>
@@ -1145,6 +989,25 @@
 
                               <tr>
                                 <td>
+                                   Online-Update
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeOnlineUpdate" id="PrivilegeOnlineUpdate" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <IS:SWM>
+                              <tr>
+                                <td>
                                    Vorlagen
                                 </td>
                                 <td>
@@ -1395,7 +1258,9 @@
                                   <input type="checkbox" name="PrivilegeViewRSS2EMailMailsTrackingStat" id="PrivilegeViewRSS2EMailMailsTrackingStat" />
                                 </td>
                               </tr>
+                              </IS:SWM>
 
+                              <IS:NOT_SML_BASIC>
                               <tr>
                                 <td>
                                    Verteilerlisten
@@ -1410,7 +1275,43 @@
                                   <input type="checkbox" name="PrivilegeDistribListRemove" id="PrivilegeDistribListRemove" />
                                 </td>
                                 <td>
-                                  <input type="checkbox" name="PrivilegeDistribListBrowse" id="PrivilegeDistribListBrowse" onclick="DisableControlsById('PrivilegeDistribListBrowse', Array('PrivilegeDistribListCreate', 'PrivilegeDistribListEdit', 'PrivilegeDistribListRemove') )" />
+                                  <input type="checkbox" name="PrivilegeDistribListBrowse" id="PrivilegeDistribListBrowse" onclick="DisableControlsById('PrivilegeDistribListBrowse', Array('PrivilegeDistribListCreate', 'PrivilegeDistribListEdit', 'PrivilegeDistribListRemove', 'PrivilegeDistribListEntriesBrowse', 'PrivilegeDistribListEntriesRemove', 'PrivilegeViewDistribListLog', 'PrivilegeViewDistribListTrackingStat') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Verteilerlisten Zugriff auf einzelne E-Mails
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeDistribListEntriesBrowse" id="PrivilegeDistribListEntriesBrowse" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Verteilerlisten L&ouml;schen einzelner E-Mails
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeDistribListEntriesRemove" id="PrivilegeDistribListEntriesRemove" />
+                                </td>
+                                <td>
+                                  &nbsp;
                                 </td>
                               </tr>
 
@@ -1449,7 +1350,9 @@
                                   <input type="checkbox" name="PrivilegeViewDistribListTrackingStat" id="PrivilegeViewDistribListTrackingStat" />
                                 </td>
                               </tr>
+                              </IS:NOT_SML_BASIC>
 
+                              <IS:SWM>
                               <tr>
                                 <td>
                                    E-Mailings
@@ -1597,12 +1500,26 @@
                                   <input type="checkbox" name="PrivilegeViewSMSCampaignLog" id="PrivilegeViewSMSCampaignLog" />
                                 </td>
                               </tr>
+                              </IS:SWM>
 
                             </tbody>
                           </table>
                           <br />
                           <br />
                       </fieldset>
+                      <table class="FormTable">
+                       <tr>
+                         <td colspan="2">
+                           &nbsp;
+                         </td>
+                       </tr>
+                       <tr>
+                         <td colspan="2">
+                           <input type="button" class="button" value="Alle Rechte setzen" onclick="SetAllPrivileges(true); return false;" />
+                           <input type="button" class="button" value="Alle Rechte entfernen" onclick="SetAllPrivileges(false); return false;" />
+                         </td>
+                       </tr>
+                      </table>
                   	</div>
                   	<!-- ####### TAB END -->
                   	</USER_RIGHTS>
@@ -1625,38 +1542,29 @@
                     if(document.getElementById("Privileges") != null)
                        addTableRolloverEffect('Privileges','tableRollOverEffect','tableRowClickEffect');
 
-                    DisableItem("Username", document.getElementById("UserId").value == "" || document.getElementById("UserId").value == "0");
+                    DisableItem("Username", (!document.getElementById("OwnAccount") || document.getElementById("OwnAccount").value != 1) && (document.getElementById("UserId").value == "" || parseInt(document.getElementById("UserId").value) >= 0));
 
                     DisableControlsById('AccountType1', Array('AccountTypeLimitedMailCountLimited') );
                     DisableControlsById('LimitSubUnsubScripts1', Array('LimitSubUnsubScriptsLimitedRequests', 'LimitSubUnsubScriptsLimitedRequestsInterval') );
 
-                    DisableControlsById('PrivilegeMailingListBrowse', Array('PrivilegeMailingListCreate', 'PrivilegeMailingListEdit', 'PrivilegeMailingListRemove') );
-                    DisableControlsById('PrivilegeRecipientBrowse', Array('PrivilegeRecipientCreate', 'PrivilegeRecipientEdit', 'PrivilegeRecipientRemove') );
-                    DisableControlsById('PrivilegeLocalBlockListRecipientBrowse', Array('PrivilegeLocalBlockListRecipientCreate', 'PrivilegeLocalBlockListRecipientEdit', 'PrivilegeLocalBlockListRecipientRemove') );
-                    DisableControlsById('PrivilegeGlobalBlockListRecipientBrowse', Array('PrivilegeGlobalBlockListRecipientCreate', 'PrivilegeGlobalBlockListRecipientEdit', 'PrivilegeGlobalBlockListRecipientRemove') );
-                    DisableControlsById('PrivilegeAutoImportBrowse', Array('PrivilegeAutoImportCreate', 'PrivilegeAutoImportEdit', 'PrivilegeAutoImportRemove') );
-                    DisableControlsById('PrivilegeFormBrowse', Array('PrivilegeFormCreate', 'PrivilegeFormEdit', 'PrivilegeFormRemove') );
-                    DisableControlsById('PrivilegeFunctionBrowse', Array('PrivilegeFunctionCreate', 'PrivilegeFunctionEdit', 'PrivilegeFunctionRemove') );
-                    DisableControlsById('PrivilegeTargetGroupsBrowse', Array('PrivilegeTargetGroupsCreate', 'PrivilegeTargetGroupsEdit', 'PrivilegeTargetGroupsRemove') );
-                    DisableControlsById('PrivilegePageBrowse', Array('PrivilegePageCreate', 'PrivilegePageEdit', 'PrivilegePageRemove') );
-                    DisableControlsById('PrivilegeMessageBrowse', Array('PrivilegeMessageCreate', 'PrivilegeMessageEdit', 'PrivilegeMessageRemove') );
-                    DisableControlsById('PrivilegeMTABrowse', Array('PrivilegeMTACreate', 'PrivilegeMTAEdit', 'PrivilegeMTARemove') );
-                    DisableControlsById('PrivilegeUserBrowse', Array('PrivilegeUserCreate', 'PrivilegeUserEdit', 'PrivilegeUserRemove') );
-                    DisableControlsById('PrivilegeLocalMessageBrowse', Array('PrivilegeLocalMessageCreate', 'PrivilegeLocalMessageRemove') );
-                    
-                    DisableControlsById('PrivilegeTemplateBrowse', Array('PrivilegeTemplateCreate', 'PrivilegeTemplateEdit', 'PrivilegeTemplateRemove') );
-                    DisableControlsById('PrivilegeTextBlockBrowse', Array('PrivilegeTextBlockCreate', 'PrivilegeTextBlockEdit', 'PrivilegeTextBlockRemove') )
-                    
-                    DisableControlsById('PrivilegeAutoresponderBrowse', Array('PrivilegeAutoresponderCreate', 'PrivilegeAutoresponderEdit', 'PrivilegeAutoresponderRemove') );
-                    DisableControlsById('PrivilegeFUResponderBrowse', Array('PrivilegeFUResponderCreate', 'PrivilegeFUResponderEdit', 'PrivilegeFUResponderRemove', 'PrivilegeFUMMailsBrowse', 'PrivilegeFUMMailsCreate', 'PrivilegeFUMMailsEdit', 'PrivilegeFUMMailsRemove') );
-                    DisableControlsById('PrivilegeFUMMailsBrowse', Array('PrivilegeFUMMailsCreate', 'PrivilegeFUMMailsEdit', 'PrivilegeFUMMailsRemove') );
-                    DisableControlsById('PrivilegeBirthdayMailsBrowse', Array('PrivilegeBirthdayMailsCreate', 'PrivilegeBirthdayMailsEdit', 'PrivilegeBirthdayMailsRemove') );
-                    DisableControlsById('PrivilegeRSS2EMailMailsBrowse', Array('PrivilegeRSS2EMailMailsCreate', 'PrivilegeRSS2EMailMailsEdit', 'PrivilegeRSS2EMailMailsRemove') );
-                    DisableControlsById('PrivilegeDistribListBrowse', Array('PrivilegeDistribListCreate', 'PrivilegeDistribListEdit', 'PrivilegeDistribListRemove') );
-                    DisableControlsById('PrivilegeCampaignBrowse', Array('PrivilegeCampaignCreate', 'PrivilegeCampaignEdit', 'PrivilegeCampaignRemove', 'PrivilegeCampaignSending') );
-                    DisableControlsById('PrivilegeNewsletterArchiveBrowse', Array('PrivilegeNewsletterArchiveCreate', 'PrivilegeNewsletterArchiveEdit', 'PrivilegeNewsletterArchiveRemove') );
+                    function SetAllPrivileges(checked){
+                      $('#Privileges').find("input[type=checkbox]").each(function () {
+                        $(this).attr("checked", checked);
+                        $(this).prop("checked", checked);
 
-                    DisableControlsById('PrivilegeSMSCampaignBrowse', Array('PrivilegeSMSCampaignCreate', 'PrivilegeSMSCampaignEdit', 'PrivilegeSMSCampaignRemove', 'PrivilegeSMSCampaignSending') );
+                        // DOM Element
+                        if($(this)[0].onclick)
+                          $(this)[0].onclick();
+                       });
+                    }
+
+                    $(document).ready(function(){
+                      $('#Privileges').find("input[type=checkbox]").each(function () {
+                        // DOM Element
+                        if($(this)[0].onclick)
+                          $(this)[0].onclick();
+                       });
+                    });
 
                     //AUTO_SCRIPT_CODE_PLACEHOLDER//
 

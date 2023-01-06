@@ -127,6 +127,16 @@
                     	  </tr>
                   	    <tr>
                   	      <td class="LabelColumn">
+                  	      Eigener Datenschutzerkl&auml;rung zugestimmt?</td>
+                  	      <td>
+                         <ENTRY:PrivacyPolicyAccepted>
+                         </ENTRY:PrivacyPolicyAccepted>
+                         <br />
+                         <br />
+                  	      </td>
+                    	  </tr>
+                  	    <tr>
+                  	      <td class="LabelColumn">
                   	      Zuletzt E-Mail gesendet</td>
                   	      <td>
                          <ENTRY:DateOfLastEMailSent>
@@ -135,6 +145,38 @@
                          <br />
                   	      </td>
                     	  </tr>
+                       <IS:SWM>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                    	      <label for="u_PersonalizedTracking">Personalisiertes Tracking erlaubt?</label></td>
+                  	      <td>
+                           <select name="u_PersonalizedTracking" id="u_PersonalizedTracking" size="1">
+                             <option value="0">Nein</option>
+                             <option value="1">Ja</option>
+                           </select>
+                         <br />
+                         <br />
+                  	      </td>
+                    	  </tr>
+                       </IS:SWM>
+                       <IS:SML>
+                        <input type="hidden" name="u_PersonalizedTracking" />
+                       </IS:SML>
+                       <SavedDataLink>
+                  	    <tr>
+                  	      <td class="LabelColumn">
+                  	       Auskunft &uuml;ber die gespeicherten Daten nach Art. 15 DSGVO<SHOWHIDE:TOOLTIPS>
+                         <img onmouseover="showTooltip(event, 'Diese Auskunft &uuml;ber die gespeicherten Daten kann dem individuellen Schreiben zur Auskunftserteilung nach Art. 15 DSGVO beigef&uuml;gt werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                         </SHOWHIDE:TOOLTIPS>
+                         <br /><br />
+                         </td>
+                  	      <td>
+                          <a href="[SavedDataLink]" target="_blank">Daten anzeigen</a>
+                         <br />
+                         <br />
+                  	      </td>
+                    	  </tr>
+                       </SavedDataLink>
                   	    <tr>
                   	      <td class="LabelColumn">
                   	      Bounce-Status</td>
@@ -218,7 +260,7 @@
                          <label for="u_Salutation"><label_u_Salutation></label_u_Salutation></label>
                   	      </td>
                   	      <td>
-                    	      <input type="text" maxlength="255" size="30" name="u_Salutation" id="u_Salutation" />
+                    	      <input type="text" maxlength="255" size="30" name="u_Salutation" id="u_Salutation" onblur="SetGender()" />
                   	      </td>
                   	      <td>
                   	      &nbsp;
@@ -265,6 +307,7 @@
                     	      <option value="undefined">--</option>
                     	      <option value="m">m&auml;nnlich</option>
                     	      <option value="w">weiblich</option>
+                    	      <option value="d">divers</option>
                   	      </select>
                           </td>
                     	  </tr>
@@ -802,6 +845,22 @@
                     deleteTab(TabListArray[0],0,'dhtmlgoodies_tabView');
                     ///NOTISNEW
                     DisableControlsArray(document.getElementById('u_BirthdaySet').checked, Array(document.getElementById('u_Birthday'), document.getElementById('u_BirthdayButton')), Array());
+
+
+                    function SetGender(){
+                       var s = $("#u_Salutation").val().toLowerCase().trim();
+                       if( s == "herr" || s == "mr"  ){
+                            $('#u_Gender').val("m");
+                            $('#u_Gender').css("border-color", "#008000");
+                          }
+                          else
+                          if( s == "frau" || s == "mrs" || s == "ms"  ){
+                            $('#u_Gender').val("w");
+                            $('#u_Gender').css("border-color", "#008000");
+                          }else
+                            $('#u_Gender').css("border-color", null);
+                    }
+
                     //AUTO_SCRIPT_CODE_PLACEHOLDER//
 
                   --> 

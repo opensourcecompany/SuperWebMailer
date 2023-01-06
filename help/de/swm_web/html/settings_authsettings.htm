@@ -1,0 +1,285 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<link type="text/css" rel="stylesheet" href="../CSS/layout.css">
+<meta name="MS-HKWD" content="Einstellungen zur Authentifizierung">
+<meta name="MS-HKWD" content="Authentifizierung">
+<meta name="MS-HKWD" content="LDAP">
+<meta name="MS-HKWD" content="Datenbank">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - Einstellungen zur Authentifizierung,LDAP,Datenbank</title>
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,Einstellungen zur Authentifizierung,LDAP,Datenbank">
+<meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<meta name="page-type" content="PHP Newsletter Software Download">
+<meta name="publisher" content="Mirko Boeer">
+<meta name="revisit-after" content="10 days">
+<meta name="robots" content="index,follow">
+<meta name="audience" content="Alle, all">
+<meta name="author" content="Mirko Boeer">
+<meta http-equiv="content-language" content="de">
+<meta name="copyright" content="Mirko Boeer">
+<script LANGUAGE="JavaScript" SRC="jscript.js"></script>
+<link rel="canonical" href="https://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/settings_authsettings.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+
+<body>
+<h1>Einstellungen zur Authentifizierung</h1>
+<p>Die Einstellungen zur Authentifizierung beeinflussen die Anmeldung zur
+Weboberfläche von SuperWebMailer/SuperMailingList. Diese Einstellungen können
+nur als Nutzer superadmin geändert werden und gelten für die komplette
+Installation.</p>
+<p><b>Registerkarte Anmeldung/Login</b></p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">Anmeldung</td>
+    <td width="72%">&nbsp;
+      <p><b>über lokale Datenbank</b></p>
+      <p>Dies ist die Standard-Einstellung. Nach Eingabe von
+      Benutzername/Passwort wird der Nutzer in der lokalen Datenbank gesucht
+      und, bei Korrektheit der Daten, der Zugriff auf die Weboberfläche
+      gewährt. Es sind keine weiteren Einstellungen notwendig.</p>
+      <p>&nbsp;</p>
+      <p><b>über lokale Datenbank und 2-Faktor-Authentisierung</b></p>
+      <p>Nach Eingabe von Benutzername/Passwort wird der Nutzer in der lokalen
+      Datenbank gesucht und, bei Korrektheit der Daten, eine zusätzliche
+      Eingabe eines Einmal-Passworts erwartet. Es muss dazu die App Google
+      Authenticator auf einem externen Gerät verwendet werden, um das
+      Einmal-Passwort zu erstellen. Erst nach korrekter Eingabe des
+      Einmal-Passworts wird der Zugriff auf die Weboberfläche gewährt.<br>
+      <b>Wichtig:</b> Nach Aktivierung der 2-Faktor-Authentisierung sollte <b>sofort</b>
+      eine Anmeldung durch jeden Admin bzw. Nutzer erfolgen, das angezeigte
+      Secret/Seed mit der App Google Authenticator gescannt und dauerhaft
+      gespeichert werden.<br>
+      Für die 2-Faktor-Authentisierung können weitere Einstellungen notwendig
+      sein, legen Sie diese auf der Registerkarte 2F Authentisierung fest.</p>
+      <p>&nbsp;</p>
+      <p><b>über einen externen LDAP-Server</b></p>
+      <p>Wählen Sie diese Einstellung, um über einen externen LDAP-Server die
+      Authentifizierung des Nutzers durchführen zu lassen. Nach Eingabe von
+      Benutzername und Passwort wird der externe LDAP-Server kontaktiert,
+      bestätigt der LDAP-Server die Korrektheit der Daten, wird der Zugriff auf
+      die Weboberfläche gewährt, falls der
+      SuperWebMailer/SuperMailingList-Nutzer existiert bzw. optional wird ein
+      neuer Nutzer erstellt und danach der Zugriff gewährt.<br>
+      Für die Authentifizierung über einen externen LDAP-Server sind weitere
+      Einstellungen notwendig, legen Sie diese auf den eingeblendeten
+      Registerkarten fest.</p>
+      <p>&nbsp;</p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Registerkarte LDAP</b></p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%"><b>Zugangsdaten</b></td>
+    <td width="72%">&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">LDAP-Servername</td>
+    <td width="72%">Geben Sie den Namen oder IP-Adresse des LDAP-Servers ohne
+      ldap:// ldaps:// ein.
+      <p>Hinweis: Auf den Server muss vom Server/Webspace aus über den
+      entsprechenden Port zugegriffen werden können.</p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Verbindungssicherheit</td>
+    <td width="72%">Wählen Sie eine Variante. Für TLS/SSL gesicherte
+      Verbindungen muss der LDAP-Server über ein gültiges SSL-Zertifikat
+      verfügen, ansonsten wird keine Verbindung hergestellt
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Port des LDAP-Servers</td>
+    <td width="72%">Geben Sie den Port des LDAP-Server an, dieser ist
+      normalerweise Port 389 bzw. bei ssl-gesicherten Verbindungen Port 636.
+      <p>Hinweis: Auf den Server muss vom Server/Webspace aus über den
+      entsprechenden Port zugegriffen werden können.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">LDAP Protokoll-Version</td>
+    <td width="72%">Geben die Protokoll-Version an. Der Standard ist 3 und
+      sollte im Normalfall nicht geändert werden.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">LDAP-Basis DN</td>
+    <td width="72%">Distinguished Name des Verzeichnisses, in dem sich die
+      Benutzer-Daten befinden, z.B. dc=firma,dc=com.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">LDAP-Benutzername DN</td>
+    <td width="72%">Lassen Sie das Feld für eine anonyme Verbindung frei. Wenn
+      ausgefüllt, wird der angegebene Benutzer verwendet, um sich für die
+      Suche nach dem passenden Benutzer wie
+      uid=Benutzername,ou=Organisationseinheit,o=Firma,c=DE anzumelden.<br>
+      <br>
+      <b>Erforderlich bei Active Directory-Servern.</b>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">LDAP-Passwort</td>
+    <td width="72%">Lassen Sie das Feld für eine anonyme Verbindung frei. Wenn
+      ausgefüllt, wird der angegebene Benutzer und Passwort verwendet, um sich
+      für die Suche nach dem passenden Benutzer wie
+      uid=Benutzername,ou=Organisationseinheit,o=Firma,c=DE anzumelden.<br>
+      <br>
+      <b>Erforderlich bei Active Directory-Servern.</b><br />
+      <br />
+      <b>WARNUNG</b> Das Passwort wird im Klartext in der Datenbank gespeichert
+      und ist damit von jedem einsehbar, der Zugriff auf die Datenbank hat.
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%"><b>Suche im Verzeichnis</b></td>
+    <td width="72%">&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Suche nach Attribut mit dem Nutzernamen</td>
+    <td width="72%">Attribut, unter dem nach einem angegebenen Benutzernamen
+      gesucht werden soll, z.B. uid, sn.
+      <p>Dies ist eine Pflichtangabe und muss einen korrekten nicht leeren Wert
+      zurückliefern.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Suche nach Attribut mit der E-Mail-Adresse (optional)</td>
+    <td width="72%">Attribut, unter dem die E-Mail-Adresse gesucht werden soll,
+      falls es dieses Attribut gibt, z.B. mail. Existiert das Attribut nicht,
+      dann wird ein neuer Nutzer ohne E-Mail-Adresse angelegt.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Benutzerdefinierter Filter (optional)</td>
+    <td width="72%">Das Durchsuchen der Objekte kann optional durch weitere
+      Filter eingeschränkt werden. Zum Beispiel führt objectClass=posixGruppe
+      zur Nutzer des Filters (&amp;(uid=$username)(objectClass=posixGruppe)).
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Suche nach Attribut mit dem Sperrstatus des Nutzers
+      (optional)</td>
+    <td width="72%">Es kann ein Attribut angegeben werden, anhand des Wertes
+      erkannt wird, ob der Nutzerzugang aktiv oder gesperrt ist, z.B. bei Active
+      Directory-Servern Feld userAccountControl mit Wert 512, Nutzer ist aktiv.
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="100%" colspan="2"><b>Zuordnung neuer Nutzer zu Admin-Nutzer</b>
+      <p>Meldet sich ein Nutzer erstmalig erfolgreich an, dann wird dieser in
+      der SuperWebMailer/SuperMailingList-Datenbank mit eingegeben Benutzernamen
+      und Passwort erstellt und einem Admin-Nutzer zugeordnet.</p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Suche nach Attribut mit dem Nutzernamen des
+      SuperWebMailer-Admin-Nutzernamens (optional)
+      <p>&nbsp;</td>
+    <td width="72%">Es kann ein Attribut angegeben werden, in welchem nach dem
+      Admin-Nutzernamen im Verzeichnis gesucht werden soll, z.B. manager. Der
+      neue Nutzer wird bei Erstanmeldung dem Admin-Nutzernamen zugeordnet. Wird
+      der gefundene Admin-Nutzername nicht in der Datenbank gefunden, wird die
+      Anmeldung verweigert.
+      <p>Hinweis: Enthält der Wert des Attributs ein DN, dann wird im
+      Verzeichnis nach dem Attribut Nutzernamen (uid, sn...), oben definiert,
+      gesucht.</p>
+      <p>&nbsp;</p>
+    </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Suche nach Distinguished Name (optional)</td>
+    <td width="72%">Sucht im Verzeichnis nach dem angegebenen Distinguished
+      Name, z.B. cn=Max Mustermann,ou=EDV,dc=Firma,dc=de, und verwendet als
+      Admin-Nutzername den Wert des Attributs Nutzernamen (uid, sn...), oben
+      definiert.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Neue Nutzer immer diesem Admin-Nutzer zuordnen</td>
+    <td width="72%">Wählen Sie den Admin-Nutzer, dem der neue Nutzer zugeordnet
+      werden soll.
+      <ul>
+        <li>Dem neuen Nutzer kann Zugriff auf alle, bestimmte oder keine
+          Empfängerlisten auf der nächste Registerkarte Neuer Nutzer gewährt
+          werden.</li>
+        <li>Wählen Sie als Admin-Nutzer &lt;keiner&gt; und lassen die Felder
+          &quot;Suche nach Attribut mit dem Nutzernamen&quot; und &quot;Suche
+          nach Distinguished Name&quot; leer, um eine automatische Neuanmeldung
+          von Nutzern zu verbieten.</li>
+      </ul>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p><b>Registerkarte Neuer Nutzer</b></p>
+<p>Zugriff auf Empfängerlisten</p>
+<p>Wurde ein Admin-Nutzer auf der Registerkarte LDAP &quot;Neue Nutzer immer
+diesem Admin-Nutzer zuordnen&quot; gewählt und die Felder &quot;Suche nach
+Attribut mit dem Nutzernamen des SuperWebMailer-Admin-Nutzernamens&quot; und
+&quot;Suche nach Distinguished Name&quot; leer gelassen, dann kann für den
+neuen Nutzer festgelegt werden, auf welche Empfängerlisten des Admin-Nutzers
+der Nutzer Zugriff erhalten soll. Sind die Felder &quot;Suche nach Attribut mit
+dem Nutzernamen des SuperWebMailer-Admin-Nutzernamens&quot; und &quot;Suche nach
+Distinguished Name&quot; nicht leer, kann nur die Option gewählt werden, dass
+der Nutzer Zugriff auf alle Empfängerliste oder keine Empfängerlisten erhalten
+soll.</p>
+<p>Rechte</p>
+<p>Aktivieren Sie die gewünschten Funktionen, die der neue Nutzer verwenden
+darf. Beachten Sie dabei, dass die Funktionen &quot;Erstellen&quot;,
+&quot;Ändern&quot; und &quot;Löschen&quot; nur möglich sind, wenn der
+Benutzer das Recht &quot;Zugreifen/Anschauen&quot; besitzt.</p>
+<p>Meldet sich danach der Nutzer an, dann werden die deaktivierten Funktionen
+ausgeblendet, so dass diese nicht mehr aufrufbar sind.</p>
+<p>&nbsp;</p>
+<p><b>Registerkarte 2F Authentisierung</b></p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">Toleranzgrenze in Minuten für die Gültigkeit des
+	Einmal-Passworts
+      <p>&nbsp;</td>
+    <td width="72%">Standardwert 1 Minute.
+      <p>Das erzeugte Einmal-Passwort auf dem externen Gerät/Client hängt von der Uhrzeit
+      ab, sind Serverzeit und Zeit des externen Geräts/Clients nicht synchron
+      wird eine Anmeldung immer scheitern. Bei einer Toleranzgrenze von 1 Minute
+      und z.B. einer Uhrzeit von 10:00 Uhr, gilt das angezeigte Passwort ebenfalls um 09:59 Uhr
+      und 30 Sekunden bis 10:00 Uhr und 30 Sekunden.</p>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Für den Nutzer SuperAdmin ebenfalls die
+      2-Faktor-Authentisierung verwenden</td>
+    <td width="72%">Aktivieren Sie diese Option um für den Nutzer SuperAdmin
+      ebenfalls die 2-Faktor-Authentisierung zu verwenden.
+      <p>Hinweise:</p>
+      <ul>
+        <li>Nach Aktivierung dieser Option sollte <b>sofort</b> eine
+          Neuanmeldung als Nutzer SuperAdmin erfolgen und das Secret/Seed in der
+          App Google Authenticator dauerhaft gespeichert werden.</li>
+        <li>Das Secret/Seed sollte <b>dauerhaft</b> gespeichert oder ausgedruckt
+          werden. Es kann nicht über die Weboberfläche zurückgesetzt werden.
+          Sollten Sie es vergessen, dann können Sie sich nicht mehr über die
+          Oberfläche als Nutzer superadmin anmelden.</li>
+      </ul>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><b>Siehe dazu auch<br>
+</b><a href="useredit.htm">Nutzer bearbeiten</a></p>
+<p>&nbsp;</p>
+
+</body>
+
+</html>

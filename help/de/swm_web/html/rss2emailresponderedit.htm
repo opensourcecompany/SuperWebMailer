@@ -165,6 +165,18 @@ RSS-Feed-Einträge als Newsletter versenden RSS2EMail-Responder bearbeiten</title
       dieses Header-Felds eine Schaltfläche &quot;Abmelden&quot; oder einen
       Link für die direkte Abmeldung vom Newsletter-Verteiler oberhalb der
       E-Mail an.
+      <p>Wurde bei der jeweiligen <a href="mtaedit.htm">Versandvariante</a> das
+      Hinzufügen einer DKIM/Domainkey-Signatur aktiviert, dann wird zusätzlich
+      der List-Unsubscribe-Post-Header hinzugefügt. Soll der
+      List-Unsubscribe-Post-Header immer hinzugefügt werden, weil der
+      Postausgangsserver automatisch eine DKIM/Domainkey-Signatur für jede
+      ausgehende E-Mail hinzufügt, dann kann in der Datei userdefined.inc.php
+      die Konstante define(&quot;ListUnsubscribePostOnNoDKIMSignature&quot;, 1);
+      angegeben bzw. das Kommentar-Zeichen vor der Konstante in der Datei
+      userdefined.inc.php entfernt werden.<br>
+      Siehe dazu auch:<br>
+      <a href="https://tools.ietf.org/html/rfc8058" target="_blank">Signaling
+      One-Click Functionality for List Email Headers</a></p>
       <p>&nbsp;</td>
   </tr>
   <tr>

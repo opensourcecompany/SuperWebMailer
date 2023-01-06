@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -31,8 +31,8 @@ require_once("./nusoap/lib/nusoap.php");
 include_once('api.inc.php');
 
 # set include path to find correct external script locations
-$_Qfoof = ini_get('include_path');
-if($_Qfoof == "")
+$_I0L8J = ini_get('include_path');
+if($_I0L8J == "")
   ini_set('include_path', InstallPath);
   else{
      if ( ! defined( "PATH_SEPARATOR" ) ) {
@@ -40,7 +40,7 @@ if($_Qfoof == "")
          define( "PATH_SEPARATOR", ";" );
        else define( "PATH_SEPARATOR", ":" );
      }
-     ini_set('include_path', InstallPath.PATH_SEPARATOR.$_Qfoof);
+     ini_set('include_path', InstallPath.PATH_SEPARATOR.$_I0L8J);
   }
 
 require_once('api_base.php');
@@ -56,26 +56,26 @@ if(defined("SWM")){
   require_once('api_furesponders.php');
 }
 
-$_QfC8t = new GetFunctionsList();
-$_QfC8t->preventMethods = array("__construct", "__destruct", "api_base", "CheckAPIKey", "api_ShowSQLError", "api_Error", "_internal_refreshTracking", "_internalCheckFileExtension");
+$_I0lji = new GetFunctionsList();
+$_I0lji->preventMethods = array("__construct", "__destruct", "api_base", "CheckAPIKey", "api_ShowSQLError", "api_Error", "_internal_refreshTracking", "_internalCheckFileExtension", "_internal_initRecipientsData");
 
-$_QfCl0 = array("api_Common", "api_Mailinglists", "api_Recipients", "api_Users", "api_Files", "api_DistributionLists");
+$_I0lfQ = array("api_Common", "api_Mailinglists", "api_Recipients", "api_Users", "api_Files", "api_DistributionLists");
 
 if(defined("SWM")){
-  $_QfCl0 = array_merge($_QfCl0, array("api_Campaigns", "api_FUResponders"));
+  $_I0lfQ = array_merge($_I0lfQ, array("api_Campaigns", "api_FUResponders"));
 }
 
-arsort($_QfCl0, SORT_STRING);
+arsort($_I0lfQ, SORT_STRING);
 
-foreach($_QfCl0 as $key) {
-  $_QfC8t->classname = $key;
-  $_QfC8t->classMethodsIntoStruct();
+foreach($_I0lfQ as $key) {
+  $_I0lji->classname = $key;
+  $_I0lji->classMethodsIntoStruct();
 }
 
-@arsort($_QfC8t->wsdlStruct, SORT_STRING);
+@arsort($_I0lji->wsdlStruct, SORT_STRING);
 
 $api = ScriptBaseURL."api/api.php";
-$_QfLff = $api.'?wsdl';
+$_I101L = $api.'?wsdl';
 
 $apiserver = new nusoap_server();
 $apiserver->soap_defencoding = 'UTF-8';
@@ -83,33 +83,57 @@ $apiserver->configureWSDL($AppName.'API', $api);
 $apiserver->decode_utf8 = false; // set to false we wan't UTF-8!!!
 $apiserver->setDebugLevel(0);
 
-reset($_QfC8t->wsdlStruct);
-foreach($_QfC8t->wsdlStruct as $key => $_QfjtQ){
+reset($_I0lji->wsdlStruct);
+foreach($_I0lji->wsdlStruct as $key => $_I060f){
   $classname = $key;
 
-  foreach($_QfjtQ["method"] as $_QfJI8 => $_Q80Qf){
-   $_Q80lL = array();
-   $_Q8186 = array('result' => 'xsd:void');
+  foreach($_I060f["method"] as $_I06t6 => $_I1Q0I){
+   $_I1QI0 = array();
+   $_I1I0L = array('result' => 'xsd:void');
 
-   foreach($_Q80Qf["var"] as $_Q6llo => $_QffOf){
-     if(isset($_QffOf["return"]))
-       $_Q8186 = array("result" => $_QffOf["wsdltype"]);
+   foreach($_I1Q0I["var"] as $_Qli6J => $_I08CQ){
+     if(isset($_I08CQ["return"]))
+       $_I1I0L = array("result" => $_I08CQ["wsdltype"]);
        else{
-        $_Q80lL = array_merge($_Q80lL, array( $_QffOf["name"] => $_QffOf["wsdltype"] ) );
+        $_I1QI0 = array_merge($_I1QI0, array( $_I08CQ["name"] => $_I08CQ["wsdltype"] ) );
        }
    }
 
 
-   $apiserver->register($classname.".".$_QfJI8, $_Q80lL, $_Q8186, false, false, false, false, $_Q80Qf["description"]);
+   $apiserver->register($classname.".".$_I06t6, $_I1QI0, $_I1I0L, false, false, false, false, $_I1Q0I["description"]);
   }
 }
 
 
 if(function_exists("file_get_contents"))
-  $_Q818O = file_get_contents("php://input");
+  $_I1Itl = file_get_contents("php://input");
   else
-  $_Q818O = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : '';
+  $_I1Itl = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : '';
 
-$apiserver->service($_Q818O);
+
+ClearLastError(); 
+if (function_exists("error_get_last")) {
+  register_shutdown_function('APIErrorHandler');
+}
+  
+$apiserver->service($_I1Itl);
+
+function APIErrorHandler() {
+  if(defined("DEBUG"))
+     return;
+  
+   $_I1Ilj = error_get_last();
+
+   if(!$_I1Ilj)
+     return;
+
+   if( $_I1Ilj["type"] == E_ERROR || $_I1Ilj["type"] == E_USER_ERROR  ) {
+   } else
+     return;
+
+   print sprintf("Fatal PHP ERROR type=%d; message=%s; file=%s; line=%d", $_I1Ilj["type"], $_I1Ilj["message"], $_I1Ilj["file"], $_I1Ilj["line"]);
+
+   return;
+}
 
 ?>

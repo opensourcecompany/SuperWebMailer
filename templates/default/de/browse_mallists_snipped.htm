@@ -54,7 +54,7 @@
 
     function ConfirmDeleteListEvent(value) {
       if(value)
-        document.getElementById('MailingListsForm').submit();
+        $("#MailingListsForm").submit();
         else {
           document.getElementById('OneMailingListAction').value = "";
           document.getElementById('OneMailingListId').value = "";
@@ -64,7 +64,7 @@
 
     function ConfirmListActionEvent(value) {
       if(value)
-        document.getElementById('MailingListsForm').submit();
+        $("#MailingListsForm").submit();
     }
 
     function ConfirmListAction() {
@@ -78,7 +78,7 @@
         return false;
       }
       if(AOption.value == "CopyRecipients") {
-        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle</b> Empf&auml;nger in den gew&auml;hlten Empf&auml;ngerlisten kopieren?<br /><br /><b>Warnung</b> Alle versendeten E-Mails und Statistiken gehen damit verloren.', 3, 320, 160, 'ConfirmListActionEvent');
+        MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich <b>alle</b> Empf&auml;nger in den gew&auml;hlten Empf&auml;ngerlisten kopieren?<br /><br />', 3, 320, 160, 'ConfirmListActionEvent');
         return false;
       }
       if(AOption.value == "DeleteMailLists") {
@@ -86,7 +86,7 @@
         return false;
       }
       if(AOption.value == "DeleteGroups") {
-        MessageBox('Best&auml;tigung', 'Sie entfernen damit jede Gruppe und Gruppenzuordnung der Empf&auml;nger, die Empf&auml;nger selbst werden damit nicht gel&ouml;scht.<br /><br />M&ouml;chten Sie wirklich <b>alle</b> Gruppen der gew&auml;hlten Empf&auml;ngerlisten dauerhaft l&ouml;schen?', 3, 320, 180, 'ConfirmListActionEvent');
+        MessageBox('Best&auml;tigung', 'Sie entfernen damit jede Gruppe und Gruppenzuordnung der Empf&auml;nger, die Empf&auml;nger selbst werden damit nicht gel&ouml;scht.<br /><br />M&ouml;chten Sie wirklich <b>alle</b> Gruppen der gew&auml;hlten Empf&auml;ngerlisten dauerhaft l&ouml;schen?', 3, 320, 200, 'ConfirmListActionEvent');
         return false;
       }
 
@@ -196,7 +196,7 @@
          			  Seite:&nbsp;
         </td>
         <td style="text-align:right; width:1%; white-space:nowrap; ">
-         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.MailingListsForm.submit()">
+         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="$('#MailingListsForm').submit();">
                 <OPTION:PAGES>
                 <option>1</option>
                 </OPTION:PAGES>
@@ -219,6 +219,7 @@
   CheckboxClicked();
   ShowItem('ListActionSubmitBtn', (document.getElementById('MailingListActions').selectedIndex != 0) && ( document.getElementById('MailingListActions').disabled == false ) ) ;
   DisableItem('MailingListActions', GetCheckedCount('MailingListIDs[]', 'MailingListsForm') > 0 );
+  InsertLoadingStatusOnSubmit();
   //AUTO_SCRIPT_CODE_PLACEHOLDER//
 //-->
 </script>

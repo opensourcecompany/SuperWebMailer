@@ -23,147 +23,147 @@
 #############################################################################
 
  // Move up and down
- function _O8EQ0($_ItQ6f, $_Qi8If) {
-   global $_QCLCI, $_IlQJi, $_Q61I1;
+ function _LRLAE($_jIIif, $_I6tLJ) {
+   global $_I616t, $_jOtot, $_QLttI;
 
-   if(isset($_IlQJi))
-     $_IlQJi = intval($_IlQJi);
+   if(isset($_jOtot))
+     $_jOtot = intval($_jOtot);
      else
-     $_IlQJi = 0;
+     $_jOtot = 0;
 
-   if($_Qi8If["OneFUMAction"] == "UpBtn" || $_Qi8If["OneFUMAction"] == "DownBtn") {
+   if($_I6tLJ["OneFUMAction"] == "UpBtn" || $_I6tLJ["OneFUMAction"] == "DownBtn") {
      // get the table
-     $_QJlJ0 = "SELECT `FUMailsTableName` FROM `$_QCLCI` WHERE `id`=".intval($_ItQ6f);
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     _OAL8F($_QJlJ0);
-     $_Q6Q1C = mysql_fetch_row($_Q60l1);
-     $_ItJIf = $_Q6Q1C[0];
-     mysql_free_result($_Q60l1);
+     $_QLfol = "SELECT `FUMailsTableName` FROM `$_I616t` WHERE `id`=".intval($_jIIif);
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     _L8D88($_QLfol);
+     $_QLO0f = mysql_fetch_row($_QL8i1);
+     $_jIt0L = $_QLO0f[0];
+     mysql_free_result($_QL8i1);
 
-     $_QJlJ0 = "SELECT `sort_order` FROM `$_ItJIf` WHERE `id`=".intval($_Qi8If["OneFUMId"]);
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     $_Q6Q1C = mysql_fetch_row($_Q60l1);
-     $_IlQJi = $_Q6Q1C[0];
-     mysql_free_result($_Q60l1);
+     $_QLfol = "SELECT `sort_order` FROM `$_jIt0L` WHERE `id`=".intval($_I6tLJ["OneFUMId"]);
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     $_QLO0f = mysql_fetch_row($_QL8i1);
+     $_jOtot = $_QLO0f[0];
+     mysql_free_result($_QL8i1);
 
-     if($_Qi8If["OneFUMAction"] == "UpBtn") {
-       $_QJlJ0 = "SELECT `id`, `sort_order` FROM `$_ItJIf` WHERE `sort_order`=$_IlQJi - 1";
-       $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-       $_Q6Q1C = mysql_fetch_array($_Q60l1);
-       $_QJlJ0 = "UPDATE `$_ItJIf` SET `sort_order`=sort_order+1 WHERE `id`=$_Q6Q1C[id]";
-       mysql_query($_QJlJ0, $_Q61I1);
+     if($_I6tLJ["OneFUMAction"] == "UpBtn") {
+       $_QLfol = "SELECT `id`, `sort_order` FROM `$_jIt0L` WHERE `sort_order`=$_jOtot - 1";
+       $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+       $_QLO0f = mysql_fetch_array($_QL8i1);
+       $_QLfol = "UPDATE `$_jIt0L` SET `sort_order`=sort_order+1 WHERE `id`=$_QLO0f[id]";
+       mysql_query($_QLfol, $_QLttI);
      }
 
-     if($_Qi8If["OneFUMAction"] == "DownBtn") {
-       $_QJlJ0 = "SELECT `id`, `sort_order` FROM `$_ItJIf` WHERE `sort_order`=$_IlQJi + 1";
-       $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-       $_Q6Q1C = mysql_fetch_array($_Q60l1);
-       $_QJlJ0 = "UPDATE `$_ItJIf` SET `sort_order`=sort_order-1 WHERE `id`=$_Q6Q1C[id]";
-       mysql_query($_QJlJ0, $_Q61I1);
+     if($_I6tLJ["OneFUMAction"] == "DownBtn") {
+       $_QLfol = "SELECT `id`, `sort_order` FROM `$_jIt0L` WHERE `sort_order`=$_jOtot + 1";
+       $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+       $_QLO0f = mysql_fetch_array($_QL8i1);
+       $_QLfol = "UPDATE `$_jIt0L` SET `sort_order`=sort_order-1 WHERE `id`=$_QLO0f[id]";
+       mysql_query($_QLfol, $_QLttI);
      }
 
      // update item itself
-     $_QJlJ0 = "UPDATE `$_ItJIf` SET `sort_order`=$_Q6Q1C[sort_order] WHERE `id`=".intval($_Qi8If["OneFUMId"]);
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_jIt0L` SET `sort_order`=$_QLO0f[sort_order] WHERE `id`=".intval($_I6tLJ["OneFUMId"]);
+     mysql_query($_QLfol, $_QLttI);
    }
  }
 
  // Remove mails
- function _O8ELC($_ItQ6f, $_Qi8If, &$_QtIiC) {
-   global $_QCLCI, $_Q61I1, $resourcestrings, $INTERFACE_LANGUAGE;
+ function _LRLCR($_jIIif, $_I6tLJ, &$_IQ0Cj) {
+   global $_I616t, $_QLttI, $resourcestrings, $INTERFACE_LANGUAGE;
 
    // get the table
-   $_QJlJ0 = "SELECT `IsActive`, `FUMailsTableName`, `ML_FU_RefTableName`, `RStatisticsTableName` FROM `$_QCLCI` WHERE `id`=".intval($_ItQ6f);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   _OAL8F($_QJlJ0);
-   $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-   $_Qo0oi = $_Q6Q1C["IsActive"];
-   $_ItJIf = $_Q6Q1C["FUMailsTableName"];
-   $_It6OJ = $_Q6Q1C["ML_FU_RefTableName"];
-   $_j08fl = $_Q6Q1C["RStatisticsTableName"];
-   mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `IsActive`, `FUMailsTableName`, `ML_FU_RefTableName`, `RStatisticsTableName` FROM `$_I616t` WHERE `id`=".intval($_jIIif);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   _L8D88($_QLfol);
+   $_QLO0f = mysql_fetch_assoc($_QL8i1);
+   $_IjIfQ = $_QLO0f["IsActive"];
+   $_jIt0L = $_QLO0f["FUMailsTableName"];
+   $_jIO61 = $_QLO0f["ML_FU_RefTableName"];
+   $_ji080 = $_QLO0f["RStatisticsTableName"];
+   mysql_free_result($_QL8i1);
 
-   if($_Qo0oi || _O8F8L($_ItQ6f)){
-     $_QtIiC[] = $resourcestrings[$INTERFACE_LANGUAGE]["CantRemoveFUResponderMails"];
+   if($_IjIfQ || _LRJPC($_jIIif)){
+     $_IQ0Cj[] = $resourcestrings[$INTERFACE_LANGUAGE]["CantRemoveFUResponderMails"];
      return false;
    }
 
-   if($_Qi8If["OneFUMAction"] == "DeleteFUM" || (isset($_Qi8If["FUMsActions"]) && $_Qi8If["FUMsActions"] == "RemoveFUMs") ) {
+   if($_I6tLJ["OneFUMAction"] == "DeleteFUM" || (isset($_I6tLJ["FUMsActions"]) && $_I6tLJ["FUMsActions"] == "RemoveFUMs") ) {
 
-     if ($_Qi8If["OneFUMAction"] == "DeleteFUM") {
-       $_J168o = array();
-       $_J168o[] = intval($_Qi8If["OneFUMId"]);
+     if ($_I6tLJ["OneFUMAction"] == "DeleteFUM") {
+       $_6Qf0f = array();
+       $_6Qf0f[] = intval($_I6tLJ["OneFUMId"]);
      } else
-       $_J168o = $_Qi8If["FUMsIDs"];
+       $_6Qf0f = $_I6tLJ["FUMsIDs"];
 
      // correct sorting
-     $_QtjtL = "";
-     for($_Q6llo=0; $_Q6llo<count($_J168o); $_Q6llo++) {
-       if(empty($_QtjtL))
-         $_QtjtL = "`id`=".intval($_J168o[$_Q6llo]);
+     $_QLlO6 = "";
+     for($_Qli6J=0; $_Qli6J<count($_6Qf0f); $_Qli6J++) {
+       if(empty($_QLlO6))
+         $_QLlO6 = "`id`=".intval($_6Qf0f[$_Qli6J]);
        else
-         $_QtjtL .= " OR `id`=".intval($_J168o[$_Q6llo]);
+         $_QLlO6 .= " OR `id`=".intval($_6Qf0f[$_Qli6J]);
      }
 
-     $_J168o = array();
-     $_QJlJ0 = "SELECT `id`, `sort_order` FROM `$_ItJIf` WHERE $_QtjtL ORDER BY `sort_order` ASC";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     while ($_Q8OiJ = mysql_fetch_assoc($_Q60l1) ) {
-       $_J168o[] = $_Q8OiJ["id"];
+     $_6Qf0f = array();
+     $_QLfol = "SELECT `id`, `sort_order` FROM `$_jIt0L` WHERE $_QLlO6 ORDER BY `sort_order` ASC";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     while ($_I1OfI = mysql_fetch_assoc($_QL8i1) ) {
+       $_6Qf0f[] = $_I1OfI["id"];
      }
-     mysql_free_result($_Q60l1);
+     mysql_free_result($_QL8i1);
 
-     for($_Q6llo=0; $_Q6llo<count($_J168o); $_Q6llo++) {
+     for($_Qli6J=0; $_Qli6J<count($_6Qf0f); $_Qli6J++) {
 
        // u.a. tracking FUMails
-       $_IlQJi = 0;
-       $_QJlJ0 = "SELECT * FROM `$_ItJIf` WHERE `id`=".$_J168o[$_Q6llo];
-       $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-       if ($_Q8OiJ = mysql_fetch_assoc($_Q60l1) ) {
-         $_IlQJi = $_Q8OiJ["sort_order"];
-         reset($_Q8OiJ);
-         foreach($_Q8OiJ as $key => $_Q6ClO) {
+       $_jOtot = 0;
+       $_QLfol = "SELECT * FROM `$_jIt0L` WHERE `id`=".$_6Qf0f[$_Qli6J];
+       $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+       if ($_I1OfI = mysql_fetch_assoc($_QL8i1) ) {
+         $_jOtot = $_I1OfI["sort_order"];
+         reset($_I1OfI);
+         foreach($_I1OfI as $key => $_QltJO) {
            if (strpos($key, "TableName") !== false) {
-             $_QJlJ0 = "DROP TABLE IF EXISTS `$_Q6ClO`";
-             mysql_query($_QJlJ0, $_Q61I1);
-             if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+             $_QLfol = "DROP TABLE IF EXISTS `$_QltJO`";
+             mysql_query($_QLfol, $_QLttI);
+             if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
            }
          }
        }
-       mysql_free_result($_Q60l1);
+       mysql_free_result($_QL8i1);
 
        // mail itself
-       $_QJlJ0 = "DELETE FROM `$_ItJIf` WHERE `id`=".$_J168o[$_Q6llo];
-       mysql_query($_QJlJ0, $_Q61I1);
-       if(mysql_affected_rows($_Q61I1) == 0)
-          $_QtIiC[] = "ID: ".$_J168o[$_Q6llo]." ".$resourcestrings[$INTERFACE_LANGUAGE]["000033"];
-       if(mysql_error($_Q61I1) != "")
-          $_QtIiC[] = mysql_error($_Q61I1);
+       $_QLfol = "DELETE FROM `$_jIt0L` WHERE `id`=".$_6Qf0f[$_Qli6J];
+       mysql_query($_QLfol, $_QLttI);
+       if(mysql_affected_rows($_QLttI) == 0)
+          $_IQ0Cj[] = "ID: ".$_6Qf0f[$_Qli6J]." ".$resourcestrings[$INTERFACE_LANGUAGE]["000033"];
+       if(mysql_error($_QLttI) != "")
+          $_IQ0Cj[] = mysql_error($_QLttI);
 
        // statistics
-      /* $_QJlJ0 = "DELETE FROM `$_j08fl` WHERE `fumails_id`=".intval($_J168o[$_Q6llo]);
-       mysql_query($_QJlJ0, $_Q61I1);
-       if(mysql_error($_Q61I1) != "")
-          $_QtIiC[] = mysql_error($_Q61I1); */
+      /* $_QLfol = "DELETE FROM `$_ji080` WHERE `fumails_id`=".intval($_6Qf0f[$_Qli6J]);
+       mysql_query($_QLfol, $_QLttI);
+       if(mysql_error($_QLttI) != "")
+          $_IQ0Cj[] = mysql_error($_QLttI); */
 
-       if($_IlQJi){
-         $_QJlJ0 = "UPDATE `$_It6OJ` SET `NextFollowUpID`=`NextFollowUpID`-1 WHERE `NextFollowUpID`>0 AND `NextFollowUpID`>=$_IlQJi";
-         mysql_query($_QJlJ0, $_Q61I1);
-         $_Qf0Ct=mysql_affected_rows($_Q61I1);
-         if(mysql_error($_Q61I1) != "")
-            $_QtIiC[] = mysql_error($_Q61I1);
+       if($_jOtot){
+         $_QLfol = "UPDATE `$_jIO61` SET `NextFollowUpID`=`NextFollowUpID`-1 WHERE `NextFollowUpID`>0 AND `NextFollowUpID`>=$_jOtot";
+         mysql_query($_QLfol, $_QLttI);
+         $_QliOt=mysql_affected_rows($_QLttI);
+         if(mysql_error($_QLttI) != "")
+            $_IQ0Cj[] = mysql_error($_QLttI);
        }
 
      }
 
      // new sort order
-     $_QJlJ0 = "SELECT `id` FROM `$_ItJIf` ORDER BY `sort_order` ASC";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     $_IlQJi = 1;
-     while($_Q6Q1C = mysql_fetch_assoc($_Q60l1) ) {
-       $_QJlJ0 = "UPDATE `$_ItJIf` SET `sort_order`=$_IlQJi WHERE `id`=$_Q6Q1C[id]";
-       mysql_query($_QJlJ0, $_Q61I1);
-       $_IlQJi++;
+     $_QLfol = "SELECT `id` FROM `$_jIt0L` ORDER BY `sort_order` ASC";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     $_jOtot = 1;
+     while($_QLO0f = mysql_fetch_assoc($_QL8i1) ) {
+       $_QLfol = "UPDATE `$_jIt0L` SET `sort_order`=$_jOtot WHERE `id`=$_QLO0f[id]";
+       mysql_query($_QLfol, $_QLttI);
+       $_jOtot++;
      }
 
      return true;
@@ -172,213 +172,213 @@
  }
 
  // duplicate
- function _O8FQD($_ItQ6f, $_Qi8If) {
-   global $_QCLCI, $_Q61I1;
+ function _LRJ8P($_jIIif, $_I6tLJ) {
+   global $_I616t, $_QLttI;
 
-   if($_Qi8If["OneFUMAction"] == "DuplicateFUM" || (isset($_Qi8If["FUMsActions"]) && $_Qi8If["FUMsActions"] == "DupFUMs") ) {
+   if($_I6tLJ["OneFUMAction"] == "DuplicateFUM" || (isset($_I6tLJ["FUMsActions"]) && $_I6tLJ["FUMsActions"] == "DupFUMs") ) {
 
-     if ($_Qi8If["OneFUMAction"] == "DuplicateFUM") {
-       $_J168o = array();
-       $_J168o[] = intval($_Qi8If["OneFUMId"]);
+     if ($_I6tLJ["OneFUMAction"] == "DuplicateFUM") {
+       $_6Qf0f = array();
+       $_6Qf0f[] = intval($_I6tLJ["OneFUMId"]);
      } else
-       $_J168o = $_Qi8If["FUMsIDs"];
+       $_6Qf0f = $_I6tLJ["FUMsIDs"];
 
      // get the table
-     $_QJlJ0 = "SELECT `FUMailsTableName`, `Name`, `ML_FU_RefTableName` FROM `$_QCLCI` WHERE `id`=".$_ItQ6f;
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     _OAL8F($_QJlJ0);
-     $_Q6Q1C = mysql_fetch_row($_Q60l1);
-     $_ItJIf = $_Q6Q1C[0];
-     $_ItJLo = $_Q6Q1C[1];
-     $_It6OJ = $_Q6Q1C[2];
-     mysql_free_result($_Q60l1);
+     $_QLfol = "SELECT `FUMailsTableName`, `Name`, `ML_FU_RefTableName` FROM `$_I616t` WHERE `id`=".$_jIIif;
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     _L8D88($_QLfol);
+     $_QLO0f = mysql_fetch_row($_QL8i1);
+     $_jIt0L = $_QLO0f[0];
+     $_jItoL = $_QLO0f[1];
+     $_jIO61 = $_QLO0f[2];
+     mysql_free_result($_QL8i1);
 
-     for($_Q6llo=0; $_Q6llo<count($_J168o); $_Q6llo++) {
-        $_J168o[$_Q6llo] = intval($_J168o[$_Q6llo]);
+     for($_Qli6J=0; $_Qli6J<count($_6Qf0f); $_Qli6J++) {
+        $_6Qf0f[$_Qli6J] = intval($_6Qf0f[$_Qli6J]);
 
         // get highest sort_order
-        $_IlQJi = 1;
-        $_QJlJ0 = "SELECT `sort_order` FROM `$_ItJIf` ORDER BY `sort_order` DESC";
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        if (!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
-          $_IlQJi = 1;
+        $_jOtot = 1;
+        $_QLfol = "SELECT `sort_order` FROM `$_jIt0L` ORDER BY `sort_order` DESC";
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        if (!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
+          $_jOtot = 1;
           else {
-            $_Q6Q1C = mysql_fetch_array($_Q60l1);
-            $_IlQJi = $_Q6Q1C["sort_order"] + 1;
+            $_QLO0f = mysql_fetch_array($_QL8i1);
+            $_jOtot = $_QLO0f["sort_order"] + 1;
           }
-        mysql_free_result($_Q60l1);
+        mysql_free_result($_QL8i1);
 
-        $_QJlJ0 = "SELECT * FROM `$_ItJIf` WHERE `id`=$_J168o[$_Q6llo]";
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        _OAL8F($_QJlJ0);
-        $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-        mysql_free_result($_Q60l1);
+        $_QLfol = "SELECT * FROM `$_jIt0L` WHERE `id`=$_6Qf0f[$_Qli6J]";
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        _L8D88($_QLfol);
+        $_QLO0f = mysql_fetch_assoc($_QL8i1);
+        mysql_free_result($_QL8i1);
 
-        $_J16lJ = "";
-        for($_Qf0Ct=1; $_Qf0Ct<200000; $_Qf0Ct++) {
-          $_QJlJ0 = "SELECT id FROM `$_ItJIf` WHERE `Name`="._OPQLR($_Q6Q1C["Name"].sprintf(" (%d)", $_Qf0Ct));
-          $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-          if($_Q60l1 && mysql_num_rows($_Q60l1) == 0) {
-            mysql_free_result($_Q60l1);
-            $_J16lJ = $_Q6Q1C["Name"].sprintf(" (%d)", $_Qf0Ct);
+        $_6QfIo = "";
+        for($_QliOt=1; $_QliOt<200000; $_QliOt++) {
+          $_QLfol = "SELECT id FROM `$_jIt0L` WHERE `Name`="._LRAFO($_QLO0f["Name"].sprintf(" (%d)", $_QliOt));
+          $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+          if($_QL8i1 && mysql_num_rows($_QL8i1) == 0) {
+            mysql_free_result($_QL8i1);
+            $_6QfIo = $_QLO0f["Name"].sprintf(" (%d)", $_QliOt);
             break;
           }
-          if($_Q60l1)
-            mysql_free_result($_Q60l1);
+          if($_QL8i1)
+            mysql_free_result($_QL8i1);
         }
 
-        if($_J16lJ == "") {
+        if($_6QfIo == "") {
           print "can't find unique name, this error should never occur"; // will never occur
           exit;
         }
 
 
-        unset($_Q6Q1C["id"]);
-        $_Q6Q1C["sort_order"] = $_IlQJi;
-        $_Q6Q1C["SendInterval"] = 9999;
-        $_Q6Q1C["SendIntervalType"] = 'Month';
-        $_Q6Q1C["CreateDate"] = "NOW()";
-        $_Q6Q1C["Name"] = $_J16lJ;
-        $_IjILj = $_Q6Q1C["LinksTableName"];
+        unset($_QLO0f["id"]);
+        $_QLO0f["sort_order"] = $_jOtot;
+        $_QLO0f["SendInterval"] = 9999;
+        $_QLO0f["SendIntervalType"] = 'Month';
+        $_QLO0f["CreateDate"] = "NOW()";
+        $_QLO0f["Name"] = $_6QfIo;
+        $_Ii01O = $_QLO0f["LinksTableName"];
 
-        $_IjI0O = TablePrefix._OA0LA($_ItJLo.'_'.$_Q6Q1C["Name"]);
-        $_Q6Q1C["LinksTableName"] = _OALO0($_IjI0O."_links");
-        $_Q6Q1C["TrackingOpeningsTableName"] = _OALO0($_IjI0O."_topenings");
-        $_Q6Q1C["TrackingOpeningsByRecipientTableName"] = _OALO0($_IjI0O."_tropenings");
-        $_Q6Q1C["TrackingLinksTableName"] = _OALO0($_IjI0O."_tlinks");
-        $_Q6Q1C["TrackingLinksByRecipientTableName"] = _OALO0($_IjI0O."_trlinks");
-        $_Q6Q1C["TrackingUserAgentsTableName"] = _OALO0($_IjI0O."_useragents");
-        $_Q6Q1C["TrackingOSsTableName"] = _OALO0($_IjI0O."_oss");
+        $_Ii01J = TablePrefix._L8A8P($_jItoL.'_'.$_QLO0f["Name"]);
+        $_QLO0f["LinksTableName"] = _L8D00($_Ii01J."_links");
+        $_QLO0f["TrackingOpeningsTableName"] = _L8D00($_Ii01J."_topenings");
+        $_QLO0f["TrackingOpeningsByRecipientTableName"] = _L8D00($_Ii01J."_tropenings");
+        $_QLO0f["TrackingLinksTableName"] = _L8D00($_Ii01J."_tlinks");
+        $_QLO0f["TrackingLinksByRecipientTableName"] = _L8D00($_Ii01J."_trlinks");
+        $_QLO0f["TrackingUserAgentsTableName"] = _L8D00($_Ii01J."_useragents");
+        $_QLO0f["TrackingOSsTableName"] = _L8D00($_Ii01J."_oss");
 
-        $_QJlJ0 = "";
-        foreach($_Q6Q1C as $key => $_Q6ClO) {
-          if($_QJlJ0 != "")
-            $_QJlJ0 .= ", ";
+        $_QLfol = "";
+        foreach($_QLO0f as $key => $_QltJO) {
+          if($_QLfol != "")
+            $_QLfol .= ", ";
           if($key != "CreateDate")
-            $_QJlJ0 .= "`$key`="._OPQLR($_Q6ClO);
+            $_QLfol .= "`$key`="._LRAFO($_QltJO);
             else
-            $_QJlJ0 .= "`$key`=".$_Q6ClO;
+            $_QLfol .= "`$key`=".$_QltJO;
         }
-        $_QJlJ0 = "INSERT INTO `$_ItJIf` SET ".$_QJlJ0;
-        mysql_query($_QJlJ0, $_Q61I1);
-        _OAL8F($_QJlJ0);
+        $_QLfol = "INSERT INTO `$_jIt0L` SET ".$_QLfol;
+        mysql_query($_QLfol, $_QLttI);
+        _L8D88($_QLfol);
 
-        $_Ij6Io = join("", file(_O68A8()."fumailtracking.sql"));
-        $_Ij6Io = str_replace('`TABLE_FUMAILLINKS`', $_Q6Q1C["LinksTableName"], $_Ij6Io);
-        $_Ij6Io = str_replace('`TABLE_FUMAILTRACKINGOPENINGS`', $_Q6Q1C["TrackingOpeningsTableName"], $_Ij6Io);
-        $_Ij6Io = str_replace('`TABLE_FUMAILTRACKINGOPENINGSBYRECIPIENT`', $_Q6Q1C["TrackingOpeningsByRecipientTableName"], $_Ij6Io);
-        $_Ij6Io = str_replace('`TABLE_FUMAILTRACKINGLINKS`', $_Q6Q1C["TrackingLinksTableName"], $_Ij6Io);
-        $_Ij6Io = str_replace('`TABLE_FUMAILTRACKINGLINKSBYRECIPIENT`', $_Q6Q1C["TrackingLinksByRecipientTableName"], $_Ij6Io);
-        $_Ij6Io = str_replace('`TABLE_FUMAILTRACKINGUSERAGENTS`', $_Q6Q1C["TrackingUserAgentsTableName"], $_Ij6Io);
-        $_Ij6Io = str_replace('`TABLE_FUMAILTRACKINGOSS`', $_Q6Q1C["TrackingOSsTableName"], $_Ij6Io);
+        $_IiIlQ = join("", file(_LOCFC()."fumailtracking.sql"));
+        $_IiIlQ = str_replace('`TABLE_FUMAILLINKS`', $_QLO0f["LinksTableName"], $_IiIlQ);
+        $_IiIlQ = str_replace('`TABLE_FUMAILTRACKINGOPENINGS`', $_QLO0f["TrackingOpeningsTableName"], $_IiIlQ);
+        $_IiIlQ = str_replace('`TABLE_FUMAILTRACKINGOPENINGSBYRECIPIENT`', $_QLO0f["TrackingOpeningsByRecipientTableName"], $_IiIlQ);
+        $_IiIlQ = str_replace('`TABLE_FUMAILTRACKINGLINKS`', $_QLO0f["TrackingLinksTableName"], $_IiIlQ);
+        $_IiIlQ = str_replace('`TABLE_FUMAILTRACKINGLINKSBYRECIPIENT`', $_QLO0f["TrackingLinksByRecipientTableName"], $_IiIlQ);
+        $_IiIlQ = str_replace('`TABLE_FUMAILTRACKINGUSERAGENTS`', $_QLO0f["TrackingUserAgentsTableName"], $_IiIlQ);
+        $_IiIlQ = str_replace('`TABLE_FUMAILTRACKINGOSS`', $_QLO0f["TrackingOSsTableName"], $_IiIlQ);
 
-        $_Ij6il = explode(";", $_Ij6Io);
+        $_IijLl = explode(";", $_IiIlQ);
 
-        for($_QllO8=0; $_QllO8<count($_Ij6il); $_QllO8++) {
-          if(trim($_Ij6il[$_QllO8]) == "") continue;
-          $_Q60l1 = mysql_query($_Ij6il[$_QllO8]." CHARSET=utf8", $_Q61I1);
-          if(!$_Q60l1)
-            $_Q60l1 = mysql_query($_Ij6il[$_QllO8], $_Q61I1);
-          if(!$_Q60l1)
-            _OAL8F($_Ij6il[$_QllO8]);
+        for($_I016j=0; $_I016j<count($_IijLl); $_I016j++) {
+          if(trim($_IijLl[$_I016j]) == "") continue;
+          $_QL8i1 = mysql_query($_IijLl[$_I016j]." CHARSET="  . DefaultMySQLEncoding, $_QLttI);
+          if(!$_QL8i1)
+            $_QL8i1 = mysql_query($_IijLl[$_I016j], $_QLttI);
+          if(!$_QL8i1)
+            _L8D88($_IijLl[$_I016j]);
         }
 
-        $_QJlJ0 = "INSERT INTO `$_Q6Q1C[LinksTableName]` SELECT * FROM `$_IjILj`";
-        mysql_query($_QJlJ0, $_Q61I1);
-        _OAL8F($_QJlJ0);
+        $_QLfol = "INSERT INTO `$_QLO0f[LinksTableName]` SELECT * FROM `$_Ii01O`";
+        mysql_query($_QLfol, $_QLttI);
+        _L8D88($_QLfol);
 
      } # for i
 
      // reset OnFollowUpDoneActionDone
-     $_QJlJ0 = "UPDATE `$_It6OJ` SET `OnFollowUpDoneActionDone`=0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_jIO61` SET `OnFollowUpDoneActionDone`=0";
+     mysql_query($_QLfol, $_QLttI);
 
 
    }
  }
 
- function _O8F8L($_ItQ6f){
-  global $_Q61I1, $_QtjLI, $UserId;
-  $_QJlJ0 = "SELECT COUNT(`id`) FROM `$_QtjLI` WHERE `users_id`=$UserId AND `Source`='FollowUpResponder' AND `Source_id`=".intval($_ItQ6f);
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if($_Q60l1 && $_Q6Q1C = mysql_fetch_row($_Q60l1)){
-    mysql_free_result($_Q60l1);
-    return $_Q6Q1C[0] > 0;
+ function _LRJPC($_jIIif){
+  global $_QLttI, $_IQQot, $UserId;
+  $_QLfol = "SELECT COUNT(`id`) FROM `$_IQQot` WHERE `users_id`=$UserId AND `Source`='FollowUpResponder' AND `Source_id`=".intval($_jIIif);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if($_QL8i1 && $_QLO0f = mysql_fetch_row($_QL8i1)){
+    mysql_free_result($_QL8i1);
+    return $_QLO0f[0] > 0;
   }
-  if($_Q60l1)
-    mysql_free_result($_Q60l1);
+  if($_QL8i1)
+    mysql_free_result($_QL8i1);
   return false;
  }
 
- function _OP0O0($_J11lI, $_J1QLt, $_J1j6t, $_J1fiI){
-   global $_Q61I1, $_Q6jOo;
+ function _LR6LJ($_6QQf1, $_6QQio, $_6QIoQ, $_6Qfl8){
+   global $_QLttI, $_QLi60;
 
-   if($_J11lI == 'Subscribed') return true;
+   if($_6QQf1 == 'Subscribed') return true;
 
-   $_QJlJ0 = "SELECT `TrackingOpeningsByRecipientTableName`, `TrackingLinksByRecipientTableName` FROM `$_Q6jOo` WHERE id=$_J1QLt";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || !$_Q6J0Q = mysql_fetch_assoc($_Q60l1)) return false;
-   mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `TrackingOpeningsByRecipientTableName`, `TrackingLinksByRecipientTableName` FROM `$_QLi60` WHERE id=$_6QQio";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || !$_QLL16 = mysql_fetch_assoc($_QL8i1)) return false;
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `ADateTime` FROM ";
+   $_QLfol = "SELECT `ADateTime` FROM ";
 
-      switch ($_J11lI) {
+      switch ($_6QQf1) {
           case 'CampaignOpened':
-              $_QJlJ0 .= " `$_Q6J0Q[TrackingOpeningsByRecipientTableName]` WHERE `$_Q6J0Q[TrackingOpeningsByRecipientTableName]`.`Member_id`=$_J1fiI";
+              $_QLfol .= " `$_QLL16[TrackingOpeningsByRecipientTableName]` WHERE `$_QLL16[TrackingOpeningsByRecipientTableName]`.`Member_id`=$_6Qfl8";
               break;
           case 'CampaignLinkClicked':
-              $_QJlJ0 .= " `$_Q6J0Q[TrackingLinksByRecipientTableName]` WHERE `$_Q6J0Q[TrackingLinksByRecipientTableName]`.`Member_id`=$_J1fiI";
+              $_QLfol .= " `$_QLL16[TrackingLinksByRecipientTableName]` WHERE `$_QLL16[TrackingLinksByRecipientTableName]`.`Member_id`=$_6Qfl8";
               break;
           case 'CampaignSpecialLinkClicked':
-              $_QJlJ0 .= " `$_Q6J0Q[TrackingLinksByRecipientTableName]` WHERE `$_Q6J0Q[TrackingLinksByRecipientTableName]`.`Member_id`=$_J1fiI AND `$_Q6J0Q[TrackingLinksByRecipientTableName]`.`Links_id`=$_J1j6t";
+              $_QLfol .= " `$_QLL16[TrackingLinksByRecipientTableName]` WHERE `$_QLL16[TrackingLinksByRecipientTableName]`.`Member_id`=$_6Qfl8 AND `$_QLL16[TrackingLinksByRecipientTableName]`.`Links_id`=$_6QIoQ";
               break;
       }
 
-   $_QJlJ0 .= " LIMIT 0,1";
+   $_QLfol .= " LIMIT 0,1";
 
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QL8Q8 = mysql_fetch_assoc($_Q60l1)){
-     return $_QL8Q8["ADateTime"];
-     mysql_free_result($_Q60l1);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_Ift08 = mysql_fetch_assoc($_QL8i1)){
+     return $_Ift08["ADateTime"];
+     mysql_free_result($_QL8i1);
    }
-   if($_Q60l1)
-     mysql_free_result($_Q60l1);
+   if($_QL8i1)
+     mysql_free_result($_QL8i1);
    return false;
  }
 
- function _OP06R($_J1JJf, $_J1JCt, $_ItJIf, $_J18JI, $_J1fiI){
-   global $_Q61I1;
+ function _LRROB($_6Qj0I, $_6QjJf, $_jIt0L, $_6Q8Qj, $_6Qfl8){
+   global $_QLttI;
 
-   if($_J1JJf == 'WasSent') return true;
+   if($_6Qj0I == 'WasSent') return true;
 
-   $_QJlJ0 = "SELECT `TrackingOpeningsByRecipientTableName`, `TrackingLinksByRecipientTableName` FROM `$_ItJIf` WHERE `sort_order`=$_J18JI-1";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1 || !$_J1t0I = mysql_fetch_assoc($_Q60l1)) return false;
-   mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `TrackingOpeningsByRecipientTableName`, `TrackingLinksByRecipientTableName` FROM `$_jIt0L` WHERE `sort_order`=$_6Q8Qj-1";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1 || !$_6Qt0I = mysql_fetch_assoc($_QL8i1)) return false;
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "SELECT `ADateTime` FROM ";
+   $_QLfol = "SELECT `ADateTime` FROM ";
 
-      switch ($_J1JJf) {
+      switch ($_6Qj0I) {
           case 'WasOpened':
-              $_QJlJ0 .= " `$_J1t0I[TrackingOpeningsByRecipientTableName]` WHERE `$_J1t0I[TrackingOpeningsByRecipientTableName]`.`Member_id`=$_J1fiI";
+              $_QLfol .= " `$_6Qt0I[TrackingOpeningsByRecipientTableName]` WHERE `$_6Qt0I[TrackingOpeningsByRecipientTableName]`.`Member_id`=$_6Qfl8";
               break;
           case 'HasLinkClicked':
-              $_QJlJ0 .= " `$_J1t0I[TrackingLinksByRecipientTableName]` WHERE `$_J1t0I[TrackingLinksByRecipientTableName]`.`Member_id`=$_J1fiI";
+              $_QLfol .= " `$_6Qt0I[TrackingLinksByRecipientTableName]` WHERE `$_6Qt0I[TrackingLinksByRecipientTableName]`.`Member_id`=$_6Qfl8";
               break;
           case 'HasSpecialLinkClicked':
-              $_QJlJ0 .= " `$_J1t0I[TrackingLinksByRecipientTableName]` WHERE `$_J1t0I[TrackingLinksByRecipientTableName]`.`Member_id`=$_J1fiI AND `$_J1t0I[TrackingLinksByRecipientTableName]`.`Links_id`=$_J1JCt";
+              $_QLfol .= " `$_6Qt0I[TrackingLinksByRecipientTableName]` WHERE `$_6Qt0I[TrackingLinksByRecipientTableName]`.`Member_id`=$_6Qfl8 AND `$_6Qt0I[TrackingLinksByRecipientTableName]`.`Links_id`=$_6QjJf";
               break;
       }
 
-   $_QJlJ0 .= " LIMIT 0,1";
+   $_QLfol .= " LIMIT 0,1";
 
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QL8Q8 = mysql_fetch_assoc($_Q60l1)){
-     return $_QL8Q8["ADateTime"];
-     mysql_free_result($_Q60l1);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_Ift08 = mysql_fetch_assoc($_QL8i1)){
+     return $_Ift08["ADateTime"];
+     mysql_free_result($_QL8i1);
    }
-   if($_Q60l1)
-     mysql_free_result($_Q60l1);
+   if($_QL8i1)
+     mysql_free_result($_QL8i1);
    return false;
  }
 

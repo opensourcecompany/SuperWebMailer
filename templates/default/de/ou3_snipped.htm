@@ -1,0 +1,47 @@
+      <form id="OUForm" name="OUForm" method="post" action="./upgrade.php">
+
+      <fieldset>
+      <legend>Online-Update - PRODUCTAPPNAME</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+
+              <tr>
+                <td>
+                  <h2>
+
+                  <UPDATE:SUCCESS>
+                    Das Update wurde erfolgreich installiert.<br /><br />
+                    Klicken Sie auf &quot;Fertig stellen&quot;, um upgrade.php auszuf&uuml;hren.<br /><br />
+                    <span style="color: red;">WICHTIG: </span>Das Script upgrade.php muss bis zum Ende ausgef&uuml;hrt werden, um die Tabellenstruktur
+                    an die neue Version anzupassen.
+                    <br /><br />
+                  </UPDATE:SUCCESS>
+
+                  <UPDATE:FAILURE>
+                   Das Update wurde nicht erfolgreich installiert.<br /><br />
+                   <span style="color: red;">Fehler: <!--INSTALLERRORTEXT--></span><br /><br />
+                   Sie m&uuml;ssen manuell das Update installieren und danach upgrade.php ausf&uuml;hren.<br />
+                   Die Datei f&uuml;r das Update finden Sie im PRODUCTAPPNAME-Kundenbereich <a href="PRODUCTURL">PRODUCTURL</a><br />
+                   <br />
+                  </UPDATE:FAILURE>
+
+                  </h2>
+                  <br /><br />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <UPDATE:SUCCESS>
+      <input type="submit" name="DoneBtn" value="Fertig stellen" class="FormButton" />
+      </UPDATE:SUCCESS>
+
+      <UPDATE:FAILURE>
+      <input type="submit" name="CancelBtn" value="Abbrechen" class="FormButton" onclick="$('#OUForm').prop('action', './dashboard.php');" />
+      </UPDATE:FAILURE>
+
+      </form>
+      

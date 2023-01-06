@@ -25,59 +25,59 @@
   if(!defined("SWM") && !defined("SML") && !defined("CRONS_PHP"))
     exit;
 
- function _LLLQF($_IlC1O, $_6if01, $_6if8t, $_6ifti, &$_jOljL){
-   global $_Q61I1, $_Q6jOo;
+ function _JL8L0($_joQOt, $_86LOf, $_86lft, $_86llo, &$_JO616){
+   global $_QLttI, $_QLi60;
 
-   $_jOljL = 0;
-   for($_Q6llo=0; $_Q6llo<count($_6if8t); $_Q6llo++){
+   $_JO616 = 0;
+   for($_Qli6J=0; $_Qli6J<count($_86lft); $_Qli6J++){
      // security
-     $_6if8t[$_Q6llo]["Campaigns_id"] = intval($_6if8t[$_Q6llo]["Campaigns_id"]);
-     $_6if8t[$_Q6llo]["CampaignsSendStat_id"] = intval($_6if8t[$_Q6llo]["CampaignsSendStat_id"]);
+     $_86lft[$_Qli6J]["Campaigns_id"] = intval($_86lft[$_Qli6J]["Campaigns_id"]);
+     $_86lft[$_Qli6J]["CampaignsSendStat_id"] = intval($_86lft[$_Qli6J]["CampaignsSendStat_id"]);
      // security /
 
-     $_QJlJ0 = "SELECT `TrackingOpeningsTableName`, `TrackingLinksTableName` FROM `$_Q6jOo` WHERE ";
-     if($_6ifti) {
-       $_QJlJ0 .= "(NOW() >= DATE_ADD('$_6if01[EndSendDateTime]', INTERVAL $_IlC1O[SendAfterInterval] $_IlC1O[SendAfterIntervalType]) )";
-       $_QJlJ0 .= " AND ";
+     $_QLfol = "SELECT `TrackingOpeningsTableName`, `TrackingLinksTableName` FROM `$_QLi60` WHERE ";
+     if($_86llo) {
+       $_QLfol .= "(NOW() >= DATE_ADD('$_86LOf[EndSendDateTime]', INTERVAL $_joQOt[SendAfterInterval] $_joQOt[SendAfterIntervalType]) )";
+       $_QLfol .= " AND ";
      }
-     $_QJlJ0 .= " id=".$_6if8t[$_Q6llo]["Campaigns_id"];
+     $_QLfol .= " id=".$_86lft[$_Qli6J]["Campaigns_id"];
 
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-       if($_Q60l1)
-         mysql_free_result($_Q60l1);
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+       if($_QL8i1)
+         mysql_free_result($_QL8i1);
        return 0;
      }
-     $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-     mysql_free_result($_Q60l1);
+     $_QLO0f = mysql_fetch_assoc($_QL8i1);
+     mysql_free_result($_QL8i1);
 
-     if($_IlC1O["WinnerType"] == 'WinnerOpens'){
-       $_ICLO8 = "TrackingOpeningsTableName";
+     if($_joQOt["WinnerType"] == 'WinnerOpens'){
+       $_jf1IJ = "TrackingOpeningsTableName";
      } else {
-       $_ICLO8 = "TrackingLinksTableName";
+       $_jf1IJ = "TrackingLinksTableName";
      }
 
-     $_QJlJ0 = "SELECT SUM(Clicks) FROM `$_Q6Q1C[$_ICLO8]` WHERE `SendStat_id`=".$_6if8t[$_Q6llo]["CampaignsSendStat_id"];
-     $_ItlJl = mysql_query($_QJlJ0, $_Q61I1);
-     $_IO08Q = mysql_fetch_row($_ItlJl);
-     mysql_free_result($_ItlJl);
-     if($_IO08Q[0] == NULL)
-       $_IO08Q[0] = 0;
-     $_6if8t[$_Q6llo]["SumClicks"] = $_IO08Q[0];
+     $_QLfol = "SELECT SUM(Clicks) FROM `$_QLO0f[$_jf1IJ]` WHERE `SendStat_id`=".$_86lft[$_Qli6J]["CampaignsSendStat_id"];
+     $_jjJfo = mysql_query($_QLfol, $_QLttI);
+     $_jj6L6 = mysql_fetch_row($_jjJfo);
+     mysql_free_result($_jjJfo);
+     if($_jj6L6[0] == NULL)
+       $_jj6L6[0] = 0;
+     $_86lft[$_Qli6J]["SumClicks"] = $_jj6L6[0];
 
 
-   }# for($_Q6llo=0; $_Q6llo<count($_6if8t); $_Q6llo++)
+   }# for($_Qli6J=0; $_Qli6J<count($_86lft); $_Qli6J++)
 
-   $_jOljL = $_6if8t[0]["SumClicks"];
-   $_6i81L = $_6if8t[0]["Campaigns_id"];
-   for($_Q6llo=1; $_Q6llo<count($_6if8t); $_Q6llo++){
-     if( $_6if8t[$_Q6llo]["SumClicks"] > $_jOljL ) {
-       $_jOljL = $_6if8t[$_Q6llo]["SumClicks"];
-       $_6i81L = $_6if8t[$_Q6llo]["Campaigns_id"];
+   $_JO616 = $_86lft[0]["SumClicks"];
+   $_8f0iJ = $_86lft[0]["Campaigns_id"];
+   for($_Qli6J=1; $_Qli6J<count($_86lft); $_Qli6J++){
+     if( $_86lft[$_Qli6J]["SumClicks"] > $_JO616 ) {
+       $_JO616 = $_86lft[$_Qli6J]["SumClicks"];
+       $_8f0iJ = $_86lft[$_Qli6J]["Campaigns_id"];
      }
    }
 
-   return $_6i81L;
+   return $_8f0iJ;
  }
 
 ?>

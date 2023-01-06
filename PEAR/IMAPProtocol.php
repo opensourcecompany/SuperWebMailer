@@ -16,8 +16,8 @@
 /**
  * Net_IMAP requires Net_Socket
  */
-require_once 'PEAR/Socket.php';
-require_once 'PEAR/PEAR_.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Socket.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'PEAR_.php';
 
 
 /**
@@ -175,7 +175,7 @@ class Net_IMAPProtocol
          * Include the Auth_SASL package.  If the package is not available,
          * we disable the authentication methods that depend upon it.
          */
-        if ((@include_once 'PEAR/SASL.php') == false) {
+        if ((@include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'SASL.php') == false) {
             foreach ($this->supportedSASLAuthMethods as $SASLMethod) {
                 $pos = array_search($SASLMethod, $this->supportedAuthMethods);
                 unset($this->supportedAuthMethods[$pos]);
@@ -3112,7 +3112,7 @@ class Net_IMAPProtocol
 
 //Exchange 2010 blank after INBOX not INBOX in " "
 
-if($str{0} == " "){
+if($str[0] == " "){
  $str = substr($str, 1);
 }
 // M.B.

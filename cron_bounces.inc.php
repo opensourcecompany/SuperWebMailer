@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,254 +26,256 @@
   include_once("savedoptions.inc.php");
   include_once("recipients_ops.inc.php");
 
-  function _OR0OJ(&$_j6O8O) {
-    global $_Q8f1L, $_Q60QL, $_Q61I1, $_Ql8C0;
+  function _LLL8O(&$_JIfo0) {
+    global $_I18lo, $_QL88I, $_QLttI, $_I8tfQ;
 
-    $_j6O8O = "Bounce checking starts...<br />";
-    $_j80Ol = 0;
-    $_j81tJ = 0;
+    $_JIfo0 = "Bounce checking starts...<br />";
+    $_JJ6Ii = 0;
+    $_JJ6Ol = 0;
 
-    $_QJlJ0 = "SELECT `$_Q8f1L`.`id` AS UsersId, `$_Q8f1L`.`IsActive`, `$_Q8f1L`.`Username`, `$_Q8f1L`.`InboxesTableName`, `$_Q8f1L`.`GlobalBlockListTableName`, `$_Q60QL`.`id` AS MailingListId,
-       `$_Q60QL`.`InboxesTableName` AS InboxesTableNameRelation FROM `$_Q8f1L` LEFT JOIN `$_Q60QL` ON
-       `$_Q60QL`.`users_id`=`$_Q8f1L`.`id` WHERE `$_Q8f1L`.`UserType`='Admin' AND `$_Q8f1L`.`IsActive`>0
-       ORDER BY `$_Q8f1L`.`id`, `$_Q8f1L`.`InboxesTableName`";
-    $_j81Cl = mysql_query($_QJlJ0, $_Q61I1);
+    $_QLfol = "SELECT `$_I18lo`.`id` AS UsersId, `$_I18lo`.`IsActive`, `$_I18lo`.`Username`, `$_I18lo`.`InboxesTableName`, `$_I18lo`.`GlobalBlockListTableName`, `$_QL88I`.`id` AS MailingListId,
+       `$_QL88I`.`InboxesTableName` AS InboxesTableNameRelation FROM `$_I18lo` LEFT JOIN `$_QL88I` ON
+       `$_QL88I`.`users_id`=`$_I18lo`.`id` WHERE `$_I18lo`.`UserType`='Admin' AND `$_I18lo`.`IsActive`>0
+       ORDER BY `$_I18lo`.`id`, `$_I18lo`.`InboxesTableName`";
+    $_JJf68 = mysql_query($_QLfol, $_QLttI);
 
-    $_j8QJ8 = "";
-    $_j8QOQ = array();
-    while ($_j8IQC = mysql_fetch_assoc($_j81Cl)) {
-      _OPQ6J();
+    $_JJffC = "";
+    $_JJfOL = array();
+    while ($_JJ8jl = mysql_fetch_assoc($_JJf68)) {
+      _LRCOC();
 
-      if($_j8QJ8 != $_j8IQC["InboxesTableName"]) {
-        if(count($_j8QOQ)) {
-           _OR0JL($_j8QJ8, $_j8QOQ, $_j6O8O, $_j81tJ, $_j80Ol);
+      if($_JJffC != $_JJ8jl["InboxesTableName"]) {
+        if(count($_JJfOL)) {
+           _LLL86($_JJffC, $_JJfOL, $_JIfo0, $_JJ6Ol, $_JJ6Ii);
         }
-        unset($_j8QOQ);
-        $_Ql8C0 = $_j8IQC["GlobalBlockListTableName"];
-        $_j8QJ8 = $_j8IQC["InboxesTableName"];
-        $_j8QOQ = array();
+        unset($_JJfOL);
+        $_I8tfQ = $_JJ8jl["GlobalBlockListTableName"];
+        $_JJffC = $_JJ8jl["InboxesTableName"];
+        $_JJfOL = array();
       }
-      $_j8QOQ[] = array (
-                                          "MailingListId" => $_j8IQC["MailingListId"],
-                                          "InboxesTableNameRelation" => $_j8IQC["InboxesTableNameRelation"]
+      $_JJfOL[] = array (
+                                          "MailingListId" => $_JJ8jl["MailingListId"],
+                                          "InboxesTableNameRelation" => $_JJ8jl["InboxesTableNameRelation"]
                                         );
-    } #  while ($_j8IQC = mysql_fetch_assoc($_j81Cl))
-    mysql_free_result($_j81Cl);
-    if(count($_j8QOQ))
-       _OR0JL($_j8QJ8, $_j8QOQ, $_j6O8O, $_j81tJ, $_j80Ol);
+    } #  while ($_JJ8jl = mysql_fetch_assoc($_JJf68))
+    mysql_free_result($_JJf68);
+    if(count($_JJfOL))
+       _LLL86($_JJffC, $_JJfOL, $_JIfo0, $_JJ6Ol, $_JJ6Ii);
 
-    $_j6O8O .= "<br />Bounce checking end.";
+    $_JIfo0 .= "<br />Bounce checking end.";
 
-    if($_j81tJ)
+    if($_JJ6Ol)
       return true;
-    if($_j80Ol)
+    if($_JJ6Ii)
        return false;
     return -1;
   }
 
 
-  function _OR0JL($_j8QJ8, $_j8QOQ, &$_j6O8O, &$_j81tJ, &$_j80Ol) {
-    global $_Q60QL, $_Q61I1;
-    $_j8IfJ = array();
+  function _LLL86($_JJffC, $_JJfOL, &$_JIfo0, &$_JJ6Ol, &$_JJ6Ii) {
+    global $_QL88I, $_QLttI;
+    $_JJ86C = array();
 
     // Get unique IDs
-    for($_Q6llo=0; $_Q6llo<count($_j8QOQ); $_Q6llo++) {
-      $_QJlJ0 = "SELECT DISTINCT inboxes_id FROM ".$_j8QOQ[$_Q6llo]["InboxesTableNameRelation"];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if($_Q60l1) {
-        while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1))
-            $_j8IfJ[$_Q6Q1C["inboxes_id"]][] = $_j8QOQ[$_Q6llo]["InboxesTableNameRelation"];
-        mysql_free_result($_Q60l1);
+    for($_Qli6J=0; $_Qli6J<count($_JJfOL); $_Qli6J++) {
+      $_QLfol = "SELECT DISTINCT inboxes_id FROM ".$_JJfOL[$_Qli6J]["InboxesTableNameRelation"];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if($_QL8i1) {
+        while ($_QLO0f = mysql_fetch_assoc($_QL8i1))
+            $_JJ86C[$_QLO0f["inboxes_id"]][] = $_JJfOL[$_Qli6J]["InboxesTableNameRelation"];
+        mysql_free_result($_QL8i1);
       }
     }
 
-    reset($_j8IfJ);
-    foreach($_j8IfJ as $key => $_Q6ClO) {
-      $_QJlJ0 = "SELECT * FROM `$_j8QJ8` WHERE id=".$key;
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-        if($_Q60l1)
-          mysql_free_result($_Q60l1);
+    reset($_JJ86C);
+    foreach($_JJ86C as $key => $_QltJO) {
+      $_QLfol = "SELECT * FROM `$_JJffC` WHERE id=".$key;
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+        if($_QL8i1)
+          mysql_free_result($_QL8i1);
         continue;
       }
-      $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
+      $_QLO0f = mysql_fetch_assoc($_QL8i1);
 
-      $_j8ILt = $_Q6Q1C["Name"];
-      _OPQ6J();
-      $_j6O8O .= "<hr />Checking inbox "."&quot;".$_j8ILt."&quot;"."<br />";
+      $_JJ8Ct = $_QLO0f["Name"];
+      _LRCOC();
+      $_JIfo0 .= "<hr />Checking inbox "."&quot;".$_JJ8Ct."&quot;"."<br />";
 
-      $_jftQf = new _ODPCC(InstallPath."js");
-      $_jftQf->Name = $_Q6Q1C["Name"];
-      $_jftQf->InboxType = $_Q6Q1C["InboxType"]; // 'pop3', 'imap'
-      $_jftQf->EMailAddress = $_Q6Q1C["EMailAddress"];
-      $_jftQf->Servername = $_Q6Q1C["Servername"];
-      $_jftQf->Serverport = $_Q6Q1C["Serverport"];
-      $_jftQf->Username = $_Q6Q1C["Username"];
-      $_jftQf->Password = $_Q6Q1C["Password"];
-      $_jftQf->SSLConnection = $_Q6Q1C["SSL"];
-      $_jftQf->LeaveMessagesInInbox = $_Q6Q1C["LeaveMessagesInInbox"];
-      $_jftQf->NumberOfEMailsToProcess = _LQDLR("BounceEMailCount");
-      $_jftQf->RemoveUnknownMailsAndSoftbounces = _LQDLR("RemoveUnknownMailsAndSoftbounces");
-      if($_Q6Q1C["UIDL"] != "") {
-           $_jftQf->UIDL = @unserialize($_Q6Q1C["UIDL"]);
-           if($_jftQf->UIDL === false)
-              $_jftQf->UIDL = array();
+      $_Jji6J = new _LCAO8(InstallPath."js");
+      $_Jji6J->Name = $_QLO0f["Name"];
+      $_Jji6J->InboxType = $_QLO0f["InboxType"]; // 'pop3', 'imap'
+      $_Jji6J->EMailAddress = $_QLO0f["EMailAddress"];
+      $_Jji6J->Servername = $_QLO0f["Servername"];
+      $_Jji6J->Serverport = $_QLO0f["Serverport"];
+      $_Jji6J->Username = $_QLO0f["Username"];
+      $_Jji6J->Password = $_QLO0f["Password"];
+      $_Jji6J->SSLConnection = $_QLO0f["SSL"];
+      $_Jji6J->LeaveMessagesInInbox = $_QLO0f["LeaveMessagesInInbox"];
+      $_Jji6J->NumberOfEMailsToProcess = _JOLQE("BounceEMailCount");
+      $_Jji6J->RemoveUnknownMailsAndSoftbounces = _JOLQE("RemoveUnknownMailsAndSoftbounces");
+      if($_QLO0f["UIDL"] != "") {
+           $_Jji6J->UIDL = @unserialize($_QLO0f["UIDL"]);
+           if($_Jji6J->UIDL === false)
+              $_Jji6J->UIDL = array();
          }
          else
-         $_jftQf->UIDL = array();
+         $_Jji6J->UIDL = array();
 
-      if(isset($_IJ6Cf))
-        unset($_IJ6Cf);
-      $_IJ6Cf = array();
-      $_jj0JO = "";
-      $_jft86 = 0;
-      if(!$_jftQf->_ODA80($_jj0JO, $_IJ6Cf, $_jft86) ) {
-         $_j6O8O .= "Error: ".$_jj0JO."; count of mails: ".$_jft86."<br />";
-         $_j80Ol++;
+      if(isset($_ILJIO))
+        unset($_ILJIO);
+      $_ILJIO = array();
+      $_J0COJ = "";
+      $_JjLJ1 = 0;
+      if(!$_Jji6J->_LCACA($_J0COJ, $_ILJIO, $_JjLJ1) ) {
+         $_JIfo0 .= "Error: ".$_J0COJ."; count of mails: ".$_JjLJ1."<br />";
+         $_JJ6Ii++;
 
       } else {
-        $_j6O8O .= "Successfully; found new emails: ".$_jft86."; hard bounces: ".count($_IJ6Cf);
-        if($_jj0JO != "")
-           $_j6O8O .= "; ".$_jj0JO;
-        $_j6O8O .= "<br />";
-        $_j81tJ++;
-        if(count($_IJ6Cf) > 0)
-           for($_Q6llo=0; $_Q6llo<count($_Q6ClO); $_Q6llo++) {
-             for($_Qf0Ct=0; $_Qf0Ct<count($_j8QOQ); $_Qf0Ct++) {
-               if($_j8QOQ[$_Qf0Ct]["InboxesTableNameRelation"] == $_Q6ClO[$_Q6llo]) {
-                 _OPQ6J();
-                 _OR06E($_j8QOQ[$_Qf0Ct]["MailingListId"], $_IJ6Cf, $_j6O8O);
+        $_JIfo0 .= "Successfully; found new emails: ".$_JjLJ1."; hard bounces: ".count($_ILJIO);
+        if($_J0COJ != "")
+           $_JIfo0 .= "; ".$_J0COJ;
+        $_JIfo0 .= "<br />";
+        $_JJ6Ol++;
+        if(count($_ILJIO) > 0)
+           for($_Qli6J=0; $_Qli6J<count($_QltJO); $_Qli6J++) {
+             for($_QliOt=0; $_QliOt<count($_JJfOL); $_QliOt++) {
+               if($_JJfOL[$_QliOt]["InboxesTableNameRelation"] == $_QltJO[$_Qli6J]) {
+                 _LRCOC();
+                 _LLLPP($_JJfOL[$_QliOt]["MailingListId"], $_ILJIO, $_JIfo0);
                }
-             } // for $_Qf0Ct
-           } // for $_Q6llo
+             } // for $_QliOt
+           } // for $_Qli6J
       }
 
       // save UIDL
-      $_QJlJ0 = "UPDATE `$_j8QJ8` SET `UIDL`="._OPQLR( serialize($_jftQf->UIDL) )." WHERE id=".$key;
-      mysql_query($_QJlJ0, $_Q61I1);
+      $_QLfol = "UPDATE `$_JJffC` SET `UIDL`="._LRAFO( serialize($_Jji6J->UIDL) )." WHERE id=".$key;
+      mysql_query($_QLfol, $_QLttI);
 
-      unset($_jftQf);
-      mysql_free_result($_Q60l1);
-      $_j6O8O .= "Done Checking inbox "."&quot;".$_j8ILt."&quot;"."<br />";
-    } # for($_Q6llo=0; $_Q6llo<count($_j8IfJ); $_Q6llo++)
+      unset($_Jji6J);
+      mysql_free_result($_QL8i1);
+      $_JIfo0 .= "Done Checking inbox "."&quot;".$_JJ8Ct."&quot;"."<br />";
+    } # for($_Qli6J=0; $_Qli6J<count($_JJ86C); $_Qli6J++)
 
-    if($_j81tJ > 0)
+    if($_JJ6Ol > 0)
       return true;
-    if($_j80Ol > 0)
+    if($_JJ6Ii > 0)
       return false;
     return -1;
   } // DoCheckForBounces
 
-  function _OR06E($_j8jjO, $_j8jf1, &$_j6O8O) {
-   global $_Q60QL, $_Ql8C0, $MailingListId, $_Q61I1;
-   global $_QltCO, $_QlQC8, $_QlIf6, $_QLI68, $_QljIQ, $_Qljli;
+  function _LLLPP($_JJtjC, $_JJto8, &$_JIfo0) {
+   global $_QL88I, $_I8tfQ, $MailingListId, $_QLttI;
+   global $_I8oIJ, $_I8I6o, $_I8jjj, $_IfJ66, $_I8jLt, $_I8Jti;
 
-   $MailingListId = $_j8jjO;
-   $_QJlJ0 = "SELECT id, Name, MaillistTableName, LocalBlocklistTableName, MailLogTableName, StatisticsTableName, MailListToGroupsTableName, EditTableName, SubscriptionType, UnsubscriptionType, SubscriptionExpirationDays, UnsubscriptionExpirationDays, ExternalBounceScript FROM `$_Q60QL` WHERE id=".$MailingListId;
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     $_IiC6I = $_Q6Q1C["Name"];
-     $_ItCCo = $_Q6Q1C["LocalBlocklistTableName"];
-     $_QlQC8 = $_Q6Q1C["MaillistTableName"];
-     $_QlIf6 = $_Q6Q1C["StatisticsTableName"];
-     $_QLI68 = $_Q6Q1C["MailListToGroupsTableName"];
-     $MailingListId = $_Q6Q1C["id"];
-     $_QljIQ = $_Q6Q1C["MailLogTableName"];
-     $_Qljli = $_Q6Q1C["EditTableName"];
-     $_j8JIJ = $_Q6Q1C["ExternalBounceScript"];
-     mysql_free_result($_Q60l1);
+   $MailingListId = $_JJtjC;
+   $_QLfol = "SELECT id, Name, MaillistTableName, LocalBlocklistTableName, MailLogTableName, StatisticsTableName, MailListToGroupsTableName, EditTableName, SubscriptionType, UnsubscriptionType, SubscriptionExpirationDays, UnsubscriptionExpirationDays, ExternalBounceScript FROM `$_QL88I` WHERE id=".$MailingListId;
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     $_jtICQ = $_QLO0f["Name"];
+     $_jjj8f = $_QLO0f["LocalBlocklistTableName"];
+     $_I8I6o = $_QLO0f["MaillistTableName"];
+     $_I8jjj = $_QLO0f["StatisticsTableName"];
+     $_IfJ66 = $_QLO0f["MailListToGroupsTableName"];
+     $MailingListId = $_QLO0f["id"];
+     $_I8jLt = $_QLO0f["MailLogTableName"];
+     $_I8Jti = $_QLO0f["EditTableName"];
+     $_JJOtJ = $_QLO0f["ExternalBounceScript"];
+     mysql_free_result($_QL8i1);
    } else {
-     $_j6O8O .= "mailinglist with id=$MailingListId not found!!";
+     $_JIfo0 .= "mailinglist with id=$MailingListId not found!!";
      return false;
    }
 
-   $_j8610 = _LQDLR("HardbounceCount");
-   $_j86tl = _LQDLR("RemoveToOftenBouncedRecipients");
-   $_j86Ol = _LQDLR("AddBouncedRecipientsToLocalBlocklist");
-   $_j86iJ = _LQDLR("AddBouncedRecipientsToGlobalBlocklist");
+   $_JJot0 = _JOLQE("HardbounceCount");
+   $_JJC06 = _JOLQE("RemoveToOftenBouncedRecipients");
+   $_JJC86 = _JOLQE("AddBouncedRecipientsToLocalBlocklist");
+   $_JJC88 = _JOLQE("AddBouncedRecipientsToGlobalBlocklist");
 
-   $_QltCO=array();
+   $_I8oIJ=array();
 
-   $_j6O8O .= "Checking mailing list '$_IiC6I'...<br />";
-   $_j86L8 = 0;
-   for($_Q6llo=0; $_Q6llo<count($_j8jf1); $_Q6llo++) {
-     $_QJlJ0 = "SELECT id, HardbounceCount FROM `$_QlQC8` WHERE `u_EMail`="._OPQLR($_j8jf1[$_Q6llo]);
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     if($_Q60l1 && mysql_num_rows($_Q60l1)) {
-       $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-       mysql_free_result($_Q60l1);
-       $_QLitI = $_Q6Q1C["id"];
+   $_JIfo0 .= "Checking mailing list '$_jtICQ'...<br />";
+   $_JJC8i = 0;
+   for($_Qli6J=0; $_Qli6J<count($_JJto8); $_Qli6J++) {
+     $_QLfol = "SELECT id, HardbounceCount FROM `$_I8I6o` WHERE `u_EMail`="._LRAFO($_JJto8[$_Qli6J]);
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     if(!$_QL8i1) continue;
+     if(mysql_num_rows($_QL8i1) == 0){
+       mysql_free_result($_QL8i1);
+       continue;
+     }
+     while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+       $_IfLJj = $_QLO0f["id"];
 
-       $_j86L8++;
-       $_Q6Q1C["HardbounceCount"]++;
+       $_JJC8i++;
+       $_QLO0f["HardbounceCount"]++;
 
-       mysql_query("BEGIN", $_Q61I1);
+       mysql_query("BEGIN", $_QLttI);
 
        // remove recipient or update BounceStatus
-       if( $_Q6Q1C["HardbounceCount"] >= $_j8610) {
-         $_QltCO[] = $_QLitI;
-         if(!$_j86tl) {
-           $_QJlJ0 = "UPDATE `$_QlQC8` SET BounceStatus='PermanentlyBounced', HardbounceCount=HardbounceCount + 1 WHERE id=".$_QLitI;
-           mysql_query($_QJlJ0, $_Q61I1);
+       if( $_QLO0f["HardbounceCount"] >= $_JJot0) {
+         $_I8oIJ[] = $_IfLJj;
+         if(!$_JJC06) {
+           $_QLfol = "UPDATE `$_I8I6o` SET BounceStatus='PermanentlyBounced', HardbounceCount=HardbounceCount + 1 WHERE id=".$_IfLJj;
+           mysql_query($_QLfol, $_QLttI);
          }
        } else {
-         $_QJlJ0 = "UPDATE `$_QlQC8` SET BounceStatus='PermanentlyBounced', HardbounceCount=HardbounceCount + 1 WHERE id=".$_QLitI;
-         mysql_query($_QJlJ0, $_Q61I1);
+         $_QLfol = "UPDATE `$_I8I6o` SET BounceStatus='PermanentlyBounced', HardbounceCount=HardbounceCount + 1 WHERE id=".$_IfLJj;
+         mysql_query($_QLfol, $_QLttI);
        }
 
-       $_QJlJ0 = "INSERT INTO `$_QlIf6` SET ActionDate=NOW(), Action='Bounced', Member_id=$_QLitI, AText="._OPQLR("hard bounced");
-       mysql_query($_QJlJ0, $_Q61I1);
+       $_QLfol = "INSERT INTO `$_I8jjj` SET ActionDate=NOW(), Action='Bounced', Member_id=$_IfLJj, AText="._LRAFO("hard bounced");
+       mysql_query($_QLfol, $_QLttI);
 
-       mysql_query("COMMIT", $_Q61I1);
+       mysql_query("COMMIT", $_QLttI);
 
-       CallExternalBounceScript($_j8JIJ, $_j8jf1[$_Q6llo], 'PermanentlyBounced', $_Q6Q1C["HardbounceCount"]);
+       CallExternalBounceScript($_JJOtJ, $_JJto8[$_Qli6J], 'PermanentlyBounced', $_QLO0f["HardbounceCount"]);
 
-     } else {
-       if($_Q60l1)
-         mysql_free_result($_Q60l1);
-     }
+     } 
+     if($_QL8i1)
+       mysql_free_result($_QL8i1);
    }
 
-   $_j6O8O .= $_j86L8." recipient(s) found in mailing list.<br />";
+   $_JIfo0 .= $_JJC8i." recipient(s) found in mailing list.<br />";
 
-   if($_j86Ol && count($_QltCO))
-     _L11PQ($_QltCO, $_ItCCo, $_QlQC8, $_QlIf6);
-   if($_j86iJ && count($_QltCO))
-     _L11PQ($_QltCO, $_Ql8C0, $_QlQC8, $_QlIf6);
+   if($_JJC86 && count($_I8oIJ))
+     _J1LOQ($_I8oIJ, $_jjj8f, $_I8I6o, $_I8jjj);
+   if($_JJC88 && count($_I8oIJ))
+     _J1LOQ($_I8oIJ, $_I8tfQ, $_I8I6o, $_I8jjj);
 
    // remove recipients
-   if(count($_QltCO) > 0 && $_j86tl) {
-     $_QtIiC = array();
-     _L10CL($_QltCO, $_QtIiC, false); // we want to see statistics
-     $_j6O8O .= count($_QltCO)." permanently hard bounced recipients removed<br />";
+   if(count($_I8oIJ) > 0 && $_JJC06) {
+     $_IQ0Cj = array();
+     _J1OQP($_I8oIJ, $_IQ0Cj, false); // we want to see statistics
+     $_JIfo0 .= count($_I8oIJ)." permanently hard bounced recipients removed<br />";
    } else {
-     $_QtIiC = array();
-     _L1J66(false, $_QltCO, $_QtIiC);
-     $_j6O8O .= count($_QltCO)." permanently hard bounced recipients deactivated<br />";
+     $_IQ0Cj = array();
+     _J1RD0(false, $_I8oIJ, $_IQ0Cj);
+     $_JIfo0 .= count($_I8oIJ)." permanently hard bounced recipients deactivated<br />";
    }
   } // DoBounceRecipientsOps
 
 
   // => cron_bounces.inc.php, cron_sendenginge.inc.php
   if(!function_exists("CallExternalBounceScript")){
-    function CallExternalBounceScript($_j8JIJ, $EMail, $BounceType, $BounceCount) {
+    function CallExternalBounceScript($_JJOtJ, $EMail, $BounceType, $BounceCount) {
        global $AppName;
-       if($_j8JIJ == "") return true;
+       if($_JJOtJ == "") return true;
 
-       $_j88of = 0;
-       $_j8t8L = "";
-       $_j8O60 = 80;
-       if(strpos($_j8JIJ, "http://") !== false) {
-          $_j8O8t = substr($_j8JIJ, 7);
-       } elseif(strpos($_j8JIJ, "https://") !== false) {
-         $_j8O60 = 443;
-         $_j8O8t = substr($_j8JIJ, 8);
+       $_JJl1I = 0;
+       $_J600J = "";
+       $_J608j = 80;
+       if(strpos($_JJOtJ, "http://") !== false) {
+          $_J60tC = substr($_JJOtJ, 7);
+       } elseif(strpos($_JJOtJ, "https://") !== false) {
+         $_J608j = 443;
+         $_J60tC = substr($_JJOtJ, 8);
        }
-       $_QCoLj = substr($_j8O8t, strpos($_j8O8t, "/"));
-       $_j8O8t = substr($_j8O8t, 0, strpos($_j8O8t, "/"));
+       $_IJL6o = substr($_J60tC, strpos($_J60tC, "/"));
+       $_J60tC = substr($_J60tC, 0, strpos($_J60tC, "/"));
 
-       $_Qf1i1 = "AppName=$AppName&EMail=$EMail&BounceType=$BounceType&BounceCount=$BounceCount";
-       _OCQDE($_j8O8t, "GET", $_QCoLj, $_Qf1i1, 0, $_j8O60, false, "", "", $_j88of, $_j8t8L);
+       $_I0QjQ = "AppName=$AppName&EMail=$EMail&BounceType=$BounceType&BounceCount=$BounceCount";
+       _LABJA($_J60tC, "GET", $_IJL6o, $_I0QjQ, 0, $_J608j, false, "", "", $_JJl1I, $_J600J);
     }
   }
 

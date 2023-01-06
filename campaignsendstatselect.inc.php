@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2014 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,10 +26,10 @@
   include_once("sessioncheck.inc.php");
   include_once("templates.inc.php");
 
-  if(!isset($_I0600))
-    $_I0600 = "";
+  if(!isset($_Itfj8))
+    $_Itfj8 = "";
 
-  $_IiQl1 = $_Q6jOo;
+  $_jfJJ0 = $_QLi60;
   $ResponderType = "Campaign";
   if(isset($_GET["ResponderType"]))
     $ResponderType = $_GET["ResponderType"];
@@ -37,17 +37,17 @@
     if(isset($_POST["ResponderType"]))
       $ResponderType = $_POST["ResponderType"];
 
-  $_jj1tl = _OAP0L($ResponderType);
-  if($_jj1tl)
-   $_IiQl1 = _OABJE($_jj1tl);
+  $_J0ifL = _LPO6C($ResponderType);
+  if($_J0ifL)
+   $_jfJJ0 = _LPLBQ($_J0ifL);
    else {
 
      if($ResponderType == "AutoResponder"){
-        $_IiQl1 = $_IQL81;
+        $_jfJJ0 = $_IoCo0;
      }
 
      if( $ResponderType == "SplitTest")
-       $_IiQl1 = $_IooOQ;
+       $_jfJJ0 = $_jJL88;
    }
 
    if( $ResponderType == "DistributionList"){
@@ -55,56 +55,61 @@
      return;
    }
 
-  $_Q6QiO = "'%d.%m.%Y %H:%i:%s'";
-  $_If0Ql = "'%d.%m.%Y'";
+  $_QLo60 = "'%d.%m.%Y %H:%i:%s'";
+  $_j01CJ = "'%d.%m.%Y'";
   if($INTERFACE_LANGUAGE != "de") {
-     $_Q6QiO = "'%Y-%m-%d %H:%i:%s'";
-     $_If0Ql = "'%Y-%m-%d'";
+     $_QLo60 = "'%Y-%m-%d %H:%i:%s'";
+     $_j01CJ = "'%Y-%m-%d'";
   }
 
-  $_QJlJ0 = "SELECT Name, CurrentSendTableName FROM `$_IiQl1` WHERE id=".intval($_I6lOO);
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_Q6Q1C=mysql_fetch_array($_Q60l1);
-  $_j0fti = $_Q6Q1C["CurrentSendTableName"];
-  $_j06O8 = $_Q6Q1C["Name"];
-  mysql_free_result($_Q60l1);
+  $_QLfol = "SELECT Name, CurrentSendTableName FROM `$_jfJJ0` WHERE id=".intval($_j01fj);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_QLO0f=mysql_fetch_array($_QL8i1);
+  $_jClC1 = $_QLO0f["CurrentSendTableName"];
+  $_jC6ot = $_QLO0f["Name"];
+  mysql_free_result($_QL8i1);
 
-  $_QJlJ0 = "SELECT id, DATE_FORMAT(StartSendDateTime, $_Q6QiO) AS StartSendDateTimeFormated, RecipientsCount FROM $_j0fti ORDER BY StartSendDateTime DESC";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
+  $_QLlO6 = "";
+  if($ResponderType == "Campaign"){
+    $_QLlO6 = " WHERE `Campaigns_id`=".intval($_j01fj) . " ";
+  }
 
-  if(mysql_num_rows($_Q60l1) != 1) {
-    $_jjQIo = "";
-    while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-      $_jjQIo .= str_replace('%RECIPIENTCOUNT%', $_Q6Q1C["RecipientsCount"], '<option value="'.$_Q6Q1C["id"].'">'.$_Q6Q1C["StartSendDateTimeFormated"].$resourcestrings[$INTERFACE_LANGUAGE]["RecipientCount"].'</option>'.$_Q6JJJ);
+  $_QLfol = "SELECT id, DATE_FORMAT(StartSendDateTime, $_QLo60) AS StartSendDateTimeFormated, RecipientsCount FROM $_jClC1 $_QLlO6 ORDER BY StartSendDateTime DESC LIMIT 0,100";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+
+  if(mysql_num_rows($_QL8i1) != 1) {
+    $_J0iof = "";
+    while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+      $_J0iof .= str_replace('%RECIPIENTCOUNT%', $_QLO0f["RecipientsCount"], '<option value="'.$_QLO0f["id"].'">'.$_QLO0f["StartSendDateTimeFormated"].$resourcestrings[$INTERFACE_LANGUAGE]["RecipientCount"].'</option>'.$_QLl1Q);
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_I0600, "", 'DISABLED', 'campaignsendstatselect_snipped.htm');
-    $_QJCJi = str_replace('name="ResponderType"', 'name="ResponderType" value="'.$ResponderType.'"', $_QJCJi);
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_Itfj8, "", 'DISABLED', 'campaignsendstatselect_snipped.htm');
+    $_QLJfI = str_replace('name="ResponderType"', 'name="ResponderType" value="'.$ResponderType.'"', $_QLJfI);
 
-    $_QJCJi = _OPR6L($_QJCJi, "<SHOW:SENDITEMS>", "</SHOW:SENDITEMS>", $_jjQIo);
+    $_QLJfI = _L81BJ($_QLJfI, "<SHOW:SENDITEMS>", "</SHOW:SENDITEMS>", $_J0iof);
 
 
-    if($_IiQl1 != $_Q6jOo) {
-       $_QJCJi = _OPR6L($_QJCJi, "<ResponderLegendLabel>", "</ResponderLegendLabel>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000490"], $_j06O8));
-       $_QJCJi = _OPR6L($_QJCJi, "<ResponderLabel1>", "</ResponderLabel1>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000491"], $_j06O8));
-       $_QJCJi = _OPR6L($_QJCJi, "<ResponderLabel2>", "</ResponderLabel2>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000492"], $_j06O8));
+    if($_jfJJ0 != $_QLi60) {
+       $_QLJfI = _L81BJ($_QLJfI, "<ResponderLegendLabel>", "</ResponderLegendLabel>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000490"], $_jC6ot));
+       $_QLJfI = _L81BJ($_QLJfI, "<ResponderLabel1>", "</ResponderLabel1>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000491"], $_jC6ot));
+       $_QLJfI = _L81BJ($_QLJfI, "<ResponderLabel2>", "</ResponderLabel2>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000492"], $_jC6ot));
     }else {
-       $_QJCJi = _OPR6L($_QJCJi, "<ResponderLegendLabel>", "</ResponderLegendLabel>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000486"], $_j06O8));
-       $_QJCJi = _OPR6L($_QJCJi, "<ResponderLabel1>", "</ResponderLabel1>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000487"], $_j06O8));
-       $_QJCJi = _OPR6L($_QJCJi, "<ResponderLabel2>", "</ResponderLabel2>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000488"], $_j06O8));
+       $_QLJfI = _L81BJ($_QLJfI, "<ResponderLegendLabel>", "</ResponderLegendLabel>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000486"], $_jC6ot));
+       $_QLJfI = _L81BJ($_QLJfI, "<ResponderLabel1>", "</ResponderLabel1>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000487"], $_jC6ot));
+       $_QLJfI = _L81BJ($_QLJfI, "<ResponderLabel2>", "</ResponderLabel2>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000488"], $_jC6ot));
     }
 
-    $_QJCJi = str_replace('name="CampaignId"', 'name="CampaignId" value="'.intval($_I6lOO).'"', $_QJCJi);
-    $_QJCJi = str_replace('action=""', 'action="'.$_GET["action"].'"', $_QJCJi);
+    $_QLJfI = str_replace('name="CampaignId"', 'name="CampaignId" value="'.intval($_j01fj).'"', $_QLJfI);
+    $_QLJfI = str_replace('action=""', 'action="'.$_GET["action"].'"', $_QLJfI);
 
-    print $_QJCJi;
+    print $_QLJfI;
   } else {
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    $_POST['SendStatId'] = $_Q6Q1C["id"];
-    mysql_free_result($_Q60l1);
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    $_POST['SendStatId'] = $_QLO0f["id"];
+    mysql_free_result($_QL8i1);
   }
 
 ?>

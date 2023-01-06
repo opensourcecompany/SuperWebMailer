@@ -75,6 +75,7 @@
                <option value="SortFirstName">Vorname</option>
                <option value="SortEMail">E-Mail</option>
                <option value="SortUserType">Typ</option>
+               <option value="SortLastLogin">Letzte Anmeldung</option>
                <option value="Sortid">ID</option>
             </select>&nbsp;<select size="1" name="Userssortorder"><option value="descending">absteigend</option><option value="ascending">aufsteigend</option></select>
       			<br />
@@ -109,6 +110,7 @@
   			<td class="NoWrap" style="width:auto;">Vorname</td>
   			<td class="NoWrap" style="width:auto;">E-Mail</td>
   			<td class="NoWrap" style="width:auto;">Typ</td>
+  			<td class="NoWrap" style="width:auto;">Letzte Anmeldung</td>
   			<td class="NoWrap" width="1%">&nbsp;</td>
   			<td class="NoWrap" width="min-width:10%">Aktionen</td>
   		</tr>
@@ -124,6 +126,7 @@
   			<td><LIST:FIRSTNAME></LIST:FIRSTNAME></td>
   			<td><LIST:EMAIL></LIST:EMAIL></td>
   			<td><LIST:USERTYPE></LIST:USERTYPE></td>
+  			<td><LIST:LASTLOGIN></LIST:LASTLOGIN></td>
   			<td>&nbsp;</td>
   			<td>
   			    <input type="image" src="images/edit.gif" width="16" height="16" name="EditUserProperties" onclick="SetListId(this, 'EditUsersForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Erm&ouml;glicht das &Auml;ndern des Nutzers.');return false" />&nbsp;

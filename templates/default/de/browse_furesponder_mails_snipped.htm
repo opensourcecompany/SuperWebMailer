@@ -34,7 +34,7 @@
 
     function ConfirmDeleteFUMEvent(value) {
       if(value)
-        document.getElementById('EditFUResponderEMailsForm').submit();
+        $('#EditFUResponderEMailsForm').submit();
         else {
           document.getElementById('OneFUMAction').value = "";
           document.getElementById('OneFUMId').value = "";
@@ -44,7 +44,7 @@
 
     function ConfirmListActionEvent(value) {
       if(value)
-        document.getElementById('EditFUResponderEMailsForm').submit();
+        $('#EditFUResponderEMailsForm').submit();
     }
 
     function ConfirmListAction() {
@@ -55,6 +55,12 @@
         return false;
       }
       return true;
+    }
+
+    function ResetSortOrder(){
+      document.getElementById('FUMssortfieldname').selectedIndex = 0;
+      document.getElementById('FUMssortorder').selectedIndex = 1;
+      document.getElementById('FUMsSearchFor').value = "";
     }
 
   //-->
@@ -71,7 +77,7 @@
          <p>
          <a href="javascript:void(0);" class="Backlink" onclick="ShowHideItem('ShowHideFilterBox')">Filter anzeigen / nicht anzeigen</a>
       			<div id="ShowHideFilterBox">
-      			Suche nach:&nbsp;<input type="text" name="FUMsSearchFor" size="32" />&nbsp;im Feld:&nbsp;
+      			Suche nach:&nbsp;<input type="text" name="FUMsSearchFor" size="32" id="FUMsSearchFor" />&nbsp;im Feld:&nbsp;
             <select size="1" name="FUMsfieldname">
              <option value="SearchFor_id">ID</option>
              <option value="SearchFor_Name">Name</option>
@@ -80,12 +86,12 @@
             </select>
       			<br /><br />
       			Sortiere Liste nach:&nbsp;
-            <select size="1" name="FUMssortfieldname">
+            <select size="1" name="FUMssortfieldname" id="FUMssortfieldname">
                <option value="Sortsort_order">Reihenfolge der Aussendung</option>
                <option value="SortName">Name</option>
                <option value="SortMailSubject">Betreff</option>
                <option value="Sortid">ID</option>
-            </select>&nbsp;<select size="1" name="FUMssortorder"><option value="descending">absteigend</option><option value="ascending">aufsteigend</option></select>
+            </select>&nbsp;<select size="1" name="FUMssortorder" id="FUMssortorder"><option value="descending">absteigend</option><option value="ascending">aufsteigend</option></select>
       			<br />
          <br />
       			Zeige:&nbsp;<input type="text" name="FUMsItemsPerPage" size="4" style="text-align:right" />&nbsp;Eintr&auml;ge&nbsp;pro&nbsp;Seite
@@ -139,8 +145,8 @@
          <br />
   			    <input type="image" src="images/mail_send_test.gif" width="16" height="16" name="TestMail" onclick="return SetListId(this, 'EditFUResponderEMailsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Test-E-Mail versenden');return false" />&nbsp;
          <if:timebased_FUM>
-  			    <input type="image" src="images/arrow_up.gif" width="11" height="8" name="UpBtn" onclick="SetListId(this, 'EditFUResponderEMailsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Follow-Up-E-Mail nach oben verschieben.');return false" />&nbsp;
-  			    <input type="image" src="images/arrow_down.gif" width="11" height="8" name="DownBtn" onclick="SetListId(this, 'EditFUResponderEMailsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Follow-Up-E-Mail nach unten verschieben.');return false" />
+  			    <input type="image" src="images/arrow_up.gif" width="11" height="8" name="UpBtn" onclick="ResetSortOrder();SetListId(this, 'EditFUResponderEMailsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Follow-Up-E-Mail nach oben verschieben.<br />(Reihenfolge der Aussendung [sortorder])');return false" />&nbsp;
+  			    <input type="image" src="images/arrow_down.gif" width="11" height="8" name="DownBtn" onclick="ResetSortOrder();SetListId(this, 'EditFUResponderEMailsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Follow-Up-E-Mail nach unten verschieben.<br />(Reihenfolge der Aussendung [sortorder])');return false" />
          </if:timebased_FUM>
 		    </td>
   		</tr>
@@ -178,7 +184,7 @@
          			  Seite:&nbsp;
         </td>
         <td style="text-align:right; width:1%; white-space:nowrap; ">
-         			  <select name="FUMsPageSelected" id="FUMsPageSelected" size="1" style="min-width:30pt ! important;" onchange="document.EditFUResponderEMailsForm.submit()">
+         			  <select name="FUMsPageSelected" id="FUMsPageSelected" size="1" style="min-width:30pt ! important;" onchange="$('#EditFUResponderEMailsForm').submit();">
                 <OPTION:PAGES>
                 <option>1</option>
                 </OPTION:PAGES>
@@ -201,6 +207,7 @@
   CheckboxClicked();
   ShowItem('ListActionSubmitBtn', (document.getElementById('FUMsActions').selectedIndex != 0) && ( document.getElementById('FUMsActions').disabled == false ) ) ;
   DisableItem('FUMsActions', GetCheckedCount('FUMsIDs[]', 'EditFUResponderEMailsForm') > 0 );
+  InsertLoadingStatusOnSubmit();
   //AUTO_SCRIPT_CODE_PLACEHOLDER//
 //-->
 </script>

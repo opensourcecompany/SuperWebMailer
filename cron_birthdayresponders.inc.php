@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -28,64 +28,67 @@
   include_once("mailcreate.inc.php");
   include_once("smsout.inc.php");
 
-  function _OR01E(&$_j6O8O) {
-    global $_Q61I1, $_Q6JJJ, $_jJt8t;
+  function _LLOD6(&$_JIfo0) {
+    global $_QLttI, $_QLl1Q, $_JQjt6, $_QLo06;
     global $UserId, $OwnerUserId, $Username, $UserType, $AccountType, $INTERFACE_STYLE, $INTERFACE_THEMESID, $INTERFACE_LANGUAGE;
-    global $_Qo8OO, $resourcestrings, $_Q8f1L, $_Q880O;
-    global $_Qofoi, $_Ql8C0, $_Q60QL, $_QtjLI;
-    global $_IIl8O, $_IjQIf;
+    global $_Ijt8j, $resourcestrings, $_I18lo, $_I1tQf;
+    global $_Ijt0i, $_I8tfQ, $_QL88I, $_IQQot;
+    global $_ICo0J, $_ICl0j;
 
-    $_j6O8O = "Birthday responder checking starts...<br />";
-    $_jIojl = 0;
+    $_JIfo0 = "Birthday responder checking starts...<br />";
+    $_J0J6C = 0;
 
-    $_QJlJ0 = "SELECT * FROM $_Q8f1L WHERE UserType='Admin' AND IsActive>0";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    while($_Q6Q1C = mysql_fetch_assoc($_Q60l1) ) {
-      _OPQ6J();
-      $UserId = $_Q6Q1C["id"];
+    $_QLfol = "SELECT * FROM $_I18lo WHERE UserType='Admin' AND IsActive>0";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    while($_QLO0f = mysql_fetch_assoc($_QL8i1) ) {
+      _LRCOC();
+      $UserId = $_QLO0f["id"];
       $OwnerUserId = 0;
-      $Username = $_Q6Q1C["Username"];
-      $UserType = $_Q6Q1C["UserType"];
-      $AccountType = $_Q6Q1C["AccountType"];
-      $INTERFACE_THEMESID = $_Q6Q1C["ThemesId"];
-      $INTERFACE_LANGUAGE = $_Q6Q1C["Language"];
+      $Username = $_QLO0f["Username"];
+      $UserType = $_QLO0f["UserType"];
+      $AccountType = $_QLO0f["AccountType"];
+      $INTERFACE_THEMESID = $_QLO0f["ThemesId"];
+      $INTERFACE_LANGUAGE = $_QLO0f["Language"];
 
-      _OP10J($INTERFACE_LANGUAGE);
+      _LRPQ6($INTERFACE_LANGUAGE);
 
-      _LQLRQ($INTERFACE_LANGUAGE);
+      _JQRLR($INTERFACE_LANGUAGE);
 
-      $_QJlJ0 = "SELECT Theme FROM $_Q880O WHERE id=$INTERFACE_THEMESID";
-      $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q8OiJ = mysql_fetch_row($_Q8Oj8);
-      $INTERFACE_STYLE = $_Q8OiJ[0];
-      mysql_free_result($_Q8Oj8);
+      $_QLfol = "SELECT Theme FROM $_I1tQf WHERE id=$INTERFACE_THEMESID";
+      $_I1O6j = mysql_query($_QLfol, $_QLttI);
+      $_I1OfI = mysql_fetch_row($_I1O6j);
+      $INTERFACE_STYLE = $_I1OfI[0];
+      mysql_free_result($_I1O6j);
 
-      _OP0D0($_Q6Q1C);
+      _LR8AP($_QLO0f);
 
-      _OP0AF($UserId);
+      _LRRFJ($UserId);
 
 
-      $_QJlJ0 = "SELECT $_IIl8O.MailSubject, $_IIl8O.id AS BirthdayResponders_id, $_IIl8O.forms_id, ";
-      $_QJlJ0 .= "$_IIl8O.Name AS BirthdayResponders_Name, $_IIl8O.ML_BM_RefTableName, ";
-      $_QJlJ0 .= "$_IIl8O.MaxEMailsToProcess, $_IIl8O.SendIntervalDays, $_IIl8O.SendTime, ";
-      $_QJlJ0 .= "$_IIl8O.SMSSendOptions, ";
-      $_QJlJ0 .= "$_Qofoi.id AS MTA_id, $_Q60QL.MaillistTableName, $_Q60QL.LocalBlocklistTableName, ";
-      $_QJlJ0 .= "$_Q60QL.id AS MailingListId FROM $_IIl8O ";
-      $_QJlJ0 .= "LEFT JOIN $_Qofoi ON $_Qofoi.id=$_IIl8O.mtas_id LEFT JOIN $_Q60QL ON ";
-      $_QJlJ0 .= "$_Q60QL.id=$_IIl8O.maillists_id WHERE $_IIl8O.IsActive=1 AND ";
-      $_QJlJ0 .= "CURRENT_TIME() > $_IIl8O.SendTime";
+      $_QLfol = "SELECT $_ICo0J.MailSubject, $_ICo0J.id AS BirthdayResponders_id, $_ICo0J.forms_id, ";
+      $_QLfol .= "$_ICo0J.Name AS BirthdayResponders_Name, $_ICo0J.ML_BM_RefTableName, ";
+      $_QLfol .= "$_ICo0J.MaxEMailsToProcess, $_ICo0J.SendIntervalDays, $_ICo0J.SendTime, ";
+      $_QLfol .= "$_ICo0J.SMSSendOptions, ";
+      $_QLfol .= "$_Ijt0i.id AS MTA_id, $_QL88I.MaillistTableName, $_QL88I.LocalBlocklistTableName, ";
+      $_QLfol .= "$_QL88I.id AS MailingListId FROM $_ICo0J ";
+      $_QLfol .= "LEFT JOIN $_Ijt0i ON $_Ijt0i.id=$_ICo0J.mtas_id LEFT JOIN $_QL88I ON ";
+      $_QLfol .= "$_QL88I.id=$_ICo0J.maillists_id WHERE $_ICo0J.IsActive=1 AND ";
+      $_QLfol .= "CURRENT_TIME() > $_ICo0J.SendTime";
 
-      $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-      if(mysql_error($_Q61I1) != "")
-         $_j6O8O .= "MySQL error while selecting data: ".mysql_error($_Q61I1);
-      while($_Q8Oj8 && $_Q8OiJ = mysql_fetch_assoc($_Q8Oj8)) {
-        _OPQ6J();
+      $_I1O6j = mysql_query($_QLfol, $_QLttI);
+      if(mysql_error($_QLttI) != "")
+         $_JIfo0 .= "MySQL error while selecting data: ".mysql_error($_QLttI);
+      while($_I1O6j && $_I1OfI = mysql_fetch_assoc($_I1O6j)) {
+        _LRCOC();
 
-        $_j6O8O .= "checking $_Q8OiJ[BirthdayResponders_Name]...<br />";
-        $_jflIQ = 0;
+        $_JIfo0 .= "checking $_I1OfI[BirthdayResponders_Name]...<br />";
 
-        if($_Q8OiJ["SendIntervalDays"] >= 0) {
-           $_Iijl0 =
+        _LBOOC($_I1OfI["MailingListId"], ($OwnerUserId != 0 ? $OwnerUserId : $UserId), 0, 'BirthdayResponder', $_I1OfI["BirthdayResponders_id"]);
+
+        $_JJjQJ = 0;
+
+        if($_I1OfI["SendIntervalDays"] >= 0) {
+           $_jf8JI =
                'TO_DAYS(
 
                    DATE_ADD(
@@ -101,7 +104,7 @@
                   AS `days_to_birthday`';
         } else {
 
-           $_Iijl0 =
+           $_jf8JI =
                'TO_DAYS(
 
                    DATE_ADD(
@@ -118,121 +121,150 @@
 
         }
 
-        $_QtjtL = " YEAR( IF(LastSending IS NOT NULL, DATE_ADD(LastSending, INTERVAL $_Q8OiJ[SendIntervalDays] DAY), '0000-00-00') ) AS `SendYear` ";
+        $_QLlO6 = " YEAR( IF(LastSending IS NOT NULL, DATE_ADD(LastSending, INTERVAL $_I1OfI[SendIntervalDays] DAY), '0000-00-00') ) AS `SendYear` ";
 
 
-        $_QlQC8 = $_Q8OiJ["MaillistTableName"];
-        $_ItCCo = $_Q8OiJ["LocalBlocklistTableName"];
-        $_IO1Oj = " LEFT JOIN `$_Ql8C0` ON `$_Ql8C0`.`u_EMail` = `$_QlQC8`.`u_EMail`".$_Q6JJJ;
-        $_IO1Oj .= " LEFT JOIN `$_ItCCo` ON `$_ItCCo`.`u_EMail` = `$_QlQC8`.`u_EMail`".$_Q6JJJ;
-        $_IOQf6 = " `$_QlQC8`.IsActive=1 AND `$_QlQC8`.SubscriptionStatus<>'OptInConfirmationPending'".$_Q6JJJ;
-        $_IOQf6 .= " AND `$_Ql8C0`.`u_EMail` IS NULL AND `$_ItCCo`.`u_EMail` IS NULL ".$_Q6JJJ;
+        $_I8I6o = $_I1OfI["MaillistTableName"];
+        $_jjj8f = $_I1OfI["LocalBlocklistTableName"];
+        $_jj8Ci = " LEFT JOIN `$_I8tfQ` ON `$_I8tfQ`.`u_EMail` = `$_I8I6o`.`u_EMail`".$_QLl1Q;
+        $_jj8Ci .= " LEFT JOIN `$_jjj8f` ON `$_jjj8f`.`u_EMail` = `$_I8I6o`.`u_EMail`".$_QLl1Q;
+        $_jjtQf = " `$_I8I6o`.IsActive=1 AND `$_I8I6o`.SubscriptionStatus<>'OptInConfirmationPending'".$_QLl1Q;
+        $_jjtQf .= " AND `$_I8tfQ`.`u_EMail` IS NULL AND `$_jjj8f`.`u_EMail` IS NULL ".$_QLl1Q;
 
-        $_QJlJ0 = "SELECT `$_Q8OiJ[MaillistTableName]`.id, `$_Q8OiJ[MaillistTableName]`.u_EMail, `$_Q8OiJ[MaillistTableName]`.u_Birthday, `$_Q8OiJ[MaillistTableName]`.u_CellNumber, LastSending, YEAR( CURRENT_DATE() ) - YEAR( u_Birthday ) AS MemberAge, $_Iijl0, $_QtjtL FROM `$_Q8OiJ[MaillistTableName]`";
-        $_QJlJ0 .= " LEFT JOIN `$_Q8OiJ[ML_BM_RefTableName]` ON `$_Q8OiJ[ML_BM_RefTableName]`.Member_id=`$_Q8OiJ[MaillistTableName]`.id";
-        $_QJlJ0 .= " $_IO1Oj ";
-        $_QJlJ0 .= " WHERE $_IOQf6 ";
-        $_QJlJ0 .= " AND `$_Q8OiJ[MaillistTableName]`.u_Birthday <> '0000-00-00' ";
+        $_QLfol = "SELECT `$_I1OfI[MaillistTableName]`.id, `$_I1OfI[MaillistTableName]`.u_EMail, `$_I1OfI[MaillistTableName]`.u_Birthday, `$_I1OfI[MaillistTableName]`.u_CellNumber, LastSending, YEAR( CURRENT_DATE() ) - YEAR( u_Birthday ) AS MemberAge, $_jf8JI, $_QLlO6 FROM `$_I1OfI[MaillistTableName]`";
+        $_QLfol .= " LEFT JOIN `$_I1OfI[ML_BM_RefTableName]` ON `$_I1OfI[ML_BM_RefTableName]`.Member_id=`$_I1OfI[MaillistTableName]`.id";
+        $_QLfol .= " $_jj8Ci ";
+        $_QLfol .= " WHERE $_jjtQf ";
+        $_QLfol .= " AND `$_I1OfI[MaillistTableName]`.u_Birthday <> '0000-00-00' ";
 
-        $_QJlJ0 .= " AND YEAR( IF(LastSending IS NOT NULL, LastSending, '0000-00-00') ) <> YEAR(NOW()) ";
-        $_QJlJ0 .= " AND YEAR( IF(LastSending IS NOT NULL, DATE_ADD(LastSending, INTERVAL $_Q8OiJ[SendIntervalDays] DAY), '0000-00-00') ) <> YEAR(NOW()) ";
+        $_QLfol .= " AND YEAR( IF(LastSending IS NOT NULL, LastSending, '0000-00-00') ) <> YEAR(NOW()) ";
+        $_QLfol .= " AND YEAR( IF(LastSending IS NOT NULL, DATE_ADD(LastSending, INTERVAL $_I1OfI[SendIntervalDays] DAY), '0000-00-00') ) <> YEAR(NOW())";
 
-        if($_Q8OiJ["SendIntervalDays"] >= 0)
-          $_QJlJ0 .= "  HAVING `days_to_birthday` <= ".$_Q8OiJ["SendIntervalDays"];
+        if($_I1OfI["SendIntervalDays"] >= 0)
+          $_QLfol .= " HAVING `days_to_birthday` <= ".$_I1OfI["SendIntervalDays"];
           else
-          $_QJlJ0 .= "  HAVING `days_to_birthday` >= ".$_Q8OiJ["SendIntervalDays"]." AND `days_to_birthday` < 360";
+          $_QLfol .= " HAVING `days_to_birthday` - 365 < ABS($_I1OfI[SendIntervalDays])";
 
-        $_IOOt1 = mysql_query($_QJlJ0, $_Q61I1);
+        $_jjl0t = mysql_query($_QLfol, $_QLttI);
 
-        if(mysql_error($_Q61I1) != "")
-           $_j6O8O .= "MySQL error while selecting data: ".mysql_error($_Q61I1);
+        if(mysql_error($_QLttI) != "")
+           $_JIfo0 .= "MySQL error while selecting data: ".mysql_error($_QLttI);
 
-        while($_IOOt1 && $_QlftL = mysql_fetch_assoc($_IOOt1)) {
+        // ECGList
+        if(!isset($_jlt10))
+          $_jlt10 = _JOLQE("ECGListCheck");
+        if($_jlt10){
+          // ECG List not more than 5000
+          if($_I1OfI["MaxEMailsToProcess"] > 5000)
+            $_I1OfI["MaxEMailsToProcess"] = 5000;
+          $_J06Ji = array();                        
+          while($_jjl0t && $_I8fol = mysql_fetch_assoc($_jjl0t)){ 
+            $_J06Ji[] = array("email" => $_I8fol["u_EMail"]/*, "id" => $_QLO0f["id"]*/);
+          }  
+            
+          $_J0fIj = array();
+          $_J08Q1 = "";
+          $_J0t0L = _L6AF6($_J06Ji, $_J0fIj, $_J08Q1);    
+          if(!$_J0t0L) // request failed, is ever in ECG-liste
+            $_J0fIj = $_J06Ji;
+          unset($_J06Ji); 
+          mysql_data_seek($_jjl0t, 0);
+        }  
+        // ECGList /
+           
+           
+        while($_jjl0t && $_I8fol = mysql_fetch_assoc($_jjl0t)) {
 
           // limit reached?
-          if($_jflIQ >= $_Q8OiJ["MaxEMailsToProcess"]) break;
+          if($_JJjQJ >= $_I1OfI["MaxEMailsToProcess"]) break;
 
-          _OPQ6J();
+          _LRCOC();
 
-          $_jflj6 = false;
-          $_jfllo = 0;
-          $_jfiol = 0;
-
-          // check for sending SMS
-          if($_Q8OiJ["SMSSendOptions"] > 0 && $_QlftL["u_CellNumber"] != "") {
-            $_j808f = $_QlftL["u_CellNumber"];
-            $_II1Ot = array();
-            if(!_LOC1E($_j808f, $_II1Ot)) {
-              $_j6O8O .= join("", $_II1Ot)."<br /><br />";
-              if($_Q8OiJ["SMSSendOptions"] == 2)
-                continue;
-            } else
-              $_jflj6 = true;
+          //ECGList
+          $_J0olI = false;
+          if($_jlt10){
+            $_J0olI = array_search($_I8fol["u_EMail"], array_column($_J0fIj, 'email')) !== false;
           }
 
-          mysql_query("BEGIN", $_Q61I1);
+          $_JJj88 = false;
+          $_JJJjf = 0;
+          $_JJQ6I = 0;
+
+          // check for sending SMS
+          if($_I1OfI["SMSSendOptions"] > 0 && $_I8fol["u_CellNumber"] != "") {
+            $_JJ6Q6 = $_I8fol["u_CellNumber"];
+            $_IoLOO = array();
+            if(!_JLODC($_JJ6Q6, $_IoLOO)) {
+              $_JIfo0 .= join("", $_IoLOO)."<br /><br />";
+              if($_I1OfI["SMSSendOptions"] == 2)
+                continue;
+            } else
+              $_JJj88 = true;
+          }
+
+          mysql_query("BEGIN", $_QLttI);
 
           # no SMS or EMail and SMS
-          if($_Q8OiJ["SMSSendOptions"] < 2) {
-            $_QJlJ0 = "INSERT INTO `$_IjQIf` SET `birthdayresponders_id`=$_Q8OiJ[BirthdayResponders_id], `MailSubject`="._OPQLR($_Q8OiJ["MailSubject"]).", `SendDateTime`=NOW(), `recipients_id`=$_QlftL[id], `Send`='Prepared', `IsSMS`=0";
-            mysql_query($_QJlJ0, $_Q61I1);
+          if($_I1OfI["SMSSendOptions"] < 2) {
+            $_QLfol = "INSERT INTO `$_ICl0j` SET `birthdayresponders_id`=$_I1OfI[BirthdayResponders_id], `MailSubject`="._LRAFO(unhtmlentities($_I1OfI["MailSubject"], $_QLo06, false)).", `SendDateTime`=NOW(), `recipients_id`=$_I8fol[id], `Send`='Prepared', `IsSMS`=0";
+            mysql_query($_QLfol, $_QLttI);
 
-            if(mysql_affected_rows($_Q61I1) > 0) {
-              $_jfLII = mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-              $_jfl1j = mysql_fetch_array($_jfLII);
-              $_jfiol = $_jfl1j[0];
-              mysql_free_result($_jfLII);
+            if(mysql_affected_rows($_QLttI) > 0) {
+              $_JJQlj = mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+              $_JJIl0 = mysql_fetch_array($_JJQlj);
+              $_JJQ6I = $_JJIl0[0];
+              mysql_free_result($_JJQlj);
             } else {
-              if(mysql_errno($_Q61I1) == 1062) { // dup key
+              if(mysql_errno($_QLttI) == 1062) { // dup key
                 // get old id when it is NOT always Prepared = in outqueue
-                $_QJlJ0 = "SELECT id FROM `$_IjQIf` WHERE `birthdayresponders_id`=$_Q8OiJ[BirthdayResponders_id] AND `recipients_id`=$_QlftL[id] AND `Send`<>'Prepared' AND `IsSMS`=0";
-                $_jfLII = mysql_query($_QJlJ0, $_Q61I1);
-                if(mysql_num_rows($_jfLII) > 0){
-                  $_jfl1j=mysql_fetch_array($_jfLII);
-                  $_jfiol = $_jfl1j[0];
-                  mysql_free_result($_jfLII);
+                $_QLfol = "SELECT id FROM `$_ICl0j` WHERE `birthdayresponders_id`=$_I1OfI[BirthdayResponders_id] AND `recipients_id`=$_I8fol[id] AND `Send`<>'Prepared' AND `IsSMS`=0";
+                $_JJQlj = mysql_query($_QLfol, $_QLttI);
+                if(mysql_num_rows($_JJQlj) > 0){
+                  $_JJIl0=mysql_fetch_array($_JJQlj);
+                  $_JJQ6I = $_JJIl0[0];
+                  mysql_free_result($_JJQlj);
                 } else {
-                  mysql_free_result($_jfLII);
+                  mysql_free_result($_JJQlj);
 
-                  $_jfiol = 0;
+                  $_JJQ6I = 0;
                 }
               } else {
-                 $_j6O8O .= "MySQL error while adding to statistics table: ".mysql_error($_Q61I1);
-                 mysql_query("ROLLBACK", $_Q61I1);
+                 $_JIfo0 .= "MySQL error while adding to statistics table: ".mysql_error($_QLttI);
+                 mysql_query("ROLLBACK", $_QLttI);
                  return false;
                }
             }
 
-            if($_Q8OiJ["SMSSendOptions"] == 1 && $_jflj6) {
-              $_QJlJ0 = "INSERT INTO `$_IjQIf` SET `birthdayresponders_id`=$_Q8OiJ[BirthdayResponders_id], `MailSubject`="._OPQLR("SMS").", `IsSMS`=1, `SendDateTime`=NOW(), `recipients_id`=$_QlftL[id], `Send`='Prepared'";
-              mysql_query($_QJlJ0, $_Q61I1);
+            if($_I1OfI["SMSSendOptions"] == 1 && $_JJj88) {
+              $_QLfol = "INSERT INTO `$_ICl0j` SET `birthdayresponders_id`=$_I1OfI[BirthdayResponders_id], `MailSubject`="._LRAFO("SMS").", `IsSMS`=1, `SendDateTime`=NOW(), `recipients_id`=$_I8fol[id], `Send`='Prepared'";
+              mysql_query($_QLfol, $_QLttI);
 
-              if(mysql_affected_rows($_Q61I1) > 0) {
-                $_jfLII = mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-                $_jfl1j = mysql_fetch_array($_jfLII);
-                $_jfllo = $_jfl1j[0];
-                mysql_free_result($_jfLII);
+              if(mysql_affected_rows($_QLttI) > 0) {
+                $_JJQlj = mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+                $_JJIl0 = mysql_fetch_array($_JJQlj);
+                $_JJJjf = $_JJIl0[0];
+                mysql_free_result($_JJQlj);
               } else {
-                 if(mysql_errno($_Q61I1) == 1062) { // dup key
+                 if(mysql_errno($_QLttI) == 1062) { // dup key
                    // get old id when it is NOT always Prepared = in outqueue
-                   $_QJlJ0 = "SELECT id FROM `$_IjQIf` WHERE `birthdayresponders_id`=$_Q8OiJ[BirthdayResponders_id] AND `recipients_id`=$_QlftL[id] AND `Send`<>'Prepared' AND `IsSMS`=1";
-                   $_jfLII = mysql_query($_QJlJ0, $_Q61I1);
-                   if(mysql_num_rows($_jfLII) > 0){
-                     $_jfl1j = mysql_fetch_array($_jfLII);
-                     $_jfllo = $_jfl1j[0];
-                     mysql_free_result($_jfLII);
+                   $_QLfol = "SELECT id FROM `$_ICl0j` WHERE `birthdayresponders_id`=$_I1OfI[BirthdayResponders_id] AND `recipients_id`=$_I8fol[id] AND `Send`<>'Prepared' AND `IsSMS`=1";
+                   $_JJQlj = mysql_query($_QLfol, $_QLttI);
+                   if(mysql_num_rows($_JJQlj) > 0){
+                     $_JJIl0 = mysql_fetch_array($_JJQlj);
+                     $_JJJjf = $_JJIl0[0];
+                     mysql_free_result($_JJQlj);
                    } else {
-                     mysql_free_result($_jfLII);
+                     mysql_free_result($_JJQlj);
 
-                     $_jfllo = 0;
+                     $_JJJjf = 0;
 
-                     mysql_query("ROLLBACK", $_Q61I1);
+                     mysql_query("ROLLBACK", $_QLttI);
 
                      continue;
                    }
                  } else {
-                    $_j6O8O .= "MySQL error while adding to statistics table: ".mysql_error($_Q61I1);
-                    mysql_query("ROLLBACK", $_Q61I1);
+                    $_JIfo0 .= "MySQL error while adding to statistics table: ".mysql_error($_QLttI);
+                    mysql_query("ROLLBACK", $_QLttI);
                     return false;
                   }
                 }
@@ -240,98 +272,111 @@
           }
 
           // SMS only?
-          if($_Q8OiJ["SMSSendOptions"] == 2 && $_jflj6) {
-            $_QJlJ0 = "INSERT INTO `$_IjQIf` SET `birthdayresponders_id`=$_Q8OiJ[BirthdayResponders_id], `MailSubject`="._OPQLR("SMS").", `IsSMS`=1, `SendDateTime`=NOW(), `recipients_id`=$_QlftL[id], `Send`='Prepared'";
-            mysql_query($_QJlJ0, $_Q61I1);
+          if($_I1OfI["SMSSendOptions"] == 2 && $_JJj88) {
+            $_QLfol = "INSERT INTO `$_ICl0j` SET `birthdayresponders_id`=$_I1OfI[BirthdayResponders_id], `MailSubject`="._LRAFO("SMS").", `IsSMS`=1, `SendDateTime`=NOW(), `recipients_id`=$_I8fol[id], `Send`='Prepared'";
+            mysql_query($_QLfol, $_QLttI);
 
-            if(mysql_affected_rows($_Q61I1) > 0) {
-              $_jfLII = mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-              $_jfl1j = mysql_fetch_array($_jfLII);
-              $_jfllo = $_jfl1j[0];
-              mysql_free_result($_jfLII);
+            if(mysql_affected_rows($_QLttI) > 0) {
+              $_JJQlj = mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+              $_JJIl0 = mysql_fetch_array($_JJQlj);
+              $_JJJjf = $_JJIl0[0];
+              mysql_free_result($_JJQlj);
             } else {
-               if(mysql_errno($_Q61I1) == 1062) { // dup key
+               if(mysql_errno($_QLttI) == 1062) { // dup key
                  // get old id when it is NOT always Prepared = in outqueue
-                 $_QJlJ0 = "SELECT `id` FROM `$_IjQIf` WHERE `birthdayresponders_id`=$_Q8OiJ[BirthdayResponders_id] AND `recipients_id`=$_QlftL[id] AND `Send`<>'Prepared' AND `IsSMS`=1";
-                 $_jfLII = mysql_query($_QJlJ0, $_Q61I1);
-                 if(mysql_num_rows($_jfLII) > 0){
-                   $_jfl1j = mysql_fetch_array($_jfLII);
-                   $_jfllo = $_jfl1j[0];
-                   mysql_free_result($_jfLII);
+                 $_QLfol = "SELECT `id` FROM `$_ICl0j` WHERE `birthdayresponders_id`=$_I1OfI[BirthdayResponders_id] AND `recipients_id`=$_I8fol[id] AND `Send`<>'Prepared' AND `IsSMS`=1";
+                 $_JJQlj = mysql_query($_QLfol, $_QLttI);
+                 if(mysql_num_rows($_JJQlj) > 0){
+                   $_JJIl0 = mysql_fetch_array($_JJQlj);
+                   $_JJJjf = $_JJIl0[0];
+                   mysql_free_result($_JJQlj);
                  } else {
-                   mysql_free_result($_jfLII);
+                   mysql_free_result($_JJQlj);
 
-                   $_jfllo = 0;
+                   $_JJJjf = 0;
                  }
                } else {
-                  $_j6O8O .= "MySQL error while adding to statistics table: ".mysql_error($_Q61I1);
-                  mysql_query("ROLLBACK", $_Q61I1);
+                  $_JIfo0 .= "MySQL error while adding to statistics table: ".mysql_error($_QLttI);
+                  mysql_query("ROLLBACK", $_QLttI);
                   return false;
                 }
             }
           }
 
-
           # Mail?
-          if($_jfiol) {
-            // SendId = BirthdayResponders Id
-            $_QJlJ0 = "INSERT INTO `$_QtjLI` SET `CreateDate`=NOW(), `statistics_id`=$_jfiol, `users_id`=$UserId, `Source`='BirthdayResponder', `Source_id`=$_Q8OiJ[BirthdayResponders_id], `Additional_id`=0, `SendId`=$_Q8OiJ[BirthdayResponders_id], `maillists_id`=$_Q8OiJ[MailingListId], `recipients_id`=$_QlftL[id], `mtas_id`=$_Q8OiJ[MTA_id], `LastSending`=NOW() ";
-            mysql_query($_QJlJ0, $_Q61I1);
-            if(mysql_error($_Q61I1) != "") {
-              $_j6O8O .= "MySQL error while adding mail to out queue: ".mysql_error($_Q61I1);
-              mysql_query("ROLLBACK", $_Q61I1);
-              continue;
+          if($_JJQ6I) {
+             if(!$_J0olI){
+              // SendId = BirthdayResponders Id
+              $_QLfol = "INSERT INTO `$_IQQot` SET `CreateDate`=NOW(), `statistics_id`=$_JJQ6I, `users_id`=$UserId, `Source`='BirthdayResponder', `Source_id`=$_I1OfI[BirthdayResponders_id], `Additional_id`=0, `SendId`=$_I1OfI[BirthdayResponders_id], `maillists_id`=$_I1OfI[MailingListId], `recipients_id`=$_I8fol[id], `mtas_id`=$_I1OfI[MTA_id], `LastSending`=NOW(), `IsResponder`=1, `MailSubject`=" . _LRAFO(unhtmlentities($_I1OfI["MailSubject"], $_QLo06, false));
+              mysql_query($_QLfol, $_QLttI);
+              if(mysql_error($_QLttI) != "") {
+                $_JIfo0 .= "MySQL error while adding mail to out queue: ".mysql_error($_QLttI);
+                mysql_query("ROLLBACK", $_QLttI);
+                continue;
+              }
+            }else{
+              $_QLfol = "UPDATE `$_ICl0j` SET `Send`='Failed', `SendResult`=" . _LRAFO("Recipient is in ECG-Liste.") . "  WHERE `id`=$_JJQ6I";
+              mysql_query($_QLfol, $_QLttI);
             }
           }
 
           # SMS?
-          if($_jfllo) {
-            // SendId = BirthdayResponders Id
-            $_QJlJ0 = "INSERT INTO `$_QtjLI` SET `CreateDate`=NOW(), `statistics_id`=$_jfllo, `users_id`=$UserId, `Source`='BirthdayResponder', `Source_id`=$_Q8OiJ[BirthdayResponders_id], `Additional_id`=0, `SendId`=$_Q8OiJ[BirthdayResponders_id], `maillists_id`=$_Q8OiJ[MailingListId], `recipients_id`=$_QlftL[id], `mtas_id`=$_jJt8t, `LastSending`=NOW() ";
-            mysql_query($_QJlJ0, $_Q61I1);
-            if(mysql_error($_Q61I1) != "") {
-              $_j6O8O .= "MySQL error while adding mail to out queue: ".mysql_error($_Q61I1);
-              mysql_query("ROLLBACK", $_Q61I1);
-              continue;
-            }
+          if($_JJJjf) {
+            if(!$_J0olI){
+              // SendId = BirthdayResponders Id
+              $_QLfol = "INSERT INTO `$_IQQot` SET `CreateDate`=NOW(), `statistics_id`=$_JJJjf, `users_id`=$UserId, `Source`='BirthdayResponder', `Source_id`=$_I1OfI[BirthdayResponders_id], `Additional_id`=0, `SendId`=$_I1OfI[BirthdayResponders_id], `maillists_id`=$_I1OfI[MailingListId], `recipients_id`=$_I8fol[id], `mtas_id`=$_JQjt6, `LastSending`=NOW(), `IsResponder`=1 ";
+              mysql_query($_QLfol, $_QLttI);
+              if(mysql_error($_QLttI) != "") {
+                $_JIfo0 .= "MySQL error while adding mail to out queue: ".mysql_error($_QLttI);
+                mysql_query("ROLLBACK", $_QLttI);
+                continue;
+              }
+            }else{
+              $_QLfol = "UPDATE `$_ICl0j` SET `Send`='Failed', `SendResult`=" . _LRAFO("Recipient is in ECG-Liste.") . "  WHERE `id`=$_JJJjf";
+              mysql_query($_QLfol, $_QLttI);
+            }            
           }
 
-          if($_jfiol || $_jfllo) {
-            $_jIojl++;
-            $_jflIQ++;
-            $_j6O8O .= "Email with subject '$_Q8OiJ[MailSubject]' was queued for sending to '$_QlftL[u_EMail]'<br />";
+          if($_JJQ6I || $_JJJjf) {
+            if(!$_J0olI){
+              $_J0J6C++;
+              $_JIfo0 .= "Email with subject '$_I1OfI[MailSubject]' was queued for sending to '$_I8fol[u_EMail]'<br />";
+              // Update Birthday responder statistics
+              $_QLfol = "UPDATE `$_ICo0J` SET `EMailsSent`=`EMailsSent`+1 WHERE `id`=$_I1OfI[BirthdayResponders_id]";
+              mysql_query($_QLfol, $_QLttI);
+            } else{
+              $_JIfo0 .= "Email with subject '$_I1OfI[MailSubject]' was not sent to '$_I8fol[u_EMail]', Recipient is in ECG-Liste.<br />";
+            } 
+            $_JJjQJ++;
 
             // save email send date time, EVER do it
-            $_QJlJ0 = "UPDATE `$_Q8OiJ[ML_BM_RefTableName]` SET LastSending=NOW() WHERE Member_id=$_QlftL[id]";
-            mysql_query($_QJlJ0, $_Q61I1);
-            if(mysql_affected_rows($_Q61I1) == 0) { // new?
-              $_QJlJ0 = "INSERT INTO `$_Q8OiJ[ML_BM_RefTableName]` SET Member_id=$_QlftL[id], LastSending=NOW()";
-              mysql_query($_QJlJ0, $_Q61I1);
+            $_QLfol = "UPDATE `$_I1OfI[ML_BM_RefTableName]` SET LastSending=NOW() WHERE Member_id=$_I8fol[id]";
+            mysql_query($_QLfol, $_QLttI);
+            if(mysql_affected_rows($_QLttI) == 0) { // new?
+              $_QLfol = "INSERT INTO `$_I1OfI[ML_BM_RefTableName]` SET Member_id=$_I8fol[id], LastSending=NOW()";
+              mysql_query($_QLfol, $_QLttI);
             }
 
-            // Update Birthday responder statistics
-            $_QJlJ0 = "UPDATE `$_IIl8O` SET `EMailsSent`=`EMailsSent`+1 WHERE `id`=$_Q8OiJ[BirthdayResponders_id]";
-            mysql_query($_QJlJ0, $_Q61I1);
           }
 
-          mysql_query("COMMIT", $_Q61I1);
+          mysql_query("COMMIT", $_QLttI);
 
         }
-        if($_IOOt1)
-          mysql_free_result($_IOOt1);
+        if($_jjl0t)
+          mysql_free_result($_jjl0t);
 
 
       }
-      if($_Q8Oj8)
-        mysql_free_result($_Q8Oj8);
+      if($_I1O6j)
+        mysql_free_result($_I1O6j);
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
 
-    $_j6O8O .= "<br />$_jIojl emails sent to queue<br />";
-    $_j6O8O .= "<br />Birthday responder checking end.";
+    $_JIfo0 .= "<br />$_J0J6C emails sent to queue<br />";
+    $_JIfo0 .= "<br />Birthday responder checking end.";
 
-    if($_jIojl)
+    if($_J0J6C)
       return true;
     return -1;
   }

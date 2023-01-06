@@ -1,7 +1,7 @@
 	/************************************************************************************************************
   #############################################################################
   #                SuperMailingList / SuperWebMailer                          #
-  #               Copyright © 2007 - 2017 Mirko Boeer                         #
+  #               Copyright © 2007 - 2019 Mirko Boeer                         #
   #                    Alle Rechte vorbehalten.                               #
   #                http://www.supermailinglist.de/                            #
   #                http://www.superwebmailer.de/                              #
@@ -23,13 +23,13 @@
   #############################################################################
 	************************************************************************************************************/
 
-CKEDITOR.plugins.add('queryfunctionbtn',
+CKEDITOR.plugins.add('surveysbtn',
   {
    	lang : ['en','de'],
     init:function(editor) {
 
-        	editor.ui.addButton("queryfunctionbtn",{
-        					label:editor.lang.queryfunctionbtn.label,
+        	editor.ui.addButton("surveysbtn",{
+        					label:editor.lang.surveysbtn.label,
         					command:'insertfunction_cmd',
         					icon:this.path + "btnsurveys.gif"
         	});
@@ -46,8 +46,7 @@ var mypluginspath = CKEDITOR.basePath.substr(0, CKEDITOR.basePath.indexOf("ckedi
 function showInsertFunctionDialogPlugin(e){
    var date = new Date();
    var nocache = date.getTime() / 1000;
-   oWindow = window.open(mypluginspath + "browsefunctions.php?form=" + CKEDITOR.config['FormName'] + "&formElement=" + e.name + "&IsFCKEditor=true" + "&nocache=" + nocache, "functionEditWnd","width=750,height=420,scrollbars=yes,status=yes,toolbar=no,resizable=no,location=yes");
-   oWindow.opener = window;
+   ShowModalDialog(mypluginspath + "browsefunctions.php?form=" + CKEDITOR.config['FormName'] + "&formElement=" + e.name + "&IsFCKEditor=true" + "&nocache=" + nocache, 708, 400);
    // the current FCK Editor
    CurrentFCKEditor = CKEDITOR;
 }

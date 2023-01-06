@@ -30,183 +30,183 @@
   if(!defined("SWM") && !defined("SML") && !defined("CRONS_PHP"))
     exit;
 
-  function _LOP60($_jjI1t, $_QlQC8="", $_Q6t6j="", $_QLI68="", $_ItCCo="") {
-    global $_IoCtL, $_Q61I1;
-    $_QJlJ0 = "SELECT * FROM `$_IoCtL` WHERE id=".intval($_jjI1t);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6J0Q = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
-    return _LOP8R($_Q6J0Q, $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo);
+  function _JL110($_J0LQQ, $_I8I6o="", $_QljJi="", $_IfJ66="", $_jjj8f="") {
+    global $_jJLLf, $_QLttI;
+    $_QLfol = "SELECT * FROM `$_jJLLf` WHERE id=".intval($_J0LQQ);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLL16 = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
+    return _JL1A6($_QLL16, $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f);
   }
 
-  function _LOP8R($_Q6J0Q, $_QlQC8="", $_Q6t6j="", $_QLI68="", $_ItCCo="") {
-    global $_Q60QL, $_Ql8C0, $_Q6JJJ, $_Q61I1;
+  function _JL1A6($_QLL16, $_I8I6o="", $_QljJi="", $_IfJ66="", $_jjj8f="") {
+    global $_QL88I, $_I8tfQ, $_QLl1Q, $_QLttI;
 
-    if($_QlQC8 == "") {
-      $_QJlJ0 = "SELECT `MaillistTableName`, `GroupsTableName`, `MailListToGroupsTableName`, `LocalBlocklistTableName` FROM `$_Q60QL` WHERE id=$_Q6J0Q[maillists_id]";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q6Q1C = mysql_fetch_array($_Q60l1);
-      mysql_free_result($_Q60l1);
-      $_QlQC8 = $_Q6Q1C["MaillistTableName"];
-      $_Q6t6j = $_Q6Q1C["GroupsTableName"];
-      $_QLI68 = $_Q6Q1C["MailListToGroupsTableName"];
-      $_ItCCo = $_Q6Q1C["LocalBlocklistTableName"];
+    if($_I8I6o == "") {
+      $_QLfol = "SELECT `MaillistTableName`, `GroupsTableName`, `MailListToGroupsTableName`, `LocalBlocklistTableName` FROM `$_QL88I` WHERE id=$_QLL16[maillists_id]";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      $_QLO0f = mysql_fetch_array($_QL8i1);
+      mysql_free_result($_QL8i1);
+      $_I8I6o = $_QLO0f["MaillistTableName"];
+      $_QljJi = $_QLO0f["GroupsTableName"];
+      $_IfJ66 = $_QLO0f["MailListToGroupsTableName"];
+      $_jjj8f = $_QLO0f["LocalBlocklistTableName"];
     }
 
-    $_QJlJ0 = "SELECT COUNT(`ml_groups_id`) FROM `$_Q6J0Q[GroupsTableName]`";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_IO0Jo = 0;
-    if($_Q60l1 && $_Q6Q1C = mysql_fetch_row($_Q60l1)) {
-      $_IO0Jo = $_Q6Q1C[0];
-      mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT COUNT(`ml_groups_id`) FROM `$_QLL16[GroupsTableName]`";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_jj6f1 = 0;
+    if($_QL8i1 && $_QLO0f = mysql_fetch_row($_QL8i1)) {
+      $_jj6f1 = $_QLO0f[0];
+      mysql_free_result($_QL8i1);
     }
 
-    $_IO1I1 = 0;
-    if($_IO0Jo > 0){
-      $_QJlJ0 = "SELECT COUNT(`ml_groups_id`) FROM `$_Q6J0Q[NotInGroupsTableName]`";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if($_Q60l1 && $_Q6Q1C = mysql_fetch_row($_Q60l1)) {
-        $_IO1I1 = $_Q6Q1C[0];
-        mysql_free_result($_Q60l1);
+    $_jjfiO = 0;
+    if($_jj6f1 > 0){
+      $_QLfol = "SELECT COUNT(`ml_groups_id`) FROM `$_QLL16[NotInGroupsTableName]`";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if($_QL8i1 && $_QLO0f = mysql_fetch_row($_QL8i1)) {
+        $_jjfiO = $_QLO0f[0];
+        mysql_free_result($_QL8i1);
       }
     }
 
-    if($_IO0Jo > 1) {
-      $_IOJ8I = "DISTINCT `$_QlQC8`.`u_EMail`,";
+    if($_jj6f1 > 1) {
+      $_jjOlo = "DISTINCT `$_I8I6o`.`u_EMail`,";
     } else
-      $_IOJ8I = "";
+      $_jjOlo = "";
     # !! cronsplit_tests.inc.php checks for `MembersAge` as last value before FROM !!
-    $_QJlJ0 = "SELECT $_IOJ8I `$_QlQC8`.*, IF(`$_QlQC8`.`u_Birthday` <> '0000-00-00', YEAR( CURRENT_DATE() ) - YEAR( `$_QlQC8`.`u_Birthday`), 0) AS `MembersAge` FROM `$_QlQC8`".$_Q6JJJ;
+    $_QLfol = "SELECT $_jjOlo `$_I8I6o`.*, IF(`$_I8I6o`.`u_Birthday` <> '0000-00-00', YEAR( CURRENT_DATE() ) - YEAR( `$_I8I6o`.`u_Birthday`), 0) AS `MembersAge` FROM `$_I8I6o`".$_QLl1Q;
 
-    $_QJlJ0 .= " LEFT JOIN `$_Ql8C0` ON `$_Ql8C0`.`u_EMail`=`$_QlQC8`.`u_EMail`".$_Q6JJJ;
-    $_QJlJ0 .= " LEFT JOIN `$_ItCCo` ON `$_ItCCo`.`u_EMail`=`$_QlQC8`.`u_EMail`".$_Q6JJJ;
+    $_QLfol .= " LEFT JOIN `$_I8tfQ` ON `$_I8tfQ`.`u_EMail`=`$_I8I6o`.`u_EMail`".$_QLl1Q;
+    $_QLfol .= " LEFT JOIN `$_jjj8f` ON `$_jjj8f`.`u_EMail`=`$_I8I6o`.`u_EMail`".$_QLl1Q;
 
-    if($_IO0Jo > 0) {
-      $_QJlJ0 .= " LEFT JOIN `$_QLI68` ON `$_QlQC8`.`id`=`$_QLI68`.`Member_id`".$_Q6JJJ;
-      $_QJlJ0 .= " LEFT JOIN `$_Q6J0Q[GroupsTableName]` ON `$_Q6J0Q[GroupsTableName]`.`ml_groups_id`=`$_QLI68`.`groups_id`".$_Q6JJJ;
-      if($_IO1I1 > 0) {
-        $_QJlJ0 .= "  LEFT JOIN ( ".$_Q6JJJ;
+    if($_jj6f1 > 0) {
+      $_QLfol .= " LEFT JOIN `$_IfJ66` ON `$_I8I6o`.`id`=`$_IfJ66`.`Member_id`".$_QLl1Q;
+      $_QLfol .= " LEFT JOIN `$_QLL16[GroupsTableName]` ON `$_QLL16[GroupsTableName]`.`ml_groups_id`=`$_IfJ66`.`groups_id`".$_QLl1Q;
+      if($_jjfiO > 0) {
+        $_QLfol .= "  LEFT JOIN ( ".$_QLl1Q;
 
-        $_QJlJ0 .= "    SELECT `$_QlQC8`.`id`".$_Q6JJJ;
-        $_QJlJ0 .= "    FROM `$_QlQC8`".$_Q6JJJ;
+        $_QLfol .= "    SELECT `$_I8I6o`.`id`".$_QLl1Q;
+        $_QLfol .= "    FROM `$_I8I6o`".$_QLl1Q;
 
-        $_QJlJ0 .= "    LEFT JOIN `$_QLI68` ON `$_QlQC8`.`id`=`$_QLI68`.`Member_id`".$_Q6JJJ;
-        $_QJlJ0 .= "    LEFT JOIN `$_Q6J0Q[NotInGroupsTableName]` ON".$_Q6JJJ;
-        $_QJlJ0 .= "    `$_Q6J0Q[NotInGroupsTableName]`.`ml_groups_id`=`$_QLI68`.`groups_id`".$_Q6JJJ;
-        $_QJlJ0 .= "    WHERE `$_Q6J0Q[NotInGroupsTableName]`.`ml_groups_id` IS NOT NULL".$_Q6JJJ;
+        $_QLfol .= "    LEFT JOIN `$_IfJ66` ON `$_I8I6o`.`id`=`$_IfJ66`.`Member_id`".$_QLl1Q;
+        $_QLfol .= "    LEFT JOIN `$_QLL16[NotInGroupsTableName]` ON".$_QLl1Q;
+        $_QLfol .= "    `$_QLL16[NotInGroupsTableName]`.`ml_groups_id`=`$_IfJ66`.`groups_id`".$_QLl1Q;
+        $_QLfol .= "    WHERE `$_QLL16[NotInGroupsTableName]`.`ml_groups_id` IS NOT NULL".$_QLl1Q;
 
-        $_QJlJ0 .= "  ) AS `subquery` ON `subquery`.`id`=`$_QlQC8`.`id`".$_Q6JJJ;
+        $_QLfol .= "  ) AS `subquery` ON `subquery`.`id`=`$_I8I6o`.`id`".$_QLl1Q;
       }
     }
 
-    $_QJlJ0 .= " WHERE (`$_QlQC8`.`IsActive`=1 AND `$_QlQC8`.`SubscriptionStatus`<>'OptInConfirmationPending' AND TRIM(`$_QlQC8`.`u_CellNumber`)<>'')".$_Q6JJJ;
-    $_QJlJ0 .= " AND (`$_Ql8C0`.`u_EMail` IS NULL AND `$_ItCCo`.`u_EMail` IS NULL) ".$_Q6JJJ;
-    if($_IO0Jo > 0) {
-      $_QJlJ0 .= " AND (`$_Q6J0Q[GroupsTableName]`.`ml_groups_id` IS NOT NULL)".$_Q6JJJ;
-      if($_IO1I1 > 0) {
-       $_QJlJ0 .= " AND (`subquery`.`id` IS NULL)".$_Q6JJJ;
+    $_QLfol .= " WHERE (`$_I8I6o`.`IsActive`=1 AND `$_I8I6o`.`SubscriptionStatus`<>'OptInConfirmationPending' AND TRIM(`$_I8I6o`.`u_CellNumber`)<>'')".$_QLl1Q;
+    $_QLfol .= " AND (`$_I8tfQ`.`u_EMail` IS NULL AND `$_jjj8f`.`u_EMail` IS NULL) ".$_QLl1Q;
+    if($_jj6f1 > 0) {
+      $_QLfol .= " AND (`$_QLL16[GroupsTableName]`.`ml_groups_id` IS NOT NULL)".$_QLl1Q;
+      if($_jjfiO > 0) {
+       $_QLfol .= " AND (`subquery`.`id` IS NULL)".$_QLl1Q;
       }
     }
 
-    if($_Q6J0Q["SendRules"] != "") {
-        $_j1I60 = @unserialize($_Q6J0Q["SendRules"]);
-        if($_j1I60 === false)
-          $_j1I60 = array();
+    if($_QLL16["SendRules"] != "") {
+        $_jioJ6 = @unserialize($_QLL16["SendRules"]);
+        if($_jioJ6 === false)
+          $_jioJ6 = array();
       }
       else
-      $_j1I60 = array();
+      $_jioJ6 = array();
 
-    $_QtjtL = array();
-    for($_Q6llo=0; $_Q6llo<count($_j1I60); $_Q6llo++) {
-      $_QtjtL[] = array("sql" => _O6L1O($_j1I60[$_Q6llo], $_QlQC8), "logicaloperator" => $_j1I60[$_Q6llo]["logicaloperator"] );
+    $_QLlO6 = array();
+    for($_Qli6J=0; $_Qli6J<count($_jioJ6); $_Qli6J++) {
+      $_QLlO6[] = array("sql" => _LORCA($_jioJ6[$_Qli6J], $_I8I6o), "logicaloperator" => $_jioJ6[$_Qli6J]["logicaloperator"] );
     }
 
-    if(count($_QtjtL) > 0) {
-      $_QJlJ0 .= " AND ".$_Q6JJJ."( ".$_Q6JJJ;
+    if(count($_QLlO6) > 0) {
+      $_QLfol .= " AND ".$_QLl1Q."( ".$_QLl1Q;
 
-      $_Iijl0 = "";
-      for($_Q6llo=0; $_Q6llo<count($_QtjtL); $_Q6llo++) {
-        if ($_Q6llo % 2 == 0)
-          $_Iijl0 = $_Iijl0 . " (  ". $_QtjtL[$_Q6llo]["sql"];
+      $_jf8JI = "";
+      for($_Qli6J=0; $_Qli6J<count($_QLlO6); $_Qli6J++) {
+        if ($_Qli6J % 2 == 0)
+          $_jf8JI = $_jf8JI . " (  ". $_QLlO6[$_Qli6J]["sql"];
           else {
-           $_Iijl0 = $_Iijl0 . " ". $_QtjtL[$_Q6llo - 1]["logicaloperator"] . " ". $_QtjtL[$_Q6llo]["sql"] . "  ) ";
-           if($_Q6llo != count($_QtjtL) - 1)
-              $_Iijl0 .= $_Q6JJJ.$_QtjtL[$_Q6llo]["logicaloperator"];
+           $_jf8JI = $_jf8JI . " ". $_QLlO6[$_Qli6J - 1]["logicaloperator"] . " ". $_QLlO6[$_Qli6J]["sql"] . "  ) ";
+           if($_Qli6J != count($_QLlO6) - 1)
+              $_jf8JI .= $_QLl1Q.$_QLlO6[$_Qli6J]["logicaloperator"];
           }
       }
-      if ( (count($_QtjtL) - 1) % 2 == 0)
-         $_Iijl0 .= "  )";
+      if ( (count($_QLlO6) - 1) % 2 == 0)
+         $_jf8JI .= "  )";
 
-      $_QJlJ0 .= $_Iijl0.$_Q6JJJ.")".$_Q6JJJ;
+      $_QLfol .= $_jf8JI.$_QLl1Q.")".$_QLl1Q;
 
       }
 
-    return $_QJlJ0;
+    return $_QLfol;
   }
 
-  function _LOPBF($_jjI1t, &$_jQIIi, $_QlQC8="", $_Q6t6j="", $_QLI68="", $_ItCCo="") {
-    global $_IoCtL, $_Q61I1;
-    $_QJlJ0 = "SELECT * FROM `$_IoCtL` WHERE `id`=".intval($_jjI1t);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6J0Q = mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    return _LOA66($_Q6J0Q, $_jQIIi, $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo);
+  function _JLQ8J($_J0LQQ, &$_jLiOt, $_I8I6o="", $_QljJi="", $_IfJ66="", $_jjj8f="") {
+    global $_jJLLf, $_QLttI;
+    $_QLfol = "SELECT * FROM `$_jJLLf` WHERE `id`=".intval($_J0LQQ);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLL16 = mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    return _JLQAB($_QLL16, $_jLiOt, $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f);
   }
 
-  function _LOA66($_Q6J0Q, &$_jQIIi, $_QlQC8="", $_Q6t6j="", $_QLI68="", $_ItCCo="") {
-    global $_Q61I1;
-    $_jQIIi = _LOP8R($_Q6J0Q, $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo);
+  function _JLQAB($_QLL16, &$_jLiOt, $_I8I6o="", $_QljJi="", $_IfJ66="", $_jjj8f="") {
+    global $_QLttI;
+    $_jLiOt = _JL1A6($_QLL16, $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f);
 
-    $_Q60l1 = mysql_query($_jQIIi, $_Q61I1);
-    if(mysql_error($_Q61I1) == "") {
-      return mysql_num_rows($_Q60l1);
+    $_QL8i1 = mysql_query($_jLiOt, $_QLttI);
+    if(mysql_error($_QLttI) == "") {
+      return mysql_num_rows($_QL8i1);
     } else {
-      return "<b>MySQL Error: </b>".mysql_error($_Q61I1)."<br />";
+      return "<b>MySQL Error: </b>".mysql_error($_QLttI)."<br />";
     }
 
     return 0;
   }
 
-  function _LOAFR($_Q6J0Q, &$_jQIIi, $_QlQC8="", $_Q6t6j="", $_QLI68="", $_ItCCo="") {
-    global $_Q61I1;
-    $_jQIIi = _LOP8R($_Q6J0Q, $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo);
+  function _JLQEF($_QLL16, &$_jLiOt, $_I8I6o="", $_QljJi="", $_IfJ66="", $_jjj8f="") {
+    global $_QLttI;
+    $_jLiOt = _JL1A6($_QLL16, $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f);
 
-    $_QJlJ0 = $_jQIIi;
+    $_QLfol = $_jLiOt;
 
-    $_jjjjC = $_QlQC8;
-    if($_jjjjC == ""){
-      $_jjjjC = substr($_QJlJ0, 0, strpos($_QJlJ0, "."));
-      $_jjjjC = substr($_jjjjC, strpos($_jjjjC, " ") + 1);
-      if(strpos($_jjjjC, " ") !== false)
-        $_jjjjC = substr($_jjjjC, strpos($_jjjjC, " ") + 1);
+    $_J0Lo8 = $_I8I6o;
+    if($_J0Lo8 == ""){
+      $_J0Lo8 = substr($_QLfol, 0, strpos($_QLfol, "."));
+      $_J0Lo8 = substr($_J0Lo8, strpos($_J0Lo8, " ") + 1);
+      if(strpos($_J0Lo8, " ") !== false)
+        $_J0Lo8 = substr($_J0Lo8, strpos($_J0Lo8, " ") + 1);
     }
 
-    $_QtjtL = substr($_QJlJ0, 0, strpos($_QJlJ0, ' ') + 1);
-    $_j1toJ = substr($_QJlJ0, strpos($_QJlJ0, 'FROM'));
-    if(strpos($_jQIIi, "DISTINCT ") !== false)
-       $_QJlJ0 = $_QtjtL." COUNT(DISTINCT $_jjjjC.`u_EMail`) ".$_j1toJ;
+    $_QLlO6 = substr($_QLfol, 0, strpos($_QLfol, ' ') + 1);
+    $_jLI6l = substr($_QLfol, strpos($_QLfol, 'FROM'));
+    if(strpos($_jLiOt, "DISTINCT ") !== false)
+       $_QLfol = $_QLlO6." COUNT(DISTINCT $_J0Lo8.`u_EMail`) ".$_jLI6l;
        else
-       $_QJlJ0 = $_QtjtL." COUNT($_jjjjC.`u_EMail`) ".$_j1toJ;
+       $_QLfol = $_QLlO6." COUNT($_J0Lo8.`u_EMail`) ".$_jLI6l;
 
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if(mysql_error($_Q61I1) == "") {
-      $_Q6Q1C = mysql_fetch_row($_Q60l1);
-      mysql_free_result($_Q60l1);
-      return $_Q6Q1C[0];
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if(mysql_error($_QLttI) == "") {
+      $_QLO0f = mysql_fetch_row($_QL8i1);
+      mysql_free_result($_QL8i1);
+      return $_QLO0f[0];
     } else {
-      return "<b>MySQL Error: </b>".mysql_error($_Q61I1)."<br />";
+      return "<b>MySQL Error: </b>".mysql_error($_QLttI)."<br />";
     }
 
     return 0;
   }
 
-  function _LOBEC($_jjI1t, &$_jQIIi, $_QlQC8="", $_Q6t6j="", $_QLI68="", $_ItCCo="") {
-    global $_IoCtL, $_Q61I1;
-    $_QJlJ0 = "SELECT * FROM `$_IoCtL` WHERE `id`=".intval($_jjI1t);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6J0Q = mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    return _LOAFR($_Q6J0Q, $_jQIIi, $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo);
+  function _JLO8F($_J0LQQ, &$_jLiOt, $_I8I6o="", $_QljJi="", $_IfJ66="", $_jjj8f="") {
+    global $_jJLLf, $_QLttI;
+    $_QLfol = "SELECT * FROM `$_jJLLf` WHERE `id`=".intval($_J0LQQ);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLL16 = mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    return _JLQEF($_QLL16, $_jLiOt, $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f);
   }
 
 

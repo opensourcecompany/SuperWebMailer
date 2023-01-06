@@ -57,7 +57,7 @@
  * @package Mail
  */
 
-require_once 'PEAR/PEAR_.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'PEAR_.php';
 
 class Mail_RFC822 {
 

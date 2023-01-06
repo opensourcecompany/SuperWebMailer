@@ -30,7 +30,7 @@
 
     function ConfirmDeleteEvent(value) {
       if(value)
-        document.getElementById('CampaignsListsForm').submit();
+        $("#CampaignsListsForm").submit();
         else {
           document.getElementById('OneCampaignListAction').value = "";
           document.getElementById('OneCampaignListId').value = "";
@@ -70,7 +70,7 @@
 
     function ConfirmListActionEvent(value) {
       if(value)
-        document.getElementById('CampaignsListsForm').submit();
+        $("#CampaignsListsForm").submit();
     }
 
     function ConfirmListAction() {
@@ -96,13 +96,13 @@
       			<div id="ShowHideFilterBox">
       			Suche nach:&nbsp;<input type="text" name="SearchFor" size="32" />&nbsp;im Feld:&nbsp;<select size="1" name="fieldname"><option value="SearchForid">ID</option><option value="SearchForName">Name</option><option value="SearchForDescription">Beschreibung</option></select>
       			<br /><br />
-      			Sortiere Liste nach:&nbsp;<select size="1" name="sortfieldname"><option value="SortName">Name</option><option value="SortMailingListName">Empf&auml;ngerliste</option><option value="Sortid">ID</option></select>&nbsp;<select size="1" name="sortorder"><option value="descending">absteigend</option><option value="ascending">aufsteigend</option></select>
+      			Sortiere Liste nach:&nbsp;<select size="1" name="sortfieldname"><option value="SortName">Name</option><option value="SortMailingListName">Empf&auml;ngerliste</option><option value="Sortid">ID</option><option value="SortLastSent">Versendet</option></select>&nbsp;<select size="1" name="sortorder"><option value="descending">absteigend</option><option value="ascending">aufsteigend</option></select>
       			<br />
          <br />
       			Zeige:&nbsp;<input type="text" name="ItemsPerPage" size="4" style="text-align:right" />&nbsp;Eintr&auml;ge&nbsp;pro&nbsp;Seite
       			<br />
          <br />
-         <div style="float:right"><input type="submit" name="FilterApplyBtn" value="&Uuml;bernehmen" /></div>
+         <div style="float:right"><input type="submit" name="FilterApplyBtn" value="&Uuml;bernehmen" onclick="document.getElementById('CampaignListActions').selectedIndex = 0; document.getElementById('CampaignListActions').onchange();" /></div>
          <input type="checkbox" name="SaveFilter" value="true" />&nbsp;Filter zur n&auml;chsten Verwendung speichern
          </div>
          </p>
@@ -128,7 +128,7 @@
   			<td class="NoWrap" width="1%">&nbsp;</td>
   			<td class="NoWrap" width="22%" onclick="SortOnClick('SortMailingListName', 'sortfieldname', 'sortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">Empf&auml;ngerliste</td>
   			<td class="NoWrap" width="1%">&nbsp;</td>
-  			<td class="NoWrap" width="15%">Versendet</td>
+  			<td class="NoWrap" width="15%" onclick="SortOnClick('SortLastSent', 'sortfieldname', 'sortorder');" onmouseover="CSSaddClass('tableRollOverEffect', this);this.style='cursor:pointer';" onmouseout="CSSremoveClass('tableRollOverEffect', this);this.style='cursor:auto';">Versendet</td>
   			<td class="NoWrap" width="1%">&nbsp;</td>
   			<td class="NoWrap" width="30%">Aktionen</td>
   		</tr>
@@ -208,7 +208,7 @@
          			  Seite:&nbsp;
         </td>
         <td style="text-align:right; width:1%; white-space:nowrap; ">
-         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.CampaignsListsForm.submit()">
+         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="$('#CampaignsListsForm').submit();">
                 <OPTION:PAGES>
                 <option>1</option>
                 </OPTION:PAGES>
@@ -231,6 +231,9 @@
   CheckboxClicked();
   ShowItem('ListActionSubmitBtn', (document.getElementById('CampaignListActions').selectedIndex != 0) && ( document.getElementById('CampaignListActions').disabled == false ) ) ;
   DisableItem('CampaignListActions', GetCheckedCount('CampaignIDs[]', 'CampaignsListsForm') > 0 );
+  InsertLoadingStatusOnSubmit();
+
+
   //AUTO_SCRIPT_CODE_PLACEHOLDER//
 //-->
 </script>

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,6 +26,7 @@
   include_once("templates.inc.php");
   include_once("mailinglistq.inc.php");
   include_once("defaulttexts.inc.php");
+  include_once("sanitize.inc.php");
 
   if(function_exists("ioncube_file_is_encoded") && ioncube_file_is_encoded()){
    print "Installieren Sie die Vollversion der Software / Install full version of software.";
@@ -33,7 +34,16 @@
   }
 
   define('Setup', 1); # we install
-  $_Jtf68 = "http://";
+  $_6CC10 = "http://";
+
+  if(!empty($_SERVER["REQUEST_SCHEME"]) && function_exists("openssl_pkcs7_sign") && function_exists("openssl_get_privatekey"))
+     $_6CC10 = $_SERVER["REQUEST_SCHEME"]."://";
+
+  $_6CCQ1 = new _JO0ED();
+  $_6CCQ1 = null;
+
+  $REMOTE_ADDR = getOwnIP(false);
+
   $Language = $INTERFACE_LANGUAGE;
   if(isset($_POST["Language"]))
      $Language = $_POST["Language"];
@@ -41,9 +51,14 @@
      $_POST["Language"] = $INTERFACE_LANGUAGE;
   if($Language == "")
     $Language = $INTERFACE_LANGUAGE;
+  $INTERFACE_LANGUAGE = $Language;
+ 
+  $INTERFACE_LANGUAGE = preg_replace( '/[^a-z]+/', '', strtolower( $INTERFACE_LANGUAGE ) );
+  
+  _JQRLR($INTERFACE_LANGUAGE);
 
-  $_I0600 = "";
-  $_JtffC = false;
+  $_Itfj8 = "";
+  $_6CCQt = false;
   $errors = array();
 
   if(!isset($_POST["step"]) || $_POST["step"] == "") {
@@ -64,20 +79,20 @@
        }
 
        if (count($errors) == 0) {
-        if( !_OFRED($_POST["ver_code"], $_POST["RegNumber"]) ) {
+        if( !_LFJJE($_POST["ver_code"], $_POST["RegNumber"]) ) {
           $_POST["step"] = 4;
           $_POST["ManualBtn"] = 1;
           $errors[] = "ver_code";
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090206"];
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090206"];
         } else {
           $_POST["step"] = 5;
           $_POST["RegNumber"] = strtoupper($_POST["RegNumber"]);
-          $_JtO0o = "";
-          if(!_OFR1B($_JtO0o)) {
+          $_6Cif6 = "";
+          if(!_LFLD0($_6Cif6)) {
             $_POST["step"] = 4;
             $_POST["ManualBtn"] = 1;
             $errors[] = "ver_code";
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090206"].$_JtO0o;
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090206"].$_6Cif6;
           }
         }
        }
@@ -98,21 +113,21 @@
            $errors[] = "RegNumber";
         if(count($errors) == 0) {
           $_POST["RegNumber"] = strtoupper($_POST["RegNumber"]);
-          if ( !_OFR0F(urlencode($_POST["RegName"]), $_POST["RegNumber"], $_I0600, $_JtffC) ) {
+          if ( !_LFOFL(urlencode($_POST["RegName"]), $_POST["RegNumber"], $_Itfj8, $_6CCQt) ) {
             $errors[] = "RegName";
             $errors[] = "RegNumber";
           } else {
-            $_JtO0o = "";
-            if( !_OFR1B($_JtO0o) ) {
+            $_6Cif6 = "";
+            if( !_LFLD0($_6Cif6) ) {
               $errors[] = "RegName";
               $errors[] = "RegNumber";
-              $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090202"].$_JtO0o;
+              $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090202"].$_6Cif6;
             }
           }
         }
         break;
       default:
-        $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090197"], $_I0600, 'DISABLED', 'mailingupgrade1_snipped.htm');
+        $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090197"], $_Itfj8, 'DISABLED', 'mailingupgrade1_snipped.htm');
       case 5:
         break;
       case 6:
@@ -143,14 +158,14 @@
             $_POST["step"] = 4;
     }
   } else {
-    if($_I0600 == "")
-       $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000020"];
+    if($_Itfj8 == "")
+       $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000020"];
   }
 
 
   switch($_POST["step"]) {
     case 1:
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090197"], $_I0600, 'DISABLED', 'mailingupgrade1_snipped.htm');
+      $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090197"], $_Itfj8, 'DISABLED', 'mailingupgrade1_snipped.htm');
       break;
     case 2:
       break;
@@ -158,20 +173,28 @@
       break;
     case 4:
       if(isset($_POST["ManualBtn"])) {
-        $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090198"], $_I0600, 'DISABLED', 'instman_snipped.htm');
-        $_JttQ1 = urlencode( $_POST["RegName"] );
-        $_Jttii = urlencode( $_POST["RegNumber"] );
+        $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090198"], $_Itfj8, 'DISABLED', 'instman_snipped.htm');
+        $_6Ci1L = urlencode( $_POST["RegName"] );
+        $_6Cijo = urlencode( $_POST["RegNumber"] );
         if ( (!isset($REMOTE_ADDR)) || ($REMOTE_ADDR == "") )
            $REMOTE_ADDR = $_SERVER['REMOTE_ADDR'];
 
-        $_Qf1i1 = "Program=$AppName&Name1=$_JttQ1&Code=$_Jttii&AppName=$AppName&IP=$REMOTE_ADDR&Lang=$INTERFACE_LANGUAGE";
+        $_I0QjQ = "Program=$AppName&Name1=$_6Ci1L&Code=$_6Cijo&AppName=$AppName&IP=$REMOTE_ADDR&Lang=$INTERFACE_LANGUAGE";
 
-        $_QJCJi = str_replace( _OBLDR($_Jtf68.$_JftOi ), _OBLDR($_Jtf68.$_JftOi).$_JfOii."/swm_cc.php?".$_Qf1i1, $_QJCJi);
+        if(defined("SWM"))
+          $_ffo11 = "/swm_cc.php?";
+          else
+          $_ffo11 = "/sml_cc.php?";
+
+        if(function_exists("openssl_pkcs7_sign") && function_exists("openssl_get_privatekey"))
+          $_QLJfI = str_replace("[ManualURL]", _LPC1C($_6CC10.$_6OOCJ).$_6OiII.$_ffo11.$_I0QjQ, $_QLJfI);
+          else
+          $_QLJfI = str_replace("[ManualURL]", _LPC1C("http://".$_6OOCJ).$_6OiII.$_ffo11.$_I0QjQ, $_QLJfI);
         break;
       }
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090198"], $_I0600, 'DISABLED', 'inst4_snipped.htm');
-      if(!$_JtffC) {
-        $_QJCJi = _OP6PQ($_QJCJi, "<MANUAL>", "</MANUAL>");
+      $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090198"], $_Itfj8, 'DISABLED', 'inst4_snipped.htm');
+      if(!$_6CCQt) {
+        $_QLJfI = _L80DF($_QLJfI, "<MANUAL>", "</MANUAL>");
       }
       break;
     case 5:
@@ -183,27 +206,39 @@
     case 8:
       $_POST["step"] = 9; // goto end
     case 9:
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090199"], $_I0600, 'DISABLED', 'mailingupgrade9_snipped.htm');
+      $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090199"], $_Itfj8, 'DISABLED', 'mailingupgrade9_snipped.htm');
       break;
     case 10:
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090199"], $_I0600, 'DISABLED', 'mailingupgrade9_snipped.htm');
+      $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090199"], $_Itfj8, 'DISABLED', 'mailingupgrade9_snipped.htm');
       break;
     default:
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090197"], $_I0600, 'DISABLED', 'mailingupgrade1_snipped.htm');
+      $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090197"], $_Itfj8, 'DISABLED', 'mailingupgrade1_snipped.htm');
   }
 
   unset($_POST["step"]);
 
 
-  _LJ81E($_QJCJi);
+  _JJCCF($_QLJfI);
 
-  $_QJCJi = _OPFJA($errors, $_POST, $_QJCJi);
+  foreach($_POST as $key => $_QltJO)
+     $_POST[$key] = _LA8F6($_QltJO);
+  
+  if(isset($_POST["RegName"]))
+    $_POST["RegName"] = htmlspecialchars($_POST["RegName"], ENT_COMPAT, $_QLo06, false);
+  
+  if(isset($_POST["RegNumber"]))
+    $_POST["RegNumber"] = htmlspecialchars($_POST["RegNumber"], ENT_COMPAT, $_QLo06, false);
+  
+  if(isset($_POST["ver_code"]))
+    $_POST["ver_code"] = htmlspecialchars($_POST["ver_code"], ENT_COMPAT, $_QLo06, false);
+    
+  $_QLJfI = _L8AOB($errors, $_POST, $_QLJfI);
 
-  $_QJCJi = str_replace("install.php", "mailingupgrade.php", $_QJCJi);
+  $_QLJfI = str_replace("install.php", "mailingupgrade.php", $_QLJfI);
 
   $link = ScriptBaseURL."index.php?Language=".$INTERFACE_LANGUAGE;
-  $_QJCJi = str_replace("START_LINK", $link, $_QJCJi);
+  $_QLJfI = str_replace("START_LINK", $link, $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 ?>

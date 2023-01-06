@@ -1,6 +1,6 @@
 Hallo,
 
-an die Verteilerliste "[DISTRIBLISTNAME]" wurde eine E-Mail mit Betreff "[SUBJECT]" mit der E-Mail-Adresse [FROMADDRESS] gesendet. Der Admin wurde per E-Mail informiert und muss dem Versand dem E-Mail zuerst zustimmen.
+an die Verteilerliste "[DISTRIBLISTNAME]" wurde eine E-Mail mit Betreff "[SUBJECT]" mit der E-Mail-Adresse [FROMADDRESS] gesendet. Der Admin/Moderator wurde per E-Mail informiert und muss dem Versand der E-Mail zuerst zustimmen.
 
 
 

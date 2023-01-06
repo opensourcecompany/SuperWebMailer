@@ -18,7 +18,7 @@
 
     function ConfirmDeleteEvent(value) {
       if(value)
-        document.getElementById('FormsListsForm').submit();
+        $('#FormsListsForm').submit();
         else {
           document.getElementById('OneFormListAction').value = "";
           document.getElementById('OneFormListId').value = "";
@@ -36,7 +36,7 @@
     <tbody>
       <tr>
         <td>
-         <span style="float: right; margin-right: 0pt"><a class="Backlink" href="./formedit.php" name="NewForm" id="NewForm" onclick="this.href=this.href + '?MailingListId=' + document.getElementById('OneMailingListId').value ">Neues Formular anlegen</a></span>
+         <span style="float: right; margin-right: 0pt"><a class="Backlink" href="./formedit.php" name="NewForm" id="NewForm" onclick="CreateFormAndPostIt(this.href + '?MailingListId=' + document.getElementById('OneMailingListId').value); return false;">Neues Formular anlegen</a></span>
         </td>
       </tr>
       <tr>
@@ -98,7 +98,7 @@
          			  Seite:&nbsp;
         </td>
         <td style="text-align:right; width:1%; white-space:nowrap; ">
-         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.FormsListsForm.submit()">
+         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="$('#FormsListsForm').submit();">
                 <OPTION:PAGES>
                 <option>1</option>
                 </OPTION:PAGES>
@@ -117,6 +117,7 @@
 <!--
   addTableRolloverEffect('TableFormsLists','tableRollOverEffect','tableRowClickEffect');
   AddTableDblClickEvent('TableFormsLists');
+  InsertLoadingStatusOnSubmit();
   //AUTO_SCRIPT_CODE_PLACEHOLDER//
 //-->
 </script>

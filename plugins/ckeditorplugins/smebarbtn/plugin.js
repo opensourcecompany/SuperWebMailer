@@ -1,7 +1,7 @@
 	/************************************************************************************************************
   #############################################################################
   #                SuperMailingList / SuperWebMailer                          #
-  #               Copyright © 2007 - 2017 Mirko Boeer                         #
+  #               Copyright © 2007 - 2018 Mirko Boeer                         #
   #                    Alle Rechte vorbehalten.                               #
   #                http://www.supermailinglist.de/                            #
   #                http://www.superwebmailer.de/                              #
@@ -47,7 +47,7 @@ function showLoadSMEBarPlugin(editor){
    var date = new Date();
    var nocache = date.getTime() / 1000;
 
-   oWindow = window.open(mypluginspath + "loadsmebar.php?formElement=" + editor.name + "&nocache=" + nocache, "loadsmebarEditWnd","width=766,height=580,scrollbars=yes,status=yes,toolbar=no,resizable=no,location=yes");
+   oWindow = openWindowWithPost(mypluginspath + "loadsmebar.php?formElement=" + editor.name + "&IsFCKEditor=true" + "&nocache=" + nocache, {}, "loadsmebarEditWnd","width=766,height=580,scrollbars=yes,status=yes,toolbar=no,resizable=no,location=yes");
 
    oWindow.opener = window;
    // the current FCK Editor

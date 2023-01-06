@@ -25,14 +25,14 @@
   if (ini_get('register_globals') == 1){
     // security when register_globals ON remove all global variables
     if (isset($_REQUEST) && is_array($_REQUEST))
-       foreach(array_keys($_REQUEST) as $_6J6CI)
-        unset($$_6J6CI);
+       foreach(array_keys($_REQUEST) as $_fCLOJ)
+        unset($$_fCLOJ);
     if (isset($_SESSION) && is_array($_SESSION))
-       foreach(array_keys($_SESSION) as $_6J6CI)
-        unset($$_6J6CI);
+       foreach(array_keys($_SESSION) as $_fCLOJ)
+        unset($$_fCLOJ);
     if (isset($_SERVER) && is_array($_SERVER))
-       foreach(array_keys($_SERVER)  as $_6J6CI)
-        unset($$_6J6CI);
+       foreach(array_keys($_SERVER)  as $_fCLOJ)
+        unset($$_fCLOJ);
   }
 
 ?>

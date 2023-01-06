@@ -1,5 +1,51 @@
-      <link rel="stylesheet" href="js/colorpicker/css/colorPicker.css" type="text/css" />
-      <script type="text/javascript" language="javascript" src="js/colorpicker/js/colorPicker.js"></script>
+      <script>
+        function DoSamplePreview(){
+          var postParams = "key=samplePreview&rid=smp&samplePreview=" + encodeURIComponent( $("#SamplePreviewBtn").val() );
+          $("input[type=hidden]").each(function(){
+            postParams += "&" + $(this).attr('name') + "=" + encodeURIComponent( $(this).val() );
+         	});
+
+          $("body").find("input").each(function(){
+            if($(this).attr('name')){
+               if($(this).attr('type') == "checkbox"){
+                 if($(this).prop("checked")){
+                   var name = $(this).attr('name');
+                   if(name.indexOf('[') > -1){
+                     name = name.substring(name.indexOf('[') + 1);
+                     name = name.substring(0, name.indexOf(']') );
+
+
+                     if(name != "" && document.getElementById( "URL[" + name + "]" ) && document.getElementById( "URL[" + name + "]" ).value.trim() != "")
+                        postParams += "&" + $(this).attr('name') + "=" + encodeURIComponent( $(this).val() );
+                   }else
+                     postParams += "&" + $(this).attr('name') + "=" + encodeURIComponent( $(this).val() );
+                 }
+               }
+               else
+                 postParams += "&" + $(this).attr('name') + "=" + encodeURIComponent( $(this).val() );
+            }
+         	});
+          $("body").find("select").each(function(){
+            postParams += "&" + $(this).attr('name') + "=" + encodeURIComponent( $(this).val() );
+         	});
+          $("body").find("textarea").each(function(){
+            postParams += "&" + $(this).attr('name') + "=" + encodeURIComponent( $(this).val() );
+         	});
+
+          postParams += "&" + "nocache=" + getNoCache();
+
+          var w = document.body.clientWidth || window.innerWidth || document.documentElement.clientWidth;
+
+          ShowModalDialog("browser.php?" + postParams, w * .75, 400, "Schlie&szlig;en");
+
+          $("#modaldialogTitle_text").html( $("#SamplePreviewBtn").val() );
+
+          return false;
+        }
+      </script>
+
+      <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+      <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
       <script language="javascript" type="text/javascript">
       <!--
         var TabListArray = Array();
@@ -61,12 +107,13 @@
                                   E-Mailings
                                 </td>
                                 <td>
-                                  <select size="7" id="EMailings[]" name="EMailings[]" multiple="multiple">
+
+                                  <div class="scrollbox" style=" width: 368px; height: 150px" name="EMailingsScrollbox" id="EMailingsScrollbox">
                                     <SHOW:EMAILINGS>
+                                      <span class="scrollboxSpan"><input type="checkbox" name="EMailings[]" value="<EMailingsId></EMailingsId>" id="EMailingsLabelId" />&nbsp;<label for="EMailingsLabelId"><EMailingName></EMailingName></label><br /></span>
                                     </SHOW:EMAILINGS>
-                                  </select>
-                                  <br /><br />
-                                  Mit Strg-(Ctrl) und Umsch-(Shift) Taste k&ouml;nnen mehrere Listeneintr&auml;ge gew&auml;hlt werden.                         </td>
+                                  </div>
+
                                 </td>
                               </tr>
                             </tbody>
@@ -80,7 +127,7 @@
                             <tbody>
                               <tr>
                                 <td class="MessageDescriptionColumn">Vorlagenverzeichnis (optional)<SHOWHIDE:TOOLTIPS>
-                                        <img onmouseover="showTooltip(event, 'Sie k&ouml;nnen optional ein eigenes Vorlagen-Verzeichnis mit modifizierten Vorlage-Dateien angeben. Das Verzeichnis muss sich unter dem PRODUCTAPPNAME-Verzeichnis befinden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
+                                        <img onmouseover="showTooltip(event, 'Sie k&ouml;nnen optional ein eigenes Vorlagen-Verzeichnis mit der modifizierten Vorlage-Datei na_start.htm angeben. Das Verzeichnis muss sich unter dem PRODUCTAPPNAME-Verzeichnis befinden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" class="hintimage" width="16" height="16" alt=""/>
                                         </SHOWHIDE:TOOLTIPS>
                                 </td>
                                 <td><input type="text" id="TemplatesPath" name="TemplatesPath" maxlength="255" size="50" /></td>
@@ -128,196 +175,87 @@
                       <legend><SHOWHIDE:TOOLTIPS>
                                   <img onmouseover="showTooltip(event, 'W&auml;hlen Sie die Farben und Schriftarten f&uuml;r das Newsletter-Archiv. Sollten Sie ein eigenes Layout in den Vorlagedateien definiert haben, dann deaktivieren Sie diese Einstellung.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
                                   </SHOWHIDE:TOOLTIPS>Erscheinungsbild</legend>
-                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
-                            <tbody>
-                              <tr>
-                               <td colspan="2">
-                                  <br />
-                                  <br />
-                                  <input type="checkbox" name="UserDefinedColorsAndFonts" id="UserDefinedColorsAndFonts" value="1" onclick="ShowItem('SpanUserDefinedColorsAndFonts', document.getElementById('UserDefinedColorsAndFonts').checked);" /><label for="UserDefinedColorsAndFonts">&nbsp;Farben und Schriftarten anpassen (bei eigenen Layouts deaktivieren)</label>
-                               </td>
-                              </tr>
-                            </tbody>
-                          </table>
+
+                        <table class="FormTable" cellspacing="0" cellpadding="0" border="0" id="InfoBar">
+                          <tbody>
+                            <tr>
+                             <td class="MessageDescriptionColumn">
+                                <label for="InfoBarSchemeColorName">Farbschema</label>
+                            </td>
+                             <td>
+                               <select name="InfoBarSchemeColorName" id="InfoBarSchemeColorName" size="1">
+                                 <InfoBarSchemeColor>
+                                 <option value="colorValue">colorName</option>
+                                 </InfoBarSchemeColor>
+                               </select>
+                                <input type="submit" value="Beispieldarstellung" id="SamplePreviewBtn" style="float: right;" onclick="DoSamplePreview(); return false;">
+                              </td>
+                            </tr>
+
+                            <tr>
+                             <td class="MessageDescriptionColumn">
+                                <label for="InfoBarSrcLanguage">Sprache der Newsletter-E-Mail-Inhalte</label>
+                             </td>
+                             <td>
+                               <select name="InfoBarSrcLanguage" id="InfoBarSrcLanguage" size="1">
+                                 <InfoBarSrcLanguage>
+                                 <option value="LangCode">LangName</option>
+                                 </InfoBarSrcLanguage>
+                               </select>
+                             </td>
+                            </tr>
+
+                            <tr>
+                             <td class="MessageDescriptionColumn">
+                                <label for="InfoBarSpacer">Optional: HTML-Code direkt nach der Info-Leiste</label>
+                             </td>
+                             <td>
+                               <textarea name="InfoBarSpacer" id="InfoBarSpacer" cols="30" rows="3" style="width: 95%; min-width: 20%; min-height: 64px;"></textarea>
+                             </td>
+                            </tr>
+
+                            <tr>
+                             <td class="MessageDescriptionColumn">
+                                &nbsp;
+                             </td>
+                             <td>
+                               <label for="InfoBarLinksList">Anzuzeigende Links</label><br />
+                               <table id="InfoBarLinksList" name="InfoBarLinksList" class="FixedTable">
+                               	<thead>
+                               		<tr>
+                               			<td class="NoWrap" width="17%">Link</td>
+                               			<td class="NoWrap" width="1%">&nbsp;</td>
+                               			<td class="NoWrap" width="25%">URL</td>
+                               			<td class="NoWrap" width="1%">&nbsp;</td>
+                               			<td class="NoWrap" width="25%">Schnellhinweis</td>
+                               			<td class="NoWrap" width="1%">&nbsp;</td>
+                               			<td class="NoWrap" width="27%">Link-Text</td>
+                               		</tr>
+                               	</thead>
+                               	<tbody id="InfoBarLinksList_tbody">
+                                 <InfoBarLinks>
+                               		<tr>
+                                			<td><input type="checkbox" name="Link[X]" id="LinkX" onclick="if(!this.disabled) DisableSiblingElements(this, this.checked);" /><label for="LinkX">&nbsp;<LINKTEXT></LINKTEXT></label></td>
+                                			<td>&nbsp;</td>
+                                			<td><input type="text" name="URL[X]" id="URL[X]" value="<URL[X]></URL[X]>" style="width: 98%;" oncontextmenu="if(!this.readOnly)ShowAltBrowserLinkPlaceholders('URL[X]'); return false;" title="Geben Sie die URL korrekt mit http(s):// an."
+                                   onfocus="if(this.readOnly) return true; var p = this.getBoundingClientRect(); this.style.width=p.width*2 + 'px';" onblur="if(!this.readOnly) this.style.width='98%'" /></td>
+                                			<td>&nbsp;</td>
+                                			<td><input type="text" name="Title[X]" value="<Title[X]></Title[X]>" style="width: 98%;" /></td>
+                                			<td>&nbsp;</td>
+                                			<td><input type="text" name="Text[X]" value="<Text[X]></Text[X]>" style="width: 98%;" /></td>
+                               		</tr>
+                                 </InfoBarLinks>
+                               	</tbody>
+                               </table>
+
+                             </td>
+                            </tr>
+
+
+                          <tbody>
+                        </table>
+
                       </fieldset>
-                      
-                      <span id="SpanUserDefinedColorsAndFonts">
-                      
-                        <fieldset>
-                        <legend>Farben und Schriftarten</legend>
-                          <br />
-                            <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
-                              <tbody>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Hintergrundfarbe
-                                 </td>
-                                 <td valign="top">
-                                   <input type="text" name="BackgroundColor" id="BackgroundColor" size="10" onclick="startColorPicker(this)" onkeyup="maskedHex(this)" />
-                                 </td>
-                                </tr>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Schriftart
-                                 </td>
-                                 <td valign="top">
-                                   <input type="text" name="FontName" size="40" />
-                                 </td>
-                                </tr>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Schriftfarbe
-                                 </td>
-                                 <td valign="top">
-                                   <input type="text" name="FontColor" id="FontColor" size="10" onclick="startColorPicker(this)" onkeyup="maskedHex(this)" />
-                                 </td>
-                                </tr>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Schriftstil
-                                 </td>
-                                 <td valign="top">
-                                   <select name="FontStyle" size="1">
-                                      <option value="normal">Normal/Ohne</option>
-                                      <option value="bold">Fett</option>
-                                      <option value="italic">Kursiv</option>
-                                   </select>
-                                 </td>
-                                </tr>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Schriftgrad
-                                 </td>
-                                 <td valign="top">
-                                   <input type="text" name="FontSize" size="10" />
-                                 </td>
-                                </tr>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Hyperlink
-                                 </td>
-                                 <td valign="top">
-                                   <input type="text" name="link" id="link" size="10" onclick="startColorPicker(this)" onkeyup="maskedHex(this)" />
-                                 </td>
-                                </tr>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Aktiver Hyperlink
-                                 </td>
-                                 <td valign="top">
-                                   <input type="text" name="alink" id="alink" size="10" onclick="startColorPicker(this)" onkeyup="maskedHex(this)" />
-                                 </td>
-                                </tr>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Besuchter Hyperlink
-                                 </td>
-                                 <td valign="top">
-                                   <input type="text" name="vlink" id="vlink" size="10" onclick="startColorPicker(this)" onkeyup="maskedHex(this)" />
-                                 </td>
-                                </tr>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Schriftgrad der &Uuml;berschrift
-                                 </td>
-                                 <td valign="top">
-                                   <input type="text" name="H1FontSize" size="10" />
-                                 </td>
-                                </tr>
-
-                              </tbody>
-                            </table>
-                        </fieldset>
-
-                        <fieldset>
-                        <legend>Farben und Schriftarten der Navigationsleiste</legend>
-                          <br />
-                            <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
-                              <tbody>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Hintergrundfarbe
-                                 </td>
-                                 <td valign="top">
-                                   <input type="text" name="NavBackgroundColor" id="NavBackgroundColor" size="10" onclick="startColorPicker(this)" onkeyup="maskedHex(this)" />
-                                 </td>
-                                </tr>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Schriftart
-                                 </td>
-                                 <td valign="top">
-                                   <input type="text" name="NavFontName" size="40" />
-                                 </td>
-                                </tr>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Schriftfarbe
-                                 </td>
-                                 <td valign="top">
-                                   <input type="text" name="NavFontColor" id="NavFontColor" size="10" onclick="startColorPicker(this)" onkeyup="maskedHex(this)" />
-                                 </td>
-                                </tr>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Schriftstil
-                                 </td>
-                                 <td valign="top">
-                                   <select name="NavFontStyle" size="1">
-                                      <option value="normal">Normal/Ohne</option>
-                                      <option value="bold">Fett</option>
-                                      <option value="italic">Kursiv</option>
-                                   </select>
-                                 </td>
-                                </tr>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Schriftgrad
-                                 </td>
-                                 <td valign="top">
-                                   <input type="text" name="NavFontSize" size="10" />
-                                 </td>
-                                </tr>
-
-                              </tbody>
-                            </table>
-                        </fieldset>
-
-                        <fieldset>
-                        <legend>Schriftgrad eines Newsletter-Eintrags</legend>
-                          <br />
-                            <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
-                              <tbody>
-
-                                <tr>
-                                 <td class="MessageDescriptionColumn">
-                                   Schriftgrad
-                                 </td>
-                                 <td valign="top">
-                                   <input type="text" name="EntryFontSize" size="10" />
-                                 </td>
-                                </tr>
-
-                              </tbody>
-                            </table>
-                        </fieldset>
-
-                      </span>
-
                   	</div>
                   	<!-- ####### TAB END -->
 
@@ -344,50 +282,32 @@
                                 </td>
                                 <td><input type="text" id="StartPageHeadline" name="StartPageHeadline" maxlength="255" size="50" style="width: 80%" /></td>
                               </tr>
+
                               <tr>
-                                <td class="MessageDescriptionColumn" valign="top">Text neben den Jahren
+                                <td class="MessageDescriptionColumn" valign="top">Alternativ eigenes Bild mit http(s):// auf der Startseite
                                 </td>
-                                <td><input type="text" id="YearsLabel" name="YearsLabel" maxlength="255" size="50" style="width: 80%" /></td>
+                                <td><input type="text" id="StartPageLogo" name="StartPageLogo" maxlength="255" size="50" style="width: 80%" /></td>
+                              </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Unter&uuml;berschrift 1 auf der Startseite
+                                </td>
+                                <td><input type="text" id="StartPageSubHeadline1" name="StartPageSubHeadline1" maxlength="255" size="50" style="width: 80%" /></td>
                               </tr>
                               <tr>
-                                <td class="MessageDescriptionColumn" valign="top">Text unter der Jahresauswahl
+                                <td class="MessageDescriptionColumn" valign="top">Unter&uuml;berschrift 2 auf der Startseite
                                 </td>
-                                <td><input type="text" id="TextBehindYears" name="TextBehindYears" maxlength="255" size="50" style="width: 80%" /></td>
+                                <td><input type="text" id="StartPageSubHeadline2" name="StartPageSubHeadline2" maxlength="255" size="50" style="width: 80%" /></td>
                               </tr>
                               <tr>
-                                <td class="MessageDescriptionColumn" valign="top">&Uuml;berschrift auf der Seite nach Auswahl eines Jahres
+                                <td class="MessageDescriptionColumn" valign="top">Text vor einer Jahresangabe
                                 </td>
-                                <td><input type="text" id="YearsHeaderlineSelect" name="YearsHeaderlineSelect" maxlength="255" size="50" style="width: 80%" /></td>
+                                <td><input type="text" id="YearsPrefix" name="YearsPrefix" maxlength="255" size="50" style="width: 80%" /></td>
                               </tr>
                               <tr>
-                                <td class="MessageDescriptionColumn" valign="top">Text f&uuml;r einen Newsletter-Eintrag
+                                <td class="MessageDescriptionColumn" valign="top">Text vor einem Newsletter-Eintrag
                                 </td>
-                                <td><input type="text" id="NewsletterEntryText" name="NewsletterEntryText" maxlength="255" size="50" style="width: 80%" /></td>
-                              </tr>
-                              <tr>
-                                <td class="MessageDescriptionColumn" valign="top">Link-Bezeichnung f&uuml;r die Hauptseite des Newsletter-Archivs
-                                </td>
-                                <td><input type="text" id="LinkLabelToMainArchive" name="LinkLabelToMainArchive" maxlength="255" size="50" style="width: 80%" /></td>
-                              </tr>
-                              <tr>
-                                <td class="MessageDescriptionColumn" valign="top">Link-Bezeichnung f&uuml;r den vorherigen Newsletter
-                                </td>
-                                <td><input type="text" id="LinkLabelPrev" name="LinkLabelPrev" maxlength="255" size="50" style="width: 80%" /></td>
-                              </tr>
-                              <tr>
-                                <td class="MessageDescriptionColumn" valign="top">Link-Bezeichnung f&uuml;r den n&auml;chsten Newsletter
-                                </td>
-                                <td><input type="text" id="LinkLabelNext" name="LinkLabelNext" maxlength="255" size="50" style="width: 80%" /></td>
-                              </tr>
-                              <tr>
-                                <td class="MessageDescriptionColumn" valign="top">Link-Bezeichnung f&uuml;r den Ausdruck des Newsletters
-                                </td>
-                                <td><input type="text" id="PrintingLabel" name="PrintingLabel" maxlength="255" size="50" style="width: 80%" /></td>
-                              </tr>
-                              <tr>
-                                <td class="MessageDescriptionColumn" valign="top">Text zur Anzeige des Newsletters ohne Frame
-                                </td>
-                                <td><input type="text" id="ShowNewsletterWithoutFramesText" name="ShowNewsletterWithoutFramesText" maxlength="255" size="50" style="width: 80%" /></td>
+                                <td><input type="text" id="NewsletterEntryPrefix" name="NewsletterEntryPrefix" maxlength="255" size="50" style="width: 80%" /></td>
                               </tr>
                               <tr>
                                 <td colspan="2"><br /><input type="checkbox" id="LinkToSWM" name="LinkToSWM" value="1" />&nbsp;<label for="LinkToSWM">Link auf die PRODUCTAPPNAME-Webseite am Ende des Newsletter-Archivs einf&uuml;gen<br />&nbsp;&nbsp;(Vielen Dank f&uuml;r Ihre Mithilfe PRODUCTAPPNAME bekannter zu machen.)</label></td>
@@ -415,6 +335,11 @@
                           <span id="SpanShowImpressum">
                           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
                             <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">&Uuml;berschrift f&uuml;r das Impressum
+                                </td>
+                                <td><input type="text" id="ImpressumHeadline" name="ImpressumHeadline" maxlength="255" size="50" style="width: 80%" /></td>
+                              </tr>
                               <tr>
                                 <td class="MessageDescriptionColumn">Text f&uuml;r das Impressum
                                 </td>
@@ -481,7 +406,24 @@
                               </tr>
                               <tr>
                                 <td colspan="2">
-                                  <input type="checkbox" name="RemoveMailToLinks" value="1" id="RemoveMailToLinks" /><label for="RemoveMailToLinks">&nbsp;Alle mailto: Links entfernen(Schutz vor Spam)</label>
+                                  <input type="checkbox" name="StartPageShowSubscribeLink" value="1" id="StartPageShowSubscribeLink" /><label for="StartPageShowSubscribeLink">&nbsp;Anmeldelink auf der Startseite des Newsletter-Archivs zeigen</label>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="2">
+                                  <label for="MaxLatestEntriesOnStartPage">Anzahl letzte Newsletter-Eintr&auml;ge auf der Startseite</label>
+                                  <br />
+                                  <input type="text" name="MaxLatestEntriesOnStartPage" id="MaxLatestEntriesOnStartPage" size="6" style="text-align: right;" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="2">
+                                  <input type="checkbox" name="ShowSelectedEntryFirst" value="1" id="ShowSelectedEntryFirst" /><label for="ShowSelectedEntryFirst">&nbsp;Gew&auml;hltes Jahr/Newsletter-Eintrag immer an erster Position im Men&uuml; zeigen</label>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="2">
+                                  <input type="checkbox" name="RemoveMailToLinks" value="1" id="RemoveMailToLinks" /><label for="RemoveMailToLinks">&nbsp;Alle mailto: Links entfernen (Schutz vor Spam)</label>
                                 </td>
                               </tr>
                               <tr>
@@ -589,26 +531,55 @@
                   <script language="JavaScript" type="text/javascript">
                   <!--
                     initTabs('dhtmlgoodies_tabView', TabListArray, 0, 924, 1032);
-                    ShowItem('SpanUserDefinedColorsAndFonts', document.getElementById('UserDefinedColorsAndFonts').checked);
                     ShowItem('SpanShowImpressum', document.getElementById('ShowImpressum').checked);
                     ShowItem('spanReplacePlaceHolders', document.getElementById('PlaceHoldersAction2').checked);
                     addTableRolloverEffect('ReplacementsTable','tableRollOverEffect','tableRowClickEffect');
 
 
-                    var AForm = document.getElementById("NAEditForm");
-                    if(AForm != null)
-                       for(i=0; i<AForm.elements.length; i++)  {
-                         if (AForm.elements[i].type == "text" && AForm.elements[i].name.indexOf("Color") > 0 && AForm.elements[i].value != "") {
-                           var element = AForm.elements[i];
-                           element.style.background = element.value;
-                           rgb = hexToRgb(element.value, {r: 0, g: 0, b: 0});
-                         		if(((rgb.r*100+rgb.g*100+rgb.b*100)/3)<65) //change text color to white if the background color is to dark
-                              	element.style.color="#fff";
-                         		else element.style.color="#000";
+                    function InfoBarActiveClick(){
+                      var InfoBarActive = true;
+                      var InfoBarLinksList_tbody = document.getElementById('InfoBarLinksList_tbody');
 
+                      if(InfoBarActive && InfoBarLinksList_tbody != null){
+                         var childs = InfoBarLinksList_tbody.childNodes;
+                         if(childs == null) return;
+                         for(var i=0; i<childs.length; i++){
+                            if(childs[i].nodeType == 1){ // tr?
+                              var subchilds = childs[i].childNodes;
+                              if(subchilds == null) continue;
+                              for(var j=0; j<subchilds.length; j++){
+                                if(subchilds[j].nodeType != 1) continue; // td?
+                                var subsubchilds = subchilds[j].childNodes;
+                                if(subsubchilds == null) continue;
+                                for(var k=0; k<subsubchilds.length; k++){
+                                 if(subsubchilds[k].nodeType != 1 || subsubchilds[k].tagName != "INPUT") continue; // checkbox?
+                                 subsubchilds[k].onclick();
+                                 break;
+                                }
+                                break;
+                              }
+                            }
                          }
-                       }
+                      }
+                    }
 
+                    var fieldname;
+
+                    function ShowAltBrowserLinkPlaceholders(Xfieldname){
+                      // paste directly from Dialog not possible it says text field is hidden oncontextmenu
+                      fieldname = Xfieldname;
+                      ShowModalDialog("browser_altbrowserlinkplaceholders.htm" + "?nocache=" + getNoCache() + "&NAEdit=" + Xfieldname, 708, 200);
+                    }
+
+                    function ShowAltBrowserLinkPlaceholdersCallback(value){
+                      PasteText(fieldname, value);
+                    }
+
+                    $(document).ready(function(){
+                      InfoBarActiveClick();
+                      if(parseInt($("#NAListId").val()) == 0)
+                        $("#SamplePreviewBtn").hide();
+    	               });
 
                     //AUTO_SCRIPT_CODE_PLACEHOLDER//
 

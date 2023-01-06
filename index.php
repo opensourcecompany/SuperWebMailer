@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -33,31 +33,45 @@
     exit;
   }
 
+  if(isset($_COOKIE[CKEDITOR_TOKEN_COOKIE_NAME])){
+    setcookie(CKEDITOR_TOKEN_COOKIE_NAME,"", time()-3600);
+    unset ($_COOKIE[CKEDITOR_TOKEN_COOKIE_NAME]);
+  }
+
+  if(isset($_COOKIE[SMLSWM_TOKEN_COOKIE_NAME])){
+    setcookie(SMLSWM_TOKEN_COOKIE_NAME,"", time()-3600);
+    unset ($_COOKIE[SMLSWM_TOKEN_COOKIE_NAME]);
+  }
+
+  if(isset($_COOKIE[SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME])){
+    setcookie(SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME,"", time()-3600);
+    unset ($_COOKIE[SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME]);
+  }
+
   // First initialization
 
-  $INTERFACE_LANGUAGE = _OE6OA();
+  $INTERFACE_LANGUAGE = _LDBCJ();
   if( empty($INTERFACE_LANGUAGE) )
      $INTERFACE_LANGUAGE = "de";
 
-  _LQLRQ($INTERFACE_LANGUAGE);
+  _JQRLR($INTERFACE_LANGUAGE);
 
-  $_QJlJ0 = "SELECT COUNT(*) FROM `$_Q8f1L`";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if(mysql_error($_Q61I1) !== ""){
-    print mysql_error($_Q61I1);
+  $_QLfol = "SELECT COUNT(*) FROM `$_I18lo`";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if(mysql_error($_QLttI) !== ""){
+    print mysql_error($_QLttI);
     exit;
   }
-  $_Q6Q1C = mysql_fetch_row($_Q60l1);
-  if($_Q6Q1C[0] == 0) {
-    mysql_free_result($_Q60l1);
-    $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090000"], "", 'DISABLED', 'superadmin_create_snipped.htm');
-    _LJ81E($_QJCJi);
+  $_QLO0f = mysql_fetch_row($_QL8i1);
+  if($_QLO0f[0] == 0) {
+    mysql_free_result($_QL8i1);
+    $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090000"], "", 'DISABLED', 'superadmin_create_snipped.htm');
+    _JJCCF($_QLJfI);
 
-    print $_QJCJi;
+    print $_QLJfI;
     exit;
   }
-  mysql_free_result($_Q60l1);
-
-
-  _OEJLD("", array());
+  mysql_free_result($_QL8i1);
+  
+  _LDB1C("", array());
 ?>

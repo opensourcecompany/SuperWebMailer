@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta name="robots" content="noindex,nofollow" />
+<meta http-equiv="pragma" content="no-cache" />
+<meta http-equiv="content-language" content="de" />
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="author" content="Mirko Boeer" />
+<meta name="copyright" content="Mirko Boeer" />
+<title>Auskunft &uuml;ber Ihre gespeicherten pers&ouml;nlichen Daten</title>
+<link href="css/modal-message.css" rel="stylesheet" type="text/css" />
+<script language="javascript" type="text/javascript" src="js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="js/modal-dialog.js"></script>
+<style>
+<!--
+/* HTML2PDF doesn't support font Georgia and no @media queries */
+body, table, tr, td { font-family: Times, serif; font-size: 16px }
+a, a:link, a:visited, a:hover{color: #000000}
+@media screen {
+   body, table, tr, td, input { font-family: Georgia, Times, serif; }
+   html, body  { max-width: 800px }
+   input {width: 100%; font-size: 16px}
+}
+.firm        { font-size: 18px }
+.datacol     { font-family: Courier, monospace }
+@media print {
+   body, table, tr, td, input { font-family: Georgia, Times, serif; }
+  input {display: none;}
+  .not_on_print {display: none;}
+}
+
+@page { size:210mm 297mm;
+         margin-top: 12.7mm;
+         margin-bottom: 12.7mm;
+         margin-left: 12.7mm;
+         margin-right: 12.7mm;
+      }
+
+@media only screen and (max-width: 720px) {
+   body {
+     min-width: 99%;
+     margin: 0px;
+   }
+   input {font-size: 14px}
+   .firmtable td {display: block; padding-right: 0 !important; width: 100%;}
+}
+-->
+</style>
+<script>
+ var UnsubscribeConfirmationTitle;
+ var UnsubscribeConfirmationText;
+
+
+ function ConfirmUnsubscribeActionEvent(value, aform){
+    if(value){
+      document.getElementById('Action').value = "unsubscribeandremove";
+      document.getElementById('ShowRemoveForm').submit();
+    }
+ }
+
+ function ConfirmUnsubscribe(){
+   MessageBox(UnsubscribeConfirmationTitle, UnsubscribeConfirmationText, 3, 330, 148, 'ConfirmUnsubscribeActionEvent');
+   return false;
+ }
+</script>
+</head>
+
+<body>
+
+<table border="0" width="100%" class="firmtable" cellspacing="2" cellpadding="2">
+  <tr>
+    <td width="70%" class="firm">
+      [Firm_OR_Name]<br />
+      [Street]<br />
+      [ZIPCode] [City], [State_]<br />
+      [Country]<br />
+      [Phone]
+      <if:PrivacyPolicyURL>
+      <p class="not_on_print"><a href="<PrivacyPolicyURL></PrivacyPolicyURL>" target="_blank">Datenschutzerkl&auml;rung</a></p>
+      </if:PrivacyPolicyURL>
+    </td>
+    <td width="30%" class="firm">
+      <EXCLUDE_FROM_PDF>
+      <form method="post" id="ShowRemoveForm">
+        <input type="hidden" name="Action" id="Action" />
+        <p><input type="button" value="Drucken" name="PrintBtn" id="PrintBtn" onclick="javascript:window.print();" /><br />
+        <br />
+        <!--PHPGT54-->
+        <input type="submit" value="Als PDF-Datei speichern..." name="PDFDownloadBtn" id="PDFDownloadBtn" onclick="document.getElementById('Action').value='PDFDownloadBtn';" /><br />
+        <!--/PHPGT54-->
+        <IF:UNSUBSCRIBE_ALLOWED>
+        </IF:UNSUBSCRIBE_ALLOWED>
+        </p>
+      </form>
+      </EXCLUDE_FROM_PDF>
+    </td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+<p align="right">[City], [CurrentDate]</p>
+
+<h2><b>Auskunft &uuml;ber Ihre gespeicherten pers&ouml;nlichen Daten</b></h2>
+<br />
+
+<MailingList:Row>
+<table border="0" width="100%" cellspacing="2" cellpadding="2">
+  <tr>
+    <td width="40%">Empf&auml;ngerliste</td>
+    <td width="60%" class="datacol">[MailListsName]</td>
+  </tr>
+  <tr>
+    <td width="40%">Datum der Anmeldung</td>
+    <td width="60%" class="datacol">[DateOfSubscriptionFormatted]</td>
+  </tr>
+  <tr>
+    <td width="40%">Datum des Klicks auf Best&auml;tigungslink</td>
+    <td width="60%" class="datacol">[DateOfOptInConfirmationFormatted]</td>
+  </tr>
+  <tr>
+    <td width="40%">IP-Adresse bei Klick auf Best&auml;tigungslink</td>
+    <td width="60%" class="datacol">[IPOnSubscription]</td>
+  </tr>
+  <tr>
+    <td width="40%">Datenschutzerkl&auml;rung zugestimmt</td>
+    <td width="60%" class="datacol">[PrivacyPolicyAccepted]</td>
+  </tr>
+  <tr>
+    <td width="40%">Letzte &Auml;nderung</td>
+    <td width="60%" class="datacol">[LastChangeDateFormatted]</td>
+  </tr>
+  <tr>
+    <td width="40%">Zuletzt E-Mail gesendet</td>
+    <td width="60%" class="datacol">[LastEMailSentFormatted]</td>
+  </tr>
+  <tr>
+    <td width="40%">Ist f&uuml;r E-Mail-Versand aktiviert?</td>
+    <td width="60%" class="datacol">[IsMemberActive]</td>
+  </tr>
+  <tr>
+    <td width="40%">Zugeordnete Gruppen/Themen</td>
+    <td width="60%" class="datacol">[Groups]</td>
+  </tr>
+  <tr>
+    <td width="40%">E-Mail-Adresse</td>
+    <td width="60%" class="datacol">[u_EMail]</td>
+  </tr>
+
+  <MailingList:Row_Fields>
+  <tr>
+    <td width="40%" style="vertical-align: top;">[FieldName]</td>
+    <td width="60%" class="datacol">[FieldValue]</td>
+  </tr>
+  </MailingList:Row_Fields>
+
+</table>
+<p>&nbsp;</p>
+<MailingList:Row_Separator>
+<hr style="color: #000000; page-break-after: always;}" />
+<p>&nbsp;</p>
+</MailingList:Row_Separator>
+</MailingList:Row>
+
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -28,23 +28,23 @@
   include_once("geolocation.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeViewCampaignTrackingStat"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeViewCampaignTrackingStat"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
   if(isset($_POST['CampaignId']))
-    $_I6lOO = intval($_POST['CampaignId']);
+    $_j01fj = intval($_POST['CampaignId']);
   else
     if(isset($_GET['CampaignId']))
-      $_I6lOO = intval($_GET['CampaignId']);
+      $_j01fj = intval($_GET['CampaignId']);
       else
       if ( isset($_POST['OneCampaignListId']) )
-         $_I6lOO = intval($_POST['OneCampaignListId']);
+         $_j01fj = intval($_POST['OneCampaignListId']);
 
   if(isset($_POST['SendStatId']))
     $SendStatId = intval($_POST['SendStatId']);
@@ -60,19 +60,19 @@
   if(!isset($ResponderType))
     $ResponderType="Campaign";
 
-  if(!isset($_I6lOO) && isset($_POST["ResponderId"]))
-     $_I6lOO = intval($_POST["ResponderId"]);
+  if(!isset($_j01fj) && isset($_POST["ResponderId"]))
+     $_j01fj = intval($_POST["ResponderId"]);
      else
-     if(!isset($_I6lOO) && isset($_GET["ResponderId"]))
-         $_I6lOO = intval($_GET["ResponderId"]);
+     if(!isset($_j01fj) && isset($_GET["ResponderId"]))
+         $_j01fj = intval($_GET["ResponderId"]);
 
-  if(!isset($_I6lOO)) {
+  if(!isset($_j01fj)) {
     $_GET["ResponderType"] = $ResponderType;
     include_once("responderselect.inc.php");
     if(!isset($_POST["ResponderId"]))
        exit;
        else
-       $_I6lOO = intval($_POST["ResponderId"]);
+       $_j01fj = intval($_POST["ResponderId"]);
   }
 
   if(!isset($SendStatId)) {
@@ -84,18 +84,18 @@
        $SendStatId = intval($_POST["SendStatId"]);
   }
 
-  $_I0600 = "";
+  $_Itfj8 = "";
 
   if(isset($_GET["ShowOpenings"]) || isset($_POST["ShowOpenings"]))
-     $_QJlJ0 = "SELECT TrackingOpeningsTableName FROM $_Q6jOo WHERE $_Q6jOo.id=$_I6lOO";
+     $_QLfol = "SELECT TrackingOpeningsTableName FROM $_QLi60 WHERE $_QLi60.id=$_j01fj";
      else
-     $_QJlJ0 = "SELECT TrackingLinksTableName FROM $_Q6jOo WHERE $_Q6jOo.id=$_I6lOO";
+     $_QLfol = "SELECT TrackingLinksTableName FROM $_QLi60 WHERE $_QLi60.id=$_j01fj";
 
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_Q6J0Q = mysql_fetch_row($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_QLL16 = mysql_fetch_row($_QL8i1);
+  mysql_free_result($_QL8i1);
 
-  $_ICLO8 = $_Q6J0Q[0];
+  $_jf1IJ = $_QLL16[0];
 
   if(!isset($_GET["Card"]))
      if(!isset($_POST["Card"]))
@@ -104,126 +104,126 @@
         $_GET["Card"] = $_POST["Card"];
 
 
-  $_JliOC = false;
+  $_f6jlt = false;
  // earth
   if($_GET["Card"] == "europe") {
-     $_JlL6L = imagecreatefromjpeg("./geoip/europe.jpg");
-     $_JlLlC = 81.02;
-     $_JllOJ = 71.881;
-     $_600tI = 32.673;
-     $_601ji = -26.365;
+     $_f6Jjf = imagecreatefromjpeg("./geoip/europe.jpg");
+     $_f66QL = 81.02;
+     $_f66ft = 71.881;
+     $_f66iC = 32.673;
+     $_f6fJ1 = -26.365;
      }
      else
      if($_GET["Card"] == "germany"){
-        $_JlL6L = imagecreatefromjpeg("./geoip/germany.jpg");
-        $_JlLlC = 55.155;
-        $_JllOJ = 15.96;
-        $_600tI = 46.94;
-        $_601ji = 5.43;
+        $_f6Jjf = imagecreatefromjpeg("./geoip/germany.jpg");
+        $_f66QL = 55.155;
+        $_f66ft = 15.96;
+        $_f66iC = 46.94;
+        $_f6fJ1 = 5.43;
         }
         else {
-          $_JlL6L = imagecreatefromjpeg("./geoip/earth.jpg");
-          $_JliOC = true;
-          $_JlLlC = 0;
-          $_600tI = 180;
-          $_JllOJ = 90;
-          $_601ji = -90;
+          $_f6Jjf = imagecreatefromjpeg("./geoip/earth.jpg");
+          $_f6jlt = true;
+          $_f66QL = 0;
+          $_f66iC = 180;
+          $_f66ft = 90;
+          $_f6fJ1 = -90;
         }
-  $_6016i = imagesx($_JlL6L);
-  $_601il = imagesy($_JlL6L);
-  $_60Qit = (($_601il/($_JlLlC-$_600tI)));
-  $_60QL0 = (($_6016i/($_JllOJ-$_601ji)));
+  $_f680C = imagesx($_f6Jjf);
+  $_f68I0 = imagesy($_f6Jjf);
+  $_f686Q = (($_f68I0/($_f66QL-$_f66iC)));
+  $_f6t0Q = (($_f680C/($_f66ft-$_f6fJ1)));
 
  // red flag
-  $_60Ioi = imagecreatefrompng("./geoip/point_red.png");
-  $_60j11 = imagesx($_60Ioi);
-  $_60j18 = imagesy($_60Ioi);
+  $_f6tj8 = imagecreatefrompng("./geoip/point_red.png");
+  $_f6t6O = imagesx($_f6tj8);
+  $_f6tOt = imagesy($_f6tj8);
 
  // blue flag
-  $_60jLI = imagecreatefrompng("./geoip/point_blue.png");
-  $_60J6J = imagesx($_60jLI);
-  $_606j1 = imagesy($_60jLI);
+  $_f6O6f = imagecreatefrompng("./geoip/point_blue.png");
+  $_f6Oi1 = imagesx($_f6O6f);
+  $_f6oIo = imagesy($_f6O6f);
 
-  $_j6Qlo = new _OCB1C('./geoip/');
+  $_JIfIj = new _LBPJO('./geoip/');
 
-  if(!$_j6Qlo->Openable()) {
+  if(!$_JIfIj->Openable()) {
      print $resourcestrings[$INTERFACE_LANGUAGE]["GeoLiteCityDatMissing"];
      exit;
   }
 
-  $_60fQ6 = imagecolorallocate($_JlL6L, 0,0,0);
-  $_60ffi = imagecolorallocate($_JlL6L, 255,255,255);
-  $_60f8l = imagecolorallocate($_JlL6L, 255,0,0);
-  $_60fLJ = imagecolorallocate($_JlL6L, 0,0,255);
-  $_608ij = imagecolorallocate($_JlL6L, 255,255,0);
+  $_f6oC8 = imagecolorallocate($_f6Jjf, 0,0,0);
+  $_f6ol8 = imagecolorallocate($_f6Jjf, 255,255,255);
+  $_f6C1j = imagecolorallocate($_f6Jjf, 255,0,0);
+  $_f6ClL = imagecolorallocate($_f6Jjf, 0,0,255);
+  $_f6ifj = imagecolorallocate($_f6Jjf, 255,255,0);
 
 
  # own IP = red flag
-  $_J6t8o = $_j6Qlo->lookupLocation(getOwnIP());
-  if($_J6t8o != null)
-     if($_JliOC)
-        $_60t6i = _OF8BO($_J6t8o->latitude, $_J6t8o->longitude, $_6016i, $_601il);
+  $_6tJfO = $_JIfIj->lookupLocation(getOwnIP(false));
+  if($_6tJfO != null)
+     if($_f6jlt)
+        $_f6LIJ = _LF6P1($_6tJfO->latitude, $_6tJfO->longitude, $_f680C, $_f68I0);
         else{
-           $_60t6i["x"] = round((($_J6t8o->longitude - $_601ji) * $_60QL0));
-           $_60t6i["y"] = round((($_JlLlC - $_J6t8o->latitude) * $_60Qit));
+           $_f6LIJ["x"] = round((($_6tJfO->longitude - $_f6fJ1) * $_f6t0Q));
+           $_f6LIJ["y"] = round((($_f66QL - $_6tJfO->latitude) * $_f686Q));
         }
      else {
-       $_60t6i["x"] = $_60j11 * -1;
-       $_60t6i["y"] = $_60j18 * -1;
+       $_f6LIJ["x"] = $_f6t6O * -1;
+       $_f6LIJ["y"] = $_f6tOt * -1;
      }
-  $_J6t8o = null;
+  $_6tJfO = null;
 
  // red flag with own IP
-  $_60tt6 = imagecreatefrompng("./geoip/block_red.png");
-  $_60tOi = imagesx($_60tt6);
-  $_60OOo = imagesy($_60tt6);
+  $_f6LoO = imagecreatefrompng("./geoip/block_red.png");
+  $_f6LCt = imagesx($_f6LoO);
+  $_f6l8f = imagesy($_f6LoO);
 
-  imagecopy($_JlL6L, $_60tt6, $_60t6i["x"] - round($_60tOi / 2), $_60t6i["y"] - ($_60OOo / 2), 0, 0, $_60tOi, $_60OOo);
+  imagecopy($_f6Jjf, $_f6LoO, $_f6LIJ["x"] - round($_f6LCt / 2), $_f6LIJ["y"] - ($_f6l8f / 2), 0, 0, $_f6LCt, $_f6l8f);
 
-  $_QJlJ0 = "SELECT DISTINCT IP FROM $_ICLO8 WHERE SendStat_id=$SendStatId";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
+  $_QLfol = "SELECT DISTINCT IP FROM $_jf1IJ WHERE SendStat_id=$SendStatId";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
 
-  $_60Oll = imagecreatefrompng("./geoip/block_blue.png");
-  $_60tOi = imagesx($_60Oll);
-  $_60OOo = imagesy($_60Oll);
+  $_ff0Qi = imagecreatefrompng("./geoip/block_blue.png");
+  $_f6LCt = imagesx($_ff0Qi);
+  $_f6l8f = imagesy($_ff0Qi);
 
-  while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-    $_J6t8o = $_j6Qlo->lookupLocation($_Q6Q1C["IP"]);
-    if($_J6t8o == null ) {
+  while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+    $_6tJfO = $_JIfIj->lookupLocation($_QLO0f["IP"]);
+    if($_6tJfO == null ) {
       continue;
     }
-    if($_JliOC)
-      $_60t6i = _OF8BO($_J6t8o->latitude, $_J6t8o->longitude, $_6016i, $_601il);
+    if($_f6jlt)
+      $_f6LIJ = _LF6P1($_6tJfO->latitude, $_6tJfO->longitude, $_f680C, $_f68I0);
       else{
-        $_60t6i["x"] = round((($_J6t8o->longitude - $_601ji) * $_60QL0));
-        $_60t6i["y"] = round((($_JlLlC - $_J6t8o->latitude) * $_60Qit));
+        $_f6LIJ["x"] = round((($_6tJfO->longitude - $_f6fJ1) * $_f6t0Q));
+        $_f6LIJ["y"] = round((($_f66QL - $_6tJfO->latitude) * $_f686Q));
       }
-    $_J6t8o = null;
+    $_6tJfO = null;
     // blue flag
-    imagecopy($_JlL6L, $_60Oll, $_60t6i["x"] - round($_60tOi / 2), $_60t6i["y"] - ($_60OOo / 2), 0, 0, $_60tOi, $_60OOo);
+    imagecopy($_f6Jjf, $_ff0Qi, $_f6LIJ["x"] - round($_f6LCt / 2), $_f6LIJ["y"] - ($_f6l8f / 2), 0, 0, $_f6LCt, $_f6l8f);
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
 
-  if($_JliOC) {
+  if($_f6jlt) {
    // Legend left
-   # imagestring($_JlL6L, 3, 12, $_601il - 18, unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["GeoConfirmedSubscribtions"], "iso-8859-1"), $_60fLJ);
+   # imagestring($_f6Jjf, 3, 12, $_f68I0 - 18, unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["GeoConfirmedSubscribtions"], "iso-8859-1"), $_f6ClL);
 
    // Legend "middle"
-    $_QllO8 = $_6016i / 3;
-    imagecopy($_JlL6L, $_60Ioi, $_QllO8 - round($_60j11 / 2), $_601il - 14, 0, 0, $_60j11, $_60j18);
-    imagestring($_JlL6L, 3, $_QllO8 + $_60j11 + 2, $_601il - 18, unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["GeoOwnStation"],"iso-8859-1" ), $_60fQ6);
+    $_I016j = (int)($_f680C / 3);
+    imagecopy($_f6Jjf, $_f6tj8, $_I016j - (int)round($_f6t6O / 2), $_f68I0 - 14, 0, 0, $_f6t6O, $_f6tOt);
+    imagestring($_f6Jjf, 3, $_I016j + (int)$_f6t6O + 2, $_f68I0 - 18, unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["GeoOwnStation"],"iso-8859-1" ), $_f6oC8);
 
    // Legend "right"
-    $_QllO8 = ($_6016i / 3) * 2;
-    imagecopy($_JlL6L, $_60jLI, $_QllO8 - round($_60J6J / 2), $_601il - 14, 0, 0, $_60J6J, $_606j1);
+    $_I016j = (int)(($_f680C / 3) * 2);
+    imagecopy($_f6Jjf, $_f6O6f, $_I016j - (int)round($_f6Oi1 / 2), $_f68I0 - 14, 0, 0, $_f6Oi1, $_f6oIo);
 
     if(isset($_GET["ShowOpenings"]) || isset($_POST["ShowOpenings"]))
-       $_QJCJi = unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["GeoStationOfOpener"], "iso-8859-1");
+       $_QLJfI = unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["GeoStationOfOpener"], "iso-8859-1");
        else
-       $_QJCJi = unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["GeoStationOfClick"], "iso-8859-1");
-    imagestring($_JlL6L, 3, $_QllO8 + $_60J6J + 2, $_601il - 18, $_QJCJi, $_60fQ6);
+       $_QLJfI = unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["GeoStationOfClick"], "iso-8859-1");
+    imagestring($_f6Jjf, 3, $_I016j + $_f6Oi1 + 2, $_f68I0 - 18, $_QLJfI, $_f6oC8);
   }
 
 
@@ -239,16 +239,16 @@
   // HTTP/1.0
   @header('Pragma: no-cache') ;
 
-  imagejpeg($_JlL6L);
+  imagejpeg($_f6Jjf);
 
 
 
 
-  function _OF8BO($_60oCo, $_60C06, $_JCilL, $_60CfC)
+  function _LF6P1($_ff0jo, $_ff06i, $_fQlIo, $_ff0CC)
   {
-    $_QllO8 = (($_60C06 + 180) * ($_JCilL / 360));
-    $_Io0l8 = ((($_60oCo * -1) + 90) * ($_60CfC / 180));
-    return array("x"=>round($_QllO8),"y"=>round($_Io0l8));
+    $_I016j = (($_ff06i + 180) * ($_fQlIo / 360));
+    $_jJjQi = ((($_ff0jo * -1) + 90) * ($_ff0CC / 180));
+    return array("x"=>(int)round($_I016j),"y"=>(int)round($_jJjQi));
   }
 
 ?>

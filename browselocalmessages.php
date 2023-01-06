@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -28,59 +28,59 @@
   include_once("localmessages_ops.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeLocalMessageBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeLocalMessageBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  $_Q6QiO = "'%d.%m.%Y %H:%i'";
-  $_If0Ql = "'%d.%m.%Y'";
+  $_QLo60 = "'%d.%m.%Y %H:%i'";
+  $_j01CJ = "'%d.%m.%Y'";
   if($INTERFACE_LANGUAGE != "de") {
-     $_Q6QiO = "'%Y-%m-%d %H:%i'";
-     $_If0Ql = "'%Y-%m-%d'";
+     $_QLo60 = "'%Y-%m-%d %H:%i'";
+     $_j01CJ = "'%Y-%m-%d'";
   }
 
-  if(!isset($_I0600))
-    $_I0600 = "";
-  if (count($_POST) != 0) {
+  if(!isset($_Itfj8))
+    $_Itfj8 = "";
+  if (count($_POST) > 1) {
 
 
-    $_I680t = !isset($_POST["LocalMessageActions"]);
-    if(!$_I680t) {
+    $_Ilt8t = !isset($_POST["LocalMessageActions"]);
+    if(!$_Ilt8t) {
       if( isset($_POST["OneLocalMessageAction"]) && $_POST["OneLocalMessageAction"] != "" )
-        $_I680t = true;
-      if($_I680t) {
-        if( !( isset($_POST["OneLocalMessageId"]) && $_POST["OneLocalMessageId"] != "")  )
-           $_I680t = false;
+        $_Ilt8t = true;
+      if($_Ilt8t) {
+        if( !( isset($_POST["OneLocalMessageId"]) && $_POST["OneLocalMessageId"] > 0)  )
+           $_Ilt8t = false;
       }
     }
 
-    if(  !$_I680t && isset($_POST["LocalMessageActions"]) ) {
+    if(  !$_Ilt8t && isset($_POST["LocalMessageActions"]) ) {
 
         // nur hier die Listenaktionen machen
         if($_POST["LocalMessageActions"] == "RemoveLocalMessages") {
 
           if($OwnerUserId != 0) {
-            if(!$_QJojf["PrivilegeLocalMessageRemove"]) {
-              $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-              $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-              print $_QJCJi;
+            if(!$_QLJJ6["PrivilegeLocalMessageRemove"]) {
+              $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+              $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+              print $_QLJfI;
               exit;
             }
           }
 
-          $_QtIiC = array();
-          _OEOD8($_POST["LocalMessageIDs"], $_QtIiC);
+          $_IQ0Cj = array();
+          _LDAC8($_POST["LocalMessageIDs"], $_IQ0Cj);
 
           // show now the list
-          if(count($_QtIiC) > 0)
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001112"].join("<br />", $_QtIiC);
+          if(count($_IQ0Cj) > 0)
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001112"].join("<br />", $_IQ0Cj);
           else
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001111"];
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001111"];
         }
 
     }
@@ -93,7 +93,7 @@
         exit;
       }
       if($_POST["OneLocalMessageAction"] == "ReadLocalMessage") {
-        _OJ0PJ(intval($_POST["OneLocalMessageId"]));
+        _L1FDL(intval($_POST["OneLocalMessageId"]));
         exit;
       }
 
@@ -101,22 +101,22 @@
       if($_POST["OneLocalMessageAction"] == "DeleteLocalMessage") {
 
           if($OwnerUserId != 0) {
-            if(!$_QJojf["PrivilegeLocalMessageRemove"]) {
-              $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-              $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-              print $_QJCJi;
+            if(!$_QLJJ6["PrivilegeLocalMessageRemove"]) {
+              $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+              $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+              print $_QLJfI;
               exit;
             }
           }
 
-          $_QtIiC = array();
-          _OEOD8($_POST["OneLocalMessageId"], $_QtIiC);
+          $_IQ0Cj = array();
+          _LDAC8($_POST["OneLocalMessageId"], $_IQ0Cj);
 
           // show now the list
-          if(count($_QtIiC) > 0)
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001112"].join("<br />", $_QtIiC);
+          if(count($_IQ0Cj) > 0)
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001112"].join("<br />", $_IQ0Cj);
           else
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001111"];
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001111"];
       }
     }
 
@@ -124,265 +124,265 @@
   }
 
   // default SQL query
-  $_QJlJ0 = "SELECT {} FROM `$_Io680` WHERE `To_users_id`=".intval($UserId);
+  $_QLfol = "SELECT {} FROM `$_jJtt8` WHERE `To_users_id`=".intval($UserId);
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["001110"].$resourcestrings[$INTERFACE_LANGUAGE]["EntryCount"], $_I0600, 'browselocalmessages', 'browse_localmessages.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["001110"].$resourcestrings[$INTERFACE_LANGUAGE]["EntryCount"], $_Itfj8, 'browselocalmessages', 'browse_localmessages.htm');
 
 
-  $_QJCJi = _OLFPD($_QJlJ0, $_QJCJi);
+  $_QLJfI = _L1FDQ($_QLfol, $_QLJfI);
 
   // privilegs
-  if($OwnerUserId != 0 && strpos($_QJCJi, '<div class="PageContainer">') !== false ) {
-    $_Q6ICj = substr($_QJCJi, strpos($_QJCJi, '<div class="PageContainer">') );
-    $_IIf8o = substr($_QJCJi, 0, strpos($_QJCJi, '<div class="PageContainer">') - 1);
+  if($OwnerUserId != 0 && strpos($_QLJfI, '<div class="PageContainer">') !== false ) {
+    $_QLoli = substr($_QLJfI, strpos($_QLJfI, '<div class="PageContainer">') );
+    $_ICIIQ = substr($_QLJfI, 0, strpos($_QLJfI, '<div class="PageContainer">') - 1);
 
-    $_QJojf = _OBOOC($UserId);
+    $_QLJJ6 = _LPALQ($UserId);
 
-    if(!$_QJojf["PrivilegeLocalMessageCreate"]) {
-      $_Q6ICj = _LJ6RJ($_Q6ICj, "newlocalmessage.php");
-      $_Q6ICj = _LJ6B1($_Q6ICj, "ReplyLocalMessage");
+    if(!$_QLJJ6["PrivilegeLocalMessageCreate"]) {
+      $_QLoli = _JJC0E($_QLoli, "newlocalmessage.php");
+      $_QLoli = _JJC1E($_QLoli, "ReplyLocalMessage");
     }
 
-    if(!$_QJojf["PrivilegeLocalMessageRemove"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "DeleteLocalMessage");
-      $_Q6ICj = _LJRLJ($_Q6ICj, "RemoveLocalMessages");
+    if(!$_QLJJ6["PrivilegeLocalMessageRemove"]) {
+      $_QLoli = _JJC1E($_QLoli, "DeleteLocalMessage");
+      $_QLoli = _JJCRD($_QLoli, "RemoveLocalMessages");
     }
 
-    $_QJCJi = $_IIf8o.$_Q6ICj;
+    $_QLJfI = $_ICIIQ.$_QLoli;
   } else {
 
-    $_Q6ICj = $_QJCJi;
-    $_QJojf = _OBOOC($UserId);
+    $_QLoli = $_QLJfI;
+    $_QLJJ6 = _LPALQ($UserId);
 
-    if(!$_QJojf["PrivilegeLocalMessageCreate"]) {
-      $_Q6ICj = _LJ6RJ($_Q6ICj, "newlocalmessage.php");
-      $_Q6ICj = _LJ6B1($_Q6ICj, "ReplyLocalMessage");
+    if(!$_QLJJ6["PrivilegeLocalMessageCreate"]) {
+      $_QLoli = _JJC0E($_QLoli, "newlocalmessage.php");
+      $_QLoli = _JJC1E($_QLoli, "ReplyLocalMessage");
     }
 
-    if(!$_QJojf["PrivilegeLocalMessageRemove"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "DeleteLocalMessage");
-      $_Q6ICj = _LJRLJ($_Q6ICj, "RemoveLocalMessages");
+    if(!$_QLJJ6["PrivilegeLocalMessageRemove"]) {
+      $_QLoli = _JJC1E($_QLoli, "DeleteLocalMessage");
+      $_QLoli = _JJCRD($_QLoli, "RemoveLocalMessages");
     }
 
-    $_QJCJi = $_Q6ICj;
+    $_QLJfI = $_QLoli;
   }
 
-  print $_QJCJi;
+  print $_QLJfI;
   exit;
 
 
-  function _OLFPD($_QJlJ0, $_Q6ICj) {
+  function _L1FDQ($_QLfol, $_QLoli) {
     global $INTERFACE_LANGUAGE, $resourcestrings;
-    global $_Q6QiO, $_If0Ql;
+    global $_QLo60, $_j01CJ;
 
-    $_I61Cl = array();
+    $_Il0o6 = array();
 
     // wie viele pro Seite?
-    $_I6Q68 = 20;
+    $_Il1jO = 20;
     if(isset($_POST["ItemsPerPage"])) {
-       $_QllO8 = intval($_POST["ItemsPerPage"]);
-       if ($_QllO8 <= 0) $_QllO8 = 20;
-       $_I6Q68 = $_QllO8;
+       $_I016j = intval($_POST["ItemsPerPage"]);
+       if ($_I016j <= 0) $_I016j = 20;
+       $_Il1jO = $_I016j;
     }
-    $_I61Cl["ItemsPerPage"] = $_I6Q68;
+    $_Il0o6["ItemsPerPage"] = $_Il1jO;
 
-    $_IJQQI = 0;
+    $_Iil6i = 0;
     if ( (!isset($_POST['PageSelected'])) || ($_POST['PageSelected'] == 0) )
-      $_I6Q6O = 1;
+      $_IlQQ6 = 1;
       else
-      $_I6Q6O = intval($_POST['PageSelected']);
+      $_IlQQ6 = intval($_POST['PageSelected']);
 
     // zaehlen wie viele es sind
-    $_I6Qfj = 0;
-    $_QtjtL = $_QJlJ0;
-    $_QtjtL = str_replace('{}', 'COUNT(id)', $_QtjtL);
-    $_Q60l1 = mysql_query($_QtjtL);
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_I6Qfj = $_Q6Q1C[0];
-    $_I6IJ8 = $_I6Qfj / $_I6Q68;
-    $_I6IJ8 = ceil($_I6IJ8);
-    if(intval($_I6IJ8 * $_I6Q68) - $_I6Q68 > $_I6Qfj)
-       if($_I6IJ8 > 1) $_I6IJ8--;
-    $_Q6ICj = str_replace ('%RECIPIENTCOUNT%', $_I6Qfj, $_Q6ICj);
+    $_IlQll = 0;
+    $_QLlO6 = $_QLfol;
+    $_QLlO6 = str_replace('{}', 'COUNT(id)', $_QLlO6);
+    $_QL8i1 = mysql_query($_QLlO6);
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_IlQll = $_QLO0f[0];
+    $_IlILC = $_IlQll / $_Il1jO;
+    $_IlILC = ceil($_IlILC);
+    if(intval($_IlILC * $_Il1jO) - $_Il1jO > $_IlQll)
+       if($_IlILC > 1) $_IlILC--;
+    $_QLoli = str_replace ('%RECIPIENTCOUNT%', $_IlQll, $_QLoli);
 
     if( isset( $_POST["OneLocalMessageId"] ) && ($_POST["OneLocalMessageId"] == "Top") )
-       $_I6Q6O = 1;
+       $_IlQQ6 = 1;
     if( isset( $_POST["OneLocalMessageId"] ) && ($_POST["OneLocalMessageId"] == "Prev") )
-       $_I6Q6O = $_I6Q6O - 1;
+       $_IlQQ6 = $_IlQQ6 - 1;
     if( isset( $_POST["OneLocalMessageId"] ) && ($_POST["OneLocalMessageId"] == "Next") )
-       $_I6Q6O = $_I6Q6O + 1;
+       $_IlQQ6 = $_IlQQ6 + 1;
     if( isset( $_POST["OneLocalMessageId"] ) && ($_POST["OneLocalMessageId"] == "End") )
-       $_I6Q6O = $_I6IJ8;
+       $_IlQQ6 = $_IlILC;
 
-    if ( ($_I6Q6O > $_I6IJ8) || ($_I6Q6O <= 0) )
-       $_I6Q6O = 1;
+    if ( ($_IlQQ6 > $_IlILC) || ($_IlQQ6 <= 0) )
+       $_IlQQ6 = 1;
 
-    $_IJQQI = ($_I6Q6O - 1) * $_I6Q68;
+    $_Iil6i = ($_IlQQ6 - 1) * $_Il1jO;
 
-    $_Q6i6i = "";
-    for($_Q6llo=1; $_Q6llo<=$_I6IJ8; $_Q6llo++)
-      if($_Q6llo != $_I6Q6O)
-       $_Q6i6i .= "<option>$_Q6llo</option>";
+    $_QlOjt = "";
+    for($_Qli6J=1; $_Qli6J<=$_IlILC; $_Qli6J++)
+      if($_Qli6J != $_IlQQ6)
+       $_QlOjt .= "<option>$_Qli6J</option>";
        else
-       $_Q6i6i .= '<option selected="selected">'.$_Q6llo.'</option>';
+       $_QlOjt .= '<option selected="selected">'.$_Qli6J.'</option>';
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<OPTION:PAGES>", "</OPTION:PAGES>", $_Q6i6i);
+    $_QLoli = _L81BJ($_QLoli, "<OPTION:PAGES>", "</OPTION:PAGES>", $_QlOjt);
 
     // Nav-Buttons
-    $_I6ICC = "";
-    if($_I6Q6O == 1) {
-      $_I6ICC .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
+    $_Iljoj = "";
+    if($_IlQQ6 == 1) {
+      $_Iljoj .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
     }
-    if ( ($_I6Q6O == $_I6IJ8) || ($_I6Qfj == 0) ) {
-      $_I6ICC .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
+    if ( ($_IlQQ6 == $_IlILC) || ($_IlQll == 0) ) {
+      $_Iljoj .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
     }
 
-    if($_I6Qfj == 0)
-      $_I6ICC .= "  DisableItem('PageSelected', false);\r\n";
+    if($_IlQll == 0)
+      $_Iljoj .= "  DisableItem('PageSelected', false);\r\n";
 
-    $_Q6ICj = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_I6ICC, $_Q6ICj);
+    $_QLoli = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_Iljoj, $_QLoli);
     //
 
     // Sort
-    $_I6jfj = " ORDER BY `MessageDate` ASC";
+    $_IlJj8 = " ORDER BY `MessageDate` ASC";
 
-    $_QJlJ0 .= $_I6jfj;
+    $_QLfol .= $_IlJj8;
 
-    $_QJlJ0 .= " LIMIT $_IJQQI, $_I6Q68";
+    $_QLfol .= " LIMIT $_Iil6i, $_Il1jO";
 
-    $_QJlJ0 = str_replace('{}', "`id`, `MessageSubject`, `IsReaded`, `From_users_id`, DATE_FORMAT(`MessageDate`, $_Q6QiO) AS MessageDateFormated, `Attachment1`, `Attachment2`, `Attachment3`", $_QJlJ0);
-    $_Q60l1 = mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
+    $_QLfol = str_replace('{}', "`id`, `MessageSubject`, `IsReaded`, `From_users_id`, DATE_FORMAT(`MessageDate`, $_QLo60) AS MessageDateFormated, `Attachment1`, `Attachment2`, `Attachment3`", $_QLfol);
+    $_QL8i1 = mysql_query($_QLfol);
+    _L8D88($_QLfol);
 
-    $_Q6tjl = "";
-    $_IIJi1 = _OP81D($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>");
-    $_IIJi1 = str_replace ('<LIST:ENTRY>', '', $_IIJi1);
-    $_IIJi1 = str_replace ('</LIST:ENTRY>', '', $_IIJi1);
+    $_QlIf1 = "";
+    $_IC1C6 = _L81DB($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>");
+    $_IC1C6 = str_replace ('<LIST:ENTRY>', '', $_IC1C6);
+    $_IC1C6 = str_replace ('</LIST:ENTRY>', '', $_IC1C6);
 
-    $_Io6iJ = array();
-    while($_Q6Q1C=mysql_fetch_assoc($_Q60l1)) {
-      $_Q66jQ = $_IIJi1;
-      if($_Q6Q1C["IsReaded"]) {
-          $_Io6Li = "%s";
-          $_Q66jQ = str_replace('src="MAILSTATUS"', 'src="images/mailreaded16.gif"', $_Q66jQ);
+    $_jJO6I = array();
+    while($_QLO0f=mysql_fetch_assoc($_QL8i1)) {
+      $_Ql0fO = $_IC1C6;
+      if($_QLO0f["IsReaded"]) {
+          $_jJo0t = "%s";
+          $_Ql0fO = str_replace('src="MAILSTATUS"', 'src="images/mailreaded16.gif"', $_Ql0fO);
         }
         else {
-          $_Io6Li = '<span style="font-weight: bold;">%s</span>';
-          $_Q66jQ = str_replace('src="MAILSTATUS"', 'src="images/mailnew16.gif"', $_Q66jQ);
+          $_jJo0t = '<span style="font-weight: bold;">%s</span>';
+          $_Ql0fO = str_replace('src="MAILSTATUS"', 'src="images/mailnew16.gif"', $_Ql0fO);
         }
-      $_Q66jQ = str_replace ('name="LocalMessageIDs[]"', 'name="LocalMessageIDs[]" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:ID>", "</LIST:ID>", $_Q6Q1C["id"]);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:FROM_USERS_ID>", "</LIST:FROM_USERS_ID>", sprintf($_Io6Li, _OELDQ($_Q6Q1C["From_users_id"], $_Io6iJ)));
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:MESSAGEDATE>", "</LIST:MESSAGEDATE>", sprintf($_Io6Li, str_replace(" ", "&nbsp;", $_Q6Q1C["MessageDateFormated"])));
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:MESSAGESUBJECT>", "</LIST:MESSAGESUBJECT>", sprintf($_Io6Li, $_Q6Q1C["MessageSubject"]));
+      $_Ql0fO = str_replace ('name="LocalMessageIDs[]"', 'name="LocalMessageIDs[]" value="'.$_QLO0f["id"].'"', $_Ql0fO);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:ID>", "</LIST:ID>", $_QLO0f["id"]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:FROM_USERS_ID>", "</LIST:FROM_USERS_ID>", sprintf($_jJo0t, _LDAF0($_QLO0f["From_users_id"], $_jJO6I)));
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:MESSAGEDATE>", "</LIST:MESSAGEDATE>", sprintf($_jJo0t, str_replace(" ", "&nbsp;", $_QLO0f["MessageDateFormated"])));
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:MESSAGESUBJECT>", "</LIST:MESSAGESUBJECT>", sprintf($_jJo0t, $_QLO0f["MessageSubject"]));
 
-      $_Q66jQ = str_replace ('name="ReadLocalMessage"', 'name="ReadLocalMessage" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
-      $_Q66jQ = str_replace ('name="ReplyLocalMessage"', 'name="ReplyLocalMessage" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
-      $_Q66jQ = str_replace ('name="DeleteLocalMessage"', 'name="DeleteLocalMessage" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
+      $_Ql0fO = str_replace ('name="ReadLocalMessage"', 'name="ReadLocalMessage" value="'.$_QLO0f["id"].'"', $_Ql0fO);
+      $_Ql0fO = str_replace ('name="ReplyLocalMessage"', 'name="ReplyLocalMessage" value="'.$_QLO0f["id"].'"', $_Ql0fO);
+      $_Ql0fO = str_replace ('name="DeleteLocalMessage"', 'name="DeleteLocalMessage" value="'.$_QLO0f["id"].'"', $_Ql0fO);
 
-      if($_Q6Q1C["From_users_id"] <= 0) { # 0= System
-        $_Q66jQ = _OPR6L($_Q66jQ, "<CAN:ANSWER>", "</CAN:ANSWER>", "");
+      if($_QLO0f["From_users_id"] <= 0) { # 0= System
+        $_Ql0fO = _L81BJ($_Ql0fO, "<CAN:ANSWER>", "</CAN:ANSWER>", "");
       }
 
-      if($_Q6Q1C["Attachment1"] != ""){
-        $_Q66jQ = str_replace("<HAS:ATTACHMENT>", "", $_Q66jQ);
-        $_Q66jQ = str_replace("</HAS:ATTACHMENT>", "", $_Q66jQ);
+      if($_QLO0f["Attachment1"] != ""){
+        $_Ql0fO = str_replace("<HAS:ATTACHMENT>", "", $_Ql0fO);
+        $_Ql0fO = str_replace("</HAS:ATTACHMENT>", "", $_Ql0fO);
       } else{
-        $_Q66jQ = _OP6PQ($_Q66jQ, "<HAS:ATTACHMENT>", "</HAS:ATTACHMENT>");
+        $_Ql0fO = _L80DF($_Ql0fO, "<HAS:ATTACHMENT>", "</HAS:ATTACHMENT>");
       }
 
-      $_Q6tjl .= $_Q66jQ;
+      $_QlIf1 .= $_Ql0fO;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>", $_Q6tjl);
+    $_QLoli = _L81BJ($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>", $_QlIf1);
 
-    $_Q6ICj = _OPFJA(array(), $_I61Cl, $_Q6ICj);
+    $_QLoli = _L8AOB(array(), $_Il0o6, $_QLoli);
 
-    $_Q6ICj = str_replace ("<CAN:ANSWER>", "", $_Q6ICj);
-    $_Q6ICj = str_replace ("</CAN:ANSWER>", "", $_Q6ICj);
+    $_QLoli = str_replace ("<CAN:ANSWER>", "", $_QLoli);
+    $_QLoli = str_replace ("</CAN:ANSWER>", "", $_QLoli);
 
-    return $_Q6ICj;
+    return $_QLoli;
   }
 
 
-  function _OJ0PJ($OneLocalMessageId) {
-    global $_Io680;
-    global $INTERFACE_LANGUAGE, $resourcestrings, $UserType, $UserId, $Username, $_Q6JJJ;
-    global $_Q6QiO, $_If0Ql;
+  function _L1FDL($OneLocalMessageId) {
+    global $_jJtt8;
+    global $INTERFACE_LANGUAGE, $resourcestrings, $UserType, $UserId, $Username, $_QLl1Q;
+    global $_QLo60, $_j01CJ;
     $OneLocalMessageId = intval($OneLocalMessageId);
-    $_QJlJ0 = "SELECT *, DATE_FORMAT(`MessageDate`, $_Q6QiO) AS MessageDateFormated FROM `$_Io680` WHERE id=$OneLocalMessageId AND `To_users_id`=".intval($UserId);
-    $_Q60l1 = mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
-    if(mysql_num_rows($_Q60l1) == 0) exit;
+    $_QLfol = "SELECT *, DATE_FORMAT(`MessageDate`, $_QLo60) AS MessageDateFormated FROM `$_jJtt8` WHERE id=$OneLocalMessageId AND `To_users_id`=".intval($UserId);
+    $_QL8i1 = mysql_query($_QLfol);
+    _L8D88($_QLfol);
+    if(mysql_num_rows($_QL8i1) == 0) exit;
 
-    $_QJlJ0 = "UPDATE `$_Io680` SET `IsReaded`=1 WHERE id=$OneLocalMessageId";
-    mysql_query($_QJlJ0);
+    $_QLfol = "UPDATE `$_jJtt8` SET `IsReaded`=1 WHERE id=$OneLocalMessageId";
+    mysql_query($_QLfol);
 
     // Template
-    $_I0600 = "";
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["001115"], $_I0600, 'browselocalmessages', 'read_localmessage.htm');
-    $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_Itfj8 = "";
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["001115"], $_Itfj8, 'browselocalmessages', 'read_localmessage.htm');
+    $_QLO0f = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
 
-    $_QJCJi = _OPR6L($_QJCJi, "<LIST:FROM_USERS_ID>", "</LIST:FROM_USERS_ID>", _OELDQ($_Q6Q1C["From_users_id"], $_Io6iJ));
-    $_QJCJi = _OPR6L($_QJCJi, "<LIST:MESSAGEDATE>", "</LIST:MESSAGEDATE>", str_replace(" ", "&nbsp;", $_Q6Q1C["MessageDateFormated"]));
-    $_QJCJi = _OPR6L($_QJCJi, "<LIST:MESSAGESUBJECT>", "</LIST:MESSAGESUBJECT>", $_Q6Q1C["MessageSubject"]);
+    $_QLJfI = _L81BJ($_QLJfI, "<LIST:FROM_USERS_ID>", "</LIST:FROM_USERS_ID>", _LDAF0($_QLO0f["From_users_id"], $_jJO6I));
+    $_QLJfI = _L81BJ($_QLJfI, "<LIST:MESSAGEDATE>", "</LIST:MESSAGEDATE>", str_replace(" ", "&nbsp;", $_QLO0f["MessageDateFormated"]));
+    $_QLJfI = _L81BJ($_QLJfI, "<LIST:MESSAGESUBJECT>", "</LIST:MESSAGESUBJECT>", $_QLO0f["MessageSubject"]);
 
-    if( !( strpos($_Q6Q1C["MessageText"], "<br") !== false || strpos($_Q6Q1C["MessageText"], "<p") !== false || strpos($_Q6Q1C["MessageText"], "<a") !== false || strpos($_Q6Q1C["MessageText"], "<div") !== false || strpos($_Q6Q1C["MessageText"], "<html") !== false) ) {
-      $_Q6Q1C["MessageText"] = explode("\n", $_Q6Q1C["MessageText"]);
-      $_Q6Q1C["MessageText"] = implode("<br />\n", $_Q6Q1C["MessageText"]);
+    if( !( strpos($_QLO0f["MessageText"], "<br") !== false || strpos($_QLO0f["MessageText"], "<p") !== false || strpos($_QLO0f["MessageText"], "<a") !== false || strpos($_QLO0f["MessageText"], "<div") !== false || strpos($_QLO0f["MessageText"], "<html") !== false) ) {
+      $_QLO0f["MessageText"] = explode("\n", $_QLO0f["MessageText"]);
+      $_QLO0f["MessageText"] = implode("<br />\n", $_QLO0f["MessageText"]);
     }
 
-    $_QJCJi = _OPR6L($_QJCJi, "<LIST:MESSAGETEXT>", "</LIST:MESSAGETEXT>", $_Q6Q1C["MessageText"]);
+    $_QLJfI = _L81BJ($_QLJfI, "<LIST:MESSAGETEXT>", "</LIST:MESSAGETEXT>", $_QLO0f["MessageText"]);
 
-    if($_Q6Q1C["Attachment1"] == "" && $_Q6Q1C["Attachment2"] == "" && $_Q6Q1C["Attachment3"] == ""){
-      $_QJCJi = _OP6PQ($_QJCJi, "<IF:HAS_ATTACHMENTS>", "</IF:HAS_ATTACHMENTS>");
-      $_QJCJi = str_replace("<IF:NOT_HAS_ATTACHMENTS>", "", $_QJCJi);
-      $_QJCJi = str_replace("</IF:NOT_HAS_ATTACHMENTS>", "", $_QJCJi);
+    if($_QLO0f["Attachment1"] == "" && $_QLO0f["Attachment2"] == "" && $_QLO0f["Attachment3"] == ""){
+      $_QLJfI = _L80DF($_QLJfI, "<IF:HAS_ATTACHMENTS>", "</IF:HAS_ATTACHMENTS>");
+      $_QLJfI = str_replace("<IF:NOT_HAS_ATTACHMENTS>", "", $_QLJfI);
+      $_QLJfI = str_replace("</IF:NOT_HAS_ATTACHMENTS>", "", $_QLJfI);
     } else {
-      $_QJCJi = _OP6PQ($_QJCJi, "<IF:NOT_HAS_ATTACHMENTS>", "</IF:NOT_HAS_ATTACHMENTS>");
-      $_Q66jQ = _OP81D($_QJCJi, "<IF:HAS_ATTACHMENTS>", "</IF:HAS_ATTACHMENTS>");
+      $_QLJfI = _L80DF($_QLJfI, "<IF:NOT_HAS_ATTACHMENTS>", "</IF:NOT_HAS_ATTACHMENTS>");
+      $_Ql0fO = _L81DB($_QLJfI, "<IF:HAS_ATTACHMENTS>", "</IF:HAS_ATTACHMENTS>");
       $attachments = "";
-      for($_Q6llo=1; $_Q6llo<=3;$_Q6llo++) {
-        if($_Q6Q1C["Attachment$_Q6llo"] != "") {
-          $_Iofi6 = @unserialize(base64_decode($_Q6Q1C["Attachment$_Q6llo"]));
-          if($_Iofi6 === false) continue;
-          $attachments .= $_Q66jQ;
-          $attachments = _OPR6L($attachments, "<ATTACHMENT_NAME>", "</ATTACHMENT_NAME>", $_Iofi6["filename"]);
-          $attachments = str_replace('href="./browselocalmessages.php?OneLocalMessageId="', 'href="./browselocalmessages.php?OneLocalMessageId='.$OneLocalMessageId.'&Attachment='.$_Q6llo.'"', $attachments);
+      for($_Qli6J=1; $_Qli6J<=3;$_Qli6J++) {
+        if($_QLO0f["Attachment$_Qli6J"] != "") {
+          $_jJCIl = @unserialize(base64_decode($_QLO0f["Attachment$_Qli6J"]));
+          if($_jJCIl === false) continue;
+          $attachments .= $_Ql0fO;
+          $attachments = _L81BJ($attachments, "<ATTACHMENT_NAME>", "</ATTACHMENT_NAME>", $_jJCIl["filename"]);
+          $attachments = str_replace('href="./browselocalmessages.php?OneLocalMessageId="', 'href="./browselocalmessages.php?OneLocalMessageId='.$OneLocalMessageId.'&Attachment='.$_Qli6J.'"', $attachments);
         }
       }
 
-      $_QJCJi = _OPR6L($_QJCJi, "<IF:HAS_ATTACHMENTS>", "</IF:HAS_ATTACHMENTS>", $attachments);
+      $_QLJfI = _L81BJ($_QLJfI, "<IF:HAS_ATTACHMENTS>", "</IF:HAS_ATTACHMENTS>", $attachments);
     }
 
-    $_QJojf = _OBOOC($UserId);
-    $_I6ICC = "";
+    $_QLJJ6 = _LPALQ($UserId);
+    $_Iljoj = "";
 
-    if(!$_QJojf["PrivilegeLocalMessageCreate"] || $_Q6Q1C["From_users_id"] == 0) {
-      $_I6ICC .= "document.getElementById('ReplyLocalMessage').style.display = 'none';".$_Q6JJJ;
+    if(!$_QLJJ6["PrivilegeLocalMessageCreate"] || $_QLO0f["From_users_id"] == 0) {
+      $_Iljoj .= "document.getElementById('ReplyLocalMessage').style.display = 'none';".$_QLl1Q;
     }
 
-    if(!$_QJojf["PrivilegeLocalMessageRemove"]) {
-      $_I6ICC .= "document.getElementById('DeleteLocalMessage').style.display = 'none';".$_Q6JJJ;
+    if(!$_QLJJ6["PrivilegeLocalMessageRemove"]) {
+      $_Iljoj .= "document.getElementById('DeleteLocalMessage').style.display = 'none';".$_QLl1Q;
     }
 
-    if($_I6ICC != "") {
-      $_QJCJi = str_replace("//AUTO_SCRIPT_CODE_PLACEHOLDER//", $_I6ICC, $_QJCJi);
+    if($_Iljoj != "") {
+      $_QLJfI = str_replace("//AUTO_SCRIPT_CODE_PLACEHOLDER//", $_Iljoj, $_QLJfI);
     }
 
-    $_Qi8If = array("OneLocalMessageId" => intval($OneLocalMessageId) );
-    $_QJCJi = _OPFJA(array(), $_Qi8If, $_QJCJi);
-    print $_QJCJi;
+    $_I6tLJ = array("OneLocalMessageId" => intval($OneLocalMessageId) );
+    $_QLJfI = _L8AOB(array(), $_I6tLJ, $_QLJfI);
+    print $_QLJfI;
   }
 
 ?>

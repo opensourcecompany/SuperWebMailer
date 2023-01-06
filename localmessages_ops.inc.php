@@ -27,62 +27,62 @@
 
   include_once("config.inc.php");
 
-  function _OEOD8($_JOQl0, &$_QtIiC) {
-    global $_Io680, $_Q61I1, $UserId;
-    $_QfC8t = array();
-    if(is_array($_JOQl0))
-      $_QfC8t = array_merge($_QfC8t, $_JOQl0);
+  function _LDAC8($_6ljLL, &$_IQ0Cj) {
+    global $_jJtt8, $_QLttI, $UserId;
+    $_I0lji = array();
+    if(is_array($_6ljLL))
+      $_I0lji = array_merge($_I0lji, $_6ljLL);
       else
-      $_QfC8t[] = $_JOQl0;
-    for($_Q6llo=0; $_Q6llo<count($_QfC8t); $_Q6llo++) {
-      $_QfC8t[$_Q6llo] = intval($_QfC8t[$_Q6llo]);
-      $_QJlJ0 = "DELETE FROM `$_Io680` WHERE id=$_QfC8t[$_Q6llo] AND `To_users_id`=$UserId";
-      mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "")
-         $_QtIiC[] = mysql_error($_Q61I1);
+      $_I0lji[] = $_6ljLL;
+    for($_Qli6J=0; $_Qli6J<count($_I0lji); $_Qli6J++) {
+      $_I0lji[$_Qli6J] = intval($_I0lji[$_Qli6J]);
+      $_QLfol = "DELETE FROM `$_jJtt8` WHERE id=$_I0lji[$_Qli6J] AND `To_users_id`=$UserId";
+      mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "")
+         $_IQ0Cj[] = mysql_error($_QLttI);
     }
   }
 
-  function _OELQQ($_JOIo6, $_JOj86, $_I6016, $_I11oJ, $attachments=array()) {
-    global $_Io680, $_Q61I1;
-    $_JOIo6 = intval($_JOIo6);
-    $_JOj86 = intval($_JOj86);
+  function _LDADP($_6lJOO, $_6lJol, $_ILi8o, $_IO08l, $attachments=array()) {
+    global $_jJtt8, $_QLttI;
+    $_6lJOO = intval($_6lJOO);
+    $_6lJol = intval($_6lJol);
 
-    $_QJlJ0 = "INSERT INTO `$_Io680` SET `MessageDate`=NOW(), `From_users_id`=$_JOIo6, `To_users_id`=$_JOj86, `MessageSubject`="._OPQLR($_I6016).", `MessageText`="._OPQLR($_I11oJ);
+    $_QLfol = "INSERT INTO `$_jJtt8` SET `MessageDate`=NOW(), `From_users_id`=$_6lJOO, `To_users_id`=$_6lJol, `MessageSubject`="._LRAFO($_ILi8o).", `MessageText`="._LRAFO($_IO08l);
 
     if(count($attachments) > 0) {
-      $_Q6llo = 1;
-      foreach($attachments as $_jt8LJ => $_jtl8I) {
-        $_Iofi6 = serialize(base64_decode(array("filename"=>$_jt8LJ, "content"=>$_jtl8I)));
-        $_QJlJ0 .= ", `Attachment$_Q6llo`="._OPQLR($_Iofi6);
-        $_Q6llo++;
-        if($_Q6llo>3) break;
+      $_Qli6J = 1;
+      foreach($attachments as $_JfIIf => $_Jfo0j) {
+        $_jJCIl = serialize(base64_decode(array("filename"=>$_JfIIf, "content"=>$_Jfo0j)));
+        $_QLfol .= ", `Attachment$_Qli6J`="._LRAFO($_jJCIl);
+        $_Qli6J++;
+        if($_Qli6J>3) break;
       }
     }
-    mysql_query($_QJlJ0, $_Q61I1);
-    if(mysql_error($_Q61I1) == "")
+    mysql_query($_QLfol, $_QLttI);
+    if(mysql_error($_QLttI) == "")
       return true;
       else
       return false;
   }
 
-  function _OELDQ($_ICoOt, &$_Io6iJ){
-    global $_Q8f1L, $INTERFACE_LANGUAGE, $resourcestrings, $_Q61I1;
-    $_ICoOt = intval($_ICoOt);
-    if(isset($_Io6iJ[$_ICoOt]))
-      return $_Io6iJ[$_ICoOt];
-    if($_ICoOt == 0){
+  function _LDAF0($_j6lIj, &$_jJO6I){
+    global $_I18lo, $INTERFACE_LANGUAGE, $resourcestrings, $_QLttI;
+    $_j6lIj = intval($_j6lIj);
+    if(isset($_jJO6I[$_j6lIj]))
+      return $_jJO6I[$_j6lIj];
+    if($_j6lIj == 0){
        return "SYSTEM";
     }
-    $_QJlJ0 = "SELECT `Username` FROM `$_Q8f1L` WHERE id=$_ICoOt";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if(mysql_num_rows($_Q60l1) > 0 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-      $_Io6iJ[$_ICoOt] = $_Q6Q1C["Username"];
+    $_QLfol = "SELECT `Username` FROM `$_I18lo` WHERE id=$_j6lIj";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if(mysql_num_rows($_QL8i1) > 0 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+      $_jJO6I[$_j6lIj] = $_QLO0f["Username"];
     } else{
-      $_Io6iJ[$_ICoOt] = $resourcestrings[$INTERFACE_LANGUAGE]["UNKNOWN"];
+      $_jJO6I[$_j6lIj] = $resourcestrings[$INTERFACE_LANGUAGE]["UNKNOWN"];
     }
-    mysql_free_result($_Q60l1);
-    return $_Io6iJ[$_ICoOt];
+    mysql_free_result($_QL8i1);
+    return $_jJO6I[$_j6lIj];
   }
 
 ?>

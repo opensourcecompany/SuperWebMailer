@@ -1,0 +1,628 @@
+
+      <!--  IPE //-->
+			   <link rel="stylesheet" href="ipe/css/redmond/jquery-ui-1.8.14.custom.css" type="text/css" />
+      <script type="text/javascript"  src="js/jquery-latest.min.js"></script>
+			   <script type="text/javascript" src="ipe/js/jquery-ui.min.js"></script>
+			   <script type="text/javascript" src="ipe/js/jq_inherit.js"></script>
+
+      <script language="javascript" type="text/javascript" src="js/ckeditor_jquery_fix.js"></script>
+
+     	<link rel="stylesheet" href="ipe/js/colorpicker/css/colorpicker.css" type="text/css" />
+     	<script type="text/javascript" src="ipe/js/colorpicker/js/colorpicker.js"></script>
+      <script type="text/javascript" src="ipe/js/colorpicker/js/eye.js"></script>
+      <script type="text/javascript" src="ipe/js/colorpicker/js/utils.js"></script>
+      <script type="text/javascript" src="ipe/js/colorpicker/js/layout.js?ver=1.0.2"></script>
+
+      <style type="text/css">
+      <!--
+       /*  jquery UI */
+       .ui-widget{
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.8em;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+       }
+       .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button{
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.10em;
+       	font-weight: normal;
+       	color: #000000;
+        margin: 0px;
+        padding:2px;
+        line-height: normal;
+       }
+      -->
+      </style>
+
+      <!--  /IPE //-->
+
+
+<!-- IPE //-->
+
+
+<style type="text/css">
+<!--
+ #IPE_dialogdefinition label, #IPE_dialogdefinition input, #IPE_dialogdefinition select { display:block; }
+ #IPE_dialogdefinition button {font-size: 10pt}
+
+	#dialog-singleline input.text { margin-top: 4px; margin-bottom:12px; width:95%; padding: .4em; }
+	#dialog-singleline fieldset { padding:0; border:0; margin-top:5px; }
+
+	#dialog-multiline input.text { margin-top: 4px; margin-bottom:12px; width:95%; padding: .4em; }
+	#dialog-multiline textarea.text { margin-top: 4px; margin-bottom:12px; width:95%; padding: .4em; }
+	#dialog-multiline fieldset { padding:0; border:0; margin-top:5px; }
+
+	#dialog-hyperlink input.text { margin-top: 4px; margin-bottom:12px; width:95%; padding: .4em; }
+	#dialog-hyperlink fieldset { padding:0; border:0; margin-top:5px; }
+
+	#dialog-image input.text { margin-top: 4px; margin-bottom:12px; width:95%; padding: .4em; }
+	#dialog-image input.image { margin-top: 4px; margin-bottom:12px; width:67%; padding: .4em; }
+	#dialog-image fieldset { padding:0; border:0; margin-top:5px; }
+
+	#dialog-hr input.text { margin-top: 4px; margin-bottom:12px; padding: .4em; }
+	#dialog-hr fieldset { padding:0; border:0; margin-top:5px; }
+ #dialog-hr select { margin-top: 4px; margin-bottom:12px; padding: .4em; width:30%;}
+
+ #dialog-cssedit input.text { margin-top: 4px; margin-bottom:12px; padding: .4em; width:95%;}
+ #dialog-cssedit select { margin-top: 4px; margin-bottom:12px; padding: .4em; width:95%;}
+	#dialog-cssedit fieldset { padding:0; border:0; margin-top:5px; }
+
+ #dialog-pagebodyproperties input.text { margin-top: 4px; margin-bottom:12px; padding: .4em; width:95%;}
+ #dialog-pagebodyproperties select { margin-top: 4px; margin-bottom:12px; padding: .4em; width:95%;}
+	#dialog-pagebodyproperties fieldset { padding:0; border:0; margin-top:5px; }
+
+
+ #dialog-new_items .ui-selecting { outline: 1px #F39814 solid; padding: 0px;}
+	#dialog-new_items .ui-selected { outline: 1px #F39814 solid; padding: 0px;}
+	#dialog-new_items { list-style-type: none; margin: 0; padding: 0; }
+	#dialog-new_items li { margin: 4px; padding: 0px; float: left; width: 130px; height: 100px; cursor: pointer;}
+
+	#dialog-socialmedia .socialmedia_item { float: left; width: 50px; height: 38px; text-align: center; background-color: #EAEAEA; margin: 5px; padding-top: 4px; cursor: pointer; border: 1px solid #EAEAEA;}
+
+ #dialog-list input.text { margin-top: 4px; margin-bottom:12px; padding: .4em; width:95%;}
+ #dialog-list select { margin-top: 4px; margin-bottom:12px; padding: .4em; width:95%;}
+	#dialog-list fieldset { padding:0; border:0; margin-top:5px; }
+ #dialog-list #dialog-list-elements { list-style-type: none; margin: 0; padding: 0; width:99%; }
+ #dialog-list #dialog-list-elements li { list-style-type: none; margin: 0; padding: 4px; height: 20px; cursor: pointer; font-size: 1.1em}
+
+ #dialog-list #dialog-list-elements .ui-selecting { background: #FECA40; }
+	#dialog-list #dialog-list-elements .ui-selected { background: #F39814; color: white; }
+
+ #dialog-list .li_delete {cursor: pointer;	float:right;}
+
+ #dialog-list-editEntry input.text { margin-top: 4px; margin-bottom:12px; padding: .4em; width:95%;}
+
+//-->
+</style>
+
+<!-- IPE dialog definition //-->
+
+<div id="IPE_dialogdefinition" style="visibility:hidden; display: none">
+  <div id="dialog-removeitem" title="Element l&ouml;schen">
+   <p>
+    <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+    M&ouml;chten Sie dieses Element wirklich l&ouml;schen?
+    <br /><br />
+    <input type="checkbox" class="checkbox ui-widget-content ui-corner-all" name="NoConfirmOnRemoveItem" id="NoConfirmOnRemoveItem" />&nbsp;<label for="NoConfirmOnRemoveItem">Ohne Best&auml;tigung beim L&ouml;schen weiterer Elemente</label>
+   </p>
+  </div>
+
+  <div id="dialog-singleline" title="Einzeiliger Text">
+  	<form name="SingleLineEditForm" id="SingleLineEditForm">
+  	<fieldset>
+    <label for="singleline" id="labelForSingleline" defaulttitle="Text">Text</label>
+  		<input type="text" name="singleline" id="singleline" class="text ui-widget-content ui-corner-all" maxlength="255" />
+  		<br />
+    Platzhalter einf&uuml;gen<br />
+    <select size="1" id="SinglelinePlaceHoldersCB" class="ui-widget-content ui-corner-all" onchange="InsertFieldValue('SinglelinePlaceHoldersCB', 'singleline')">
+    <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+    </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('SingleLineEditForm', 'singleline', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" />
+    <br />
+    <br />
+    <br />
+  		<label for="singleline_hyperlink">Optionaler Hyperlink</label>
+  		<input type="text" name="singleline_hyperlink" id="singleline_hyperlink" class="text ui-widget-content ui-corner-all" maxlength="255" />
+  	</fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-multiline" title="Mehrzeiliger Text">
+   <script>
+     var MultiLineBGColorNotWhite = false;
+   </script>
+  	<form name="MultiLineEditForm" id="MultiLineEditForm">
+  	<fieldset>
+  		<label for="multiline" id="labelForMultiline" defaulttitle="Text">Text</label>
+  		<textarea name="multiline" id="multiline" class="text ui-widget-content ui-corner-all" style="width:650px; height:343px"></textarea>
+  		<br />
+  	</fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-hyperlink" title="Hyperlink bearbeiten">
+  	<form>
+  	<fieldset>
+    		<label for="hyperlink" id="labelForHyperlink" defaulttitle="Hyperlink">Hyperlink</label>
+    		<input type="text" name="hyperlink" id="hyperlink" class="text ui-widget-content ui-corner-all" maxlength="255" />
+    <br />
+    <br />
+  		<label for="textforhyperlink" id="labelFortextforHyperlink">Text des Hyperlinks</label>
+  		<input type="text" name="textforhyperlink" id="textforhyperlink" class="text ui-widget-content ui-corner-all" maxlength="255" />
+   </fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-image" title="Bild bearbeiten">
+  	<form>
+  	<fieldset>
+      <input type="hidden" id="dialog-image_reqWidth" value="-1" />
+      <input type="hidden" id="dialog-image_reqHeight" value="-1" />
+      <label for="imageurl" id="labelForImage" defaulttitle="Bild">Bild</label><span id="dialog-image_reqImgSizeLabel">&nbsp;(ben&ouml;tigte Bildgr&ouml;&szlig;e:&nbsp;Breite&nbsp;<span id="dialog-image_reqImgSize"></span>)</span>
+      <table border="0" width="100%" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="100%" rowspan="2">
+          <input style="width: 95%;" type="text" name="imageurl" id="imageurl" class="image ui-widget-content ui-corner-all" />
+        </td>
+        <td>
+          <button name="Browse" id="Browse" onclick="OpenFileManager('imageurl', $('#dialog-image_reqWidth').val(), $('#dialog-image_reqHeight').val()); return false;">Durchsuchen</button>
+        </td>
+      </tr>
+      <tr>
+        <td width="100%">
+          <button name="BrowsePixabay" id="BrowsePixabay" onclick="OpenPixabayManager('imageurl', $('#dialog-image_reqWidth').val(), $('#dialog-image_reqHeight').val()); return false;">Pixabay</button>
+        <td>
+      </tr>
+      </table>
+      <br />
+      <input onclick="ipeSetImageAsCompleteURL('chkassiInsertImageAsCompleteURL')" type="checkbox" name="chkassiInsertImageAsCompleteURL" id="chkassiInsertImageAsCompleteURL" class="checkbox ui-widget-content ui-corner-all" /><label for="chkassiInsertImageAsCompleteURL" defaulttitle="Bild als URL einf&uuml;gen (nicht mit der E-Mail versenden)">&nbsp;Bild als URL einf&uuml;gen (nicht mit der E-Mail versenden)</label>
+    <br />
+    <br />
+  		<label for="alttext" id="labelForAlttext">Alternativer Text</label>
+  		<input type="text" name="alttext" id="alttext" class="text ui-widget-content ui-corner-all" maxlength="255" />
+    <br />
+    <br />
+    <br />
+  		<label for="image_hyperlinkurl">Optionaler Hyperlink</label>
+  		<input type="text" name="image_hyperlinkurl" id="image_hyperlinkurl" class="text ui-widget-content ui-corner-all" maxlength="255" />
+   </fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-hr" title="Horizontale Linie bearbeiten">
+  	<form>
+  	<fieldset>
+     <label for="hr_width">Breite</label><br /><input type="text" name="hr_width" id="hr_width" size="32" class="text ui-widget-content ui-corner-all" />
+     <br />
+     <br />
+     <label for="hr_height">H&ouml;he</label><br /><input type="text" name="hr_height" id="hr_height" size="32" class="text ui-widget-content ui-corner-all" />
+     <br />
+     <br />
+   		<label for="hralignmentCB">Ausrichtung</label><br />
+     <select name="hralignmentCB" id="hralignmentCB" size="1" class="ui-widget-content ui-corner-all">
+       <option value="left">links</option>
+       <option value="center">zentriert</option>
+       <option value="right">rechts</option>
+     </select>
+     <br />
+     <br />
+     <label for="hr_color">Farbe</label><br /><input type="text" name="hr_color" id="hr_color" class="text ui-widget-content ui-corner-all" maxlength="7" size="7" />
+     <br />
+     <input type="checkbox" class="checkbox ui-widget-content ui-corner-all" name="hr_noshade" id="hr_noshade" />&nbsp;<label for="hr_noshade">Durchgezogen (ohne Schattierung)</label>
+
+   </fieldset>
+
+  	</form>
+  </div>
+
+  <div id="dialog-list" title="Liste bearbeiten">
+  	<form>
+  	<fieldset>
+     Elemente<br />
+     <div style="display: block; overflow:auto; margin: 0px; padding: 0px; max-height: 120px; height: 120px; width:95%">
+       <ul style="list-style-type: none" id="dialog-list-elements">
+         <li class="ui-state-default">element 1 <div class="li_delete ui-button ui-icon ui-icon-trash ui-corner-all" title="L&ouml;schen"></div></li>
+       </ul>
+     </div>
+     <br />
+     <br />
+     <button onclick="$('#dialog-list-editEntry').attr('IsNew', 'true'); $('#dialog-list-editEntry').find('#ListEntryEdit').val('');$('#dialog-list-editEntry').dialog('open'); return false;">Hinzuf&uuml;gen</button>&nbsp;
+     <button id="dialog-list-edit" onclick="$('#dialog-list-editEntry').attr('IsNew', 'false'); $('#dialog-list-editEntry').find('#ListEntryEdit').val( $('#dialog-list-elements').find('.ui-selected').text() ); $('#dialog-list-editEntry').dialog('open'); return false;">&Auml;ndern</button>
+     &nbsp;&nbsp;
+     <button id="dialog-list-Up" onclick="MoveSelectedListEntry('Up');return false;">Auf</button>&nbsp;
+     <button id="dialog-list-Down" onclick="MoveSelectedListEntry('Down');return false;">Ab</button>&nbsp;
+
+     <br />
+     <br />
+     <br />
+     <label for="ListStyleTypeCB">Listentyp</label>
+     <select name="ListStyleTypeCB" id="ListStyleTypeCB" size="1" class="ui-widget-content ui-corner-all">
+       <option value="none">kein Aufz&auml;hlungszeichen</option>
+       <option value="circle">Kreis</option>
+       <option value="square">Quadrat</option>
+       <option value="disc">Gef&uuml;llter Kreis</option>
+       <option value="decimal">Dezimalzahlen</option>
+       <option value="lower-roman">Kleine r&ouml;mische Zahlen</option>
+       <option value="upper-roman">Gro&szlig;e r&ouml;mische Zahlen</option>
+       <option value="lower-greek">Kleine griechische Nummerierung</option>
+       <option value="lower-latin">Kleine lateinische Nummerierung</option>
+       <option value="upper-latin">Gro&szlig;e lateinische Nummerierung</option>
+       <option value="armenian">Armenische Nummerierung</option>
+       <option value="georgian">Georgische Nummerierung</option>
+     </select>
+    <br />
+    <br />
+  		<label for="smbaralignmentCB">Ausrichtung</label>
+    <select name="ListalignmentCB" id="ListalignmentCB" size="1" class="ui-widget-content ui-corner-all">
+      <option value="left">links</option>
+      <option value="center">zentriert</option>
+      <option value="right">rechts</option>
+    </select>
+
+   </fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-list-editEntry" title="Listeneintrag bearbeiten">
+  	<form>
+  	<fieldset>
+  	  <label for="ListEntryEdit">Bezeichnung des Listeneintrags</label><br />
+  	  <input type="text" name="ListEntryEdit" id="ListEntryEdit" class="text ui-widget-content ui-corner-all" />
+   </fieldset>
+  	</form>
+  </div>
+
+  <script language="JavaScript">
+  <!--
+      $( "#dialog-list-editEntry" ).dialog({
+        			resizable: false,
+        			modal: true,
+        			width: 600,
+        			autoOpen: false
+        		});
+
+      $( "#dialog-list-editEntry" ).find('input').keypress(function(e) {
+      	if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+      		$(this).parent().parent().parent().parent().find('.ui-dialog-buttonpane').find('button:first').click(); /* Assuming the first one is the action button */
+      		return false;
+      	}
+      });
+
+      $( "#dialog-list-editEntry" ).dialog( "option", "buttons", [
+        {
+            text: html_entity_decode(rsApply),
+            click: function() {
+                                 $(this).dialog("close");
+                                 if($('#dialog-list-editEntry').attr('IsNew') == "false"){
+                                   var clone = $('#dialog-list-elements').find('.ui-selected').find('.li_delete').clone();
+                                   $('#dialog-list-elements').find('.ui-selected').find('.li_delete').remove();
+                                   $('#dialog-list-elements').find('.ui-selected').text($(this).find('#ListEntryEdit').val().trim());
+                                   $('#dialog-list-elements').find('.ui-selected').append(clone);
+                                 } else {
+                                   var li = '<li class="ui-state-default">' + $(this).find('#ListEntryEdit').val().trim() + '<div class="li_delete ui-button ui-icon ui-icon-trash ui-corner-all" title="' + rsDeleteItem + '"></div></li>';
+                                   $('#dialog-list-elements').append(li);
+                                 }
+
+                                 MakeListEntriesSelectable();
+                                 ActivateDeactivateUpDownBtns();
+                              }
+            },
+
+            {
+                text: rsCancel,
+                click: function() {
+                                     $(this).dialog("close");
+                                  }
+            }
+
+      ] );
+
+
+      function ipeSetImageAsCompleteURL(checkBoxId) {
+
+        var checkBoxValue = ($( "#"+ checkBoxId ).attr("checked") != null);
+        var txtURL = $( "#imageurl" ).val().trim();
+
+        var URL = location.href;
+
+        // subdomains
+        var count = 0;
+        var s = URL;
+        while(s.lastIndexOf("/") != -1){
+          s = s.substr(0, s.lastIndexOf("/"));
+          count++;
+        }
+        if(count > 2) {
+          for(var i=0;i<count-2;i++)
+            URL = URL.substr(0, URL.lastIndexOf("/"));
+        }
+
+        if(checkBoxValue) {
+          if(txtURL.indexOf("http:") == -1 && txtURL.indexOf("https:") == -1){
+            txtURL = URL + txtURL;
+            $( "#imageurl" ).val(txtURL);
+          }
+        } else{
+          if(txtURL.indexOf("http:") > -1 || txtURL.indexOf("https:") > -1){
+            if(txtURL.indexOf(URL) > -1) {
+              txtURL = txtURL.substr(URL.length);
+              $( "#imageurl" ).val(txtURL);
+            }
+          }
+        }
+      }
+
+  //-->
+  </script>
+  <noscript></noscript>
+
+  <div id="dialog-socialmedia" title="Social Media Bar bearbeiten">
+  	<form>
+  	<fieldset>
+    		<label for="socialmediabar" id="labelForSocialMedia" defaulttitle="Elemente f&uuml;r die Social Media Leiste">Elemente f&uuml;r die Social Media Leiste</label><br />
+      <div style="" class="" id="socialmediabar">
+      </div>
+
+    <div class="clearer"></div>
+    <br />
+    <p>
+    <hr align="center" width="100%" size="1" color="#EAEAEA" noshade="noshade" style="height: 1px" />
+    <br />
+  		<label for="smbaralignmentCB">Ausrichtung</label>
+    <select name="smbaralignmentCB" id="smbaralignmentCB" size="1" class="ui-widget-content ui-corner-all">
+      <option value="left">links</option>
+      <option value="center">zentriert</option>
+      <option value="right">rechts</option>
+    </select>
+    </p>
+    <br />
+   </fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-cssedit" title="Style bearbeiten">
+  	<form>
+   <fieldset>
+    <table border="0" cellpadding="0" width="100%">
+    <tr>
+      <td>
+        <label for="fontName">Schriftart</label>
+      </td>
+      <td>
+         <input type="text" name="fontName" id="fontName" class="text ui-widget-content ui-corner-all" size="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="fontSize">Schriftgr&ouml;&szlig;e</label>
+      </td>
+      <td>
+       <input type="text" name="fontSize" id="fontSize" class="text ui-widget-content ui-corner-all" size="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="fontcolor">Schriftfarbe</label>
+      </td>
+      <td>
+        <input type="text" name="fontcolor" id="fontcolor" class="text ui-widget-content ui-corner-all" maxlength="7" size="7" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bgcolor">Hintergrundfarbe</label>
+      </td>
+      <td>
+        <input type="text" name="bgcolor" id="bgcolor" class="text ui-widget-content ui-corner-all" maxlength="7" size="7" />
+      </td>
+    </tr>
+
+
+    <tr>
+      <td>
+        <label for="width">Breite</label>
+      </td>
+      <td>
+        <input type="text" name="width" id="width" class="text ui-widget-content ui-corner-all" maxlength="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="height">H&ouml;he</label>
+      </td>
+      <td>
+        <input type="text" name="height" id="height" class="text ui-widget-content ui-corner-all" maxlength="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="padding">Innenabstand</label>
+      </td>
+      <td>
+        <input type="text" name="padding" id="padding" class="text ui-widget-content ui-corner-all" maxlength="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="margin">Au&szlig;enabstand</label>
+      </td>
+      <td>
+        <input type="text" name="margin" id="margin" class="text ui-widget-content ui-corner-all" maxlength="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="borderStyle">Rahmen</label>
+      </td>
+      <td>
+        <select name="borderStyle" id="borderStyle" class="ui-widget-content ui-corner-all">
+    					<option value="none">Kein Rahmen</option>
+    					<option value="dotted">dotted</option>
+    					<option value="dashed">dashed</option>
+    					<option value="solid">solid</option>
+    					<option value="double">double</option>
+    					<option value="groove">groove</option>
+    					<option value="ridge">ridge</option>
+    					<option value="inset">inset</option>
+    					<option value="outset">outset</option>
+   					</select>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="borderWidth">Rahmenbreite</label>
+      </td>
+      <td>
+        <input type="text" name="borderWidth" id="borderWidth" class="text ui-widget-content ui-corner-all" maxlength="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="borderColor">Rahmenfarbe</label>
+      </td>
+      <td>
+        <input type="text" name="borderColor" id="borderColor" class="text ui-widget-content ui-corner-all" maxlength="7" size="7" />
+      </td>
+    </tr>
+
+    </table>
+
+  	</fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-pagebodyproperties" title="Seiten-/Bodyeigenschaften">
+  	<form>
+  	<fieldset>
+
+    <table border="0" cellpadding="0" width="100%">
+    <tr>
+      <td>
+        <label for="bodybgcolor">Hintergrundfarbe</label>
+      </td>
+      <td>
+
+       <input type="text" name="bodybgcolor" id="bodybgcolor" class="text ui-widget-content ui-corner-all" maxlength="7" size="7" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bodypadding">Innenabstand</label>
+      </td>
+      <td>
+       <input type="text" name="bodypadding" id="bodypadding" class="text ui-widget-content ui-corner-all" maxlength="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bodymargin">Au&szlig;enabstand</label>
+      </td>
+      <td>
+       <input type="text" name="bodymargin" id="bodymargin" class="text ui-widget-content ui-corner-all" maxlength="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bodyfontName">Schriftart</label>
+      </td>
+      <td>
+        <input type="text" name="bodyfontName" id="bodyfontName" class="text ui-widget-content ui-corner-all" size="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bodyfontSize">Schriftgr&ouml;&szlig;e</label>
+      </td>
+      <td>
+        <input type="text" name="bodyfontSize" id="bodyfontSize" class="text ui-widget-content ui-corner-all" size="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bodyfontcolor">Schriftfarbe</label>
+      </td>
+      <td>
+       <input type="text" name="bodyfontcolor" id="bodyfontcolor" class="text ui-widget-content ui-corner-all" maxlength="7" size="7" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bodylinkcolor">Linkfarbe</label>
+      </td>
+      <td>
+        <input type="text" name="bodylinkcolor" id="bodylinkcolor" class="text ui-widget-content ui-corner-all" maxlength="7" size="7" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bodylinktextdecoration">Link-Textdekoration</label>
+      </td>
+      <td>
+        <select name="bodylinktextdecoration" id="bodylinktextdecoration" class="ui-widget-content ui-corner-all">
+  							<option value="none">keine</option>
+  							<option value="underline">unterstrichen</option>
+  							<option value="overline">&uuml;berstrichen</option>
+  							<option value="line-through">durchgestrichen</option>
+  						</select>
+      </td>
+    </tr>
+
+
+
+    </table>
+
+   </fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-new" title="Anderes Element">
+  	<form>
+  	<fieldset>
+     <div style="display: block;" class="">
+     Bitte w&auml;hlen Sie ein Element:<br />
+     <span id="Loading" style="visibility:hidden; display: none"><img src="images/loading.gif" height="16" width="16" /></span>
+     <ul id="dialog-new_items" style="background-color: #FFFFFF;">
+     </ul>
+     </div>
+   </fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-targetgroups" title="Zielgruppen zuweisen">
+  	<form>
+   <input type="hidden" id="_edit_target_groups" value="" />
+   <script>
+     function LoadWizardTargetGroups(){
+       document.getElementById("__wizardtargetgroupsIframe").contentWindow.LoadTargetGroups($("#_edit_target_groups").val());
+     }
+   </script>
+  	<fieldset>
+     <div style="display: block;" class="">
+     W&auml;hlen Sie die Zielgruppen, welche diesen Inhalt in der E-Mail sehen sollen.<br /><br />
+     <iframe id="__wizardtargetgroupsIframe" name="__wizardtargetgroupsIframe" style="width: 100%; height: 250px" border="0" marginheight="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+     </div>
+   </fieldset>
+   <button onclick="document.getElementById('__wizardtargetgroupsIframe').contentWindow.CheckAll(); return false;">Alle ausw&auml;hlen</button>&nbsp;
+   <button onclick="document.getElementById('__wizardtargetgroupsIframe').contentWindow.UnCheckAll(); return false;">Alle abw&auml;hlen</button>
+  	</form>
+  </div>
+
+</div>
+
+<!-- /IPE //-->

@@ -1,23 +1,18 @@
-      <form id="InstallForm" name="InstallForm" method="post" action="./upgrade.php">
+      <form id="InstallForm" name="InstallForm" method="post" action="./upgrade_done.php">
       <input type="hidden" name="step" value="5" />
       <input type="hidden" name="Language" />
       <fieldset>
-      <legend>PRODUCTAPPNAME - Abschluss des Upgrades</legend>
+      <legend>PRODUCTAPPNAME - Script upgrade.php und install.php l&ouml;schen</legend>
       <br />
           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
             <tbody>
             	<tr>
                 <td>
-                Das PRODUCTAPPNAME Upgrade wurde damit abgeschlossen.
+                <b>L&ouml;schen Sie jetzt das Script upgrade.php UND, falls vorhanden, install.php mit Ihrem FTP-Programm von Ihrer Webpr&auml;senz.</b>
                 <br />
                 <br />
-                </td>
-            	</tr>
-            	<tr>
-                <td>
-                Klicken Sie auf nachfolgenden Link um PRODUCTAPPNAME auszuf&uuml;hren
-                <br />
-                <a href="START_LINK">START_LINK</a>
+                Das Script sollte unbedingt gel&ouml;scht werden, damit keine Manipulation der PRODUCTAPPNAME-Installation
+                von au&szlig;en m&ouml;glich ist.
                 <br />
                 <br />
                 <br />
@@ -27,4 +22,9 @@
             </tbody>
           </table>
       </fieldset>
+      <!-- a hack //-->
+      <input type="image" src="images/blind.gif" width="1" height="1" />
+
+      <!-- <input type="submit" name="BackBtn" value="&lt Zur&uuml;ck" class="FormButton" /> no back //-->
+      &nbsp;<input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
       </form>

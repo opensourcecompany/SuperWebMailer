@@ -26,38 +26,38 @@
   include_once("sessioncheck.inc.php");
 
   if($OwnerUserId != 0) {
-    if(empty($_QJojf) || !is_array($_QJojf))
-      $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeAutoImportRemove"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    if(empty($_QLJJ6) || !is_array($_QLJJ6))
+      $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeAutoImportRemove"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  if(isset($_66j0Q))
-     unset($_66j0Q);
-  $_66j0Q = array();
+  if(isset($_fiiij))
+     unset($_fiiij);
+  $_fiiij = array();
   if ( isset($_POST["OneAutoImportListId"]) && $_POST["OneAutoImportListId"] != "" )
-      $_66j0Q[] = $_POST["OneAutoImportListId"];
+      $_fiiij[] = $_POST["OneAutoImportListId"];
       else
       if ( isset($_POST["OneAutoImportListIds"]) )
-        $_66j0Q = array_merge($_66j0Q, $_POST["OneAutoImportListIds"]);
+        $_fiiij = array_merge($_fiiij, $_POST["OneAutoImportListIds"]);
 
 
-  $_QtIiC = array();
-  _L18AD($_66j0Q, $_QtIiC);
+  $_IQ0Cj = array();
+  _J1PED($_fiiij, $_IQ0Cj);
 
   // we don't check for errors here
-  function _L18AD($_66j0Q, &$_QtIiC) {
-    global $_I0f8O, $_Q61I1;
+  function _J1PED($_fiiij, &$_IQ0Cj) {
+    global $_ItfiJ, $_QLttI;
 
-    for($_Q6llo=0; $_Q6llo<count($_66j0Q); $_Q6llo++) {
+    for($_Qli6J=0; $_Qli6J<count($_fiiij); $_Qli6J++) {
       // and now from messages table
-      $_QJlJ0 = "DELETE FROM $_I0f8O WHERE id=".intval($_66j0Q[$_Q6llo]);
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM $_ItfiJ WHERE id=".intval($_fiiij[$_Qli6J]);
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
     }
   }
 

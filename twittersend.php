@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2019 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -25,9 +25,9 @@
   include_once("config.inc.php");
   include_once("sessioncheck.inc.php");
 
- $_jl1Jj = 'http://www.superscripte.de/twitter-connect/superwebmailer/twittersend.php?Language=' . urlencode( $INTERFACE_LANGUAGE ) . '&TwitterText=' . urlencode( $_POST["twittertweet"] );
+ $_JlL1I = 'https://www.superscripte.de/twitter-connect/superwebmailer/twittersend.php?Language=' . urlencode( $INTERFACE_LANGUAGE ) . '&TwitterText=' . urlencode( $_POST["twittertweet"] );
 
- header("Location: ".$_jl1Jj);
+ header("Location: ".$_JlL1I);
  exit;
 ?>
 

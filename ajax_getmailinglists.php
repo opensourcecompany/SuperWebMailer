@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2014 Mirko Boeer                         #
+#               Copyright © 2007 - 2019 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,44 +26,71 @@
   include_once("sessioncheck.inc.php");
   include_once("templates.inc.php");
 
-  if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeMailingListBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+  if($OwnerUserId != 0 && $UserType != "SuperAdmin") {
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeMailingListBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
+  if(!_LJBLD()){
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]." - Csrf");
+    print $_QLJfI;
+    exit;
+  }
+
+  if($UserType == "SuperAdmin" && (!isset($_GET["AdminId"]) || intval($_GET["AdminId"]) < 0) ){
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+    print $_QLJfI;
+    exit;
+  }
+
+  if($UserType == "SuperAdmin" && isset($_GET["AdminId"]) && intval($_GET["AdminId"]) == 0 ){
+    print "";
+    exit;
+  }
+
   if(isset($_GET["IgnoreList"]) && intval($_GET["IgnoreList"]) > 0)
-     $_Q6o0j = intval($_GET["IgnoreList"]);
+     $_QlJli = intval($_GET["IgnoreList"]);
 
   // default SQL query
-  $_QJlJ0 = "SELECT DISTINCT {} FROM $_Q60QL";
-  if($OwnerUserId == 0) // ist es ein Admin?
-     $_QJlJ0 .= " WHERE (users_id=$UserId)";
-     else {
-      $_QJlJ0 .= " LEFT JOIN $_Q6fio ON $_Q60QL.id=$_Q6fio.maillists_id WHERE (".$_Q6fio.".users_id=$UserId) AND ($_Q60QL.users_id=$OwnerUserId)";
-     }
-  if(isset($_Q6o0j))
-    $_QJlJ0 .= " AND id <> ".intval($_Q6o0j);
+  $_QLfol = "SELECT DISTINCT {} FROM $_QL88I";
+  if($UserType == "SuperAdmin"){
+     $_QLfol .= " WHERE users_id=" . intval($_GET["AdminId"]);
+  }
+   else
+    if($OwnerUserId == 0) // ist es ein Admin?
+       $_QLfol .= " WHERE (users_id=$UserId)";
+       else {
+        $_QLfol .= " LEFT JOIN $_QlQot ON $_QL88I.id=$_QlQot.maillists_id WHERE (".$_QlQot.".users_id=$UserId) AND ($_QL88I.users_id=$OwnerUserId)";
+       }
+
+  if(isset($_QlJli))
+    $_QLfol .= " AND id <> ".intval($_QlJli);
 
   // List of MailingLists SQL query
-  $_Q68ff = str_replace("{}", "id, Name", $_QJlJ0);
-  $_Q68ff .= " ORDER BY Name ASC";
+  $_QlI6f = str_replace("{}", "id, Name", $_QLfol);
+  $_QlI6f .= " ORDER BY Name ASC";
 
   // Mailinglisten Liste
-  $_Q60l1 = mysql_query($_Q68ff, $_Q61I1);
-  $_Q6tjl = "";
-  if($_Q60l1) {
-    while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-      $_Q6tjl .= sprintf('<option value="%d">%s</option>'.$_Q6JJJ, $_Q6Q1C["id"], $_Q6Q1C["Name"]);
+  $_QL8i1 = mysql_query($_QlI6f, $_QLttI);
+  $_QlIf1 = "";
+  if($_QL8i1) {
+    while($_QLO0f=mysql_fetch_assoc($_QL8i1)) {
+      if($UserType == "SuperAdmin"){
+        $_QlIf1 .= sprintf('<span class="scrollboxSpan"><input type="checkbox" name="mailinglists[]" value="%d" id="mailinglistsId%d" />&nbsp;<label for="mailinglistsId%d">%s</label><br /></span>', $_QLO0f["id"], $_QLO0f["id"], $_QLO0f["id"], $_QLO0f["Name"]);
+      }else
+        $_QlIf1 .= sprintf('<option value="%d">%s</option>'.$_QLl1Q, $_QLO0f["id"], $_QLO0f["Name"]);
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
   }
 
 
-  SetHTMLHeaders($_Q6QQL);
-  print $_Q6tjl;
+  SetHTMLHeaders($_QLo06);
+  print $_QlIf1;
 ?>

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -38,26 +38,26 @@
   @header('Pragma: no-cache') ;
 
   // Set the response format.
-  @header( 'Content-Type: text/html; charset='.$_Q6QQL ) ;
+  @header( 'Content-Type: text/html; charset='.$_QLo06 ) ;
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeTargetGroupsBrowse"]) {
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeTargetGroupsBrowse"]) {
       print $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"];
       exit;
     }
   }
 
-  $_Q6o1o="";
+  $_Ql6LC="";
   if(!empty($_GET["wizard"]) && $_GET["wizard"] == "wizard")
-    $_Q6o1o=' class="checkbox ui-widget-content ui-corner-all"';
+    $_Ql6LC=' class="checkbox ui-widget-content ui-corner-all"';
 
-  $_QJlJ0 = "SELECT `Name` FROM `$_Q6C0i` ORDER BY `Name`";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-    print '<input type="checkbox" name="TG' . $_Q6Q1C["Name"] . '" id="TG' . $_Q6Q1C["Name"] . '" value="' . $_Q6Q1C["Name"] . '" ' . $_Q6o1o . ' /><label for="TG' . $_Q6Q1C["Name"] . '">&nbsp;' . $_Q6Q1C["Name"] . '</label><br />';
+  $_QLfol = "SELECT `Name` FROM `$_QlfCL` ORDER BY `Name`";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+    print '<input type="checkbox" name="TG' . $_QLO0f["Name"] . '" id="TG' . $_QLO0f["Name"] . '" value="' . $_QLO0f["Name"] . '" ' . $_Ql6LC . ' /><label for="TG' . $_QLO0f["Name"] . '">&nbsp;' . $_QLO0f["Name"] . '</label><br />';
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
 
 ?>

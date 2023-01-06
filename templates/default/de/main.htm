@@ -22,6 +22,7 @@
 <link href="css/suckertreemenu_ie6.css" rel="stylesheet" type="text/css" />
 <![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<script type="text/javascript" src="js/jquery-latest.min.js"></script>
 <script language="javascript" type="text/javascript" src="js/common.js"></script>
 <script language="javascript" type="text/javascript" src="js/help.js"></script>
 <script language="javascript" type="text/javascript" src="js/ajax.js"></script>
@@ -92,8 +93,12 @@
 
                   <li><a href="./browseautoimports.php">Automatischer Empf&auml;nger-Import</a></li>
 
+                        <ISUSER:SUPERADMIN>
+                        <li><a href="./settings_authsettings.php">Einstellungen zur Authentifizierung</a></li>
+                        </ISUSER:SUPERADMIN>
             						<li><a href="./settings_preferences.php">Optionen</a></li>
                			<li><a href="./settings_branding.php">Firmenlogo &auml;ndern</a></li>
+            						<li><a href="./onlineupdate.php">Online-Update</a></li>
                			<li><a href="./settings_db.php">Datenbankwartung</a></li>
 
             						<li><a href="./settings_test.php">System testen</a></li>
@@ -109,6 +114,10 @@
             						<li><a href="./settings_cron.php">Geplante Aufgaben</a></li>
 
             						<li><a href="./browseoutqueue.php">Ausgangswarteschlange</a></li>
+
+                        <ISUSER:SUPERADMIN>
+                        <li><a href="./browseusers_loginhistory.php">Login-History</a></li>
+                        </ISUSER:SUPERADMIN>
 
             					</ul>
             				</li>
@@ -325,11 +334,18 @@
 <br />
       <script language="JavaScript" type="text/javascript">
       <!--
-       for(var i=0; i<document.forms.length; i++) {
-         document.forms[i].autocomplete = "off";
-         for(var j=0; j<document.forms[i].elements.length; j++)
-            document.forms[i].elements[j].autocomplete = "off";
-       }
+      for(var i=0; i<document.forms.length; i++) {
+        document.forms[i].autocomplete = "off";
+        if(document.forms[i].name)
+          document.getElementsByName(document.forms[i].name)[0].setAttribute("list", "autocompleteOff");
+        for(var j=0; j<document.forms[i].elements.length; j++){
+           var t = document.forms[i].elements[j].type;
+           if(t != "hidden")
+              document.forms[i].elements[j].autocomplete = "off";
+              if(t == "text" || t == "password")
+                document.getElementsByName(document.forms[i].elements[j].name)[0].setAttribute("list", "autocompleteOff");
+        }
+      }
       //MAINJAVASCRIPT//
       //-->
       </script>
@@ -337,14 +353,14 @@
       </noscript>
 <ENABLE:MAINMENU>
       <script language="JavaScript" type="text/javascript">
-        document.open();
-        document.write('<iframe src="./keepalive.php?caller=' + location.href + '" width="1" height="1" frameborder="0"></iframe>');
-        document.close();
+         document.getElementsByTagName('body')[0].insertAdjacentHTML('beforeend', '<iframe src="./keepalive.php?caller=' + location.href + '" width="1" height="1" frameborder="0"></iframe>');
+         window.onpopstate = function() {
+            MessageBox('Information', 'Nutzen Sie nur die Men&uuml;-Elemente und Links zur Navigation in der Oberfl&auml;che, nicht die Vor-/Zur&uuml;ck-Schaltfl&auml;che des Browsers.', 0, 320, 120, '');
+         }; history.pushState({}, '');
       </script>
       <noscript>
          <iframe src="./keepalive.php" width="1" height="1" frameborder="0"></iframe>
       </noscript>
 </ENABLE:MAINMENU>
 </body>
-
 </html>

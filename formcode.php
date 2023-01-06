@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,20 +26,20 @@
   include_once("sessioncheck.inc.php");
   include_once("templates.inc.php");
   include_once("newslettersubunsub_ops.inc.php");
-  include_once("PEAR/URL.php");
+  include_once(PEAR_PATH . "URL.php");
 
-  $_I0600 = "";
+  $_Itfj8 = "";
   // Boolean fields of form
-  $_I01C0 = Array();
-  $_I01lt = Array();
+  $_ItI0o = Array();
+  $_ItIti = Array();
   $errors = array();
 
   if(isset($_POST['FormId'])) // Formular speichern?
-    $_I8jJ8 = intval($_POST['FormId']);
+    $_jQ1il = intval($_POST['FormId']);
   else
     if ( isset($_POST['OneFormListId']) )
-       $_I8jJ8 = intval($_POST['OneFormListId']);
-  if(!isset($_I8jJ8)) {
+       $_jQ1il = intval($_POST['OneFormListId']);
+  if(!isset($_jQ1il)) {
     include_once("browseforms.php");
     exit;
   }
@@ -67,250 +67,292 @@
   if(isset($_POST['MailingListId']))
     $_POST['MailingListId'] = intval($_POST['MailingListId']);
 
-  if(!_OCJCC($OneMailingListId)){
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-    $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-    print $_QJCJi;
+  if(!_LAEJL($OneMailingListId)){
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+    print $_QLJfI;
     exit;
   }
 
   // mailinglist data
-  $_QJlJ0 = "SELECT Name, FormsTableName, GroupsTableName, forms_id FROM $_Q60QL WHERE id=$OneMailingListId";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_Q6Q1C = mysql_fetch_array($_Q60l1);
-  $_I8JQO = $_Q6Q1C["Name"];
-  $_QLI8o = $_Q6Q1C["FormsTableName"];
-  $_Q6t6j = $_Q6Q1C["GroupsTableName"];
-  $_jlI8i = $_Q6Q1C["forms_id"] == $_I8jJ8;
-  mysql_free_result($_Q60l1);
+  $_QLfol = "SELECT Name, FormsTableName, GroupsTableName, forms_id FROM $_QL88I WHERE id=$OneMailingListId";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_QLO0f = mysql_fetch_assoc($_QL8i1);
+  $_jQQOO = $_QLO0f["Name"];
+  $_IfJoo = $_QLO0f["FormsTableName"];
+  $_QljJi = $_QLO0f["GroupsTableName"];
+  $_6008l = $_QLO0f["forms_id"] == $_jQ1il;
+  mysql_free_result($_QL8i1);
 
   // form data
-  $_QJlJ0 = "SELECT $_QLI8o.*, $_QLo0Q.*, $_Q880O.Theme FROM $_QLI8o LEFT JOIN $_QLo0Q ON $_QLo0Q.id=$_QLI8o.messages_id LEFT JOIN $_Q880O ON $_Q880O.id=$_QLI8o.ThemesId WHERE $_QLI8o.id=$_I8jJ8";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_j6ioL = mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_Iijft = $_j6ioL["OverrideSubUnsubURL"];
+  $_QLfol = "SELECT $_IfJoo.*, $_Ifi1J.*, $_I1tQf.Theme FROM $_IfJoo LEFT JOIN $_Ifi1J ON $_Ifi1J.id=$_IfJoo.messages_id LEFT JOIN $_I1tQf ON $_I1tQf.id=$_IfJoo.ThemesId WHERE $_IfJoo.id=$_jQ1il";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Jj08l = mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_j1IIf = $_Jj08l["OverrideSubUnsubURL"];
 
   if(isset($_SERVER['HTTP_REFERER'])){
-    $_jlj0f = new Net_URL($_SERVER['HTTP_REFERER'], false);
+    $url = new Net_URL($_SERVER['HTTP_REFERER'], false);
 
-    $_jljJL = new Net_URL(ScriptBaseURL, false);
+    $_600tt = new Net_URL(ScriptBaseURL, false);
 
-    if($_jlj0f->host != $_jljJL->host)
-      $_I0600 = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ScriptURLDifferentFromReferer"], $AppName, $_jlj0f->host ." <> ". $_jljJL->host);
+    if($url->host != $_600tt->host)
+      $_Itfj8 = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ScriptURLDifferentFromReferer"], $AppName, $url->host ." <> ". $_600tt->host);
       else
-      if($_jlj0f->protocol != $_jljJL->protocol)
-          $_I0600 = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ScriptURLDifferentFromReferer"], $AppName, $_jlj0f->protocol."://".$_jlj0f->host ." <> ". $_jljJL->protocol."://".$_jljJL->host);
+      if($url->protocol != $_600tt->protocol)
+          $_Itfj8 = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ScriptURLDifferentFromReferer"], $AppName, $url->protocol."://".$url->host ." <> ". $_600tt->protocol."://".$_600tt->host);
 
-    $_jlj0f = null;
-    $_jljJL = null;
+    $url = null;
+    $_600tt = null;
   }
 
 
   if(isset($_POST["HTMLFormNextBtn"])) {
-     $_Qi8If = $_POST;
-     $_Qi8If["MailingListId"] = $OneMailingListId;
-     $_Qi8If["FormId"] = $_I8jJ8;
-     _O8AR8($_Qi8If);
-     if($_Qi8If["InternalForm"] == 1) {
-        $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_I8JQO." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000072"], $_I0600, 'formcode', 'formcode_internal_snipped.htm');
-        $_Qi8If["INTERNAL_LINK"] = (!empty($_Iijft) ? $_Iijft.$_jjiCt : $_jjLO0)."?ML=$OneMailingListId&F=$_I8jJ8";
+     $_I6tLJ = $_POST;
+     $_I6tLJ["MailingListId"] = $OneMailingListId;
+     $_I6tLJ["FormId"] = $_jQ1il;
+     _L6FEC($_I6tLJ);
+     if($_I6tLJ["InternalForm"] == 1) {
+        $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_jQQOO." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000072"], $_Itfj8, 'formcode', 'formcode_internal_snipped.htm');
+        $_I6tLJ["INTERNAL_LINK"] = (!empty($_j1IIf) ? $_j1IIf.$_J1tCf : $_J1OIO)."?ML=$OneMailingListId&F=$_jQ1il";
 
-        if($_Qi8If["FormType"] == "Edit")
-          $_Qi8If["INTERNAL_LINK"] .= "&HTMLForm=editform";
-        if($_Qi8If["FormType"] == "UnSub")
-          $_Qi8If["INTERNAL_LINK"] .= "&HTMLForm=unsubform";
-        if($_Qi8If["FormType"] == "SubSub")
-          $_Qi8If["INTERNAL_LINK"] .= "&HTMLForm=subform";
+        if($_I6tLJ["FormType"] == "Edit")
+          $_I6tLJ["INTERNAL_LINK"] .= "&HTMLForm=editform";
+        if($_I6tLJ["FormType"] == "UnSub")
+          $_I6tLJ["INTERNAL_LINK"] .= "&HTMLForm=unsubform";
+        if($_I6tLJ["FormType"] == "SubSub")
+          $_I6tLJ["INTERNAL_LINK"] .= "&HTMLForm=subform";
 
-        $_QJCJi = str_replace('http://INTERNAL_LINK', $_Qi8If["INTERNAL_LINK"], $_QJCJi);
+        $_QLJfI = str_replace('http://INTERNAL_LINK', $_I6tLJ["INTERNAL_LINK"], $_QLJfI);
        }
        else {
-         $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_I8JQO." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000073"], $_I0600, 'formcode', 'formcode_external_snipped.htm');
+         $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_jQQOO." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000073"], $_Itfj8, 'formcode', 'formcode_external_snipped.htm');
+         $_QLJfI = _LJA6C($_QLJfI, true);
          $HTMLForm = "";
-         if($_Qi8If["FormType"] == "Edit")
+         if($_I6tLJ["FormType"] == "Edit")
            $HTMLForm = "editform";
-         if($_Qi8If["FormType"] == "UnSub")
+         if($_I6tLJ["FormType"] == "UnSub")
            $HTMLForm = "unsubform";
-         if($_Qi8If["FormType"] == "SubSub")
+         if($_I6tLJ["FormType"] == "SubSub")
            $HTMLForm = "subform";
 
-         $_jlJf6 = _L0OPJ($_Qi8If, $_j6ioL, $HTMLForm, true);
-         $_jlJf6 = substr($_jlJf6, strpos($_jlJf6, "<form"));
-         $_jlJf6 = substr($_jlJf6, 0, strpos($_jlJf6, "</form>") + 7);
-         $_jlJf6 = str_replace('name="MailingListId"', 'name="MailingListId" value="'.$OneMailingListId.'" ', $_jlJf6);
-         $_jlJf6 = str_replace('name="FormId"', 'name="FormId" value="'.$_I8jJ8.'" ', $_jlJf6);
-         $_jlJf6 = str_replace('<input type="hidden" name="HTMLForm" />', '', $_jlJf6);
-         $_jlJf6 = str_replace('id="SubscribeUnsubscribeForm" ', '', $_jlJf6);
-         $_jlJf6 = str_replace('name="SubscribeUnsubscribeForm" ', '', $_jlJf6);
-         $_jlJf6 = str_replace('class="FormTable" ', '', $_jlJf6);
-         $_jlJf6 = str_replace('class="SubscribeColumn"', '', $_jlJf6);
-         $_jlJf6 = str_replace('class="SubscribeColumn SubscribeAction"', '', $_jlJf6);
-         $_jlJf6 = str_replace('class="SubscribeAction"', '', $_jlJf6);
-         $_jlJf6 = str_replace('class="SubscribeBtnTD"', '', $_jlJf6);
-         $_jlJf6 = str_replace(' style="max-width: 420px;"', '', $_jlJf6);
-         $_jlJf6 = str_replace('<fieldset>', '<input type="hidden" name="FormEncoding" value="'.$_Qi8If["ExternalFormEncoding"].'" />', $_jlJf6);
-         $_jlJf6 = str_replace('</fieldset>', '', $_jlJf6);
-         $_jlJf6 = str_replace('action="./defaultnewsletter.php"', 'action="'.(!empty($_Iijft) ? $_Iijft.$_jjlQ0 : $_jJ088).'"', $_jlJf6);
+         $_601IC = _J0Q81($_I6tLJ, $_Jj08l, $HTMLForm, true, $_I6tLJ["ExternalFormEncoding"]);
+         $_601IC = substr($_601IC, strpos($_601IC, "<form"));
+         $_601IC = substr($_601IC, 0, strpos($_601IC, "</form>") + 7);
+         $_601IC = str_replace('name="MailingListId"', 'name="MailingListId" value="'.$OneMailingListId.'" ', $_601IC);
+         $_601IC = str_replace('name="FormId"', 'name="FormId" value="'.$_jQ1il.'" ', $_601IC);
+         $_601IC = str_replace('<input type="hidden" name="HTMLForm" />', '', $_601IC);
+         $_601IC = str_replace('id="SubscribeUnsubscribeForm" ', '', $_601IC);
+         $_601IC = str_replace('name="SubscribeUnsubscribeForm" ', '', $_601IC);
+         $_601IC = str_replace('class="FormTable" ', '', $_601IC);
+         $_601IC = str_replace('class="SubscribeColumn"', '', $_601IC);
+         $_601IC = str_replace('class="SubscribeColumn SubscribeAction"', '', $_601IC);
+         $_601IC = str_replace('class="SubscribeAction"', '', $_601IC);
+         $_601IC = str_replace('class="SubscribeBtnTD"', '', $_601IC);
+         $_601IC = str_replace('class="PrivacyPolicyTD"', '', $_601IC);
+         $_601IC = str_replace(' class="PrivacyPolicy"', '', $_601IC);
+         $_601IC = str_replace(' id="PrivacyPolicy"', '', $_601IC);
+         $_601IC = str_replace(' style="max-width: 420px;"', '', $_601IC);
+         $_601IC = str_replace('style="font-size: inherit;"', '', $_601IC);
+         $_601IC = str_replace('<fieldset>', '<input type="hidden" name="FormEncoding" value="'.$_I6tLJ["ExternalFormEncoding"].'" />', $_601IC);
+         $_601IC = str_replace('</fieldset>', '', $_601IC);
+         $_601IC = str_replace('action="./defaultnewsletter.php"', 'action="'.(!empty($_j1IIf) ? $_j1IIf.$_J1OLl : $_J1Cf8).'"', $_601IC);
+         $_601IC = _LA8F6($_601IC);
          if($HTMLForm == "")
-           $_jlJf6 = str_replace('name="Action" value="subscribe"', 'name="Action" value="subscribe" checked="checked"', $_jlJf6);
-         $_jlJf6 = str_replace('./captcha/', ScriptBaseURL.'captcha/', $_jlJf6);
+           $_601IC = str_replace('name="Action" value="subscribe"', 'name="Action" value="subscribe" checked="checked"', $_601IC);
+         $_601IC = str_replace('./captcha/', ScriptBaseURL.'captcha/', $_601IC);
          if($HTMLForm == "editform")
-            $_jlJf6 = str_replace('"Action"', '"Action" value="edit"', $_jlJf6);
+            $_601IC = str_ireplace('name="Action"', 'name="Action" value="edit"', $_601IC);
 
-         while(!strpos($_jlJf6, "\t") === false) {
-           $_jlJf6 = str_replace("\t", '', $_jlJf6);
+         while(!strpos($_601IC, "\t") === false) {
+           $_601IC = str_replace("\t", '', $_601IC);
          }
-         while(!strpos($_jlJf6, "  ") === false) {
-           $_jlJf6 = str_replace("  ", ' ', $_jlJf6);
+         while(!strpos($_601IC, "  ") === false) {
+           $_601IC = str_replace("  ", ' ', $_601IC);
          }
-         while(!strpos($_jlJf6, $_Q6JJJ) === false) {
-           $_jlJf6 = str_replace($_Q6JJJ, '', $_jlJf6);
+         while(!strpos($_601IC, $_QLl1Q) === false) {
+           $_601IC = str_replace($_QLl1Q, '', $_601IC);
          }
 
-         while(!strpos($_jlJf6, ">  <") === false) {
-           $_jlJf6 = str_replace(">  <", '><', $_jlJf6);
+         while(!strpos($_601IC, ">  <") === false) {
+           $_601IC = str_replace(">  <", '><', $_601IC);
          }
-         while(!strpos($_jlJf6, "> <") === false) {
-           $_jlJf6 = str_replace("> <", '><', $_jlJf6);
+         while(!strpos($_601IC, "> <") === false) {
+           $_601IC = str_replace("> <", '><', $_601IC);
          }
-         $_Q8otJ = explode(">", $_jlJf6);
-         for($_Q6llo=0;$_Q6llo<count($_Q8otJ);$_Q6llo++) {
-           if(trim($_Q8otJ[$_Q6llo]) == "")
-             unset($_Q8otJ[$_Q6llo]);
+         $_I1OoI = explode(">", $_601IC);
+         for($_Qli6J=0;$_Qli6J<count($_I1OoI);$_Qli6J++) {
+           if(trim($_I1OoI[$_Qli6J]) == "")
+             unset($_I1OoI[$_Qli6J]);
              else
-             $_Q8otJ[$_Q6llo] = ltrim($_Q8otJ[$_Q6llo]).">";
+             $_I1OoI[$_Qli6J] = ltrim($_I1OoI[$_Qli6J]).">";
          }
-         $_jlJf6 = join($_Q6JJJ, $_Q8otJ).$_Q6JJJ;
+         $_601IC = join($_QLl1Q, $_I1OoI).$_QLl1Q;
 
 
-         if($_j6ioL["UseCaptcha"]) {
-             $_QJCJi = _OP6PQ($_QJCJi, "<TABLE:NOT_CAPTCHA>", "</TABLE:NOT_CAPTCHA>");
+         if($_Jj08l["UseCaptcha"]) {
+             $_QLJfI = _L80DF($_QLJfI, "<TABLE:NOT_CAPTCHA>", "</TABLE:NOT_CAPTCHA>");
 
-             $_jlJf6 = '<?php'.
-             $_Q6JJJ.
-             'header(\'P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"\');'.$_Q6JJJ.
-             '@session_cache_limiter("public");'.$_Q6JJJ.
-             'if(!ini_get("session.auto_start")) {@session_start();}'.$_Q6JJJ.
-             'require_once "'.InstallPath.'captcha/require/config.php";'.$_Q6JJJ.
-             'require_once "'.InstallPath.'captcha/require/crypt.class.php";'.$_Q6JJJ.
-             '$GLOBALS["crypt_class"] = new crypt_class();'.$_Q6JJJ.
-             '?>'.$_Q6JJJ.
-             $_jlJf6;
+             $_601IC = '<?php'.
+             $_QLl1Q.
+             '@session_cache_limiter("public");'.$_QLl1Q.
+             'if(!ini_get("session.auto_start")) {@session_start();}'.$_QLl1Q.
+             'header(\'P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT"\');'.$_QLl1Q.
+             'require_once "'.InstallPath.'captcha/require/config.php";'.$_QLl1Q.
+             'require_once "'.InstallPath.'captcha/require/crypt.class.php";'.$_QLl1Q.
+             '$GLOBALS["crypt_class"] = new crypt_class();'.$_QLl1Q.
+             '?>'.$_QLl1Q.
+             $_601IC;
 
            }
            else
-           if($_j6ioL["UseReCaptcha"]) {
-             $_QJCJi = _OP6PQ($_QJCJi, "<TABLE:CAPTCHA>", "</TABLE:CAPTCHA>");
+           if($_Jj08l["UseReCaptcha"]) {
+             $_QLJfI = _L80DF($_QLJfI, "<TABLE:CAPTCHA>", "</TABLE:CAPTCHA>");
 
-             /*recaptchav1  $_jlJf6 = 'php'.
-             $_Q6JJJ.
-             'require_once "'.InstallPath.'captcha/recaptcha/recaptchalib.php";'.$_Q6JJJ.
-             ''.$_Q6JJJ.
-             $_jlJf6; */
+             /*recaptchav1  $_601IC = 'php'.
+             $_QLl1Q.
+             'require_once "'.InstallPath.'captcha/recaptcha/recaptchalib.php";'.$_QLl1Q.
+             ''.$_QLl1Q.
+             $_601IC; */
 
-             if(strpos($_jlJf6, "recaptcha/api.js") === false) {
-                $_jlJf6 = '<script src="https://www.google.com/recaptcha/api.js"></script>'.$_Q6JJJ.$_jlJf6;
+             if(strpos($_601IC, "recaptcha/api.js") === false) {
+                $_601IC = '<script src="https://www.google.com/recaptcha/api.js"></script>'.$_QLl1Q.$_601IC;
              }
-           } else
-             $_QJCJi = _OP6PQ($_QJCJi, "<TABLE:CAPTCHA>", "</TABLE:CAPTCHA>");
+           } 
+           else
+           if($_Jj08l["UseReCaptchav3"]) {
+             $_QLJfI = _L80DF($_QLJfI, "<TABLE:CAPTCHA>", "</TABLE:CAPTCHA>");
+             
+             $_Iljoj = '<script src="https://www.google.com/recaptcha/api.js?render=' . $_Jj08l["PublicReCaptchaKey"] . '"></script>';
 
-         $_jlJf6 = str_replace("<CAPTCHA:INTERNAL>", "", $_jlJf6);
-         $_jlJf6 = str_replace("</CAPTCHA:INTERNAL>", "", $_jlJf6);
-         $_jlJf6 = str_replace("<TABLE:NOT_CAPTCHA>", "", $_jlJf6);
-         $_jlJf6 = str_replace("</TABLE:NOT_CAPTCHA>", "", $_jlJf6);
-         $_jlJf6 = str_replace("<TABLE:CAPTCHA>", "", $_jlJf6);
-         $_jlJf6 = str_replace("</TABLE:CAPTCHA>", "", $_jlJf6);
+             $_601IC .= $_QLl1Q.$_Iljoj;
 
-         $_Qi8If["HTMLCode"] = htmlentities( $_jlJf6 );
+             $_Iljoj = '';
+
+             $_Iljoj .= '<script><!--' . $_QLl1Q. '
+                function ReCaptchaOnSubmit(){
+                  grecaptcha.ready(function() {' . $_QLl1Q. '
+                      grecaptcha.execute("' . $_Jj08l["PublicReCaptchaKey"] . '", {action: "newslettersubunsub"}).then(function(token) {' . $_QLl1Q. '
+                        document.getElementById("g-recaptcha-response").value=token; ' . $_QLl1Q. '
+                      });' . $_QLl1Q. '
+                  });' . $_QLl1Q. '
+
+                  return true;
+                }
+                var forms = document.getElementsByTagName("form");
+                for(var j=0; j<forms.length; j++) {
+                  forms[j].onsubmit = ReCaptchaOnSubmit;
+                }
+                ReCaptchaOnSubmit();
+                
+                --></script>';
+             $_601IC .= $_QLl1Q.$_Iljoj;
+
+           } 
+            else
+               $_QLJfI = _L80DF($_QLJfI, "<TABLE:CAPTCHA>", "</TABLE:CAPTCHA>");
+
+         $_601IC = str_replace("<CAPTCHA:INTERNAL>", "", $_601IC);
+         $_601IC = str_replace("</CAPTCHA:INTERNAL>", "", $_601IC);
+         $_601IC = str_replace("<TABLE:NOT_CAPTCHA>", "", $_601IC);
+         $_601IC = str_replace("</TABLE:NOT_CAPTCHA>", "", $_601IC);
+         $_601IC = str_replace("<TABLE:CAPTCHA>", "", $_601IC);
+         $_601IC = str_replace("</TABLE:CAPTCHA>", "", $_601IC);
+
+         $_I6tLJ["HTMLCode"] = htmlentities( $_601IC );
        }
 
-       $_Qi8If["UNSUBSCRIBE_LINK_HTML"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultUnsSubscribeLinkHTML"], (!empty($_Iijft) ? $_Iijft.$_jjlC6 : $_jJ1Il)."?ML=$OneMailingListId&F=$_I8jJ8&EMail=[EMail]");
-       $_Qi8If["UNSUBSCRIBE_LINK_TEXT"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultUnsSubscribeLinkTEXT"], (!empty($_Iijft) ? $_Iijft.$_jjlC6 : $_jJ1Il)."?ML=$OneMailingListId&F=$_I8jJ8&EMail=[EMail]");
+       $_I6tLJ["UNSUBSCRIBE_LINK_HTML"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultUnsSubscribeLinkHTML"], (!empty($_j1IIf) ? $_j1IIf.$_J1oCI : $_J1Clo)."?ML=$OneMailingListId&F=$_jQ1il&EMail=[EMail]");
+       $_I6tLJ["UNSUBSCRIBE_LINK_TEXT"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultUnsSubscribeLinkTEXT"], (!empty($_j1IIf) ? $_j1IIf.$_J1oCI : $_J1Clo)."?ML=$OneMailingListId&F=$_jQ1il&EMail=[EMail]");
 
-       $_Qi8If["UNSUBSCRIBE_LINK_HTML_NAME"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultUnsSubscribeLinkHTML"], (!empty($_Iijft) ? $_Iijft.$_jjlC6 : $_jJ1Il)."?ML=". rawurlencode($_I8JQO) ."&F=$_I8jJ8&EMail=[EMail]");
-       $_Qi8If["UNSUBSCRIBE_LINK_TEXT_NAME"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultUnsSubscribeLinkTEXT"], (!empty($_Iijft) ? $_Iijft.$_jjlC6 : $_jJ1Il)."?ML=". rawurlencode($_I8JQO) ."&F=$_I8jJ8&EMail=[EMail]");
+       $_I6tLJ["UNSUBSCRIBE_LINK_HTML_NAME"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultUnsSubscribeLinkHTML"], (!empty($_j1IIf) ? $_j1IIf.$_J1oCI : $_J1Clo)."?ML=". rawurlencode($_jQQOO) ."&F=$_jQ1il&EMail=[EMail]");
+       $_I6tLJ["UNSUBSCRIBE_LINK_TEXT_NAME"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultUnsSubscribeLinkTEXT"], (!empty($_j1IIf) ? $_j1IIf.$_J1oCI : $_J1Clo)."?ML=". rawurlencode($_jQQOO) ."&F=$_jQ1il&EMail=[EMail]");
 
-       $_Qi8If["UNSUBSCRIBE_LINK_HTML_IDENTSTRING"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultUnsSubscribeLinkHTML"], (!empty($_Iijft) ? $_Iijft.$_jjlC6 : $_jJ1Il)."?key=[IdentString]");
-       $_Qi8If["UNSUBSCRIBE_LINK_TEXT_IDENTSTRING"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultUnsSubscribeLinkTEXT"], (!empty($_Iijft) ? $_Iijft.$_jjlC6 : $_jJ1Il)."?key=[IdentString]");
+       $_I6tLJ["UNSUBSCRIBE_LINK_HTML_IDENTSTRING"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultUnsSubscribeLinkHTML"], (!empty($_j1IIf) ? $_j1IIf.$_J1oCI : $_J1Clo)."?key=[IdentString]");
+       $_I6tLJ["UNSUBSCRIBE_LINK_TEXT_IDENTSTRING"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultUnsSubscribeLinkTEXT"], (!empty($_j1IIf) ? $_j1IIf.$_J1oCI : $_J1Clo)."?key=[IdentString]");
 
-       $_Qi8If["EDIT_LINK_HTML_IDENTSTRING"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultEditLinkHTML"], (!empty($_Iijft) ? $_Iijft.$_jjiCt : $_jjLO0)."?key=[IdentString]&HTMLForm=editform&ML=$OneMailingListId&F=$_I8jJ8");
-       $_Qi8If["EDIT_LINK_TEXT_IDENTSTRING"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultEditLinkTEXT"], (!empty($_Iijft) ? $_Iijft.$_jjiCt : $_jjLO0)."?key=[IdentString]&HTMLForm=editform&ML=$OneMailingListId&F=$_I8jJ8");
+       $_I6tLJ["EDIT_LINK_HTML_IDENTSTRING"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultEditLinkHTML"], (!empty($_j1IIf) ? $_j1IIf.$_J1tCf : $_J1OIO)."?key=[IdentString]&HTMLForm=editform&ML=$OneMailingListId&F=$_jQ1il");
+       $_I6tLJ["EDIT_LINK_TEXT_IDENTSTRING"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultEditLinkTEXT"], (!empty($_j1IIf) ? $_j1IIf.$_J1tCf : $_J1OIO)."?key=[IdentString]&HTMLForm=editform&ML=$OneMailingListId&F=$_jQ1il");
 
-       $_Qi8If["EDIT_LINK_HTML_EMAIL"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultEditLinkHTML"], (!empty($_Iijft) ? $_Iijft.$_jjiCt : $_jjLO0)."?u_EMail=[EMail]&HTMLForm=editform&ML=$OneMailingListId&F=$_I8jJ8");
-       $_Qi8If["EDIT_LINK_TEXT_EMAIL"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultEditLinkTEXT"], (!empty($_Iijft) ? $_Iijft.$_jjiCt : $_jjLO0)."?u_EMail=[EMail]&HTMLForm=editform&ML=$OneMailingListId&F=$_I8jJ8");
+       $_I6tLJ["EDIT_LINK_HTML_EMAIL"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultEditLinkHTML"], (!empty($_j1IIf) ? $_j1IIf.$_J1tCf : $_J1OIO)."?u_EMail=[EMail]&HTMLForm=editform&ML=$OneMailingListId&F=$_jQ1il");
+       $_I6tLJ["EDIT_LINK_TEXT_EMAIL"] = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["DefaultEditLinkTEXT"], (!empty($_j1IIf) ? $_j1IIf.$_J1tCf : $_J1OIO)."?u_EMail=[EMail]&HTMLForm=editform&ML=$OneMailingListId&F=$_jQ1il");
 
   } else {
-     $_Qi8If = $_j6ioL;
-     $_Qi8If["MailingListId"] = $OneMailingListId;
-     $_Qi8If["FormId"] = $_I8jJ8;
+     $_I6tLJ = $_Jj08l;
+     $_I6tLJ["MailingListId"] = $OneMailingListId;
+     $_I6tLJ["FormId"] = $_jQ1il;
 
-     $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_I8JQO." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000071"], $_I0600, 'formcode', 'formcode1_snipped.htm');
+     $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_jQQOO." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000071"], $_Itfj8, 'formcode', 'formcode1_snipped.htm');
 
      // mail encodings
-     $_Q6ICj = "";
-     if ( function_exists('iconv') || function_exists('mb_convert_encoding') ) {
-       reset($_Qo8OO);
-       foreach($_Qo8OO as $key => $_Q6ClO) {
-          $_Q6ICj .= '<option value="'.$key.'">'.$_Q6ClO.'</option>'.$_Q6JJJ;
+     $_QLoli = "";
+     if ( iconvExists || mbfunctionsExists ) {
+       reset($_Ijt8j);
+       foreach($_Ijt8j as $key => $_QltJO) {
+          $_QLoli .= '<option value="'.$key.'">'.$_QltJO.'</option>'.$_QLl1Q;
        }
      }
-     $_QJCJi = _OPR6L($_QJCJi, "<MAILENCODINGS>", "</MAILENCODINGS>", $_Q6ICj);
+     $_QLJfI = _L81BJ($_QLJfI, "<MAILENCODINGS>", "</MAILENCODINGS>", $_QLoli);
      //
 
   }
 
-  if(!isset($_Qi8If["FormType"]))
-    $_Qi8If["FormType"] = "SubUnSub";
+  if(!isset($_I6tLJ["FormType"]))
+    $_I6tLJ["FormType"] = "SubUnSub";
 
-  $_QJCJi = _OPFJA($errors, $_Qi8If, $_QJCJi);
+  $_QLJfI = _L8AOB($errors, $_I6tLJ, $_QLJfI);
 
-  $_QJCJi = str_replace('?MailingListId=', '?MailingListId='.$OneMailingListId, $_QJCJi);
-  $_QJCJi = str_replace('PRODUCTAPPNAME', $AppName, $_QJCJi);
+  $_QLJfI = str_replace('?MailingListId=', '?MailingListId='.$OneMailingListId, $_QLJfI);
+  $_QLJfI = str_replace('PRODUCTAPPNAME', $AppName, $_QLJfI);
 
-  print $_QJCJi;
+  $_QLJfI = str_replace("<TABLE:NOT_CAPTCHA>", "", $_QLJfI);
+  $_QLJfI = str_replace("</TABLE:NOT_CAPTCHA>", "", $_QLJfI);
+  $_QLJfI = str_replace("<TABLE:CAPTCHA>", "", $_QLJfI);
+  $_QLJfI = str_replace("</TABLE:CAPTCHA>", "", $_QLJfI);
 
-  function _O8AR8($_Qi8If) {
-    global $_QLI8o, $_I8jJ8;
-    global $_I01C0, $_I01lt, $_Q61I1;
+  print $_QLJfI;
 
-    $_QLLjo = array();
-    _OAJL1($_QLI8o, $_QLLjo);
+  function _L6FEC($_I6tLJ) {
+    global $_IfJoo, $_jQ1il;
+    global $_ItI0o, $_ItIti, $_QLttI;
 
-    $_QJlJ0 = "UPDATE `$_QLI8o` SET ";
+    $_Iflj0 = array();
+    _L8EOB($_IfJoo, $_Iflj0);
 
-    $_I1l61 = array();
-    for($_Q6llo=0; $_Q6llo<count($_QLLjo); $_Q6llo++) {
-      $key = $_QLLjo[$_Q6llo];
-      if ( isset($_Qi8If[$_QLLjo[$_Q6llo]]) ) {
-        if(in_array($key, $_I01C0))
-          if( $_Qi8If[$key] == "1" || intval($_Qi8If[$key]) == 0 ) {
-             $_I1l61[] = "`$key`=1";
+    $_QLfol = "UPDATE `$_IfJoo` SET ";
+
+    $_Io01j = array();
+    for($_Qli6J=0; $_Qli6J<count($_Iflj0); $_Qli6J++) {
+      $key = $_Iflj0[$_Qli6J];
+      if ( isset($_I6tLJ[$_Iflj0[$_Qli6J]]) ) {
+        if(in_array($key, $_ItI0o))
+          if( $_I6tLJ[$key] == "1" || intval($_I6tLJ[$key]) == 0 ) {
+             $_Io01j[] = "`$key`=1";
              }
              else
               ;
         else {
-           $_I1l61[] = "`$key`="._OPQLR(rtrim($_Qi8If[$key]));
+           $_Io01j[] = "`$key`="._LRAFO(rtrim($_I6tLJ[$key]));
         }
       } else {
-         if(in_array($key, $_I01C0)) {
-           $key = $_QLLjo[$_Q6llo];
-           $_I1l61[] = "`$key`=0";
+         if(in_array($key, $_ItI0o)) {
+           $key = $_Iflj0[$_Qli6J];
+           $_Io01j[] = "`$key`=0";
          } else {
-           if(in_array($key, $_I01lt)) {
-             $key = $_QLLjo[$_Q6llo];
-             $_I1l61[] = "`$key`=0";
+           if(in_array($key, $_ItIti)) {
+             $key = $_Iflj0[$_Qli6J];
+             $_Io01j[] = "`$key`=0";
            }
          }
       }
     }
 
-    $_QJlJ0 .= join(", ", $_I1l61);
-    $_QJlJ0 .= " WHERE `id`=".intval($_I8jJ8);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
+    $_QLfol .= join(", ", $_Io01j);
+    $_QLfol .= " WHERE `id`=".intval($_jQ1il);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
   }
 
 ?>

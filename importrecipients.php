@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -30,11 +30,11 @@
   include_once("newslettersubunsub_ops.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeImportBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeImportBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
@@ -42,27 +42,27 @@
   if(!function_exists("ImportErrorCheckOnShutdown")) {
     function ImportErrorCheckOnShutdown(){
      if(!function_exists("error_get_last")) return;
-     $_Q8C08 = error_get_last();
-     if(!$_Q8C08) return;
+     $_I1Ilj = error_get_last();
+     if(!$_I1Ilj) return;
 
-     if( !($_Q8C08["type"] == E_ERROR || $_Q8C08["type"] == E_RECOVERABLE_ERROR || $_Q8C08["type"] == E_USER_ERROR) ) return;
+     if( !($_I1Ilj["type"] == E_ERROR || $_I1Ilj["type"] == E_RECOVERABLE_ERROR || $_I1Ilj["type"] == E_USER_ERROR) ) return;
 
-     $_j6oj1 = sprintf("Fatal PHP ERROR type=%d; message=%s; file=%s; line=%d", $_Q8C08["type"], $_Q8C08["message"], $_Q8C08["file"], $_Q8C08["line"]);
-     print $_j6oj1;
+     $_JIL6C = sprintf("Fatal PHP ERROR type=%d; message=%s; file=%s; line=%d", $_I1Ilj["type"], $_I1Ilj["message"], $_I1Ilj["file"], $_I1Ilj["line"]);
+     print $_JIL6C;
     }
   }
 
-  $_I0l08 = array(".txt", ".csv");
+  $_ItLJj = array(".txt", ".csv");
 
-  $_j6LLj = "importfile_errors.txt";
-  $_j6ljC = $_jji0C.$_j6LLj;
+  $_JjQjl = "importfile_errors.txt";
+  $_JjIQL = $_J1t6J.$_JjQjl;
 
-  $_IjL1j = array();
-  $_I0600 = "";
+  $_Iio6I = array();
+  $_Itfj8 = "";
   if (isset($_POST["OneMailingListId"]) )
      $OneMailingListId = $_POST["OneMailingListId"];
      else {
-       $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000054"];
+       $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000054"];
        include_once("mailinglistselect.inc.php");
        if (!isset($_POST["OneMailingListId"]) )
           exit;
@@ -73,19 +73,19 @@
   if(isset($_POST["OneMailingListId"]))
      $_POST["OneMailingListId"] = intval($_POST["OneMailingListId"]);
 
-  if(!_OCJCC($OneMailingListId)){
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-    $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-    print $_QJCJi;
+  if(!_LAEJL($OneMailingListId)){
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+    print $_QLJfI;
     exit;
   }
 
   if(!isset($_POST["MailingListName"])) {
-    $_QJlJ0 = "SELECT Name FROM $_Q60QL WHERE id=$OneMailingListId";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6Q1C = mysql_fetch_row($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_POST["MailingListName"] = $_Q6Q1C[0];
+    $_QLfol = "SELECT Name FROM $_QL88I WHERE id=$OneMailingListId";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_row($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_POST["MailingListName"] = $_QLO0f[0];
   }
 
   // go prev page
@@ -98,23 +98,23 @@
   //
   if(isset($_POST["step"]) && $_POST["step"] == 3) {
    if(!isset($_POST["fields"])) {
-     $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000058"];
+     $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000058"];
      $_POST["step"] = 2;
-     $_IjL1j[] = "fields[u_EMail]";
+     $_Iio6I[] = "fields[u_EMail]";
    } else {
      if( !isset($_POST["fields"]["u_EMail"]) || $_POST["fields"]["u_EMail"] == "-1" ) {
-       $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000059"];
+       $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000059"];
        $_POST["step"] = 2;
-       $_IjL1j[] = "fields[u_EMail]";
+       $_Iio6I[] = "fields[u_EMail]";
      }
    }
   }
 
   if(!isset($_POST["step"])) {
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], "", 'importrecipients', 'import0_snipped.htm');
-    $_QJCJi = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$OneMailingListId.'"', $_QJCJi);
-    $_QJCJi = str_replace('name="MailingListName"', 'name="MailingListName" value="'.$_POST["MailingListName"].'"', $_QJCJi);
-    print $_QJCJi;
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], "", 'importrecipients', 'import0_snipped.htm');
+    $_QLJfI = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$OneMailingListId.'"', $_QLJfI);
+    $_QLJfI = str_replace('name="MailingListName"', 'name="MailingListName" value="'.$_POST["MailingListName"].'"', $_QLJfI);
+    print $_QLJfI;
     exit;
   }
   elseif($_POST["step"] == 0 ) {
@@ -125,122 +125,126 @@
       exit;
     }
 
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], "", 'importrecipients_csv', 'import1_snipped.htm');
-    $_QJCJi = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$OneMailingListId.'"', $_QJCJi);
-    $_QJCJi = str_replace('name="MailingListName"', 'name="MailingListName" value="'.$_POST["MailingListName"].'"', $_QJCJi);
-    $_QJCJi = str_replace('/userfiles/import', $_I0lQJ, $_QJCJi);
-    $_I00tC = ini_get("upload_max_filesize");
-    if(!isset($_I00tC) || $_I00tC == "")
-      $_I00tC = "2M";
-    if(!(strpos($_I00tC, "G") === false))
-       $_I0188 = $_I00tC * 1024 * 1024 * 1024;
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], "", 'importrecipients_csv', 'import1_snipped.htm');
+    $_QLJfI = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$OneMailingListId.'"', $_QLJfI);
+    $_QLJfI = str_replace('name="MailingListName"', 'name="MailingListName" value="'.$_POST["MailingListName"].'"', $_QLJfI);
+    $_QLJfI = str_replace('/userfiles/import', $_ItL8f, $_QLJfI);
+    $_It18j = ini_get("upload_max_filesize");
+    if(!isset($_It18j) || $_It18j == "")
+      $_It18j = "2M";
+    if(!(strpos($_It18j, "G") === false))
+       $_ItQIo = intval($_It18j) * 1024 * 1024 * 1024;
        else
-       if(!(strpos($_I00tC, "M") === false))
-          $_I0188 = $_I00tC * 1024 * 1024;
+       if(!(strpos($_It18j, "M") === false))
+          $_ItQIo = intval($_It18j) * 1024 * 1024;
           else
-          if(!(strpos($_I00tC, "K") === false))
-             $_I0188 = $_I00tC * 1024;
+          if(!(strpos($_It18j, "K") === false))
+             $_ItQIo = intval($_It18j) * 1024;
              else
-             $_I0188 = $_I00tC * 1;
-    if($_I0188 == 0)
-      $_I0188 = 2 * 1024 * 1024;
-    $_I00tC .= "B";
-    $_QJCJi = str_replace('upload_max_filesize', $_I00tC, $_QJCJi);
-    $_QJCJi = str_replace('name="MAX_FILE_SIZE"', 'name="MAX_FILE_SIZE" value="'.$_I0188.'"', $_QJCJi);
+             $_ItQIo = intval($_It18j) * 1;
+    if($_ItQIo == 0)
+      $_ItQIo = 2 * 1024 * 1024;
+    $_It18j .= "B";
+    $_QLJfI = str_replace('upload_max_filesize', $_It18j, $_QLJfI);
+    $_QLJfI = str_replace('name="MAX_FILE_SIZE"', 'name="MAX_FILE_SIZE" value="'.$_ItQIo.'"', $_QLJfI);
 
-    print $_QJCJi;
+    print $_QLJfI;
     exit;
   } elseif($_POST["step"] == 1 ) {
 
-      $_I0L1J = true;
-      if( isset( $_FILES['file1'] ) && $_FILES['file1']['tmp_name'] != "" && $_FILES['file1']['name'] != "" && ( $_I0L1J = in_array( strtolower(_OBJAL($_FILES['file1']['name'])), $_I0l08) ) ) {
+      $_ItiQj = true;
+      if( isset( $_FILES['file1'] ) && $_FILES['file1']['tmp_name'] != "" && $_FILES['file1']['name'] != "" && ( $_ItiQj = in_array( strtolower(ExtractFileExt($_FILES['file1']['name'])), $_ItLJj) ) ) {
         // upload akzeptieren
-        if (move_uploaded_file($_FILES['file1']['tmp_name'], $_I0lQJ.$_FILES['file1']['name'])){
+        if (move_uploaded_file($_FILES['file1']['tmp_name'], $_ItL8f.$_FILES['file1']['name'])){
            $_POST["ImportFilename"] = $_FILES['file1']['name'];
-           @chmod($_I0lQJ.$_FILES['file1']['name'], 0777);
+           @chmod($_ItL8f.$_FILES['file1']['name'], 0777);
         } else {
-           $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000055"], $_FILES['file1']['tmp_name'], $_I0lQJ.$_FILES['file1']['name'] ), 'importrecipients_csv', 'import1_snipped.htm');
-           $_QJCJi = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$OneMailingListId.'"', $_QJCJi);
-           $_QJCJi = str_replace('name="MailingListName"', 'name="MailingListName" value="'.$_POST["MailingListName"].'"', $_QJCJi);
-           $_QJCJi = str_replace('/userfiles/import', $_I0lQJ, $_QJCJi);
-           $_I00tC = ini_get("upload_max_filesize");
-           if(!isset($_I00tC) || $_I00tC == "")
-             $_I00tC = "2M";
-           if(!(strpos($_I00tC, "G") === false))
-              $_I0188 = $_I00tC * 1024 * 1024 * 1024;
+           $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000055"], $_FILES['file1']['tmp_name'], $_ItL8f.$_FILES['file1']['name'] ), 'importrecipients_csv', 'import1_snipped.htm');
+           $_QLJfI = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$OneMailingListId.'"', $_QLJfI);
+           $_QLJfI = str_replace('name="MailingListName"', 'name="MailingListName" value="'.$_POST["MailingListName"].'"', $_QLJfI);
+           $_QLJfI = str_replace('/userfiles/import', $_ItL8f, $_QLJfI);
+           $_It18j = ini_get("upload_max_filesize");
+           if(!isset($_It18j) || $_It18j == "")
+             $_It18j = "2M";
+           if(!(strpos($_It18j, "G") === false))
+              $_ItQIo = intval($_It18j) * 1024 * 1024 * 1024;
               else
-              if(!(strpos($_I00tC, "M") === false))
-                 $_I0188 = $_I00tC * 1024 * 1024;
+              if(!(strpos($_It18j, "M") === false))
+                 $_ItQIo = intval($_It18j) * 1024 * 1024;
                  else
-                 if(!(strpos($_I00tC, "K") === false))
-                    $_I0188 = $_I00tC * 1024;
+                 if(!(strpos($_It18j, "K") === false))
+                    $_ItQIo = intval($_It18j) * 1024;
                     else
-                    $_I0188 = $_I00tC * 1;
-           if($_I0188 == 0)
-             $_I0188 = 2 * 1024 * 1024;
-           $_I00tC .= "B";
-           $_QJCJi = str_replace('upload_max_filesize', $_I00tC, $_QJCJi);
-           $_QJCJi = str_replace('name="MAX_FILE_SIZE"', 'name="MAX_FILE_SIZE" value="'.$_I0188.'"', $_QJCJi);
+                    $_ItQIo = intval($_It18j) * 1;
+           if($_ItQIo == 0)
+             $_ItQIo = 2 * 1024 * 1024;
+           $_It18j .= "B";
+           $_QLJfI = str_replace('upload_max_filesize', $_It18j, $_QLJfI);
+           $_QLJfI = str_replace('name="MAX_FILE_SIZE"', 'name="MAX_FILE_SIZE" value="'.$_ItQIo.'"', $_QLJfI);
 
            $errors[] = "file1";
-           $_QJCJi = _OPFJA($errors, $_POST, $_QJCJi);
+           $_QLJfI = _L8AOB($errors, $_POST, $_QLJfI);
 
-           print $_QJCJi;
+           print $_QLJfI;
            exit;
         }
       } else {
-        if(!$_I0L1J){
+        if(!$_ItiQj){
 
-           $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], $resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorFileTypeNotAllowed"], 'importrecipients_csv', 'import1_snipped.htm');
+           $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], $resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorFileTypeNotAllowed"], 'importrecipients_csv', 'import1_snipped.htm');
 
-           $_QJCJi = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$OneMailingListId.'"', $_QJCJi);
-           $_QJCJi = str_replace('name="MailingListName"', 'name="MailingListName" value="'.$_POST["MailingListName"].'"', $_QJCJi);
-           $_QJCJi = str_replace('/userfiles/import', $_I0lQJ, $_QJCJi);
-           $_I00tC = ini_get("upload_max_filesize");
-           if(!isset($_I00tC) || $_I00tC == "")
-             $_I00tC = "2M";
-           if(!(strpos($_I00tC, "G") === false))
-              $_I0188 = $_I00tC * 1024 * 1024 * 1024;
+           $_QLJfI = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$OneMailingListId.'"', $_QLJfI);
+           $_QLJfI = str_replace('name="MailingListName"', 'name="MailingListName" value="'.$_POST["MailingListName"].'"', $_QLJfI);
+           $_QLJfI = str_replace('/userfiles/import', $_ItL8f, $_QLJfI);
+           $_It18j = ini_get("upload_max_filesize");
+           if(!isset($_It18j) || $_It18j == "")
+             $_It18j = "2M";
+           if(!(strpos($_It18j, "G") === false))
+              $_ItQIo = intval($_It18j) * 1024 * 1024 * 1024;
               else
-              if(!(strpos($_I00tC, "M") === false))
-                 $_I0188 = $_I00tC * 1024 * 1024;
+              if(!(strpos($_It18j, "M") === false))
+                 $_ItQIo = intval($_It18j) * 1024 * 1024;
                  else
-                 if(!(strpos($_I00tC, "K") === false))
-                    $_I0188 = $_I00tC * 1024;
+                 if(!(strpos($_It18j, "K") === false))
+                    $_ItQIo = intval($_It18j) * 1024;
                     else
-                    $_I0188 = $_I00tC * 1;
-           if($_I0188 == 0)
-             $_I0188 = 2 * 1024 * 1024;
-           $_I00tC .= "B";
-           $_QJCJi = str_replace('upload_max_filesize', $_I00tC, $_QJCJi);
-           $_QJCJi = str_replace('name="MAX_FILE_SIZE"', 'name="MAX_FILE_SIZE" value="'.$_I0188.'"', $_QJCJi);
+                    $_ItQIo = intval($_It18j) * 1;
+           if($_ItQIo == 0)
+             $_ItQIo = 2 * 1024 * 1024;
+           $_It18j .= "B";
+           $_QLJfI = str_replace('upload_max_filesize', $_It18j, $_QLJfI);
+           $_QLJfI = str_replace('name="MAX_FILE_SIZE"', 'name="MAX_FILE_SIZE" value="'.$_ItQIo.'"', $_QLJfI);
 
            $errors[] = "file1";
-           $_QJCJi = _OPFJA($errors, $_POST, $_QJCJi);
+           $_QLJfI = _L8AOB($errors, $_POST, $_QLJfI);
 
-           print $_QJCJi;
+           print $_QLJfI;
            exit;
 
         }
       }
 
-      $_IjLJt = _LQB6D("FileImportOptions");
-      $_IjlJf = $_POST;
-      unset($_IjlJf["step"]);
-      if( $_IjLJt != "" ) {
-       $_QllO8 = @unserialize($_IjLJt);
-       if($_QllO8 !== false) {
+      $_IiC0o = _JOO1L("FileImportOptions");
+      $_IiCft = $_POST;
+      unset($_IiCft["step"]);
+      if( $_IiC0o != "" ) {
+       $_I016j = @unserialize($_IiC0o);
+       if($_I016j !== false) {
          // feldzuordnung rausnehmen, der rest muss bleiben
-         foreach($_QllO8 as $_I1i8O => $_I1L81) {
-           if(!(strpos($_I1i8O, "fields") === false))
-              unset($_QllO8[$_I1i8O]);
+         foreach($_I016j as $_IOLil => $_IOCjL) {
+           if(!(strpos($_IOLil, "fields") === false))
+              unset($_I016j[$_IOLil]);
          }
-         $_IjlJf = array_merge($_IjlJf, $_QllO8);
+         if(isset($_I016j[SMLSWM_TOKEN_COOKIE_NAME]))
+           unset($_I016j[SMLSWM_TOKEN_COOKIE_NAME]);
+         if(isset($_I016j["ImportFilename"]) && isset($_IiCft["ImportFilename"]))
+           unset($_I016j["ImportFilename"]);
+         $_IiCft = array_merge($_IiCft, $_I016j);
        }
       }
 
       // zeige Step 2
-      _OL086(array(), $_IjlJf);
+      _L0FRP(array(), $_IiCft);
 
   } elseif($_POST["step"] == 2 ) {
 
@@ -254,182 +258,198 @@
        $errors[] = "Separator";
       }
     } else {
-      _OL086($errors, $_POST);
+      _L0FRP($errors, $_POST);
       exit;
     }
 
     if(count($errors) > 0 ) {
-      _OL086($errors, $_POST, $resourcestrings[$INTERFACE_LANGUAGE]["000020"]);
+      _L0FRP($errors, $_POST, $resourcestrings[$INTERFACE_LANGUAGE]["000020"]);
       exit;
     }
 
-    $_Q6lfJ = fopen($_I0lQJ.$_POST["ImportFilename"], "r");
-    if(!$_Q6lfJ) {
-      _OL086($errors, $_POST, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000056"], $_I0lQJ.$_POST["ImportFilename"]));
+    $_QlCtl = fopen($_ItL8f.$_POST["ImportFilename"], "r");
+    if(!$_QlCtl) {
+      _L0FRP($errors, $_POST, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000056"], $_ItL8f.$_POST["ImportFilename"]));
       exit;
     }
 
-    $_QL8Q8 = "";
+    $_Ift08 = "";
     // mac file?
-    $_I1816 = 0;
-    while (!feof($_Q6lfJ)) {
-      $_QL8Q8 = fgetc($_Q6lfJ);
-      if($_QL8Q8 == chr(10) || $_QL8Q8 == chr(13)) {
+    $_IO88Q = 0;
+    while (!feof($_QlCtl)) {
+      $_Ift08 = fgetc($_QlCtl);
+      if($_Ift08 == chr(10) || $_Ift08 == chr(13)) {
 
-        $_I18I0 = chr(10);
-        if(!feof($_Q6lfJ))
-          $_I18I0 = fgetc($_Q6lfJ);
+        $_IOtfO = chr(10);
+        if(!feof($_QlCtl))
+          $_IOtfO = fgetc($_QlCtl);
 
-        if($_QL8Q8 == chr(13) && $_I18I0 != chr(10)) {
-          $_I1816 = 1;
+        if($_Ift08 == chr(13) && $_IOtfO != chr(10)) {
+          $_IO88Q = 1;
         }
         break;
       }
     }
-    $_POST["IsMacFile"] = $_I1816;
+    $_POST["IsMacFile"] = $_IO88Q;
 
-    $_I1t0l = ftell($_Q6lfJ) -1;
-    fseek($_Q6lfJ, 0);
-    $_I1t66 = fread($_Q6lfJ, $_I1t0l);
-    fclose($_Q6lfJ);
+    $_IOO6C = ftell($_QlCtl) -1;
+    fseek($_QlCtl, 0);
+    $_IOoJ0 = fread($_QlCtl, $_IOO6C);
+    fclose($_QlCtl);
 
     // UTF8 BOM?
-    $_I1O0j = 'ï»¿';
-    $_Q6i6i = strpos($_I1t66, $_I1O0j);
-    if($_Q6i6i !== false && $_Q6i6i == 0)
-      $_I1t66 = substr($_I1t66, strlen($_I1O0j));
+    $_IOC1j = 'ï»¿';
+    $_QlOjt = strpos($_IOoJ0, $_IOC1j);
+    if($_QlOjt !== false && $_QlOjt == 0)
+      $_IOoJ0 = substr($_IOoJ0, strlen($_IOC1j));
 
     // UTF8?
     if ( !( isset($_POST["IsUTF8"]) && $_POST["IsUTF8"] != "") ) {
-       $_QfoQo = utf8_encode($_I1t66);
-       if($_QfoQo != "")
-         $_I1t66 = $_QfoQo;
+       $_I0Clj = utf8_encode($_IOoJ0);
+       if($_I0Clj != "")
+         $_IOoJ0 = $_I0Clj;
     }
 
 
-    $_I1I1J = trim($_POST["Separator"]);
-    if($_I1I1J == '\t')
-       $_I1I1J = "\t";
-    $_Q8otJ = explode($_I1I1J, $_I1t66);
-    $_QfoQo = "";
-    for($_Q6llo=0; $_Q6llo<count($_Q8otJ); $_Q6llo++)
-      $_QfoQo .= sprintf('<option value="%s">%s</option>'.$_Q6JJJ, $_Q6llo, htmlentities($_Q8otJ[$_Q6llo], ENT_COMPAT, $_Q6QQL)  );
-    $_QfoQo = $_Q6JJJ.sprintf('<option value="%s">%s</option>'.$_Q6JJJ, "-1", "--"  ).$_Q6JJJ.$_QfoQo;
-
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], $_I0600, 'importrecipients_csv', 'import3_snipped.htm');
-
-    $_I1OLj = _OP81D($_QJCJi, "<TABLE:ROW>", "</TABLE:ROW>");
-    $_QJlJ0 = "SELECT text, fieldname FROM $_Qofjo WHERE language='$INTERFACE_LANGUAGE'";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-
-    $_Q6ICj = "";
-    $_Q6llo=1;
-    $_QL8Q8=1;
-    $_I1oot = 0;
-    while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      if($_Q6llo == 1)
-         $_Q66jQ = $_I1OLj;
-      $_Q66jQ = str_replace('<!--FIELD'.$_Q6llo.'-->', '<label for="importfield'.$_QL8Q8.'">'.$_Q6Q1C["text"]."</label>", $_Q66jQ);
-      $_Q66jQ = str_replace('<!--VALUE'.$_Q6llo.'-->', '<select name="fields['.$_Q6Q1C["fieldname"].']" size="1" id="importfield'.$_QL8Q8.'" class="import_select">'.$_QfoQo.'</select>', $_Q66jQ);
-      if($_Q6Q1C["fieldname"] == "u_Birthday") {
-        $_I1oot = $_Q6llo;
-      }
-      $_Q6llo++;
-      $_QL8Q8++;
-      if($_Q6llo>2) {
-        $_Q6llo=1;
-        $_Q6ICj .= $_Q66jQ;
-        if($_I1oot) {
-          $_Q66jQ = $_I1OLj;
-          if($_I1oot == 1){
-            $_Q66jQ = str_replace('<!--FIELD'.$_Q6llo.'-->', '<label for="importfield'.$_QL8Q8.'">'.$resourcestrings[$INTERFACE_LANGUAGE]["000057"]."</label>", $_Q66jQ);
-            $_QllO8 = '<option value="dd.mm.yyyy">dd.mm.yyyy</option>';
-            $_QllO8 .= '<option value="yyyy-mm-dd">yyyy-mm-dd</option>';
-            $_QllO8 .= '<option value="mm-dd-yyyy">mm-dd-yyyy</option>';
-            $_Q66jQ = str_replace('<!--VALUE'.$_Q6llo.'-->', '<select name="BirthdayDateFormat" size="1" id="importfield'.$_QL8Q8.'" class="import_select">'.$_QllO8.'</select>', $_Q66jQ);
-            $_Q6llo++;
-            $_Q66jQ = str_replace('<!--FIELD'.$_Q6llo.'-->', "&nbsp;", $_Q66jQ);
-            $_Q66jQ = str_replace('<!--VALUE'.$_Q6llo.'-->', "&nbsp;", $_Q66jQ);
-          } else{
-            $_Q66jQ = str_replace('<!--FIELD'.$_Q6llo.'-->', "&nbsp;", $_Q66jQ);
-            $_Q66jQ = str_replace('<!--VALUE'.$_Q6llo.'-->', "&nbsp;", $_Q66jQ);
-            $_Q6llo++;
-            $_Q66jQ = str_replace('<!--FIELD'.$_Q6llo.'-->', '<label for="importfield'.$_QL8Q8.'">'.$resourcestrings[$INTERFACE_LANGUAGE]["000057"]."</label>", $_Q66jQ);
-            $_QllO8 = '<option value="dd.mm.yyyy">dd.mm.yyyy</option>';
-            $_QllO8 .= '<option value="yyyy-mm-dd">yyyy-mm-dd</option>';
-            $_QllO8 .= '<option value="mm-dd-yyyy">mm-dd-yyyy</option>';
-            $_Q66jQ = str_replace('<!--VALUE'.$_Q6llo.'-->', '<select name="BirthdayDateFormat" size="1" id="importfield'.$_QL8Q8.'" class="import_select">'.$_QllO8.'</select>', $_Q66jQ);
-          }
-          $_Q6llo=1;
-          $_Q6ICj .= $_Q66jQ;
-          $_I1oot = 0;
-          $_QL8Q8++;
+    $_IO1C0 = trim($_POST["Separator"]);
+    if($_IO1C0 == '\t')
+       $_IO1C0 = "\t";
+    $_I1OoI = explode($_IO1C0, $_IOoJ0);
+    $_I0Clj = "";
+    for($_Qli6J=0; $_Qli6J<count($_I1OoI); $_Qli6J++){
+        $_IOCjL = $_I1OoI[$_Qli6J];
+        if(isset($_POST["RemoveQuotes"]) && $_POST["RemoveQuotes"] != "") {
+          $_IOCjL = str_replace('"', '', $_IOCjL);
+          $_IOCjL = str_replace("\'", '', $_IOCjL);
+          $_IOCjL = str_replace("`", '', $_IOCjL);
+          $_IOCjL = str_replace("´", '', $_IOCjL);
         }
-        $_Q66jQ = "";
+        if(isset($_POST["RemoveSpaces"]) && $_POST["RemoveSpaces"] != "") {
+          $_IOCjL = trim($_IOCjL);
+        }
+
+        $_I0Clj .= sprintf('<option value="%s">%s</option>'.$_QLl1Q, $_Qli6J, htmlentities($_IOCjL, ENT_COMPAT, $_QLo06)  );
+    }
+    $_I0Clj = $_QLl1Q.sprintf('<option value="%s">%s</option>'.$_QLl1Q, "-1", "--"  ).$_QLl1Q.$_I0Clj;
+
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], $_Itfj8, 'importrecipients_csv', 'import3_snipped.htm');
+
+    $_IOiJ0 = _L81DB($_QLJfI, "<TABLE:ROW>", "</TABLE:ROW>");
+    $_QLfol = "SELECT text, fieldname FROM $_Ij8oL WHERE language='$INTERFACE_LANGUAGE'";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+
+    $_QLoli = "";
+    $_Qli6J=1;
+    $_Ift08=1;
+    $_IOLjO = 0;
+    while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      if($_Qli6J == 1)
+         $_Ql0fO = $_IOiJ0;
+      $_Ql0fO = str_replace('<!--FIELD'.$_Qli6J.'-->', '<label for="importfield'.$_Ift08.'">'.$_QLO0f["text"]."</label>", $_Ql0fO);
+      $_Ql0fO = str_replace('<!--VALUE'.$_Qli6J.'-->', '<select name="fields['.$_QLO0f["fieldname"].']" size="1" id="importfield'.$_Ift08.'" class="import_select">'.$_I0Clj.'</select>', $_Ql0fO);
+      if($_QLO0f["fieldname"] == "u_Birthday") {
+        $_IOLjO = $_Qli6J;
+      }
+      $_Qli6J++;
+      $_Ift08++;
+      if($_Qli6J>2) {
+        $_Qli6J=1;
+        $_QLoli .= $_Ql0fO;
+        if($_IOLjO) {
+          $_Ql0fO = $_IOiJ0;
+          if($_IOLjO == 1){
+            $_Ql0fO = str_replace('<!--FIELD'.$_Qli6J.'-->', '<label for="importfield'.$_Ift08.'">'.$resourcestrings[$INTERFACE_LANGUAGE]["000057"]."</label>", $_Ql0fO);
+            $_I016j = '<option value="dd.mm.yyyy">dd.mm.yyyy</option>';
+            $_I016j .= '<option value="yyyy-mm-dd">yyyy-mm-dd</option>';
+            $_I016j .= '<option value="mm-dd-yyyy">mm-dd-yyyy</option>';
+            $_Ql0fO = str_replace('<!--VALUE'.$_Qli6J.'-->', '<select name="BirthdayDateFormat" size="1" id="importfield'.$_Ift08.'" class="import_select">'.$_I016j.'</select>', $_Ql0fO);
+            $_Qli6J++;
+            $_Ql0fO = str_replace('<!--FIELD'.$_Qli6J.'-->', "&nbsp;", $_Ql0fO);
+            $_Ql0fO = str_replace('<!--VALUE'.$_Qli6J.'-->', "&nbsp;", $_Ql0fO);
+          } else{
+            $_Ql0fO = str_replace('<!--FIELD'.$_Qli6J.'-->', "&nbsp;", $_Ql0fO);
+            $_Ql0fO = str_replace('<!--VALUE'.$_Qli6J.'-->', "&nbsp;", $_Ql0fO);
+            $_Qli6J++;
+            $_Ql0fO = str_replace('<!--FIELD'.$_Qli6J.'-->', '<label for="importfield'.$_Ift08.'">'.$resourcestrings[$INTERFACE_LANGUAGE]["000057"]."</label>", $_Ql0fO);
+            $_I016j = '<option value="dd.mm.yyyy">dd.mm.yyyy</option>';
+            $_I016j .= '<option value="yyyy-mm-dd">yyyy-mm-dd</option>';
+            $_I016j .= '<option value="mm-dd-yyyy">mm-dd-yyyy</option>';
+            $_Ql0fO = str_replace('<!--VALUE'.$_Qli6J.'-->', '<select name="BirthdayDateFormat" size="1" id="importfield'.$_Ift08.'" class="import_select">'.$_I016j.'</select>', $_Ql0fO);
+          }
+          $_Qli6J=1;
+          $_QLoli .= $_Ql0fO;
+          $_IOLjO = 0;
+          $_Ift08++;
+        }
+        $_Ql0fO = "";
       }
     }
-    if($_Q66jQ != "")
-      $_Q6ICj .= $_Q66jQ;
+    if($_Ql0fO != "")
+      $_QLoli .= $_Ql0fO;
 
-    $_QJCJi = _OPR6L($_QJCJi, "<TABLE:ROW>", "</TABLE:ROW>", $_Q6ICj);
+    $_QLJfI = _L81BJ($_QLJfI, "<TABLE:ROW>", "</TABLE:ROW>", $_QLoli);
     if(isset($_POST["step"]))
       unset($_POST["step"]);
 
     // ************** Groups START
-    $_QJlJ0 = "SELECT GroupsTableName FROM $_Q60QL WHERE id=$OneMailingListId";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_I1COO = mysql_fetch_array($_Q60l1);
-    $_Q6t6j = $_I1COO["GroupsTableName"];
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT GroupsTableName FROM $_QL88I WHERE id=$OneMailingListId";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_IOLJ1 = mysql_fetch_array($_QL8i1);
+    $_QljJi = $_IOLJ1["GroupsTableName"];
+    mysql_free_result($_QL8i1);
 
     // ********* List of Groups SQL query
-    $_Q68ff = "SELECT DISTINCT id, Name FROM $_Q6t6j";
-    $_Q68ff .= " ORDER BY Name ASC";
-    $_Q60l1 = mysql_query($_Q68ff, $_Q61I1);
-    _OAL8F($_Q68ff);
-    $_I10Cl = "";
-    while($_I1COO=mysql_fetch_array($_Q60l1)) {
-      $_I10Cl .= '<option value="'.$_I1COO["id"].'">'.$_I1COO["Name"].'</option>'.$_Q6JJJ;
+    $_QlI6f = "SELECT DISTINCT id, Name FROM $_QljJi";
+    $_QlI6f .= " ORDER BY Name ASC";
+    $_QL8i1 = mysql_query($_QlI6f, $_QLttI);
+    _L8D88($_QlI6f);
+    $_ItlLC = "";
+    while($_IOLJ1=mysql_fetch_array($_QL8i1)) {
+      $_ItlLC .= '<option value="'.$_IOLJ1["id"].'">'.$_IOLJ1["Name"].'</option>'.$_QLl1Q;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_QJCJi = _OPR6L($_QJCJi, "<SHOW:GROUPS>", "</SHOW:GROUPS>", $_I10Cl);
+    $_QLJfI = _L81BJ($_QLJfI, "<SHOW:GROUPS>", "</SHOW:GROUPS>", $_ItlLC);
     // ********* List of Groups query END
 
     // ************** Groups END
 
     // Groups assignment START
-    $_QJCJi = _OPR6L($_QJCJi, "<SHOW:IMPORTFIELD>", "</SHOW:IMPORTFIELD>", $_QfoQo);
+    $_QLJfI = _L81BJ($_QLJfI, "<SHOW:IMPORTFIELD>", "</SHOW:IMPORTFIELD>", $_I0Clj);
     // Groups assignment END
 
-    $_IjLJt = _LQB6D("FileImportOptions");
-    $_IjlJf = $_POST;
-    if( $_IjLJt != "" ) {
-       $_QllO8 = @unserialize($_IjLJt);
-       if($_QllO8 !== false) {
+    $_IiC0o = _JOO1L("FileImportOptions");
+    $_IiCft = $_POST;
+    if( $_IiC0o != "" ) {
+       $_I016j = @unserialize($_IiC0o);
+       if($_I016j !== false) {
          // alles rausnehmen, nur die feldzuordnung bleibt
-         foreach($_QllO8 as $_I1i8O => $_I1L81) {
-           if(strpos($_I1i8O, "fields") === false)
-              unset($_QllO8[$_I1i8O]);
+         foreach($_I016j as $_IOLil => $_IOCjL) {
+           if(strpos($_IOLil, "fields") === false)
+              unset($_I016j[$_IOLil]);
               else
-              if(is_array($_I1L81)) // bug while saving
-                unset($_QllO8[$_I1i8O]);
+              if(is_array($_IOCjL)) // bug while saving
+                unset($_I016j[$_IOLil]);
          }
-         $_IjlJf = array_merge($_IjlJf, $_QllO8);
+         if(isset($_I016j[SMLSWM_TOKEN_COOKIE_NAME]))
+           unset($_I016j[SMLSWM_TOKEN_COOKIE_NAME]);
+         if(isset($_I016j["ImportFilename"]) && isset($_IiCft["ImportFilename"]))
+           unset($_I016j["ImportFilename"]);
+         $_IiCft = array_merge($_IiCft, $_I016j);
        }
     }
 
-    if(!isset($_IjlJf["GroupsOption"]) || $_IjlJf["GroupsOption"] <= 0)
-       $_IjlJf["GroupsOption"] = 1;
-    if(!isset($_IjlJf["ExImportOption"]) || $_IjlJf["ExImportOption"] <= 0)
-       $_IjlJf["ExImportOption"] = 1;
-    $_QJCJi = _OPFJA($_IjL1j, $_IjlJf, $_QJCJi);
+    if(!isset($_IiCft["GroupsOption"]) || $_IiCft["GroupsOption"] <= 0)
+       $_IiCft["GroupsOption"] = 1;
+    if(!isset($_IiCft["ExImportOption"]) || $_IiCft["ExImportOption"] <= 0)
+       $_IiCft["ExImportOption"] = 1;
+    $_QLJfI = _L8AOB($_Iio6I, $_IiCft, $_QLJfI);
 
-    print $_QJCJi;
+    print $_QLJfI;
 
   } elseif($_POST["step"] == 3 ) {
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], "", 'importrecipients_csv', 'import4_snipped.htm');
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], "", 'importrecipients_csv', 'import4_snipped.htm');
 
     if(isset($_POST["GroupsOption"]) && $_POST["GroupsOption"] == 3 && !isset($_POST["groups_id"]) ) {
       $_POST["GroupsOption"] = 1;
@@ -444,187 +464,189 @@
     unset($_POST["step"]);
 
 
-    $_IJ0Q8 = "";
-    $_I16jJ = $_POST["fields"];
-    reset($_I16jJ);
-    foreach($_I16jJ as $_I1i8O => $_I1L81) {
-      if(isset($_I16jJ[$_I1i8O]) && $_I1L81 != -1) {
-        $_IJ0Q8 .= '<input type="hidden" name="fields['.$_I1i8O.']" value="'.$_I1L81.'" />';
+    $_IiCfO = "";
+    $_IOJoI = $_POST["fields"];
+    reset($_IOJoI);
+    foreach($_IOJoI as $_IOLil => $_IOCjL) {
+      if(isset($_IOJoI[$_IOLil]) && $_IOCjL != -1) {
+        $_IiCfO .= '<input type="hidden" name="fields['.$_IOLil.']" value="'.$_IOCjL.'" />';
       }
     }
 
-    $_IjLJt = $_POST;
-    if(isset($_IjLJt["IsMacFile"]))
-      unset($_IjLJt["IsMacFile"]);
-    unset($_IjLJt["OneMailingListId"]);
-    unset($_IjLJt["MailingListName"]);
-    if(isset($_IjLJt["PrevBtn"]))
-      unset($_IjLJt["PrevBtn"]);
-    if(isset($_IjLJt["NextBtn"]))
-      unset($_IjLJt["NextBtn"]);
+    $_IiC0o = $_POST;
+    if(isset($_IiC0o["IsMacFile"]))
+      unset($_IiC0o["IsMacFile"]);
+    unset($_IiC0o["OneMailingListId"]);
+    unset($_IiC0o["MailingListName"]);
+    if(isset($_IiC0o["PrevBtn"]))
+      unset($_IiC0o["PrevBtn"]);
+    if(isset($_IiC0o["NextBtn"]))
+      unset($_IiC0o["NextBtn"]);
 
 
     // umwandeln, damit er es wieder findet
-    unset($_IjLJt["fields"]);
-    $_I16jJ = $_POST["fields"];
-    reset($_I16jJ);
-    foreach($_I16jJ as $_I1i8O => $_I1L81) {
-      if(isset($_I16jJ[$_I1i8O]) && $_I1L81 != -1) {
-        $_IjLJt["fields[$_I1i8O]"] = $_I1L81;
+    unset($_IiC0o["fields"]);
+    $_IOJoI = $_POST["fields"];
+    reset($_IOJoI);
+    foreach($_IOJoI as $_IOLil => $_IOCjL) {
+      if(isset($_IOJoI[$_IOLil]) && $_IOCjL != -1) {
+        $_IiC0o["fields[$_IOLil]"] = $_IOCjL;
       }
     }
 
+    if(isset($_IiC0o[SMLSWM_TOKEN_COOKIE_NAME]))
+      unset($_IiC0o[SMLSWM_TOKEN_COOKIE_NAME]);
+    
+    _JOOFF("FileImportOptions", serialize($_IiC0o));
 
-    _LQC66("FileImportOptions", serialize($_IjLJt));
+    $_QLJfI = _L8AOB(array(), $_POST, $_QLJfI);
+    $_QLJfI = _L81BJ($_QLJfI, '<HIDDEN:FIELDS>', '</HIDDEN:FIELDS>', $_IiCfO);
 
-    $_QJCJi = _OPFJA(array(), $_POST, $_QJCJi);
-    $_QJCJi = _OPR6L($_QJCJi, '<HIDDEN:FIELDS>', '</HIDDEN:FIELDS>', $_IJ0Q8);
-
-    print $_QJCJi;
+    print $_QLJfI;
   } elseif($_POST["step"] == 4 ) {
 
     if ( defined("DEMO") ) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], "", 'DISABLED', 'demo_snipped.htm');
-      print $_QJCJi;
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], "", 'DISABLED', 'demo_snipped.htm');
+      print $_QLJfI;
       exit;
     }
 
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], "", 'importrecipients_csv', 'import5_snipped.htm');
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], "", 'importrecipients_csv', 'import5_snipped.htm');
 
-    $_IJ0Jo = 0;
-    $_IJ0t1 = 0;
+    $_IiiJf = 0;
+    $_Iii6I = 0;
     if(isset($_POST["RowCount"]))
-       $_IJ0Jo += $_POST["RowCount"];
+       $_IiiJf += $_POST["RowCount"];
     if(isset($_POST["ImportRowCount"]))
-       $_IJ0t1 += $_POST["ImportRowCount"];
+       $_Iii6I += $_POST["ImportRowCount"];
 
     if(isset($_POST["IsMacFile"]) && $_POST["IsMacFile"])
        ini_set('auto_detect_line_endings', TRUE);
 
-    $_jf1Lf = _LQDLR("ECGListCheck");
+    $_Jj68f = _JOLQE("ECGListCheck");
 
-    $_QCC8C = fopen($_I0lQJ.$_POST["ImportFilename"], "r");
-    $_QLjff = fstat($_QCC8C);
-    $_Q6i6i = 0;
+    $_IJljf = fopen($_ItL8f.$_POST["ImportFilename"], "r");
+    $_If61l = fstat($_IJljf);
+    $_QlOjt = 0;
 
     // spring zur fileposition
     if(isset($_POST["fileposition"])) {
         if(!empty($_POST["CreateErrorLog"])){
-          $_jf0il = @fopen($_j6ljC, "a");
+          $_JjJJl = @fopen($_JjIQL, "a");
         }
 
-        $_IJ0tL = $_POST["fileposition"];
-        if($_IJ0tL >= 0)
-           fseek($_QCC8C, $_IJ0tL);
+        $_Iiioi = $_POST["fileposition"];
+        if($_Iiioi >= 0)
+           fseek($_IJljf, $_Iiioi);
 
         // sind wir fertig?
-        if($_IJ0tL == -1 || feof($_QCC8C) || ftell($_QCC8C) >= $_QLjff["size"] ) {
-          fclose($_QCC8C);
-          $_I0600 = "";
+        if($_Iiioi == -1 || feof($_IJljf) || ftell($_IJljf) >= $_If61l["size"] ) {
+          fclose($_IJljf);
+          $_Itfj8 = "";
           if( isset($_POST["RemoveFile"]) && $_POST["RemoveFile"] != "" ) {
-            if( !@unlink($_I0lQJ.$_POST["ImportFilename"]) ) {
-              $_I0600 = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000060"], $_I0lQJ.$_POST["ImportFilename"]);
+            if( !@unlink($_ItL8f.$_POST["ImportFilename"]) ) {
+              $_Itfj8 = sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000060"], $_ItL8f.$_POST["ImportFilename"]);
             }
           }
-          $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], $_I0600, 'importrecipients_csv', 'import6_snipped.htm');
-          $_QJCJi = _OPR6L($_QJCJi, "<IMPORT:FILECOUNT>", "</IMPORT:FILECOUNT>", $_IJ0Jo);
-          $_QJCJi = _OPR6L($_QJCJi, "<IMPORT:IMPORTCOUNT>", "</IMPORT:IMPORTCOUNT>", $_IJ0t1);
+          $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], $_Itfj8, 'importrecipients_csv', 'import6_snipped.htm');
+          $_QLJfI = _L81BJ($_QLJfI, "<IMPORT:FILECOUNT>", "</IMPORT:FILECOUNT>", $_IiiJf);
+          $_QLJfI = _L81BJ($_QLJfI, "<IMPORT:IMPORTCOUNT>", "</IMPORT:IMPORTCOUNT>", $_Iii6I);
           if(empty($_POST["CreateErrorLog"]))
-             $_QJCJi = _OP6PQ($_QJCJi, "<IF:ERRORLOG>", "</IF:ERRORLOG>");
+             $_QLJfI = _L80DF($_QLJfI, "<IF:ERRORLOG>", "</IF:ERRORLOG>");
              else{
-               $_QJCJi = str_replace("ERROR_LOGFILENAME", $_jjCtI."export/".$_j6LLj, $_QJCJi);
-               $_QJCJi = str_replace("<IF:ERRORLOG>", "", $_QJCJi);
-               $_QJCJi = str_replace("</IF:ERRORLOG>", "", $_QJCJi);
+               $_QLJfI = str_replace("ERROR_LOGFILENAME", $_jfOJj."export/".$_JjQjl, $_QLJfI);
+               $_QLJfI = str_replace("<IF:ERRORLOG>", "", $_QLJfI);
+               $_QLJfI = str_replace("</IF:ERRORLOG>", "", $_QLJfI);
              }
-          $_QJCJi = _OPFJA(array(), $_POST, $_QJCJi);
-          print $_QJCJi;
+          $_QLJfI = _L8AOB(array(), $_POST, $_QLJfI);
+          print $_QLJfI;
           exit;
         }
 
       }
       else { // noch nie angefasst
         if(!empty($_POST["CreateErrorLog"])){
-          $_jf0il = @fopen($_j6ljC, "w");
+          $_JjJJl = @fopen($_JjIQL, "w");
         }
         // UTF8 BOM test
-        $_I1O0j = 'ï»¿';
-        $_IJ1QJ = fread($_QCC8C, strlen($_I1O0j));
-        if($_IJ1QJ != $_I1O0j)
-          fseek($_QCC8C, 0);
+        $_IOC1j = 'ï»¿';
+        $_IiLOj = fread($_IJljf, strlen($_IOC1j));
+        if($_IiLOj != $_IOC1j)
+          fseek($_IJljf, 0);
 
         // Zeile 1 weg?
-        $_Q6i6i = 0;
+        $_QlOjt = 0;
         if(!empty($_POST["Header1Line"])) {
-           $_IJ1QJ = fgets($_QCC8C, 4096);
-           $_Q6i6i = 1;
+           $_IiLOj = fgets($_IJljf, 4096);
+           $_QlOjt = 1;
         }
       }
 
     if(!isset($_POST["start"]) ) {
-      $_IJQQI = $_Q6i6i;
+      $_Iil6i = $_QlOjt;
     } else {
-      $_IJQQI = $_POST["start"];
+      $_Iil6i = $_POST["start"];
       unset($_POST["start"]);
     }
 
     unset($_POST["step"]);
 
-    $_IJ0Q8 = "";
-    $_I16jJ = $_POST["fields"];
-    reset($_I16jJ);
-    foreach($_I16jJ as $_I1i8O => $_I1L81) {
-      if(isset($_I16jJ[$_I1i8O]) && $_I1L81 != -1) {
-        $_IJ0Q8 .= '<input type="hidden" name="fields['.$_I1i8O.']" value="'.$_I1L81.'" />';
+    $_IiCfO = "";
+    $_IOJoI = $_POST["fields"];
+    reset($_IOJoI);
+    foreach($_IOJoI as $_IOLil => $_IOCjL) {
+      if(isset($_IOJoI[$_IOLil]) && $_IOCjL != -1) {
+        $_IiCfO .= '<input type="hidden" name="fields['.$_IOLil.']" value="'.$_IOCjL.'" />';
       }
     }
-    $_QJCJi = _OPFJA(array(), $_POST, $_QJCJi);
-    $_QJCJi = _OPR6L($_QJCJi, '<HIDDEN:FIELDS>', '</HIDDEN:FIELDS>', $_IJ0Q8);
+    $_QLJfI = _L8AOB(array(), $_POST, $_QLJfI);
+    $_QLJfI = _L81BJ($_QLJfI, '<HIDDEN:FIELDS>', '</HIDDEN:FIELDS>', $_IiCfO);
 
-    $_IJQJ8 = substr($_QJCJi, 0, strpos($_QJCJi, "<BLOCK />") - 1);
-    $_QJCJi = substr($_QJCJi, strpos($_QJCJi, "<BLOCK />") + strlen("<BLOCK />"));
+    $_IilfC = substr($_QLJfI, 0, strpos($_QLJfI, "<BLOCK />") - 1);
+    $_QLJfI = substr($_QLJfI, strpos($_QLJfI, "<BLOCK />") + strlen("<BLOCK />"));
 
     // progress
-    if($_QLjff["size"] > 0)
-       $_Q6i6i = sprintf("%d", ftell($_QCC8C) * 100 / $_QLjff["size"] );
+    if($_If61l["size"] > 0)
+       $_QlOjt = sprintf("%d", ftell($_IJljf) * 100 / $_If61l["size"] );
     // progressbar macht bei 0 mist
-    if($_Q6i6i == 0)
-      $_Q6i6i = 1;
-    $_IJQJ8 = _OPR6L($_IJQJ8, "<SHOW:PERCENT>", "</SHOW:PERCENT>", $_Q6i6i);
+    if($_QlOjt == 0)
+      $_QlOjt = 1;
+    $_IilfC = _L81BJ($_IilfC, "<SHOW:PERCENT>", "</SHOW:PERCENT>", $_QlOjt);
 
-    print $_IJQJ8;
+    print $_IilfC;
     flush();
 
-    $_QJlJ0 = "SELECT * FROM $_Q60QL WHERE id=".$_POST["OneMailingListId"];
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-    $_jf1jt = $_Q6Q1C["MaillistTableName"];
-    $_QlIf6 = $_Q6Q1C["StatisticsTableName"];
-    $_Q6t6j = $_Q6Q1C["GroupsTableName"];
-    $_QLI8o = $_Q6Q1C["FormsTableName"];
-    $_QLI68 = $_Q6Q1C["MailListToGroupsTableName"];
-    $FormId = $_Q6Q1C["forms_id"];
-    $_ItCCo = $_Q6Q1C["LocalBlocklistTableName"];
-    $_jf1J1 = $_Q6Q1C["LocalDomainBlocklistTableName"];
-    mysql_free_result($_Q60l1);
-    $_Ql00j = $_Q6Q1C;
+    $_QLfol = "SELECT * FROM $_QL88I WHERE id=".$_POST["OneMailingListId"];
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_assoc($_QL8i1);
+    $_Jj6jC = $_QLO0f["MaillistTableName"];
+    $_I8jjj = $_QLO0f["StatisticsTableName"];
+    $_QljJi = $_QLO0f["GroupsTableName"];
+    $_IfJoo = $_QLO0f["FormsTableName"];
+    $_IfJ66 = $_QLO0f["MailListToGroupsTableName"];
+    $FormId = $_QLO0f["forms_id"];
+    $_jjj8f = $_QLO0f["LocalBlocklistTableName"];
+    $_Jj6f0 = $_QLO0f["LocalDomainBlocklistTableName"];
+    mysql_free_result($_QL8i1);
+    $_I80Jo = $_QLO0f;
 
     if(isset($_POST["SendOptInEMail"]) && $_POST["SendOptInEMail"] != "" ) {
-      $_QJlJ0 = "SELECT $_QLI8o.*, $_QLo0Q.*, $_Q880O.Theme FROM $_QLI8o LEFT JOIN $_QLo0Q ON $_QLo0Q.id=$_QLI8o.messages_id LEFT JOIN $_Q880O ON $_Q880O.id=$_QLI8o.ThemesId WHERE $_QLI8o.id=$FormId";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      $_j6ioL = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
-      $_j6ioL["MailingListId"] = $_Ql00j["id"];
-      $_j6ioL["FormId"] = $FormId;
+      $_QLfol = "SELECT $_IfJoo.*, $_Ifi1J.*, $_I1tQf.Theme FROM $_IfJoo LEFT JOIN $_Ifi1J ON $_Ifi1J.id=$_IfJoo.messages_id LEFT JOIN $_I1tQf ON $_I1tQf.id=$_IfJoo.ThemesId WHERE $_IfJoo.id=$FormId";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      $_Jj08l = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
+      $_Jj08l["MailingListId"] = $_I80Jo["id"];
+      $_Jj08l["FormId"] = $FormId;
     }
 
-    $_I1I1J = $_POST["Separator"];
-    if($_I1I1J == '\t')
-       $_I1I1J = "\t";
+    $_IO1C0 = $_POST["Separator"];
+    if($_IO1C0 == '\t')
+       $_IO1C0 = "\t";
 
     register_shutdown_function('ImportErrorCheckOnShutdown');
 
     // hier liest er die Zeilen
-    for($_Q6llo=$_IJQQI; ($_Q6llo<$_IJQQI + $_POST["ImportLines"]) && !feof($_QCC8C); $_Q6llo++) {
+    for($_Qli6J=$_Iil6i; ($_Qli6J<$_Iil6i + $_POST["ImportLines"]) && !feof($_IJljf); $_Qli6J++) {
 
       // reset errros
       if(isset($errors) && count($errors) > 0) {
@@ -633,464 +655,480 @@
       if( !isset($errors) )
         $errors = array();
 
-      if(isset($_Ql1O8) && count($_Ql1O8) > 0) {
-        unset($_Ql1O8);
-        $_Ql1O8 = array();
+      if(isset($_I816i) && count($_I816i) > 0) {
+        unset($_I816i);
+        $_I816i = array();
       }
-      if( !isset($_Ql1O8) )
-        $_Ql1O8 = array();
+      if( !isset($_I816i) )
+        $_I816i = array();
       //
 
-      _OPQ6J();
-      $_IJ0Jo++;
-      $_IJ1QJ = fgets($_QCC8C, 4096);
+      _LRCOC();
+      $_IiiJf++;
+      $_IiLOj = fgets($_IJljf, 4096);
       // UTF8?
       if ( !( isset($_POST["IsUTF8"]) && $_POST["IsUTF8"] != "") ) {
-         $_QfoQo = utf8_encode($_IJ1QJ);
-         if($_QfoQo != "")
-           $_IJ1QJ = $_QfoQo;
+         $_I0Clj = utf8_encode($_IiLOj);
+         if($_I0Clj != "")
+           $_IiLOj = $_I0Clj;
       }
 
-      $_Qf1i1 = explode($_I1I1J, $_IJ1QJ);
+      $_I0QjQ = explode($_IO1C0, $_IiLOj);
 
-      $_jfQio = array();
+      $_Jj6L1 = array();
       if( isset($_POST["GroupsOption"]) && $_POST["GroupsOption"] == 2 ) {
-        if($_POST["ImportGroupField"] < count($_Qf1i1)) {
-           $_jfQio = $_Qf1i1[$_POST["ImportGroupField"]];
-           $_jfQLi = ",";
-           if($_I1I1J == ",")
-             $_jfQLi = ";";
-           $_jfQio = explode($_jfQLi, $_jfQio);
-           for($_jfI01=0; $_jfI01<count($_jfQio); $_jfI01++)
-             $_jfQio[$_jfI01] = str_replace(",", "", $_jfQio[$_jfI01]);
+        if($_POST["ImportGroupField"] < count($_I0QjQ)) {
+           $_Jj6L1 = $_I0QjQ[$_POST["ImportGroupField"]];
+
+           if(isset($_POST["RemoveQuotes"]) && $_POST["RemoveQuotes"] != "") {
+             $_Jj6L1 = str_replace('"', '', $_Jj6L1);
+             $_Jj6L1 = str_replace("\'", '', $_Jj6L1);
+             $_Jj6L1 = str_replace("`", '', $_Jj6L1);
+             $_Jj6L1 = str_replace("´", '', $_Jj6L1);
+           }
+           if(isset($_POST["RemoveSpaces"]) && $_POST["RemoveSpaces"] != "") {
+             $_Jj6L1 = trim($_Jj6L1);
+           }
+
+           $_Jjf0J = ",";
+           if($_IO1C0 == ",")
+             $_Jjf0J = ";";
+           $_Jj6L1 = explode($_Jjf0J, $_Jj6L1);
+           for($_JjfO0=0; $_JjfO0<count($_Jj6L1); $_JjfO0++)
+             $_Jj6L1[$_JjfO0] = str_replace(",", "", $_Jj6L1[$_JjfO0]);
         }
       }
 
-      $_QJlJ0 = "INSERT IGNORE INTO $_jf1jt SET DateOfSubscription=NOW()";
+      $_QLfol = "INSERT IGNORE INTO $_Jj6jC SET DateOfSubscription=NOW()";
 
-      $_jfIfl = false;
-      $_jfI81 = "";
+      $_JjfiL = false;
+      $_Jj8iQ = "";
       if(isset($_POST["SendOptInEMail"]) && $_POST["SendOptInEMail"] != "" ) {
-        $_jfI81 = "'OptInConfirmationPending'";
-        $_QJlJ0 .= ", SubscriptionStatus=$_jfI81";
-        $_jfIfl = true;
+        $_Jj8iQ = "'OptInConfirmationPending'";
+        $_QLfol .= ", SubscriptionStatus=$_Jj8iQ";
+        $_JjfiL = true;
         }
         else {
-          $_jfI81 = "'Subscribed'";
-          $_QJlJ0 .= ", SubscriptionStatus=$_jfI81, DateOfOptInConfirmation=NOW(), IPOnSubscription='".$resourcestrings[$INTERFACE_LANGUAGE]["000047"]."'";
+          $_Jj8iQ = "'Subscribed'";
+          $_QLfol .= ", SubscriptionStatus=$_Jj8iQ, DateOfOptInConfirmation=NOW(), IPOnSubscription='".$resourcestrings[$INTERFACE_LANGUAGE]["000047"]."'";
         }
 
-      $_I16jJ = $_POST["fields"];
-      reset($_I16jJ);
-      $_jfIi1 = "";
-      $_ILQL0 = array();
-      foreach($_I16jJ as $_I1i8O => $_IJQOL) {
-        if($_IJQOL < 0) {continue;}
-        if(is_array($_IJQOL) ){
+      $_IOJoI = $_POST["fields"];
+      reset($_IOJoI);
+      $_Jj8lt = "";
+      $_jtiJJ = array();
+      foreach($_IOJoI as $_IOLil => $_Iiloo) {
+        if($_Iiloo < 0) {continue;}
+        if(is_array($_Iiloo) ){
           continue;
          }
-        if($_IJQOL < count($_Qf1i1))
-           $_I1L81 = $_Qf1i1[$_IJQOL];
+        if($_Iiloo < count($_I0QjQ))
+           $_IOCjL = $_I0QjQ[$_Iiloo];
            else
-           $_I1L81 = "";
+           $_IOCjL = "";
         if(isset($_POST["RemoveQuotes"]) && $_POST["RemoveQuotes"] != "") {
-          $_I1L81 = str_replace('"', '', $_I1L81);
-          $_I1L81 = str_replace("\'", '', $_I1L81);
-          $_I1L81 = str_replace("`", '', $_I1L81);
-          $_I1L81 = str_replace("´", '', $_I1L81);
+          $_IOCjL = str_replace('"', '', $_IOCjL);
+          $_IOCjL = str_replace("\'", '', $_IOCjL);
+          $_IOCjL = str_replace("`", '', $_IOCjL);
+          $_IOCjL = str_replace("´", '', $_IOCjL);
         }
         if(isset($_POST["RemoveSpaces"]) && $_POST["RemoveSpaces"] != "") {
-          $_I1L81 = trim($_I1L81);
+          $_IOCjL = trim($_IOCjL);
         }
-        if(isset($_I16jJ[$_I1i8O]) && $_I1L81 != -1) {
-          if($_I1i8O == "u_EMailFormat") {
-            $_I1L81 = trim($_I1L81);
-            if($_I1L81 != 'HTML' && $_I1L81 != 'PlainText' && $_I1L81 != 'Text')
-              $_I1L81 = 'HTML';
+        if(isset($_IOJoI[$_IOLil]) && $_IOCjL != -1) {
+          if($_IOLil == "u_EMailFormat") {
+            $_IOCjL = trim($_IOCjL);
+            if($_IOCjL != 'HTML' && $_IOCjL != 'PlainText' && $_IOCjL != 'Text')
+              $_IOCjL = 'HTML';
               else
-              if($_I1L81 == 'PlainText' || $_I1L81 == 'Text')
-                $_I1L81 = 'PlainText';
-          } // if($_I1i8O == "u_EMailFormat")
-          if($_I1i8O == "u_Gender") {
-            $_I1L81 = strtolower($_I1L81);
-            $_I1L81 = trim($_I1L81);
-            if($_I1L81 != "m" && $_I1L81 != "w") {
-              $_I1L81 = substr($_I1L81, 0, 1);
-              if($_I1L81 == "f") // female
-                $_I1L81 = "w";
-              if($_I1L81 != "m" && $_I1L81 != "w") {
-                if($_I1L81 == "0")
-                   $_I1L81 = "m";
+              if($_IOCjL == 'PlainText' || $_IOCjL == 'Text')
+                $_IOCjL = 'PlainText';
+          } // if($_IOLil == "u_EMailFormat")
+          if($_IOLil == "u_Gender") {
+            $_IOCjL = strtolower($_IOCjL);
+            $_IOCjL = trim($_IOCjL);
+            if($_IOCjL != "m" && $_IOCjL != "w") {
+              $_IOCjL = substr($_IOCjL, 0, 1);
+              if($_IOCjL == "f") // female
+                $_IOCjL = "w";
+              if($_IOCjL != "m" && $_IOCjL != "w") {
+                if($_IOCjL == "0")
+                   $_IOCjL = "m";
                    else
-                   if($_I1L81 == "1")
-                      $_I1L81 = "w";
+                   if($_IOCjL == "1")
+                      $_IOCjL = "w";
                       else
-                       $_I1L81 = 'undefined';
+                       $_IOCjL = 'undefined';
               }
             }
-          } // if($_I1i8O == "u_Gender")
-          if($_I1i8O == "u_Birthday") {
-            $_I1L81 = trim($_I1L81);
+          } // if($_IOLil == "u_Gender")
+          if($_IOLil == "u_Birthday") {
+            $_IOCjL = trim($_IOCjL);
             if($_POST["BirthdayDateFormat"] == "dd.mm.yyyy") {
-              $_Io01I = explode(".", $_I1L81);
-              while(count($_Io01I) < 3)
-                 $_Io01I[] = "f";
-              $_IOJ8I = $_Io01I[0];
-              $_Io0t6 = $_Io01I[1];
-              $_Io0l8 = $_Io01I[2];
+              $_jJQOo = explode(".", $_IOCjL);
+              while(count($_jJQOo) < 3)
+                 $_jJQOo[] = "f";
+              $_jjOlo = $_jJQOo[0];
+              $_jJIft = $_jJQOo[1];
+              $_jJjQi = $_jJQOo[2];
             } else
               if($_POST["BirthdayDateFormat"] == "yyyy-mm-dd") {
-               $_Io01I = explode("-", $_I1L81);
-               while(count($_Io01I) < 3)
-                  $_Io01I[] = "f";
-               $_IOJ8I = $_Io01I[2];
-               $_Io0t6 = $_Io01I[1];
-               $_Io0l8 = $_Io01I[0];
+               $_jJQOo = explode("-", $_IOCjL);
+               while(count($_jJQOo) < 3)
+                  $_jJQOo[] = "f";
+               $_jjOlo = $_jJQOo[2];
+               $_jJIft = $_jJQOo[1];
+               $_jJjQi = $_jJQOo[0];
               } else
                 if($_POST["BirthdayDateFormat"] == "mm-dd-yyyy") {
-                  $_Io01I = explode("-", $_I1L81);
-                  while(count($_Io01I) < 3)
-                     $_Io01I[] = "f";
-                  $_IOJ8I = $_Io01I[1];
-                  $_Io0t6 = $_Io01I[0];
-                  $_Io0l8 = $_Io01I[2];
+                  $_jJQOo = explode("-", $_IOCjL);
+                  while(count($_jJQOo) < 3)
+                     $_jJQOo[] = "f";
+                  $_jjOlo = $_jJQOo[1];
+                  $_jJIft = $_jJQOo[0];
+                  $_jJjQi = $_jJQOo[2];
                 }
 
-            if(strlen($_Io0l8) == 2)
-              $_Io0l8 = "19".$_Io0l8;
+            if(strlen($_jJjQi) == 2)
+              $_jJjQi = "19".$_jJjQi;
             if( ! (
-                (intval($_IOJ8I) > 0 && intval($_IOJ8I) < 32) &&
-                (intval($_Io0t6) > 0 && intval($_Io0t6) < 13)
+                (intval($_jjOlo) > 0 && intval($_jjOlo) < 32) &&
+                (intval($_jJIft) > 0 && intval($_jJIft) < 13)
                   )
               ) // error in date
-              $_I1L81 = "0000-00-00";
+              $_IOCjL = "0000-00-00";
               else
-              $_I1L81 = "$_Io0l8-$_Io0t6-$_IOJ8I";
+              $_IOCjL = "$_jJjQi-$_jJIft-$_jjOlo";
 
-          } // if($_I1i8O == "u_Birthday")
+          } // if($_IOLil == "u_Birthday")
 
           // integer
           if(
-             $_I1i8O == "u_UserFieldInt1" ||
-             $_I1i8O == "u_UserFieldInt2" ||
-             $_I1i8O == "u_UserFieldInt3"
+             $_IOLil == "u_UserFieldInt1" ||
+             $_IOLil == "u_UserFieldInt2" ||
+             $_IOLil == "u_UserFieldInt3"
             )
-              $_I1L81 = intval($_I1L81);
+              $_IOCjL = intval($_IOCjL);
 
           // boolean
           if(
-             $_I1i8O == "u_UserFieldBool1" ||
-             $_I1i8O == "u_UserFieldBool2" ||
-             $_I1i8O == "u_UserFieldBool3"
+             $_IOLil == "u_UserFieldBool1" ||
+             $_IOLil == "u_UserFieldBool2" ||
+             $_IOLil == "u_UserFieldBool3" ||
+             $_IOLil == "u_PersonalizedTracking"
             ) {
-              $_I1L81 = strtolower($_I1L81);
-              if($_I1L81 == "true")
-                $_I1L81 = 1;
-                if($_I1L81 == "false")
-                   $_I1L81 = 0;
-              $_I1L81 = intval($_I1L81);
-              if($_I1L81 < 0) $_I1L81 = 0;
-              if($_I1L81 > 0) $_I1L81 = 1;
+              $_IOCjL = strtolower($_IOCjL);
+              if($_IOCjL == "true")
+                $_IOCjL = 1;
+                if($_IOCjL == "false")
+                   $_IOCjL = 0;
+              $_IOCjL = intval($_IOCjL);
+              if($_IOCjL < 0) $_IOCjL = 0;
+              if($_IOCjL > 0) $_IOCjL = 1;
             }
 
           # no empty email addresses
-          if($_I1i8O == "u_EMail" && (trim($_I1L81) == "" || !_OPAOJ($_I1L81)) ) {
-            $_QJlJ0 = "";
-            _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressIncorrect"], $_I1L81) );
+          if($_IOLil == "u_EMail" && (trim($_IOCjL) == "" || !_L8JEL($_IOCjL)) ) {
+            $_QLfol = "";
+            _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressIncorrect"], $_IOCjL) );
             break;
           } else {
-            if( $_I1i8O == "u_EMail" )
-              $_jfIi1 = $_I1L81;
+            if( $_IOLil == "u_EMail" ){
+              $_IOCjL = _L86JE($_IOCjL);
+              $_Jj8lt = $_IOCjL;
+            }  
           }
 
           if(!defined("ALLOWHTMLCODEINSUBUNSUBFORM")){
-            $_ILQL0[] = " `$_I1i8O`="._OPQLR(htmlspecialchars($_I1L81, ENT_COMPAT, 'UTF-8'));
+            $_jtiJJ[] = " `$_IOLil`="._LRAFO(htmlspecialchars($_IOCjL, ENT_COMPAT, $_QLo06, false));
           } else {
-            $_ILQL0[] = " `$_I1i8O`="._OPQLR($_I1L81);
+            $_jtiJJ[] = " `$_IOLil`="._LRAFO($_IOCjL);
           }
         }
-      } // foreach($_I16jJ as $_I1i8O => $_I1L81)
+      } // foreach($_IOJoI as $_IOLil => $_IOCjL)
 
-      if($_QJlJ0 != "" && $_jfIi1 == "") {
-         _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorNoEMailAddress"], $_jfIi1) );
-         $_QJlJ0 = "";
+      if($_QLfol != "" && $_Jj8lt == "") {
+         _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorNoEMailAddress"], $_Jj8lt) );
+         $_QLfol = "";
       }
 
-      if($_QJlJ0 != "")
-        $_QJlJ0 .= ", ".join(", ", $_ILQL0);
+      if($_QLfol != "")
+        $_QLfol .= ", ".join(", ", $_jtiJJ);
 
-      $_jfIl8 = false;
-      if($_QJlJ0 != "") {
+      $_JjtC8 = false;
+      if($_QLfol != "") {
 
-        $_jfjC6 = substr($_jfIi1, strpos($_jfIi1, '@') + 1);
+        $_JjOjI = substr($_Jj8lt, strpos($_Jj8lt, '@') + 1);
 
-        if(_L0FRD($_jfIi1)) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInGlobalBlockList"], $_jfIi1) );
+        if(_J18DA($_Jj8lt)) {
+          $_JjtC8 = true;
+          _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInGlobalBlockList"], $_Jj8lt) );
         }
 
-        if(!$_jfIl8 && _L101P($_jfIi1, $_POST["OneMailingListId"], $_ItCCo)) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInLocalBlockList"], $_jfIi1) );
+        if(!$_JjtC8 && _J18FQ($_Jj8lt, $_POST["OneMailingListId"], $_jjj8f)) {
+          $_JjtC8 = true;
+          _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInLocalBlockList"], $_Jj8lt) );
         }
 
-        if(!$_jfIl8 && _L1ROL($_jfjC6)) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInGlobalDomainBlockList"], $_jfIi1) );
+        if(!$_JjtC8 && _J1PQO($_JjOjI)) {
+          $_JjtC8 = true;
+          _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInGlobalDomainBlockList"], $_Jj8lt) );
         }
 
-        if(!$_jfIl8 && _L1RDP($_jfjC6, $_POST["OneMailingListId"], $_jf1J1)) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInLocalDomainBlockList"], $_jfIi1) );
+        if(!$_JjtC8 && _J1P6D($_JjOjI, $_POST["OneMailingListId"], $_Jj6f0)) {
+          $_JjtC8 = true;
+          _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInLocalDomainBlockList"], $_Jj8lt) );
         }
 
-        if(!$_jfIl8 && ($_jf1Lf && _OC0DR($_jfIi1)) ) {
-          $_jfIl8 = true;
-          _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInECGList"], $_jfIi1) );
+        if(!$_JjtC8 && $_Jj68f ) {
+          $_I016j = _L6AJP($_Jj8lt);
+          $_JjtC8 = (is_bool($_I016j) && $_I016j);
+          if($_JjtC8)
+            _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorEMailAddressInECGList"], $_Jj8lt), $_JjI8O, $_JjJJl );
         }
 
       }
 
-      if($_jfIl8 && empty($_POST["ImportBlockedRecipients"]))
-        $_QJlJ0 = "";
+      if($_JjtC8 && empty($_POST["ImportBlockedRecipients"]))
+        $_QLfol = "";
 
-      if($_QJlJ0 != "") {
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        _OAL8F($_QJlJ0);
-        if(!empty($_POST["CreateErrorLog"]) && $_jf0il && mysql_affected_rows($_Q61I1) == 0){
-           _O6E18( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorDuplicateEntry"], $_jfIi1) );
+      if($_QLfol != "") {
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        _L8D88($_QLfol);
+        if(!empty($_POST["CreateErrorLog"]) && $_JjJJl && mysql_affected_rows($_QLttI) == 0){
+           _LLQRO( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["ImportErrorDuplicateEntry"], $_Jj8lt) );
         }
       }
 
-      if($_QJlJ0 != "" && mysql_affected_rows($_Q61I1) > 0 ) {
-        $_IJ0t1++;
+      if($_QLfol != "" && mysql_affected_rows($_QLttI) > 0 ) {
+        $_Iii6I++;
 
         // statistics
-        $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-        $_Q6Q1C=mysql_fetch_array($_Q60l1);
-        $_QLitI = $_Q6Q1C[0];
-        mysql_free_result($_Q60l1);
+        $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+        $_QLO0f=mysql_fetch_array($_QL8i1);
+        $_IfLJj = $_QLO0f[0];
+        mysql_free_result($_QL8i1);
 
-        $_QJlJ0 = "INSERT INTO $_QlIf6 SET ActionDate=NOW(), Action=$_jfI81, Member_id=$_QLitI";
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        _OAL8F($_QJlJ0);
+        $_QLfol = "INSERT INTO $_I8jjj SET ActionDate=NOW(), Action=$_Jj8iQ, Member_id=$_IfLJj";
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        _L8D88($_QLfol);
 
         // **** apply groups_id to member_id START
         if( isset($_POST["GroupsOption"]) && $_POST["GroupsOption"] == 3 && isset($_POST["groups_id"]) && intval($_POST["groups_id"]) > 0 ) {
-          $_QJlJ0 = "INSERT INTO $_QLI68 SET groups_id=".intval($_POST["groups_id"]).", Member_id=$_QLitI";
-          $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-          _OAL8F($_QJlJ0);
+          $_QLfol = "INSERT INTO $_IfJ66 SET groups_id=".intval($_POST["groups_id"]).", Member_id=$_IfLJj";
+          $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+          _L8D88($_QLfol);
         }
         // **** apply groups_id to member_id END
 
         // **** import groups names and create it if not exists START
-        if( isset($_POST["GroupsOption"]) && $_POST["GroupsOption"] == 2 && isset($_jfQio) && count($_jfQio) > 0 ) {
-          for($_jfJj0 = 0; $_jfJj0<count($_jfQio); $_jfJj0++) {
-            if(trim($_jfQio[$_jfJj0]) == "") continue;
-            $_QJlJ0 = "INSERT IGNORE INTO $_Q6t6j SET CreateDate=NOW(), Name="._OPQLR(trim($_jfQio[$_jfJj0]));
-            $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-            _OAL8F($_QJlJ0);
-            if(mysql_affected_rows($_Q61I1) > 0 ) {
-              $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-              $_Q6Q1C=mysql_fetch_array($_Q60l1);
-              $_I1JQt = $_Q6Q1C[0];
-              mysql_free_result($_Q60l1);
+        if( isset($_POST["GroupsOption"]) && $_POST["GroupsOption"] == 2 && isset($_Jj6L1) && count($_Jj6L1) > 0 ) {
+          for($_JjOfi = 0; $_JjOfi<count($_Jj6L1); $_JjOfi++) {
+            if(trim($_Jj6L1[$_JjOfi]) == "") continue;
+            $_QLfol = "INSERT IGNORE INTO $_QljJi SET CreateDate=NOW(), Name="._LRAFO(trim($_Jj6L1[$_JjOfi]));
+            $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+            _L8D88($_QLfol);
+            if(mysql_affected_rows($_QLttI) > 0 ) {
+              $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+              $_QLO0f=mysql_fetch_array($_QL8i1);
+              $_IOjji = $_QLO0f[0];
+              mysql_free_result($_QL8i1);
             } else {
-              $_QJlJ0 = "SELECT id FROM $_Q6t6j WHERE Name="._OPQLR(trim($_jfQio[$_jfJj0]));
-              $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-              _OAL8F($_QJlJ0);
-              $_I1JQt = 0;
-              if($_Q60l1) {
-                 $_Q6Q1C=mysql_fetch_array($_Q60l1);
-                 $_I1JQt = $_Q6Q1C[0];
-                 mysql_free_result($_Q60l1);
+              $_QLfol = "SELECT id FROM $_QljJi WHERE Name="._LRAFO(trim($_Jj6L1[$_JjOfi]));
+              $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+              _L8D88($_QLfol);
+              $_IOjji = 0;
+              if($_QL8i1) {
+                 $_QLO0f=mysql_fetch_array($_QL8i1);
+                 $_IOjji = $_QLO0f[0];
+                 mysql_free_result($_QL8i1);
               }
             }
 
-            if($_I1JQt != 0) {
-              $_QJlJ0 = "INSERT INTO $_QLI68 SET groups_id=$_I1JQt, Member_id=$_QLitI";
-              $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-              _OAL8F($_QJlJ0);
+            if($_IOjji != 0) {
+              $_QLfol = "INSERT INTO $_IfJ66 SET groups_id=$_IOjji, Member_id=$_IfLJj";
+              $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+              _L8D88($_QLfol);
             }
           }
-          $_jfQio = array();
+          $_Jj6L1 = array();
         }
         // **** import groups names and create it if not exists END
 
-        if($_jfIfl && $_jfIi1 != "" && !$_jfIl8) {
-          _OPQ6J();
-          _L0RLJ("subscribeconfirm", $_QLitI, $_Ql00j, $_j6ioL, $errors, $_Ql1O8);
-          _OPQ6J();
+        if($_JjfiL && $_Jj8lt != "" && !$_JjtC8) {
+          _LRCOC();
+          _J0LAA("subscribeconfirm", $_IfLJj, $_I80Jo, $_Jj08l, $errors, $_I816i);
+          _LRCOC();
         }
 
-      } // if(mysql_affected_rows($_Q61I1) > 0 )
+      } // if(mysql_affected_rows($_QLttI) > 0 )
         else
-        if($_QJlJ0 != "" && isset($_POST["GroupsOption"]) && $_POST["GroupsOption"] > 0 && isset($_POST["ExImportOption"]) && $_POST["ExImportOption"] != 2 ) { // member exists, add to groups or update
+        if($_QLfol != "" && isset($_POST["GroupsOption"]) && $_POST["GroupsOption"] > 0 && isset($_POST["ExImportOption"]) && $_POST["ExImportOption"] != 2 ) { // member exists, add to groups or update
 
-          $_QJlJ0 = "SELECT id FROM $_jf1jt WHERE u_EMail="._OPQLR($_jfIi1);
-          $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-          _OAL8F($_QJlJ0);
-          if(mysql_num_rows($_Q60l1) > 0) {
-            $_Q6Q1C=mysql_fetch_array($_Q60l1);
-            mysql_free_result($_Q60l1);
-            $_QLitI = $_Q6Q1C["id"];
+          $_QLfol = "SELECT id FROM $_Jj6jC WHERE u_EMail="._LRAFO($_Jj8lt);
+          $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+          _L8D88($_QLfol);
+          if(mysql_num_rows($_QL8i1) > 0) {
+            $_QLO0f=mysql_fetch_array($_QL8i1);
+            mysql_free_result($_QL8i1);
+            $_IfLJj = $_QLO0f["id"];
 
             # Remove from all groups
             if(!empty($_POST["RemoveRecipientFromGroups"]))
-              _L1LLB(array($_QLitI), $_POST["OneMailingListId"], $_QLI68);
+              _J1JFE(array($_IfLJj), $_POST["OneMailingListId"], $_IfJ66);
 
 
             if($_POST["ExImportOption"] == 3){
               // Update recipient
               // no empty values
-              for($_Q6llo=0; $_Q6llo<count($_ILQL0); $_Q6llo++){
-                if(strpos($_ILQL0[$_Q6llo], '""') !== false || strpos($_ILQL0[$_Q6llo], '"0000-00-00"') !== false) {
-                  unset($_ILQL0[$_Q6llo]);
+              for($_Qli6J=0; $_Qli6J<count($_jtiJJ); $_Qli6J++){
+                if(strpos($_jtiJJ[$_Qli6J], '""') !== false || strpos($_jtiJJ[$_Qli6J], '"0000-00-00"') !== false) {
+                  unset($_jtiJJ[$_Qli6J]);
                 }
               }
 
-              $_QJlJ0 = "UPDATE $_jf1jt SET ".join(", ", $_ILQL0)." WHERE id=$_QLitI";
-              mysql_query($_QJlJ0, $_Q61I1);
-              _OAL8F($_QJlJ0);
+              $_QLfol = "UPDATE $_Jj6jC SET ".join(", ", $_jtiJJ)." WHERE id=$_IfLJj";
+              mysql_query($_QLfol, $_QLttI);
+              _L8D88($_QLfol);
             }
 
             // **** apply groups_id to member_id START
             if( isset($_POST["GroupsOption"]) && $_POST["GroupsOption"] == 3 && isset($_POST["groups_id"]) && intval($_POST["groups_id"]) > 0 ) {
-              $_QJlJ0 = "SELECT * FROM $_QLI68 WHERE groups_id=".intval($_POST["groups_id"])." AND Member_id=$_QLitI";
-              $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-              if(mysql_num_rows($_Q60l1) == 0) {
-                if($_Q60l1)
-                  mysql_free_result($_Q60l1);
-                $_QJlJ0 = "INSERT INTO $_QLI68 SET groups_id=".intval($_POST["groups_id"]).", Member_id=$_QLitI";
-                $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-                _OAL8F($_QJlJ0);
-                $_IJ0t1++;
+              $_QLfol = "SELECT * FROM $_IfJ66 WHERE groups_id=".intval($_POST["groups_id"])." AND Member_id=$_IfLJj";
+              $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+              if(mysql_num_rows($_QL8i1) == 0) {
+                if($_QL8i1)
+                  mysql_free_result($_QL8i1);
+                $_QLfol = "INSERT INTO $_IfJ66 SET groups_id=".intval($_POST["groups_id"]).", Member_id=$_IfLJj";
+                $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+                _L8D88($_QLfol);
+                $_Iii6I++;
               } else
-                if($_Q60l1)
-                  mysql_free_result($_Q60l1);
+                if($_QL8i1)
+                  mysql_free_result($_QL8i1);
             }
            // **** apply groups_id to member_id END
 
            // **** import groups names and create it if not exists START
-           if( isset($_POST["GroupsOption"]) && $_POST["GroupsOption"] == 2 && isset($_jfQio) && count($_jfQio) > 0 ) {
-             for($_jfJj0=0; $_jfJj0<count($_jfQio); $_jfJj0++) {
-               if(trim($_jfQio[$_jfJj0]) == "") continue;
-               $_QJlJ0 = "INSERT IGNORE INTO $_Q6t6j SET CreateDate=NOW(), Name="._OPQLR(trim($_jfQio[$_jfJj0]));
-               $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-               _OAL8F($_QJlJ0);
-               if(mysql_affected_rows($_Q61I1) > 0 ) {
-                 $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-                 $_Q6Q1C=mysql_fetch_array($_Q60l1);
-                 $_I1JQt = $_Q6Q1C[0];
-                 mysql_free_result($_Q60l1);
+           if( isset($_POST["GroupsOption"]) && $_POST["GroupsOption"] == 2 && isset($_Jj6L1) && count($_Jj6L1) > 0 ) {
+             for($_JjOfi=0; $_JjOfi<count($_Jj6L1); $_JjOfi++) {
+               if(trim($_Jj6L1[$_JjOfi]) == "") continue;
+               $_QLfol = "INSERT IGNORE INTO $_QljJi SET CreateDate=NOW(), Name="._LRAFO(trim($_Jj6L1[$_JjOfi]));
+               $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+               _L8D88($_QLfol);
+               if(mysql_affected_rows($_QLttI) > 0 ) {
+                 $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+                 $_QLO0f=mysql_fetch_array($_QL8i1);
+                 $_IOjji = $_QLO0f[0];
+                 mysql_free_result($_QL8i1);
                } else {
-                 $_QJlJ0 = "SELECT id FROM $_Q6t6j WHERE Name="._OPQLR(trim($_jfQio[$_jfJj0]));
-                 $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-                 _OAL8F($_QJlJ0);
-                 $_I1JQt = 0;
-                 if($_Q60l1) {
-                    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-                    $_I1JQt = $_Q6Q1C[0];
-                    mysql_free_result($_Q60l1);
+                 $_QLfol = "SELECT id FROM $_QljJi WHERE Name="._LRAFO(trim($_Jj6L1[$_JjOfi]));
+                 $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+                 _L8D88($_QLfol);
+                 $_IOjji = 0;
+                 if($_QL8i1) {
+                    $_QLO0f=mysql_fetch_array($_QL8i1);
+                    $_IOjji = $_QLO0f[0];
+                    mysql_free_result($_QL8i1);
                  }
                }
 
-               if($_I1JQt != 0) {
-                 $_QJlJ0 = "SELECT * FROM $_QLI68 WHERE groups_id=$_I1JQt AND Member_id=$_QLitI";
-                 $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-                 if(mysql_num_rows($_Q60l1) == 0) {
-                   if($_Q60l1)
-                     mysql_free_result($_Q60l1);
-                   $_QJlJ0 = "INSERT INTO $_QLI68 SET groups_id=$_I1JQt, Member_id=$_QLitI";
-                   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-                   _OAL8F($_QJlJ0);
-                   $_IJ0t1++;
+               if($_IOjji != 0) {
+                 $_QLfol = "SELECT * FROM $_IfJ66 WHERE groups_id=$_IOjji AND Member_id=$_IfLJj";
+                 $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+                 if(mysql_num_rows($_QL8i1) == 0) {
+                   if($_QL8i1)
+                     mysql_free_result($_QL8i1);
+                   $_QLfol = "INSERT INTO $_IfJ66 SET groups_id=$_IOjji, Member_id=$_IfLJj";
+                   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+                   _L8D88($_QLfol);
+                   $_Iii6I++;
                  } else
-                   if($_Q60l1)
-                     mysql_free_result($_Q60l1);
+                   if($_QL8i1)
+                     mysql_free_result($_QL8i1);
                }
              }
-             $_jfQio = array();
+             $_Jj6L1 = array();
            }
            // **** import groups names and create it if not exists END
 
-          } # if(mysql_num_rows($_Q60l1) > 0)
+          } # if(mysql_num_rows($_QL8i1) > 0)
 
-        } // if($_QJlJ0 != "" && isset($_POST["GroupsOption"]) && $_POST["GroupsOption"] > 0 && isset($_POST["ExImportOption"]) && $_POST["ExImportOption"] != 2 )
+        } // if($_QLfol != "" && isset($_POST["GroupsOption"]) && $_POST["GroupsOption"] > 0 && isset($_POST["ExImportOption"]) && $_POST["ExImportOption"] != 2 )
     }
 
-    $_IJQQI += $_POST["ImportLines"];
-    $_IJ0tL = ftell($_QCC8C);
-    if(feof($_QCC8C))
-      $_IJ0tL = -1;
+    $_Iil6i += $_POST["ImportLines"];
+    $_Iiioi = ftell($_IJljf);
+    if(feof($_IJljf))
+      $_Iiioi = -1;
 
-    print '<input type="hidden" name="start" value="'.$_IJQQI.'" />';
-    print '<input type="hidden" name="fileposition" value="'.$_IJ0tL.'" />';
-    print '<input type="hidden" name="RowCount" value="'.$_IJ0Jo.'" />';
-    print '<input type="hidden" name="ImportRowCount" value="'.$_IJ0t1.'" />';
+    print '<input type="hidden" name="start" value="'.$_Iil6i.'" />';
+    print '<input type="hidden" name="fileposition" value="'.$_Iiioi.'" />';
+    print '<input type="hidden" name="RowCount" value="'.$_IiiJf.'" />';
+    print '<input type="hidden" name="ImportRowCount" value="'.$_Iii6I.'" />';
 
-    fclose($_QCC8C);
+    fclose($_IJljf);
 
-    if(!empty($_POST["CreateErrorLog"]) && $_jf0il){
-      fclose($_jf0il);
+    if(!empty($_POST["CreateErrorLog"]) && $_JjJJl){
+      fclose($_JjJJl);
     }
 
-    print $_QJCJi;
+    print $_QLJfI;
     flush();
   }
 
 
-  function _OL086($errors, $_I1l66, $_I0600 = "") {
-    global $_I0lQJ, $resourcestrings, $INTERFACE_LANGUAGE, $OneMailingListId;
-    global $UserType, $Username, $_Q6JJJ;
+  function _L0FRP($errors, $_Io0OJ, $_Itfj8 = "") {
+    global $_ItL8f, $resourcestrings, $INTERFACE_LANGUAGE, $OneMailingListId;
+    global $UserType, $Username, $_QLl1Q;
 
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], $_I0600, 'importrecipients_csv', 'import2_snipped.htm');
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_POST["MailingListName"]." - ".$resourcestrings[$INTERFACE_LANGUAGE]["000054"], $_Itfj8, 'importrecipients_csv', 'import2_snipped.htm');
 
-    if(isset($_I1l66["step"]))
-      unset($_I1l66["step"]);
+    if(isset($_Io0OJ["step"]))
+      unset($_Io0OJ["step"]);
 
-    $_QJCJi = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$OneMailingListId.'"', $_QJCJi);
-    $_QJCJi = str_replace('name="MailingListName"', 'name="MailingListName" value="'.$_POST["MailingListName"].'"', $_QJCJi);
+    $_QLJfI = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$OneMailingListId.'"', $_QLJfI);
+    $_QLJfI = str_replace('name="MailingListName"', 'name="MailingListName" value="'.$_POST["MailingListName"].'"', $_QLJfI);
 
-    if(isset($_I1l66["MailingListName"]))
-      unset($_I1l66["MailingListName"]);
+    if(isset($_Io0OJ["MailingListName"]))
+      unset($_Io0OJ["MailingListName"]);
 
-    if (!isset($_I1l66["Separator"]) )
-      $_QJCJi = str_replace('name="Separator"', 'name="Separator" value=","', $_QJCJi);
-    if (!isset($_I1l66["ImportLines"]) )
-       $_QJCJi = str_replace('name="ImportLines"', 'name="ImportLines" value="200"', $_QJCJi);
-    if (!isset($_I1l66["Header1Line"]) )
-       $_QJCJi = str_replace('name="Header1Line"', 'name="Header1Line" checked="checked"', $_QJCJi);
-    if (!isset($_I1l66["RemoveQuotes"]) )
-       $_QJCJi = str_replace('name="RemoveQuotes"', 'name="RemoveQuotes" checked="checked"', $_QJCJi);
-    if (!isset($_I1l66["RemoveSpaces"]) )
-       $_QJCJi = str_replace('name="RemoveSpaces"', 'name="RemoveSpaces" checked="checked"', $_QJCJi);
+    if (!isset($_Io0OJ["Separator"]) )
+      $_QLJfI = str_replace('name="Separator"', 'name="Separator" value=","', $_QLJfI);
+    if (!isset($_Io0OJ["ImportLines"]) )
+       $_QLJfI = str_replace('name="ImportLines"', 'name="ImportLines" value="200"', $_QLJfI);
+    if (!isset($_Io0OJ["Header1Line"]) )
+       $_QLJfI = str_replace('name="Header1Line"', 'name="Header1Line" checked="checked"', $_QLJfI);
+    if (!isset($_Io0OJ["RemoveQuotes"]) )
+       $_QLJfI = str_replace('name="RemoveQuotes"', 'name="RemoveQuotes" checked="checked"', $_QLJfI);
+    if (!isset($_Io0OJ["RemoveSpaces"]) )
+       $_QLJfI = str_replace('name="RemoveSpaces"', 'name="RemoveSpaces" checked="checked"', $_QLJfI);
 
-    $_I16oJ = "";
-    $_QCC8C = opendir ( substr($_I0lQJ, 0, strlen($_I0lQJ) - 1) );
-    while (false !== ($_Q6lfJ = readdir($_QCC8C))) {
-      if (!is_dir($_I0lQJ.$_Q6lfJ) && $_Q6lfJ != "." && $_Q6lfJ != ".." && $_Q6lfJ != "index.php") {
+    $_IO6iJ = "";
+    $_IJljf = opendir ( substr($_ItL8f, 0, strlen($_ItL8f) - 1) );
+    while (false !== ($_QlCtl = readdir($_IJljf))) {
+      if (!is_dir($_ItL8f.$_QlCtl) && $_QlCtl != "." && $_QlCtl != ".." && $_QlCtl != "index.php") {
 
-        if( isset($_POST["ImportFilename"]) && ($_POST["ImportFilename"] == $_Q6lfJ || $_POST["ImportFilename"] == @utf8_decode($_Q6lfJ) ) )
-          $_I16L6 = ' selected="selected"';
+        if( isset($_POST["ImportFilename"]) && ($_POST["ImportFilename"] == $_QlCtl || $_POST["ImportFilename"] == @utf8_decode($_QlCtl) ) )
+          $_IOfJi = ' selected="selected"';
           else
-          $_I16L6 = '';
-        $_I16oJ .= '<option value="'.$_Q6lfJ.'"' . $_I16L6 . '>'.$_Q6lfJ.'</option>'.$_Q6JJJ;
+          $_IOfJi = '';
+        $_IO6iJ .= '<option value="'.$_QlCtl.'"' . $_IOfJi . '>'.$_QlCtl.'</option>'.$_QLl1Q;
       }
     }
-    closedir($_QCC8C);
-    $_QJCJi = _OPR6L($_QJCJi, "<OPTION:FILENAME>", "</OPTION:FILENAME>", $_I16oJ);
+    closedir($_IJljf);
+    $_QLJfI = _L81BJ($_QLJfI, "<OPTION:FILENAME>", "</OPTION:FILENAME>", $_IO6iJ);
 
-    $_QJCJi = _OPFJA($errors, $_I1l66, $_QJCJi);
+    $_QLJfI = _L8AOB($errors, $_Io0OJ, $_QLJfI);
 
-    print $_QJCJi;
+    print $_QLJfI;
 
   }
 
-  function _O6E18($_I11oJ) {
-   global $_jf0il, $_Q6JJJ;
-   if(!empty($_POST["CreateErrorLog"]) && $_jf0il){
-     fwrite($_jf0il, $_I11oJ.$_Q6JJJ);
+  function _LLQRO($_IO08l) {
+   global $_JjJJl, $_QLl1Q;
+   if(!empty($_POST["CreateErrorLog"]) && $_JjJJl){
+     fwrite($_JjJJl, $_IO08l.$_QLl1Q);
    }
   }
 

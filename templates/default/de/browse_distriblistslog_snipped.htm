@@ -20,7 +20,7 @@
 
     function ConfirmDeleteLogEntryEvent(value) {
       if(value)
-        document.getElementById('DistribLogForm').submit();
+        $('#DistribLogForm').submit();
         else {
           document.getElementById('OneDistribLogAction').value = "";
           document.getElementById('OneDistribLogId').value = "";
@@ -30,7 +30,7 @@
 
     function ConfirmListActionEvent(value) {
       if(value)
-        document.getElementById('DistribLogForm').submit();
+        $('#DistribLogForm').submit();
     }
 
     function ConfirmListAction() {
@@ -230,6 +230,7 @@
                 <option value="OnlyFailedItems">Nur fehlgeschlagene &Uuml;bermittlungen</option>
                 <option value="OnlyPossiblySentItems">Nur f&uuml;r m&ouml;glicherweise versendete E-Mails</option>
                 <option value="OnlyToSendItems">Nur f&uuml;r Versand vorgesehene</option>
+                <option value="OnlyHardbouncedItems">Nur unzustellbare E-Mails</option>
               </select>
             </td>
           </tr>
@@ -315,7 +316,7 @@
             			  Seite:&nbsp;
            </td>
            <td style="text-align:right; width:1%; white-space:nowrap; ">
-            			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.DistribLogForm.submit()">
+            			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="$('#DistribLogForm').submit();">
                    <OPTION:PAGES>
                    <option>1</option>
                    </OPTION:PAGES>
@@ -337,6 +338,7 @@
   CheckboxClicked();
   ShowItem('ListActionSubmitBtn', (document.getElementById('LogsActions').selectedIndex != 0) && ( document.getElementById('LogsActions').disabled == false ) ) ;
   DisableItem('LogsActions', GetCheckedCount('LogIDs[]', 'DistribLogForm') > 0 );
+  InsertLoadingStatusOnSubmit();
 
   //AUTO_SCRIPT_CODE_PLACEHOLDER//
 //-->

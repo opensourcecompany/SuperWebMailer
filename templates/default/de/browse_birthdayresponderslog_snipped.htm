@@ -1,3 +1,9 @@
+    <!-- Datejs -->
+    <script type='text/javascript' src='js/datejs/src/globalization/en-US.js'></script>
+    <script type="text/javascript" src="js/datejs/src/core.js"></script>
+    <script type="text/javascript" src="js/datejs/src/sugarpak.js"></script>
+    <script type="text/javascript" src="js/datejs/src/parser.js"></script>
+
 <div class="spacerborder">
 
   <script language="javascript" type="text/javascript">
@@ -20,7 +26,7 @@
 
     function ConfirmDeleteLogEntryEvent(value) {
       if(value)
-        document.getElementById('BirthdayresponderLogForm').submit();
+        $("#BirthdayresponderLogForm").submit();
         else {
           document.getElementById('OneBirthdayresponderLogAction').value = "";
           document.getElementById('OneBirthdayresponderLogId').value = "";
@@ -30,7 +36,7 @@
 
     function ConfirmListActionEvent(value) {
       if(value)
-        document.getElementById('BirthdayresponderLogForm').submit();
+        $("#BirthdayresponderLogForm").submit();
     }
 
     function ConfirmListAction() {
@@ -61,6 +67,7 @@
  	<link type="text/css" rel="stylesheet" href="css/dhtmlgoodies_calendar.css" media="screen" />
   <script language="JavaScript">
   <!--
+    var dateFormat = "de";
     ChangeLanguageCode("de");
     // german ever dd.mm.yyyy, others must be ever yyyy-mm-dd the php script doesn't support other formats
   //-->
@@ -91,6 +98,26 @@
           </tr>
           <tr>
             <td style="width: 30%">
+              <br />
+              Auswahl Zeitraum&nbsp;
+            </td>
+            <td style="width: 70%">
+              <br />
+              <select id="ReportInterval" size="1">
+                <option>-</option>
+                <option value="yesterday">Gestern</option>
+                <option value="thisweek">Diese Woche</option>
+                <option value="lastweek">Letzte Woche</option>
+                <option value="last10days">Letzte 10 Tage</option>
+                <option value="thismonth">Dieser Monat</option>
+                <option value="lastmonth">Vorheriger Monat</option>
+                <option value="last3months">Die letzten 3 Monate</option>
+                <option value="thisyear">Dieses Jahr</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td style="width: 30%">
               Anzahl anzuzeigende Eintr&auml;ge
             </td>
             <td style="width: 70%">
@@ -108,6 +135,7 @@
                 <option value="OnlyFailedItems">Nur fehlgeschlagene &Uuml;bermittlungen</option>
                 <option value="OnlyPossiblySentItems">Nur f&uuml;r m&ouml;glicherweise versendete E-Mails</option>
                 <option value="OnlyToSendItems">Nur f&uuml;r Versand vorgesehene</option>
+                <option value="OnlyHardbouncedItems">Nur unzustellbare E-Mails</option>
               </select>
             </td>
           </tr>
@@ -193,7 +221,7 @@
             			  Seite:&nbsp;
            </td>
            <td style="text-align:right; width:1%; white-space:nowrap; ">
-            			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.BirthdayresponderLogForm.submit()">
+            			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="$('#BirthdayresponderLogForm').submit();">
                    <OPTION:PAGES>
                    <option>1</option>
                    </OPTION:PAGES>
@@ -215,6 +243,59 @@
   CheckboxClicked();
   ShowItem('ListActionSubmitBtn', (document.getElementById('LogsActions').selectedIndex != 0) && ( document.getElementById('LogsActions').disabled == false ) ) ;
   DisableItem('LogsActions', GetCheckedCount('LogIDs[]', 'BirthdayresponderLogForm') > 0 );
+  InsertLoadingStatusOnSubmit();
+
+  function formatDate(aDate){
+   if(dateFormat == "de")
+     return aDate.toString("dd.MM.yyyy")
+     else
+     return aDate.toString("yyyy-MM-dd")
+  }
+
+
+  $('#ReportInterval').on('change', function() {
+    var currentDate = Date;
+
+    switch (this.value) {
+      case "yesterday" :
+       $('#startdate').val( formatDate( Date.today().addDays(-1) ) );
+       $('#enddate').val( formatDate( Date.today().addDays(-1) ) );
+       break;
+      case "thisweek" :
+       $('#startdate').val( formatDate( Date.today().moveToDayOfWeek(1, -1) ) );
+       $('#enddate').val( formatDate( Date.today().moveToDayOfWeek(7, +1) ) );
+       break;
+      case "lastweek" :
+       var l = Date.today().addWeeks(-1);
+       $('#startdate').val( formatDate( l.moveToDayOfWeek(1, -1) ) );
+       $('#enddate').val( formatDate( l.moveToDayOfWeek(7, +1) ) );
+       break;
+      case "last10days" :
+       $('#startdate').val( formatDate( Date.today().addDays(-10) ) );
+       $('#enddate').val( formatDate( Date.today() ) );
+       break;
+      case "thismonth" :
+       $('#startdate').val( formatDate( Date.today().moveToFirstDayOfMonth() ) );
+       $('#enddate').val( formatDate( Date.today().moveToLastDayOfMonth() ) );
+       break;
+      case "lastmonth" :
+       var l = Date.today().addMonths(-1);
+       $('#startdate').val( formatDate( l.moveToFirstDayOfMonth() ) );
+       $('#enddate').val( formatDate( l.moveToLastDayOfMonth() ) );
+       break;
+      case "last3months" :
+       var l = Date.today().addMonths(-3);
+       $('#startdate').val( formatDate( l.moveToFirstDayOfMonth() ) );
+       $('#enddate').val( formatDate( Date.today().moveToLastDayOfMonth() ) );
+       break;
+      case "thisyear" :
+       var l = Date.today().set({ day: 1, month: 0 });
+       $('#startdate').val( formatDate( l ) );
+       $('#enddate').val( formatDate( Date.today() ) );
+       break;
+    }
+    //$('#ReportInterval').val('-');
+  });
 
   //AUTO_SCRIPT_CODE_PLACEHOLDER//
 //-->

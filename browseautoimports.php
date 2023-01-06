@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2014 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -27,17 +27,17 @@
   include_once("templates.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeAutoImportBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeAutoImportBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  $_I0600 = "";
-  if (count($_POST) != 0) {
+  $_Itfj8 = "";
+  if (count($_POST) > 1) {
     if( isset($_POST["OneAutoImportListAction"]) && isset($_POST["OneAutoImportListId"]) ) {
       // hier die Einzelaktionen
       if($_POST["OneAutoImportListAction"] == "EditAutoImportProperties") {
@@ -48,10 +48,10 @@
       if($_POST["OneAutoImportListAction"] == "DeleteAutoImport") {
 
         if($OwnerUserId != 0) {
-          if(!$_QJojf["PrivilegeAutoImportRemove"]) {
-            $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-            $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-            print $_QJCJi;
+          if(!$_QLJJ6["PrivilegeAutoImportRemove"]) {
+            $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+            $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+            print $_QLJfI;
             exit;
           }
         }
@@ -59,213 +59,213 @@
         include_once("removeautoimport.inc.php");
 
         // show now the list
-        if(count($_QtIiC) > 0)
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000062"].join("<br />", $_QtIiC);
+        if(count($_IQ0Cj) > 0)
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000062"].join("<br />", $_IQ0Cj);
         else
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001207"];
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001207"];
       }
     }
 
   }
 
   // default SQL query
-  $_QJlJ0 = "SELECT DISTINCT {} FROM `$_I0f8O`";
+  $_QLfol = "SELECT DISTINCT {} FROM `$_ItfiJ`";
   if($OwnerUserId != 0) {
-     $_QJlJ0 .= " LEFT JOIN `$_Q6fio` ON `$_Q6fio`.`maillists_id`=`$_I0f8O`.`maillists_id`";
+     $_QLfol .= " LEFT JOIN `$_QlQot` ON `$_QlQot`.`maillists_id`=`$_ItfiJ`.`maillists_id`";
   }
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["001200"].$resourcestrings[$INTERFACE_LANGUAGE]["EntryCount"], $_I0600, 'browseautoimports', 'browse_autoimports_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["001200"].$resourcestrings[$INTERFACE_LANGUAGE]["EntryCount"], $_Itfj8, 'browseautoimports', 'browse_autoimports_snipped.htm');
 
-  $_QJCJi = _OLJLL($_QJlJ0, $_QJCJi);
+  $_QLJfI = _L1JBQ($_QLfol, $_QLJfI);
 
 
   // privilegs
   if($OwnerUserId != 0) {
-    $_Q6ICj = substr($_QJCJi, strpos($_QJCJi, '<div class="PageContainer">'));
-    $_IIf8o = substr($_QJCJi, 0, strpos($_QJCJi, '<div class="PageContainer">') - 1);
+    $_QLoli = substr($_QLJfI, strpos($_QLJfI, '<div class="PageContainer">'));
+    $_ICIIQ = substr($_QLJfI, 0, strpos($_QLJfI, '<div class="PageContainer">') - 1);
 
-    $_QJojf = _OBOOC($UserId);
+    $_QLJJ6 = _LPALQ($UserId);
 
-    if(!$_QJojf["PrivilegeAutoImportCreate"]) {
-      $_Q6ICj = _LJ6RJ($_Q6ICj, "autoimportedit.php");
+    if(!$_QLJJ6["PrivilegeAutoImportCreate"]) {
+      $_QLoli = _JJC0E($_QLoli, "autoimportedit.php");
     }
-    if(!$_QJojf["PrivilegeAutoImportEdit"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "EditAutoImportProperties");
-    }
-
-    if(!$_QJojf["PrivilegeAutoImportRemove"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "DeleteAutoImport");
-      $_Q6ICj = _LJRLJ($_Q6ICj, "RemoveAutoImports");
+    if(!$_QLJJ6["PrivilegeAutoImportEdit"]) {
+      $_QLoli = _JJC1E($_QLoli, "EditAutoImportProperties");
     }
 
-    $_QJCJi = $_IIf8o.$_Q6ICj;
+    if(!$_QLJJ6["PrivilegeAutoImportRemove"]) {
+      $_QLoli = _JJC1E($_QLoli, "DeleteAutoImport");
+      $_QLoli = _JJCRD($_QLoli, "RemoveAutoImports");
+    }
+
+    $_QLJfI = $_ICIIQ.$_QLoli;
   }
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 
 
-  function _OLJLL($_QJlJ0, $_Q6ICj) {
-    global $_I0f8O, $UserId, $OwnerUserId, $_Q61I1, $INTERFACE_LANGUAGE, $resourcestrings, $_Q60QL, $_Q6fio;
-    $_I61Cl = array();
+  function _L1JBQ($_QLfol, $_QLoli) {
+    global $_ItfiJ, $UserId, $OwnerUserId, $_QLttI, $INTERFACE_LANGUAGE, $resourcestrings, $_QL88I, $_QlQot;
+    $_Il0o6 = array();
 
     // wie viele pro Seite?
-    $_I6Q68 = 20;
+    $_Il1jO = 20;
     if(isset($_POST["ItemsPerPage"])) {
-       $_QllO8 = intval($_POST["ItemsPerPage"]);
-       if ($_QllO8 <= 0) $_QllO8 = 20;
-       $_I6Q68 = $_QllO8;
+       $_I016j = intval($_POST["ItemsPerPage"]);
+       if ($_I016j <= 0) $_I016j = 20;
+       $_Il1jO = $_I016j;
     }
-    $_I61Cl["ItemsPerPage"] = $_I6Q68;
+    $_Il0o6["ItemsPerPage"] = $_Il1jO;
 
-    $_IJQQI = 0;
+    $_Iil6i = 0;
     if ( (!isset($_POST['PageSelected'])) || ($_POST['PageSelected'] == 0) )
-      $_I6Q6O = 1;
+      $_IlQQ6 = 1;
       else
-      $_I6Q6O = intval($_POST['PageSelected']);
+      $_IlQQ6 = intval($_POST['PageSelected']);
 
     // zaehlen wie viele es sind
-    $_I6Qfj = 0;
+    $_IlQll = 0;
     if($OwnerUserId != 0){
-      if(strpos($_QJlJ0, " WHERE ") === false)
-        $_QJlJ0 .= " WHERE ";
-      $_QJlJ0 .= "`$_Q6fio`.`users_id`=$UserId";
+      if(strpos($_QLfol, " WHERE ") === false)
+        $_QLfol .= " WHERE ";
+      $_QLfol .= "`$_QlQot`.`users_id`=$UserId";
     }
-    $_QtjtL = $_QJlJ0;
-    $_QtjtL = str_replace('{}', 'COUNT(id)', $_QtjtL);
-    $_Q60l1 = mysql_query($_QtjtL, $_Q61I1);
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_I6Qfj = $_Q6Q1C[0];
-    $_I6IJ8 = $_I6Qfj / $_I6Q68;
-    $_I6IJ8 = ceil($_I6IJ8);
-    if(intval($_I6IJ8 * $_I6Q68) - $_I6Q68 > $_I6Qfj)
-       if($_I6IJ8 > 1) $_I6IJ8--;
-    $_Q6ICj = str_replace ('%RECIPIENTCOUNT%', $_I6Qfj, $_Q6ICj);
+    $_QLlO6 = $_QLfol;
+    $_QLlO6 = str_replace('{}', 'COUNT(id)', $_QLlO6);
+    $_QL8i1 = mysql_query($_QLlO6, $_QLttI);
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_IlQll = $_QLO0f[0];
+    $_IlILC = $_IlQll / $_Il1jO;
+    $_IlILC = ceil($_IlILC);
+    if(intval($_IlILC * $_Il1jO) - $_Il1jO > $_IlQll)
+       if($_IlILC > 1) $_IlILC--;
+    $_QLoli = str_replace ('%RECIPIENTCOUNT%', $_IlQll, $_QLoli);
 
     if( isset( $_POST["OneAutoImportListId"] ) && ($_POST["OneAutoImportListId"] == "Top") )
-       $_I6Q6O = 1;
+       $_IlQQ6 = 1;
     if( isset( $_POST["OneAutoImportListId"] ) && ($_POST["OneAutoImportListId"] == "Prev") )
-       $_I6Q6O = $_I6Q6O - 1;
+       $_IlQQ6 = $_IlQQ6 - 1;
     if( isset( $_POST["OneAutoImportListId"] ) && ($_POST["OneAutoImportListId"] == "Next") )
-       $_I6Q6O = $_I6Q6O + 1;
+       $_IlQQ6 = $_IlQQ6 + 1;
     if( isset( $_POST["OneAutoImportListId"] ) && ($_POST["OneAutoImportListId"] == "End") )
-       $_I6Q6O = $_I6IJ8;
+       $_IlQQ6 = $_IlILC;
 
-    if ( ($_I6Q6O > $_I6IJ8) || ($_I6Q6O <= 0) )
-       $_I6Q6O = 1;
+    if ( ($_IlQQ6 > $_IlILC) || ($_IlQQ6 <= 0) )
+       $_IlQQ6 = 1;
 
-    $_IJQQI = ($_I6Q6O - 1) * $_I6Q68;
+    $_Iil6i = ($_IlQQ6 - 1) * $_Il1jO;
 
-    $_Q6i6i = "";
-    for($_Q6llo=1; $_Q6llo<=$_I6IJ8; $_Q6llo++)
-      if($_Q6llo != $_I6Q6O)
-       $_Q6i6i .= "<option>$_Q6llo</option>";
+    $_QlOjt = "";
+    for($_Qli6J=1; $_Qli6J<=$_IlILC; $_Qli6J++)
+      if($_Qli6J != $_IlQQ6)
+       $_QlOjt .= "<option>$_Qli6J</option>";
        else
-       $_Q6i6i .= '<option selected="selected">'.$_Q6llo.'</option>';
+       $_QlOjt .= '<option selected="selected">'.$_Qli6J.'</option>';
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<OPTION:PAGES>", "</OPTION:PAGES>", $_Q6i6i);
+    $_QLoli = _L81BJ($_QLoli, "<OPTION:PAGES>", "</OPTION:PAGES>", $_QlOjt);
 
     // Nav-Buttons
-    $_I6ICC = "";
-    if($_I6Q6O == 1) {
-      $_I6ICC .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
+    $_Iljoj = "";
+    if($_IlQQ6 == 1) {
+      $_Iljoj .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
     }
-    if ( ($_I6Q6O == $_I6IJ8) || ($_I6Qfj == 0) ) {
-      $_I6ICC .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
+    if ( ($_IlQQ6 == $_IlILC) || ($_IlQll == 0) ) {
+      $_Iljoj .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
     }
 
-    if($_I6Qfj == 0)
-      $_I6ICC .= "  DisableItem('PageSelected', false);\r\n";
+    if($_IlQll == 0)
+      $_Iljoj .= "  DisableItem('PageSelected', false);\r\n";
 
-    $_Q6ICj = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_I6ICC, $_Q6ICj);
+    $_QLoli = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_Iljoj, $_QLoli);
     //
 
     // Sort
-    $_I6jfj = " ORDER BY Name ASC";
+    $_IlJj8 = " ORDER BY Name ASC";
 
-    $_QJlJ0 .= $_I6jfj;
+    $_QLfol .= $_IlJj8;
 
-    $_QJlJ0 .= " LIMIT $_IJQQI, $_I6Q68";
+    $_QLfol .= " LIMIT $_Iil6i, $_Il1jO";
 
-    $_QJlJ0 = str_replace('{}', "`id`, `IsActive`, `Name`, `ImportOption`, `LastImportDone`, `$_I0f8O`.maillists_id", $_QJlJ0);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
+    $_QLfol = str_replace('{}', "`id`, `IsActive`, `Name`, `ImportOption`, `LastImportDone`, `$_ItfiJ`.maillists_id", $_QLfol);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
 
     // get all table FormsTable
-    $_I6jtI = array();
-    $_I6jtf = "SELECT `FormsTableName` FROM `$_Q60QL`";
+    $_IlJ61 = array();
+    $_IlJlC = "SELECT `FormsTableName` FROM `$_QL88I`";
 
-    $_Q8Oj8 = mysql_query($_I6jtf, $_Q61I1);
-    while ($_Q8OiJ = mysql_fetch_row($_Q8Oj8)) {
-      $_I6jtI[] = $_Q8OiJ[0];
+    $_I1O6j = mysql_query($_IlJlC, $_QLttI);
+    while ($_I1OfI = mysql_fetch_row($_I1O6j)) {
+      $_IlJ61[] = $_I1OfI[0];
     }
-    mysql_free_result($_Q8Oj8);
+    mysql_free_result($_I1O6j);
 
-    $_Q6tjl = "";
-    $_IIJi1 = _OP81D($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>");
-    $_IIJi1 = str_replace ('<LIST:ENTRY>', '', $_IIJi1);
-    $_IIJi1 = str_replace ('</LIST:ENTRY>', '', $_IIJi1);
+    $_QlIf1 = "";
+    $_IC1C6 = _L81DB($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>");
+    $_IC1C6 = str_replace ('<LIST:ENTRY>', '', $_IC1C6);
+    $_IC1C6 = str_replace ('</LIST:ENTRY>', '', $_IC1C6);
 
-    while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-      $_Q66jQ = $_IIJi1;
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:ID>", "</LIST:ID>", $_Q6Q1C["id"]);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:NAME>", "</LIST:NAME>", $_Q6Q1C["Name"]);
-      $_QJCJi = $resourcestrings[$INTERFACE_LANGUAGE]["YES"];
-      if(!$_Q6Q1C["IsActive"])
-        $_QJCJi = $resourcestrings[$INTERFACE_LANGUAGE]["NO"];
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:ACTIVE>", "</LIST:ACTIVE>", $_QJCJi);
-      $_I0ojO = "";
-      if($_Q6Q1C["ImportOption"] == 'ImportCSV')
-         $_I0ojO = $resourcestrings[$INTERFACE_LANGUAGE]["001202"];
+    while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+      $_Ql0fO = $_IC1C6;
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:ID>", "</LIST:ID>", $_QLO0f["id"]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:NAME>", "</LIST:NAME>", $_QLO0f["Name"]);
+      $_QLJfI = $resourcestrings[$INTERFACE_LANGUAGE]["YES"];
+      if(!$_QLO0f["IsActive"])
+        $_QLJfI = $resourcestrings[$INTERFACE_LANGUAGE]["NO"];
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:ACTIVE>", "</LIST:ACTIVE>", $_QLJfI);
+      $_ItOQf = "";
+      if($_QLO0f["ImportOption"] == 'ImportCSV')
+         $_ItOQf = $resourcestrings[$INTERFACE_LANGUAGE]["001202"];
          else
-         if($_Q6Q1C["ImportOption"] == 'ImportDB')
-            $_I0ojO = $resourcestrings[$INTERFACE_LANGUAGE]["001203"];
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:IMPORTOPTION>", "</LIST:IMPORTOPTION>", $_I0ojO);
+         if($_QLO0f["ImportOption"] == 'ImportDB')
+            $_ItOQf = $resourcestrings[$INTERFACE_LANGUAGE]["001203"];
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:IMPORTOPTION>", "</LIST:IMPORTOPTION>", $_ItOQf);
 
-      $_Q66jQ = str_replace ('name="EditAutoImportProperties"', 'name="EditAutoImportProperties" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
-      $_Q66jQ = str_replace ('name="DeleteAutoImport"', 'name="DeleteAutoImport" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
+      $_Ql0fO = str_replace ('name="EditAutoImportProperties"', 'name="EditAutoImportProperties" value="'.$_QLO0f["id"].'"', $_Ql0fO);
+      $_Ql0fO = str_replace ('name="DeleteAutoImport"', 'name="DeleteAutoImport" value="'.$_QLO0f["id"].'"', $_Ql0fO);
 
-      if(!$_Q6Q1C["LastImportDone"]) {
-        $_Q66jQ = _OPR6L($_Q66jQ, "<CAN:DELETE>", "</CAN:DELETE>", $resourcestrings[$INTERFACE_LANGUAGE]["001201"]);
+      if(!$_QLO0f["LastImportDone"]) {
+        $_Ql0fO = _L81BJ($_Ql0fO, "<CAN:DELETE>", "</CAN:DELETE>", $resourcestrings[$INTERFACE_LANGUAGE]["001201"]);
       }
 
       // not an admin, check rights for mailinglist
       if($OwnerUserId != 0) {
-        if($_Q6Q1C["maillists_id"] != 0) {
-          $_QJlJ0 = "SELECT COUNT(*) FROM `$_Q6fio` WHERE `maillists_id`=$_Q6Q1C[maillists_id] AND `users_id`=$UserId";
-          $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-          _OAL8F($_QJlJ0);
-          $_I6JII = mysql_fetch_row($_Q8Oj8);
-          if($_I6JII[0] == 0) {
+        if($_QLO0f["maillists_id"] != 0) {
+          $_QLfol = "SELECT COUNT(*) FROM `$_QlQot` WHERE `maillists_id`=$_QLO0f[maillists_id] AND `users_id`=$UserId";
+          $_I1O6j = mysql_query($_QLfol, $_QLttI);
+          _L8D88($_QLfol);
+          $_Il6l0 = mysql_fetch_row($_I1O6j);
+          if($_Il6l0[0] == 0) {
               continue;
-              $_Q66jQ = _LJ6B1($_Q66jQ, "EditAutoImportProperties");
-              $_Q66jQ = _LJ6B1($_Q66jQ, "DeleteAutoImport");
-              $_Q66jQ = _LJRLJ($_Q66jQ, "RemoveAutoImport");
+              $_Ql0fO = _JJC1E($_Ql0fO, "EditAutoImportProperties");
+              $_Ql0fO = _JJC1E($_Ql0fO, "DeleteAutoImport");
+              $_Ql0fO = _JJCRD($_Ql0fO, "RemoveAutoImport");
           }
-          mysql_free_result($_Q8Oj8);
+          mysql_free_result($_I1O6j);
         }
       }
 
-      $_Q6tjl .= $_Q66jQ;
+      $_QlIf1 .= $_Ql0fO;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>", $_Q6tjl);
+    $_QLoli = _L81BJ($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>", $_QlIf1);
 
-    $_Q6ICj = _OPFJA(array(), $_I61Cl, $_Q6ICj);
+    $_QLoli = _L8AOB(array(), $_Il0o6, $_QLoli);
 
-    $_Q6ICj = str_replace ("<CAN:DELETE>", "", $_Q6ICj);
-    $_Q6ICj = str_replace ("</CAN:DELETE>", "", $_Q6ICj);
+    $_QLoli = str_replace ("<CAN:DELETE>", "", $_QLoli);
+    $_QLoli = str_replace ("</CAN:DELETE>", "", $_QLoli);
 
-    return $_Q6ICj;
+    return $_QLoli;
   }
 
 ?>

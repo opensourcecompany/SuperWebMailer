@@ -26,71 +26,71 @@
   include_once("sessioncheck.inc.php");
 
   if($OwnerUserId != 0) {
-    if(empty($_QJojf) || !is_array($_QJojf))
-      $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeFormRemove"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    if(empty($_QLJJ6) || !is_array($_QLJJ6))
+      $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeFormRemove"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  if(isset($_66fQl))
-     unset($_66fQl);
-  $_66fQl = array();
+  if(isset($_filtj))
+     unset($_filtj);
+  $_filtj = array();
   if ( isset($_POST["OneFormListId"]) && $_POST["OneFormListId"] != "" )
-      $_66fQl[] = $_POST["OneFormListId"];
+      $_filtj[] = $_POST["OneFormListId"];
       else
       if ( isset($_POST["OneFormListIDs"]) )
-        $_66fQl = array_merge($_66fQl, $_POST["OneFormListIDs"]);
+        $_filtj = array_merge($_filtj, $_POST["OneFormListIDs"]);
 
 
   $OneMailingListId = intval($OneMailingListId);
-  $_QJlJ0 = "SELECT `FormsTableName`, `ReasonsForUnsubscripeTableName`, `ReasonsForUnsubscripeStatisticsTableName` FROM $_Q60QL";
+  $_QLfol = "SELECT `FormsTableName`, `ReasonsForUnsubscripeTableName`, `ReasonsForUnsubscripeStatisticsTableName` FROM $_QL88I";
   if($OwnerUserId == 0) // ist es ein Admin?
-     $_QJlJ0 .= " WHERE (users_id=$UserId)";
+     $_QLfol .= " WHERE (users_id=$UserId)";
      else {
-      $_QJlJ0 .= " LEFT JOIN $_Q6fio ON $_Q60QL.id=$_Q6fio.maillists_id WHERE (".$_Q6fio.".users_id=$UserId) AND ($_Q60QL.users_id=$OwnerUserId)";
+      $_QLfol .= " LEFT JOIN $_QlQot ON $_QL88I.id=$_QlQot.maillists_id WHERE (".$_QlQot.".users_id=$UserId) AND ($_QL88I.users_id=$OwnerUserId)";
      }
-  $_QJlJ0 .= " AND ($_Q60QL.id=$OneMailingListId)";
+  $_QLfol .= " AND ($_QL88I.id=$OneMailingListId)";
 
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_Q6Q1C = mysql_fetch_row($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_QLO0f = mysql_fetch_row($_QL8i1);
+  mysql_free_result($_QL8i1);
 
-  $_QLI8o = $_Q6Q1C[0];
-  $_I8Jtl = $_Q6Q1C[1];
-  $_I86jt = $_Q6Q1C[2];
+  $_IfJoo = $_QLO0f[0];
+  $_jQIIl = $_QLO0f[1];
+  $_jQIt6 = $_QLO0f[2];
 
-  $_QtIiC = array();
-  _L1POB($_66fQl, $_QtIiC);
+  $_IQ0Cj = array();
+  _J1B0C($_filtj, $_IQ0Cj);
 
   // we don't check for errors here
-  function _L1POB($_66fQl, &$_QtIiC) {
-    global $_QLI8o, $_I8Jtl, $_I86jt, $resourcestrings, $INTERFACE_LANGUAGE, $OneMailingListId, $_Q61I1;
+  function _J1B0C($_filtj, &$_IQ0Cj) {
+    global $_IfJoo, $_jQIIl, $_jQIt6, $resourcestrings, $INTERFACE_LANGUAGE, $OneMailingListId, $_QLttI;
 
-    for($_Q6llo=0; $_Q6llo<count($_66fQl); $_Q6llo++) {
+    for($_Qli6J=0; $_Qli6J<count($_filtj); $_Qli6J++) {
 
-      if(_OADJO($OneMailingListId, intval($_66fQl[$_Q6llo]))){
-        $_QtIiC[] = "ID:".intval($_66fQl[$_Q6llo])." ".$resourcestrings[$INTERFACE_LANGUAGE]["000033"];
+      if(_LP6JL($OneMailingListId, intval($_filtj[$_Qli6J]))){
+        $_IQ0Cj[] = "ID:".intval($_filtj[$_Qli6J])." ".$resourcestrings[$INTERFACE_LANGUAGE]["000033"];
         continue;
       }
 
-      $_QJlJ0 = "DELETE FROM `$_I86jt` WHERE `ReasonsForUnsubscripe_id` IN (SELECT `id` FROM `$_I8Jtl` WHERE `forms_id`=".intval($_66fQl[$_Q6llo])." )";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM `$_jQIt6` WHERE `ReasonsForUnsubscripe_id` IN (SELECT `id` FROM `$_jQIIl` WHERE `forms_id`=".intval($_filtj[$_Qli6J])." )";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
 
-      $_QJlJ0 = "DELETE FROM `$_I8Jtl` WHERE `forms_id`=".intval($_66fQl[$_Q6llo]);
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM `$_jQIIl` WHERE `forms_id`=".intval($_filtj[$_Qli6J]);
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
 
 
       // Delete forms reference
-      $_QJlJ0 = "DELETE FROM `$_QLI8o` WHERE id=".intval($_66fQl[$_Q6llo]);
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM `$_IfJoo` WHERE id=".intval($_filtj[$_Qli6J]);
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
     }
   }
 

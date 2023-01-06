@@ -1,4 +1,9 @@
 <?php
+/**
+ *      Filemanager extension
+ *
+ *      @author         Mirko Boeer <info (at) superwebmailer (dot) de>
+ */
 require_once('./inc/filemanager.inc.php');
 require_once('filemanager.config.php');
 require_once('filemanager.class.php');
@@ -27,6 +32,35 @@ require_once('filemanager.class.php');
   print "Error in parameters or arguments (Upload).";
   die;
  }
+
+ if(!defined("NoCSRFProtection") || !NoCSRFProtection){
+   //CKEditor v4.9+
+   // a little bit security
+   if (!empty($_GET['CKEditor']) && !empty($_GET['responseType'])) {
+     // https://github.com/ckeditor/ckeditor-dev/
+     if(empty($_COOKIE[CKEDITOR_TOKEN_COOKIE_NAME])){
+       $response = array("error" => array("number" => $errorNumber, "message" => "Error in parameters or arguments (Upload, CSRF, response).") );
+       @header('Content-Type: application/json; charset=utf-8');
+       echo json_encode($response);
+       die;
+     }
+     if(isset($_GET[CKEDITOR_TOKEN_COOKIE_NAME]))
+       $_POST[CKEDITOR_TOKEN_COOKIE_NAME] = $_GET[CKEDITOR_TOKEN_COOKIE_NAME];
+   }
+   if( !empty($_GET['CKEditor']) &&
+     (empty($_POST[CKEDITOR_TOKEN_COOKIE_NAME]) || empty($_COOKIE[CKEDITOR_TOKEN_COOKIE_NAME]) || $_COOKIE[CKEDITOR_TOKEN_COOKIE_NAME] != $_POST[CKEDITOR_TOKEN_COOKIE_NAME])
+     ){
+     $response = array("error" => array("number" => $errorNumber, "message" => "Error in parameters or arguments (Upload, CSRF).") );
+     @header('Content-Type: application/json; charset=utf-8');
+     echo json_encode($response);
+     die;
+   }
+ }
+
+ if( empty($_GET['CKEditor']) )
+   define('QuickUploadCalled', 1);
+   else
+   define('QuickUploadCalledFromCKEditor', 1);
 
  $_POST["currentpath"] = RemoveTrailingSlash($Config['UserFilesAbsolutePath']);
  if( $_GET["type"] == "Images" || $_GET["type"] == "Image" )
@@ -58,7 +92,12 @@ require_once('filemanager.class.php');
  $response = '';
 
  if(!auth()) {
-   $fm->error($fm->lang('AUTHORIZATION_REQUIRED'));
+   if(!empty($_GET['CKEditor']))
+     $fm->error($fm->lang('AUTHORIZATION_REQUIRED'));
+     else{
+     SendUploadResults( 1000, "", "", $fm->lang('AUTHORIZATION_REQUIRED') );
+     exit;
+     }
  }
 
  if($fm->postvar('currentpath')) { # sets the var
@@ -107,15 +146,40 @@ require_once('filemanager.class.php');
 // This is the function that sends the results of the uploading process.
 function SendUploadResults( $errorNumber, $sFileUrl = '', $sFileName = '', $errorMessage = '' )
 {
-        $errorMessage = str_replace("'", "\'", $errorMessage);
-        @header('Content-Type: text/html; charset=utf-8');
-        echo "<script type=\"text/javascript\">";
-        if (!empty($_GET['CKEditor'])) {
+        // old CKEditor before 4.9
+        if (!empty($_GET['CKEditor']) && empty($_GET['responseType'])) {
+
+            $errorMessage = str_replace("'", "\'", $errorMessage);
+
+            @header('Content-Type: text/html; charset=utf-8');
+            echo "<script type=\"text/javascript\">";
 
             $funcNum = preg_replace("/[^0-9]/", "", $_GET['CKEditorFuncNum']);
             echo "window.parent.CKEDITOR.tools.callFunction($funcNum, '" . str_replace("'", "\\'", $sFileUrl . $sFileName) . "', '" .str_replace("'", "\\'", $errorMessage). "');";
         }
+        else
+        // CKEditor 4.9 +
+        if (!empty($_GET['CKEditor']) && !empty($_GET['responseType'])) {
+          // https://github.com/ckeditor/ckeditor-dev/
+
+          @header('Content-Type: application/json; charset=utf-8');
+          if($errorNumber == 0){
+              $response = array("fileName" => $sFileName, "uploaded" => 1, "url" => $sFileUrl . $sFileName);
+            }
+            else{
+              $response = array("error" => array("number" => $errorNumber, "message" => $errorMessage) );
+            }
+
+          echo json_encode($response);
+          return;
+        }
         else {
+
+            $errorMessage = str_replace("'", "\'", $errorMessage);
+
+            @header('Content-Type: text/html; charset=utf-8');
+            echo "<script type=\"text/javascript\">";
+
             if ($errorNumber != 0) {
                 echo "window.parent.OnUploadCompleted(" . $errorNumber . ", '', '', '".$errorMessage."') ;";
             } else {

@@ -1,0 +1,2133 @@
+      <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./campaignedit.php">
+      <span class="Backlink"><br /><a href="./browsecampaigns.php" onclick="document.CampaignEditForm.action='./browsecampaigns.php';$('#CampaignEditForm').submit(); return false;">Zur&uuml;ck</a></span><br />
+      <input type="hidden" name="PageSelected" />
+      <input type="hidden" name="MailingListId" id="MailingListId" />
+      <input type="hidden" name="FormId" id="FormId" />
+      <input type="hidden" name="EditPage" value="1" />
+      <input type="hidden" name="CampaignListId" id="CampaignListId" />
+      <input type="hidden" name="SetupLevel" id="SetupLevel" value="6" />
+      <input type="hidden" name="TargetGroupsSupport" id="TargetGroupsSupport" value="1" />
+      <input type="hidden" name="TargetGroupsDefined" id="TargetGroupsDefined" />
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var CurrentLanguage="de";
+        var rsAdd = "Neues Standard-Element";
+        var rsNew = "Anderes Element...";
+        var rsMoveItem = "Verschieben";
+        var rsEditItem = "Bearbeiten";
+        //var rsDup = "Duplizieren";
+        var rsCSSEditItem = "Style bearbeiten";
+        var rsDeleteItem = "L&ouml;schen";
+        var rsDoubleClickToEdit = "Zum Bearbeiten hier klicken";
+
+        var rsTargetGroups = "Zielgruppen";
+
+        var rsApply = "&Uuml;bernehmen";
+        var rsCancel = rslocmessageCancel;//"Abbrechen";
+        var rsYes = rslocmessageYes; // "Ja";
+        var rsNo = rslocmessageNo; // "Nein";
+
+        var rsWarning = "Warnung";
+
+        var rsTemplateUnsuitable = "Die Vorlage ist f&uuml;r den Assistenten/Inplace Editor nicht geeignet, es sind keine bearbeitbaren Elemente enthalten.";
+
+        var InnerTabListArray = Array();
+
+        function DoShowFunctionsDialog(formId, formElementId, isfckeditor) {
+          FunctionsOpen(formId, formElementId, isfckeditor);
+        }
+
+        function DoShowVariantsOfSubjectsDialog(formId, formElementId) {
+          VariantsOfSubjectsOpen(formId, formElementId);
+        }
+
+
+        var myBasePath='';
+
+        // default placeholders
+        var arrPlaceholderItems = new Array(
+            new Array('[PLACEHOLDER]', 'PLACEHOLDERTEXT')
+      	    );
+
+      	 // special placeholders for newsletter subscribe / unsubscribe
+      	 var arrNewsletterUnsubscribePlaceholders = new Array(
+            new Array('[NEWSLETTER_UNSUBSCRIBEPLACEHOLDER]', 'NEWSLETTER_UNSUBSCRIBEPLACEHOLDERTEXT')
+      	 );
+
+        function WarnOnChangeMailEdit(){
+          var NewMailEditType = $("#MailEditType").val();
+          MessageBox("Warnung", "Bei &Auml;nderung des Bearbeitungstyps der E-Mail werden die &Auml;nderungen am Dokument nicht in den WYSIWYG-HTML-Editor/reinen HTML-Quelltext und in den Assistenten/Inplace Editor gegenseitig &uuml;bernommen.<br /><br />M&ouml;chten Sie wirklich den Bearbeitungstyp jetzt &auml;ndern?", messageTypeConfirmation, 380, 200, "ConfirmChangeMailEditEvent", false);
+        }
+
+       function ConfirmChangeMailEditEvent(value) {
+         if(value) {
+           if( $("#MailEditType").val() == "Editor" || $("#MailEditType").val() == "PlainSource" ) // new selection before confirmation
+              SaveIPE(true);
+           ShowItem("WizardHTMLText", false);
+           ShowHideEMailTexts();
+         } else {
+           // recall old setting
+           if( document.getElementById('IPEWizard').style.display == '' )
+               $("#MailEditType").val("Wizard")
+               else
+               if(CKEDITOR.instances['MailHTMLText'] != null)
+                 $("#MailEditType").val("Editor");
+                 else
+                 $("#MailEditType").val("PlainSource");
+         }
+       }
+
+       var previousActiveElementId=null;
+       var myCodeMirror=null;
+
+      //-->
+      </script>
+
+      <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+      <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
+
+
+      <!--  IPE //-->
+			   <link rel="stylesheet" href="ipe/css/redmond/jquery-ui-1.8.14.custom.css" type="text/css" />
+      <script type="text/javascript"  src="js/jquery-latest.min.js"></script>
+			   <script type="text/javascript" src="ipe/js/jquery-ui.min.js"></script>
+			   <script type="text/javascript" src="ipe/js/jq_inherit.js"></script>
+
+      <script language="javascript" type="text/javascript" src="js/ckeditor_jquery_fix.js"></script>
+
+     	<link rel="stylesheet" href="ipe/js/colorpicker/css/colorpicker.css" type="text/css" />
+     	<script type="text/javascript" src="ipe/js/colorpicker/js/colorpicker.js"></script>
+      <script type="text/javascript" src="ipe/js/colorpicker/js/eye.js"></script>
+      <script type="text/javascript" src="ipe/js/colorpicker/js/utils.js"></script>
+      <script type="text/javascript" src="ipe/js/colorpicker/js/layout.js?ver=1.0.2"></script>
+
+      <style type="text/css">
+      <!--
+       /*  jquery UI */
+       .ui-widget{
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 0.8em;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+       }
+       .ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button{
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 1.10em;
+       	font-weight: normal;
+       	color: #000000;
+        margin: 0px;
+        padding:2px;
+        line-height: normal;
+       }
+      -->
+      </style>
+
+      <!--  /IPE //-->
+
+      <link rel="stylesheet" href="plugins/ckeditorplugins/codemirror/css/codemirror.min.css">
+      <script src="plugins/ckeditorplugins/codemirror/js/codemirror.min.js"></script>
+      <script src="plugins/ckeditorplugins/codemirror/js/codemirror.addons.min.js"></script>
+      <script src="plugins/ckeditorplugins/codemirror/js/codemirror.addons.search.min.js"></script>
+      <script src="plugins/ckeditorplugins/codemirror/js/codemirror.mode.htmlmixed.min.js"></script>
+
+      <if:SetupComplete>
+      <input type="hidden" name="SetupComplete" id="SetupComplete" value="1" />
+      <div class="spacerborder">
+      <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
+         <tbody>
+           <tr>
+             <td class="highlighted"><a href="#" onclick="oldSetupLevel=document.getElementById('SetupLevel').value; document.getElementById('SetupLevel').value='1';$('#CampaignEditForm').submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="oldSetupLevel=document.getElementById('SetupLevel').value; document.getElementById('SetupLevel').value='2';$('#CampaignEditForm').submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="oldSetupLevel=document.getElementById('SetupLevel').value; document.getElementById('SetupLevel').value='3';$('#CampaignEditForm').submit(); return false;">Regeln</a></td>
+             <td class="highlighted"><a href="#" onclick="oldSetupLevel=document.getElementById('SetupLevel').value; document.getElementById('SetupLevel').value='4';$('#CampaignEditForm').submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="oldSetupLevel=document.getElementById('SetupLevel').value; document.getElementById('SetupLevel').value='5';$('#CampaignEditForm').submit(); return false;">Versand</a></td>
+             <td class="highlighted selected"><a href="#" onclick="oldSetupLevel=document.getElementById('SetupLevel').value; document.getElementById('SetupLevel').value='6';$('#CampaignEditForm').submit(); return false;">E-Mail-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="oldSetupLevel=document.getElementById('SetupLevel').value; document.getElementById('SetupLevel').value='7';$('#CampaignEditForm').submit(); return false;">Tracking</a></td>
+             <td class="highlighted"><a href="#" onclick="oldSetupLevel=document.getElementById('SetupLevel').value; document.getElementById('SetupLevel').value='8';$('#CampaignEditForm').submit(); return false;">Zusammenfassung</a></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+      </if:SetupComplete>
+
+      <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+        <tbody>
+          <tr>
+            <td>
+
+               <fieldset>
+               <legend>Inhaltsangaben
+               </legend>
+                 <br />
+                   <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                     <tbody>
+
+                       <tr>
+                        <td class="MessageDescriptionColumn" id="MailFormatLabel" name="MailFormatLabel">
+                          Format der E-Mail
+                        </td>
+                        <td>
+                          <select id="MailFormat" name="MailFormat" size="1" onchange="PageModified=true; ShowHideEMailTexts();">
+                           <option value="PlainText">Reine Text-E-Mail</option>
+                           <option value="HTML">Reine HTML-E-Mail (nicht empfohlen)</option>
+                           <option value="Multipart">HTML- und Text-E-Mail (multipart E-Mail, empfohlen)</option>
+                          </select>
+                        </td>
+                       </tr>
+
+                       <tr>
+                         <td class="MessageDescriptionColumn">Codierung</td>
+                         <td valign="top">
+                         <select name="MailEncoding" size="1" onchange="PageModified=true;">
+                         <option value="iso-8859-1">Normal/Europa (iso-8859-1)</option>
+                         <option value="utf-8">UTF-8</option>
+                         <MAILENCODINGS></MAILENCODINGS>
+                         </select>
+                         </td>
+                       </tr>
+
+                       <tr>
+                         <td class="MessageDescriptionColumn">Priorit&auml;t</td>
+                         <td valign="top">
+                         <select name="MailPriority" size="1" onchange="PageModified=true;">
+                           <option value="Low">Niedrig</option>
+                           <option value="Normal">Normal</option>
+                           <option value="High">Hoch</option>
+                         </select>
+                         </td>
+                       </tr>
+
+                       <tr>
+                         <td class="MessageDescriptionColumn">Bearbeitung der E-Mail</td>
+                         <td valign="top">
+                         <select name="MailEditType" id="MailEditType" size="1" onchange="WarnOnChangeMailEdit(); return false;">
+                           <option value="Editor">Editor verwenden</option>
+                           <option value="Wizard">Assistenten/Inplace Editor verwenden</option>
+                           <option value="PlainSource">Reiner Quelltext</option>
+                         </select>
+                         </td>
+                       </tr>
+
+                       <tr>
+                         <td class="MessageDescriptionColumn"><label for="Caching">Cache f&uuml;r E-Mail-Versand verwenden</label><SHOWHIDE:TOOLTIPS>
+                            <img onmouseover="showTooltip(event, 'Der Cache beschleunigt den E-Mail-Versand und spart CPU-Zeit bei der Versendung von Serien-E-Mails, wenn eingebettete Bilder und Anh&auml;nge mit der E-Mail versendet werden.<br /><br />Sollten Sie E-Mails mit personalisierten Bildern versenden wollen, dann muss die Cache-Option deaktiviert werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                            </SHOWHIDE:TOOLTIPS></td>
+                         <td valign="top">
+                            <input type="checkbox" name="Caching" value="1" id="Caching" />
+                         </td>
+                       </tr>
+
+                     </tbody>
+                   </table>
+               </fieldset>
+
+               <fieldset>
+               <legend>Betreff der E-Mail und Pre-Header</legend>
+                 <br />
+                   <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                     <tbody>
+                       <tr>
+                         <td colspan="2" valign="middle">
+
+                         <select size="1" title="Feld in E-Mail-Betreff oder Pre-Header einf&uuml;gen" id="SubjectPlaceHoldersCB" onchange="InsertFieldValue('SubjectPlaceHoldersCB', previousActiveElementId ? previousActiveElementId : 'MailSubject' )" onmousedown="if(document.activeElement && document.activeElement != this){if(document.activeElement.id == 'MailSubject' || document.activeElement.id == 'MailPreHeaderText') previousActiveElementId=document.activeElement.id; else previousActiveElementId=null;}">
+                           <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                         </select>
+
+                         &nbsp;
+                         <input type="image" src="images/blind.gif" width="24" height="24" class="FctButton ExternalButton" onclick="DoShowFunctionsDialog(this.form.id, previousActiveElementId ? previousActiveElementId : 'MailSubject', false); return false;" alt="Funktionen" title="Funktionen in E-Mail-Betreff oder Pre-Header einf&uuml;gen" style="vertical-align:bottom"  onmousedown="if(document.activeElement && document.activeElement != this){if(document.activeElement.id == 'MailSubject' || document.activeElement.id == 'MailPreHeaderText') previousActiveElementId=document.activeElement.id; else previousActiveElementId=null;}" />
+                         &nbsp;
+                         <input type="image" src="images/blind.gif" width="24" height="24" class="EmojiButton ExternalButton" onclick="EmojisOpen(this.form.id, previousActiveElementId ? previousActiveElementId : 'MailSubject', false); return false;" alt="Emoji einf&uuml;gen" title="Emoji in E-Mail-Betreff oder Pre-Header einf&uuml;gen" style="vertical-align:bottom"  onmousedown="if(document.activeElement && document.activeElement != this){if(document.activeElement.id == 'MailSubject' || document.activeElement.id == 'MailPreHeaderText') previousActiveElementId=document.activeElement.id; else previousActiveElementId=null;}" /><p>&nbsp;
+
+                         <p>&nbsp;</p>
+
+                         <label for="MailSubject">Betreff</label>&nbsp;<input type="image" src="images/blind.gif" width="22" height="22" class="ShuffleButton ExternalButton" onclick="DoShowVariantsOfSubjectsDialog('CampaignEditForm', 'MailSubject'); return false;" alt="Varianten des E-Mail-Betreffs" title="Varianten des E-Mail-Betreffs" style="vertical-align:bottom"  /><br />
+                         <input type="text" name="MailSubject" id="MailSubject" size="100" maxlength="255" onchange="PageModified=true;" style="width: 99%" />
+                         <br /><br />
+                         <label for="MailPreHeaderText">Pre-Header</label><SHOWHIDE:TOOLTIPS>
+                            <img onmouseover="showTooltip(event, 'Der Pre-Header/Vorschautext ist ein Text der von verschiedenen E-Mail-Programmen, z.B. Outlook, GoogleMail oder Thunderbird, in der E-Mail-Vorschau neuer E-Mails direkt unter oder neben dem E-Mail-Betreff angezeigt wird. Dieser Text kann, neben dem Betreff der E-Mail, verwendet werden, um den Empf&auml;nger des Newsletters zu motivieren Ihre E-Mail zu &ouml;ffnen.<br />Die L&auml;nge dieses Texts sollte zwischen 85 und 100 Zeichen liegen, l&auml;ngere Texte werden m&ouml;glicherweise abgeschnitten dargestellt.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                            </SHOWHIDE:TOOLTIPS><br />
+                         <input type="text" name="MailPreHeaderText" id="MailPreHeaderText" size="100" onchange="PageModified=true;" style="width: 99%" />
+                         <br />
+                         <span name="AutoUpdateTextPartSpan" id="AutoUpdateTextPartSpan"><br />
+                           <input type="checkbox" id="AutoUpdateTextPart" onclick="PageModified=true;" name="AutoUpdateTextPart" value="1" /><label for="AutoUpdateTextPart">&nbsp;Text-Teil der E-Mail automatisch aus HTML-Teil erstellen</label>
+                         </span>
+                         </td>
+                       </tr>
+                     </tbody>
+                   </table>
+               </fieldset>
+
+               <!-- ##### InnerSpacer - START -->
+               <div class="spacerborder">
+               <!-- ##### InnerTabView - START -->
+               <div id="dhtmlgoodies_HTMLTexttabView">
+
+               <!-- ####### InnerTAB START -->
+               <script language="JavaScript" type="text/javascript">
+               <!--
+                 InnerTabListArray.push('E-Mail im HTML-Format');
+               //-->
+               </script>
+    	          <div class="dhtmlgoodies_aTab">
+                 <br />
+                   <table class="EditorTable" cellspacing="0" cellpadding="0" border="0" id="HTML">
+                     <tbody>
+                       <tr>
+                         <td colspan="2" valign="top"><span id="MailHTMLTextWarnLabel" style="display: none;"  class="missingvaluebackground">Der HTML-Teil der E-Mail muss einen Text enthalten oder Fehler m&uuml;ssen korrigiert werden.</span>
+
+                         <span id="ToolbarPlainSource" style="display: none;">
+                          <select size="1" id="PlainHTMLPlaceHoldersCB" onchange="InsertFieldValue('PlainHTMLPlaceHoldersCB', 'MailHTMLText')">
+                            <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                          </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('CampaignEditForm', 'MailHTMLText', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" />&nbsp;
+                           <p>&nbsp;
+                          </p>
+                         </span>
+
+                         <!-- CKEditor //-->
+                         <textarea name="MailHTMLText" id="MailHTMLText" cols="100" rows="10" style="width: 874px; height: 600px"></textarea>
+                         <!-- /CKEditor //-->
+
+                         <!-- IPE //-->
+                         <div id="IPEWizard" class="ui-dialog-titlebar ui-corner-all ui-helper-clearfix" style="width: 100%; height: 660px; min-width: 874px; margin: 0px; background-color: #7795BD; padding: 0px">
+                            <div name="ipehtml" id="ipehtml">
+                              <textarea name="WizardHTMLText" id="WizardHTMLText" rows="10" cols="50" style="display: none;"></textarea>
+                            </div>
+                            <div style="padding: 0px; height: 100%; width: 100%; margin: 0px; border: 1px solid transparent">
+                              <table border="0" cellspacing="0" cellpadding="0" border="0" style="width:100%; height:100%; margin: 0px; padding-bottom: 6px; padding-right: 6px">
+                              <tr>
+                               <td style="width: 100%; height: 5%; padding: 0px; padding-left: 4px; padding-right: 4px; margin: 0px;">
+                                 <div style="float: left;">
+                                  <input type="image" src="images/maximize_minimize24x24.gif" width="24" height="24" id="MaxMinBtn" value="0" alt="Maximieren/Minimieren" title="Maximieren/Minimieren" style="vertical-align:middle;" />
+                                 </div>
+                                 <div style="float: right;">
+                                  &nbsp;
+                                  <input type="image" src="images/pagebodyproperties24x24.gif" width="24" height="24" onclick="document.getElementById('edit_window').contentWindow.PageBodyPropertiesEditor(); return false;" id="BodyPropertiesBtn" value="0" alt="Dokumenteigenschaften" title="Dokumenteigenschaften" style="vertical-align:middle" />
+                                  &nbsp;
+                                  <input type="image" src="images/print_preview24x24.gif" width="24" height="24" onclick="ShowPreview(); return false;" alt="Voransicht" title="Voransicht" style="vertical-align: middle;" id="IPEShowPreviewBtn" />
+                                  &nbsp;
+                                  <input type="image" src="images/templates24x24.gif" width="24" height="24" onclick="HTMLTemplatesSelectDlgOpen('CampaignEditForm', null, false, 'edit_window', true); return false;" alt="Andere E-Mail-Vorlagen" title="Andere E-Mail-Vorlagen" style="vertical-align:middle" />
+                                 </div>
+                               </td>
+                              </tr>
+                              <tr>
+                               <td style="width: 100%; vertical-align: top; text-align: center; height: 95%;">
+                                 <iframe class="ui-dialog-titlebar ui-corner-all ui-helper-clearfix" id="edit_window" name="edit_window" style="overflow-x: auto; overflow-y: scroll; height: 100%; width: 100%; border: 2px solid #efefef; background-color: #FFFFFF;"
+                                 src="" width="100%" height="100%" scrolling="auto" frameborder="0"></iframe>
+                               </td>
+                              </tr>
+                              </table>
+                            </div>
+                         </div>
+                         <script>
+                            $(document).ready(function(){
+                              CreateFormAndPostIt("ipe_loadhtmltemplate.php?id=0", {}, "post", "edit_window");
+                           	});
+                        </script>
+                         <!-- /IPE //-->
+
+                         </td>
+                       </tr>
+                     </tbody>
+                   </table>
+               </div>
+               <!-- ####### Inner TAB END -->
+               <!-- ####### Inner TAB START -->
+               <script language="JavaScript" type="text/javascript">
+               <!--
+                 InnerTabListArray.push('E-Mail im Text-Format');
+
+               //-->
+               </script>
+             	<div class="dhtmlgoodies_aTab">
+                <br />
+                  <table class="EditorTable" cellspacing="0" cellpadding="0" border="0" id="PlainText">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" valign="middle">
+
+                          <select size="1" id="PlainTextPlaceHoldersCB" title="Feld in E-Mail-Text einf&uuml;gen" onchange="InsertFieldValue(this.id, this.parentNode.querySelector('textarea').id)">
+                            <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+                          </select>
+                          &nbsp;
+                          <input type="image" src="images/blind.gif" width="24" height="24" class="FctButton ExternalButton" onclick="DoShowFunctionsDialog(this.form.id, this.parentNode.querySelector('textarea').id, false); return false;" alt="Funktionen" title="Funktionen in E-Mail-Text einf&uuml;gen" style="vertical-align:bottom" />
+                          <p>&nbsp;</p>
+
+                          <textarea name="MailPlainText" id="MailPlainText" style="width: 99%; min-width: 874px; height: 600px" onchange="PageModified=true;"></textarea>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              <!-- ####### Inner TAB END -->
+
+               <!-- ####### Inner TAB START -->
+               <script language="JavaScript" type="text/javascript">
+               <!--
+                 InnerTabListArray.push('Anh&auml;nge der E-Mail');
+
+               //-->
+               </script>
+             	<div class="dhtmlgoodies_aTab">
+                <br />
+                  <table class="EditorTable" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" valign="middle">
+                          <div class="scrollbox" style="height: 560px;" name="AttachmentsScrollbox" id="AttachmentsScrollbox">
+                            <Attachments>
+                              <span class="scrollboxSpan"><input type="checkbox" name="Attachments[]" value="<AttachmentsName></AttachmentsName>" id="AttachmentsId" />&nbsp;<label for="AttachmentsId"><AttachmentsName></AttachmentsName></label><br /></span>
+                            </Attachments>
+                          </div>
+                          <br />
+                          <input type="button" class="button" name="AttachmentsUploadBtn" value="Neue Datei(en) &uuml;bertragen" onclick="AttachmentUpload('CampaignEditForm', 'AttachmentsScrollbox', 'Attachments[]', null, ''); return false;" style="margin-left: 0px" />&nbsp;&nbsp;
+                          <input type="button" class="button" name="AttachmentsDeleteBtn" value="Datei(en) l&ouml;schen" onclick="AttachmentDelete('CampaignEditForm', 'Attachments[]', 'Attachments[]'); return false;" style="margin-left: 0px" />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              <!-- ####### Inner TAB END -->
+
+               <!-- ####### Inner TAB START -->
+               <script language="JavaScript" type="text/javascript">
+               <!--
+                 InnerTabListArray.push('Personalisierte Anh&auml;nge');
+
+               //-->
+               </script>
+             	<div class="dhtmlgoodies_aTab">
+                <br />
+                  <table class="EditorTable" cellspacing="0" cellpadding="0" border="0">
+                    <tbody>
+                      <tr>
+                        <td colspan="2" valign="middle">
+                          <select name="PersAttachments[]" id="PersAttachments" style="height: 460px; width: 100%" multiple="multiple" onchange="SetPersAttachmentsButtons();">
+                            <PersAttachments>
+                              <option value="<AttachmentsName></AttachmentsName>"><AttachmentsName></AttachmentsName></option>
+                            </PersAttachments>
+                          </select>
+                          <br />
+                          <input type="button" class="button" name="PersAttachmentsAddBtn" value="Neuer Anhang" onclick="PersAttachmentAddEdit('CampaignEditForm', 'PersAttachments', ''); return false;" style="margin-left: 0px" />&nbsp;&nbsp;
+                          <input type="button" class="button" name="PersAttachmentsEditBtn" id="PersAttachmentsEditBtn" value="Anhang &auml;ndern" onclick="var value = '';var P = document.getElementById('PersAttachments');for(var i=0; i<P.options.length; i++) {if(P.options[i].selected) {value=P.options[i].value; break;}}PersAttachmentAddEdit('CampaignEditForm', 'PersAttachments', value); return false;" style="margin-left: 0px" />&nbsp;&nbsp;
+                          <input type="button" class="button" name="PersAttachmentsDeleteBtn" id="PersAttachmentsDeleteBtn" value="Anhang l&ouml;schen" onclick="RemovePersAttachments(); return false;" style="margin-left: 0px" />
+                          <br /><br /><br />
+                          <input type="checkbox" id="SendEMailWithoutPersAttachment" name="SendEMailWithoutPersAttachment" value="1" /><label for="SendEMailWithoutPersAttachment">&nbsp;E-Mail bei nicht existierenden Datei(en) ohne Anh&auml;nge versenden.</label>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              <!-- ####### Inner TAB END -->
+
+              </div>
+              <!-- ##### InnerTabView - END -->
+              <!-- ##### InnerSpacer - END -->
+              </div>
+
+
+              <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+              <script type="text/javascript" src="templates/default/de/ckeditor_imageresize.js"></script>
+
+
+              <script language="javascript" type="text/javascript">
+              <!--
+                var IE10orOlder = false;
+                if ($.browser.msie && $.browser.version <= 10)
+                  IE10orOlder = true;
+              -->
+              </script>
+
+              <script language="javascript" type="text/javascript">
+              <!--
+                initTabs('dhtmlgoodies_HTMLTexttabView', InnerTabListArray, 0, 894, 690);
+                addScrollboxRolloverEffect('AttachmentsScrollbox','scrollboxRollOverEffect', null);
+
+
+                function html_entity_decode( string ) {
+                    var ret, tarea = document.createElement('textarea');
+                    tarea.innerHTML = string;
+                    ret = tarea.value;
+                    try {tarea.removeNode(false);}catch(e) {}
+                    return ret;
+                }
+
+                function FillComboBoxes() {
+                    var CBs = Array (
+                        'SubjectPlaceHoldersCB',
+                        'PlainTextPlaceHoldersCB',
+                        'SinglelinePlaceHoldersCB',
+                        'PlainHTMLPlaceHoldersCB'
+                    )
+
+      	            for(var j=0; j<CBs.length; j++) {
+                        var CB = document.getElementById(CBs[j]);
+                        if(CB == null) continue;
+                        while (CB.length > 1)
+                           CB.options[CB.length - 1] = null;
+
+
+                        for(var i=0; i<arrPlaceholderItems.length; i++){
+                          var newOption = new Option(html_entity_decode(arrPlaceholderItems[i][1]), arrPlaceholderItems[i][0], false, false);
+                          CB.options[CB.length] = newOption;
+                        }
+
+                        if ( (CBs[j] == 'SubjectPlaceHoldersCB') || (CBs[j] == 'PlainTextPlaceHoldersCB' || (CBs[j] == 'SinglelinePlaceHoldersCB') || (CBs[j] == 'PlainHTMLPlaceHoldersCB') )
+                           ) {
+                           for(var i=0; i<arrNewsletterUnsubscribePlaceholders.length; i++){
+                             var newOption = new Option(html_entity_decode(arrNewsletterUnsubscribePlaceholders[i][1]), arrNewsletterUnsubscribePlaceholders[i][0], false, false);
+                             CB.options[CB.length] = newOption;
+                           }
+                          }
+
+                    }
+                }
+
+                $(document).ready(function(){
+                  FillComboBoxes();
+                })
+
+
+              $("#edit_window").load(function() {
+                  if(IE10orOlder)
+                    $(this).height( $(this).parent().innerHeight() );
+
+              });
+              $(window).resize(function() {
+                  if(IE10orOlder)
+                     $("#edit_window").height( $("#edit_window").parent().innerHeight() - 8 );
+              });
+
+
+
+              -->
+              </script>
+
+              <script language="javascript" type="text/javascript">
+              <!--
+                ShowHideEMailTexts();
+
+                function ShowNATextOnTab(TabId, Page, fieldId) {
+                  var NA="Angabe nicht notwendig";
+
+                  A = document.getElementById('tabView' + TabId + '_' + Page);
+                  if(A == null) return;
+                  tabSpanId = 'tabView' + TabId + '_' + Page + '_NAspan';
+                  tabSpan = document.getElementById(tabSpanId);
+                  if (document.getElementById(fieldId).style.display == 'none') {
+                     if(tabSpan == null)
+                        A.innerHTML = '<span id="' + tabSpanId + '">' + NA + '</span>' + A.innerHTML;
+                        else
+                        tabSpan.style.display = '';
+                  } else {
+                    if(tabSpan != null)
+                       tabSpan.style.display = 'none';
+                  }
+
+                  // show correct tab
+                  if( document.getElementById('MailFormat').selectedIndex > 0 )
+                     showTab(TabId, 0);
+                     else
+                     showTab(TabId, 1);
+                }
+
+                function ShowHideEMailTexts() {
+
+
+                  if(document.getElementById('MailFormat') != null) {
+
+                    var el = document.getElementById('MailHTMLText');
+
+                    if (el.removeEventListener){
+                      el.removeEventListener('keydown', PlainSourceChanged, false);
+                    } else if (el.detachEvent){
+                      el.detachEvent('keydown', PlainSourceChanged);
+                    }
+
+                    if(myCodeMirror){
+                       myCodeMirror.off("change", PlainSourceChanged);
+                       document.getElementById('PlainHTMLPlaceHoldersCB').onchange = InsertFieldValue('PlainHTMLPlaceHoldersCB', 'MailHTMLText');
+                    }
+
+                    if(document.getElementById('MailFormat').selectedIndex == 0){
+                        ShowItem('ToolbarPlainSource', false);
+                        HideCKEditor("MailHTMLText");
+                        HideIPEWizard();
+                        HideCodeMirror();
+                      } else {
+                         if(document.getElementById('MailEditType').selectedIndex == 0) {
+                             ShowItem('ToolbarPlainSource', false);
+                             HideIPEWizard();
+                             HideCodeMirror();
+                             var iv = IsCKEditorVisible("MailHTMLText");
+                             ShowCKEditor("MailHTMLText", "100%", 493, 'MyDefaultMailToolbar');
+                             if(!iv)
+                               AddCKEditorChangedEvent();
+                            }
+                            else if(document.getElementById('MailEditType').selectedIndex == 1){
+                              ShowItem('ToolbarPlainSource', false);
+                              HideCKEditor("MailHTMLText");
+                              HideCodeMirror();
+                              ShowIPEWizard();
+                            }
+                            else if(document.getElementById('MailEditType').selectedIndex == 2){
+                              HideCKEditor("MailHTMLText");
+                              HideIPEWizard();
+                              HideCodeMirror();
+                              ShowItem('ToolbarPlainSource', true);
+
+                              ShowItem('MailHTMLText', true);
+                              try {
+                                myCodeMirror = CodeMirror.fromTextArea(el, {
+                                               autoCloseBrackets: true,
+                                               autoCloseTags: true,
+                                               autoFormatOnStart: false,
+                                               autoFormatOnUncomment: true,
+                                               continueComments: true,
+                                               enableCodeFolding: false,
+                                               enableCodeFormatting: true,
+                                               enableSearchTools: true,
+                                               highlightMatches: true,
+                                               indentWithTabs: false,
+                                               lineNumbers: true,
+                                               lineWrapping: true,
+                                               mode: 'htmlmixed',
+                                               matchBrackets: true,
+                                               matchTags: true,
+                                               showAutoCompleteButton: true,
+                                               showCommentButton: true,
+                                               showFormatButton: true,
+                                               showSearchButton: true,
+                                               showTrailingSpace: true,
+                                               showUncommentButton: true,
+                                               styleActiveLine: true,
+                                               theme: 'default',
+                                               useBeautify: false
+                                               });
+                                myCodeMirror.on("change", PlainSourceChanged);
+                                myCodeMirror.setSize("100%", 600);
+                                document.getElementById('PlainHTMLPlaceHoldersCB').onchange = function(){InsertFieldValueInCodeMirror('PlainHTMLPlaceHoldersCB', myCodeMirror);};
+                              } catch(e) {myCodeMirror = null}
+
+                              if (el.addEventListener){
+                                el.addEventListener('keydown', PlainSourceChanged, false);
+                              } else if (el.attachEvent){
+                                el.attachEvent('keydown', PlainSourceChanged);
+                              }
+
+                            }
+                        }
+
+                    if(document.getElementById('MailEditType').selectedIndex == 0 || document.getElementById('MailEditType').selectedIndex == 2) {
+                      ShowItem('HTML', document.getElementById('MailFormat').selectedIndex > 0  );
+                    } else {
+                      HideCodeMirror();
+                      ShowItem('MailHTMLText', false  );
+                    }
+                    ShowItem('PlainText', document.getElementById('MailFormat').selectedIndex != 1 );
+                    if( document.getElementById('MailFormat').selectedIndex  == 2)
+                       document.getElementById('AutoUpdateTextPartSpan').style.display = '';
+                       else
+                       document.getElementById('AutoUpdateTextPartSpan').style.display = 'none';
+
+                    if(document.getElementById('MailFormat').selectedIndex == 0){
+                      document.getElementById('MailEditType').selectedIndex = 0;
+                      document.getElementById('MailEditType').disabled = true;
+                    } else
+                      document.getElementById('MailEditType').disabled = false;
+
+                    DisableItem('MailPreHeaderText', document.getElementById('MailFormat').selectedIndex != 0);
+                  }
+
+
+                  // HTML
+                  ShowNATextOnTab('dhtmlgoodies_HTMLTexttabView', 0, 'HTML');
+
+                  // TEXT
+                  ShowNATextOnTab('dhtmlgoodies_HTMLTexttabView', 1, 'PlainText');
+
+                }
+
+                function InsertFieldValueInCodeMirror(CBId, myCodeMirror){
+                    var CB = document.getElementById(CBId);
+                    if(CB == null || myCodeMirror == null) return;
+                     if(CB.selectedIndex > 0) {
+                       myCodeMirror.replaceRange(CB.options[CB.selectedIndex].value, myCodeMirror.getCursor());
+                       CB.selectedIndex = 0;
+                       //CodeMirror.signal(myCodeMirror, "change", null);
+                       myCodeMirror.focus();
+                     }
+                }
+
+                function HideCodeMirror(){
+                  if(myCodeMirror){
+                     myCodeMirror.toTextArea();
+                     myCodeMirror = null;
+                  }
+                }
+
+                function ShowIPEWizard(){
+                  ShowItem('IPEWizard', true);
+                  //$("#CampaignEditForm").submit ( function() { SaveIPE(false); return true;} );
+                }
+
+                function HideIPEWizard(){
+                  //$("#CampaignEditForm").off("submit");
+                  ShowItem('IPEWizard', false);
+                }
+
+               	$("#MaxMinBtn").click(function(e){
+                  e.stopPropagation();
+
+                  var that = $(this).closest("#IPEWizard");
+
+                  if($(this).val() == "0") {
+                    var A = Array('height', 'width', 'opacity', 'z-index');
+                    var saveCSS = "";
+                    for(var i=0; i<A.length; i++){
+                      saveCSS += ", " + A[i] + ":" + $(that).css(A[i]);
+                    }
+
+                    var offset = $(that).position();
+                    saveCSS += ", top:" + offset.top;
+                    saveCSS += ", left:" + offset.left;
+
+                    $(that).attr("saveCSS", saveCSS);
+
+                    $(that).css('position', "absolute");
+                    $(that).css('top', 0);
+                    $(that).css('left', 0);
+                    $(that).css('height', "100%");
+                    $(that).css('width', "100%");
+                    $(that).css('opacity', 1);
+                    $(that).css('z-index', 1001);
+
+                    $("html").scrollTop(0);
+                    $("html").scrollLeft(0);
+                    $("body").scrollTop(0);
+                    $("body").scrollLeft(0);
+
+                    setTimeout( function() { $("html").scrollTop(0); $("html").scrollLeft(0); $("body").scrollTop(0); $("body").scrollLeft(0); }, 100 );
+
+                    var saveBody = $("body").css('width') + ',' + $("body").css('height');
+                    $("body").attr("saveBody", saveBody);
+
+                    $("body").css('width', 0);
+                    $("body").css('height', 0);
+                    $("html").css('overflow', 'hidden');
+
+                    $(this).val(1);
+                    if(IE10orOlder)
+                      $("#edit_window").height( $("#edit_window").parent().innerHeight() );
+                  } else
+                    if($(this).val() == "1") {
+
+                      $("html").css('overflow-x', 'hidden');
+                      $("html").css('overflow-y', 'scroll');
+
+                      var saveBody = $("body").attr("saveBody");
+                      $("html").attr("saveBody", "");
+                      $("body").css('width', saveBody.split(',')[0]);
+                      $("body").css('height', saveBody.split(',')[1]);
+
+                      var saveCSS = $(that).attr("saveCSS");
+                      $(that).attr("saveCSS", "");
+
+                      $(that).css('position', "static");
+                      saveCSS = saveCSS.split(',');
+                      for(var i=saveCSS.length - 1; i>=0; i--) {
+                         if( saveCSS[i].split(':')[1] == null ) continue;
+                         $(that).css( saveCSS[i].split(':')[0], saveCSS[i].split(':')[1].trim()  );
+                         if(saveCSS[i].split(':')[0].trim() == "height")
+                           var aHeight = saveCSS[i].split(':')[1].trim();
+                      }
+
+                      $(that).css('height', aHeight);
+
+                      $("html").attr("style", "");
+                      $("body").css("width", "");
+                      $("body").css("height", "");
+
+                      $(this).val(0);
+
+                      $(window).scrollTop(400);
+
+                      if(IE10orOlder)
+                        $("#edit_window").height( parseInt(aHeight) - $("#edit_window").parent().closest("TABLE").find("TD").height() - 7 );
+
+                    }
+
+                  return false;
+               	});
+
+
+                var PageModified=false;
+
+                function PlainSourceChanged(){
+                  PageModified = true;
+                  return true;
+                }
+
+                function AddCKEditorChangedEvent() {
+
+                  if(CKEDITOR.instances['MailHTMLText'] != null) {
+
+                        CKEDITOR.on('instanceReady', function( ev ) {
+                    						CKEDITOR.instances['MailHTMLText'].on('key', function (e) {
+                            PageModified=true;
+                            e.removeListener();
+                          });
+
+                        CKEDITOR.instances['MailHTMLText'].on('blur', function(e) {
+                            if (e.editor.checkDirty()) {
+                               PageModified=true;
+                            }
+                        });
+
+                        AddImageSizeChangedEventToCKEditor('MailHTMLText');
+                        ev.removeListener();
+
+              				     });
+
+                  }
+                }
+
+                window.onbeforeunload = function (e) {
+                     var e = e || window.event;
+                     var warntext = 'Dokument wurde ge&auml;ndert ohne die &Auml;nderungen zu speichern.';
+                     if (PageModified || Modified) {
+                       // For IE and Firefox prior to version 4
+                       if (e) {
+                           e.returnValue = html_entity_decode(warntext);
+                           if(e.returnValue)
+                             ResetCurrentUserEditFlag();
+                       }
+
+                       // For Safari
+                       var b = html_entity_decode(warntext);
+                       if(b)
+                         ResetCurrentUserEditFlag();
+                       return b;
+                     }else
+                       ResetCurrentUserEditFlag();
+                }
+
+                AddCKEditorChangedEvent();
+
+
+                function RemovePersAttachments() {
+                   var P = document.getElementById("PersAttachments");
+                   for(var i=P.options.length - 1; i>=0; i--) {
+                     if(P.options[i].selected) {
+                        P.options[i] = null;
+                     }
+                   }
+                   SetPersAttachmentsButtons();
+                }
+
+                // onformsubmit select all!
+                function SelectAllPersAttachments() {
+                   var P = document.getElementById("PersAttachments");
+                   for(var i=P.options.length - 1; i>=0; i--) {
+                     P.options[i].selected = true;
+                   }
+                }
+
+                function SetPersAttachmentsButtons(){
+                  document.getElementById('PersAttachmentsEditBtn').disabled = document.getElementById('PersAttachments').value == '';
+                  document.getElementById('PersAttachmentsDeleteBtn').disabled = document.getElementById('PersAttachments').value == '';
+                }
+
+                function AddEditPersAttachment(newFileName, oldFileName){
+
+                   var SourceElement = document.getElementById('PersAttachments');
+                   var Exists = false;
+                   var newOption = null;
+                   for(var i=0; i<SourceElement.options.length; i++) {
+
+                      if(oldFileName == "" && SourceElement.options[i].value.toLowerCase() == newFileName.toLowerCase()) {
+                         Exists = true;
+                         break;
+                      }
+
+                      if(oldFileName != "" && oldFileName.toLowerCase() != SourceElement.options[i].value.toLowerCase() && SourceElement.options[i].value.toLowerCase() == newFileName.toLowerCase()) {
+                         Exists = true;
+                         break;
+                      }
+
+                      if(oldFileName != "" && oldFileName.toLowerCase() == SourceElement.options[i].value.toLowerCase())
+                        newOption = SourceElement.options[i];
+                   }
+
+                   if(Exists){
+                     return 1000;
+                   }
+
+                   if(oldFileName == ""){
+                     newOption = new Option(newFileName, newFileName, false, true);
+                     newOption.selected = true;
+                     SourceElement.options[SourceElement.options.length] = newOption;
+                   } else if(newOption) {
+                     newOption.text = newFileName;
+                     newOption.value = newFileName;
+                   }
+
+                   SetPersAttachmentsButtons();
+                   return true;
+                }
+
+                SetPersAttachmentsButtons();
+
+              -->
+              </script>
+
+
+              <!-- ##### TabView - END -->
+
+            </td>
+          </tr>
+
+
+        </tbody>
+      </table>
+
+
+      <input type="submit" name="PrevBtn" value="&lt; Zur&uuml;ck" id="PrevBtn" class="FormButton" onclick="PrevBtnClicked=true;" />
+      <input type="submit" name="NextBtn" value="Speichern und Weiter &gt;" class="FormButton" id="NextBtn" onclick="PrevBtnClicked=false; PageModified=false; Modified=false;" />
+
+
+      <script type="text/javascript">
+      <!--
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>
+
+      </form>
+
+      <IF:IS_CAMPAIGNSENDING>
+      <script language="JavaScript">
+      <!--
+        MessageBox("Warnung", "Das E-Mailing wird gerade versendet oder ist f&uuml;r den Versand vorgesehen.<br /><br />Sollten Sie &Auml;nderungen am E-Mail-Text vornehmen, dann werden die &Auml;nderungen an die Empf&auml;nger gesendet, die bisher noch nicht die E-Mail erhalten haben.", messageTypeWarning, 400, 168, "", true);
+      //-->
+      </script>
+      </IF:IS_CAMPAIGNSENDING>
+
+      <IF:IS_CAMPAIGNEDITEDBYANOTHERUSER>
+      <script language="JavaScript">
+      <!--
+        MessageBox("Warnung", "Der E-Mail-Text dieses E-Mailings wird von Nutzer <b><Username></b> seit <EditDateTime> Uhr bearbeitet.<br /><br />Sollten Sie &Auml;nderungen am E-Mail-Text vornehmen und speichern, dann k&ouml;nnten die &Auml;nderungen des anderen Nutzers oder Ihre eigenen &Auml;nderungen verloren gehen.", messageTypeWarning, 400, 168, "", true);
+      //-->
+      </script>
+      </IF:IS_CAMPAIGNEDITEDBYANOTHERUSER>
+
+
+<!-- IPE //-->
+
+<style type="text/css">
+<!--
+ #IPE_dialogdefinition label, #IPE_dialogdefinition input, #IPE_dialogdefinition select { display:block; }
+ #IPE_dialogdefinition button {font-size: 10pt}
+
+	#dialog-singleline input.text { margin-top: 4px; margin-bottom:12px; width:95%; padding: .4em; }
+	#dialog-singleline fieldset { padding:0; border:0; margin-top:5px; }
+
+	#dialog-multiline input.text { margin-top: 4px; margin-bottom:12px; width:95%; padding: .4em; }
+	#dialog-multiline textarea.text { margin-top: 4px; margin-bottom:12px; width:95%; padding: .4em; }
+	#dialog-multiline fieldset { padding:0; border:0; margin-top:5px; }
+
+	#dialog-hyperlink input.text { margin-top: 4px; margin-bottom:12px; width:95%; padding: .4em; }
+	#dialog-hyperlink fieldset { padding:0; border:0; margin-top:5px; }
+
+	#dialog-image input.text { margin-top: 4px; margin-bottom:12px; width:95%; padding: .4em; }
+	#dialog-image input.image { margin-top: 4px; margin-bottom:12px; width:67%; padding: .4em; }
+	#dialog-image fieldset { padding:0; border:0; margin-top:5px; }
+
+	#dialog-hr input.text { margin-top: 4px; margin-bottom:12px; padding: .4em; }
+	#dialog-hr fieldset { padding:0; border:0; margin-top:5px; }
+ #dialog-hr select { margin-top: 4px; margin-bottom:12px; padding: .4em; width:30%;}
+
+ #dialog-cssedit input.text { margin-top: 4px; margin-bottom:12px; padding: .4em; width:95%;}
+ #dialog-cssedit select { margin-top: 4px; margin-bottom:12px; padding: .4em; width:95%;}
+	#dialog-cssedit fieldset { padding:0; border:0; margin-top:5px; }
+
+ #dialog-pagebodyproperties input.text { margin-top: 4px; margin-bottom:12px; padding: .4em; width:95%;}
+ #dialog-pagebodyproperties select { margin-top: 4px; margin-bottom:12px; padding: .4em; width:95%;}
+	#dialog-pagebodyproperties fieldset { padding:0; border:0; margin-top:5px; }
+
+
+ #dialog-new_items .ui-selecting { outline: 1px #F39814 solid; padding: 0px;}
+	#dialog-new_items .ui-selected { outline: 1px #F39814 solid; padding: 0px;}
+	#dialog-new_items { list-style-type: none; margin: 0; padding: 0; }
+	#dialog-new_items li { margin: 4px; padding: 0px; float: left; width: 130px; height: 100px; cursor: pointer;}
+
+	#dialog-socialmedia .socialmedia_item { float: left; width: 50px; height: 38px; text-align: center; background-color: #EAEAEA; margin: 5px; padding-top: 4px; cursor: pointer; border: 1px solid #EAEAEA;}
+
+ #dialog-list input.text { margin-top: 4px; margin-bottom:12px; padding: .4em; width:95%;}
+ #dialog-list select { margin-top: 4px; margin-bottom:12px; padding: .4em; width:95%;}
+	#dialog-list fieldset { padding:0; border:0; margin-top:5px; }
+ #dialog-list #dialog-list-elements { list-style-type: none; margin: 0; padding: 0; width:99%; }
+ #dialog-list #dialog-list-elements li { list-style-type: none; margin: 0; padding: 4px; height: 20px; cursor: pointer; font-size: 1.1em}
+
+ #dialog-list #dialog-list-elements .ui-selecting { background: #FECA40; }
+	#dialog-list #dialog-list-elements .ui-selected { background: #F39814; color: white; }
+
+ #dialog-list .li_delete {cursor: pointer;	float:right;}
+
+ #dialog-list-editEntry input.text { margin-top: 4px; margin-bottom:12px; padding: .4em; width:95%;}
+
+//-->
+</style>
+
+
+<script language="JavaScript">
+<!--
+
+var Modified = false;
+var PrevBtnClicked = false;
+var oldSetupLevel = -1;
+var IsResetCurrentUserEditFlagDone = false;
+
+var _Modified = function(value){ // SM => SWM compatibility
+  Modified = value;
+  if(Modified)
+    $('#edit_window').contents().find("#COLORSCHEME_SELECT, #COLORSCHEME_SELECT_SCRIPT").remove(); // SM 13 special template
+}
+
+function ResetCurrentUserEditFlag(){
+  if (IsResetCurrentUserEditFlagDone) return;
+  var date = new Date();
+  var nocache = date.getTime() / 1000;
+  $.ajaxSetup({ cache: false });
+
+ 	jQuery.get('campaignedit.php' + "?nocache=" + nocache + "&ResetCurrentUserEditFlag=" + document.getElementById('CampaignListId').value, "", function(data){
+     console.log(data);
+ 	});
+  if(window.navigator.userAgent.indexOf("Firefox") > -1 || window.navigator.userAgent.indexOf("Waterfox") > -1) // FF waiting
+    Sleep(500);
+  IsResetCurrentUserEditFlagDone = true;
+}
+
+function ConfirmLeavePageWithoutSavingEvent(value){
+  if(value){
+     ResetCurrentUserEditFlag();
+     PageModified = false;
+     Modified = false;
+     if(!PrevBtnClicked)
+       $("#CampaignEditForm").submit();
+       else{
+         document.CampaignEditForm.action='./campaignedit.php';
+         $("#PrevBtn").trigger("click");
+       }
+  }else{
+    RemoveLoadingStatusOnSubmit();
+    PrevBtnClicked = false;
+    document.CampaignEditForm.action='./campaignedit.php';
+    if(oldSetupLevel > -1)
+      document.getElementById('SetupLevel').value = oldSetupLevel;
+    oldSetupLevel = -1;
+  }
+}
+
+$(document).ready(function(){
+  InsertLoadingStatusOnSubmit();
+
+  $("#CampaignEditForm").on("submit", function() {
+       if (PageModified || Modified) {
+         var warntitle = 'Warnung';
+         var warntext = 'Dokument wurde ge&auml;ndert ohne die &Auml;nderungen zu speichern.';
+         warntext += '<br /><br />M&ouml;chten Sie die Seite wirklich verlassen ohne zu speichern?';
+         RemoveLoadingStatusOnSubmit();
+         MessageBox(warntitle, warntext, messageTypeConfirmation, 380, 150, "ConfirmLeavePageWithoutSavingEvent", false);
+         return false;
+       }
+       if(document.getElementById('MailEditType').selectedIndex == 1)
+         SaveIPE(false);
+       showLoading(true);
+       CheckAndRemoveCriticalChars('CampaignEditForm');
+       SelectAllPersAttachments();
+       return true;
+  });
+
+});
+
+$(document).ready(function(){
+
+
+  $("*").dblclick(function(e){
+    console.log("!!!DblClick detected");
+    e.preventDefault();
+  });
+
+
+  $("#NextBtn, #IPEShowPreviewBtn").on('mousedown keydown', function(e){
+     showLoading(true);
+  });
+
+  $("#NextBtn, #IPEShowPreviewBtn").on('mouseup mouseout', function(e){
+     showLoading(false);
+  });
+
+
+  $("#NextBtn").on('click', function(e){
+    var $el = $(this);
+    if($el.data('clicked')){
+      // Previously clicked, stop actions
+      console.log("!!!DblClick on save button detected");
+      e.preventDefault();
+      e.stopPropagation();
+    }else{
+      // Mark to ignore next click
+      $el.data('clicked', true);
+      // Unmark after 1 second
+      window.setTimeout(function(){
+        $el.removeData('clicked');
+      }, 1000)
+    }
+    IsResetCurrentUserEditFlagDone = true; // we must not reset it
+    return true;
+  });
+
+  $("button").button();
+
+  // ColorPicker
+  $('#bordercolor, #fontcolor, #bgcolor, #borderColor, #hr_color, #bodybgcolor, #bodyfontcolor, #bodylinkcolor, #bodylinkvisitedcolor, #bodylinkactivecolor, #bodylinkhovercolor').ColorPicker({
+  //	color: '#0000ff',
+  // flat: true,
+  	onShow: function (colpkr) {
+
+    if(maxZ == null)
+      var maxZ = 1;
+    $("body > *").each(function() {
+     var el = $(this);
+     if($(el).css("position") != "static" && !$(el).is(".colorpicker") && parseInt($(el).css("z-index")) > maxZ) {
+       maxZ = parseInt($(el).css("z-index")) + 1;
+     }
+     });
+  	 $(".colorpicker").css("z-index", maxZ);
+
+  		$(colpkr).fadeIn(500);
+  		return false;
+  	},
+  	onSubmit: function(hsb, hex, rgb, el) {
+  		$(el).val('#' + hex);
+  		$(el).ColorPickerHide();
+  	},
+  	onBeforeShow: function () {
+  		$(this).ColorPickerSetColor(this.value.substr(1));
+  	},
+  	onHide: function (colpkr) {
+  		$(colpkr).fadeOut(500);
+  		return false;
+  	},
+  	onChange: function (hsb, hex, rgb) {
+  		$('#colorSelector div').css('backgroundColor', '#' + hex);
+  	}
+  });
+
+  $('#bordercolor, #fontcolor, #bgcolor, #borderColor, #hr_color, #bodybgcolor, #bodyfontcolor, #bodylinkcolor, #bodylinkvisitedcolor, #bodylinkactivecolor, #bodylinkhovercolor, .colorpicker, .colorpicker_color').keydown(function(e) {
+   	if ((e.which && e.which == 27) || (e.keyCode && e.keyCode == 27)) {
+      e.stopPropagation();
+      $(this).ColorPickerHide();
+    		return false;
+   	}
+  });
+});
+
+
+function CloseColorPicker(){
+  $('#bordercolor, #fontcolor, #bgcolor, #hr_color, #bodybgcolor, #bodyfontcolor, #bodylinkcolor, #bodylinkvisitedcolor, #bodylinkactivecolor, #bodylinkhovercolor').each(function(){
+    $(this).ColorPickerHide();
+  });
+}
+
+
+function showLoading(show){
+  if(show == false){
+    $("html, body").removeClass("ajaxLoading");
+    $("input").removeClass("ajaxLoading");
+    $("div").removeClass("ajaxLoading");
+    return;
+  }
+  $("html, body").addClass("ajaxLoading");
+  $("input").addClass("ajaxLoading");
+  $("div").addClass("ajaxLoading");
+}
+
+// added SM 13, quicker unwrap DOM variant
+// IPE_unwrap($(this).get(0));
+function _IPE_unwrap(el){
+    var parent = el.parentNode; // get the element's parent node
+    while (el.firstChild){
+        parent.insertBefore(el.firstChild, el); // move all children out of the element
+    }
+    parent.removeChild(el); // remove the empty element
+}
+
+function SaveIPE(DoClone){
+
+  // not selected
+  if(DoClone != true)
+     if( !(document.getElementById('MailEditType').selectedIndex == 1 && document.getElementById('MailFormat').selectedIndex > 0) ) return true;
+
+  showLoading(true);
+
+  try{
+
+    try {
+      $('#edit_window').contents().find("#COLORSCHEME_SELECT, #COLORSCHEME_SELECT_SCRIPT").remove(); // SM 13 special template
+    } catch(e){
+    }
+
+    var obj = $('#edit_window').contents();
+    if(DoClone == true) {
+      if($(obj).find('html').html() != null) {
+          obj = $(obj).find('html').clone(false, false);
+        }
+        else {
+         obj = $(obj).clone(false, false);
+        }
+    }
+
+    if(DoClone != true) {
+     	$(obj).find("input[type='hidden']").remove();
+    }
+
+    if($(obj).find('html').html() != null)
+      var html = $(obj).find('html').html();
+      else
+      var html = $(obj).html();
+
+    if(html == ""){
+      console.log("!!!HTML is empty");
+    }
+
+    data = "<!DOCTYPE html>" + String.fromCharCode(0x3C) + 'html>' + html +'</html>';
+
+   	$('#ipehtml').html("");
+   	$('#ipehtml').append("<textarea name=\"WizardHTMLText\" style=\"width: 1px;height: 1px; border: 0px; padding: 0px; margin: 0px;\" id=\"WizardHTMLText\" rows=\"1\" cols=\"1\">"+data+"</textarea>");
+
+    // cleanup html
+    $(obj).find("#COLORSCHEME_SELECT").remove(); // SM 13 special template
+   	$(obj).find(".ipe_repeater_toolbar, .ipe_toolbar").remove();
+   	$(obj).find(".ipe_repeater, .ipe_repeater_item, #tableofcontents").children().unwrap();
+
+    // changed SM 13, remove empty .ipe_repeater => editable <a> removed
+    $(obj).find(".ipe_repeater").each(
+   		function(){
+       $(this).remove();
+   	 }
+    );
+
+    $(obj).find(".ipe_item").each(
+   		function(){
+       // don't remove tag!!
+       $(this).attr("class", null);
+       $(this).attr("id", null);
+       $(this).attr("title", null);
+       $(this).attr("rel", null);
+       $(this).attr("label", null);
+       $(this).attr("tableofcontentstitle", null);
+       $(this).attr("style", null);
+       _IPE_unwrap($(this).get(0)); // changed SM 13, remove div tag
+   	 }
+    );
+
+    $(obj).find(".editable").each(
+   		function(){
+   		  if($(this).value=="true" && $(this).get(0) && $(this).get(0).tagName.toUpperCase() == "DIV" && $(this).attr("style") == null || $(this).attr("style") == "")
+         // remove tag
+         if($(this).children().html() != null)
+           $(this).children().unwrap();
+           else {
+             var html = $(this).html();
+             $(this).parent().html($(this).html());
+             $(this).remove();
+           }
+   	 }
+    );
+
+
+    // changed SM 13, remove editable=false
+    $(obj).find("div[editable='false']").each(
+    	function(){
+     		  $(this).attr("editable", null);
+     }
+    );
+
+    // remove firebug style
+    $(obj).find("style").each(
+   		function(){
+   		  if($(this).html().indexOf('.firebug') > 0)
+      		  $(this).remove();
+   	 }
+    );
+
+    $(obj).find("script").remove();
+   	$(obj).find("meta[name='SKYPE_TOOLBAR']").remove();
+   	$(obj).find("input[type='hidden']").remove();
+   	$(obj).find("link[href='ipe/css/inplace_edit.css']").remove();
+   	$(obj).find("link[href='ipe/css/redmond/jquery-ui-1.8.14.custom.css']").remove();
+
+    $(obj).find(".socialmedia_item").each(
+   		function(){
+   		  $(this).attr("class", null);
+   	 }
+    );
+
+    $(obj).find('*[rel="tableofcontentsentry"]').each(
+   		function(){
+   		  $(this).attr("rel", null);
+   	 }
+    );
+
+    //
+
+
+    if($(obj).find('html').html() != null)
+      var html = $(obj).find('html').html();
+      else
+      var html = $(obj).html();
+
+
+    // remove comments
+    //html = html.replace(/<!--[\s\S]*?-->/g, "");
+
+    data = "<!DOCTYPE html>" + String.fromCharCode(0x3C) + 'html>' + html + '</html>';
+
+    data = data.replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/\t/g, '');
+
+
+    // don't override CKEditor content
+    if(DoClone == true)
+      if( $(obj).find("#no_template_loaded").html() ){
+        showLoading(false);
+        //return true; we override it now
+      }
+
+   	$('#MailHTMLText').val( "" );
+   	$('#MailHTMLText').val( data );
+
+    $obj = null;
+
+    showLoading(false);
+
+    if(DoClone == true)
+       return true;
+
+    PageModified = false;
+    Modified = false;
+
+    return true;
+  }catch(error){
+    console.log("!!!" + "An Error occured" + "\n" + 'Name: ' + error.name + "\n" + 'Message: ' + error.message + "\n" + 'Stack: ' + error.stack);
+    showLoading(false);
+  }
+}
+
+// filemanager callback function
+function SetUrl(Path) {
+ $('#' + "imageurl").val(Path);
+}
+
+function OpenFileManager(elementId, reqWidth, reqHeight){
+  if(reqWidth == undefined || reqWidth == null)
+    reqWidth = -1;
+  if(reqHeight == undefined || reqHeight == null)
+    reqHeight = -1;
+
+  var date = new Date();
+  var nocache = date.getTime() / 1000;
+  var height = (window.screen.height * 70 / 100);
+  var width = (window.screen.width * 80 / 100);
+  var filemanager = "ckeditor/filemanager/index.php?type=Images&FCKEditor=" + elementId + "&langCode=" + CurrentLanguage + "&IPEEditor=" + elementId + '&reqWidth=' + reqWidth + '&reqHeight=' + reqHeight;
+  oWindow = openWindowWithPost(filemanager + "&nocache=" + nocache, {}, "ImageFileManager","width=" + width + ",height=" + height + ",scrollbars=yes,status=yes,toolbar=no,resizable=yes,location=yes,dependent=yes,modal=yes");
+  oWindow.opener = window;
+  oWindow.focus();
+}
+
+function OpenPixabayManager(elementId, reqWidth, reqHeight){
+  if(reqWidth == undefined || reqWidth == null)
+    reqWidth = -1;
+  if(reqHeight == undefined || reqHeight == null)
+    reqHeight = -1;
+
+  var date = new Date();
+  var nocache = date.getTime() / 1000;
+
+  var height = (window.screen.height * 70 / 100);
+  var width = (window.screen.width * 80 / 100);
+  var filemanager = "ckeditor/pixabay/index.php?langCode=" + CurrentLanguage + "&IPEEditor=" + elementId + '&reqWidth=' + reqWidth + '&reqHeight=' + reqHeight;
+  oWindow = openWindowWithPost(filemanager + "&nocache=" + nocache, {}, "ImageFileManager","width=" + width + ",height=" + height + ",scrollbars=yes,status=yes,toolbar=no,resizable=yes,location=yes,dependent=yes,modal=yes");
+  oWindow.opener = window;
+  oWindow.focus();
+}
+
+function LoadNewIPEElements(destelement_id){
+  var date = new Date();
+  var nocache = date.getTime() / 1000;
+  $("#Loading").show();
+  $.ajaxSetup({ cache: false });
+
+
+ 	jQuery.get('ajax_load_new_ipe_elements.php' + "?nocache=" + nocache, "", function(data){
+ 	   $("#" + destelement_id).html( data );
+ 	});
+
+  $("#Loading").hide();
+
+
+  // new items dialog selectable
+		$( "#dialog-new_items" ).selectable({
+
+   selecting: function(event, ui) {
+      // prevent multiselect
+  				$( "#dialog-new" ).find( ".ui-selected", this ).each(function() {
+   				  $(this).removeClass("ui-selected");
+  				});
+   },
+   selected: function(event, ui) {
+
+
+    // prevent multiselect
+		  var count = 0;
+  		$( "#dialog-new" ).find( ".ui-selected" ).each(function() {
+       count++;
+       if($(this).get(0).tagName.toUpperCase() != "LI"){ // markiert das enthaltene Element nicht LI
+         $(this).parent().addClass("ui-selected");
+         $(this).removeClass("ui-selected");
+       }
+				});
+
+				if(count > 1){
+  				$( "#dialog-new" ).find( ".ui-selected" ).each(function() {
+   				  count--;
+         if(count > 1)
+     				  $(this).removeClass("ui-selected");
+  				});
+				}
+				//
+
+    var ApplyBtn = $("#dialog-new").parent().find('.ui-dialog-buttonpane').find('button:first');
+    ApplyBtn.attr("disabled", null);
+    ApplyBtn.removeClass('ui-state-disabled');
+
+    $(this).off('dblclick');
+    $(this).dblclick(function() {
+      var ApplyBtn = $("#dialog-new").parent().find('.ui-dialog-buttonpane').find('button:first');
+      ApplyBtn.click();
+    });
+
+   },
+   unselected: function(event, ui) {
+    $(this).off('dblclick');
+    var ApplyBtn = $("#dialog-new").parent().find('.ui-dialog-buttonpane').find('button:first');
+    ApplyBtn.attr("disabled", "disabled");
+    ApplyBtn.addClass('ui-state-disabled');
+   },
+   stop: function() {
+			}
+		});
+
+}
+
+function LoadMultilineToCKEditor(NotWhite){
+  var iv = IsCKEditorVisible("multiline");
+
+  if(NotWhite == undefined)
+     NotWhite = false;
+  MultiLineBGColorNotWhite = NotWhite;
+
+  ShowCKEditor('multiline', 654, 180, 'MyDefaultMultiLineToolbar', false);
+
+  try {
+    CKEDITOR.instances.multiline.on('instanceReady', function(e) {
+         if(MultiLineBGColorNotWhite){
+             CKEDITOR.instances.multiline.document.getBody().setStyle('background-color', '#C0C0C0');
+             CKEDITOR.instances.multiline.document.appendStyleText( 'body { background-color: #C0C0C0 }' );
+         }
+
+         CKEDITOR.instances.multiline.on('mode', function() {
+           if(this.mode !== 'source' && MultiLineBGColorNotWhite){
+             CKEDITOR.instances.multiline.document.getBody().setStyle('background-color', '#C0C0C0');
+             CKEDITOR.instances.multiline.document.appendStyleText( 'body { background-color: #C0C0C0 }' );
+           }
+           if(this.mode !== 'source')
+             CKEDITOR.instances.multiline.focus();
+         });
+
+         CKEDITOR.instances.multiline.focus();
+    });
+
+    if(iv)
+      CKEDITOR.instances.multiline.fire('instanceReady');
+
+  } catch(e){
+  }
+  if(!iv)
+    AddImageSizeChangedEventToCKEditor('multiline');
+}
+
+function ShowPreview(){
+  try {
+  // remove no_template_loaded div
+  $('#edit_window').contents().find("#no_template_loaded").remove();
+  SaveIPE(true);
+  ShowItem("WizardHTMLText", false);
+  oWindow = window.open("about:blank", "IPEPreview","width=640,height=480,scrollbars=yes,status=yes,toolbar=no,resizable=yes,location=no,dependent=no,modal=yes");
+  var html = $('#MailHTMLText').val();
+  if(html.indexOf("<title>") >= 0){
+    html = html.replace(/\<title\>.*?\<\/title\>/g, '<title>'+$("#MailSubject").val()+'</title>');
+  }
+  oWindow.document.open();
+  oWindow.document.writeln( html );
+  Sleep(200); // for IE 9 we sleep, otherwise gives jquery ui errors
+  oWindow.document.close();
+  oWindow.opener = window;
+  oWindow.focus();
+  } catch(e){
+  }
+}
+
+function MakeListEntriesSelectable(){
+
+		// dialog-list-elements
+		$( "#dialog-list-elements" ).selectable({
+   selecting: function(event, ui) {
+      // prevent multiselect
+  				$( "#dialog-list" ).find( ".ui-selected", this ).each(function() {
+   				  $(this).removeClass("ui-selected");
+  				});
+   },
+   selected: function(event, ui) {
+
+    // prevent multiselect
+		  var count = 0;
+  		$( "#dialog-list" ).find( ".ui-selected" ).each(function() {
+       count++;
+       if($(this).get(0).tagName.toUpperCase() != "LI"){ // markiert das enthaltene Element nicht LI
+         $(this).parent().addClass("ui-selected");
+         $(this).removeClass("ui-selected");
+       }
+				});
+
+				if(count > 1){
+  				$( "#dialog-list" ).find( ".ui-selected" ).each(function() {
+   				  count--;
+         if(count > 0) {
+     				  $(this).removeClass("ui-selected");
+     				}
+  				});
+				}
+				//
+
+    $("#dialog-list-edit").attr("disabled", null);
+    $("#dialog-list-edit").removeClass('ui-state-disabled');
+
+    $(this).off('dblclick');
+    if(count > 0){
+      $(this).dblclick(function() {
+         $("#dialog-list-edit").click();
+      });
+    }
+
+    ActivateDeactivateUpDownBtns();
+
+   },
+   unselected: function(event, ui) {
+    $(this).off('dblclick');
+
+    $("#dialog-list-edit").attr("disabled", "disabled");
+    $("#dialog-list-edit").addClass('ui-state-disabled');
+
+   },
+   stop: function() {
+				ActivateDeactivateUpDownBtns();
+			}
+		});
+	$( "#dialog-list-elements" ).disableSelection();
+
+ // delete element
+ $( ".li_delete").off('click');
+ $( ".li_delete").click(function() {
+    $(this).parent().remove();
+
+		  var count = 0;
+  		$( "#dialog-list" ).find( ".ui-selected" ).each(function() {
+       count++;
+       if(count) return true; // break;
+				});
+
+    if(count == 0) {
+      $("#dialog-list-edit").attr("disabled", "disabled");
+      $("#dialog-list-edit").addClass('ui-state-disabled');
+    }
+
+    ActivateDeactivateUpDownBtns();
+ });
+
+}
+
+
+function ActivateDeactivateUpDownBtns(){
+ var current = $( "#dialog-list-elements" ).find('.ui-selected');
+ if(current.get(0) == null || current.prev().get(0) == null) {
+   $("#dialog-list-Up").attr("disabled", "disabled");
+   $("#dialog-list-Up").addClass('ui-state-disabled');
+ } else {
+   $("#dialog-list-Up").attr("disabled", null);
+   $("#dialog-list-Up").removeClass('ui-state-disabled');
+ }
+
+ if(current.get(0) == null || current.next().get(0) == null) {
+   $("#dialog-list-Down").attr("disabled", "disabled");
+   $("#dialog-list-Down").addClass('ui-state-disabled');
+ } else {
+   $("#dialog-list-Down").attr("disabled", null);
+   $("#dialog-list-Down").removeClass('ui-state-disabled');
+ }
+}
+
+function MoveSelectedListEntry(direction){
+  var current = $( "#dialog-list-elements" ).find('.ui-selected');
+  if(direction == "Up")
+     current.prev().before(current);
+     else
+     current.next().after(current);
+  ActivateDeactivateUpDownBtns();
+}
+
+//-->
+</script>
+
+
+<!-- dialog definition //-->
+
+<div id="IPE_dialogdefinition" style="visibility:hidden; display: none">
+  <div id="dialog-removeitem" title="Element l&ouml;schen">
+   <p>
+    <span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 20px 0;"></span>
+    M&ouml;chten Sie dieses Element wirklich l&ouml;schen?
+    <br /><br />
+    <input type="checkbox" class="checkbox ui-widget-content ui-corner-all" name="NoConfirmOnRemoveItem" id="NoConfirmOnRemoveItem" />&nbsp;<label for="NoConfirmOnRemoveItem">Ohne Best&auml;tigung beim L&ouml;schen weiterer Elemente</label>
+   </p>
+  </div>
+
+  <div id="dialog-singleline" title="Einzeiliger Text">
+  	<form name="SingleLineEditForm" id="SingleLineEditForm">
+  	<fieldset>
+    <label for="singleline" id="labelForSingleline" defaulttitle="Text">Text</label>
+  		<input type="text" name="singleline" id="singleline" class="text ui-widget-content ui-corner-all" maxlength="255" />
+  		<br />
+    Platzhalter einf&uuml;gen<br />
+    <select size="1" id="SinglelinePlaceHoldersCB" class="ui-widget-content ui-corner-all" onchange="InsertFieldValue('SinglelinePlaceHoldersCB', 'singleline')">
+    <option selected="selected">Feld zum Einf&uuml;gen w&auml;hlen...</option>
+    </select>&nbsp; <input type="image" src="images/btnCustomFct.gif" onclick="DoShowFunctionsDialog('SingleLineEditForm', 'singleline', false); return false;" alt="Funktionen" title="Funktionen" style="vertical-align:bottom" />
+    <br />
+    <br />
+    <br />
+  		<label for="singleline_hyperlink">Optionaler Hyperlink</label>
+  		<input type="text" name="singleline_hyperlink" id="singleline_hyperlink" class="text ui-widget-content ui-corner-all" maxlength="255" />
+  	</fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-multiline" title="Mehrzeiliger Text">
+   <script>
+     var MultiLineBGColorNotWhite = false;
+   </script>
+  	<form name="MultiLineEditForm" id="MultiLineEditForm">
+  	<fieldset>
+  		<label for="multiline" id="labelForMultiline" defaulttitle="Text">Text</label>
+  		<textarea name="multiline" id="multiline" class="text ui-widget-content ui-corner-all" style="width:650px; height:343px"></textarea>
+  		<br />
+  	</fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-hyperlink" title="Hyperlink bearbeiten">
+  	<form>
+  	<fieldset>
+    		<label for="hyperlink" id="labelForHyperlink" defaulttitle="Hyperlink">Hyperlink</label>
+    		<input type="text" name="hyperlink" id="hyperlink" class="text ui-widget-content ui-corner-all" maxlength="255" />
+    <br />
+    <br />
+  		<label for="textforhyperlink" id="labelFortextforHyperlink">Text des Hyperlinks</label>
+  		<input type="text" name="textforhyperlink" id="textforhyperlink" class="text ui-widget-content ui-corner-all" maxlength="255" />
+   </fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-image" title="Bild bearbeiten">
+  	<form>
+  	<fieldset>
+      <input type="hidden" id="dialog-image_reqWidth" value="-1" />
+      <input type="hidden" id="dialog-image_reqHeight" value="-1" />
+      <label for="imageurl" id="labelForImage" defaulttitle="Bild">Bild</label><span id="dialog-image_reqImgSizeLabel">&nbsp;(ben&ouml;tigte Bildgr&ouml;&szlig;e:&nbsp;Breite&nbsp;<span id="dialog-image_reqImgSize"></span>)</span>
+      <table border="0" width="100%" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="100%" rowspan="2">
+          <input style="width: 95%;" type="text" name="imageurl" id="imageurl" class="image ui-widget-content ui-corner-all" />
+        </td>
+        <td>
+          <button name="Browse" id="Browse" onclick="OpenFileManager('imageurl', $('#dialog-image_reqWidth').val(), $('#dialog-image_reqHeight').val()); return false;">Durchsuchen</button>
+        </td>
+      </tr>
+      <tr>
+        <td width="100%">
+          <button name="BrowsePixabay" id="BrowsePixabay" onclick="OpenPixabayManager('imageurl', $('#dialog-image_reqWidth').val(), $('#dialog-image_reqHeight').val()); return false;">Pixabay</button>
+        <td>
+      </tr>
+      </table>
+      <br />
+      <input onclick="ipeSetImageAsCompleteURL('chkassiInsertImageAsCompleteURL')" type="checkbox" name="chkassiInsertImageAsCompleteURL" id="chkassiInsertImageAsCompleteURL" class="checkbox ui-widget-content ui-corner-all" /><label for="chkassiInsertImageAsCompleteURL" defaulttitle="Bild als URL einf&uuml;gen (nicht mit der E-Mail versenden)">&nbsp;Bild als URL einf&uuml;gen (nicht mit der E-Mail versenden)</label>
+    <br />
+    <br />
+  		<label for="alttext" id="labelForAlttext">Alternativer Text</label>
+  		<input type="text" name="alttext" id="alttext" class="text ui-widget-content ui-corner-all" maxlength="255" />
+    <br />
+    <br />
+    <br />
+  		<label for="image_hyperlinkurl">Optionaler Hyperlink</label>
+  		<input type="text" name="image_hyperlinkurl" id="image_hyperlinkurl" class="text ui-widget-content ui-corner-all" maxlength="255" />
+   </fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-hr" title="Horizontale Linie bearbeiten">
+  	<form>
+  	<fieldset>
+     <label for="hr_width">Breite</label><br /><input type="text" name="hr_width" id="hr_width" size="32" class="text ui-widget-content ui-corner-all" />
+     <br />
+     <br />
+     <label for="hr_height">H&ouml;he</label><br /><input type="text" name="hr_height" id="hr_height" size="32" class="text ui-widget-content ui-corner-all" />
+     <br />
+     <br />
+   		<label for="hralignmentCB">Ausrichtung</label><br />
+     <select name="hralignmentCB" id="hralignmentCB" size="1" class="ui-widget-content ui-corner-all">
+       <option value="left">links</option>
+       <option value="center">zentriert</option>
+       <option value="right">rechts</option>
+     </select>
+     <br />
+     <br />
+     <label for="hr_color">Farbe</label><br /><input type="text" name="hr_color" id="hr_color" class="text ui-widget-content ui-corner-all" maxlength="7" size="7" />
+     <br />
+     <input type="checkbox" class="checkbox ui-widget-content ui-corner-all" name="hr_noshade" id="hr_noshade" />&nbsp;<label for="hr_noshade">Durchgezogen (ohne Schattierung)</label>
+
+   </fieldset>
+
+  	</form>
+  </div>
+
+  <div id="dialog-list" title="Liste bearbeiten">
+  	<form>
+  	<fieldset>
+     Elemente<br />
+     <div style="display: block; overflow:auto; margin: 0px; padding: 0px; max-height: 120px; height: 120px; width:95%">
+       <ul style="list-style-type: none" id="dialog-list-elements">
+         <li class="ui-state-default">element 1 <div class="li_delete ui-button ui-icon ui-icon-trash ui-corner-all" title="L&ouml;schen"></div></li>
+       </ul>
+     </div>
+     <br />
+     <br />
+     <button onclick="$('#dialog-list-editEntry').attr('IsNew', 'true'); $('#dialog-list-editEntry').find('#ListEntryEdit').val('');$('#dialog-list-editEntry').dialog('open'); return false;">Hinzuf&uuml;gen</button>&nbsp;
+     <button id="dialog-list-edit" onclick="$('#dialog-list-editEntry').attr('IsNew', 'false'); $('#dialog-list-editEntry').find('#ListEntryEdit').val( $('#dialog-list-elements').find('.ui-selected').text() ); $('#dialog-list-editEntry').dialog('open'); return false;">&Auml;ndern</button>
+     &nbsp;&nbsp;
+     <button id="dialog-list-Up" onclick="MoveSelectedListEntry('Up');return false;">Auf</button>&nbsp;
+     <button id="dialog-list-Down" onclick="MoveSelectedListEntry('Down');return false;">Ab</button>&nbsp;
+
+     <br />
+     <br />
+     <br />
+     <label for="ListStyleTypeCB">Listentyp</label>
+     <select name="ListStyleTypeCB" id="ListStyleTypeCB" size="1" class="ui-widget-content ui-corner-all">
+       <option value="none">kein Aufz&auml;hlungszeichen</option>
+       <option value="circle">Kreis</option>
+       <option value="square">Quadrat</option>
+       <option value="disc">Gef&uuml;llter Kreis</option>
+       <option value="decimal">Dezimalzahlen</option>
+       <option value="lower-roman">Kleine r&ouml;mische Zahlen</option>
+       <option value="upper-roman">Gro&szlig;e r&ouml;mische Zahlen</option>
+       <option value="lower-greek">Kleine griechische Nummerierung</option>
+       <option value="lower-latin">Kleine lateinische Nummerierung</option>
+       <option value="upper-latin">Gro&szlig;e lateinische Nummerierung</option>
+       <option value="armenian">Armenische Nummerierung</option>
+       <option value="georgian">Georgische Nummerierung</option>
+     </select>
+    <br />
+    <br />
+  		<label for="smbaralignmentCB">Ausrichtung</label>
+    <select name="ListalignmentCB" id="ListalignmentCB" size="1" class="ui-widget-content ui-corner-all">
+      <option value="left">links</option>
+      <option value="center">zentriert</option>
+      <option value="right">rechts</option>
+    </select>
+
+   </fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-list-editEntry" title="Listeneintrag bearbeiten">
+  	<form>
+  	<fieldset>
+  	  <label for="ListEntryEdit">Bezeichnung des Listeneintrags</label><br />
+  	  <input type="text" name="ListEntryEdit" id="ListEntryEdit" class="text ui-widget-content ui-corner-all" />
+   </fieldset>
+  	</form>
+  </div>
+
+  <script language="JavaScript">
+  <!--
+      $( "#dialog-list-editEntry" ).dialog({
+        			resizable: false,
+        			modal: true,
+        			width: 600,
+        			autoOpen: false
+        		});
+
+      $( "#dialog-list-editEntry" ).find('input').keypress(function(e) {
+      	if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)) {
+      		$(this).parent().parent().parent().parent().find('.ui-dialog-buttonpane').find('button:first').click(); /* Assuming the first one is the action button */
+      		return false;
+      	}
+      });
+
+      $( "#dialog-list-editEntry" ).dialog( "option", "buttons", [
+        {
+            text: html_entity_decode(rsApply),
+            click: function() {
+                                 $(this).dialog("close");
+                                 if($('#dialog-list-editEntry').attr('IsNew') == "false"){
+                                   var clone = $('#dialog-list-elements').find('.ui-selected').find('.li_delete').clone();
+                                   $('#dialog-list-elements').find('.ui-selected').find('.li_delete').remove();
+                                   $('#dialog-list-elements').find('.ui-selected').text($(this).find('#ListEntryEdit').val().trim());
+                                   $('#dialog-list-elements').find('.ui-selected').append(clone);
+                                 } else {
+                                   var li = '<li class="ui-state-default">' + $(this).find('#ListEntryEdit').val().trim() + '<div class="li_delete ui-button ui-icon ui-icon-trash ui-corner-all" title="' + rsDeleteItem + '"></div></li>';
+                                   $('#dialog-list-elements').append(li);
+                                 }
+
+                                 MakeListEntriesSelectable();
+                                 ActivateDeactivateUpDownBtns();
+                              }
+            },
+
+            {
+                text: rsCancel,
+                click: function() {
+                                     $(this).dialog("close");
+                                  }
+            }
+
+      ] );
+
+
+      function ipeSetImageAsCompleteURL(checkBoxId) {
+
+        var checkBoxValue = ($( "#"+ checkBoxId ).attr("checked") != null);
+        var txtURL = $( "#imageurl" ).val().trim();
+
+        var URL = location.href;
+
+        // subdomains
+        var count = 0;
+        var s = URL;
+        while(s.lastIndexOf("/") != -1){
+          s = s.substr(0, s.lastIndexOf("/"));
+          count++;
+        }
+        if(count > 2) {
+          for(var i=0;i<count-2;i++)
+            URL = URL.substr(0, URL.lastIndexOf("/"));
+        }
+
+        if(checkBoxValue) {
+          if(txtURL.indexOf("http:") == -1 && txtURL.indexOf("https:") == -1){
+            txtURL = URL + txtURL;
+            $( "#imageurl" ).val(txtURL);
+          }
+        } else{
+          if(txtURL.indexOf("http:") > -1 || txtURL.indexOf("https:") > -1){
+            if(txtURL.indexOf(URL) > -1) {
+              txtURL = txtURL.substr(URL.length);
+              $( "#imageurl" ).val(txtURL);
+            }
+          }
+        }
+      }
+
+  //-->
+  </script>
+  <noscript></noscript>
+
+  <div id="dialog-socialmedia" title="Social Media Bar bearbeiten">
+  	<form>
+  	<fieldset>
+    		<label for="socialmediabar" id="labelForSocialMedia" defaulttitle="Elemente f&uuml;r die Social Media Leiste">Elemente f&uuml;r die Social Media Leiste</label><br />
+      <div style="" class="" id="socialmediabar">
+      </div>
+
+    <div class="clearer"></div>
+    <br />
+    <p>
+    <hr align="center" width="100%" size="1" color="#EAEAEA" noshade="noshade" style="height: 1px" />
+    <br />
+  		<label for="smbaralignmentCB">Ausrichtung</label>
+    <select name="smbaralignmentCB" id="smbaralignmentCB" size="1" class="ui-widget-content ui-corner-all">
+      <option value="left">links</option>
+      <option value="center">zentriert</option>
+      <option value="right">rechts</option>
+    </select>
+    </p>
+    <br />
+   </fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-cssedit" title="Style bearbeiten">
+  	<form>
+   <fieldset>
+    <table border="0" cellpadding="0" width="100%">
+    <tr>
+      <td>
+        <label for="fontName">Schriftart</label>
+      </td>
+      <td>
+         <input type="text" name="fontName" id="fontName" class="text ui-widget-content ui-corner-all" size="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="fontSize">Schriftgr&ouml;&szlig;e</label>
+      </td>
+      <td>
+       <input type="text" name="fontSize" id="fontSize" class="text ui-widget-content ui-corner-all" size="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="fontcolor">Schriftfarbe</label>
+      </td>
+      <td>
+        <input type="text" name="fontcolor" id="fontcolor" class="text ui-widget-content ui-corner-all" maxlength="7" size="7" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bgcolor">Hintergrundfarbe</label>
+      </td>
+      <td>
+        <input type="text" name="bgcolor" id="bgcolor" class="text ui-widget-content ui-corner-all" maxlength="7" size="7" />
+      </td>
+    </tr>
+
+
+    <tr>
+      <td>
+        <label for="width">Breite</label>
+      </td>
+      <td>
+        <input type="text" name="width" id="width" class="text ui-widget-content ui-corner-all" maxlength="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="height">H&ouml;he</label>
+      </td>
+      <td>
+        <input type="text" name="height" id="height" class="text ui-widget-content ui-corner-all" maxlength="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="padding">Innenabstand</label>
+      </td>
+      <td>
+        <input type="text" name="padding" id="padding" class="text ui-widget-content ui-corner-all" maxlength="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="margin">Au&szlig;enabstand</label>
+      </td>
+      <td>
+        <input type="text" name="margin" id="margin" class="text ui-widget-content ui-corner-all" maxlength="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="borderStyle">Rahmen</label>
+      </td>
+      <td>
+        <select name="borderStyle" id="borderStyle" class="ui-widget-content ui-corner-all">
+    					<option value="none">Kein Rahmen</option>
+    					<option value="dotted">dotted</option>
+    					<option value="dashed">dashed</option>
+    					<option value="solid">solid</option>
+    					<option value="double">double</option>
+    					<option value="groove">groove</option>
+    					<option value="ridge">ridge</option>
+    					<option value="inset">inset</option>
+    					<option value="outset">outset</option>
+   					</select>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="borderWidth">Rahmenbreite</label>
+      </td>
+      <td>
+        <input type="text" name="borderWidth" id="borderWidth" class="text ui-widget-content ui-corner-all" maxlength="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="borderColor">Rahmenfarbe</label>
+      </td>
+      <td>
+        <input type="text" name="borderColor" id="borderColor" class="text ui-widget-content ui-corner-all" maxlength="7" size="7" />
+      </td>
+    </tr>
+
+    </table>
+
+  	</fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-pagebodyproperties" title="Seiten-/Bodyeigenschaften">
+  	<form>
+  	<fieldset>
+
+    <table border="0" cellpadding="0" width="100%">
+    <tr>
+      <td>
+        <label for="bodybgcolor">Hintergrundfarbe</label>
+      </td>
+      <td>
+
+       <input type="text" name="bodybgcolor" id="bodybgcolor" class="text ui-widget-content ui-corner-all" maxlength="7" size="7" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bodypadding">Innenabstand</label>
+      </td>
+      <td>
+       <input type="text" name="bodypadding" id="bodypadding" class="text ui-widget-content ui-corner-all" maxlength="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bodymargin">Au&szlig;enabstand</label>
+      </td>
+      <td>
+       <input type="text" name="bodymargin" id="bodymargin" class="text ui-widget-content ui-corner-all" maxlength="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bodyfontName">Schriftart</label>
+      </td>
+      <td>
+        <input type="text" name="bodyfontName" id="bodyfontName" class="text ui-widget-content ui-corner-all" size="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bodyfontSize">Schriftgr&ouml;&szlig;e</label>
+      </td>
+      <td>
+        <input type="text" name="bodyfontSize" id="bodyfontSize" class="text ui-widget-content ui-corner-all" size="32" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bodyfontcolor">Schriftfarbe</label>
+      </td>
+      <td>
+       <input type="text" name="bodyfontcolor" id="bodyfontcolor" class="text ui-widget-content ui-corner-all" maxlength="7" size="7" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bodylinkcolor">Linkfarbe</label>
+      </td>
+      <td>
+        <input type="text" name="bodylinkcolor" id="bodylinkcolor" class="text ui-widget-content ui-corner-all" maxlength="7" size="7" />
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="bodylinktextdecoration">Link-Textdekoration</label>
+      </td>
+      <td>
+        <select name="bodylinktextdecoration" id="bodylinktextdecoration" class="ui-widget-content ui-corner-all">
+  							<option value="none">keine</option>
+  							<option value="underline">unterstrichen</option>
+  							<option value="overline">&uuml;berstrichen</option>
+  							<option value="line-through">durchgestrichen</option>
+  						</select>
+      </td>
+    </tr>
+
+
+
+    </table>
+
+   </fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-new" title="Anderes Element">
+  	<form>
+  	<fieldset>
+     <div style="display: block;" class="">
+     Bitte w&auml;hlen Sie ein Element:<br />
+     <span id="Loading" style="visibility:hidden; display: none"><img src="images/loading.gif" height="16" width="16" /></span>
+     <ul id="dialog-new_items" style="background-color: #FFFFFF;">
+     </ul>
+     </div>
+   </fieldset>
+  	</form>
+  </div>
+
+  <div id="dialog-targetgroups" title="Zielgruppen zuweisen">
+  	<form>
+   <input type="hidden" id="_edit_target_groups" value="" />
+   <script>
+     function LoadWizardTargetGroups(){
+       document.getElementById("__wizardtargetgroupsIframe").contentWindow.LoadTargetGroups($("#_edit_target_groups").val());
+     }
+   </script>
+  	<fieldset>
+     <div style="display: block;" class="">
+     W&auml;hlen Sie die Zielgruppen, welche diesen Inhalt in der E-Mail sehen sollen.<br /><br />
+     <iframe id="__wizardtargetgroupsIframe" name="__wizardtargetgroupsIframe" style="width: 100%; height: 250px" border="0" marginheight="0" marginwidth="0" frameborder="0" src="about:blank"></iframe>
+     </div>
+   </fieldset>
+   <button onclick="document.getElementById('__wizardtargetgroupsIframe').contentWindow.CheckAll(); return false;">Alle ausw&auml;hlen</button>&nbsp;
+   <button onclick="document.getElementById('__wizardtargetgroupsIframe').contentWindow.UnCheckAll(); return false;">Alle abw&auml;hlen</button>
+  	</form>
+  </div>
+
+</div>
+
+<!-- /IPE //-->

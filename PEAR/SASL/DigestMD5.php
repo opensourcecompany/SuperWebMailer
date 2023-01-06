@@ -43,7 +43,7 @@
 * @package Auth_SASL
 */
 
-require_once('PEAR/SASL/Common.php');
+require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Common.php');
 
 class Auth_SASL_DigestMD5 extends Auth_SASL_Common
 {
@@ -186,7 +186,7 @@ class Auth_SASL_DigestMD5 extends Auth_SASL_Common
 
         } else {
             $str = '';
-            mt_srand((double)microtime()*10000000);
+            mt_srand(time());
             for ($i=0; $i<32; $i++) {
                 $str .= chr(mt_rand(0, 255));
             }

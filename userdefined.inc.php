@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -47,15 +47,27 @@
  # don't use lock file for CronJob
  #define("NoCronJobLockFile", 1);
 
+ # don't use CSRF protection
+ #define("NoCSRFProtection", 1);
+
  # api_json.php used header value for Access-Control-Allow-Origin, default disabled = *
  #define("JS_Access_Control_Allow_Origin", "*");
 
- # anonymize saved ipv4 address
+ # set List-Unsubscribe-Post header also on no DKIM/DomainKey signature creation
+ #define("ListUnsubscribePostOnNoDKIMSignature", 1);
+
+ # Austria only
+ # API key for ECGList
+ #define("ECG_APIKEY", "");
+
+ # anonymize saved ipv4 or ipv6 address
  # 0 or not defined no anonymization
- # 1 = last octett will be filled with zero
- # 2 = 3th, 4th octett will be filled with zero
- # 3 = 2th, 3th, 4th octett will be filled with zero
- # 4 = 1th, 2th, 3th, 4th octett will be filled with zero
+ # 1 = ipv4: last octett will be filled with zero, ipv6: last segment/chunk will be filled with zero
+ # 2 = ipv4: 3th, 4th octett will be filled with zero, ipv6: 7th, 8th segment/chunk will be filled with zero
+ # 3 = ipv4: 2th, 3th, 4th octett will be filled with zero, ipv6: 6th, 7th, 8th segment/chunk will be filled with zero
+ # 4 = ipv4: 1th, 2th, 3th, 4th octett will be filled with zero, ipv6: 5th, 6th, 7th, 8th segment/chunk will be filled with zero
  #define("ip_address_mask_length", 0);
 
+ #default DefaultMySQLEncoding utf8_unicode_ci, for correct saving emojis it must be utf8mb4
+ #define("DefaultMySQLEncoding", 'utf8');
 ?>

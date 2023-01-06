@@ -23,36 +23,36 @@
 #############################################################################
 
   // we don't check for errors here
-  function _L1A0A($_It8ii, &$_QtIiC) {
-    global $_QCLCI, $_Q61I1;
+  function _J1BQ1($_jILLJ, &$_IQ0Cj) {
+    global $_I616t, $_QLttI;
 
-    for($_Q6llo=0; $_Q6llo<count($_It8ii); $_Q6llo++) {
-      $_It8ii[$_Q6llo] = intval($_It8ii[$_Q6llo]);
+    for($_Qli6J=0; $_Qli6J<count($_jILLJ); $_Qli6J++) {
+      $_jILLJ[$_Qli6J] = intval($_jILLJ[$_Qli6J]);
 
-      $_QJlJ0 = "SELECT * FROM `$_QCLCI` WHERE id=".$_It8ii[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if($_Q60l1) {
-        $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-        mysql_free_result($_Q60l1);
+      $_QLfol = "SELECT * FROM `$_I616t` WHERE id=".$_jILLJ[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if($_QL8i1) {
+        $_QLO0f = mysql_fetch_assoc($_QL8i1);
+        mysql_free_result($_QL8i1);
 
         // tracking FUMails...
-        _OBOAB($_Q6Q1C["FUMailsTableName"]);
+        _LP1AQ($_QLO0f["FUMailsTableName"]);
 
-        reset($_Q6Q1C);
-        foreach($_Q6Q1C as $key => $_Q6ClO) {
+        reset($_QLO0f);
+        foreach($_QLO0f as $key => $_QltJO) {
           if (strpos($key, "TableName") !== false) {
-            $_QJlJ0 = "DROP TABLE IF EXISTS `$_Q6ClO`";
-            mysql_query($_QJlJ0, $_Q61I1);
-            if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+            $_QLfol = "DROP TABLE IF EXISTS `$_QltJO`";
+            mysql_query($_QLfol, $_QLttI);
+            if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
           }
         }
       }
 
 
       // and now from FUResponders table
-      $_QJlJ0 = "DELETE FROM `$_QCLCI` WHERE id=".$_It8ii[$_Q6llo];
-      mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM `$_I616t` WHERE id=".$_jILLJ[$_Qli6J];
+      mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
 
     }
   }

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -41,28 +41,28 @@
   $_GET["MailingListId"] = intval($_GET["MailingListId"]);
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeMLSubUnsubStatBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeMLSubUnsubStatBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  if(!_OCJCC($_GET["MailingListId"])){
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-    $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-    print $_QJCJi;
+  if(!_LAEJL($_GET["MailingListId"])){
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+    print $_QLJfI;
     exit;
   }
 
   // **** get maillist table names
-  $_QJlJ0 = "SELECT Name, MaillistTableName, LocalBlocklistTableName, StatisticsTableName FROM $_Q60QL WHERE id=".$_GET["MailingListId"];
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_Q6Q1C=mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_QLfol = "SELECT Name, MaillistTableName, LocalBlocklistTableName, StatisticsTableName FROM $_QL88I WHERE id=".$_GET["MailingListId"];
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_QLO0f=mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
   // **** get maillist table names END
 
   // Prevent the browser from caching the result.
@@ -77,11 +77,11 @@
   @header('Pragma: no-cache') ;
 
   // Set the response format.
-  @header( 'Content-Type: text/plain; charset='.$_Q6QQL ) ;
+  @header( 'Content-Type: text/plain; charset='.$_QLo06 ) ;
 
-  $_j6Qlo = new _OCB1C('./geoip/');
+  $_JIfIj = new _LBPJO('./geoip/');
 
-  if(!$_j6Qlo->Openable()) {
+  if(!$_JIfIj->Openable()) {
      print '[]'; // JSON empty array
      #$resourcestrings[$INTERFACE_LANGUAGE]["GeoLiteCityDatMissing"];
      exit;
@@ -97,51 +97,51 @@
     @date_default_timezone_set("Europe/London");
 
   register_shutdown_function('CloseJSONArray');
-  $_JlCQi = true;
-  $_JlCjC = false;
+  $_f6QLo = true;
+  $_f6I8f = false;
   print '[';
 
   # own IP = red flag
-  $_J6t8o = $_j6Qlo->lookupLocation(getOwnIP());
-  if($_J6t8o != null){
-     print _OCR88(array("latitude" => $_J6t8o->latitude, "longitude" => $_J6t8o->longitude, "image" => "red", "title" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["GeoOwnStation"], $_Q6QQL)), JSON_NUMERIC_CHECK);
-     $_JlCjC = true;
+  $_6tJfO = $_JIfIj->lookupLocation(getOwnIP(false));
+  if($_6tJfO != null){
+     print _LAFFB(array("latitude" => $_6tJfO->latitude, "longitude" => $_6tJfO->longitude, "image" => "red", "title" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["GeoOwnStation"], $_QLo06)), JSON_NUMERIC_CHECK);
+     $_f6I8f = true;
   }
-  $_J6t8o = null;
+  $_6tJfO = null;
 
-  $_JlCl8 = unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["GeoStationOfSubscriber"], $_Q6QQL);
-  $_QJlJ0 = "SELECT DISTINCT IPOnSubscription FROM $_Q6Q1C[MaillistTableName] WHERE (SubscriptionStatus='Subscribed' OR SubscriptionStatus='OptOutConfirmationPending') AND (DateOfOptInConfirmation >= "._OPQLR($_GET["startdate"]).") AND (DateOfOptInConfirmation <= "._OPQLR($_GET["enddate"]).")";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  //_OAL8F($_QJlJ0);
+  $_f6j0L = unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["GeoStationOfSubscriber"], $_QLo06);
+  $_QLfol = "SELECT DISTINCT IPOnSubscription FROM $_QLO0f[MaillistTableName] WHERE (SubscriptionStatus='Subscribed' OR SubscriptionStatus='OptOutConfirmationPending') AND (DateOfOptInConfirmation >= "._LRAFO($_GET["startdate"]).") AND (DateOfOptInConfirmation <= "._LRAFO($_GET["enddate"]).")";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  //_L8D88($_QLfol);
 
-  while($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-    $_J6t8o = $_j6Qlo->lookupLocation($_Q6Q1C["IPOnSubscription"]);
-    if($_J6t8o == null ) {
+  while($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+    $_6tJfO = $_JIfIj->lookupLocation($_QLO0f["IPOnSubscription"]);
+    if($_6tJfO == null ) {
       continue;
     }
-    $_JliJl = $_J6t8o->city;
-    if(empty($_JliJl))
-      $_JliJl = $_JlCl8;
+    $_f6jQC = $_6tJfO->city;
+    if(empty($_f6jQC))
+      $_f6jQC = $_f6j0L;
 
-    print $_JlCjC ? "," : '' . _OCR88( array("latitude" => $_J6t8o->latitude, "longitude" => $_J6t8o->longitude, "image" => "blue", "title" => $_JliJl), JSON_NUMERIC_CHECK);
+    print ($_f6I8f ? "," : '') . _LAFFB( array("latitude" => $_6tJfO->latitude, "longitude" => $_6tJfO->longitude, "image" => "blue", "title" => $_f6jQC), JSON_NUMERIC_CHECK);
 
-    if(!$_JlCjC){
-      $_JlCjC = true;
+    if(!$_f6I8f){
+      $_f6I8f = true;
     }
-    $_J6t8o = null;
+    $_6tJfO = null;
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
   print ']';
-  $_JlCQi = false;
+  $_f6QLo = false;
   # *** JSON live output end
 
   // shutdown
   function CloseJSONArray(){
-    global $_JlCQi;
-    if($_JlCQi){
+    global $_f6QLo;
+    if($_f6QLo){
       print ']';
-      $_JlCQi = false;
+      $_f6QLo = false;
     }
   }
 

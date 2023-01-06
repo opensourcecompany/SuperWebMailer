@@ -219,9 +219,9 @@ class Reader implements ProviderInterface
         }
         $record = $this->dbReader->get($ipAddress);
         if ($record === null) {
-            throw new AddressNotFoundException(
+           /* throw new AddressNotFoundException(
                 "The address $ipAddress is not in the database."
-            );
+            ); */
         }
         return $record;
     }

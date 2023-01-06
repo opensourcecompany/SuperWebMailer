@@ -192,7 +192,7 @@ class Mail_smtp extends Mail {
         if (isset($params['SSLConnection'])) $this->SSLConnection = (bool)$params['SSLConnection'];
 
 
-        register_shutdown_function(array(&$this, '_Mail_smtp'));
+        register_shutdown_function(array($this, '_Mail_smtp'));
     }
 
     function Mail_smtp($params)
@@ -240,7 +240,7 @@ class Mail_smtp extends Mail {
      */
     function send($recipients, $headers, $body)
     {
-        include_once 'PEAR/Net_SMTP.php';
+        include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Net_SMTP.php';
 
         /* If we don't already have an SMTP object, create one. */
         if (is_object($this->_smtp) === false) {
@@ -329,7 +329,7 @@ class Mail_smtp extends Mail {
         if (is_a($res, 'PEAR_Error')) {
             $error = $this->_error("Failed to set sender: $from", $res);
             $this->_smtp->rset();
-            return PEARraiseError($error, PEAR_MAIL_SMTP_ERROR_SENDER);
+            return PEARraiseError($error, $res->code == 0 ? PEAR_MAIL_SMTP_ERROR_SENDER : $res->code);
         }
 
         $recipients = $this->parseRecipients($recipients);
@@ -343,7 +343,7 @@ class Mail_smtp extends Mail {
             if (is_a($res, 'PEAR_Error')) {
                 $error = $this->_error("Failed to add recipient: $recipient", $res);
                 $this->_smtp->rset();
-                return PEARraiseError($error, PEAR_MAIL_SMTP_ERROR_RECIPIENT);
+                return PEARraiseError($error, $res->code == 0 ? PEAR_MAIL_SMTP_ERROR_RECIPIENT : $res->code);
             }
         }
 
@@ -352,7 +352,7 @@ class Mail_smtp extends Mail {
         if (is_a($res, 'PEAR_Error')) {
             $error = $this->_error('Failed to send data', $res);
             $this->_smtp->rset();
-            return PEARraiseError($error, PEAR_MAIL_SMTP_ERROR_DATA);
+            return PEARraiseError($error, $res->code == 0 ? PEAR_MAIL_SMTP_ERROR_DATA : $res->code);
         }
 
         /* If persistent connections are disabled, destroy our SMTP object. */

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -31,20 +31,20 @@
 
 
   if(isset($_POST['SplitTestId']))
-    $_Iloio = intval($_POST['SplitTestId']);
+    $_joQIl = intval($_POST['SplitTestId']);
   else
     if(isset($_GET['SplitTestId']))
-      $_Iloio = intval($_GET['SplitTestId']);
+      $_joQIl = intval($_GET['SplitTestId']);
       else
       if ( isset($_POST['OneSplitTestListId']) )
-         $_Iloio = intval($_POST['OneSplitTestListId']);
+         $_joQIl = intval($_POST['OneSplitTestListId']);
 
   // from campaignsendstatselect.inc.php
   if(isset($_POST['CampaignId']))
-    $_Iloio = intval($_POST['CampaignId']);
+    $_joQIl = intval($_POST['CampaignId']);
   else
     if(isset($_GET['CampaignId']))
-      $_Iloio = intval($_GET['CampaignId']);
+      $_joQIl = intval($_GET['CampaignId']);
   //
 
   if(isset($_POST['SendStatId']))
@@ -53,25 +53,25 @@
     if ( isset($_GET['SendStatId']) )
        $SendStatId = intval($_GET['SendStatId']);
 
-  if(!isset($_Iloio) && isset($_POST["ResponderId"]))
-     $_Iloio = intval($_POST["ResponderId"]);
+  if(!isset($_joQIl) && isset($_POST["ResponderId"]))
+     $_joQIl = intval($_POST["ResponderId"]);
      else
-     if(!isset($_Iloio) && isset($_GET["ResponderId"]))
-         $_Iloio = intval($_GET["ResponderId"]);
+     if(!isset($_joQIl) && isset($_GET["ResponderId"]))
+         $_joQIl = intval($_GET["ResponderId"]);
 
-  if(!isset($_Iloio)) {
+  if(!isset($_joQIl)) {
     $_GET["ResponderType"] = "SplitTest";
     include_once("responderselect.inc.php");
     if(!isset($_POST["ResponderId"]))
        exit;
        else
-       $_Iloio = intval($_POST["ResponderId"]);
+       $_joQIl = intval($_POST["ResponderId"]);
   }
 
   if(!isset($SendStatId)) {
     $_GET["action"] = "stat_splittestlog.php";
     $_GET["ResponderType"] = "SplitTest";
-    $_I6lOO = $_Iloio;
+    $_j01fj = $_joQIl;
     include_once("campaignsendstatselect.inc.php");
     if(!isset($_POST["SendStatId"]))
        exit;
@@ -79,51 +79,51 @@
        $SendStatId = intval($_POST["SendStatId"]);
   }
 
-  $_POST['SplitTestId'] = $_Iloio;
+  $_POST['SplitTestId'] = $_joQIl;
 
-  $_Q6QiO = "'%d.%m.%Y %H:%i:%s'";
-  $_If0Ql = "'%d.%m.%Y'";
+  $_QLo60 = "'%d.%m.%Y %H:%i:%s'";
+  $_j01CJ = "'%d.%m.%Y'";
   if($INTERFACE_LANGUAGE != "de") {
-     $_Q6QiO = "'%Y-%m-%d %H:%i:%s'";
-     $_If0Ql = "'%Y-%m-%d'";
+     $_QLo60 = "'%Y-%m-%d %H:%i:%s'";
+     $_j01CJ = "'%Y-%m-%d'";
   }
 
-  $_I0600 = "";
+  $_Itfj8 = "";
 
   ## Log actions
 
-  $_I680t = !isset($_POST["LogsActions"]);
-  if(!$_I680t) {
+  $_Ilt8t = !isset($_POST["LogsActions"]);
+  if(!$_Ilt8t) {
     if( isset($_POST["OneSplitTestLogAction"]) && $_POST["OneSplitTestLogAction"] != "" )
-      $_I680t = true;
-    if($_I680t) {
+      $_Ilt8t = true;
+    if($_Ilt8t) {
       if( !( isset($_POST["OneSplitTestLogId"]) && $_POST["OneSplitTestLogId"] != "")  )
-         $_I680t = false;
+         $_Ilt8t = false;
     }
   }
 
-  if(  !$_I680t && isset($_POST["LogsActions"]) ) {
+  if(  !$_Ilt8t && isset($_POST["LogsActions"]) ) {
      // nur hier die Listenaktionen machen
 
      if($_POST["LogsActions"] == "RemoveEntries" ) {
-       $_6iOi1 = $_POST["LogIDs"];
-       $_QtIiC = array();
-       _LLR1B($_6iOi1, $_QtIiC);
-       if(count($_QtIiC) != 0)
-         $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000672"].join("<br />", $_QtIiC);
+       $_8fIJO = $_POST["LogIDs"];
+       $_IQ0Cj = array();
+       _JLAAL($_8fIJO, $_IQ0Cj);
+       if(count($_IQ0Cj) != 0)
+         $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000672"].join("<br />", $_IQ0Cj);
        else
-         $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000671"];
+         $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000671"];
 
      }
 
      if($_POST["LogsActions"] == "SendAgain" ) {
-       $_6iOi1 = $_POST["LogIDs"];
-       $_6io6C = array();
-       _LLRJD($_Iloio, $SendStatId, $_6iOi1, $_6io6C);
-       if(count($_6io6C) != 0)
-         $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000674"].join("<br />", $_6io6C);
+       $_8fIJO = $_POST["LogIDs"];
+       $_foL0Q = array();
+       _JLBPF($_joQIl, $SendStatId, $_8fIJO, $_foL0Q);
+       if(count($_foL0Q) != 0)
+         $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000674"].join("<br />", $_foL0Q);
        else
-         $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000673"];
+         $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000673"];
      }
 
   }
@@ -131,173 +131,173 @@
   if( isset($_POST["OneSplitTestLogAction"]) && isset($_POST["OneSplitTestLogId"]) ) {
       // hier die Einzelaktionen
       if($_POST["OneSplitTestLogAction"] == "DeleteLogEntry") {
-        $_6iOi1 = array();
-        $_6iOi1[] = $_POST["OneSplitTestLogId"];
-        $_QtIiC = array();
-        _LLR1B($_6iOi1, $_QtIiC);
-        if(count($_QtIiC) != 0)
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000672"].join("<br />", $_QtIiC);
+        $_8fIJO = array();
+        $_8fIJO[] = $_POST["OneSplitTestLogId"];
+        $_IQ0Cj = array();
+        _JLAAL($_8fIJO, $_IQ0Cj);
+        if(count($_IQ0Cj) != 0)
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000672"].join("<br />", $_IQ0Cj);
         else
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000671"];
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000671"];
       }
       if($_POST["OneSplitTestLogAction"] == "SendAgain") {
-        $_6iOi1 = array();
-        $_6iOi1[] = $_POST["OneSplitTestLogId"];
-        $_6io6C = array();
-        _LLRJD($_Iloio, $SendStatId, $_6iOi1, $_6io6C);
-        if(count($_6io6C) != 0)
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000674"].join("<br />", $_6io6C);
+        $_8fIJO = array();
+        $_8fIJO[] = $_POST["OneSplitTestLogId"];
+        $_foL0Q = array();
+        _JLBPF($_joQIl, $SendStatId, $_8fIJO, $_foL0Q);
+        if(count($_foL0Q) != 0)
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000674"].join("<br />", $_foL0Q);
         else
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000673"];
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000673"];
       }
 
   }
   ## Log actions end
 
 
-  $_QJlJ0 = "SELECT $_IooOQ.*, $_Q60QL.MaillistTableName FROM $_IooOQ LEFT JOIN $_Q60QL ON $_Q60QL.id=$_IooOQ.maillists_id WHERE $_IooOQ.id=$_Iloio";
-  $_Q60l1 = mysql_query($_QJlJ0);
-  _OAL8F($_QJlJ0);
-  $_6lLOl = mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_QLfol = "SELECT $_jJL88.*, $_QL88I.MaillistTableName FROM $_jJL88 LEFT JOIN $_QL88I ON $_QL88I.id=$_jJL88.maillists_id WHERE $_jJL88.id=$_joQIl";
+  $_QL8i1 = mysql_query($_QLfol);
+  _L8D88($_QLfol);
+  $_8tO6L = mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
 
-  $_6llff = $_6lLOl["Name"];
-  $_j0fti = $_6lLOl["CurrentSendTableName"];
-  $_QlQC8 = $_6lLOl["MaillistTableName"];
-  $_I0o0o = $_6lLOl["maillists_id"];
-  $_6CoIO = $_6lLOl["CampaignsForSplitTestTableName"];
-  $_6CoIt = $_6lLOl["SplitTestCurrentSendIdToCampaignsCurrentSendIdTableName"];
+  $_8to1f = $_8tO6L["Name"];
+  $_jClC1 = $_8tO6L["CurrentSendTableName"];
+  $_I8I6o = $_8tO6L["MaillistTableName"];
+  $_IttOL = $_8tO6L["maillists_id"];
+  $_86j8Q = $_8tO6L["CampaignsForSplitTestTableName"];
+  $_86j0I = $_8tO6L["SplitTestCurrentSendIdToCampaignsCurrentSendIdTableName"];
 
-  $_QJlJ0 = "SELECT `Campaigns_id` FROM `$_6CoIO`";
-  $_Q60l1 = mysql_query($_QJlJ0);
-  _OAL8F($_QJlJ0);
-  $_6llOC = array();
-  while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-    $_6llOC[] = array("Campaigns_id"=> $_Q6Q1C["Campaigns_id"], "CampaignsSendStat_id" => 0, "RecipientsCount" => 0);
+  $_QLfol = "SELECT `Campaigns_id` FROM `$_86j8Q`";
+  $_QL8i1 = mysql_query($_QLfol);
+  _L8D88($_QLfol);
+  $_8totC = array();
+  while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+    $_8totC[] = array("Campaigns_id"=> $_QLO0f["Campaigns_id"], "CampaignsSendStat_id" => 0, "RecipientsCount" => 0);
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
-  $_QJlJ0 = "SELECT `Campaigns_id`, `CampaignsSendStat_id`, `RecipientsCount` FROM `$_6CoIt` WHERE `SplitTestSendStat_id`=$SendStatId";
-  $_Q60l1 = mysql_query($_QJlJ0);
-  _OAL8F($_QJlJ0);
-  while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-    for($_Q6llo=0; $_Q6llo<count($_6llOC); $_Q6llo++)
-      if ($_6llOC[$_Q6llo]["Campaigns_id"] == $_Q6Q1C["Campaigns_id"]) {
-        $_6llOC[$_Q6llo]["CampaignsSendStat_id"] = $_Q6Q1C["CampaignsSendStat_id"];
-        $_6llOC[$_Q6llo]["RecipientsCount"] = $_Q6Q1C["RecipientsCount"];
+  $_QLfol = "SELECT `Campaigns_id`, `CampaignsSendStat_id`, `RecipientsCount` FROM `$_86j0I` WHERE `SplitTestSendStat_id`=$SendStatId";
+  $_QL8i1 = mysql_query($_QLfol);
+  _L8D88($_QLfol);
+  while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+    for($_Qli6J=0; $_Qli6J<count($_8totC); $_Qli6J++)
+      if ($_8totC[$_Qli6J]["Campaigns_id"] == $_QLO0f["Campaigns_id"]) {
+        $_8totC[$_Qli6J]["CampaignsSendStat_id"] = $_QLO0f["CampaignsSendStat_id"];
+        $_8totC[$_Qli6J]["RecipientsCount"] = $_QLO0f["RecipientsCount"];
         break;
       }
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
-  $_QJlJ0 = "SELECT *, DATE_FORMAT(StartSendDateTime, $_Q6QiO) AS SentDateTime, DATE_FORMAT(StartSendDateTime, $_If0Ql) AS STARTDATE, ";
-  $_QJlJ0 .= "DATE_FORMAT(StartSendDateTime, $_Q6QiO) AS StartSendDateTimeFormated, DATE_FORMAT(EndSendDateTime, $_Q6QiO) AS EndSendDateTimeFormated, ";
-  $_QJlJ0 .= "SEC_TO_TIME( UNIX_TIMESTAMP(EndSendDateTime) - UNIX_TIMESTAMP(StartSendDateTime) ) AS SendDuration ";
-  $_QJlJ0 .= " FROM $_j0fti WHERE id=$SendStatId";
-  $_Q60l1 = mysql_query($_QJlJ0);
-  _OAL8F($_QJlJ0);
-  $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_QLfol = "SELECT *, DATE_FORMAT(StartSendDateTime, $_QLo60) AS SentDateTime, DATE_FORMAT(StartSendDateTime, $_j01CJ) AS STARTDATE, ";
+  $_QLfol .= "DATE_FORMAT(StartSendDateTime, $_QLo60) AS StartSendDateTimeFormated, DATE_FORMAT(EndSendDateTime, $_QLo60) AS EndSendDateTimeFormated, ";
+  $_QLfol .= "SEC_TO_TIME( UNIX_TIMESTAMP(EndSendDateTime) - UNIX_TIMESTAMP(StartSendDateTime) ) AS SendDuration ";
+  $_QLfol .= " FROM $_jClC1 WHERE id=$SendStatId";
+  $_QL8i1 = mysql_query($_QLfol);
+  _L8D88($_QLfol);
+  $_QLO0f = mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
 
   // override it with old parameters because user can change it later
-  $_6lLOl["WinnerType"] = $_Q6Q1C["WinnerType"];
-  $_6lLOl["TestType"] = $_Q6Q1C["TestType"];
-  $_6lLOl["ListPercentage"] = $_Q6Q1C["ListPercentage"];
+  $_8tO6L["WinnerType"] = $_QLO0f["WinnerType"];
+  $_8tO6L["TestType"] = $_QLO0f["TestType"];
+  $_8tO6L["ListPercentage"] = $_QLO0f["ListPercentage"];
 
-  $_QtILf = $_Q6Q1C["SendState"] == 'Sending' || $_Q6Q1C["SendState"] == 'Waiting' || $_Q6Q1C["SendState"] == 'PreparingWinnerCampaign' || $_Q6Q1C["SendState"] == 'SendingWinnerCampaign';
-  $_6L0Q0 = $_Q6Q1C["STARTDATE"];
+  $_IQ1ji = $_QLO0f["SendState"] == 'Sending' || $_QLO0f["SendState"] == 'Waiting' || $_QLO0f["SendState"] == 'PreparingWinnerCampaign' || $_QLO0f["SendState"] == 'SendingWinnerCampaign';
+  $_8ft1J = $_QLO0f["STARTDATE"];
 
-  switch ($_Q6Q1C["SendState"]) {
-    case 'Preparing': $_Q6Q1C["SendStateText"] = $resourcestrings[$INTERFACE_LANGUAGE]["001840"];
+  switch ($_QLO0f["SendState"]) {
+    case 'Preparing': $_QLO0f["SendStateText"] = $resourcestrings[$INTERFACE_LANGUAGE]["001840"];
                  break;
-    case 'Waiting': $_Q6Q1C["SendStateText"] = $resourcestrings[$INTERFACE_LANGUAGE]["001841"];
+    case 'Waiting': $_QLO0f["SendStateText"] = $resourcestrings[$INTERFACE_LANGUAGE]["001841"];
                  break;
-    case 'PreparingWinnerCampaign': $_Q6Q1C["SendStateText"] = $resourcestrings[$INTERFACE_LANGUAGE]["001842"];
+    case 'PreparingWinnerCampaign': $_QLO0f["SendStateText"] = $resourcestrings[$INTERFACE_LANGUAGE]["001842"];
                  break;
-    case 'SendingWinnerCampaign': $_Q6Q1C["SendStateText"] = $resourcestrings[$INTERFACE_LANGUAGE]["001843"];
+    case 'SendingWinnerCampaign': $_QLO0f["SendStateText"] = $resourcestrings[$INTERFACE_LANGUAGE]["001843"];
                  break;
-    case 'Done': $_Q6Q1C["SendStateText"] = $resourcestrings[$INTERFACE_LANGUAGE]["MailSendSent"];
+    case 'Done': $_QLO0f["SendStateText"] = $resourcestrings[$INTERFACE_LANGUAGE]["MailSendSent"];
                  break;
     default:
-     $_Q6Q1C["SendStateText"] = $resourcestrings[$INTERFACE_LANGUAGE]["000675"];
+     $_QLO0f["SendStateText"] = $resourcestrings[$INTERFACE_LANGUAGE]["000675"];
   }
 
 
   // Sums and tablenames
-  $_f006J = array();
+  $_8toif = array();
 
-  $_6L0f1 = array("CurrentSendTableName", "RStatisticsTableName", "ArchiveTableName", "TrackingOpeningsTableName", "TrackingOpeningsByRecipientTableName", "TrackingLinksTableName", "TrackingLinksByRecipientTableName", "TrackingUserAgentsTableName", "TrackingOSsTableName");
+  $_8ftCj = array("CurrentSendTableName", "RStatisticsTableName", "ArchiveTableName", "TrackingOpeningsTableName", "TrackingOpeningsByRecipientTableName", "TrackingLinksTableName", "TrackingLinksByRecipientTableName", "TrackingUserAgentsTableName", "TrackingOSsTableName");
 
-  $_f006J["RecipientsCount"] = 0;
-  for($_Qf0Ct=0; $_Qf0Ct<count($_6llOC); $_Qf0Ct++) {
-    if($_QtILf)
-      $_f006J["RecipientsCount"] += $_6llOC[$_Qf0Ct]["RecipientsCount"];
-    $_QJlJ0 = "SELECT ".join(", ", $_6L0f1).", Name FROM $_Q6jOo WHERE id=".$_6llOC[$_Qf0Ct]["Campaigns_id"];
-    $_Q60l1 = mysql_query($_QJlJ0);
-    $_Q8OiJ = mysql_fetch_assoc($_Q60l1);
-    for($_Q6llo=0; $_Q6llo<count($_6L0f1); $_Q6llo++){
-       $_6llOC[$_Qf0Ct][$_6L0f1[$_Q6llo]] = $_Q8OiJ[$_6L0f1[$_Q6llo]];
+  $_8toif["RecipientsCount"] = 0;
+  for($_QliOt=0; $_QliOt<count($_8totC); $_QliOt++) {
+    if($_IQ1ji)
+      $_8toif["RecipientsCount"] += $_8totC[$_QliOt]["RecipientsCount"];
+    $_QLfol = "SELECT ".join(", ", $_8ftCj).", Name FROM $_QLi60 WHERE id=".$_8totC[$_QliOt]["Campaigns_id"];
+    $_QL8i1 = mysql_query($_QLfol);
+    $_I1OfI = mysql_fetch_assoc($_QL8i1);
+    for($_Qli6J=0; $_Qli6J<count($_8ftCj); $_Qli6J++){
+       $_8totC[$_QliOt][$_8ftCj[$_Qli6J]] = $_I1OfI[$_8ftCj[$_Qli6J]];
     }
-    $_6llOC[$_Qf0Ct]["Name"] = $_Q8OiJ["Name"];
+    $_8totC[$_QliOt]["Name"] = $_I1OfI["Name"];
 
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
   }
 
-  if(!$_QtILf || $_Q6Q1C["SendState"] == 'SendingWinnerCampaign' && $_Q6Q1C["RecipientsCount"] > $_f006J["RecipientsCount"])
-    $_f006J["RecipientsCount"] = $_Q6Q1C["RecipientsCount"];
+  if(!$_IQ1ji || $_QLO0f["SendState"] == 'SendingWinnerCampaign' && $_QLO0f["RecipientsCount"] > $_8toif["RecipientsCount"])
+    $_8toif["RecipientsCount"] = $_QLO0f["RecipientsCount"];
     else
-    if($_QtILf && $_6lLOl["TestType"] == "TestSendToListPercentage" && $_Q6Q1C["RecipientsCount"] > $_f006J["RecipientsCount"])
-       $_f006J["RecipientsCount"] = $_Q6Q1C["RecipientsCount"];
+    if($_IQ1ji && $_8tO6L["TestType"] == "TestSendToListPercentage" && $_QLO0f["RecipientsCount"] > $_8toif["RecipientsCount"])
+       $_8toif["RecipientsCount"] = $_QLO0f["RecipientsCount"];
 
   // Remove Send entry
-  if( (isset($_POST["RemoveSendEntry_x"]) || isset($_POST["RemoveSendEntry"]) ) && !$_QtILf ) {
+  if( (isset($_POST["RemoveSendEntry_x"]) || isset($_POST["RemoveSendEntry"]) ) && !$_IQ1ji ) {
     // campaign itself
-    for($_Q6llo=0; $_Q6llo<count($_6L0f1); $_Q6llo++){
-      for($_Qf0Ct=0; $_Qf0Ct<count($_6llOC); $_Qf0Ct++) {
-        if($_6L0f1[$_Q6llo] == "CurrentSendTableName"){
-          $_QJlJ0 = "DELETE FROM `".$_6llOC[$_Qf0Ct][$_6L0f1[$_Q6llo]]."` WHERE id=".$_6llOC[$_Qf0Ct]["CampaignsSendStat_id"];
-          mysql_query($_QJlJ0);
-          _OAL8F($_QJlJ0);
+    for($_Qli6J=0; $_Qli6J<count($_8ftCj); $_Qli6J++){
+      for($_QliOt=0; $_QliOt<count($_8totC); $_QliOt++) {
+        if($_8ftCj[$_Qli6J] == "CurrentSendTableName"){
+          $_QLfol = "DELETE FROM `".$_8totC[$_QliOt][$_8ftCj[$_Qli6J]]."` WHERE id=".$_8totC[$_QliOt]["CampaignsSendStat_id"];
+          mysql_query($_QLfol);
+          _L8D88($_QLfol);
           continue;
         }
-        $_QJlJ0 = "DELETE FROM `".$_6llOC[$_Qf0Ct][$_6L0f1[$_Q6llo]]."` WHERE SendStat_id=".$_6llOC[$_Qf0Ct]["CampaignsSendStat_id"];
-        mysql_query($_QJlJ0);
-        _OAL8F($_QJlJ0);
+        $_QLfol = "DELETE FROM `".$_8totC[$_QliOt][$_8ftCj[$_Qli6J]]."` WHERE SendStat_id=".$_8totC[$_QliOt]["CampaignsSendStat_id"];
+        mysql_query($_QLfol);
+        _L8D88($_QLfol);
       }
     }
     // splittesttable
-    $_QJlJ0 = "SELECT `MembersTableName`, `RandomMembersTableName` FROM `$_j0fti` WHERE id=$SendStatId";
-    $_Q60l1 = mysql_query($_QJlJ0);
-    $_Q8OiJ = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT `MembersTableName`, `RandomMembersTableName` FROM `$_jClC1` WHERE id=$SendStatId";
+    $_QL8i1 = mysql_query($_QLfol);
+    $_I1OfI = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
 
-    $_QJlJ0 = "DROP TABLE `$_Q8OiJ[MembersTableName]`";
-    mysql_query($_QJlJ0);
+    $_QLfol = "DROP TABLE `$_I1OfI[MembersTableName]`";
+    mysql_query($_QLfol);
 
-    $_QJlJ0 = "DROP TABLE `$_Q8OiJ[RandomMembersTableName]`";
-    mysql_query($_QJlJ0);
+    $_QLfol = "DROP TABLE `$_I1OfI[RandomMembersTableName]`";
+    mysql_query($_QLfol);
 
 
     # don't send it again when there are no send entries
-    $_QJlJ0 = "SELECT COUNT(*) FROM `$_j0fti` WHERE id<>$SendStatId";
-    $_Q60l1 = mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
-    $_Q6Q1C = mysql_fetch_row($_Q60l1);
-    if($_Q6Q1C[0] == 0 && $_6lLOl["SendScheduler"] != 'SaveOnly' ){
-      $_QJlJ0 = "UPDATE `$_IooOQ` SET `ReSendFlag`=0, `SetupLevel`=0 WHERE id=$_Iloio";
-      mysql_query($_QJlJ0);
-      _OAL8F($_QJlJ0);
+    $_QLfol = "SELECT COUNT(*) FROM `$_jClC1` WHERE id<>$SendStatId";
+    $_QL8i1 = mysql_query($_QLfol);
+    _L8D88($_QLfol);
+    $_QLO0f = mysql_fetch_row($_QL8i1);
+    if($_QLO0f[0] == 0 && $_8tO6L["SendScheduler"] != 'SaveOnly' ){
+      $_QLfol = "UPDATE `$_jJL88` SET `ReSendFlag`=0, `SetupLevel`=0 WHERE id=$_joQIl";
+      mysql_query($_QLfol);
+      _L8D88($_QLfol);
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
     #
 
-    $_QJlJ0 = "DELETE FROM `$_j0fti` WHERE id=$SendStatId";
-    mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
+    $_QLfol = "DELETE FROM `$_jClC1` WHERE id=$SendStatId";
+    mysql_query($_QLfol);
+    _L8D88($_QLfol);
 
-    $_QJlJ0 = "DELETE FROM `$_6lLOl[SplitTestCurrentSendIdToCampaignsCurrentSendIdTableName]` WHERE `SplitTestSendStat_id`=$SendStatId";
-    mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
+    $_QLfol = "DELETE FROM `$_8tO6L[SplitTestCurrentSendIdToCampaignsCurrentSendIdTableName]` WHERE `SplitTestSendStat_id`=$SendStatId";
+    mysql_query($_QLfol);
+    _L8D88($_QLfol);
 
 
     include("browsesplittests.php");
@@ -305,667 +305,737 @@
   }
   // Remove Send entry /
 
-  for($_Qf0Ct=0; $_Qf0Ct<count($_6llOC); $_Qf0Ct++) {
+  for($_QliOt=0; $_QliOt<count($_8totC); $_QliOt++) {
 
     # no send entry at this time
-    if($_6llOC[$_Qf0Ct]["CampaignsSendStat_id"] == 0) {
+    if($_8totC[$_QliOt]["CampaignsSendStat_id"] == 0) {
 
-      $_f008O = array("SentCountSucc", "SentCountFailed", "SentCountPossiblySent", "HardBouncesCount", "SoftBouncesCount", "UnsubscribesCount");
-      reset($_f008O);
-      foreach($_f008O as $key){
-        $_f006J[$key] = 0;
+      $_8tC0C = array("SentCountSucc", "SentCountFailed", "SentCountPossiblySent", "HardBouncesCount", "SoftBouncesCount", "UnsubscribesCount");
+      reset($_8tC0C);
+      foreach($_8tC0C as $key){
+        $_8toif[$key] = 0;
       }
       continue;
     }
 
-    $_QJlJ0 = "SELECT SentCountSucc, SentCountFailed, SentCountPossiblySent, HardBouncesCount, SoftBouncesCount, UnsubscribesCount FROM ".$_6llOC[$_Qf0Ct]["CurrentSendTableName"]." WHERE id=".$_6llOC[$_Qf0Ct]["CampaignsSendStat_id"];
-    $_Q60l1 = mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
-    $_Q8OiJ = mysql_fetch_assoc($_Q60l1);
-    foreach($_Q8OiJ as $key => $_Q6ClO){
-      if(!isset($_f006J[$key]))
-        $_f006J[$key] = 0;
-      $_f006J[$key] += $_Q6ClO;
+    $_QLfol = "SELECT SentCountSucc, SentCountFailed, SentCountPossiblySent, HardBouncesCount, SoftBouncesCount, UnsubscribesCount FROM ".$_8totC[$_QliOt]["CurrentSendTableName"]." WHERE id=".$_8totC[$_QliOt]["CampaignsSendStat_id"];
+    $_QL8i1 = mysql_query($_QLfol);
+    _L8D88($_QLfol);
+    $_I1OfI = mysql_fetch_assoc($_QL8i1);
+    foreach($_I1OfI as $key => $_QltJO){
+      if(!isset($_8toif[$key]))
+        $_8toif[$key] = 0;
+      if($_QltJO != -9999) // canceled
+        $_8toif[$key] += $_QltJO;
+        else
+        $_8toif[$key] = "Canceled";
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
   }
 
-  if($_QtILf) {
-    $_f006J["SentCountSucc"] = 0;
-    $_f006J["SentCountFailed"] = 0;
-    $_f006J["SentCountPossiblySent"] = 0;
+  if($_IQ1ji) {
+    $_8toif["SentCountSucc"] = 0;
+    $_8toif["SentCountFailed"] = 0;
+    $_8toif["SentCountPossiblySent"] = 0;
 
-    for($_Qf0Ct=0; $_Qf0Ct<count($_6llOC); $_Qf0Ct++) {
+    for($_QliOt=0; $_QliOt<count($_8totC); $_QliOt++) {
       # no send entry at this time
-      if($_6llOC[$_Qf0Ct]["CampaignsSendStat_id"] == 0) continue;
+      if($_8totC[$_QliOt]["CampaignsSendStat_id"] == 0) continue;
 
-      $_j08fl = $_6llOC[$_Qf0Ct]["RStatisticsTableName"];
+      $_ji080 = $_8totC[$_QliOt]["RStatisticsTableName"];
       // Count things while sending
-      $_QJlJ0 = "SELECT COUNT(id) FROM $_j08fl WHERE SendStat_id=".$_6llOC[$_Qf0Ct]["CampaignsSendStat_id"]." AND Send='Sent'";
-      $_ItlJl = mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
-      $_IO08Q = mysql_fetch_row($_ItlJl);
-      mysql_free_result($_ItlJl);
-      $_f006J["SentCountSucc"] += $_IO08Q[0];
+      $_QLfol = "SELECT COUNT(id) FROM $_ji080 WHERE SendStat_id=".$_8totC[$_QliOt]["CampaignsSendStat_id"]." AND Send='Sent'";
+      $_jjJfo = mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      $_jj6L6 = mysql_fetch_row($_jjJfo);
+      mysql_free_result($_jjJfo);
+      $_8toif["SentCountSucc"] += $_jj6L6[0];
 
-      $_QJlJ0 = "SELECT COUNT(id) FROM $_j08fl WHERE SendStat_id=".$_6llOC[$_Qf0Ct]["CampaignsSendStat_id"]." AND Send='Failed'";
-      $_ItlJl = mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
-      $_IO08Q = mysql_fetch_row($_ItlJl);
-      mysql_free_result($_ItlJl);
-      $_f006J["SentCountFailed"] += $_IO08Q[0];
+      $_QLfol = "SELECT COUNT(id) FROM $_ji080 WHERE SendStat_id=".$_8totC[$_QliOt]["CampaignsSendStat_id"]." AND Send='Failed'";
+      $_jjJfo = mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      $_jj6L6 = mysql_fetch_row($_jjJfo);
+      mysql_free_result($_jjJfo);
+      $_8toif["SentCountFailed"] += $_jj6L6[0];
 
-      $_QJlJ0 = "SELECT COUNT(id) FROM $_j08fl WHERE SendStat_id=".$_6llOC[$_Qf0Ct]["CampaignsSendStat_id"]." AND Send='PossiblySent'";
-      $_ItlJl = mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
-      $_IO08Q = mysql_fetch_row($_ItlJl);
-      mysql_free_result($_ItlJl);
-      $_f006J["SentCountPossiblySent"] += $_IO08Q[0];
+      $_QLfol = "SELECT COUNT(id) FROM $_ji080 WHERE SendStat_id=".$_8totC[$_QliOt]["CampaignsSendStat_id"]." AND Send='PossiblySent'";
+      $_jjJfo = mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      $_jj6L6 = mysql_fetch_row($_jjJfo);
+      mysql_free_result($_jjJfo);
+      $_8toif["SentCountPossiblySent"] += $_jj6L6[0];
 
     }
   }
 
   // Template
-  $_6L16j = $_Q6Q1C["SentDateTime"];
-  if($_QtILf)
-    $_6L16j = "&quot;".$resourcestrings[$INTERFACE_LANGUAGE]["000675"]."&quot;";
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001850"], $_6llff, $_6L16j), $_I0600, 'stat_splittestlog', 'browse_splittestslog_snipped.htm');
-  $_QJCJi = str_replace('name="SplitTestId"', 'name="SplitTestId" value="'.$_POST['SplitTestId'].'"', $_QJCJi);
+  $_8fOOf = $_QLO0f["SentDateTime"];
+  if($_IQ1ji)
+    $_8fOOf = "&quot;".$resourcestrings[$INTERFACE_LANGUAGE]["000675"]."&quot;";
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001850"], $_8to1f, $_8fOOf), $_Itfj8, 'stat_splittestlog', 'browse_splittestslog_snipped.htm');
+  $_QLJfI = str_replace('name="SplitTestId"', 'name="SplitTestId" value="'.$_POST['SplitTestId'].'"', $_QLJfI);
 
   // language
-  $_QJCJi = str_replace('ChangeLanguageCode("de");', 'ChangeLanguageCode("'.$INTERFACE_LANGUAGE.'");', $_QJCJi);
+  $_QLJfI = str_replace('ChangeLanguageCode("de");', 'ChangeLanguageCode("'.$INTERFACE_LANGUAGE.'");', $_QLJfI);
 
-  $_QJCJi = _OPR6L($_QJCJi, "<SENTSTATID>", "</SENTSTATID>", $SendStatId);
-  if($_QtILf) {
-    $_QJCJi = _OP6PQ($_QJCJi, "<CAN_REMOVE_SENDSTATID>", "</CAN_REMOVE_SENDSTATID>");
+  $_QLJfI = _L81BJ($_QLJfI, "<SENTSTATID>", "</SENTSTATID>", $SendStatId);
+  if($_IQ1ji) {
+    $_QLJfI = _L80DF($_QLJfI, "<CAN_REMOVE_SENDSTATID>", "</CAN_REMOVE_SENDSTATID>");
   }
 
-  $_QJCJi = _OPR6L($_QJCJi, "<CAMPAIGN_NAME>", "</CAMPAIGN_NAME>", $_6llff );
-  $_QJCJi = _OPR6L($_QJCJi, "<RECIPIENTSCOUNT>", "</RECIPIENTSCOUNT>", $_f006J["RecipientsCount"]);
+  $_QLJfI = _L81BJ($_QLJfI, "<CAMPAIGN_NAME>", "</CAMPAIGN_NAME>", $_8to1f );
+  $_QLJfI = _L81BJ($_QLJfI, "<RECIPIENTSCOUNT>", "</RECIPIENTSCOUNT>", $_8toif["RecipientsCount"]);
 
-  if($_f006J["RecipientsCount"] == 0)
-    $_f006J["RecipientsCount"] = 0.01;
+  if($_8toif["RecipientsCount"] == 0)
+    $_8toif["RecipientsCount"] = 0.01;
 
-  $_QJCJi = _OPR6L($_QJCJi, "<SENTCOUNTSUCC>", "</SENTCOUNTSUCC>", $_f006J["SentCountSucc"]);
-  $_QJCJi = _OPR6L($_QJCJi, "<SENTCOUNTSUCCPERCENT>", "</SENTCOUNTSUCCPERCENT>", sprintf("%1.1f%%", $_f006J["SentCountSucc"] * 100 / $_f006J["RecipientsCount"]) );
+  if($_8toif["SentCountSucc"] != "Canceled"){
+    $_QLJfI = _L81BJ($_QLJfI, "<SENTCOUNTSUCC>", "</SENTCOUNTSUCC>", $_8toif["SentCountSucc"]);
+    $_QLJfI = _L81BJ($_QLJfI, "<SENTCOUNTSUCCPERCENT>", "</SENTCOUNTSUCCPERCENT>", sprintf("%1.1f%%", $_8toif["SentCountSucc"] * 100 / $_8toif["RecipientsCount"]) );
+  }else{
+    $_QLJfI = _L81BJ($_QLJfI, "<SENTCOUNTSUCC>", "</SENTCOUNTSUCC>", $resourcestrings[$INTERFACE_LANGUAGE]["000623"]);
+    $_QLJfI = _L81BJ($_QLJfI, "<SENTCOUNTSUCCPERCENT>", "</SENTCOUNTSUCCPERCENT>", "" );
+  }  
 
-  $_QJCJi = _OPR6L($_QJCJi, "<SENTCOUNTFAILED>", "</SENTCOUNTFAILED>", $_f006J["SentCountFailed"]);
-  $_QJCJi = _OPR6L($_QJCJi, "<SENTCOUNTFAILEDPERCENT>", "</SENTCOUNTFAILEDPERCENT>", sprintf("%1.1f%%", $_f006J["SentCountFailed"] * 100 / $_f006J["RecipientsCount"]) );
+  $_QLJfI = _L81BJ($_QLJfI, "<SENTCOUNTFAILED>", "</SENTCOUNTFAILED>", $_8toif["SentCountFailed"]);
+  $_QLJfI = _L81BJ($_QLJfI, "<SENTCOUNTFAILEDPERCENT>", "</SENTCOUNTFAILEDPERCENT>", sprintf("%1.1f%%", $_8toif["SentCountFailed"] * 100 / $_8toif["RecipientsCount"]) );
 
-  $_QJCJi = _OPR6L($_QJCJi, "<SENTCOUNTPOSSIBLYSENT>", "</SENTCOUNTPOSSIBLYSENT>", $_f006J["SentCountPossiblySent"]);
-  $_QJCJi = _OPR6L($_QJCJi, "<SENTCOUNTPOSSIBLYSENTPERCENT>", "</SENTCOUNTPOSSIBLYSENTPERCENT>", sprintf("%1.1f%%", $_f006J["SentCountPossiblySent"] * 100 / $_f006J["RecipientsCount"]) );
+  $_QLJfI = _L81BJ($_QLJfI, "<SENTCOUNTPOSSIBLYSENT>", "</SENTCOUNTPOSSIBLYSENT>", $_8toif["SentCountPossiblySent"]);
+  $_QLJfI = _L81BJ($_QLJfI, "<SENTCOUNTPOSSIBLYSENTPERCENT>", "</SENTCOUNTPOSSIBLYSENTPERCENT>", sprintf("%1.1f%%", $_8toif["SentCountPossiblySent"] * 100 / $_8toif["RecipientsCount"]) );
 
-  $_QJCJi = _OPR6L($_QJCJi, "<HARDBOUNCES>", "</HARDBOUNCES>", $_f006J["HardBouncesCount"]);
-  $_QJCJi = _OPR6L($_QJCJi, "<HARDBOUNCESPERCENT>", "</HARDBOUNCESPERCENT>", sprintf("%1.1f%%", $_f006J["HardBouncesCount"] * 100 / $_f006J["RecipientsCount"]) );
+  $_QLJfI = _L81BJ($_QLJfI, "<HARDBOUNCES>", "</HARDBOUNCES>", $_8toif["HardBouncesCount"]);
+  $_QLJfI = _L81BJ($_QLJfI, "<HARDBOUNCESPERCENT>", "</HARDBOUNCESPERCENT>", sprintf("%1.1f%%", $_8toif["HardBouncesCount"] * 100 / $_8toif["RecipientsCount"]) );
 
-  $_QJCJi = _OPR6L($_QJCJi, "<SOFTBOUNCES>", "</SOFTBOUNCES>", $_f006J["SoftBouncesCount"]);
-  $_QJCJi = _OPR6L($_QJCJi, "<SOFTBOUNCESPERCENT>", "</SOFTBOUNCESPERCENT>", sprintf("%1.1f%%", $_f006J["SoftBouncesCount"] * 100 / $_f006J["RecipientsCount"]) );
+  $_QLJfI = _L81BJ($_QLJfI, "<SOFTBOUNCES>", "</SOFTBOUNCES>", $_8toif["SoftBouncesCount"]);
+  $_QLJfI = _L81BJ($_QLJfI, "<SOFTBOUNCESPERCENT>", "</SOFTBOUNCESPERCENT>", sprintf("%1.1f%%", $_8toif["SoftBouncesCount"] * 100 / $_8toif["RecipientsCount"]) );
 
-  $_QJCJi = _OPR6L($_QJCJi, "<UNSUBSCRIBES>", "</UNSUBSCRIBES>", $_f006J["UnsubscribesCount"]);
-  $_QJCJi = _OPR6L($_QJCJi, "<UNSUBSCRIBESPERCENT>", "</UNSUBSCRIBESPERCENT>", sprintf("%1.1f%%", $_f006J["UnsubscribesCount"] * 100 / $_f006J["RecipientsCount"]) );
+  $_QLJfI = _L81BJ($_QLJfI, "<UNSUBSCRIBES>", "</UNSUBSCRIBES>", $_8toif["UnsubscribesCount"]);
+  $_QLJfI = _L81BJ($_QLJfI, "<UNSUBSCRIBESPERCENT>", "</UNSUBSCRIBESPERCENT>", sprintf("%1.1f%%", $_8toif["UnsubscribesCount"] * 100 / $_8toif["RecipientsCount"]) );
 
-  $_QJCJi = _OPR6L($_QJCJi, "<SENDING:START>", "</SENDING:START>", $_Q6Q1C["StartSendDateTimeFormated"]);
-  if(!$_QtILf) {
-    $_QJCJi = _OPR6L($_QJCJi, "<SENDING:END>", "</SENDING:END>", $_Q6Q1C["EndSendDateTimeFormated"]);
-    $_QJCJi = _OPR6L($_QJCJi, "<SENDING:DURATION>", "</SENDING:DURATION>", $_Q6Q1C["SendDuration"]);
+  $_QLJfI = _L81BJ($_QLJfI, "<SENDING:START>", "</SENDING:START>", $_QLO0f["StartSendDateTimeFormated"]);
+  if(!$_IQ1ji) {
+    $_QLJfI = _L81BJ($_QLJfI, "<SENDING:END>", "</SENDING:END>", $_QLO0f["EndSendDateTimeFormated"]);
+    $_QLJfI = _L81BJ($_QLJfI, "<SENDING:DURATION>", "</SENDING:DURATION>", $_QLO0f["SendDuration"]);
   } else {
-    $_QJCJi = _OPR6L($_QJCJi, "<SENDING:END>", "</SENDING:END>", $resourcestrings[$INTERFACE_LANGUAGE]["000675"]);
-    $_QJCJi = _OPR6L($_QJCJi, "<SENDING:DURATION>", "</SENDING:DURATION>", $resourcestrings[$INTERFACE_LANGUAGE]["000675"]);
+    $_QLJfI = _L81BJ($_QLJfI, "<SENDING:END>", "</SENDING:END>", $resourcestrings[$INTERFACE_LANGUAGE]["000675"]);
+    $_QLJfI = _L81BJ($_QLJfI, "<SENDING:DURATION>", "</SENDING:DURATION>", $resourcestrings[$INTERFACE_LANGUAGE]["000675"]);
   }
 
-  if($_Q6Q1C["SendState"] == 'Sending' || $_Q6Q1C["SendState"] == 'Waiting')
-    $_QJCJi = _OPR6L($_QJCJi, "<SPLITTESTWINNERCAMPAIGN>", "</SPLITTESTWINNERCAMPAIGN>", $resourcestrings[$INTERFACE_LANGUAGE]["000675"]);
+  if($_QLO0f["SendState"] == 'Sending' || $_QLO0f["SendState"] == 'Waiting')
+    $_QLJfI = _L81BJ($_QLJfI, "<SPLITTESTWINNERCAMPAIGN>", "</SPLITTESTWINNERCAMPAIGN>", $resourcestrings[$INTERFACE_LANGUAGE]["000675"]);
     else
-    if ($_Q6Q1C["SendState"] == 'PreparingWinnerCampaign' || $_Q6Q1C["SendState"] == 'SendingWinnerCampaign' || $_Q6Q1C["SendState"] == 'Done') {
+    if ($_QLO0f["SendState"] == 'PreparingWinnerCampaign' || $_QLO0f["SendState"] == 'SendingWinnerCampaign' || $_QLO0f["SendState"] == 'Done') {
 
       # get winner campaign and clicks
-      if( $_6lLOl["TestType"] == 'TestSendToAllMembers' ) {
-        $_jOljL = 0;
-        $_Q6Q1C["WinnerCampaigns_id"] = _LLLQF($_6lLOl, $_Q6Q1C, $_6llOC, false, $_jOljL);
-        $_Q6Q1C["WinnerCampaignsMaxClicks"] = $_jOljL;
+      if( $_8tO6L["TestType"] == 'TestSendToAllMembers' ) {
+        $_JO616 = 0;
+        $_QLO0f["WinnerCampaigns_id"] = _JL8L0($_8tO6L, $_QLO0f, $_8totC, false, $_JO616);
+        $_QLO0f["WinnerCampaignsMaxClicks"] = $_JO616;
       }
 
-      for($_Qf0Ct=0; $_Qf0Ct<count($_6llOC); $_Qf0Ct++) {
-        if($_6llOC[$_Qf0Ct]["Campaigns_id"] == $_Q6Q1C["WinnerCampaigns_id"]) {
-          if($_6lLOl["WinnerType"] == 'WinnerOpens')
-            $_QJCJi = _OPR6L($_QJCJi, "<SPLITTESTWINNERCAMPAIGN>", "</SPLITTESTWINNERCAMPAIGN>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001851"], $_6llOC[$_Qf0Ct]["Name"], $_Q6Q1C["WinnerCampaignsMaxClicks"]));
+      for($_QliOt=0; $_QliOt<count($_8totC); $_QliOt++) {
+        if($_8totC[$_QliOt]["Campaigns_id"] == $_QLO0f["WinnerCampaigns_id"]) {
+          if($_8tO6L["WinnerType"] == 'WinnerOpens')
+            $_QLJfI = _L81BJ($_QLJfI, "<SPLITTESTWINNERCAMPAIGN>", "</SPLITTESTWINNERCAMPAIGN>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001851"], $_8totC[$_QliOt]["Name"], $_QLO0f["WinnerCampaignsMaxClicks"]));
           else
-            $_QJCJi = _OPR6L($_QJCJi, "<SPLITTESTWINNERCAMPAIGN>", "</SPLITTESTWINNERCAMPAIGN>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001852"], $_6llOC[$_Qf0Ct]["Name"], $_Q6Q1C["WinnerCampaignsMaxClicks"]));
+            $_QLJfI = _L81BJ($_QLJfI, "<SPLITTESTWINNERCAMPAIGN>", "</SPLITTESTWINNERCAMPAIGN>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001852"], $_8totC[$_QliOt]["Name"], $_QLO0f["WinnerCampaignsMaxClicks"]));
         }
       }
 
     } else
-      $_QJCJi = _OPR6L($_QJCJi, "<SPLITTESTWINNERCAMPAIGN>", "</SPLITTESTWINNERCAMPAIGN>", $resourcestrings[$INTERFACE_LANGUAGE]["UNKNOWN"]);
+      $_QLJfI = _L81BJ($_QLJfI, "<SPLITTESTWINNERCAMPAIGN>", "</SPLITTESTWINNERCAMPAIGN>", $resourcestrings[$INTERFACE_LANGUAGE]["UNKNOWN"]);
 
-/*  if($_Q6Q1C["TwitterUpdate"] == "NotActivated" || empty($_Q6Q1C["TwitterUpdate"]))
-     $_QJCJi = _OPR6L($_QJCJi, "<SENDING:TWITTER_UPDATE>", "</SENDING:TWITTER_UPDATE>", $resourcestrings[$INTERFACE_LANGUAGE]["001300"]);
-  if($_Q6Q1C["TwitterUpdate"] == "Done")
-     $_QJCJi = _OPR6L($_QJCJi, "<SENDING:TWITTER_UPDATE>", "</SENDING:TWITTER_UPDATE>", $resourcestrings[$INTERFACE_LANGUAGE]["001301"]);
-  if($_Q6Q1C["TwitterUpdate"] == "Failed")
-     if( $_Q6Q1C["TwitterUpdateErrorText"] == "TWITTER_UPDATE_POSTING_FAILED" )
-        $_QJCJi = _OPR6L($_QJCJi, "<SENDING:TWITTER_UPDATE>", "</SENDING:TWITTER_UPDATE>", $resourcestrings[$INTERFACE_LANGUAGE]["001302"]);
+/*  if($_QLO0f["TwitterUpdate"] == "NotActivated" || empty($_QLO0f["TwitterUpdate"]))
+     $_QLJfI = _L81BJ($_QLJfI, "<SENDING:TWITTER_UPDATE>", "</SENDING:TWITTER_UPDATE>", $resourcestrings[$INTERFACE_LANGUAGE]["001300"]);
+  if($_QLO0f["TwitterUpdate"] == "Done")
+     $_QLJfI = _L81BJ($_QLJfI, "<SENDING:TWITTER_UPDATE>", "</SENDING:TWITTER_UPDATE>", $resourcestrings[$INTERFACE_LANGUAGE]["001301"]);
+  if($_QLO0f["TwitterUpdate"] == "Failed")
+     if( $_QLO0f["TwitterUpdateErrorText"] == "TWITTER_UPDATE_POSTING_FAILED" )
+        $_QLJfI = _L81BJ($_QLJfI, "<SENDING:TWITTER_UPDATE>", "</SENDING:TWITTER_UPDATE>", $resourcestrings[$INTERFACE_LANGUAGE]["001302"]);
         else
-        if( $_Q6Q1C["TwitterUpdateErrorText"] == "TWITTER_UPDATE_NO_CONNECTION_TO_SHORT_URL_SERVICE" )
-            $_QJCJi = _OPR6L($_QJCJi, "<SENDING:TWITTER_UPDATE>", "</SENDING:TWITTER_UPDATE>", $resourcestrings[$INTERFACE_LANGUAGE]["001303"]);
+        if( $_QLO0f["TwitterUpdateErrorText"] == "TWITTER_UPDATE_NO_CONNECTION_TO_SHORT_URL_SERVICE" )
+            $_QLJfI = _L81BJ($_QLJfI, "<SENDING:TWITTER_UPDATE>", "</SENDING:TWITTER_UPDATE>", $resourcestrings[$INTERFACE_LANGUAGE]["001303"]);
 */
 
-  $_QJCJi = _OPR6L($_QJCJi, "<SENDING:SENDSTATETEXT>", "</SENDING:SENDSTATETEXT>", $_Q6Q1C["SendStateText"]);
+  $_QLJfI = _L81BJ($_QLJfI, "<SENDING:SENDSTATETEXT>", "</SENDING:SENDSTATETEXT>", $_QLO0f["SendStateText"]);
 
 
-  $_jC1lo = "";
-  $_jCQ0I = "";
+  $_JoiCQ = "";
+  $_JoL0L = "";
 
   if(! ( isset($_POST["startdate"]) && isset($_POST["enddate"])) ) {
 
-    $_QJlJ0 = "SELECT DATE_FORMAT(NOW(), $_If0Ql) AS ENDDATE ";
-    $_Q60l1 = mysql_query($_QJlJ0);
-    $_Q6Q1C = mysql_fetch_row($_Q60l1);
-    $_jCQ0I = $_Q6Q1C[0];
-    $_jC1lo = $_6L0Q0;
-    $_POST["startdate"] = $_jC1lo;
-    $_POST["enddate"] = $_jCQ0I;
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT DATE_FORMAT(NOW(), $_j01CJ) AS ENDDATE ";
+    $_QL8i1 = mysql_query($_QLfol);
+    $_QLO0f = mysql_fetch_row($_QL8i1);
+    $_JoL0L = $_QLO0f[0];
+    $_JoiCQ = $_8ft1J;
+    $_POST["startdate"] = $_JoiCQ;
+    $_POST["enddate"] = $_JoL0L;
+    mysql_free_result($_QL8i1);
   }
 
   if( isset($_POST["startdate"]) && isset($_POST["enddate"]) ) {
     if($INTERFACE_LANGUAGE != "de") {
-      $_jC1lo = $_POST["startdate"];
-      $_jCQ0I = $_POST["enddate"];
+      $_JoiCQ = $_POST["startdate"];
+      $_JoL0L = $_POST["enddate"];
     } else {
-      $_Q8otJ = explode('.', $_POST["startdate"]);
-      $_jC1lo = $_Q8otJ[2]."-".$_Q8otJ[1]."-".$_Q8otJ[0];
-      $_Q8otJ = explode('.', $_POST["enddate"]);
-      $_jCQ0I = $_Q8otJ[2]."-".$_Q8otJ[1]."-".$_Q8otJ[0];
+      $_I1OoI = explode('.', $_POST["startdate"]);
+      $_JoiCQ = $_I1OoI[2]."-".$_I1OoI[1]."-".$_I1OoI[0];
+      $_I1OoI = explode('.', $_POST["enddate"]);
+      $_JoL0L = $_I1OoI[2]."-".$_I1OoI[1]."-".$_I1OoI[0];
     }
   }
 
 
-  $_jC1lo .= " 00:00:00";
-  $_jCQ0I .= " 23:59:59";
+  $_JoiCQ .= " 00:00:00";
+  $_JoL0L .= " 23:59:59";
 
-  $_QJlJ0 = "SELECT {} FROM {CampaignsRStatisticsTableName} WHERE SendStat_id={CampaignsSentStatId} AND SendDateTime BETWEEN "._OPQLR($_jC1lo)." AND "._OPQLR($_jCQ0I);
+  $_QLfol = "SELECT {} FROM {CampaignsRStatisticsTableName} WHERE SendStat_id={CampaignsSentStatId} AND SendDateTime BETWEEN "._LRAFO($_JoiCQ)." AND "._LRAFO($_JoL0L);
 
   if(isset($_POST["ShowItems"]) && ($_POST["ShowItems"] != "AllItems")) {
     if($_POST["ShowItems"] == "OnlySentItems")
-       $_QJlJ0 .= "AND Send='Sent'";
+       $_QLfol .= "AND Send='Sent'";
        else
     if($_POST["ShowItems"] == "OnlyFailedItems")
-       $_QJlJ0 .= "AND Send='Failed'";
+       $_QLfol .= "AND Send='Failed'";
        else
     if($_POST["ShowItems"] == "OnlyToSendItems")
-       $_QJlJ0 .= "AND Send='Prepared'";
+       $_QLfol .= "AND Send='Prepared'";
        else
     if($_POST["ShowItems"] == "OnlyPossiblySentItems")
-       $_QJlJ0 .= "AND Send='PossiblySent'";
+       $_QLfol .= "AND Send='PossiblySent'";
+       else
+       if($_POST["ShowItems"] == "OnlyHardbouncedItems")
+       $_QLfol .= "AND Send='Hardbounced'";
   }
 
-  //$_QJlJ0 .= " ORDER BY SendDateTime";
+  //$_QLfol .= " ORDER BY SendDateTime";
 
-  $_QJCJi = _LLDEE($_6llOC, $_QJlJ0, $_QJCJi);
+  $_QLJfI = _JJ1E1($_8totC, $_QLfol, $_QLJfI);
 
-  $_QJCJi = str_replace('name="startdate"', 'name="startdate" value="'.$_POST["startdate"].'"', $_QJCJi);
-  $_QJCJi = str_replace('name="enddate"', 'name="enddate" value="'.$_POST["enddate"].'"', $_QJCJi);
+  $_QLJfI = str_replace('name="startdate"', 'name="startdate" value="'.$_POST["startdate"].'"', $_QLJfI);
+  $_QLJfI = str_replace('name="enddate"', 'name="enddate" value="'.$_POST["enddate"].'"', $_QLJfI);
 
   if(!empty($_POST["ShowItems"])) {
-    $_Q8otJ = array();
-    $_Q8otJ["ShowItems"] = $_POST["ShowItems"];
-    $_QJCJi = _OPFJA(array(), $_Q8otJ, $_QJCJi);
+    $_I1OoI = array();
+    $_I1OoI["ShowItems"] = $_POST["ShowItems"];
+    $_QLJfI = _L8AOB(array(), $_I1OoI, $_QLJfI);
   }
 
   if($INTERFACE_LANGUAGE != "de")
-    $_QJCJi = str_replace("'dd.mm.yyyy'", "'yyyy-mm-dd'", $_QJCJi);
+    $_QLJfI = str_replace("'dd.mm.yyyy'", "'yyyy-mm-dd'", $_QLJfI);
 
 
-  if($_QtILf) {
-    $_QJCJi = _LJ6B1($_QJCJi, "DeleteLogEntry");
-    $_QJCJi = _LJRLJ($_QJCJi, "RemoveEntries");
-    $_QJCJi = _LJ6B1($_QJCJi, "SendAgain");
-    $_QJCJi = _LJRLJ($_QJCJi, "SendAgain");
+  if($_IQ1ji) {
+    $_QLJfI = _JJC1E($_QLJfI, "DeleteLogEntry");
+    $_QLJfI = _JJCRD($_QLJfI, "RemoveEntries");
+    $_QLJfI = _JJC1E($_QLJfI, "SendAgain");
+    $_QLJfI = _JJCRD($_QLJfI, "SendAgain");
   }
 
   // privilegs
   if($OwnerUserId != 0) {
-    $_Q6ICj = substr($_QJCJi, strpos($_QJCJi, '<div class="PageContainer">'));
-    $_IIf8o = substr($_QJCJi, 0, strpos($_QJCJi, '<div class="PageContainer">') - 1);
+    $_QLoli = substr($_QLJfI, strpos($_QLJfI, '<div class="PageContainer">'));
+    $_ICIIQ = substr($_QLJfI, 0, strpos($_QLJfI, '<div class="PageContainer">') - 1);
 
-    $_QJojf = _OBOOC($UserId);
+    $_QLJJ6 = _LPALQ($UserId);
 
-    if(!$_QJojf["PrivilegeCampaignEdit"] || !$_QJojf["PrivilegeCampaignBrowse"] ) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "DeleteLogEntry");
-      $_Q6ICj = _LJRLJ($_Q6ICj, "RemoveEntries");
+    if(!$_QLJJ6["PrivilegeCampaignEdit"] || !$_QLJJ6["PrivilegeCampaignBrowse"] ) {
+      $_QLoli = _JJC1E($_QLoli, "DeleteLogEntry");
+      $_QLoli = _JJCRD($_QLoli, "RemoveEntries");
     }
 
-    $_QJCJi = $_IIf8o.$_Q6ICj;
+    $_QLJfI = $_ICIIQ.$_QLoli;
   }
 
 
-  print $_QJCJi;
+  print $_QLJfI;
 
-  function _LLDEE($_6llOC, $_QJlJ0, $_Q6ICj) {
-    global $UserId, $OwnerUserId, $_Q6QQL, $INTERFACE_LANGUAGE, $resourcestrings, $_IooOQ, $_jC1lo, $_jCQ0I, $_Q6QiO, $_Iloio, $SendStatId;
-    global $_I0o0o, $_QtILf, $_Q6fio;
-    $_I61Cl = array();
-    $_I61Cl["CampaignId"]=$_Iloio;
-    $_I61Cl["SendStatId"]=$SendStatId;
+  function _JJ1E1($_8totC, $_QLfol, $_QLoli) {
+    global $UserId, $OwnerUserId, $_QLo06, $INTERFACE_LANGUAGE, $resourcestrings, $_jJL88, $_JoiCQ, $_JoL0L, $_QLo60, $_joQIl, $SendStatId;
+    global $_IttOL, $_IQ1ji, $_QlQot;
+    $_Il0o6 = array();
+    $_Il0o6["CampaignId"]=$_joQIl;
+    $_Il0o6["SendStatId"]=$SendStatId;
 
     // wie viele pro Seite?
-    $_I6Q68 = 20;
+    $_Il1jO = 20;
     if(isset($_POST["ItemsPerPage"])) {
-       $_QllO8 = intval($_POST["ItemsPerPage"]);
-       if ($_QllO8 <= 0) $_QllO8 = 20;
-       $_I6Q68 = $_QllO8;
+       $_I016j = intval($_POST["ItemsPerPage"]);
+       if ($_I016j <= 0) $_I016j = 20;
+       $_Il1jO = $_I016j;
     }
-    $_I61Cl["ItemsPerPage"] = $_I6Q68;
+    $_Il0o6["ItemsPerPage"] = $_Il1jO;
 
-    $_IJQQI = 0;
+    $_Iil6i = 0;
     if ( (!isset($_POST['PageSelected'])) || ($_POST['PageSelected'] == 0) )
-      $_I6Q6O = 1;
+      $_IlQQ6 = 1;
       else
-      $_I6Q6O = intval($_POST['PageSelected']);
+      $_IlQQ6 = intval($_POST['PageSelected']);
 
     // zaehlen wie viele es sind
-    $_I6Qfj = 0;
+    $_IlQll = 0;
 
-    $_I1l61 = array();
-    for($_Qf0Ct=0; $_Qf0Ct<count($_6llOC); $_Qf0Ct++) {
-      $_QtjtL = $_QJlJ0;
+    $_Io01j = array();
+    for($_QliOt=0; $_QliOt<count($_8totC); $_QliOt++) {
+      $_QLlO6 = $_QLfol;
 
-      $_QtjtL = str_replace('{CampaignsRStatisticsTableName}', $_6llOC[$_Qf0Ct]["RStatisticsTableName"], $_QtjtL);
-      $_QtjtL = str_replace('{CampaignsSentStatId}', $_6llOC[$_Qf0Ct]["CampaignsSendStat_id"], $_QtjtL);
-      $_QtjtL = str_replace('{}', "COUNT(".$_6llOC[$_Qf0Ct]["RStatisticsTableName"].".id)", $_QtjtL);
+      $_QLlO6 = str_replace('{CampaignsRStatisticsTableName}', $_8totC[$_QliOt]["RStatisticsTableName"], $_QLlO6);
+      $_QLlO6 = str_replace('{CampaignsSentStatId}', $_8totC[$_QliOt]["CampaignsSendStat_id"], $_QLlO6);
+      $_QLlO6 = str_replace('{}', "COUNT(".$_8totC[$_QliOt]["RStatisticsTableName"].".id)", $_QLlO6);
 
-      $_I1l61[] = "(".$_QtjtL.")";
+      $_Io01j[] = "(".$_QLlO6.")";
 
     }
 
     # not union mysql merges rows not add rows therefore +
-    $_QtjtL = join(" + ", $_I1l61);
+    $_QLlO6 = join(" + ", $_Io01j);
 
-    $_QtjtL = "SELECT ( ".$_QtjtL.")";
+    $_QLlO6 = "SELECT ( ".$_QLlO6.")";
 
-    $_Q60l1 = mysql_query($_QtjtL);
-    _OAL8F($_QtjtL);
-    $_Q6Q1C=mysql_fetch_row($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_I6Qfj = $_Q6Q1C[0];
+    $_QL8i1 = mysql_query($_QLlO6);
+    _L8D88($_QLlO6);
+    $_QLO0f=mysql_fetch_row($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_IlQll = $_QLO0f[0];
 
 
-    $_I6IJ8 = $_I6Qfj / $_I6Q68;
-    $_I6IJ8 = ceil($_I6IJ8);
-    if(intval($_I6IJ8 * $_I6Q68) - $_I6Q68 > $_I6Qfj)
-       if($_I6IJ8 > 1) $_I6IJ8--;
-    $_Q6ICj = str_replace ('%RECIPIENTCOUNT%', $_I6Qfj, $_Q6ICj);
+    $_IlILC = $_IlQll / $_Il1jO;
+    $_IlILC = ceil($_IlILC);
+    if(intval($_IlILC * $_Il1jO) - $_Il1jO > $_IlQll)
+       if($_IlILC > 1) $_IlILC--;
+    $_QLoli = str_replace ('%RECIPIENTCOUNT%', $_IlQll, $_QLoli);
 
     if( isset( $_POST["OneSplitTestLogId"] ) && ($_POST["OneSplitTestLogId"] == "Top") )
-       $_I6Q6O = 1;
+       $_IlQQ6 = 1;
     if( isset( $_POST["OneSplitTestLogId"] ) && ($_POST["OneSplitTestLogId"] == "Prev") )
-       $_I6Q6O = $_I6Q6O - 1;
+       $_IlQQ6 = $_IlQQ6 - 1;
     if( isset( $_POST["OneSplitTestLogId"] ) && ($_POST["OneSplitTestLogId"] == "Next") )
-       $_I6Q6O = $_I6Q6O + 1;
+       $_IlQQ6 = $_IlQQ6 + 1;
     if( isset( $_POST["OneSplitTestLogId"] ) && ($_POST["OneSplitTestLogId"] == "End") )
-       $_I6Q6O = $_I6IJ8;
+       $_IlQQ6 = $_IlILC;
 
-    if ( ($_I6Q6O > $_I6IJ8) || ($_I6Q6O <= 0) )
-       $_I6Q6O = 1;
+    if ( ($_IlQQ6 > $_IlILC) || ($_IlQQ6 <= 0) )
+       $_IlQQ6 = 1;
 
-    $_IJQQI = ($_I6Q6O - 1) * $_I6Q68;
+    $_Iil6i = ($_IlQQ6 - 1) * $_Il1jO;
 
-    $_Q6i6i = "";
-    for($_Q6llo=1; $_Q6llo<=$_I6IJ8; $_Q6llo++)
-      if($_Q6llo != $_I6Q6O)
-       $_Q6i6i .= "<option>$_Q6llo</option>";
+    $_QlOjt = "";
+    for($_Qli6J=1; $_Qli6J<=$_IlILC; $_Qli6J++)
+      if($_Qli6J != $_IlQQ6)
+       $_QlOjt .= "<option>$_Qli6J</option>";
        else
-       $_Q6i6i .= '<option selected="selected">'.$_Q6llo.'</option>';
+       $_QlOjt .= '<option selected="selected">'.$_Qli6J.'</option>';
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<OPTION:PAGES>", "</OPTION:PAGES>", $_Q6i6i);
+    $_QLoli = _L81BJ($_QLoli, "<OPTION:PAGES>", "</OPTION:PAGES>", $_QlOjt);
 
     // Nav-Buttons
-    $_I6ICC = "";
-    if($_I6Q6O == 1) {
-      $_I6ICC .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
+    $_Iljoj = "";
+    if($_IlQQ6 == 1) {
+      $_Iljoj .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
     }
-    if ( ($_I6Q6O == $_I6IJ8) || ($_I6Qfj == 0) ) {
-      $_I6ICC .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
+    if ( ($_IlQQ6 == $_IlILC) || ($_IlQll == 0) ) {
+      $_Iljoj .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
     }
 
-    if($_I6Qfj == 0)
-      $_I6ICC .= "  DisableItem('PageSelected', false);\r\n";
+    if($_IlQll == 0)
+      $_Iljoj .= "  DisableItem('PageSelected', false);\r\n";
 
-    $_Q6ICj = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_I6ICC, $_Q6ICj);
+    $_QLoli = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_Iljoj, $_QLoli);
     //
 
-    $_I1l61 = array();
-    for($_Qf0Ct=0; $_Qf0Ct<count($_6llOC); $_Qf0Ct++) {
+    $_Io01j = array();
+    for($_QliOt=0; $_QliOt<count($_8totC); $_QliOt++) {
 
-      $_QtjtL = $_QJlJ0;
+      $_QLlO6 = $_QLfol;
 
-      $_QtjtL = str_replace('{CampaignsRStatisticsTableName}', $_6llOC[$_Qf0Ct]["RStatisticsTableName"], $_QtjtL);
-      $_QtjtL = str_replace('{CampaignsSentStatId}', $_6llOC[$_Qf0Ct]["CampaignsSendStat_id"], $_QtjtL);
+      $_QLlO6 = str_replace('{CampaignsRStatisticsTableName}', $_8totC[$_QliOt]["RStatisticsTableName"], $_QLlO6);
+      $_QLlO6 = str_replace('{CampaignsSentStatId}', $_8totC[$_QliOt]["CampaignsSendStat_id"], $_QLlO6);
 
-      $_Iijl0 = $_6llOC[$_Qf0Ct]["RStatisticsTableName"].".*, DATE_FORMAT(SendDateTime, $_Q6QiO) AS SentDateTime";
-      $_Iijl0 .= ", ". $_6llOC[$_Qf0Ct]["Campaigns_id"]." As Campaigns_id";
-      $_Iijl0 .= ", ". $_6llOC[$_Qf0Ct]["CampaignsSendStat_id"]." As CampaignsSendStat_id";
-      $_QtjtL = str_replace('{}', $_Iijl0, $_QtjtL);
+      $_jf8JI = $_8totC[$_QliOt]["RStatisticsTableName"].".*, DATE_FORMAT(SendDateTime, $_QLo60) AS SentDateTime";
+      $_jf8JI .= ", ". $_8totC[$_QliOt]["Campaigns_id"]." As Campaigns_id";
+      $_jf8JI .= ", ". $_8totC[$_QliOt]["CampaignsSendStat_id"]." As CampaignsSendStat_id";
+      $_QLlO6 = str_replace('{}', $_jf8JI, $_QLlO6);
 
-      $_I1l61[] = "(".$_QtjtL.")";
+      $_Io01j[] = "(".$_QLlO6.")";
     }
 
-    $_QJlJ0 = join(" UNION ", $_I1l61);
+    $_QLfol = join(" UNION ", $_Io01j);
 
-    $_QJlJ0 .= " ORDER BY SendDateTime";
-    $_QJlJ0 .= " LIMIT $_IJQQI, $_I6Q68";
+    $_QLfol .= " ORDER BY SendDateTime";
+    $_QLfol .= " LIMIT $_Iil6i, $_Il1jO";
 
-    $_Q60l1 = mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
+    $_QL8i1 = mysql_query($_QLfol);
+    _L8D88($_QLfol);
 
-    $_Q6tjl = "";
-    $_IIJi1 = _OP81D($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>");
-    $_IIJi1 = str_replace ('<LIST:ENTRY>', '', $_IIJi1);
-    $_IIJi1 = str_replace ('</LIST:ENTRY>', '', $_IIJi1);
+    $_QlIf1 = "";
+    $_IC1C6 = _L81DB($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>");
+    $_IC1C6 = str_replace ('<LIST:ENTRY>', '', $_IC1C6);
+    $_IC1C6 = str_replace ('</LIST:ENTRY>', '', $_IC1C6);
 
-    while($_Q6Q1C=mysql_fetch_assoc($_Q60l1)) {
-      $_Q66jQ = $_IIJi1;
-      if($_Q6Q1C["Send"] == 'Prepared')
-        $_6itQQ = '<img src="images/cross.gif" alt="" width="16" height="16" />&nbsp;';
+    while($_QLO0f=mysql_fetch_assoc($_QL8i1)) {
+      $_Ql0fO = $_IC1C6;
+      if($_QLO0f["Send"] == 'Prepared')
+        $_8fQ0J = '<img src="images/cross.gif" alt="" width="16" height="16" />&nbsp;';
         else
-        if($_Q6Q1C["Send"] == 'Sent')
-        $_6itQQ = '<img src="images/check16.gif" alt="" width="16" height="16" />&nbsp;';
+        if($_QLO0f["Send"] == 'Sent')
+        $_8fQ0J = '<img src="images/check16.gif" alt="" width="16" height="16" />&nbsp;';
         else
-        if($_Q6Q1C["Send"] == 'PossiblySent')
-        $_6itQQ = '<img src="images/minus16.gif" alt="" width="16" height="16" />&nbsp;';
+        if($_QLO0f["Send"] == 'PossiblySent')
+        $_8fQ0J = '<img src="images/minus16.gif" alt="" width="16" height="16" />&nbsp;';
         else
-        $_6itQQ = '<img src="images/cross16.gif" alt="" width="16" height="16" />&nbsp;';
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:SENTDATE>", "</LIST:SENTDATE>", $_6itQQ.$_Q6Q1C["SentDateTime"]);
+        if($_QLO0f["Send"] == 'Hardbounced')
+        $_8fQ0J = '<img src="images/user_bounced.gif" alt="" width="16" height="16" />&nbsp;';
+        else
+        $_8fQ0J = '<img src="images/cross16.gif" alt="" width="16" height="16" />&nbsp;';
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:SENTDATE>", "</LIST:SENTDATE>", $_8fQ0J.$_QLO0f["SentDateTime"]);
 
-      if($_I0o0o != 0 && $_Q6Q1C["recipients_id"] != 0)
-        $EMail = _LL6LE("u_EMail", $_I0o0o, $_Q6Q1C["recipients_id"]);
+      if($_IttOL != 0 && $_QLO0f["recipients_id"] != 0)
+        $EMail = _JLAOB("u_EMail", $_IttOL, $_QLO0f["recipients_id"]);
       else
-        $EMail = $_Q6Q1C["EMail"];
+        $EMail = $_QLO0f["EMail"];
 
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:EMAIL>", "</LIST:EMAIL>", $EMail);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:SUBJECT>", "</LIST:SUBJECT>", htmlspecialchars($_Q6Q1C["MailSubject"], ENT_COMPAT, $_Q6QQL));
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:STATUS>", "</LIST:STATUS>", $resourcestrings[$INTERFACE_LANGUAGE]["MailSend".$_Q6Q1C["Send"]]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:EMAIL>", "</LIST:EMAIL>", $EMail);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:SUBJECT>", "</LIST:SUBJECT>", htmlspecialchars(_LCRC8($_QLO0f["MailSubject"]), ENT_COMPAT, $_QLo06));
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:STATUS>", "</LIST:STATUS>", $resourcestrings[$INTERFACE_LANGUAGE]["MailSend".$_QLO0f["Send"]]);
 
-      $_Q66jQ = str_replace("Result_id=", "Result_id=".$_Q6Q1C["id"], $_Q66jQ);
-      $_Q66jQ = str_replace("CampaignId=", "CampaignId=".$_Q6Q1C["Campaigns_id"], $_Q66jQ);
-      $_Q66jQ = str_replace("SendStatId=", "SendStatId=".$_Q6Q1C["CampaignsSendStat_id"], $_Q66jQ);
+      $_Ql0fO = str_replace("Result_id=", "Result_id=".$_QLO0f["id"], $_Ql0fO);
+      $_Ql0fO = str_replace("CampaignId=", "CampaignId=".$_QLO0f["Campaigns_id"], $_Ql0fO);
+      $_Ql0fO = str_replace("SendStatId=", "SendStatId=".$_QLO0f["CampaignsSendStat_id"], $_Ql0fO);
 
       # modify id
-      $_Q6Q1C["id"] = $_Q6Q1C["Campaigns_id"]."-".$_Q6Q1C["CampaignsSendStat_id"]."-".$_Q6Q1C["id"];
+      $_QLO0f["id"] = $_QLO0f["Campaigns_id"]."-".$_QLO0f["CampaignsSendStat_id"]."-".$_QLO0f["id"];
 
-      if( ($_Q6Q1C["Send"] == 'Failed' || $_Q6Q1C["Send"] == 'PossiblySent') && !$_QtILf && $EMail != "")
-        $_Q66jQ = str_replace ('name="SendAgain"', 'name="SendAgain" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
+      if( ($_QLO0f["Send"] == 'Failed' || $_QLO0f["Send"] == 'PossiblySent') && !$_IQ1ji && $EMail != "")
+        $_Ql0fO = str_replace ('name="SendAgain"', 'name="SendAgain" value="'.$_QLO0f["id"].'"', $_Ql0fO);
         else
-        $_Q66jQ = _LJ6B1($_Q66jQ, "SendAgain");
-      $_Q66jQ = str_replace ('name="DeleteLogEntry"', 'name="DeleteLogEntry" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
+        $_Ql0fO = _JJC1E($_Ql0fO, "SendAgain");
+      $_Ql0fO = str_replace ('name="DeleteLogEntry"', 'name="DeleteLogEntry" value="'.$_QLO0f["id"].'"', $_Ql0fO);
 
-      $_Q66jQ = str_replace ('name="LogIDs[]"', 'name="LogIDs[]" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
+      $_Ql0fO = str_replace ('name="LogIDs[]"', 'name="LogIDs[]" value="'.$_QLO0f["id"].'"', $_Ql0fO);
 
       // not an admin, check rights for mailinglist
       if($OwnerUserId != 0) {
-        if($_I0o0o != 0) {
-          $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6fio WHERE maillists_id=$_I0o0o AND users_id=$UserId";
-          $_Q8Oj8 = mysql_query($_QJlJ0);
-          _OAL8F($_QJlJ0);
-          $_I6JII = mysql_fetch_row($_Q8Oj8);
-          if($_I6JII[0] == 0) {
-              $_Q66jQ = _LJ6B1($_Q66jQ, "SendAgain");
+        if($_IttOL != 0) {
+          $_QLfol = "SELECT COUNT(*) FROM $_QlQot WHERE maillists_id=$_IttOL AND users_id=$UserId";
+          $_I1O6j = mysql_query($_QLfol);
+          _L8D88($_QLfol);
+          $_Il6l0 = mysql_fetch_row($_I1O6j);
+          if($_Il6l0[0] == 0) {
+              $_Ql0fO = _JJC1E($_Ql0fO, "SendAgain");
           }
-          mysql_free_result($_Q8Oj8);
+          mysql_free_result($_I1O6j);
         }
       }
 
-      $_Q6tjl .= $_Q66jQ;
-    } # while($_Q6Q1C=mysql_fetch_array($_Q60l1))
-    mysql_free_result($_Q60l1);
+      $_QlIf1 .= $_Ql0fO;
+    } # while($_QLO0f=mysql_fetch_array($_QL8i1))
+    mysql_free_result($_QL8i1);
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>", $_Q6tjl);
+    $_QLoli = _L81BJ($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>", $_QlIf1);
 
-    $_Q6ICj = _OPFJA(array(), $_I61Cl, $_Q6ICj);
+    $_QLoli = _L8AOB(array(), $_Il0o6, $_QLoli);
 
-    return $_Q6ICj;
+    return $_QLoli;
   }
 
-  function _LL6LE($_6ioLQ, $_I0o0o, $_jOfC1) {
-   global $_Q60QL, $_Q61I1;
-   $_Q6ClO = "";
-   $_QJlJ0 = "SELECT MaillistTableName FROM $_Q60QL WHERE id=".intval($_I0o0o);
-   $_Q60l1 = mysql_query($_QJlJ0);
-   if(!$_Q60l1) return $_Q6ClO;
-   $_Q6Q1C = mysql_fetch_array($_Q60l1);
-   mysql_free_result($_Q60l1);
-   $_QJlJ0 = "SELECT `$_6ioLQ` FROM $_Q6Q1C[MaillistTableName] WHERE id=".intval($_jOfC1);
-   $_Q60l1 = mysql_query($_QJlJ0);
-   if(!$_Q60l1) return $_Q6ClO;
-   $_Q6Q1C = mysql_fetch_row($_Q60l1);
-   mysql_free_result($_Q60l1);
-   return $_Q6Q1C[0];
+  function _JLAOB($_8fjoC, $_IttOL, $_Jt0lt) {
+   global $_QL88I, $_QLttI;
+   $_QltJO = "";
+   $_QLfol = "SELECT MaillistTableName FROM $_QL88I WHERE id=".intval($_IttOL);
+   $_QL8i1 = mysql_query($_QLfol);
+   if(!$_QL8i1) return $_QltJO;
+   $_QLO0f = mysql_fetch_array($_QL8i1);
+   mysql_free_result($_QL8i1);
+   $_QLfol = "SELECT `$_8fjoC` FROM $_QLO0f[MaillistTableName] WHERE id=".intval($_Jt0lt);
+   $_QL8i1 = mysql_query($_QLfol);
+   if(!$_QL8i1) return $_QltJO;
+   $_QLO0f = mysql_fetch_row($_QL8i1);
+   mysql_free_result($_QL8i1);
+   return $_QLO0f[0];
   }
 
-  function _LLR1B($_6iOi1, &$_QtIiC) {
-    global $_Q6jOo;
+  function _JLAAL($_8fIJO, &$_IQ0Cj) {
+    global $_QLi60;
 
-    sort($_6iOi1);
-    $_f00oJ = 0;
-    for($_Q6llo=0; $_Q6llo<count($_6iOi1); $_Q6llo++) {
-      $_I1L81 = explode("-", $_6iOi1[$_Q6llo]);
-      $_f01jL = intval($_I1L81[0]);
-      $_f01Ol = intval($_I1L81[1]);
-      $_f0QIQ = intval($_I1L81[2]);
+    sort($_8fIJO);
+    $_8tC8o = 0;
+    for($_Qli6J=0; $_Qli6J<count($_8fIJO); $_Qli6J++) {
+      $_IOCjL = explode("-", $_8fIJO[$_Qli6J]);
+      $_8tiJl = intval($_IOCjL[0]);
+      $_8tLjf = intval($_IOCjL[1]);
+      $_8tlQ1 = intval($_IOCjL[2]);
 
-      if($_f00oJ != $_f01jL) {
-        $_f00oJ = $_f01jL;
-        $_QJlJ0 = "SELECT RStatisticsTableName FROM $_Q6jOo WHERE id=$_f00oJ";
-        $_Q60l1 = mysql_query($_QJlJ0);
-        $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-        mysql_free_result($_Q60l1);
+      if($_8tC8o != $_8tiJl) {
+        $_8tC8o = $_8tiJl;
+        $_QLfol = "SELECT RStatisticsTableName FROM $_QLi60 WHERE id=$_8tC8o";
+        $_QL8i1 = mysql_query($_QLfol);
+        $_QLO0f = mysql_fetch_assoc($_QL8i1);
+        mysql_free_result($_QL8i1);
       }
 
-      $_QJlJ0 = "DELETE FROM $_Q6Q1C[RStatisticsTableName] WHERE id=$_f0QIQ";
-      mysql_query($_QJlJ0);
-      if(mysql_error($_Q61I1) != "")
-        $_QtIiC[] = mysql_error($_Q61I1);
+      $_QLfol = "DELETE FROM $_QLO0f[RStatisticsTableName] WHERE id=$_8tlQ1";
+      mysql_query($_QLfol);
+      if(mysql_error($_QLttI) != "")
+        $_IQ0Cj[] = mysql_error($_QLttI);
 
     }
   }
 
- function _LLRJD($_Iloio, $SendStatId, $_6iOi1, &$_6io6C) {
-  global $_Q6jOo, $_IooOQ, $_Q60QL, $_Q6fio, $UserId, $OwnerUserId, $_Q61I1;
-  global $INTERFACE_LANGUAGE, $_Qofoi, $_QtjLI;
+ function _JLBPF($_joQIl, $SendStatId, $_8fIJO, &$_foL0Q) {
+  global $_QLi60, $_jJL88, $_QL88I, $_QlQot, $UserId, $OwnerUserId, $_QLttI;
+  global $INTERFACE_LANGUAGE, $_Ijt0i, $_IQQot, $_QLo06;
 
 
-  sort($_6iOi1);
+  sort($_8fIJO);
 
-  $_QJlJ0 = "SELECT $_IooOQ.*, $_Q60QL.MaillistTableName, $_Q60QL.StatisticsTableName, $_Q60QL.LocalBlocklistTableName, $_IooOQ.maillists_id FROM $_IooOQ LEFT JOIN $_Q60QL ON $_Q60QL.id=$_IooOQ.maillists_id WHERE $_IooOQ.id=$_Iloio";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-    $_Q8OiJ = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_j0fti = $_Q8OiJ["CurrentSendTableName"];
-    $_6CoIt = $_Q8OiJ["SplitTestCurrentSendIdToCampaignsCurrentSendIdTableName"];
-    $_6CoIO = $_Q8OiJ["CampaignsForSplitTestTableName"];
-    $_QlQC8 = $_Q8OiJ["MaillistTableName"];
-    $_I0o0o = $_Q8OiJ["maillists_id"];
-    $_QlIf6 = $_Q8OiJ["StatisticsTableName"];
-    $_ItCCo = $_Q8OiJ["LocalBlocklistTableName"];
-    $FormId = $_Q8OiJ["forms_id"];
+  $_QLfol = "SELECT $_jJL88.*, $_QL88I.MaillistTableName, $_QL88I.StatisticsTableName, $_QL88I.LocalBlocklistTableName, $_jJL88.maillists_id FROM $_jJL88 LEFT JOIN $_QL88I ON $_QL88I.id=$_jJL88.maillists_id WHERE $_jJL88.id=$_joQIl";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+    $_I1OfI = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_jClC1 = $_I1OfI["CurrentSendTableName"];
+    $_86j0I = $_I1OfI["SplitTestCurrentSendIdToCampaignsCurrentSendIdTableName"];
+    $_86j8Q = $_I1OfI["CampaignsForSplitTestTableName"];
+    $_I8I6o = $_I1OfI["MaillistTableName"];
+    $_IttOL = $_I1OfI["maillists_id"];
+    $_I8jjj = $_I1OfI["StatisticsTableName"];
+    $_jjj8f = $_I1OfI["LocalBlocklistTableName"];
+    $FormId = $_I1OfI["forms_id"];
   } else{
-    $_6io6C[] = "Can't find mailing list.";
+    $_foL0Q[] = "Can't find mailing list.";
     return false;
   }
 
   // not an admin, check rights for mailinglist
   if($OwnerUserId != 0) {
-    if($_I0o0o != 0) {
-      $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6fio WHERE maillists_id=$_I0o0o AND users_id=$UserId";
-      $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
-      $_I6JII = mysql_fetch_row($_Q8Oj8);
-      if($_I6JII[0] == 0) {
-          $_6io6C[] = "You have no permissions for this mailing list.";
+    if($_IttOL != 0) {
+      $_QLfol = "SELECT COUNT(*) FROM $_QlQot WHERE maillists_id=$_IttOL AND users_id=$UserId";
+      $_I1O6j = mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      $_Il6l0 = mysql_fetch_row($_I1O6j);
+      if($_Il6l0[0] == 0) {
+          $_foL0Q[] = "You have no permissions for this mailing list.";
           return false;
       }
-      mysql_free_result($_Q8Oj8);
+      mysql_free_result($_I1O6j);
     }
   }
 
+  $_JjiJl = 0;
 
-  $_f00oJ = 0;
-
-  $_jf8CQ = 0;
-
-  $_Qt6oI = $UserId;
+  $_Qll8O = $UserId;
   if($OwnerUserId != 0)
-    $_Qt6oI = $OwnerUserId;
+    $_Qll8O = $OwnerUserId;
 
-  for($_Q6llo=0; $_Q6llo<count($_6iOi1); $_Q6llo++) {
-    $_I1L81 = explode("-", $_6iOi1[$_Q6llo]);
-    $_f01jL = intval($_I1L81[0]);
-    $_f01Ol = intval($_I1L81[1]);
-    $_f0QIQ = intval($_I1L81[2]);
 
-    if($_f00oJ != $_f01jL) {
-      $_f00oJ = $_f01jL;
-      $_QJlJ0 = "SELECT * FROM $_Q6jOo WHERE id=$_f00oJ";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q8OiJ = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
+  // ECG
+  $_jlt10 = _JOLQE("ECGListCheck");
+  if($_jlt10){
+    $_8tC8o = 0;
+    $_J06Ji = array();                        
+    for($_Qli6J=0; $_Qli6J<count($_8fIJO); $_Qli6J++) {
+      $_IOCjL = explode("-", $_8fIJO[$_Qli6J]);
+      $_8tiJl = intval($_IOCjL[0]);
+      $_8tLjf = intval($_IOCjL[1]);
+      $_8tlQ1 = intval($_IOCjL[2]);
+
+      if($_8tC8o != $_8tiJl) {
+        $_8tC8o = $_8tiJl;
+        $_QLfol = "SELECT * FROM $_QLi60 WHERE id=$_8tC8o";
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        $_I1OfI = mysql_fetch_assoc($_QL8i1);
+        mysql_free_result($_QL8i1);
+      }
+
+      $_QLfol = "SELECT recipients_id, Send FROM `$_I1OfI[RStatisticsTableName]` WHERE id=$_8tlQ1";
+      $_8fJ6L = mysql_query($_QLfol, $_QLttI);
+      if(!$_8fJ6L) continue;
+      $_fifQL = mysql_fetch_array($_8fJ6L);
+      mysql_free_result($_8fJ6L);
+      if($_fifQL["Send"] != "Failed" && $_fifQL["Send"] != "PossiblySent") continue; // list operations, send failed only
+      $_IfLJj = $_fifQL["recipients_id"];
+
+      $_QLfol = "SELECT `u_EMail` FROM `$_I8I6o` WHERE `id`=$_IfLJj";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+        $_QLO0f = mysql_fetch_assoc($_QL8i1);
+        mysql_free_result($_QL8i1);
+        $_J06Ji[] = array("email" => $_QLO0f["u_EMail"]/*, "id" => $_QLO0f["id"]*/);
+      }else{
+        continue;
+      }
+    }  
+    $_J0fIj = array();
+    $_J08Q1 = "";
+    $_J0t0L = _L6AF6($_J06Ji, $_J0fIj, $_J08Q1);    
+    if(!$_J0t0L) // request failed, is ever in ECG-liste
+       $_J0fIj = $_J06Ji;
+    unset($_J06Ji); 
+  }
+  // ECG /  
+
+  $_8tC8o = 0;
+
+  for($_Qli6J=0; $_Qli6J<count($_8fIJO); $_Qli6J++) {
+    $_IOCjL = explode("-", $_8fIJO[$_Qli6J]);
+    $_8tiJl = intval($_IOCjL[0]);
+    $_8tLjf = intval($_IOCjL[1]);
+    $_8tlQ1 = intval($_IOCjL[2]);
+
+    if($_8tC8o != $_8tiJl) {
+      $_8tC8o = $_8tiJl;
+      $_QLfol = "SELECT * FROM $_QLi60 WHERE id=$_8tC8o";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      $_I1OfI = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
     }
 
 
     // MTA
-    $_QJlJ0 = "SELECT mtas_id FROM `$_Q8OiJ[MTAsTableName]` ORDER BY sortorder LIMIT 0, 1"; // only the first
-    $_j8Coj = mysql_query($_QJlJ0, $_Q61I1);
-    if(!$_j8Coj || mysql_num_rows($_j8Coj) == 0) {
-      $_6io6C[] = $commonmsgHTMLMTANotFound;
+    $_QLfol = "SELECT mtas_id FROM `$_I1OfI[MTAsTableName]` WHERE `Campaigns_id`=$_8tiJl ORDER BY sortorder LIMIT 0, 1"; // only the first
+    $_J6j0L = mysql_query($_QLfol, $_QLttI);
+    if(!$_J6j0L || mysql_num_rows($_J6j0L) == 0) {
+      $_foL0Q[] = $commonmsgHTMLMTANotFound;
       return false;
     } else {
-      $_jIfO0 = mysql_fetch_assoc($_j8Coj);
-      mysql_free_result($_j8Coj);
-      $_Q8OiJ["mtas_id"] = $_jIfO0["mtas_id"];
+      $_J00C0 = mysql_fetch_assoc($_J6j0L);
+      mysql_free_result($_J6j0L);
+      $_I1OfI["mtas_id"] = $_J00C0["mtas_id"];
     }
 
     // get group ids if specified for unsubscribe link
-    if(!isset($_Q8OiJ["GroupIds"])) {
-      $_IitLf = array();
-      $_jIOjL = "SELECT * FROM $_Q8OiJ[GroupsTableName]";
-      $_jIOff = mysql_query($_jIOjL, $_Q61I1);
-      while($_jIOio = mysql_fetch_row($_jIOff)) {
-        $_IitLf[] = $_jIOio[0];
+    if(!isset($_I1OfI["GroupIds"])) {
+      $_jt0QC = array();
+      $_J0ILt = "SELECT `ml_groups_id` FROM $_I1OfI[GroupsTableName] WHERE `Campaigns_id`=$_8tiJl ";
+      $_J0jIQ = mysql_query($_J0ILt, $_QLttI);
+      while($_J0jCt = mysql_fetch_row($_J0jIQ)) {
+        $_jt0QC[] = $_J0jCt[0];
       }
-      mysql_free_result($_jIOff);
+      mysql_free_result($_J0jIQ);
 
-      if(count($_IitLf) > 0) {
+      if(count($_jt0QC) > 0) {
         // remove groups
-        $_jIOjL = "SELECT * FROM $_Q8OiJ[NotInGroupsTableName]";
-        $_jIOff = mysql_query($_jIOjL, $_Q61I1);
-        while($_jIOio = mysql_fetch_row($_jIOff)) {
-          $_IJQOL = array_search($_jIOio[0], $_IitLf);
-          if($_IJQOL !== false)
-             unset($_IitLf[$_IJQOL]);
+        $_J0ILt = "SELECT `ml_groups_id` FROM $_I1OfI[NotInGroupsTableName] WHERE `Campaigns_id`=$_8tiJl ";
+        $_J0jIQ = mysql_query($_J0ILt, $_QLttI);
+        while($_J0jCt = mysql_fetch_row($_J0jIQ)) {
+          $_Iiloo = array_search($_J0jCt[0], $_jt0QC);
+          if($_Iiloo !== false)
+             unset($_jt0QC[$_Iiloo]);
         }
-        mysql_free_result($_jIOff);
+        mysql_free_result($_J0jIQ);
       }
 
-      if(count($_IitLf) > 0)
-        $_Q8OiJ["GroupIds"] = join(",", $_IitLf);
+      if(count($_jt0QC) > 0)
+        $_I1OfI["GroupIds"] = join(",", $_jt0QC);
     }
 
-    $_QLitI = 0;
-    $MailingListId = $_I0o0o;
+    $_IfLJj = 0;
+    $MailingListId = $_IttOL;
 
-    $_QJlJ0 = "SELECT recipients_id, Send FROM `$_Q8OiJ[RStatisticsTableName]` WHERE id=$_f0QIQ";
-    $_6iCJQ = mysql_query($_QJlJ0, $_Q61I1);
-    if(!$_6iCJQ) continue;
-    $_6JLOL = mysql_fetch_array($_6iCJQ);
-    mysql_free_result($_6iCJQ);
-    if($_6JLOL["Send"] != "Failed" && $_6JLOL["Send"] != "PossiblySent") continue; // list operations, send failed only
-    $_QLitI = $_6JLOL["recipients_id"];
+    $_QLfol = "SELECT recipients_id, Send, `MailSubject` FROM `$_I1OfI[RStatisticsTableName]` WHERE id=$_8tlQ1";
+    $_8fJ6L = mysql_query($_QLfol, $_QLttI);
+    if(!$_8fJ6L) continue;
+    $_fifQL = mysql_fetch_assoc($_8fJ6L);
+    mysql_free_result($_8fJ6L);
+    if($_fifQL["Send"] != "Failed" && $_fifQL["Send"] != "PossiblySent") continue; // list operations, send failed only
+    $_IfLJj = $_fifQL["recipients_id"];
+    $_I1OfI["MailSubject"] = $_fifQL["MailSubject"]; // override subject, it can be a random variant
 
-    $_QJlJ0 = "SELECT u_EMail FROM $_QlQC8 WHERE id=$_QLitI";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if($_Q60l1 && mysql_num_rows($_Q60l1) > 0) {
-      $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
-      $_IJoII = $_Q6Q1C["u_EMail"];
+    $_QLfol = "SELECT u_EMail FROM $_I8I6o WHERE id=$_IfLJj";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if($_QL8i1 && mysql_num_rows($_QL8i1) > 0) {
+      $_QLO0f = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
+      $_IL8oI = $_QLO0f["u_EMail"];
     }else{
-      $_6io6C[] = "member $_QLitI doesn't exists in mailinglist.";
+      $_foL0Q[] = "member $_IfLJj doesn't exists in mailinglist.";
       continue;
     }
 
-    if(_L101P($_IJoII, $_I0o0o, $_ItCCo )) {
-     $_6io6C[] = "member with email address '$_IJoII' is in local black list.";
+    //ECGList
+    if($_jlt10){
+      $_J0olI = array_search($_IL8oI, array_column($_J0fIj, 'email')) !== false;
+      if($_J0olI){
+        $_foL0Q[] = "member with email address '$_IL8oI' is in ECG-Liste.";
+        continue;
+      }
+    }
+
+    if(_J18FQ($_IL8oI, $_IttOL, $_jjj8f )) {
+     $_foL0Q[] = "member with email address '$_IL8oI' is in local black list.";
      continue;
     }
-    if(_L0FRD($_IJoII)) {
-     $_6io6C[] = "member with email address '$_IJoII' is in global black list.";
+    if(_J18DA($_IL8oI)) {
+     $_foL0Q[] = "member with email address '$_IL8oI' is in global black list.";
      continue;
     }
 
     // old entry
-    $_QJlJ0 = "DELETE FROM `$_Q8OiJ[RStatisticsTableName]` WHERE id=$_f0QIQ";
-    mysql_query($_QJlJ0, $_Q61I1);
-    //$_jf8CQ--; NOT HERE!!!
+    $_QLfol = "DELETE FROM `$_I1OfI[RStatisticsTableName]` WHERE id=$_8tlQ1";
+    mysql_query($_QLfol, $_QLttI);
+    //$_JjiJl--; NOT HERE!!!
 
     // new entry
-    $_QJlJ0 = "INSERT INTO `$_Q8OiJ[RStatisticsTableName]` SET `SendStat_id`=$_f01Ol, `MailSubject`="._OPQLR($_Q8OiJ["MailSubject"]).", `SendDateTime`=NOW(), `recipients_id`=$_QLitI, `Send`='Prepared'";
-    mysql_query($_QJlJ0, $_Q61I1);
+    $_QLfol = "INSERT INTO `$_I1OfI[RStatisticsTableName]` SET `SendStat_id`=$_8tLjf, `MailSubject`="._LRAFO(unhtmlentities($_I1OfI["MailSubject"], $_QLo06, false)).", `SendDateTime`=NOW(), `recipients_id`=$_IfLJj, `Send`='Prepared'";
+    mysql_query($_QLfol, $_QLttI);
 
-    $_jfiol = 0;
-    if(mysql_affected_rows($_Q61I1) > 0) {
-      $_jfLII = mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-      $_jfl1j=mysql_fetch_array($_jfLII);
-      $_jfiol = $_jfl1j[0];
-      mysql_free_result($_jfLII);
+    $_JJQ6I = 0;
+    if(mysql_affected_rows($_QLttI) > 0) {
+      $_JJQlj = mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+      $_JJIl0=mysql_fetch_array($_JJQlj);
+      $_JJQ6I = $_JJIl0[0];
+      mysql_free_result($_JJQlj);
     } else {
-      $_6io6C[] =  "MySQL error while adding to statistics table: ".mysql_error($_Q61I1);
+      $_foL0Q[] =  "MySQL error while adding to statistics table: ".mysql_error($_QLttI);
       continue;
     }
 
     //
-    $_QJlJ0 = "INSERT INTO $_QtjLI SET `CreateDate`=NOW(), `statistics_id`=$_jfiol, `users_id`=$_Qt6oI, `Source`='Campaign', `Source_id`=$_Q8OiJ[id], `Additional_id`=0, `SendId`=$_f01Ol, `maillists_id`=$_I0o0o, `recipients_id`=$_QLitI, `mtas_id`=$_Q8OiJ[mtas_id], `LastSending`=NOW() ";
-    mysql_query($_QJlJ0, $_Q61I1);
-    if(mysql_error($_Q61I1) != "") {
-      $_6io6C[] = "MySQL error while adding to out queue: ".mysql_error($_Q61I1);
+    $_QLfol = "INSERT INTO $_IQQot SET `CreateDate`=NOW(), `statistics_id`=$_JJQ6I, `users_id`=$_Qll8O, `Source`='Campaign', `Source_id`=$_I1OfI[id], `Additional_id`=0, `SendId`=$_8tLjf, `maillists_id`=$_IttOL, `recipients_id`=$_IfLJj, `mtas_id`=$_I1OfI[mtas_id], `LastSending`=NOW(), `MailSubject`="._LRAFO(unhtmlentities($_I1OfI["MailSubject"], $_QLo06, false));
+    mysql_query($_QLfol, $_QLttI);
+    if(mysql_error($_QLttI) != "") {
+      $_foL0Q[] = "MySQL error while adding to out queue: ".mysql_error($_QLttI);
       continue;
     }
 
-    $_jf8CQ++;
+    $_JjiJl++;
 
   } # for
 
 
-  if($_jf8CQ > 0) {
-    for($_Q6llo=0; $_Q6llo<count($_6iOi1); $_Q6llo++) {
-      $_I1L81 = explode("-", $_6iOi1[$_Q6llo]);
-      $_f01jL = intval($_I1L81[0]);
-      $_f01Ol = intval($_I1L81[1]);
-      $_f0QIQ = intval($_I1L81[2]);
+  if($_JjiJl > 0) {
+    for($_Qli6J=0; $_Qli6J<count($_8fIJO); $_Qli6J++) {
+      $_IOCjL = explode("-", $_8fIJO[$_Qli6J]);
+      $_8tiJl = intval($_IOCjL[0]);
+      $_8tLjf = intval($_IOCjL[1]);
+      $_8tlQ1 = intval($_IOCjL[2]);
 
-      if($_f00oJ != $_f01jL) {
-        $_f00oJ = $_f01jL;
-        $_QJlJ0 = "SELECT * FROM $_Q6jOo WHERE id=$_f00oJ";
-        $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-        $_Q8OiJ = mysql_fetch_assoc($_Q60l1);
-        mysql_free_result($_Q60l1);
+      if($_8tC8o != $_8tiJl) {
+        $_8tC8o = $_8tiJl;
+        $_QLfol = "SELECT * FROM $_QLi60 WHERE id=$_8tC8o";
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        $_I1OfI = mysql_fetch_assoc($_QL8i1);
+        mysql_free_result($_QL8i1);
       }
 
       // campaign
-      $_QJlJ0 = "UPDATE `$_Q8OiJ[CurrentSendTableName]` SET `SendState`='ReSending' WHERE `id`=$_f01Ol";
-      mysql_query($_QJlJ0, $_Q61I1);
+      $_QLfol = "UPDATE `$_I1OfI[CurrentSendTableName]` SET `SendState`='ReSending' WHERE `id`=$_8tLjf";
+      mysql_query($_QLfol, $_QLttI);
 
 
     }
 
     // split test itself
-    $_QJlJ0 = "UPDATE `$_j0fti` SET `SendState`='ReSending' WHERE `id`=$SendStatId";
-    mysql_query($_QJlJ0, $_Q61I1);
+    $_QLfol = "UPDATE `$_jClC1` SET `SendState`='ReSending' WHERE `id`=$SendStatId";
+    mysql_query($_QLfol, $_QLttI);
 
   }
 

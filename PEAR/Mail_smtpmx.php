@@ -23,7 +23,7 @@
  * @see        Mail
  */
 
-require_once 'PEAR/Net_SMTP.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Net_SMTP.php';
 
 /**
  * SMTP MX implementation of the PEAR Mail interface. Requires the Net_SMTP class.
@@ -232,7 +232,7 @@ class Mail_smtpmx extends Mail {
     function Mail_smtpmx($params)
     {
       self::__construct($params);
-      register_shutdown_function(array(&$this, '__destruct'));
+      register_shutdown_function(array($this, '__destruct'));
     }
 
     /**
@@ -257,7 +257,8 @@ class Mail_smtpmx extends Mail {
     function disconnect()
     {
         /* If we have an SMTP object, disconnect and destroy it. */
-        if (is_object($this->_smtp) && $this->_smtp->disconnect()) {
+        if (is_object($this->_smtp)) {
+            $this->_smtp->disconnect();
             $this->_smtp = null;
         }
 
@@ -326,6 +327,12 @@ class Mail_smtpmx extends Mail {
 
             $connected = false;
             foreach ($mx as $mserver => $mpriority) {
+                // Don't send anything in test mode
+                if ($this->test) {
+                  $this->_smtp = null;  
+                  return true;
+                }  
+
                 $this->_smtp = new Net_SMTP($mserver, $this->port, $this->mailname);
 
                 // configure the SMTP connection.
@@ -476,7 +483,7 @@ class Mail_smtpmx extends Mail {
             return true;
         }
 
-        if (!include_once 'PEAR/DNS.php') {
+        if (!include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'DNS.php') {
             return $this->_raiseError('no_resolver');
         }
 

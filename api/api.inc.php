@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -22,6 +22,8 @@
 #                                                                           #
 #############################################################################
 
+
+$_I0j0i = version_compare(PHP_VERSION, "8.0.0") >= 0;
 
 // copied from PEAR Webservices and modified
 class GetFunctionsList{
@@ -53,71 +55,75 @@ class GetFunctionsList{
      */
     function classMethodsIntoStruct()
     {
-        $_Q6o1o = new ReflectionClass($this->classname);
-        $_QfjtQ = $_Q6o1o->getMethods();
+        global $_I0j0i;
+        
+        $_Ql6LC = new ReflectionClass($this->classname);
+        $_I060f = $_Ql6LC->getMethods();
         // params
-        foreach ($_QfjtQ AS $_QfJI8) {
-            if ($_QfJI8->isPublic()
-                && !in_array($_QfJI8->getName(), $this->preventMethods)) {
-                $_QfJti = $_QfJI8->getDocComment();
+        foreach ($_I060f AS $_I06t6) {
+            if ($_I06t6->isPublic()
+                && !in_array($_I06t6->getName(), $this->preventMethods)) {
+                $_I06Oj = $_I06t6->getDocComment();
 
-                $_QfJo0 = $this->_QF06D ($_QfJti);
-                $_QfJL8 = str_replace("\n", "<br />", trim($_QfJo0["description"]));
-                $this->wsdlStruct[$this->classname]['method'][$_QfJI8->getName()]['description'] = $_QfJL8;
+                $_I0fjl = $this->parseComment ($_I06Oj);
+                $_I0fCt = str_replace("\n", "<br />", trim($_I0fjl["description"]));
+                $this->wsdlStruct[$this->classname]['method'][$_I06t6->getName()]['description'] = $_I0fCt;
 
-                #$_docComments_Description = trim(str_replace('/**', '', substr($_QfJti, 0, strpos($_QfJti, '@'))));
-                #$_QfJL8 = trim(substr($_docComments_Description, strpos($_docComments_Description, '*') + 1, strpos($_docComments_Description, '*', 1) - 1));
-                preg_match_all('~@param\s(\S+)~', $_QfJti, $_Qf6OO);
-                preg_match_all('~@return\s(\S+)~', $_QfJI8->getDocComment(), $_Qf6C6);
-                $_QffOf = $_QfJI8->getParameters();
-                for ($_Q6llo = 0; $_Q6llo < count($_QffOf); ++$_Q6llo) {
-                    $_Qf8Ji = $_QffOf[$_Q6llo]->getClass();
-                    $_Qft06  = ($_Qf8Ji) ? $_Qf8Ji->getName() : $_Qf6OO[1][$_Q6llo];
+                preg_match_all('~@param\s(\S+)~', $_I06Oj, $_I0flt);
+                preg_match_all('~@return\s(\S+)~', $_I06t6->getDocComment(), $_I08f8);
+                $_I08CQ = $_I06t6->getParameters();
+                for ($_Qli6J = 0; $_Qli6J < count($_I08CQ); ++$_Qli6J) {
 
-                    $_QftJf = str_replace('[]', '', $_Qft06, $_Qft8f);
-                    $_Qftt8    = str_repeat('ArrayOf', $_Qft8f);
+                    if(!$_I0j0i){ // here we have now classes as API param
+                       $_I0tfO = $_I08CQ[$_Qli6J]->getClass();  //deprecated PHP 8
+                       $_I0t8j  = ($_I0tfO) ? $_I0tfO->getName() : $_I0flt[1][$_Qli6J];
+                    }else
+                      $_I0t8j  = $_I0flt[1][$_Qli6J];
 
-                    if($_QftJf == "array")
-                       $_QftJf = "Array"; #nusoap supports Array with uppercase 'A' only
+                    $_I0tiJ = str_replace('[]', '', $_I0t8j, $_I0tiO);
+                    $_I0OoQ    = str_repeat('ArrayOf', $_I0tiO);
 
-                    $this->wsdlStruct[$this->classname]['method'][$_QfJI8->getName()]['var'][$_Q6llo]['name'] =
-                            $_QffOf[$_Q6llo]->getName();
-                    $this->wsdlStruct[$this->classname]['method'][$_QfJI8->getName()]['var'][$_Q6llo]['wsdltype'] =
-                            $_Qftt8 . "xsd:".$_QftJf;
-                    $this->wsdlStruct[$this->classname]['method'][$_QfJI8->getName()]['var'][$_Q6llo]['type'] =
-                            $_QftJf;
-                    $this->wsdlStruct[$this->classname]['method'][$_QfJI8->getName()]['var'][$_Q6llo]['length'] =
-                            $_Qft8f;
-                    $this->wsdlStruct[$this->classname]['method'][$_QfJI8->getName()]['var'][$_Q6llo]['array'] =
-                            ($_Qft8f > 0 && in_array($_QftJf, $this->simpleTypes))
+                    if($_I0tiJ == "array")
+                       $_I0tiJ = "Array"; #nusoap supports Array with uppercase 'A' only
+
+                    $this->wsdlStruct[$this->classname]['method'][$_I06t6->getName()]['var'][$_Qli6J]['name'] =
+                            $_I08CQ[$_Qli6J]->getName();
+                    $this->wsdlStruct[$this->classname]['method'][$_I06t6->getName()]['var'][$_Qli6J]['wsdltype'] =
+                            $_I0OoQ . "xsd:".$_I0tiJ;
+                    $this->wsdlStruct[$this->classname]['method'][$_I06t6->getName()]['var'][$_Qli6J]['type'] =
+                            $_I0tiJ;
+                    $this->wsdlStruct[$this->classname]['method'][$_I06t6->getName()]['var'][$_Qli6J]['length'] =
+                            $_I0tiO;
+                    $this->wsdlStruct[$this->classname]['method'][$_I06t6->getName()]['var'][$_Qli6J]['array'] =
+                            ($_I0tiO > 0 && in_array($_I0tiJ, $this->simpleTypes))
                             ? true : false;
-                    $this->wsdlStruct[$this->classname]['method'][$_QfJI8->getName()]['var'][$_Q6llo]['class'] =
-                            (!in_array($_QftJf, $this->simpleTypes) && new ReflectionClass($_QftJf))
+                    $this->wsdlStruct[$this->classname]['method'][$_I06t6->getName()]['var'][$_Qli6J]['class'] =
+                            (!in_array($_I0tiJ, $this->simpleTypes) && new ReflectionClass($_I0tiJ))
                             ? true : false;
-                    $this->wsdlStruct[$this->classname]['method'][$_QfJI8->getName()]['var'][$_Q6llo]['param'] = true;
+                    $this->wsdlStruct[$this->classname]['method'][$_I06t6->getName()]['var'][$_Qli6J]['param'] = true;
                 }
                 // return
-                if (isset($_Qf6C6[1][0])) {
-                    $_QftJf = str_replace('[]', '', $_Qf6C6[1][0], $_Qft8f);
+                if (isset($_I08f8[1][0])) {
+                    $_I0tiJ = str_replace('[]', '', $_I08f8[1][0], $_I0tiO);
                 } else {
-                    $_QftJf = 'void';
-                    $_Qft8f = 0;
+                    $_I0tiJ = 'void';
+                    $_I0tiO = 0;
                 }
-                $_Qftt8 = str_repeat('ArrayOf', $_Qft8f);
+                $_I0OoQ = str_repeat('ArrayOf', $_I0tiO);
 
-                if($_QftJf == "array")
-                  $_QftJf = "Array"; #nusoap supports Array with uppercase 'A' only
+                if($_I0tiJ == "array")
+                  $_I0tiJ = "Array"; #nusoap supports Array with uppercase 'A' only
 
-                $this->wsdlStruct[$this->classname]['method'][$_QfJI8->getName()]['var'][$_Q6llo]['wsdltype'] =
-                        $_Qftt8."xsd:".$_QftJf;
-                $this->wsdlStruct[$this->classname]['method'][$_QfJI8->getName()]['var'][$_Q6llo]['type'] = $_QftJf;
-                $this->wsdlStruct[$this->classname]['method'][$_QfJI8->getName()]['var'][$_Q6llo]['length'] = $_Qft8f;
-                $this->wsdlStruct[$this->classname]['method'][$_QfJI8->getName()]['var'][$_Q6llo]['array'] =
-                        ($_Qft8f > 0 && $_QftJf != 'void' && in_array($_QftJf, $this->simpleTypes)) ? true : false;
-                $this->wsdlStruct[$this->classname]['method'][$_QfJI8->getName()]['var'][$_Q6llo]['class'] =
-                        ($_QftJf != 'void' && !in_array($_QftJf, $this->simpleTypes) && new ReflectionClass($_QftJf))
+                $this->wsdlStruct[$this->classname]['method'][$_I06t6->getName()]['var'][$_Qli6J]['wsdltype'] =
+                        $_I0OoQ."xsd:".$_I0tiJ;
+                $this->wsdlStruct[$this->classname]['method'][$_I06t6->getName()]['var'][$_Qli6J]['type'] = $_I0tiJ;
+                $this->wsdlStruct[$this->classname]['method'][$_I06t6->getName()]['var'][$_Qli6J]['length'] = $_I0tiO;
+                $this->wsdlStruct[$this->classname]['method'][$_I06t6->getName()]['var'][$_Qli6J]['array'] =
+                        ($_I0tiO > 0 && $_I0tiJ != 'void' && in_array($_I0tiJ, $this->simpleTypes)) ? true : false;
+                $this->wsdlStruct[$this->classname]['method'][$_I06t6->getName()]['var'][$_Qli6J]['class'] =
+                        ($_I0tiJ != 'void' && !in_array($_I0tiJ, $this->simpleTypes) && new ReflectionClass($_I0tiJ))
                         ? true : false;
-                $this->wsdlStruct[$this->classname]['method'][$_QfJI8->getName()]['var'][$_Q6llo]['return'] = true;
+                $this->wsdlStruct[$this->classname]['method'][$_I06t6->getName()]['var'][$_Qli6J]['return'] = true;
             }
         }
     }
@@ -127,34 +133,34 @@ class GetFunctionsList{
     /**
      * @access private
      */
-     function _QF06D ($_Qfti6) {
-                $_Qfti6 = trim($_Qfti6);
-                if ($_Qfti6 == "") return "";
+     function parseComment ($_I0OlC) {
+                $_I0OlC = trim($_I0OlC);
+                if ($_I0OlC == "") return "";
 
-                if (strpos($_Qfti6, "/*") === 0 && strripos($_Qfti6, "*/") === strlen($_Qfti6)-2) {
-                        $_QfOij = preg_split("(\\n\\r|\\r\\n\\|\\r|\\n)", $_Qfti6);
-                        $_Qfo0C = "";
-                        $_QfoQ8 = "";
-                        $_QffOf = array();
-                        while (next($_QfOij)) {
-                                $_QfoQo = trim(current($_QfOij));
-                                $_QfoQo = trim(substr($_QfoQo, strpos($_QfoQo, "* ")+2));
-                                if (isset($_QfoQo[0]) && $_QfoQo[0] == "@") {
-                                        $_Qfo8t = explode(" ", $_QfoQo);
-                                        if ($_Qfo8t[0] == "@return") {
-                                                $_QfoQ8 = $_Qfo8t[1];
-                                        } elseif ($_Qfo8t[0] == "@param") {
-                                                $_QffOf[$_Qfo8t[2]] = $_Qfo8t[1];
-                                        } elseif ($_Qfo8t[0] == "@var") {
-                                                $_QffOf['type'] = $_Qfo8t[1];
+                if (strpos($_I0OlC, "/*") === 0 && strripos($_I0OlC, "*/") === strlen($_I0OlC)-2) {
+                        $_I0o0O = preg_split("(\\n\\r|\\r\\n\\|\\r|\\n)", $_I0OlC);
+                        $_I0oit = "";
+                        $_I0CQl = "";
+                        $_I08CQ = array();
+                        while (next($_I0o0O)) {
+                                $_I0Clj = trim(current($_I0o0O));
+                                $_I0Clj = trim(substr($_I0Clj, strpos($_I0Clj, "* ")+2));
+                                if (isset($_I0Clj[0]) && $_I0Clj[0] == "@") {
+                                        $_I0iti = explode(" ", $_I0Clj);
+                                        if ($_I0iti[0] == "@return") {
+                                                $_I0CQl = $_I0iti[1];
+                                        } elseif ($_I0iti[0] == "@param") {
+                                                $_I08CQ[$_I0iti[2]] = $_I0iti[1];
+                                        } elseif ($_I0iti[0] == "@var") {
+                                                $_I08CQ['type'] = $_I0iti[1];
                                         }
                                 } else {
-                                        $_Qfo0C .= "\n".trim($_QfoQo);
+                                        $_I0oit .= "\n".trim($_I0Clj);
                                 }
                         }
 
-                        $_Qfti6 = array("description"=>$_Qfo0C, "params"=>$_QffOf, "return"=>$_QfoQ8);
-                        return $_Qfti6;
+                        $_I0OlC = array("description"=>$_I0oit, "params"=>$_I08CQ, "return"=>$_I0CQl);
+                        return $_I0OlC;
                 } else {
                         return "";
                 }

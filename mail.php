@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -22,13 +22,11 @@
 #                                                                           #
 #############################################################################
 
- $_J66tC = "./PEAR/";
- if(!@include_once($_J66tC."PEAR_.php")){
-   $_J66tC = InstallPath."PEAR/";
-   include_once($_J66tC."PEAR_.php");
- }
- include_once($_J66tC."Mail.php");
- include_once($_J66tC."mime.php");
+ include_once("config.inc.php");
+ include_once(PEAR_PATH . "PEAR_.php");
+ include_once(PEAR_PATH . "Mail.php");
+ include_once(PEAR_PATH . "mime.php");
+ include_once(PEAR_PATH . "RFC822.php");
  if(!@include_once("mail-signature.class.php")){
    include_once(InstallPath."mail-signature.class.php");
  }
@@ -40,7 +38,7 @@
  define('mpLow', 4);
  define('mpLowest', 5);
 
-class _OE6CQ {
+class _LE08F {
 
   // @public
   var $errors; // array("errorcode" => code, "errortext" => text)
@@ -49,8 +47,8 @@ class _OE6CQ {
   var $HTMLPart;
   var $Subject;
 
-  var $Attachments; // array[0..n] of ("file" => "", "c_type" => "", "name" =>'', "isfile" => true|false )
-  var $InlineImages; // array[0..n] of ("file" => "", "c_type" => "", "name" =>'', "isfile" => true|false )
+  var $Attachments = array(); // array[0..n] of ("file" => "", "c_type" => "", "name" =>'', "isfile" => true|false )
+  var $InlineImages = array(); // array[0..n] of ("file" => "", "c_type" => "", "name" =>'', "isfile" => true|false )
 
   // all email addresses
   // array() array ("address" => value, "name" => value)
@@ -99,7 +97,7 @@ class _OE6CQ {
   var $writeEachEmailToFile = false;
   var $writeEachEmailToDirectory = "";
 
-  var $Sendvariant = "mail"; // mail, sendmail, smtp, smtpmx, text
+  var $Sendvariant = "mail"; // mail, sendmail, smtp, smtpmx, text, savetodir
   var $SMTPpersist = false;
   var $SMTPpipelining = false;
   var $SMTPTimeout = 0; // Sec, 0 no timeout
@@ -113,9 +111,11 @@ class _OE6CQ {
   var $sendmail_path = '/usr/sbin/sendmail';
   var $sendmail_args = '-i';
 
+  var $savetodir_filepathandname = "";
+
   // @private
-  var $_JoL6Q = null;
-  var $_Jol0L = 1024;
+  var $_f1L1t = null;
+  var $_f1LlI = 1024;
 
   // @public
   var $Tag = "";
@@ -133,6 +133,7 @@ class _OE6CQ {
   var $SignCert = "";
   var $SignPrivKey = "";
   var $SignPrivKeyPassword = "";
+  var $SignExtraCerts = "";
   var $SignTempFolder = "";
   var $SMIMEIgnoreSignErrors = true;
 
@@ -145,69 +146,81 @@ class _OE6CQ {
   var $DKIMIgnoreSignErrors = true;
 
   // @private
-  var $_JC6iQ = false;
-  var $_JCffJ = "";
-  var $_JCfCC = "";
+  var $_fQft8 = false;
+  var $_fQ80C = "";
+  var $_fQ8ff = "";
+  var $_fQtj1 = null;
+  var $_fQtl1 = null;
 
   // constructor
-/*  function __construct() {
-    $this->_OE6CQ();
-  } */
-
   function __construct() {
-    $this->_JC6iQ = function_exists("openssl_pkcs7_sign") && function_exists("openssl_get_privatekey");
-    # ontimeout remove temp files
-    register_shutdown_function(array(&$this, 'UnlinkSignTempFiles'));
+    $this->_fQft8 = function_exists("openssl_pkcs7_sign") && function_exists("openssl_get_privatekey");
+    # ontimeout remove temp files and destroy objects
+    register_shutdown_function(array($this, '_destroy'));
   }
 
-  function _OE6CQ() {
+  function _LE08F() {
     self::__construct();
   }
 
   function __destruct() {
-    $this->UnlinkSignTempFiles();
+     $this->_destroy();
+  }
+
+  function _destroy() {
+     $this->_fQtj1 = null;
+     $this->_fQtl1 = null;
+     $this->UnlinkSignTempFiles();
   }
 
   // @private
-  function _OERBF(&$_Q8otJ){
-    if(is_array($_Q8otJ))
-      $_Q8otJ = array();
+  function _LE1BL(&$_I1OoI){
+    if(is_array($_I1OoI))
+      $_I1OoI = array();
+    else
+      $_I1OoI = "";  
   }
 
   // @public
-  function _OE868(){
-    $this->_OERBF($this->From);
-    $this->_OERBF($this->To);
-    $this->_OERBF($this->Cc);
-    $this->_OERBF($this->BCc);
-    $this->_OERBF($this->Sender);
-    $this->_OERBF($this->ReplyTo);
-    $this->_OERBF($this->ReturnReceiptTo);
-    $this->_OERBF($this->ReturnPath);
-    $this->_OERBF($this->InReplyTo);
-    $this->_OERBF($this->AdditionalHeaders);
-    $this->_OERBF($this->UserHeaders);
+  function _LEQ1C(){
+    $this->_LE1BL($this->From);
+    $this->_LE1BL($this->To);
+    $this->_LE1BL($this->Cc);
+    $this->_LE1BL($this->BCc);
+    $this->_LE1BL($this->Sender);
+    $this->_LE1BL($this->ReplyTo);
+    $this->_LE1BL($this->ReturnReceiptTo);
+    $this->_LE1BL($this->ReturnPath);
+    $this->_LE1BL($this->InReplyTo);
+    $this->_LE1BL($this->AdditionalHeaders);
+    $this->_LE1BL($this->UserHeaders);
     $this->MessageID = ""; // unique message id per email
   }
 
   // @public
-  function _OEPOO(){
-    $this->_OERBF($this->InlineImages);
+  function _LEQ1D(){
+    if(isset($this->InlineImages))
+      $this->_LE1BL($this->InlineImages);
+      else
+      $this->InlineImages = array();
   }
 
   // @public
-  function _OEPFA(){
-    $this->_OERBF($this->Attachments);
+  function _LEQFP(){
+    if(isset($this->Attachments))
+      $this->_LE1BL($this->Attachments);
+      else
+      $this->Attachments = array();
   }
 
   // @public
-  function _OEADF(){
-    $this->_OE868();
-    $this->_OEPOO();
-    $this->_OEPFA();
-    if(isset($this->_JoL6Q)) {
-      unset($this->_JoL6Q);
-      $this->_JoL6Q = null;
+  function _LEOPF(){
+    $this->_LEQ1C();
+    $this->_LEQ1D();
+    $this->_LEQFP();
+    if(isset($this->_f1L1t)) {
+      unset($this->_f1L1t);
+      $this->_f1L1t = null;
     }
     $this->TextPart = "";
     $this->HTMLPart = "";
@@ -222,36 +235,36 @@ class _OE6CQ {
   }
 
   // @public
-  function _OEB0L($_Q8otJ, $_JC8CI = false) {
-    if(!is_array($_Q8otJ)) {
-      return trim($_Q8otJ);
+  function _LEL1P($_I1OoI, $_fQO8o = false) {
+    if(!is_array($_I1OoI)) {
+      return trim($_I1OoI);
     }
-    $_QiOo1 = array();
-    for($_Q6llo=0;$_Q6llo<count($_Q8otJ);$_Q6llo++) {
-      if( (isset($_Q8otJ[$_Q6llo]["name"]) && trim($_Q8otJ[$_Q6llo]["name"]) != "") && !$_JC8CI )
-         $_QiOo1[] = '"'.trim($_Q8otJ[$_Q6llo]["name"]).'"'.' '."<".trim($_Q8otJ[$_Q6llo]["address"]).">";
+    $_I6C0o = array();
+    for($_Qli6J=0;$_Qli6J<count($_I1OoI);$_Qli6J++) {
+      if( (isset($_I1OoI[$_Qli6J]["name"]) && trim($_I1OoI[$_Qli6J]["name"]) != "") && !$_fQO8o )
+         $_I6C0o[] = '"'.trim($_I1OoI[$_Qli6J]["name"]).'"'.' '."<".trim($_I1OoI[$_Qli6J]["address"]).">";
          else
-         $_QiOo1[] = "<".trim($_Q8otJ[$_Q6llo]["address"]).">";
+         $_I6C0o[] = "<".trim($_I1OoI[$_Qli6J]["address"]).">";
     }
 
-    return join(", ", $_QiOo1);
+    return join(", ", $_I6C0o);
   }
 
   // @private
-  function _OEBBE($_Q8otJ) {
-    if(!is_array($_Q8otJ)) {
-      return trim($_Q8otJ);
+  function _LELP6($_I1OoI) {
+    if(!is_array($_I1OoI)) {
+      return trim($_I1OoI);
     }
-    $_QiOo1 = array();
-    for($_Q6llo=0;$_Q6llo<count($_Q8otJ);$_Q6llo++) {
-         $_QiOo1[] = trim($_Q8otJ[$_Q6llo]["address"]);
+    $_I6C0o = array();
+    for($_Qli6J=0;$_Qli6J<count($_I1OoI);$_Qli6J++) {
+         $_I6C0o[] = trim($_I1OoI[$_Qli6J]["address"]);
     }
 
-    return join(", ", $_QiOo1);
+    return join(", ", $_I6C0o);
   }
 
   // @private
-  function _OECAE() {
+  function _LELEF() {
     if($this->crlf == 'auto') {
        $this->crlf = "\r\n";
        if ( strtoupper(substr(PHP_OS, 0, 3)) == 'MAC' )
@@ -271,9 +284,9 @@ class _OE6CQ {
   }
 
   // @public
-  function _OED01(&$_JCtt0, &$_I606j) {
+  function _LEJE8(&$_fQOLQ, &$_ILL61) {
     // errors reset
-    $this->_OERBF($this->errors);
+    $this->_LE1BL($this->errors);
 
     if($this->head_encoding == "auto")
       if($this->charset != "utf-8")
@@ -288,17 +301,17 @@ class _OE6CQ {
     if($this->attachment_encoding == "auto")
       $this->attachment_encoding = 'base64';
 
-    $this->_OECAE();
+    $this->_LELEF();
 
     if ($this->HELOName == "localhost") {
       if (function_exists('posix_uname')) {
-          $_JCtLC = posix_uname();
-          if(isset($_JCtLC['nodename']))
-            $this->HELOName = $_JCtLC['nodename'];
+          $_fQoi8 = posix_uname();
+          if(isset($_fQoi8['nodename']))
+            $this->HELOName = $_fQoi8['nodename'];
       }
     }
 
-    $_JCOO8 = array(
+    $_fQCf6 = array(
                 'head_encoding' => $this->head_encoding,
                 'text_encoding' => $this->text_encoding,
                 'html_encoding' => $this->html_encoding,
@@ -309,110 +322,129 @@ class _OE6CQ {
                 'ignore-iconv' => true
                );
 
-    $_QiOo1 = array(
+    $_I6C0o = array(
               'Subject' => $this->Subject,
-              'To'    => $this->_OEB0L($this->To, $this->Sendvariant == "mail"), // PHP mail email address only!
-              'From'    => $this->_OEB0L($this->From)
+              'To'    => $this->_LEL1P($this->To, $this->Sendvariant == "mail"), // PHP mail email address only!
+              'From'    => $this->_LEL1P($this->From)
               );
 
-    if (preg_match("|(@[0-9a-zA-Z\-\.]+)|", $_QiOo1['From'], $_JItfQ)){
-        $_JCo1I = $_JItfQ[1];
+    if ( !empty($_I6C0o['Sender']) && preg_match("|(@[0-9a-zA-Z\-\.]+)|", $_I6C0o['Sender'], $_6OQ0j)){
+        $_fQCOf = $_6OQ0j[1];
     }else{
-        $_JCo1I = "@localhost";
+      if (preg_match("|(@[0-9a-zA-Z\-\.]+)|", $_I6C0o['From'], $_6OQ0j)){  
+          $_fQCOf = $_6OQ0j[1];
+      }else    
+        $_fQCOf = "@localhost";
     }
-    $_JCOO8["domainID"] = $_JCo1I;
+    $_fQCf6["domainID"] = $_fQCOf;
+    if(empty($this->HELOName))
+      $this->HELOName = substr($_fQCOf, 1);
 
     if(count($this->Cc) > 0) {
-       $_QiOo1["Cc"] = $this->_OEB0L($this->Cc);
+       $_I6C0o["Cc"] = $this->_LEL1P($this->Cc);
     }
 
     if($this->Sendvariant == "text" || $this->Sendvariant == "mail" ) {
        if(count($this->BCc) > 0)
          // add by saving as text or for PHP mail, not by using SMTP!!
-         $_QiOo1["BCc"] = $this->_OEB0L($this->BCc);
+         $_I6C0o["BCc"] = $this->_LEL1P($this->BCc);
     }
 
     if(count($this->Sender) > 0)
-       $_QiOo1["Sender"] = $this->_OEB0L($this->Sender);
+       $_I6C0o["Sender"] = $this->_LEL1P($this->Sender);
     if(count($this->ReplyTo) > 0)
-       $_QiOo1["Reply-To"] = $this->_OEB0L($this->ReplyTo);
+       $_I6C0o["Reply-To"] = $this->_LEL1P($this->ReplyTo);
     if(count($this->ReturnReceiptTo) > 0){
-#       $_QiOo1["Return-Receipt-To"] = $this->_OEB0L($this->ReturnReceiptTo); // SendMail variant
-       $_QiOo1["Disposition-Notification-To"] = $this->_OEB0L($this->ReturnReceiptTo);
+#       $_I6C0o["Return-Receipt-To"] = $this->_LEL1P($this->ReturnReceiptTo); // SendMail variant
+       $_I6C0o["Disposition-Notification-To"] = $this->_LEL1P($this->ReturnReceiptTo);
      }
     if(count($this->ReturnPath) > 0)
-       $_QiOo1["Return-Path"] = $this->_OEB0L($this->ReturnPath, True);
-    if($this->Organization != "")
-       $_QiOo1["Organization"] = $this->Organization;
-    if ($this->Priority != mpNormal)
-       $_QiOo1["X-Priority"] = $this->Priority + 1;
-    if ($this->XMailer != "")
-       $_QiOo1["X-Mailer"] = $this->XMailer;
-    if($this->UseNowForDate)
-       $_QiOo1["Date"] = date("r");
+       $_I6C0o["Return-Path"] = $this->_LEL1P($this->ReturnPath, True);
        else
-       $_QiOo1["Date"] = date("r", $this->Date);
+       $_I6C0o["Return-Path"] = $this->_LEL1P($this->From, True);
+    if($this->Organization != "")
+       $_I6C0o["Organization"] = $this->Organization;
+    if ($this->Priority != mpNormal)
+       $_I6C0o["X-Priority"] = $this->Priority + 1;
+    if ($this->XMailer != "")
+       $_I6C0o["X-Mailer"] = $this->XMailer;
+    if($this->UseNowForDate)
+       $_I6C0o["Date"] = date("r");
+       else
+       $_I6C0o["Date"] = date("r", $this->Date);
 
     if (empty($this->MessageID)) {
-       srand((double)microtime()*1000000);
-       global $_Q8J1j;
-       $this->MessageID = md5(date("YMdsiHz") . rand() . microtime()).$_Q8J1j;
+       mt_srand(time());
+       global $_I16ll;
+       $this->MessageID = md5(date("YMdsiHz") . rand() . microtime()).$_I16ll;
     }
 
-    if (!empty($this->MessageID))
-       if(!empty($this->HELOName))
-         $_QiOo1["Message-Id"] = "<".$this->MessageID."@".$this->HELOName.">";
+    if (!empty($this->MessageID)){
+       if(!empty($_fQCOf)){
+           $_I6C0o["Message-Id"] = $this->MessageID . $_fQCOf . ">";
+           
+           if(strlen($_fQCOf) < 30){ // shorten unique MessageId when domain is not to long
+             $_68tQ1 = strlen($_I6C0o["Message-Id"]) + 12 + 2; //strlen("Message-Id: ") = 12, 2 <>
+             if($_68tQ1 > 76)
+                $_I6C0o["Message-Id"] = substr($_I6C0o["Message-Id"], $_68tQ1 - 76);  
+           }   
+           
+           $_I6C0o["Message-Id"] = "<" . $_I6C0o["Message-Id"];  
+         }
          else
-         $_QiOo1["Message-Id"] = "<".$this->MessageID.$_JCo1I.">";
-
+           $_I6C0o["Message-Id"] = "<" . $this->MessageID."@".$this->HELOName.">";
+    }     
 
     if (!empty($this->Status))
-       $_QiOo1["Status"] = $this->Status;
+       $_I6C0o["Status"] = $this->Status;
 
     if( count($this->UserHeaders) > 0 )
-       $_QiOo1 = array_merge($_QiOo1, $this->UserHeaders);
-    if( count($this->AdditionalHeaders) > 0 )
-       $_QiOo1 = array_merge($_QiOo1, $this->AdditionalHeaders);
+       $_I6C0o = array_merge($_I6C0o, $this->UserHeaders);
+    if( count($this->AdditionalHeaders) > 0 ){
+       $_I6C0o = array_merge($_I6C0o, $this->AdditionalHeaders);
+       if(isset($_I6C0o["X-EnvelopeRecipients"])) // is array
+          $_I6C0o["X-EnvelopeRecipients"] = $this->_LEL1P($_I6C0o["X-EnvelopeRecipients"]);
+    }   
 
     if (!empty($this->ListId))
-       $_QiOo1["List-Id"] = '<'.$this->ListId.'>';
+       $_I6C0o["List-Id"] = '<'.$this->ListId.'>';
     if($this->XCSAComplaints)
-       $_QiOo1["X-CSA-Complaints"] = "whitelist-complaints@eco.de";
+       $_I6C0o["X-CSA-Complaints"] = "csa-complaints@eco.de";
 
     // no CRLF in headers
-    reset($_QiOo1);
-    foreach($_QiOo1 as $key => $_Q6ClO){
-      $_QiOo1[$key] = preg_replace("/\r\n|\r|\n/", "", $_Q6ClO);
+    reset($_I6C0o);
+    foreach($_I6C0o as $key => $_QltJO){
+      $_I6C0o[$key] = preg_replace("/\r\n|\r|\n/", "", $_QltJO);
     }
 
-    if( !isset($this->_JoL6Q) ) // do not loose the cache
-       $this->_JoL6Q = new Mail_mime($this->crlf);
+    if( !isset($this->_f1L1t) ) // do not loose the cache
+       $this->_f1L1t = new Mail_mime($this->crlf);
        else
-       $this->_JoL6Q->ClearHeaders();
+       $this->_f1L1t->ClearHeaders();
 
     if(isset($this->TextPart) && $this->TextPart != "") {
       if($this->charset != "utf-8")
-         $this->TextPart = wordwrap($this->TextPart, $this->_Jol0L, $this->crlf);
+         $this->TextPart = wordwrap($this->TextPart, $this->_f1LlI, $this->crlf);
       if($this->charset == "utf-8")
-        $this->TextPart = $this->_OEDDE($this->TextPart, $this->_Jol0L, $this->crlf);
+        $this->TextPart = $this->_LERA6($this->TextPart, $this->_f1LlI, $this->crlf);
     }
 
     // prevent out of memory large html mails only
-    $_JCoLi = 10000;
-    if(!empty($this->HTMLPart) && strlen($this->HTMLPart) > $_JCoLi) {
-       $_QJCJi = $this->HTMLPart;
+    $_fQi8f = 10000;
+    if(!empty($this->HTMLPart) && strlen($this->HTMLPart) > $_fQi8f) {
+       $_QLJfI = $this->HTMLPart;
        $this->HTMLPart = "";
-       while(strlen($_QJCJi) > $_JCoLi) {
-         $this->HTMLPart .= substr($_QJCJi, 0, $_JCoLi);
-         $_QJCJi = substr($_QJCJi, $_JCoLi);
-         $_QllO8 = strpos($_QJCJi, "><");
-         if($_QllO8 !== false) {
-           $this->HTMLPart .= substr($_QJCJi, 0, $_QllO8 + 1)."\r\n";
-           $_QJCJi = substr($_QJCJi, $_QllO8 + 1);
+       while(strlen($_QLJfI) > $_fQi8f) {
+         $this->HTMLPart .= substr($_QLJfI, 0, $_fQi8f);
+         $_QLJfI = substr($_QLJfI, $_fQi8f);
+         $_I016j = strpos($_QLJfI, "><");
+         if($_I016j !== false) {
+           $this->HTMLPart .= substr($_QLJfI, 0, $_I016j + 1)."\r\n";
+           $_QLJfI = substr($_QLJfI, $_I016j + 1);
          } else
            break;
        }
-       $this->HTMLPart .= $_QJCJi;
+       $this->HTMLPart .= $_QLJfI;
     }
 
     # correct CRLF qmail problems
@@ -422,183 +454,233 @@ class _OE6CQ {
     }
 
     if(empty($this->HTMLPart)) // flowed for plaintext emails
-      $_JCOO8["format"] = '"flowed"';
+      $_fQCf6["format"] = '"flowed"';
 
-    $this->_JoL6Q->setTXTBody($this->TextPart);
-    $this->_JoL6Q->setHTMLBody($this->HTMLPart);
+    $this->_f1L1t->setTXTBody($this->TextPart);
+    $this->_f1L1t->setHTMLBody($this->HTMLPart);
 
     // inline images
-    for($_Q6llo=0; $_Q6llo<count($this->InlineImages); $_Q6llo++) {
-      $_Q6lfJ = "";
-      $_JCol0 = "";
-      $_IJLt1 = "";
-      $_JCCCi = true;
+    if(is_array($this->InlineImages)){
+      for($_Qli6J=0; $_Qli6J<count($this->InlineImages); $_Qli6J++) {
+        $_QlCtl = "";
+        $_fQit0 = "";
+        $_I6C8f = "";
+        $_fQiOJ = true;
 
-      foreach($this->InlineImages[$_Q6llo] as $key => $_Q6ClO) {
-        if($key == "file")
-          $_Q6lfJ = $_Q6ClO;
-        if($key == "c_type")
-          $_JCol0 = $_Q6ClO;
-        if($key == "name")
-          $_IJLt1 = $_Q6ClO;
-        if($key == "isfile")
-          $_JCCCi = $_Q6ClO;
+        if(is_array($this->InlineImages[$_Qli6J])){
+          foreach($this->InlineImages[$_Qli6J] as $key => $_QltJO) {
+            if($key == "file")
+              $_QlCtl = $_QltJO;
+              else
+            if($key == "c_type")
+              $_fQit0 = $_QltJO;
+              else
+            if($key == "name")
+              $_I6C8f = $_QltJO;
+              else
+            if($key == "isfile")
+              $_fQiOJ = $_QltJO;
+          }
+        }
+        if($_QlCtl == "") continue;
+        if($_fQit0 == "")
+           $_fQit0 = "application/octet-stream";
+
+        $_QL8i1 = $this->_f1L1t->addHTMLImage($_QlCtl, $_fQit0, $_I6C8f, $_fQiOJ, $this->charset);
+        if(IsPEARError($_QL8i1)) {
+           $this->errors = array("errorcode" => $_QL8i1->code, "errortext" => $_QL8i1->message );
+           return false;
+        }
       }
-      if($_Q6lfJ == "") continue;
-      if($_JCol0 == "")
-         $_JCol0 = "application/octet-stream";
-
-      $_Q60l1 = $this->_JoL6Q->addHTMLImage($_Q6lfJ, $_JCol0, $_IJLt1, $_JCCCi, $this->charset);
-      if(IsPEARError($_Q60l1)) {
-         $this->errors = array("errorcode" => $_Q60l1->code, "errortext" => $_Q60l1->message );
-         return false;
-         }
     }
 
     // attachments
-    for($_Q6llo=0; $_Q6llo<count($this->Attachments); $_Q6llo++) {
-      $_Q6lfJ = "";
-      $_JCol0 = "";
-      $_IJLt1 = "";
-      $_JCCCi = true;
+    if(is_array($this->Attachments)){
+      for($_Qli6J=0; $_Qli6J<count($this->Attachments); $_Qli6J++) {
+        $_QlCtl = "";
+        $_fQit0 = "";
+        $_I6C8f = "";
+        $_fQiOJ = true;
 
-      foreach($this->Attachments[$_Q6llo] as $key => $_Q6ClO) {
-        if($key == "file")
-          $_Q6lfJ = $_Q6ClO;
-        if($key == "c_type")
-          $_JCol0 = $_Q6ClO;
-        if($key == "name")
-          $_IJLt1 = $_Q6ClO;
-        if($key == "isfile")
-          $_JCCCi = $_Q6ClO;
+        if(is_array($this->Attachments[$_Qli6J])){
+          foreach($this->Attachments[$_Qli6J] as $key => $_QltJO) {
+            if($key == "file")
+              $_QlCtl = $_QltJO;
+              else
+            if($key == "c_type")
+              $_fQit0 = $_QltJO;
+              else
+            if($key == "name")
+              $_I6C8f = $_QltJO;
+              else
+            if($key == "isfile")
+              $_fQiOJ = $_QltJO;
+          }
+        }
+        if($_QlCtl == "") continue;
+        if($_fQit0 == "")
+           $_fQit0 = "application/octet-stream";
+
+        $_QL8i1 = $this->_f1L1t->addAttachment($_QlCtl, $_fQit0, $_I6C8f, $_fQiOJ, $this->attachment_encoding, 'attachment', $this->charset);
+        if(IsPEARError($_QL8i1)) {
+           $this->errors = array("errorcode" => $_QL8i1->code, "errortext" => $_QL8i1->message );
+           return false;
+       }
       }
-      if($_Q6lfJ == "") continue;
-      if($_JCol0 == "")
-         $_JCol0 = "application/octet-stream";
-
-      $_Q60l1 = $this->_JoL6Q->addAttachment($_Q6lfJ, $_JCol0, $_IJLt1, $_JCCCi, $this->attachment_encoding, 'attachment', $this->charset);
-      if(IsPEARError($_Q60l1)) {
-         $this->errors = array("errorcode" => $_Q60l1->code, "errortext" => $_Q60l1->message );
-         return false;
-         }
     }
 
     //do not ever try to call these lines in reverse order
-    $_Q60l1 = $this->_JoL6Q->get($_JCOO8);
-    if(IsPEARError($_Q60l1)) {
-       $this->errors = array("errorcode" => $_Q60l1->code, "errortext" => $_Q60l1->message );
+    $_QL8i1 = $this->_f1L1t->get($_fQCf6);
+    if(IsPEARError($_QL8i1)) {
+       $this->errors = array("errorcode" => $_QL8i1->code, "errortext" => $_QL8i1->message );
        return false;
        } else
-         $_I606j = $_Q60l1;
-    $_Q60l1 = $this->_JoL6Q->headers($_QiOo1);
-    if(IsPEARError($_Q60l1)) {
-       $this->errors = array("errorcode" => $_Q60l1->code, "errortext" => $_Q60l1->message );
+         $_ILL61 = $_QL8i1;
+    $_QL8i1 = $this->_f1L1t->headers($_I6C0o);
+    if(IsPEARError($_QL8i1)) {
+       $this->errors = array("errorcode" => $_QL8i1->code, "errortext" => $_QL8i1->message );
        return false;
        } else
-         $_JCtt0 = $_Q60l1;
+         $_fQOLQ = $_QL8i1;
 
     return true;
   }
 
-  function _OEDRQ($_JCtt0, $_I606j) {
+  function _LE6A8($_fQOLQ, $_ILL61)  {
     // errors reset
-    $this->_OERBF($this->errors);
+    $this->_LE1BL($this->errors);
 
-    $this->_OECAE();
+    $this->_LELEF();
 
     if ($this->HELOName == "localhost") {
       if (function_exists('posix_uname')) {
-          $_JCtLC = posix_uname();
-          if(isset($_JCtLC['nodename']))
-            $this->HELOName = $_JCtLC['nodename'];
+          $_fQoi8 = posix_uname();
+          if(isset($_fQoi8['nodename']))
+            $this->HELOName = $_fQoi8['nodename'];
       }
     }
 
     // mail factory
-    $_JCiOI = new Mail();
-    $_IiJit = $_JCiOI->factory($this->Sendvariant);
+    if($this->_fQtl1 == null){
+      $this->_fQtl1 = new Mail();
+      $this->_fQtj1 = $this->_fQtl1->factory($this->Sendvariant);
+
+      if(IsPEARError($this->_fQtj1)){
+       $this->errors = array("errorcode" => $this->_fQtj1->code, "errortext" => $this->_fQtj1->message );
+       return false;
+      }
+
+    }else{
+      $_Ql6LC = 'Mail_' . strtolower($this->Sendvariant);
+      if(!is_a($this->_fQtj1, $_Ql6LC)){
+        unset($this->_fQtj1);
+        $this->_fQtj1 = $this->_fQtl1->factory($this->Sendvariant);
+
+        if(IsPEARError($this->_fQtj1)){
+         $this->errors = array("errorcode" => $this->_fQtj1->code, "errortext" => $this->_fQtj1->message );
+         return false;
+        }
+
+      }
+    }
 
     // using name <email> is not possible
 //    if($this->Sendvariant == "mail") // PHP mail
-//      $this->_OEB0L($this->To);
+//      $this->_LEL1P($this->To);
 //    else
-       $_QlQJQ = $this->_OEBBE($this->To);
 
-    // only for smtp and sendmail
-    if($this->Sendvariant == "smtp" || $this->Sendvariant == "smtpmx" || $this->Sendvariant == "sendmail" ) {
-      if(count($this->Cc) > 0)
-         $_QlQJQ .= ", ".$this->_OEBBE($this->Cc);
-      if(count($this->BCc) > 0)
-         $_QlQJQ .= ", ".$this->_OEBBE($this->BCc);
-    } else {
-      // fix PHP mail() bug with < >>
-      if($this->Sendvariant == "mail") {
-        if(isset($_JCtt0["Cc"])) {
-          $_JCtt0["Cc"] = str_replace('<', '', $_JCtt0["Cc"]);
-          $_JCtt0["Cc"] = str_replace('>', '', $_JCtt0["Cc"]);
-          $_JCtt0["Cc"] = preg_replace("/\r\n|\r|\n/", "", $_JCtt0["Cc"]);
-        }
-        if(isset($_JCtt0["BCc"])) {
-          $_JCtt0["BCc"] = str_replace('<', '', $_JCtt0["BCc"]);
-          $_JCtt0["BCc"] = str_replace('>', '', $_JCtt0["BCc"]);
-          $_JCtt0["BCc"] = preg_replace("/\r\n|\r|\n/", "", $_JCtt0["BCc"]);
+    if(!isset($_fQOLQ["X-EnvelopeRecipients"])){
+      $_I81t8 = $this->_LELP6($this->To);
+
+      // only for smtp, sendmail and savetodir
+      if($this->Sendvariant == "smtp" || $this->Sendvariant == "smtpmx" || $this->Sendvariant == "sendmail" || $this->Sendvariant == "savetodir" ) {
+        if(count($this->Cc) > 0)
+           $_I81t8 .= ", ".$this->_LELP6($this->Cc);
+        if(count($this->BCc) > 0)
+           $_I81t8 .= ", ".$this->_LELP6($this->BCc);
+      } else {
+        // fix PHP mail() bug with < >>
+        if($this->Sendvariant == "mail") {
+          if(isset($_fQOLQ["Cc"])) {
+            $_fQOLQ["Cc"] = str_replace('<', '', $_fQOLQ["Cc"]);
+            $_fQOLQ["Cc"] = str_replace('>', '', $_fQOLQ["Cc"]);
+            $_fQOLQ["Cc"] = preg_replace("/\r\n|\r|\n/", "", $_fQOLQ["Cc"]);
+          }
+          if(isset($_fQOLQ["BCc"])) {
+            $_fQOLQ["BCc"] = str_replace('<', '', $_fQOLQ["BCc"]);
+            $_fQOLQ["BCc"] = str_replace('>', '', $_fQOLQ["BCc"]);
+            $_fQOLQ["BCc"] = preg_replace("/\r\n|\r|\n/", "", $_fQOLQ["BCc"]);
+          }
         }
       }
+    }else{
+      $_I81t8 = $this->_LELP6($_fQOLQ["X-EnvelopeRecipients"]);
+      unset($_fQOLQ["X-EnvelopeRecipients"]);
     }
+    
+    if(isset($_fQOLQ["X-EnvelopeSender"])){   
+       $_fQOLQ["Return-Path"] = $this->_LELP6($_fQOLQ["X-EnvelopeSender"]);
+       unset($_fQOLQ["X-EnvelopeSender"]);
+    }   
 
     if($this->Sendvariant == "mail")
-      $_IiJit->_params = ($this->PHPMailParams);
+      $this->_fQtj1->_params = ($this->PHPMailParams);
     if($this->Sendvariant == "sendmail") {
-       $_IiJit->sendmail_path = $this->sendmail_path;
-       $_IiJit->sendmail_args = $this->sendmail_args;
+       $this->_fQtj1->sendmail_path = $this->sendmail_path;
+       $this->_fQtj1->sendmail_args = $this->sendmail_args;
     }
 
     if($this->Sendvariant == "smtp" || $this->Sendvariant == "smtpmx") {
-      $_IiJit->crlf = $this->crlf;
-      $_IiJit->debug = $this->debug;
-      $_IiJit->debugfilename = $this->debugfilename;
-      $_IiJit->timeout = $this->SMTPTimeout; // Sec
-      $_IiJit->port = $this->SMTPPort;
+      $this->_fQtj1->crlf = $this->crlf;
+      $this->_fQtj1->debug = $this->debug;
+      $this->_fQtj1->debugfilename = $this->debugfilename;
+      $this->_fQtj1->timeout = $this->SMTPTimeout; // Sec
+      $this->_fQtj1->port = $this->SMTPPort;
       if($this->Sendvariant == "smtp") {
-        $_IiJit->SSLConnection = $this->SSLConnection;
-        $_IiJit->pipelining = $this->SMTPpipelining;
-        $_IiJit->persist = $this->SMTPpersist;
-        $_IiJit->host = $this->SMTPServer;
-        $_IiJit->auth = $this->SMTPAuth;
-        $_IiJit->username = $this->SMTPUsername;
-        $_IiJit->password = $this->SMTPPassword;
+        $this->_fQtj1->SSLConnection = $this->SSLConnection;
+        $this->_fQtj1->pipelining = $this->SMTPpipelining;
+        $this->_fQtj1->persist = $this->SMTPpersist;
+        $this->_fQtj1->host = $this->SMTPServer;
+        $this->_fQtj1->auth = $this->SMTPAuth;
+        $this->_fQtj1->username = $this->SMTPUsername;
+        $this->_fQtj1->password = $this->SMTPPassword;
       }
 
       if($this->Sendvariant == "smtp")
-        $_IiJit->localhost = $this->HELOName;
+        $this->_fQtj1->localhost = $this->HELOName;
       if($this->Sendvariant == "smtpmx") {
-         $_IiJit->mailname = $this->HELOName;
-         //$_IiJit->test = true;
+         $this->_fQtj1->mailname = $this->HELOName;
+         //$this->_fQtj1->test = true;
       }
+    }
+    
+    if($this->Sendvariant == "savetodir") {
+       $this->_fQtj1->filepathandname = $this->savetodir_filepathandname;
     }
 
     # try to sign email
-    if($this->_JC6iQ){
-      $_Q60l1 = $this->_OEEF1($_JCtt0, $_I606j);
-      if(!$_Q60l1)
-        return $_Q60l1;
+    if( $this->Sendvariant != "text" && $this->_fQft8){
+      $_QL8i1 = $this->_LEPRJ($_fQOLQ, $_ILL61);
+      if(!$_QL8i1)
+        return $_QL8i1;
     }
 
     if($this->writeEachEmailToFile){
-      $_JCiol = "";
-      reset($_JCtt0);
-      foreach($_JCtt0 as $key => $_Q6ClO)
-        $_JCiol .= "$key: $_Q6ClO\r\n";
-      $this->_OF0BC($_JCiol . "\r\n" . $_I606j);
+      $_fQL6i = "";
+      reset($_fQOLQ);
+      foreach($_fQOLQ as $key => $_QltJO)
+        $_fQL6i .= "$key: $_QltJO\r\n";
+      $this->_LEAC0($_fQL6i . "\r\n" . $_ILL61);
     }
 
-    $_Q60l1 = $_IiJit->send($_QlQJQ, $_JCtt0, $_I606j);
+    ClearLastError();
+    $_QL8i1 = $this->_fQtj1->send($_I81t8, $_fQOLQ, $_ILL61);
 
-    if(IsPEARError($_Q60l1)) {
-       $this->errors = array("errorcode" => $_Q60l1->code, "errortext" => $_Q60l1->message );
+    if(IsPEARError($_QL8i1)) {
+       $this->errors = array("errorcode" => $_QL8i1->code, "errortext" => $_QL8i1->message );
 
        if($this->Sendvariant == "smtp" || $this->Sendvariant == "smtpmx") {
-         $_IiJit->disconnect();
+         $this->_fQtj1->disconnect();
        }
 
        return false;
@@ -607,147 +689,151 @@ class _OE6CQ {
        if($this->Sendvariant != "text")
          return 250;
          else
-         return $_Q60l1; // rfc822 text
+         return $_QL8i1; // rfc822 text
   }
 
   // from https://github.com/fluxbb/utf8/blob/master/functions/wordwrap.php - quicker variant
-   function _OEDDE($_J1lIJ, $_JCilL = 75, $_JCLLJ = "\n")
+   function _LERA6($_6I1QQ, $_fQlIo = 75, $_fQlo0 = "\n")
    {
-   	$_QfOij = array();
+   	$_I0o0O = array();
 
-   	while (!empty($_J1lIJ))
+   	while (!empty($_6I1QQ))
    	{
    		// We got a line with a break in it somewhere before the end
-   		if (preg_match('%^(.{1,'.$_JCilL.'})(?:\s|$)%', $_J1lIJ, $_JItfQ))
+   		if (preg_match('%^(.{1,'.$_fQlIo.'})(?:\s|$)%', $_6I1QQ, $_6OQ0j))
    		{
    			// Add this line to the output
-   			$_QfOij[] = $_JItfQ[1];
+   			$_I0o0O[] = $_6OQ0j[1];
 
    			// Trim it off the input ready for the next go
-   			$_J1lIJ = substr($_J1lIJ, strlen($_JItfQ[0]));
+   			$_6I1QQ = substr($_6I1QQ, strlen($_6OQ0j[0]));
    		}
-   		// Just take the next $_JCilL characters
+   		// Just take the next $_fQlIo characters
    		else
    		{
-   			$_QfOij[] = substr($_J1lIJ, 0, $_JCilL);
+   			$_I0o0O[] = substr($_6I1QQ, 0, $_fQlIo);
 
    			// Trim it off the input ready for the next go
-   			$_J1lIJ = substr($_J1lIJ, $_JCilL);
+   			$_6I1QQ = substr($_6I1QQ, $_fQlIo);
    		}
    	}
 
-   	return implode($_JCLLJ, $_QfOij);
+   	return implode($_fQlo0, $_I0o0O);
    }
 
   // from http://de.php.net/manual/de/function.wordwrap.php
-  function utf8Wordwrap($_J1lIJ, $_JCilL=75, $_JCLLJ="\n", $_JClf1=false)
+  function utf8Wordwrap($_6I1QQ, $_fQlIo=75, $_fQlo0="\n", $_fI0fl=false)
   {
-      $_Ji06O    = array();
-      $_QfOij            = explode("\n", $_J1lIJ);
-      foreach ($_QfOij as $_QfoQo) {
-          $_Ji1Jj = strlen($_QfoQo);
-          if ($_Ji1Jj > $_JCilL) {
-              $_JiQIJ = explode("\040", $_QfoQo);
-              $_JiQjo = '';
-              $_JiIIi = true;
-              foreach ($_JiQIJ as $_JiIO1) {
-                  $_JijfQ        = strlen($_JiQjo);
-                  $_JijL0                = $_JiQjo.((strlen($_JiQjo) !== 0) ? ' ' : '').$_JiIO1;
-                  $_JiJiL    = strlen($_JijL0);
-                  if ($_JiJiL > $_JCilL && $_JijfQ <= $_JCilL && $_JijfQ !== 0) {
-                      $_Ji06O[]    = $_JiQjo;
-                      $_JiQjo    = '';
+      $_fI0O0    = array();
+      $_I0o0O            = explode("\n", $_6I1QQ);
+      foreach ($_I0o0O as $_I0Clj) {
+          $_fI0oj = strlen($_I0Clj);
+          if ($_fI0oj > $_fQlIo) {
+              $_fI1fL = explode("\040", $_I0Clj);
+              $_fI1Lt = '';
+              $_fIQ0C = true;
+              foreach ($_fI1fL as $_fIQIf) {
+                  $_fIQLt        = strlen($_fI1Lt);
+                  $_fIIIC                = $_fI1Lt.((strlen($_fI1Lt) !== 0) ? ' ' : '').$_fIQIf;
+                  $_fII6Q    = strlen($_fIIIC);
+                  if ($_fII6Q > $_fQlIo && $_fIQLt <= $_fQlIo && $_fIQLt !== 0) {
+                      $_fI0O0[]    = $_fI1Lt;
+                      $_fI1Lt    = '';
                   }
 
-                  $_Ji6j8            = $_JiQjo.((strlen($_JiQjo) !== 0) ? ' ' : '').$_JiIO1;
-                  $_JifQj    = strlen($_Ji6j8);
-                  if ($_JClf1 && $_JifQj > $_JCilL) {
-                      for ($_Q6llo = 0; $_Q6llo < $_JifQj; $_Q6llo = $_Q6llo + $_JCilL) {
-                          $_Ji06O[] = mb_substr($_Ji6j8, $_Q6llo, $_JCilL);
+                  $_fIjQO            = $_fI1Lt.((strlen($_fI1Lt) !== 0) ? ' ' : '').$_fIQIf;
+                  $_fIjCJ    = strlen($_fIjQO);
+                  if ($_fI0fl && $_fIjCJ > $_fQlIo) {
+                      for ($_Qli6J = 0; $_Qli6J < $_fIjCJ; $_Qli6J = $_Qli6J + $_fQlIo) {
+                          $_fI0O0[] = mb_substr($_fIjQO, $_Qli6J, $_fQlIo);
                       }
-                      $_JiIIi = false;
+                      $_fIQ0C = false;
                   } else {
-                      $_JiQjo = $_Ji6j8;
+                      $_fI1Lt = $_fIjQO;
                   }
               }
-              if ($_JiIIi) {
-                  $_Ji06O[] = $_JiQjo;
+              if ($_fIQ0C) {
+                  $_fI0O0[] = $_fI1Lt;
               }
           } else {
-              $_Ji06O[] = $_QfoQo;
+              $_fI0O0[] = $_I0Clj;
           }
       }
-      return implode($_JCLLJ, $_Ji06O);
+      return implode($_fQlo0, $_fI0O0);
   }
 
   // @private
-  function _OEEF1(&$_JCtt0, &$_I606j){
+  function _LEPRJ(&$_fQOLQ, &$_ILL61){
 
-    if(!$this->_JC6iQ) return true;
+    if(!$this->_fQft8) return true;
 
     if($this->SignMail){
 
-      $_JifQi = array();
-      foreach($_JCtt0 as $key => $_Q6ClO){
+      $_fIJC0 = array();
+      foreach($_fQOLQ as $key => $_QltJO){
         if($key == "Content-Type" || $key == "Content-Transfer-Encoding"){
-          $_JifQi[$key] = $_Q6ClO;
-          unset($_JCtt0[$key]);
+          $_fIJC0[$key] = $_QltJO;
+          unset($_fQOLQ[$key]);
         }
       }
 
-      $this->_JCffJ = tempnam($this->SignTempFolder, "");
-      $this->_JCfCC = tempnam($this->SignTempFolder, "");
+      $this->_fQ80C = tempnam($this->SignTempFolder, "");
+      $this->_fQ8ff = tempnam($this->SignTempFolder, "");
 
-      if(isset($_JCtt0["MIME-Version"]))
-        unset($_JCtt0["MIME-Version"]);
-      $_JJiiJ = "";
-      foreach($_JifQi as $key => $_Q6ClO){
-        $_JJiiJ .= "$key: $_Q6ClO".$this->crlf;
+      if(isset($_fQOLQ["MIME-Version"]))
+        unset($_fQOLQ["MIME-Version"]);
+      $_68QC0 = "";
+      foreach($_fIJC0 as $key => $_QltJO){
+        $_68QC0 .= "$key: $_QltJO".$this->crlf;
       }
 
-      $_QCioi = @fopen($this->_JCffJ, 'wb');
+      $_I60fo = @fopen($this->_fQ80C, 'wb');
 
-      if($_QCioi === false){
+      if($_I60fo === false){
         $this->UnlinkSignTempFiles();
         if($this->SMIMEIgnoreSignErrors) { // ignore sign errors and send unsigned
-          reset($_JifQi);
-          foreach($_JifQi as $key => $_Q6ClO){
-            $_JCtt0[$key] = $_Q6ClO;
+          reset($_fIJC0);
+          foreach($_fIJC0 as $key => $_QltJO){
+            $_fQOLQ[$key] = $_QltJO;
           }
           return true;
         }
-        $this->errors = array("errorcode" => 8885, "errortext" => "Can't open file '".$this->_JCffJ."'.");
+        $this->errors = array("errorcode" => 8885, "errortext" => "Can't open file '".$this->_fQ80C."'.");
         return false;
       }
 
-      if(fwrite($_QCioi, $_JJiiJ.$this->crlf.$this->crlf.$_I606j) === false) {
+      if(fwrite($_I60fo, $_68QC0.$this->crlf.$this->crlf.$_ILL61) === false) {
         $this->UnlinkSignTempFiles();
         if($this->SMIMEIgnoreSignErrors) { // ignore sign errors and send unsigned
-          reset($_JifQi);
-          foreach($_JifQi as $key => $_Q6ClO){
-            $_JCtt0[$key] = $_Q6ClO;
+          reset($_fIJC0);
+          foreach($_fIJC0 as $key => $_QltJO){
+            $_fQOLQ[$key] = $_QltJO;
           }
           return true;
         }
-        $this->errors = array("errorcode" => 8884, "errortext" => "Can't write to file '".$this->_JCffJ."'.");
+        $this->errors = array("errorcode" => 8884, "errortext" => "Can't write to file '".$this->_fQ80C."'.");
         return false;
       }
 
-      fclose($_QCioi);
+      fclose($_I60fo);
 
-      $_Jifl6 = PKCS7_DETACHED;
+      $_fI68t = PKCS7_DETACHED;
       if(!$this->SMIMEMessageAsPlainText){
-        $_Jifl6 = 0;
+        $_fI68t = 0;
       }
 
-      if(!openssl_pkcs7_sign($this->_JCffJ, $this->_JCfCC, $this->SignCert, array($this->SignPrivKey, $this->SignPrivKeyPassword), $_JCtt0, $_Jifl6)){
+      if(strpos($this->SignExtraCerts, "file://") !== false){ // extracerts without file://
+        $this->SignExtraCerts = substr($this->SignExtraCerts, 7);
+      }
+      
+      if(!openssl_pkcs7_sign($this->_fQ80C, $this->_fQ8ff, $this->SignCert, array($this->SignPrivKey, $this->SignPrivKeyPassword), $_fQOLQ, $_fI68t, !empty($this->SignExtraCerts) ? $this->SignExtraCerts : NULL)){
 
         $this->UnlinkSignTempFiles();
 
         if($this->SMIMEIgnoreSignErrors) { // ignore sign errors and send unsigned
-          reset($_JifQi);
-          foreach($_JifQi as $key => $_Q6ClO){
-            $_JCtt0[$key] = $_Q6ClO;
+          reset($_fIJC0);
+          foreach($_fIJC0 as $key => $_QltJO){
+            $_fQOLQ[$key] = $_QltJO;
           }
           return true;
         }
@@ -756,48 +842,48 @@ class _OE6CQ {
         return false;
       }
 
-      $_Ji8IC = file_get_contents($this->_JCfCC);
-      if($_Ji8IC === false) // error opening file?
-        $_Ji8IC = "";
-      $_Ji8IC = preg_replace("/\r\n|\r|\n/", $this->crlf, $_Ji8IC);
+      $_fIfIJ = file_get_contents($this->_fQ8ff);
+      if($_fIfIJ === false) // error opening file?
+        $_fIfIJ = "";
+      $_fIfIJ = preg_replace("/\r\n|\r|\n/", $this->crlf, $_fIfIJ);
 
-      $_Qfo8t = explode($this->crlf.$this->crlf, $_Ji8IC, 2);
+      $_I0iti = explode($this->crlf.$this->crlf, $_fIfIJ, 2);
 
-      if(count($_Qfo8t) < 2){
+      if(count($_I0iti) < 2){
 
         $this->UnlinkSignTempFiles();
 
         if($this->SMIMEIgnoreSignErrors) { // ignore sign errors and send unsigned
-          reset($_JifQi);
-          foreach($_JifQi as $key => $_Q6ClO){
-            $_JCtt0[$key] = $_Q6ClO;
+          reset($_fIJC0);
+          foreach($_fIJC0 as $key => $_QltJO){
+            $_fQOLQ[$key] = $_QltJO;
           }
           return true;
         }
 
-        if(!empty($_Ji8IC))
+        if(!empty($_fIfIJ))
           $this->errors = array("errorcode" => 8887, "errortext" => "Can't extract headers from signed file." );
           else
-          $this->errors = array("errorcode" => 8886, "errortext" => "Can't open signed file: '".$this->_JCfCC."'." );
+          $this->errors = array("errorcode" => 8886, "errortext" => "Can't open signed file: '".$this->_fQ8ff."'." );
         return false;
       }
 
 
-      $_I606j = $_Qfo8t[1];
-      if($_Jifl6 == 0) # remove trailing blank lines
-        $_I606j = rtrim($_I606j);
+      $_ILL61 = $_I0iti[1];
+      if($_fI68t == 0) # remove trailing blank lines
+        $_ILL61 = rtrim($_ILL61);
 
-      $_QfOij = explode($this->crlf, $_Qfo8t[0]);
-      $_Ji8Li = "";
-      for($_Q6llo=0; $_Q6llo<count($_QfOij); $_Q6llo++){
-        if( $_Ji8Li != "" && ($_QfOij[$_Q6llo]{0} == "\t" || $_QfOij[$_Q6llo]{0} == " ") ){
-          $_JCtt0[$_Ji8Li] = $_JCtt0[$_Ji8Li] . $this->crlf . $_QfOij[$_Q6llo];
+      $_I0o0O = explode($this->crlf, $_I0iti[0]);
+      $_fIfI8 = "";
+      for($_Qli6J=0; $_Qli6J<count($_I0o0O); $_Qli6J++){
+        if( $_fIfI8 != "" && ($_I0o0O[$_Qli6J][0] == "\t" || $_I0o0O[$_Qli6J][0] == " ") ){
+          $_fQOLQ[$_fIfI8] = $_fQOLQ[$_fIfI8] . $this->crlf . $_I0o0O[$_Qli6J];
           continue;
         }
-        $_JitJ0 = explode(":", $_QfOij[$_Q6llo], 2);
-        if(count($_JitJ0) < 2) continue; // error in header?
-        $_JCtt0[$_JitJ0[0]] = ltrim($_JitJ0[1]);
-        $_Ji8Li = $_JitJ0[0];
+        $_fIftj = explode(":", $_I0o0O[$_Qli6J], 2);
+        if(count($_fIftj) < 2) continue; // error in header?
+        $_fQOLQ[$_fIftj[0]] = ltrim($_fIftj[1]);
+        $_fIfI8 = $_fIftj[0];
       }
 
       $this->UnlinkSignTempFiles();
@@ -807,47 +893,51 @@ class _OE6CQ {
 
       # PHP mail() remove <> from headers, prevents DKIM fail on GMail
       if($this->Sendvariant == "mail"){
-        $_JCtt0["To"] = str_replace("<", "", $_JCtt0["To"]);
-        $_JCtt0["To"] = str_replace(">", "", $_JCtt0["To"]);
+        $_fQOLQ["To"] = str_replace("<", "", $_fQOLQ["To"]);
+        $_fQOLQ["To"] = str_replace(">", "", $_fQOLQ["To"]);
       }
 
       # normalize all to \r\n
-      $_QiOo1 = "";
-      reset($_JCtt0);
-      foreach($_JCtt0 as $key => $_Q6ClO){
-        $_QiOo1 .= "$key: $_Q6ClO\r\n";
+      $_I6C0o = "";
+      reset($_fQOLQ);
+      foreach($_fQOLQ as $key => $_QltJO){
+        $_I6C0o .= "$key: $_QltJO\r\n";
       }
 
-      $_JiO1C = $_I606j;
+      $_fIfOC = $_ILL61;
       if($this->crlf != "\r\n"){
-        $_JiO1C = preg_replace('/(?<!\r)\n/', "\r\n", $_JiO1C);
+        $_fIfOC = preg_replace('/(?<!\r)\n/', "\r\n", $_fIfOC);
       }
 
-      $_JiOIo = array(
+      $_fI8jL = array(
 				   'mime-version',
 				   'from',
 				   'to',
 				   'subject'
 			   );
       if(count($this->ReplyTo))
-		      $_JiOIo[] = 'reply-to';
+		      $_fI8jL[] = 'reply-to';
+      if(isset($_fQOLQ["List-Unsubscribe-Post"])){
+		      $_fI8jL[] = 'list-unsubscribe';
+		      $_fI8jL[] = 'list-unsubscribe-post';
+      }
 
-      $_I16oJ = array(
+      $_IO6iJ = array(
        'use_dkim' => $this->DKIM,
        'use_domainKeys' => $this->DomainKey,
        'identity' => NULL,
-       'signed_headers' => $_JiOIo
+       'signed_headers' => $_fI8jL
       );
 
-      $_JioQQ = "localhost";
-      if (preg_match("|(@[0-9a-zA-Z\-\.]+)|", $this->_OEB0L($this->From), $_JItfQ)){
-        $_JioQQ = substr($_JItfQ[1], 1);
+      $_fI8lC = "localhost";
+      if (preg_match("|(@[0-9a-zA-Z\-\.]+)|", $this->_LEL1P($this->From), $_6OQ0j)){
+        $_fI8lC = substr($_6OQ0j[1], 1);
       }
 
-      $_JioJO = new mail_signature($this->DKIMPrivKey, $this->DKIMPrivKeyPassword, $_JioQQ, $this->DKIMSelector, $_I16oJ);
+      $_fIti8 = new mail_signature($this->DKIMPrivKey, $this->DKIMPrivKeyPassword, $_fI8lC, $this->DKIMSelector, $_IO6iJ);
 
-      if($_JioJO->private_key == false){
-        unset($_JioJO);
+      if($_fIti8->private_key == false){
+        unset($_fIti8);
         if($this->DKIMIgnoreSignErrors) {
           return true;
         }
@@ -855,11 +945,11 @@ class _OE6CQ {
         return false;
       }
 
-      # To: and Subject: in $_QiOo1
-      $_JiOIo = $_JioJO->get_signed_headers("", "", $_JiO1C, $_QiOo1);
-      unset($_JioJO);
+      # To: and Subject: in $_I6C0o
+      $_fI8jL = $_fIti8->get_signed_headers("", "", $_fIfOC, $_I6C0o);
+      unset($_fIti8);
 
-      if(empty($_JiOIo)){
+      if(empty($_fI8jL)){
         if($this->DKIMIgnoreSignErrors) {
           return true;
         }
@@ -867,20 +957,20 @@ class _OE6CQ {
         return false;
       }
 
-      $_QfOij = explode("\r\n", rtrim($_JiOIo));
-      $_Ji8Li = "";
-      for($_Q6llo=0; $_Q6llo<count($_QfOij); $_Q6llo++){
-        if( $_Ji8Li != "" && ($_QfOij[$_Q6llo]{0} == "\t" || $_QfOij[$_Q6llo]{0} == " ") ){
-          $_JCtt0[$_Ji8Li] = $_JCtt0[$_Ji8Li] . $this->crlf . $_QfOij[$_Q6llo];
+      $_I0o0O = explode("\r\n", rtrim($_fI8jL));
+      $_fIfI8 = "";
+      for($_Qli6J=0; $_Qli6J<count($_I0o0O); $_Qli6J++){
+        if( $_fIfI8 != "" && ($_I0o0O[$_Qli6J][0] == "\t" || $_I0o0O[$_Qli6J][0] == " ") ){
+          $_fQOLQ[$_fIfI8] = $_fQOLQ[$_fIfI8] . $this->crlf . $_I0o0O[$_Qli6J];
           continue;
         }
-        $_JitJ0 = explode(":", $_QfOij[$_Q6llo], 2);
-        if(count($_JitJ0) < 2) continue; // error in header?
-        if($_JitJ0[0] == "DomainKey-Signature") // Domain Keys must be the first header, it is an RFC (stupid) requirement -> PHP mail() problems
-          $_JCtt0 = array($_JitJ0[0] => ltrim($_JitJ0[1])) + $_JCtt0;
+        $_fIftj = explode(":", $_I0o0O[$_Qli6J], 2);
+        if(count($_fIftj) < 2) continue; // error in header?
+        if($_fIftj[0] == "DomainKey-Signature") // Domain Keys must be the first header, it is an RFC (stupid) requirement -> PHP mail() problems
+          $_fQOLQ = array($_fIftj[0] => ltrim($_fIftj[1])) + $_fQOLQ;
           else
-          $_JCtt0[$_JitJ0[0]] = ltrim($_JitJ0[1]);
-        $_Ji8Li = $_JitJ0[0];
+          $_fQOLQ[$_fIftj[0]] = ltrim($_fIftj[1]);
+        $_fIfI8 = $_fIftj[0];
       }
 
     } #if($this->DKIM || $this->DomainKey)
@@ -891,56 +981,107 @@ class _OE6CQ {
   // @public
   // shutdown function, destructor
   function UnlinkSignTempFiles(){
-     if($this->_JCffJ)
-        @unlink($this->_JCffJ);
-     if($this->_JCfCC)
-        @unlink($this->_JCfCC);
-     $this->_JCffJ = "";
-     $this->_JCfCC = "";
+     if($this->_fQ80C)
+        @unlink($this->_fQ80C);
+     if($this->_fQ8ff)
+        @unlink($this->_fQ8ff);
+     $this->_fQ80C = "";
+     $this->_fQ8ff = "";
   }
 
   // @private
-  function _OF0BC($_J1lio){
+  function _LEAC0($_6IQC6){
      global $UserId, $OwnerUserId;
-     $_JioCt = $OwnerUserId != 0 ? $OwnerUserId : $UserId;
-     if(empty($_JioCt)) $_JioCt = "";
+     $_fIOtQ = $OwnerUserId != 0 ? $OwnerUserId : $UserId;
+     if(empty($_fIOtQ)) $_fIOtQ = "";
 
      if($this->writeEachEmailToFile && !empty($this->writeEachEmailToDirectory)){
-        $_JiCfj = sprintf($this->writeEachEmailToDirectory . "%s-" . microtime() . ".eml", $_JioCt);
-        $_QCioi = fopen($_JiCfj, 'w');
-        if($_QCioi){
-         fwrite($_QCioi, $_J1lio);
-         fclose($_QCioi);
+        $_fIo8l = sprintf($this->writeEachEmailToDirectory . "%s-" . microtime(true) . ".eml", $_fIOtQ);
+        $_I60fo = fopen($_fIo8l, 'w');
+        if($_I60fo){
+         fwrite($_I60fo, $_6IQC6);
+         fclose($_I60fo);
         }
      }
   }
 
+  // @public
+  // save internal MIME cache to file
+  function _LEB6C($_JfIIf){
+    if(!isset($this->_f1L1t) || $this->_f1L1t == null) return false;
 
+    if(file_exists($_JfIIf)) return true;
+
+    $_I60fo = fopen($_JfIIf, "wb");
+    if(!$_I60fo) return false;
+    $_fIoCQ = 1;
+    if(!flock($_I60fo, LOCK_EX, $_fIoCQ)){
+      fclose($_I60fo);
+      return false;
+    }
+    $this->_f1L1t->ClearHeaders();
+    $this->_f1L1t->setTXTBody("");
+    $this->_f1L1t->setHTMLBody("");
+    $_I1o8o = fwrite($_I60fo, serialize($this->_f1L1t));
+    $_fIoCQ = 1;
+    fflush($_I60fo);
+    flock($_I60fo, LOCK_UN, $_fIoCQ);
+    fclose($_I60fo);
+    if(!$_I1o8o){
+      unlink($_JfIIf);
+      return false;
+    }else{
+      return true;
+    }
+  }
+
+  // @public
+  // loads internal MIME cache from file and creates mime object
+  function _LEBAE($_JfIIf){
+    if((isset($this->_f1L1t) && $this->_f1L1t != null) || !file_exists($_JfIIf)){
+       return false;
+    }
+
+    $_Ift08 = file_get_contents($_JfIIf);
+    if($_Ift08 === false || $_Ift08 == ""){
+      print "$_JfIIf not loaded, was false.<br />";
+      return false;
+    }
+
+    $this->_f1L1t = unserialize($_Ift08);
+
+    if((isset($this->_f1L1t) && is_a($this->_f1L1t, "Mail_mime"))){
+      return true;
+    }else{
+      if(isset($this->_f1L1t)) unset($this->_f1L1t);
+      return false;
+    }
+  }
 
  } # end of class
 
 
 # for older PHP versions
  if (!function_exists('file_get_contents')) {
-      function file_get_contents($_jt8LJ, $_JQtjO = false, $_JQtO8 = null)
+      function file_get_contents($_JfIIf, $_fIoi1 = false, $_fICI0 = null)
       {
-          if (false === $_JQtLL = fopen($_jt8LJ, 'rb', $_JQtjO)) {
+          if (false === $_fICjf = fopen($_JfIIf, 'rb', $_fIoi1)) {
               trigger_error('file_get_contents() failed to open stream: No such file or directory', E_USER_WARNING);
               return false;
           }
 
           clearstatcache();
-          if ($_JQOOo = @filesize($_jt8LJ)) {
-              $_Qf1i1 = fread($_JQtLL, $_JQOOo);
+          if ($_fICLL = @filesize($_JfIIf)) {
+              $_I0QjQ = fread($_fICjf, $_fICLL);
           } else {
-              $_Qf1i1 = '';
-              while (!feof($_JQtLL)) {
-                  $_Qf1i1 .= fread($_JQtLL, 8192);
+              $_I0QjQ = '';
+              while (!feof($_fICjf)) {
+                  $_I0QjQ .= fread($_fICjf, 8192);
               }
           }
 
-          fclose($_JQtLL);
-          return $_Qf1i1;
+          fclose($_fICjf);
+          return $_I0QjQ;
       }
   }
 

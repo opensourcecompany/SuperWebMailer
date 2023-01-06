@@ -1,0 +1,68 @@
+      <form id="OUForm" name="OUForm" method="post" action="./onlineupdate.php">
+      <input type="hidden" name="step" value="1" />
+      <fieldset>
+      <legend>Online-Update - PRODUCTAPPNAME</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+
+              <IS:DEMO>
+              <tr>
+                <td>
+                  <h2>Diese Funktion steht in der Demo-Version nicht zur Verf&uuml;gung.</h2>
+                </td>
+              </tr>
+              </IS:DEMO>
+
+              <ISNOT:DEMO>
+              <tr>
+                <td>
+                  <h2>Ihre installierte Version:</h2> <PRODUCTVERSION></PRODUCTVERSION><br /><br />
+                  <h2>Aktuelle Version:</h2> <SHOW:NEWVERSION></SHOW:NEWVERSION> <SHOW:VERSIONDATE></SHOW:VERSIONDATE><br /><br />
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <h2>
+                  <IS:UPDATE_AVAIL>
+                   Es steht ein Update zum Download zur Verf&uuml;gung.
+                   <IS:AUTO_UPDATE_NOT_POSSIBLE>
+                     <br /><br/>
+                     <span style="color: red;">
+                     Eine automatische Update-Installation ist nicht m&ouml;glich, da der Webserver dies nicht erlaubt oder
+                     Voraussetzungen nicht erf&uuml;llt.
+                     </span>
+                     <br /><br />
+                   </IS:AUTO_UPDATE_NOT_POSSIBLE>
+                  </IS:UPDATE_AVAIL>
+
+                  <IS:NOTUPDATE_AVAIL>
+                   Die installierte Version ist aktuell.
+                  </IS:NOTUPDATE_AVAIL>
+
+                  </h2>
+                </td>
+              </tr>
+
+              </ISNOT:DEMO>
+
+            </tbody>
+          </table>
+      </fieldset>
+
+      <NEXTBTN>
+      <input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" onclick="InsertLoadingStatusOnSubmit('OUForm');" />
+      <input type="submit" name="CancelBtn" value="Abbrechen" class="FormButton" onclick="$('#OUForm').prop('action', './dashboard.php');" />
+      </NEXTBTN>
+
+      <IS:NOTUPDATE_AVAIL>
+      <input type="submit" name="DoneBtn" value="Fertig stellen" class="FormButton" />
+      </IS:NOTUPDATE_AVAIL>
+
+      <IS:AUTO_UPDATE_NOT_POSSIBLE>
+      <input type="submit" name="DoneBtn" value="Fertig stellen" class="FormButton" />
+      </IS:AUTO_UPDATE_NOT_POSSIBLE>
+
+      </form>
+      

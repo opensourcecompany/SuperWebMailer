@@ -23,43 +23,43 @@
 #############################################################################
 
 
- function _LO0QD($_Iii1I){
+ function _JO668($_jtjl0){
 
-  if($_Iii1I["FindMethod"] < 3){
-    $_6t6IC = explode(" ", $_Iii1I["SearchText"]);
+  if($_jtjl0["FindMethod"] < 3){
+    $_81O6Q = explode(" ", $_jtjl0["SearchText"]);
   } else
-    $_6t6IC = array($_Iii1I["SearchText"]);
+    $_81O6Q = array($_jtjl0["SearchText"]);
 
-  $_I8C10 = array();
+  $_jQoQi = array();
 
-  for($_Qf0Ct=0; $_Qf0Ct<count($_6t6IC); $_Qf0Ct++) {
-    $_6tfj8 = array();
-    for($_Q6llo=0; $_Q6llo<count($_Iii1I["Fields"]); $_Q6llo++){
-       if($_Iii1I["FindMethod"] < 3)
-         $_6tfj8[] = "`".$_Iii1I["Fields"][$_Q6llo]."`"." LIKE "._OPQLR("%".$_6t6IC[$_Qf0Ct]."%");
+  for($_QliOt=0; $_QliOt<count($_81O6Q); $_QliOt++) {
+    $_81CoI = array();
+    for($_Qli6J=0; $_Qli6J<count($_jtjl0["Fields"]); $_Qli6J++){
+       if($_jtjl0["FindMethod"] < 3)
+         $_81CoI[] = "`".$_jtjl0["Fields"][$_Qli6J]."`"." LIKE "._LRAFO("%".$_81O6Q[$_QliOt]."%");
          else
-         if($_Iii1I["FindMethod"] == 3)
-            $_6tfj8[] = "`".$_Iii1I["Fields"][$_Q6llo]."`"." LIKE "._OPQLR($_6t6IC[$_Qf0Ct]);
+         if($_jtjl0["FindMethod"] == 3)
+            $_81CoI[] = "`".$_jtjl0["Fields"][$_Qli6J]."`"." LIKE "._LRAFO($_81O6Q[$_QliOt]);
             else
-            $_6tfj8[] = "`".$_Iii1I["Fields"][$_Q6llo]."`"." REGEXP "._OPQLR($_6t6IC[$_Qf0Ct]);
+            $_81CoI[] = "`".$_jtjl0["Fields"][$_Qli6J]."`"." REGEXP "._LRAFO($_81O6Q[$_QliOt]);
     }
-    $_6tfj8 = "( ".join(" OR ", $_6tfj8)." )";
+    $_81CoI = "( ".join(" OR ", $_81CoI)." )";
 
-    $_I8C10[] = $_6tfj8;
+    $_jQoQi[] = $_81CoI;
 
   }
 
-  switch ($_Iii1I["FindMethod"]){
+  switch ($_jtjl0["FindMethod"]){
      case 1:
-             $_I8C10 = join(" OR ", $_I8C10);
+             $_jQoQi = join(" OR ", $_jQoQi);
              break;
 
      default:
-             $_I8C10 = join(" AND ", $_I8C10);
+             $_jQoQi = join(" AND ", $_jQoQi);
              break;
   }
 
-  return $_I8C10;
+  return $_jQoQi;
 
  }
 

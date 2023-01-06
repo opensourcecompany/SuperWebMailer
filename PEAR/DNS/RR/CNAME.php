@@ -39,7 +39,7 @@ class Net_DNS_RR_CNAME extends Net_DNS_RR
 
     /* }}} */
     /* class constructor - RR(&$rro, $data, $offset = '') {{{ */
-    function __construct(&$rro, $data, $offset = '')
+    function __construct($rro, $data, $offset = '')
     {
         $this->name = $rro->name;
         $this->type = $rro->type;
@@ -55,11 +55,11 @@ class Net_DNS_RR_CNAME extends Net_DNS_RR
                 $this->cname = $cname;
             }
         } else {
-            $this->cname = ereg_replace("[ \t]+(.+)[\. \t]*$", '\\1', $data);
+            $this->cname = preg_replace("/[ \t]+(.+)[\. \t]*$/", '\\1', $data);
         }
     }
 
-    function Net_DNS_RR_CNAME(&$rro, $data, $offset = '')
+    function Net_DNS_RR_CNAME($rro, $data, $offset = '')
     {
       self::__construct($rro, $data, $offset);
     }

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -31,14 +31,14 @@
   if(ini_get('include_path') == "") {
     ini_set('include_path', './');
   } else {
-    $_Q8otJ = explode(PATH_SEPARATOR, ini_get('include_path'));
-    $_Qo1oC = false;
-    for($_Q6llo=0; $_Q6llo<count($_Q8otJ); $_Q6llo++)
-      if(strpos($_Q8otJ[$_Q6llo], "./") !== false || strpos($_Q8otJ[$_Q6llo], ".\\") !== false ) {
-        $_Qo1oC = true;
+    $_I1OoI = explode(PATH_SEPARATOR, ini_get('include_path'));
+    $_QLCt1 = false;
+    for($_Qli6J=0; $_Qli6J<count($_I1OoI); $_Qli6J++)
+      if(strpos($_I1OoI[$_Qli6J], "./") !== false || strpos($_I1OoI[$_Qli6J], ".\\") !== false ) {
+        $_QLCt1 = true;
         break;
       }
-    if(!$_Qo1oC)
+    if(!$_QLCt1)
       ini_set('include_path', './'.PATH_SEPARATOR.ini_get('include_path'));
   }
 
@@ -48,8 +48,16 @@
     @require_once("templates.inc.php");
   }
 
+  if(isset($_SESSION["DEBUG"])){
+    error_reporting( E_ALL & ~ ( E_NOTICE /*| E_WARNING*/  | E_DEPRECATED | E_STRICT ) );
+    ini_set("display_errors", 1);
+  }
+
+  if( function_exists("IsHTTPS") && IsHTTPS() )
+    @ini_set('session.cookie_secure', 'On');
+
   @session_cache_limiter('public');
-  @session_set_cookie_params(600, "/", "");
+  @session_set_cookie_params(0, "/", "");
   @ini_set("session.cookie_path", "/");
 
   # check session OK, ignore errors if session.auto_start = 1
@@ -59,9 +67,18 @@
 
   @include_once("php_register_globals_off.inc.php");
 
-  if(isset($_SESSION["DEBUG"])){
-    error_reporting( E_ALL & ~ ( E_NOTICE /*| E_WARNING*/  | E_DEPRECATED | E_STRICT ) );
-    ini_set("display_errors", 1);
+  if(!function_exists("SetHTTPResponseCode")) { // can be declared in functions.inc.php
+   function SetHTTPResponseCode($_6QiQi, $_jfO0t){
+     if($_6QiQi > 0){
+         $_6QioQ    = substr(php_sapi_name(), 0, 3);
+         if ($_6QioQ == 'cgi' || $_6QioQ == 'fpm') {
+            @header('Status: '.$_6QiQi.' '.$_jfO0t);
+         } else {
+            $_6QiLO = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0';
+            @header($_6QiLO.' '.$_6QiQi.' '.$_jfO0t);
+         }
+     }
+   }
   }
 
   if (
@@ -79,18 +96,50 @@
      ( !isset($_SESSION["SHOW_PRODUCTVERSION"]) ) Or
      ( !isset($_SESSION["SHOW_TOOLTIPS"]) )
      ) {
+      if(defined("JAVASCRIPT_LOCALIZATION")){
+        SetHTMLHeaders($_QLo06, true, "text/javascript");
+        die;
+      }  
+      SetHTTPResponseCode(405, "Session expired");
       if(function_exists("GetMainTemplate") && !defined("ISFROMCKFILEMANAGER")){
-           _LQLRQ($INTERFACE_LANGUAGE);
+           _JQRLR($INTERFACE_LANGUAGE);
            print GetMainTemplate(False, False, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["000003"], $resourcestrings[$INTERFACE_LANGUAGE]["000003"], 'DISABLED', 'session_error_snipped.htm');
          }
          else
          print "Session expired";
       if(!defined("ISFROMCKFILEMANAGER"))
-        exit;
+        die;
   } else {
      if(!defined("ISFROMCKFILEMANAGER") && function_exists("LoadUserSettings")) {
         LoadUserSettings();
      }
+  }
+
+  if(!defined("ISFROMCKFILEMANAGER")  && !defined("CRONS_PHP") && !defined("API") && !defined("JAVASCRIPT_LOCALIZATION") && !DoubleSubmitCookieTokenValidator()) {
+      SetHTTPResponseCode(405, "Cross-Site Request Forgery (CSRF) - DoubleSubmitCookieTokenValidator() failed");
+      if(function_exists("GetMainTemplate") && !defined("ISFROMCKFILEMANAGER")){
+           _JQRLR($INTERFACE_LANGUAGE);
+           $_QLJfI = GetMainTemplate(False, False, '', False, "Cross-Site Request Forgery (CSRF)", "DoubleSubmitCookieTokenValidator() failed", 'DISABLED', 'common_error_page.htm');
+           $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", "Cross-Site Request Forgery (CSRF) - DoubleSubmitCookieTokenValidator() failed");
+           print $_QLJfI;
+         }
+         else{
+           print "Cross-Site Request Forgery (CSRF) - DoubleSubmitCookieTokenValidator() failed";
+         }
+      die;
+  }
+
+  if(isset($_GET["IsFCKEditor"]) && $_GET["IsFCKEditor"] === true && !defined("JAVASCRIPT_LOCALIZATION") && !_LJC0F()){
+    $_QLJfI = GetMainTemplate(False, False, '', False, "Cross-Site Request Forgery (CSRF)", "DoubleSubmitCookieTokenValidator() failed", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", "Cross-Site Request Forgery (CSRF) - DoubleSubmitCookieTokenValidator() failed");
+    SetHTTPResponseCode(405, "Cross-Site Request Forgery (CSRF) - DoubleSubmitCookieTokenValidator() failed");
+    print $_QLJfI;
+    die;
+  }
+
+  if(!defined("ISFROMCKFILEMANAGER") && !defined("CRONS_PHP") && !defined("API") && !defined("JAVASCRIPT_LOCALIZATION")) {
+    $_6CCQ1 = new _JO0ED();
+    $_6CCQ1 = null;
   }
 
 ?>

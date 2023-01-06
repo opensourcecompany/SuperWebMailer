@@ -178,6 +178,7 @@
 
 
                   <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
+                  <script type="text/javascript" src="templates/default/de/ckeditor_imageresize.js"></script>
 
 
                   <script language="JavaScript" type="text/javascript">
@@ -201,25 +202,25 @@
                     }
 
                     function FillComboBoxes() {
-                        CBs = Array (
+                        var CBs = Array (
                             'PlainTextPlaceHoldersCB'
                         )
 
-          	            for(j=0; j<CBs.length; j++) {
-                            CB = document.getElementById(CBs[j]);
+          	            for(var j=0; j<CBs.length; j++) {
+                            var CB = document.getElementById(CBs[j]);
                             if(CB == null) continue;
                             while (CB.length > 1)
                                CB.options[CB.length] = null;
 
 
-                            for(i=0; i<arrPlaceholderItems.length; i++){
+                            for(var i=0; i<arrPlaceholderItems.length; i++){
                               newOption = new Option(html_entity_decode(arrPlaceholderItems[i][1]), arrPlaceholderItems[i][0], false, false);
                               CB.options[CB.length] = newOption;
                             }
 
                             if ( (CBs[j] == 'PlainTextPlaceHoldersCB')
                                )
-                               for(i=0; i<arrNewsletterUnsubscribePlaceholders.length; i++){
+                               for(var i=0; i<arrNewsletterUnsubscribePlaceholders.length; i++){
                                  newOption = new Option(html_entity_decode(arrNewsletterUnsubscribePlaceholders[i][1]), arrNewsletterUnsubscribePlaceholders[i][0], false, false);
                                  CB.options[CB.length] = newOption;
                                }
@@ -238,7 +239,7 @@
                     function ShowNATextOnTab(TabId, Page, fieldId) {
                       var NA="Angabe nicht notwendig";
 
-                      A = document.getElementById('tabView' + TabId + '_' + Page);
+                      var A = document.getElementById('tabView' + TabId + '_' + Page);
                       if(A == null) return;
                       tabSpanId = 'tabView' + TabId + '_' + Page + '_NAspan';
                       tabSpan = document.getElementById(tabSpanId);
@@ -254,6 +255,8 @@
 
                     }
 
+                    var PageModified=false;
+
                     function ShowHideEMailTexts() {
 
 
@@ -263,8 +266,26 @@
                             HideCKEditor("MailHTMLText");
                             DisableItem("IsWizardable", false);
                           } else {
+                            var iv = IsCKEditorVisible("MailHTMLText");
                             ShowCKEditor("MailHTMLText", "100%", 333, 'MyDefaultMailToolbar');
                             DisableItem("IsWizardable", true);
+                            if(!iv) {
+                                CKEDITOR.on('instanceReady', function( ev ) {
+                            						CKEDITOR.instances['MailHTMLText'].on('key', function (e) {
+                                    PageModified=true;
+                                    e.removeListener();
+                                  });
+
+                                  CKEDITOR.instances['MailHTMLText'].on('blur', function(e) {
+                                      if (e.editor.checkDirty()) {
+                                         PageModified=true;
+                                      }
+                                  });
+
+                                  AddImageSizeChangedEventToCKEditor('MailHTMLText');
+                                  ev.removeListener();
+                            				});
+                              }
                           }
 
                         ShowItem('HTML', document.getElementById('MailFormat').selectedIndex > 0  );
@@ -284,26 +305,6 @@
 
                     }
 
-
-                    var PageModified=false;
-
-                    if(CKEDITOR.instances['MailHTMLText'] != null) {
-
-
-                      CKEDITOR.on('instanceReady', function( ev ) {
-                  						CKEDITOR.instances['MailHTMLText'].on('key', function (e) {
-                          PageModified=true; e.editor.on('key', null);
-                        });
-                  				});
-
-
-                      CKEDITOR.instances['MailHTMLText'].on('blur', function(e) {
-                          if (e.editor.checkDirty()) {
-                             PageModified=true;
-                          }
-                      });
-                    }
-                    
                     window.onbeforeunload = function (e) {
                         var e = e || window.event;
                         var warntext='Dokument wurde ge&auml;ndert ohne die &Auml;nderungen zu speichern.';
@@ -317,6 +318,9 @@
                           return html_entity_decode(warntext);
                         }
                     }
+
+
+                    InsertLoadingStatusOnSubmit();
 
                   	//AUTO_SCRIPT_CODE_PLACEHOLDER//
 

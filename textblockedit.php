@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -40,26 +40,26 @@
     exit;
   }
 
-  $_I0600 = "";
+  $_Itfj8 = "";
 
   if(isset($_POST["OneTextBlockId"]))
-    $_j0Q1i = intval($_POST["OneTextBlockId"]);
+    $_joOfL = intval($_POST["OneTextBlockId"]);
     else
     if(isset($_GET["OneTextBlockId"]))
-      $_j0Q1i = intval($_GET["OneTextBlockId"]);
+      $_joOfL = intval($_GET["OneTextBlockId"]);
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if( (!isset($_j0Q1i) || $_j0Q1i == 0) && !$_QJojf["PrivilegeTextBlockCreate"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if( (!isset($_joOfL) || $_joOfL == 0) && !$_QLJJ6["PrivilegeTextBlockCreate"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
-    if( (isset($_j0Q1i)) && !$_QJojf["PrivilegeTextBlockEdit"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    if( (isset($_joOfL)) && !$_QLJJ6["PrivilegeTextBlockEdit"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
@@ -68,16 +68,16 @@
   if(isset($_POST["SaveBtn"])) {
     if(!isset($_POST["Name"]) || trim($_POST["Name"]) == "") {
        $errors[] = "Name";
-       $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001416"];
+       $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001416"];
     } else if(strpos(trim($_POST["Name"]), "]") !== false || strpos(trim($_POST["Name"]), "[") !== false) {
         $errors[] = "Name";
-        $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001417"];
+        $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001417"];
       } else {
-        $_QJCJi = trim($_POST["Name"]);
-        for($_Q6llo=0; $_Q6llo<strlen($_QJCJi); $_Q6llo++)
-          if( !preg_match("/^[a-zA-Z0-9_]{0,255}$/", $_QJCJi{$_Q6llo}) ) {
+        $_QLJfI = trim($_POST["Name"]);
+        for($_Qli6J=0; $_Qli6J<strlen($_QLJfI); $_Qli6J++)
+          if( !preg_match("/^[a-zA-Z0-9_]{0,255}$/", $_QLJfI[$_Qli6J]) ) {
             $errors[] = "Name";
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001418"];
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001418"];
             break;
           }
       }
@@ -98,94 +98,94 @@
     } else
       $errors[] = "outputtextplain";
 
-    if(count($errors) > 0 && $_I0600 == "")
-      $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001419"];
+    if(count($errors) > 0 && $_Itfj8 == "")
+      $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001419"];
 
     if (count($errors) == 0) {
-       $_QJlJ0 = "SELECT COUNT(*) FROM $_I8tjl WHERE Name="._OPQLR(trim($_POST["Name"]));
-       if(isset($_j0Q1i) && $_j0Q1i != "") {
-         $_QJlJ0 .= " AND id<>".$_j0Q1i;
+       $_QLfol = "SELECT COUNT(*) FROM $_jQf81 WHERE Name="._LRAFO(trim($_POST["Name"]));
+       if(isset($_joOfL) && $_joOfL > 0) {
+         $_QLfol .= " AND id<>".$_joOfL;
        }
-       $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-       $_Q6Q1C = mysql_fetch_row($_Q60l1);
-       mysql_free_result($_Q60l1);
-       if($_Q6Q1C[0] > 0) {
+       $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+       $_QLO0f = mysql_fetch_row($_QL8i1);
+       mysql_free_result($_QL8i1);
+       if($_QLO0f[0] > 0) {
          $errors[] = "Name";
-         $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001416"];
+         $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001416"];
        }
 
-       $_QJlJ0 = "SELECT COUNT(*) FROM $_I88i8 WHERE Name="._OPQLR(trim($_POST["Name"]));
-       $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-       $_Q6Q1C = mysql_fetch_row($_Q60l1);
-       mysql_free_result($_Q60l1);
-       if($_Q6Q1C[0] > 0) {
+       $_QLfol = "SELECT COUNT(*) FROM $_jQ68I WHERE Name="._LRAFO(trim($_POST["Name"]));
+       $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+       $_QLO0f = mysql_fetch_row($_QL8i1);
+       mysql_free_result($_QL8i1);
+       if($_QLO0f[0] > 0) {
          $errors[] = "Name";
-         $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001420"];
+         $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001420"];
        }
 
      }
 
     if (count($errors) == 0) {
-       $_fI6ji = array();
+       $_8ifQ1 = array();
 
        if(   (!isset($_POST["logicalop"][1]) || $_POST["logicalop"][1] == "--") &&
             (!isset($_POST["logicalop"][2]) || $_POST["logicalop"][2] == "--")
           ) {
 
         if(isset($_POST["WithCondition"])) {
-          $_fI6ji["fieldname"][0] = $_POST["fieldname"][0];
-          $_fI6ji["operator"][0] = $_POST["operator"][0];
-          $_fI6ji["comparestring"][0] = trim($_POST["comparestring"][0]);
+          $_8ifQ1["fieldname"][0] = $_POST["fieldname"][0];
+          $_8ifQ1["operator"][0] = $_POST["operator"][0];
+          $_8ifQ1["comparestring"][0] = trim($_POST["comparestring"][0]);
          }
 
-         $_fI6ji["outputtext"] = $_POST["outputtext"];
-         $_fI6ji["outputtextplain"] = $_POST["outputtextplain"];
-         $_fIfQi[] = $_fI6ji;
+         $_8ifQ1["outputtext"] = $_POST["outputtext"];
+         $_8ifQ1["outputtextplain"] = $_POST["outputtextplain"];
+         $_8i8fj[] = $_8ifQ1;
        } else {
 
          if(isset($_POST["WithCondition"])) {
            # skip not filled conditions
-           $_Q6llo = 0;
-           $_fI6ji["fieldname"][$_Q6llo] = $_POST["fieldname"][0];
-           $_fI6ji["operator"][$_Q6llo] = $_POST["operator"][0];
-           $_fI6ji["comparestring"][$_Q6llo] = trim($_POST["comparestring"][0]);
+           $_Qli6J = 0;
+           $_8ifQ1["fieldname"][$_Qli6J] = $_POST["fieldname"][0];
+           $_8ifQ1["operator"][$_Qli6J] = $_POST["operator"][0];
+           $_8ifQ1["comparestring"][$_Qli6J] = trim($_POST["comparestring"][0]);
 
            if( isset($_POST["logicalop"][1]) && $_POST["logicalop"][1] != "--" ) {
-             $_Q6llo++;
-             $_fI6ji["logicalop"][$_Q6llo] = $_POST["logicalop"][1];
-             $_fI6ji["fieldname"][$_Q6llo] = $_POST["fieldname"][1];
-             $_fI6ji["operator"][$_Q6llo] = $_POST["operator"][1];
-             $_fI6ji["comparestring"][$_Q6llo] = trim($_POST["comparestring"][1]);
+             $_Qli6J++;
+             $_8ifQ1["logicalop"][$_Qli6J] = $_POST["logicalop"][1];
+             $_8ifQ1["fieldname"][$_Qli6J] = $_POST["fieldname"][1];
+             $_8ifQ1["operator"][$_Qli6J] = $_POST["operator"][1];
+             $_8ifQ1["comparestring"][$_Qli6J] = trim($_POST["comparestring"][1]);
            }
 
            if( isset($_POST["logicalop"][2]) && $_POST["logicalop"][2] != "--" ) {
-             $_Q6llo++;
-             $_fI6ji["logicalop"][$_Q6llo] = $_POST["logicalop"][2];
-             $_fI6ji["fieldname"][$_Q6llo] = $_POST["fieldname"][2];
-             $_fI6ji["operator"][$_Q6llo] = $_POST["operator"][2];
-             $_fI6ji["comparestring"][$_Q6llo] = trim($_POST["comparestring"][2]);
+             $_Qli6J++;
+             $_8ifQ1["logicalop"][$_Qli6J] = $_POST["logicalop"][2];
+             $_8ifQ1["fieldname"][$_Qli6J] = $_POST["fieldname"][2];
+             $_8ifQ1["operator"][$_Qli6J] = $_POST["operator"][2];
+             $_8ifQ1["comparestring"][$_Qli6J] = trim($_POST["comparestring"][2]);
            }
          }
 
-         $_fI6ji["outputtext"] = $_POST["outputtext"];
-         $_fI6ji["outputtextplain"] = $_POST["outputtextplain"];
-         $_fIfQi[] = $_fI6ji;
+         $_8ifQ1["outputtext"] = $_POST["outputtext"];
+         $_8ifQ1["outputtextplain"] = $_POST["outputtextplain"];
+         $_8i8fj[] = $_8ifQ1;
 
        }
 
-       if(isset($_j0Q1i) && $_j0Q1i != "")
-          $_QJlJ0 = "UPDATE `$_I8tjl` SET `Name`="._OPQLR($_POST["Name"]).", `textblocktext`="._OPQLR( base64_encode(serialize($_fI6ji)) )." WHERE id=".$_j0Q1i;
+       if(isset($_joOfL) && $_joOfL <> 0)
+          $_QLfol = "UPDATE `$_jQf81` SET `Name`="._LRAFO($_POST["Name"]).", `textblocktext`="._LRAFO( base64_encode(serialize($_8ifQ1)) )." WHERE id=".$_joOfL;
           else
-          $_QJlJ0 = "INSERT INTO `$_I8tjl` SET `Name`="._OPQLR($_POST["Name"]).", `CreateDate`=NOW(), `textblocktext`="._OPQLR( base64_encode(serialize($_fI6ji)) );
+          $_QLfol = "INSERT INTO `$_jQf81` SET `Name`="._LRAFO($_POST["Name"]).", `CreateDate`=NOW(), `textblocktext`="._LRAFO( base64_encode(serialize($_8ifQ1)) );
 
-       mysql_query($_QJlJ0);
-       _OAL8F($_QJlJ0);
+       mysql_query($_QLfol);
+       _L8D88($_QLfol);
 
-       if(!isset($_j0Q1i)){
-          $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()");
-          $_Q6Q1C=mysql_fetch_array($_Q60l1);
-          $_j0Q1i = $_Q6Q1C[0];
-          mysql_free_result($_Q60l1);
+       if(!isset($_joOfL)){
+          $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()");
+          $_QLO0f=mysql_fetch_array($_QL8i1);
+          $_joOfL = $_QLO0f[0];
+          mysql_free_result($_QL8i1);
        }
 
        include_once("browsetextblocks.php");
@@ -196,96 +196,96 @@
   }
 
   // get textblock
-  if(isset($_j0Q1i) && $_j0Q1i != "") {
-    $_QJlJ0 = "SELECT * FROM $_I8tjl WHERE id=".intval($_j0Q1i);
-    $_Q60l1 = mysql_query($_QJlJ0);
-    $_6f0oC = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
-    if($_6f0oC["textblocktext"] != "") {
-        $_fIfQi = @unserialize( base64_decode($_6f0oC["textblocktext"]) );
-        if($_fIfQi === false)
-          $_fIfQi = array();
+  if(isset($_joOfL) && $_joOfL > 0) {
+    $_QLfol = "SELECT * FROM $_jQf81 WHERE id=".intval($_joOfL);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_fLOjO = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
+    if( isset($_fLOjO["textblocktext"]) && $_fLOjO["textblocktext"] != "") {
+        $_8i8fj = @unserialize( base64_decode($_fLOjO["textblocktext"]) );
+        if($_8i8fj === false)
+          $_8i8fj = array();
       }
       else
-      $_fIfQi = array();
+      $_8i8fj = array();
   } else
-    $_fIfQi = array(); // new
+    $_8i8fj = array(); // new
 
   // Template
-  if (isset($_j0Q1i))
-    $_POST["OneTextBlockId"] = intval($_j0Q1i);
-  $_fIfCO = "";
-  if(isset($_6f0oC["Name"])) {
-     $_fIfCO = $_6f0oC["Name"];
-     $_POST["Name"] = $_fIfCO;
+  if (isset($_joOfL))
+    $_POST["OneTextBlockId"] = intval($_joOfL);
+  $_8i88C = "";
+  if(isset($_fLOjO["Name"])) {
+     $_8i88C = $_fLOjO["Name"];
+     $_POST["Name"] = $_8i88C;
   }
 
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001415"], $_fIfCO), $_I0600, 'textblocksedit', 'textblockedit.htm');
-  $_QJCJi = str_replace ("myBasePath=''", "myBasePath='".BasePath."'", $_QJCJi);
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["001415"], $_8i88C), $_Itfj8, 'textblocksedit', 'textblockedit.htm');
+  $_QLJfI = str_replace ("myBasePath=''", "myBasePath='".BasePath."'", $_QLJfI);
 
   #### normal placeholders
-  $_QJlJ0 = "SELECT `text`, `fieldname` FROM $_Qofjo WHERE `language`='$INTERFACE_LANGUAGE' AND `fieldname` <> 'u_EMailFormat'";
-  $_Q60l1 = mysql_query($_QJlJ0);
-  _OAL8F($_QJlJ0);
-  $_Q8otJ = array();
-  $_jQjOO = array();
-  $_jQjOO[] = '<option value="id">id</option>';
-  while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-   $_Q8otJ[] =  sprintf("new Array('[%s]', '%s')", $_Q6Q1C["fieldname"], $_Q6Q1C["text"]);
-   $_jQjOO[] =  '<option value="'.$_Q6Q1C["fieldname"].'">'.$_Q6Q1C["text"].'</option>';
+  $_QLfol = "SELECT `text`, `fieldname` FROM $_Ij8oL WHERE `language`='$INTERFACE_LANGUAGE' AND `fieldname` <> 'u_EMailFormat'";
+  $_QL8i1 = mysql_query($_QLfol);
+  _L8D88($_QLfol);
+  $_I1OoI = array();
+  $_jl0Ii = array();
+  $_jl0Ii[] = '<option value="id">id</option>';
+  while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+   $_I1OoI[] =  sprintf("new Array('[%s]', '%s')", $_QLO0f["fieldname"], $_QLO0f["text"]);
+   $_jl0Ii[] =  '<option value="'.$_QLO0f["fieldname"].'">'.$_QLO0f["text"].'</option>';
   }
   # defaults
-  foreach ($_IIQI8 as $key => $_Q6ClO)
-    $_Q8otJ[] =  sprintf("new Array('%s', '%s')", $_Q6ClO, $resourcestrings[$INTERFACE_LANGUAGE][$key]);
+  foreach ($_Iol8t as $key => $_QltJO)
+    $_I1OoI[] =  sprintf("new Array('%s', '%s')", $_QltJO, $resourcestrings[$INTERFACE_LANGUAGE][$key]);
   #### special newsletter unsubscribe placeholders
-  reset($_III0L);
-  foreach ($_III0L as $key => $_Q6ClO)
-    $_Q8otJ[] =  sprintf("new Array('%s', '%s')", $_Q6ClO, $resourcestrings[$INTERFACE_LANGUAGE][$key]);
+  reset($_IolCJ);
+  foreach ($_IolCJ as $key => $_QltJO)
+    $_I1OoI[] =  sprintf("new Array('%s', '%s')", $_QltJO, $resourcestrings[$INTERFACE_LANGUAGE][$key]);
 
-  $_QJCJi = str_replace ("new Array('[PLACEHOLDER]', 'PLACEHOLDERTEXT')", join(",\r\n", $_Q8otJ), $_QJCJi);
-  $_QJCJi = _OPR6L($_QJCJi, "<fieldnames>", "</fieldnames>", join("\r\n", $_jQjOO));
-  mysql_free_result($_Q60l1);
+  $_QLJfI = str_replace ("new Array('[PLACEHOLDER]', 'PLACEHOLDERTEXT')", join(",\r\n", $_I1OoI), $_QLJfI);
+  $_QLJfI = _L81BJ($_QLJfI, "<fieldnames>", "</fieldnames>", join("\r\n", $_jl0Ii));
+  mysql_free_result($_QL8i1);
   #
 
-  if(isset($_fIfQi) && is_array($_fIfQi) && count($_fIfQi) > 0) {
-    $_fI6ji = $_fIfQi;
+  if(isset($_8i8fj) && is_array($_8i8fj) && count($_8i8fj) > 0) {
+    $_8ifQ1 = $_8i8fj;
   } else
-    $_fI6ji = array();
+    $_8ifQ1 = array();
 
-  $_fIfiI = array();
-  if(count($_fI6ji) > 0) {
+  $_8i8Oj = array();
+  if(count($_8ifQ1) > 0) {
     # format for MarkFields
-    $_fIfiI["outputtext"] = $_fI6ji["outputtext"];
-    $_fIfiI["outputtextplain"] = $_fI6ji["outputtextplain"];
-    $_fIfiI["outputtext"] = FixCKEditorStyleProtectionForCSS($_fIfiI["outputtext"]);
-    if(isset($_fI6ji["fieldname"]))
+    $_8i8Oj["outputtext"] = $_8ifQ1["outputtext"];
+    $_8i8Oj["outputtextplain"] = $_8ifQ1["outputtextplain"];
+    $_8i8Oj["outputtext"] = FixCKEditorStyleProtectionForCSS($_8i8Oj["outputtext"]);
+    if(isset($_8ifQ1["fieldname"]))
        $_POST["WithCondition"] = 1;
        else
         if(isset($_POST["WithCondition"]))
           unset($_POST["WithCondition"]);
 
     if(isset($_POST["WithCondition"])) {
-      $_Q6llo=0;
-      foreach($_fI6ji["fieldname"] as $key => $_Q6ClO) {
-          if(isset($_fI6ji["logicalop"][$key]))
-            $_fIfiI["logicalop[$_Q6llo]"] = $_fI6ji["logicalop"][$key];
+      $_Qli6J=0;
+      foreach($_8ifQ1["fieldname"] as $key => $_QltJO) {
+          if(isset($_8ifQ1["logicalop"][$key]))
+            $_8i8Oj["logicalop[$_Qli6J]"] = $_8ifQ1["logicalop"][$key];
             else
-            $_fIfiI["logicalop[$_Q6llo]"] = "";
-          $_fIfiI["fieldname[$_Q6llo]"] = $_fI6ji["fieldname"][$key];
-          $_fIfiI["operator[$_Q6llo]"] = $_fI6ji["operator"][$key];
-          $_fIfiI["comparestring[$_Q6llo]"] = htmlspecialchars( $_fI6ji["comparestring"][$key], ENT_COMPAT, "UTF-8" );
-          $_Q6llo++;
+            $_8i8Oj["logicalop[$_Qli6J]"] = "";
+          $_8i8Oj["fieldname[$_Qli6J]"] = $_8ifQ1["fieldname"][$key];
+          $_8i8Oj["operator[$_Qli6J]"] = $_8ifQ1["operator"][$key];
+          $_8i8Oj["comparestring[$_Qli6J]"] = htmlspecialchars( $_8ifQ1["comparestring"][$key], ENT_COMPAT, $_QLo06 );
+          $_Qli6J++;
       }
     }
   }
 
-  $_POST = array_merge($_POST, $_fIfiI);
-  $_QJCJi = _OPFJA(array(), $_POST, $_QJCJi);
+  $_POST = array_merge($_POST, $_8i8Oj);
+  $_QLJfI = _L8AOB(array(), $_POST, $_QLJfI);
 
-  $_QJCJi = _OPR6L($_QJCJi, "<contains>", "</contains>", $resourcestrings[$INTERFACE_LANGUAGE]["contains"] );
-  $_QJCJi = _OPR6L($_QJCJi, "<contains_not>", "</contains_not>", $resourcestrings[$INTERFACE_LANGUAGE]["contains_not"] );
-  $_QJCJi = _OPR6L($_QJCJi, "<starts_with>", "</starts_with>", $resourcestrings[$INTERFACE_LANGUAGE]["starts_with"] );
-  $_QJCJi = _OPR6L($_QJCJi, "<REGEXP>", "</REGEXP>", $resourcestrings[$INTERFACE_LANGUAGE]["REGEXP"] );
+  $_QLJfI = _L81BJ($_QLJfI, "<contains>", "</contains>", $resourcestrings[$INTERFACE_LANGUAGE]["contains"] );
+  $_QLJfI = _L81BJ($_QLJfI, "<contains_not>", "</contains_not>", $resourcestrings[$INTERFACE_LANGUAGE]["contains_not"] );
+  $_QLJfI = _L81BJ($_QLJfI, "<starts_with>", "</starts_with>", $resourcestrings[$INTERFACE_LANGUAGE]["starts_with"] );
+  $_QLJfI = _L81BJ($_QLJfI, "<REGEXP>", "</REGEXP>", $resourcestrings[$INTERFACE_LANGUAGE]["REGEXP"] );
 
-  print $_QJCJi;
+  print $_QLJfI;
 ?>

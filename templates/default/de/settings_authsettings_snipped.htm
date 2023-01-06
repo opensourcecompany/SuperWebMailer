@@ -1,0 +1,1452 @@
+      <script type="text/javascript" src="js/jquery-latest.min.js"></script>
+      <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+      <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
+
+      <script language="javascript" type="text/javascript">
+      <!--
+
+        function load_mailinglists(admin_user_id){
+
+         if(admin_user_id == -1){
+           if(document.getElementById('ldap_default_db_owner_admin_username_id') && document.getElementById('ldap_default_db_owner_admin_username_id').selectedIndex != -1)
+             admin_user_id = document.getElementById('ldap_default_db_owner_admin_username_id').options[document.getElementById('ldap_default_db_owner_admin_username_id').selectedIndex].value;
+             else{
+               $("#LastAdminUserId").val(-1);
+               $("#MailingListsScrollbox").html( "" );
+               return;
+             }
+         }
+
+         if( !document.getElementById('ldap_field_owner_admin') || $('#ldap_field_owner_admin').val().trim() != "" || $('#ldap_default_db_owner_admin_username_dn').val().trim() != ""){
+           $("#LastAdminUserId").val(-1);
+           $("#MailingListsScrollbox").html( "" );
+           return;
+         }
+
+         if($("#LastAdminUserId").val() == admin_user_id || admin_user_id == 0)
+           return;
+
+         var date = new Date();
+         var nocache = date.getTime() / 1000;
+         $("#Loading").show();
+         $("#MailingListsScrollbox").hide();
+         $.ajaxSetup({ cache: false });
+
+        	jQuery.get('ajax_getmailinglists.php' + "?nocache=" + nocache + '&AdminId=' + admin_user_id, "", function(data){
+        	   $("#MailingListsScrollbox").html( data );
+            $("#LastAdminUserId").val(admin_user_id);
+            if(document.getElementById("dbUserMailingListAccess") && document.getElementById("dbUserMailingListAccess").onclick)
+              document.getElementById("dbUserMailingListAccess").onclick();
+        	});
+
+         $("#Loading").hide();
+         $("#MailingListsScrollbox").show();
+
+        }
+
+      //-->
+      </script>
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        var TabListArray = Array();
+      //-->
+      </script>
+      <div class="spacerborder">
+        <form method="post" id="AuthForm" name="AuthForm" action="./settings_authsettings.php">
+          <input type="hidden" name="LastAdminUserId" id="LastAdminUserId" />
+          <span class="Backlink"></span><br />
+          <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+
+                  <!-- ##### TabView - START -->
+                  <div id="dhtmlgoodies_tabView">
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('Anmeldung/Login');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend>Anmeldung/Login an der PRODUCTAPPNAME-Oberfl&auml;che</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Anmeldung
+                                </td>
+                                <td>
+                                  <select name="AuthType" id="AuthType" size="1" onchange="AuthTypeChange();">
+                                    <option value="db">&uuml;ber die lokale Datenbank</option>
+                                    <option value="db2fa">&uuml;ber die lokale Datenbank und 2-Faktor-Authentisierung</option>
+                                    <option value="ldap">&uuml;ber einen externen LDAP-Server</option>
+  			                             </select>
+                                  <br />
+                                  <br />
+                                  Hinweis: Die Anmeldung als Nutzer superadmin erfolgt immer &uuml;ber die lokale Datenbank.
+                                  <NOT:LDAP>
+                                    <br /><br />
+                                    <b>
+                                    Die PHP-Erweiterung f&uuml;r den Zugriff auf LDAP-Server ist nicht vorhanden. Diese muss aktiviert werden, bevor
+                                    ein Zugriff auf den LDAP-Server m&ouml;glich ist.
+                                    </b>
+                                  </NOT:LDAP>
+                                  <div id="db2fa">
+                                    <br /><br />
+                                    F&uuml;r diese Funktion ist PHP 7.1 oder neuer und die App Google Authenticator f&uuml;r Android, iOS und andere Systeme erforderlich.
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('LDAP');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend>Zugangsdaten</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">LDAP-Servername
+                                </td>
+                                <td>
+                                  <input type="text" name="ldap_address" style="width: 50%" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Verbindungssicherheit
+                                </td>
+                                <td>
+                                  <input type="radio" name="ssl" value="0" id="no_ssl" onclick="document.getElementById('ldap_port').value='389';" /><label for="no_ssl">&nbsp;ungesichert</label>
+                                  <input type="radio" name="ssl" value="1" id="ldap_tls" onclick="document.getElementById('ldap_port').value='389';" /><label for="ldap_tls">&nbsp;TLS</label>
+                                  <input type="radio" name="ssl" value="2" id="ldap_ssl" onclick="document.getElementById('ldap_port').value='636';" /><label for="ldap_ssl">&nbsp;SSL verschl&uuml;sselt</label>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Port des LDAP-Servers
+                                </td>
+                                <td>
+                                  <input type="number" name="ldap_port" id="ldap_port" min="1" max="65535" onblur="this.value=parseInt(this.value);" style="text-align: right; width: 5%" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">LDAP Protokoll-Version
+                                </td>
+                                <td>
+                                  <input type="number" name="ldap_protocol_version" min="1" max="65535" onblur="this.value=parseInt(this.value); if(!this.value) this.value=3;" style="text-align: right; width: 5%" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">LDAP-Basis DN<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Distinguished Name des Verzeichnisses, in dem sich die Benutzer-Daten befinden, z.B. dc=firma,dc=com.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  <input type="text" name="ldap_base_dn" style="width: 50%" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">LDAP-Benutzername DN<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Lassen Sie das Feld f&uuml;r eine anonyme Verbindung frei. Wenn ausgef&uuml;llt, wird der angegebene Benutzer verwendet, um sich f&uuml;r die Suche nach dem passenden Benutzer wie uid=Benutzername,ou=Organisationseinheit,o=Firma,c=DE anzumelden. Erforderlich bei Active Directory-Servern.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  <input type="text" name="ldap_external_auth_username" style="width: 50%" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">LDAP-Passwort<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Lassen Sie das Feld f&uuml;r eine anonyme Verbindung frei. Wenn ausgef&uuml;llt, wird der angegebene Benutzer und Passwort verwendet, um sich f&uuml;r die Suche nach dem passenden Benutzer wie uid=Benutzername,ou=Organisationseinheit,o=Firma,c=DE anzumelden. Erforderlich bei Active Directory-Servern.<br /><br /><b>WARNUNG</b> Das Passwort wird im Klartext in der Datenbank gespeichert und ist damit von jedem einsehbar, der Zugriff auf die Datenbank hat.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  <input type="password" name="ldap_external_auth_password" style="width: 50%" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend>Suche im Verzeichnis</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Suche nach Attribut mit dem Nutzernamen<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Attribut, unter dem nach einem angegebenen Benutzernamen gesucht werden soll, z.B. uid, sn.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  <input type="text" name="ldap_field_uid" style="width: 50%" />
+                                </td>
+                              </tr>
+                              <IS:NOT_SWM_BASIC>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Suche nach Attribut mit der E-Mail-Adresse (optional)<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Attribut, unter dem die E-Mail-Adresse gesucht werden soll, falls es dieses Attribut gibt, z.B. mail. Existiert das Attribut nicht, dann wird ein neuer Nutzer ohne E-Mail-Adresse angelegt.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  <input type="text" name="ldap_field_email" style="width: 50%" />
+                                </td>
+                              </tr>
+                              </IS:NOT_SWM_BASIC>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Benutzerdefinierter Filter (optional)<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Das Durchsuchen der Objekte kann optional durch weitere Filter eingeschr&auml;nkt werden. Zum Beispiel f&uuml;hrt objectClass=posixGruppe zur Nutzer des Filters (&(uid=$username)(objectClass=posixGruppe)).');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  <input type="text" name="ldap_user_filter" style="width: 50%" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><br />Suche nach Attribut mit dem Sperrstatus des Nutzers (optional)<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Es kann ein Attribut angegeben werden, anhand des Wertes erkannt wird, ob der Nutzerzugang aktiv oder gesperrt ist, z.B. bei Active Directory-Servern Feld userAccountControl mit Wert 512, Nutzer ist aktiv.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  <br />
+                                  Der Nutzer ist NICHT gesperrt, wenn im Attribut<br />
+                                  <input type="text" name="ldap_field_useraccountcontrol" style="width: 30%" />&nbsp;der Wert&nbsp;<input type="text" name="ldap_useraccountcontrol_useractivevalue" style="width: 20%" />&nbsp;enthalten ist.
+                                  <br />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <IS:NOT_SWM_BASIC>
+                      <fieldset>
+                      <legend>Zuordnung neuer Nutzer zu PRODUCTAPPNAME-Admin-Nutzer</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">Suche nach Attribut mit dem Nutzernamen des PRODUCTAPPNAME-Admin-Nutzernamens (optional)<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Es kann ein Attribut angegeben werden, in welchem nach dem PRODUCTAPPNAME-Admin-Nutzernamen im Verzeichnis gesucht werden soll, z.B. manager. Der neue Nutzer wird bei Erstanmeldung dem PRODUCTAPPNAME-Admin-Nutzernamen zugeordnet. Wird der gefundene Admin-Nutzername nicht in der PRODUCTAPPNAME-Datenbank gefunden, wird die Anmeldung verweigert.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  <input type="text" name="ldap_field_owner_admin" id="ldap_field_owner_admin" style="width: 50%" onblur="load_mailinglists(-1);" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">ODER
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">Suche nach Distinguished Name (optional)<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Sucht im Verzeichnis nach dem angegebenen Distinguished Name, z.B. cn=Max Mustermann,ou=EDV,dc=Firma,dc=de, und verwendet als PRODUCTAPPNAME-Admin-Nutzername den Wert des Attributs Nutzernamen (uid, sn...) oben definiert.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  <input type="text" name="ldap_default_db_owner_admin_username_dn" id="ldap_default_db_owner_admin_username_dn" style="width: 50%" onblur="load_mailinglists(-1);" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">ODER
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">Neue Nutzer immer diesem PRODUCTAPPNAME-Admin-Nutzer zuordnen<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, '.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  <select name="ldap_default_db_owner_admin_username_id" id="ldap_default_db_owner_admin_username_id" size="1" onchange="if(this.selectedIndex != -1) load_mailinglists(this.options[this.selectedIndex].value);">
+                                    <option value="0">&ltkeiner&gt;</option>
+                                    <ldap_default_db_owner_admin_username></ldap_default_db_owner_admin_username>
+                                  </select>
+                                </td>
+                              </tr>
+
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      </IS:NOT_SWM_BASIC>
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+
+                   <USER_RIGHTS>
+                  	<!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('LDAP - Neuer Nutzer');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend>Zugriff auf Empf&auml;ngerlisten</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td>
+                                  <input type="checkbox" name="dbUserMailingListAccess" value="1" id="dbUserMailingListAccess" onclick="DisableItem('MailingListsScrollbox', !document.getElementById('dbUserMailingListAccess').checked);" /><label for="dbUserMailingListAccess">&nbsp;Auf alle Empf&auml;ngerlisten des Admin-Nutzers Zugriff gew&auml;hren</label>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>
+                                  <div class="scrollbox" style="width: 800px; height: 150px" name="MailingListsScrollbox" id="MailingListsScrollbox">
+                                    <SHOW:MAILINGLISTS>
+                                    <span class="scrollboxSpan"><input type="checkbox" name="mailinglists[]" value="<MailingListId></MailingListId>" id="mailinglistsId" />&nbsp;<label for="mailinglistsId"><MailingListName></MailingListName></label><br /></span>
+                                    </SHOW:MAILINGLISTS>
+                                  </div>
+                                  <span id="Loading" style="visibility:hidden; display: none"><img src="images/loading.gif" height="16" width="16" /></span>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+                      <fieldset>
+                      <legend><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'F&uuml;r jeden Nutzer, der neu nach LDAP-Anmeldung hinzugef&uuml;gt wird, k&ouml;nnen Sie festlegen welche Aktionen ausgef&uuml;hrt werden d&uuml;rfen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>Rechte</legend>
+                      <br />
+
+
+                          <style>
+                             #Privileges td {font-size: 16px;}
+                             #Privileges input[type=checkbox] {width: 20px; height: 20px}
+                          </style>
+
+                          <table class="FixedTable" id="Privileges" name="Privileges">
+                          	<thead>
+                          		<tr>
+                          			<td class="NoWrap" width="20%">Bereich</td>
+                          			<td class="NoWrap" width="10%">Erstellen</td>
+                          			<td class="NoWrap" width="10%">&Auml;ndern</td>
+                          			<td class="NoWrap" width="10%">L&ouml;schen</td>
+                          			<td class="NoWrap" width="10%">Zugreifen/<br />Anschauen</td>
+                          		</tr>
+                          	</thead>
+
+                            <tbody>
+                              <tr>
+                                <td>
+                                   Empf&auml;ngerliste
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMailingListCreate" id="PrivilegeMailingListCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMailingListEdit" id="PrivilegeMailingListEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMailingListRemove" id="PrivilegeMailingListRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMailingListBrowse" id="PrivilegeMailingListBrowse" onclick="DisableControlsById('PrivilegeMailingListBrowse', Array('PrivilegeMailingListCreate', 'PrivilegeMailingListEdit', 'PrivilegeMailingListRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Zuweisung Nutzer der Empf&auml;ngerliste
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMailingListUsersEdit" id="PrivilegeMailingListUsersEdit" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Empf&auml;nger der Empf&auml;ngerliste
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRecipientCreate" id="PrivilegeRecipientCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRecipientEdit" id="PrivilegeRecipientEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRecipientRemove" id="PrivilegeRecipientRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRecipientBrowse" id="PrivilegeRecipientBrowse" onclick="DisableControlsById('PrivilegeRecipientBrowse', Array('PrivilegeRecipientCreate', 'PrivilegeRecipientEdit', 'PrivilegeRecipientRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Empf&auml;nger in lokaler (Domain-)Blockliste
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeLocalBlockListRecipientCreate" id="PrivilegeLocalBlockListRecipientCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeLocalBlockListRecipientEdit" id="PrivilegeLocalBlockListRecipientEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeLocalBlockListRecipientRemove" id="PrivilegeLocalBlockListRecipientRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeLocalBlockListRecipientBrowse" id="PrivilegeLocalBlockListRecipientBrowse" onclick="DisableControlsById('PrivilegeLocalBlockListRecipientBrowse', Array('PrivilegeLocalBlockListRecipientCreate', 'PrivilegeLocalBlockListRecipientEdit', 'PrivilegeLocalBlockListRecipientRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Empf&auml;nger in globaler (Domain-)Blockliste
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeGlobalBlockListRecipientCreate" id="PrivilegeGlobalBlockListRecipientCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeGlobalBlockListRecipientEdit" id="PrivilegeGlobalBlockListRecipientEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeGlobalBlockListRecipientRemove" id="PrivilegeGlobalBlockListRecipientRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeGlobalBlockListRecipientBrowse" id="PrivilegeGlobalBlockListRecipientBrowse" onclick="DisableControlsById('PrivilegeGlobalBlockListRecipientBrowse', Array('PrivilegeGlobalBlockListRecipientCreate', 'PrivilegeGlobalBlockListRecipientEdit', 'PrivilegeGlobalBlockListRecipientRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Empf&auml;nger importieren
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeImportBrowse" id="PrivilegeImportBrowse" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Empf&auml;nger exportieren
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeExportBrowse" id="PrivilegeExportBrowse" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Automatischer Import von Empf&auml;ngern
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoImportCreate" id="PrivilegeAutoImportCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoImportEdit" id="PrivilegeAutoImportEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoImportRemove" id="PrivilegeAutoImportRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoImportBrowse" id="PrivilegeAutoImportBrowse" onclick="DisableControlsById('PrivilegeAutoImportBrowse', Array('PrivilegeAutoImportCreate', 'PrivilegeAutoImportEdit', 'PrivilegeAutoImportRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   An/Abmeldeformulare
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFormCreate" id="PrivilegeFormCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFormEdit" id="PrivilegeFormEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFormRemove" id="PrivilegeFormRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFormBrowse" id="PrivilegeFormBrowse" onclick="DisableControlsById('PrivilegeFormBrowse', Array('PrivilegeFormCreate', 'PrivilegeFormEdit', 'PrivilegeFormRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Statistik versendete E-Mails
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMailsSentStatBrowse" id="PrivilegeMailsSentStatBrowse" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Funktionen
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFunctionCreate" id="PrivilegeFunctionCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFunctionEdit" id="PrivilegeFunctionEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFunctionRemove" id="PrivilegeFunctionRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFunctionBrowse" id="PrivilegeFunctionBrowse" onclick="DisableControlsById('PrivilegeFunctionBrowse', Array('PrivilegeFunctionCreate', 'PrivilegeFunctionEdit', 'PrivilegeFunctionRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Zielgruppen
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTargetGroupsCreate" id="PrivilegeTargetGroupsCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTargetGroupsEdit" id="PrivilegeTargetGroupsEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTargetGroupsRemove" id="PrivilegeTargetGroupsRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTargetGroupsBrowse" id="PrivilegeTargetGroupsBrowse" onclick="DisableControlsById('PrivilegeTargetGroupsBrowse', Array('PrivilegeTargetGroupsCreate', 'PrivilegeTargetGroupsEdit', 'PrivilegeTargetGroupsRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   HTML-Seiten/Umleitungen
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegePageCreate" id="PrivilegePageCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegePageEdit" id="PrivilegePageEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegePageRemove" id="PrivilegePageRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegePageBrowse" id="PrivilegePageBrowse" onclick="DisableControlsById('PrivilegePageBrowse', Array('PrivilegePageCreate', 'PrivilegePageEdit', 'PrivilegePageRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Meldungstexte
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMessageCreate" id="PrivilegeMessageCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMessageEdit" id="PrivilegeMessageEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMessageRemove" id="PrivilegeMessageRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMessageBrowse" id="PrivilegeMessageBrowse" onclick="DisableControlsById('PrivilegeMessageBrowse', Array('PrivilegeMessageCreate', 'PrivilegeMessageEdit', 'PrivilegeMessageRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Versandvarianten
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMTACreate" id="PrivilegeMTACreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMTAEdit" id="PrivilegeMTAEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMTARemove" id="PrivilegeMTARemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMTABrowse" id="PrivilegeMTABrowse" onclick="DisableControlsById('PrivilegeMTABrowse', Array('PrivilegeMTACreate', 'PrivilegeMTAEdit', 'PrivilegeMTARemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Posteingangsserver/Postf&auml;cher
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeInboxCreate" id="PrivilegeInboxCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeInboxEdit" id="PrivilegeInboxEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeInboxRemove" id="PrivilegeInboxRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeInboxBrowse" id="PrivilegeInboxBrowse" onclick="DisableControlsById('PrivilegeInboxBrowse', Array('PrivilegeInboxCreate', 'PrivilegeInboxEdit', 'PrivilegeInboxRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   An/Abmeldestatistik einer Empf&auml;ngerliste
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeMLSubUnsubStatBrowse" id="PrivilegeMLSubUnsubStatBrowse" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Statistik &uuml;ber alle Empf&auml;ngerlisten
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAllMLStatBrowse" id="PrivilegeAllMLStatBrowse" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Benutzer
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeUserCreate" id="PrivilegeUserCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeUserEdit" id="PrivilegeUserEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeUserRemove" id="PrivilegeUserRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeUserBrowse" id="PrivilegeUserBrowse" onclick="DisableControlsById('PrivilegeUserBrowse', Array('PrivilegeUserCreate', 'PrivilegeUserEdit', 'PrivilegeUserRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Lokales Nachrichtencenter
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeLocalMessageCreate" id="PrivilegeLocalMessageCreate" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeLocalMessageRemove" id="PrivilegeLocalMessageRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeLocalMessageBrowse" id="PrivilegeLocalMessageBrowse" onclick="DisableControlsById('PrivilegeLocalMessageBrowse', Array('PrivilegeLocalMessageCreate', 'PrivilegeLocalMessageRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   System-Einstellungen
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeOptionsEdit" id="PrivilegeOptionsEdit" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <!--
+                              <tr>
+                                <td>
+                                   Firmenlogo &auml;ndern
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeBrandingEdit" id="PrivilegeBrandingEdit" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+                              //-->
+
+                              <tr>
+                                <td>
+                                   Datenbankwartung
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeDbRepair" id="PrivilegeDbRepair" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   System testen
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeSystemTest" id="PrivilegeSystemTest" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Ereignisprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewProcessLog" id="PrivilegeViewProcessLog" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Geplante Aufgaben
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeCron" id="PrivilegeCron" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <IS:SWM>
+                              <tr>
+                                <td>
+                                   Vorlagen
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTemplateCreate" id="PrivilegeTemplateCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTemplateEdit" id="PrivilegeTemplateEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTemplateRemove" id="PrivilegeTemplateRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTemplateBrowse" id="PrivilegeTemplateBrowse" onclick="DisableControlsById('PrivilegeTemplateBrowse', Array('PrivilegeTemplateCreate', 'PrivilegeTemplateEdit', 'PrivilegeTemplateRemove') )" />
+                                </td>
+                              </tr>
+
+
+                              <tr>
+                                <td>
+                                   Textbl&ouml;cke
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTextBlockCreate" id="PrivilegeTextBlockCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTextBlockEdit" id="PrivilegeTextBlockEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTextBlockRemove" id="PrivilegeTextBlockRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeTextBlockBrowse" id="PrivilegeTextBlockBrowse" onclick="DisableControlsById('PrivilegeTextBlockBrowse', Array('PrivilegeTextBlockCreate', 'PrivilegeTextBlockEdit', 'PrivilegeTextBlockRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Autoresponder
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoresponderCreate" id="PrivilegeAutoresponderCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoresponderEdit" id="PrivilegeAutoresponderEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoresponderRemove" id="PrivilegeAutoresponderRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeAutoresponderBrowse" id="PrivilegeAutoresponderBrowse" onclick="DisableControlsById('PrivilegeAutoresponderBrowse', Array('PrivilegeAutoresponderCreate', 'PrivilegeAutoresponderEdit', 'PrivilegeAutoresponderRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Autoresponder Versendeprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewAutoresponderLog" id="PrivilegeViewAutoresponderLog" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Geburtstags-Mailer
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeBirthdayMailsCreate" id="PrivilegeBirthdayMailsCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeBirthdayMailsEdit" id="PrivilegeBirthdayMailsEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeBirthdayMailsRemove" id="PrivilegeBirthdayMailsRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeBirthdayMailsBrowse" id="PrivilegeBirthdayMailsBrowse" onclick="DisableControlsById('PrivilegeBirthdayMailsBrowse', Array('PrivilegeBirthdayMailsCreate', 'PrivilegeBirthdayMailsEdit', 'PrivilegeBirthdayMailsRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Geburtstags-Mailer Versendeprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewBirthdayMailsLog" id="PrivilegeViewBirthdayMailsLog" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Geburtstags-Mailer Tracking-Statistik
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewBirthdayMailsTrackingStat" id="PrivilegeViewBirthdayMailsTrackingStat" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Follow-Up-Responder
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUResponderCreate" id="PrivilegeFUResponderCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUResponderEdit" id="PrivilegeFUResponderEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUResponderRemove" id="PrivilegeFUResponderRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUResponderBrowse" id="PrivilegeFUResponderBrowse" onclick="DisableControlsById('PrivilegeFUResponderBrowse', Array('PrivilegeFUResponderCreate', 'PrivilegeFUResponderEdit', 'PrivilegeFUResponderRemove', 'PrivilegeFUMMailsBrowse', 'PrivilegeFUMMailsCreate', 'PrivilegeFUMMailsEdit', 'PrivilegeFUMMailsRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Follow-Up-Responder Versendeprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewFUResponderLog" id="PrivilegeViewFUResponderLog" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Follow-Up-Responder Tracking-Statistik
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewFUResponderTrackingStat" id="PrivilegeViewFUResponderTrackingStat" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Follow-Up-Responder E-Mails
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUMMailsCreate" id="PrivilegeFUMMailsCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUMMailsEdit" id="PrivilegeFUMMailsEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUMMailsRemove" id="PrivilegeFUMMailsRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeFUMMailsBrowse" id="PrivilegeFUMMailsBrowse" onclick="DisableControlsById('PrivilegeFUMMailsBrowse', Array('PrivilegeFUMMailsCreate', 'PrivilegeFUMMailsEdit', 'PrivilegeFUMMailsRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   RSS2EMail Responder
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRSS2EMailMailsCreate" id="PrivilegeRSS2EMailMailsCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRSS2EMailMailsEdit" id="PrivilegeRSS2EMailMailsEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRSS2EMailMailsRemove" id="PrivilegeRSS2EMailMailsRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeRSS2EMailMailsBrowse" id="PrivilegeRSS2EMailMailsBrowse" onclick="DisableControlsById('PrivilegeRSS2EMailMailsBrowse', Array('PrivilegeRSS2EMailMailsCreate', 'PrivilegeRSS2EMailMailsEdit', 'PrivilegeRSS2EMailMailsRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   RSS2EMail Responder Versendeprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewRSS2EMailMailsLog" id="PrivilegeViewRSS2EMailMailsLog" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   RSS2EMail Responder Tracking-Statistik
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewRSS2EMailMailsTrackingStat" id="PrivilegeViewRSS2EMailMailsTrackingStat" />
+                                </td>
+                              </tr>
+                              </IS:SWM>
+
+                              <IS:NOT_SML_BASIC>
+                              <tr>
+                                <td>
+                                   Verteilerlisten
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeDistribListCreate" id="PrivilegeDistribListCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeDistribListEdit" id="PrivilegeDistribListEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeDistribListRemove" id="PrivilegeDistribListRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeDistribListBrowse" id="PrivilegeDistribListBrowse" onclick="DisableControlsById('PrivilegeDistribListBrowse', Array('PrivilegeDistribListCreate', 'PrivilegeDistribListEdit', 'PrivilegeDistribListRemove', 'PrivilegeDistribListEntriesBrowse', 'PrivilegeDistribListEntriesRemove', 'PrivilegeViewDistribListLog', 'PrivilegeViewDistribListTrackingStat') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Verteilerlisten Zugriff auf einzelne E-Mails
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeDistribListEntriesBrowse" id="PrivilegeDistribListEntriesBrowse" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Verteilerlisten L&ouml;schen einzelner E-Mails
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeDistribListEntriesRemove" id="PrivilegeDistribListEntriesRemove" />
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Verteilerlisten Versendeprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewDistribListLog" id="PrivilegeViewDistribListLog" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   Verteilerlisten Tracking-Statistik
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewDistribListTrackingStat" id="PrivilegeViewDistribListTrackingStat" />
+                                </td>
+                              </tr>
+                              </IS:NOT_SML_BASIC>
+
+                              <IS:SWM>
+                              <tr>
+                                <td>
+                                   E-Mailings
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeCampaignCreate" id="PrivilegeCampaignCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeCampaignEdit" id="PrivilegeCampaignEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeCampaignRemove" id="PrivilegeCampaignRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeCampaignBrowse" id="PrivilegeCampaignBrowse" onclick="DisableControlsById('PrivilegeCampaignBrowse', Array('PrivilegeCampaignCreate', 'PrivilegeCampaignEdit', 'PrivilegeCampaignRemove', 'PrivilegeCampaignSending') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   E-Mailings versenden<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Besitzt ein Nutzer nicht das Recht E-Mailings zu versenden, dann kann er E-Mailings nur speichern. Ein berechtigter Nutzer oder Administrator muss danach die korrekte Versandvariante f&uuml;r das E-Mailing festlegen, das E-Mailing fertig stellen und damit den Versand starten.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeCampaignSending" id="PrivilegeCampaignSending" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   E-Mailings Versendeprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewCampaignLog" id="PrivilegeViewCampaignLog" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   E-Mailings Tracking-Statistik
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewCampaignTrackingStat" id="PrivilegeViewCampaignTrackingStat" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   E-Mailings Newsletter-Archiv
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeNewsletterArchiveCreate" id="PrivilegeNewsletterArchiveCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeNewsletterArchiveEdit" id="PrivilegeNewsletterArchiveEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeNewsletterArchiveRemove" id="PrivilegeNewsletterArchiveRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeNewsletterArchiveBrowse" id="PrivilegeNewsletterArchiveBrowse" onclick="DisableControlsById('PrivilegeNewsletterArchiveBrowse', Array('PrivilegeNewsletterArchiveCreate', 'PrivilegeNewsletterArchiveEdit', 'PrivilegeNewsletterArchiveRemove') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   SMS-Kampagnen
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeSMSCampaignCreate" id="PrivilegeSMSCampaignCreate" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeSMSCampaignEdit" id="PrivilegeSMSCampaignEdit" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeSMSCampaignRemove" id="PrivilegeSMSCampaignRemove" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeSMSCampaignBrowse" id="PrivilegeSMSCampaignBrowse" onclick="DisableControlsById('PrivilegeSMSCampaignBrowse', Array('PrivilegeSMSCampaignCreate', 'PrivilegeSMSCampaignEdit', 'PrivilegeSMSCampaignRemove', 'PrivilegeSMSCampaignSending') )" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   SMS-Kampagnen versenden<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Besitzt ein Nutzer nicht das Recht SMS-Kampagnen zu versenden, dann kann er SMS-Kampagnen nur speichern. Ein berechtigter Nutzer oder Administrator muss danach die korrekte Versandvariante f&uuml;r die SMS-Kampagne festlegen, das SMS-Kampagne fertig stellen und damit den Versand starten.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeSMSCampaignSending" id="PrivilegeSMSCampaignSending" />
+                                </td>
+                              </tr>
+
+                              <tr>
+                                <td>
+                                   SMS-Kampagnen Versendeprotokoll
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="PrivilegeViewSMSCampaignLog" id="PrivilegeViewSMSCampaignLog" />
+                                </td>
+                              </tr>
+                              </IS:SWM>
+
+                            </tbody>
+                          </table>
+                          <br />
+                          <br />
+                      </fieldset>
+                      <table class="FormTable">
+                       <tr>
+                         <td colspan="2">
+                           &nbsp;
+                         </td>
+                       </tr>
+                       <tr>
+                         <td colspan="2">
+                           <input type="button" class="button" value="Alle Rechte setzen" onclick="SetAllPrivileges(true); return false;" />
+                           <input type="button" class="button" value="Alle Rechte entfernen" onclick="SetAllPrivileges(false); return false;" />
+                         </td>
+                       </tr>
+                      </table>
+                  	</div>
+                  	<!-- ####### TAB END -->
+                  	</USER_RIGHTS>
+
+
+                    <!-- ####### TAB START -->
+                    <script language="JavaScript" type="text/javascript">
+                    <!--
+                      TabListArray.push('2F Authentisierung');
+                    //-->
+                    </script>
+                  	<div class="dhtmlgoodies_aTab">
+                      <fieldset>
+                      <legend>Einstellungen</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn">Toleranzgrenze in Minuten f&uuml;r die G&uuml;ltigkeit des Einmal-Passworts(OTP)<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Das erzeugte Einmal-Passwort auf dem Client h&auml;ngt von der Uhrzeit ab, sind Serverzeit und Zeit des Clients nicht synchron wird eine Anmeldung immer scheitern.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                </td>
+                                <td>
+                                   <input type="text" name="2FADiscrepancy" size="3" maxlength="2" style="text-align: right;" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn"><label for="2FAForSuperAdmin">F&uuml;r den Nutzer SuperAdmin ebenfalls die 2-Faktor-Authentisierung verwenden</label>
+                                </td>
+                                <td>
+                                   <input type="checkbox" name="2FAForSuperAdmin" id="2FAForSuperAdmin" onclick="if(document.getElementById('2FAForSuperAdmin').checked) DoShowWarning();" />
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+
+                  	</div>
+                  	<!-- ####### TAB END -->
+                  </div>
+
+                  <br />
+                  <br />
+
+
+                  <script language="JavaScript" type="text/javascript">
+                  <!--
+                    initTabs('dhtmlgoodies_tabView', TabListArray, 0, 924, 1300);
+
+                    if(document.getElementById("Privileges"))
+                       addTableRolloverEffect('Privileges','tableRollOverEffect','tableRowClickEffect');
+
+
+                    function AuthTypeChange(){
+                       ShowItem("tabTabdhtmlgoodies_tabView_1", document.getElementById("AuthType").selectedIndex == 2);
+                       ShowItem("tabTabdhtmlgoodies_tabView_2", document.getElementById("AuthType").selectedIndex == 2);
+                       if(document.getElementById("AuthType").selectedIndex == 2)
+                         load_mailinglists(-1);
+                       ShowItem("tabTabdhtmlgoodies_tabView_3", document.getElementById("AuthType").selectedIndex == 1);
+                       ShowItem("db2fa", document.getElementById("AuthType").selectedIndex == 1);
+                    }
+
+                    DisableItem('MailingListsScrollbox', document.getElementById("dbUserMailingListAccess") && !document.getElementById('dbUserMailingListAccess').checked);
+
+                    function SetAllPrivileges(checked){
+                      $('#Privileges').find("input[type=checkbox]").each(function () {
+                        $(this).attr("checked", checked);
+                        $(this).prop("checked", checked);
+
+                        // DOM Element
+                        if($(this)[0].onclick)
+                          $(this)[0].onclick();
+                       });
+                    }
+
+                    $(document).ready(function(){
+                      $('#Privileges').find("input[type=checkbox]").each(function () {
+                        // DOM Element
+                        if($(this)[0].onclick)
+                          $(this)[0].onclick();
+                       });
+                       AuthTypeChange();
+                    });
+
+                    function DoShowWarning(){
+                      MessageBox('Warnung', 'Sie aktivieren damit die 2-Faktor-Authentisierung auch f&uuml;r den Nutzer SuperAdmin. Sollen Sie das Secret/Seed vergessen, dann k&ouml;nnen Sie sich niemals wieder erneut als Nutzer SuperAdmin anmelden.', 1, 380, 180, '');
+                    }
+
+                    //AUTO_SCRIPT_CODE_PLACEHOLDER//
+
+                  -->
+                  </script>
+
+
+                  <!-- ##### TabView - END -->
+
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                <br />
+                <input type="submit" name="AuthSettingsEditBtn" value="&Auml;nderungen speichern" class="FormButton" />
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+        </form>
+      </div>

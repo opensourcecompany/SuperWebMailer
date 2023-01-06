@@ -1,5 +1,5 @@
       <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./campaignedit.php">
-      <span class="Backlink"><br /><a href="./browsecampaigns.php" onclick="document.CampaignEditForm.action='./browsecampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <span class="Backlink"><br /><a href="./browsecampaigns.php" onclick="document.CampaignEditForm.action='./browsecampaigns.php';$('#CampaignEditForm').submit(); return false;">Zur&uuml;ck</a></span><br />
       <input type="hidden" name="PageSelected" />
       <input type="hidden" name="EditPage" value="1" />
       <input type="hidden" name="CampaignListId" id="CampaignListId" />
@@ -13,14 +13,14 @@
       <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
          <tbody>
            <tr>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.CampaignEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.CampaignEditForm.submit(); return false;">Gruppen</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.CampaignEditForm.submit(); return false;">Regeln</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.CampaignEditForm.submit(); return false;">Report/Planung</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.CampaignEditForm.submit(); return false;">Versand</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';document.CampaignEditForm.submit(); return false;">E-Mail-Inhalt</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='7';document.CampaignEditForm.submit(); return false;">Tracking</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';document.CampaignEditForm.submit(); return false;">Zusammenfassung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';$('#CampaignEditForm').submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';$('#CampaignEditForm').submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';$('#CampaignEditForm').submit(); return false;">Regeln</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';$('#CampaignEditForm').submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';$('#CampaignEditForm').submit(); return false;">Versand</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';$('#CampaignEditForm').submit(); return false;">E-Mail-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='7';$('#CampaignEditForm').submit(); return false;">Tracking</a></td>
+             <td class="highlighted selected"><a href="#" onclick="document.getElementById('SetupLevel').value='8';$('#CampaignEditForm').submit(); return false;">Zusammenfassung</a></td>
           </tr>
         </tbody>
       </table>
@@ -305,8 +305,8 @@
 
       <if:AlwaysSent>
         <p><img src="images/icon_warning.gif" align="left" width="24" height="24" alt="" /><span id="SendWarning">Hinweis: Das E-Mailing wurde zuletzt am <LastSent></LastSent> Uhr versendet.
-           <if:SendImmediately>Durch einen Klick auf &quot;Fertig stellen&quot; wird das E-Mailing nochmals versendet.</if:SendImmediately>
-           <if:SendManually>Durch einen Klick auf &quot;Fertig stellen&quot; kann das E-Mailing nochmals versendet werden.</if:SendManually>
+           <if:SendImmediately><br />Durch einen Klick auf &quot;Fertig stellen&quot; wird das E-Mailing nochmals versendet.</if:SendImmediately>
+           <if:SendManually><br />Durch einen Klick auf &quot;Fertig stellen&quot; kann das E-Mailing nochmals versendet werden.</if:SendManually>
            </span>
 
            <script language="JavaScript">
@@ -314,7 +314,7 @@
              var atext = document.getElementById("SendWarning").innerText;
              if(!atext)
                atext = document.getElementById("SendWarning").textContent;
-             MessageBox("Warnung", atext, messageTypeWarning, 350, 160, "", true);
+             MessageBox("Warnung", atext, messageTypeWarning, 360, 150, "", true);
            //-->
            </script>
 
@@ -334,9 +334,9 @@
 
 
         function DoShowSerialMailPreviewDialog() {
-          MailingListId = document.getElementById("MailingListId").value;
-          FormId = document.getElementById("FormId").value;
-          CampaignListId = document.getElementById("CampaignListId").value;
+          var MailingListId = document.getElementById("MailingListId").value;
+          var FormId = document.getElementById("FormId").value;
+          var CampaignListId = document.getElementById("CampaignListId").value;
 
           if(CampaignListId == 0 || CampaignListId == "") {
             return false;
@@ -354,9 +354,9 @@
 
 
         function DoShowBandwidthDialog() {
-          MailingListId = document.getElementById("MailingListId").value;
-          FormId = document.getElementById("FormId").value;
-          CampaignListId = document.getElementById("CampaignListId").value;
+          var MailingListId = document.getElementById("MailingListId").value;
+          var FormId = document.getElementById("FormId").value;
+          var CampaignListId = document.getElementById("CampaignListId").value;
 
           if(CampaignListId == 0 || CampaignListId == "") {
             return false;
@@ -372,9 +372,9 @@
         }
 
         function DoShowSpamTestDialog() {
-          MailingListId = document.getElementById("MailingListId").value;
-          FormId = document.getElementById("FormId").value;
-          CampaignListId = document.getElementById("CampaignListId").value;
+          var MailingListId = document.getElementById("MailingListId").value;
+          var FormId = document.getElementById("FormId").value;
+          var CampaignListId = document.getElementById("CampaignListId").value;
 
           if(CampaignListId == 0 || CampaignListId == "") {
             return false;
@@ -390,9 +390,9 @@
         }
 
         function DoShowTestMailDialog() {
-          MailingListId = document.getElementById("MailingListId").value;
-          FormId = document.getElementById("FormId").value;
-          CampaignListId = document.getElementById("CampaignListId").value;
+          var MailingListId = document.getElementById("MailingListId").value;
+          var FormId = document.getElementById("FormId").value;
+          var CampaignListId = document.getElementById("CampaignListId").value;
 
           if(CampaignListId == 0 || CampaignListId == "") {
             return false;
@@ -407,6 +407,7 @@
           ResponderPreviewOpenResponder(MailingListId, FormId, "Campaign", CampaignListId, "", "TestMail");
         }
 
+        InsertLoadingStatusOnSubmit();
         //AUTO_SCRIPT_CODE_PLACEHOLDER//
 
       //-->

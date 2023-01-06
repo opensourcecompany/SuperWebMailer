@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -22,63 +22,63 @@
 #                                                                           #
 #############################################################################
   include_once("config.inc.php");
-  include_once("./PEAR/PEAR_.php");
-  include_once("./PEAR/URL.php");
+  include_once(PEAR_PATH . "PEAR_.php");
+  include_once(PEAR_PATH . "URL.php");
 
-  function _OCFOP($_Q6ICj, $_Jf0Ii) {
-    if(!$_Jf0Ii["GoogleAnalyticsActive"])
-     return $_Q6ICj;
+  function _LBCQ6($_QLoli, $_6j88I) {
+    if(!$_6j88I["GoogleAnalyticsActive"])
+     return $_QLoli;
     # fix arg_separator.output we need & and not &amp; in URLs, compatibility problems
     if(ini_get('arg_separator.output') != "&")
       ini_set('arg_separator.output', "&");
-    $_Jf1Qi = _OCFFQ($_Jf0Ii);
-    $_QOLIl = array();
-    _OBAQ8($_Q6ICj, $_QOLIl);
-    for($_Q6llo=0; $_Q6llo<count($_QOLIl); $_Q6llo++){
-      $link = $_QOLIl[$_Q6llo];
-      $_Jf16j = false;
+    $_6tot8 = _LBCJL($_6j88I);
+    $_IjQI8 = array();
+    _LAQDB($_QLoli, $_IjQI8);
+    for($_Qli6J=0; $_Qli6J<count($_IjQI8); $_Qli6J++){
+      $link = $_IjQI8[$_Qli6J];
+      $_6tCl6 = false;
       if(strpos($link, "?") !== false)
-         $link .= "&".join("&", $_Jf1Qi); # add it
+         $link .= "&".join("&", $_6tot8); # add it
          else {
-            $_Jf1ij = new Net_URL($link, false);
+            $_6tiiI = new Net_URL($link, false);
 
-            for($_Qf0Ct=0; $_Qf0Ct<count($_Jf1Qi); $_Qf0Ct++) {
-               $_Q6i6i = explode("=", $_Jf1Qi[$_Qf0Ct]);
-               $_Jf1ij->addQueryString($_Q6i6i[0], $_Q6i6i[1], true);
+            for($_QliOt=0; $_QliOt<count($_6tot8); $_QliOt++) {
+               $_QlOjt = explode("=", $_6tot8[$_QliOt]);
+               $_6tiiI->addQueryString($_QlOjt[0], $_QlOjt[1], true);
             }
 
-            $_JfQJJ = $_Jf1ij->getQueryString();
+            $_6tL60 = $_6tiiI->getQueryString();
 
-            $link = $_Jf1ij->protocol . '://'
-                       . $_Jf1ij->user . (!empty($_Jf1ij->pass) ? ':' : '')
-                       . $_Jf1ij->pass . (!empty($_Jf1ij->user) ? '@' : '')
-                       . $_Jf1ij->host . ($_Jf1ij->port == $_Jf1ij->getStandardPort($_Jf1ij->protocol) ? '' : ':' . $_Jf1ij->port)
-                       . (strpos($_Jf1ij->path, ".") === false ? _OBLDR( $_Jf1ij->path ) : $_Jf1ij->path )
-                       . (!empty($_JfQJJ) ? '?' . $_JfQJJ : '')
-                       . (!empty($_Jf1ij->anchor) ? '#' . $_Jf1ij->anchor : '');
+            $link = $_6tiiI->protocol . '://'
+                       . $_6tiiI->user . (!empty($_6tiiI->pass) ? ':' : '')
+                       . $_6tiiI->pass . (!empty($_6tiiI->user) ? '@' : '')
+                       . $_6tiiI->host . ($_6tiiI->port == $_6tiiI->getStandardPort($_6tiiI->protocol) ? '' : ':' . $_6tiiI->port)
+                       . (strpos($_6tiiI->path, ".") === false ? _LPC1C( $_6tiiI->path ) : $_6tiiI->path )
+                       . (!empty($_6tL60) ? '?' . $_6tL60 : '')
+                       . (!empty($_6tiiI->anchor) ? '#' . $_6tiiI->anchor : '');
 
-            unset($_Jf1ij);
+            unset($_6tiiI);
          }
-         $_Q6ICj = str_replace('"'.$_QOLIl[$_Q6llo].'"', '"'.$link.'"', $_Q6ICj);
-         $_Q6ICj = str_replace('"'._OBLDR($_QOLIl[$_Q6llo]).'"', '"'.$link.'"', $_Q6ICj);
+         $_QLoli = str_replace('"'.$_IjQI8[$_Qli6J].'"', '"'.$link.'"', $_QLoli);
+         $_QLoli = str_replace('"'._LPC1C($_IjQI8[$_Qli6J]).'"', '"'.$link.'"', $_QLoli);
     }
-    return $_Q6ICj;
+    return $_QLoli;
   }
 
-  function _OCFFQ($_Jf0Ii){
-     $_II1Ot = array();
-     if ( !empty($_Jf0Ii["GoogleAnalytics_utm_source"]) )
-         $_II1Ot[] = 'utm_source='.urlencode($_Jf0Ii["GoogleAnalytics_utm_source"]);
-     if ( !empty($_Jf0Ii["GoogleAnalytics_utm_medium"]) )
-         $_II1Ot[] = 'utm_medium='.urlencode($_Jf0Ii["GoogleAnalytics_utm_medium"]);
-     if ( !empty($_Jf0Ii["GoogleAnalytics_utm_term"]) )
-         $_II1Ot[] = 'utm_term='.urlencode($_Jf0Ii["GoogleAnalytics_utm_term"]);
-     if ( !empty($_Jf0Ii["GoogleAnalytics_utm_content"]) )
-         $_II1Ot[] = 'utm_content='.urlencode($_Jf0Ii["GoogleAnalytics_utm_content"]);
-     if ( !empty($_Jf0Ii["GoogleAnalytics_utm_campaign"]) )
-         $_II1Ot[] = 'utm_campaign='.urlencode($_Jf0Ii["GoogleAnalytics_utm_campaign"]);
+  function _LBCJL($_6j88I){
+     $_IoLOO = array();
+     if ( !empty($_6j88I["GoogleAnalytics_utm_source"]) )
+         $_IoLOO[] = 'utm_source='.urlencode($_6j88I["GoogleAnalytics_utm_source"]);
+     if ( !empty($_6j88I["GoogleAnalytics_utm_medium"]) )
+         $_IoLOO[] = 'utm_medium='.urlencode($_6j88I["GoogleAnalytics_utm_medium"]);
+     if ( !empty($_6j88I["GoogleAnalytics_utm_term"]) )
+         $_IoLOO[] = 'utm_term='.urlencode($_6j88I["GoogleAnalytics_utm_term"]);
+     if ( !empty($_6j88I["GoogleAnalytics_utm_content"]) )
+         $_IoLOO[] = 'utm_content='.urlencode($_6j88I["GoogleAnalytics_utm_content"]);
+     if ( !empty($_6j88I["GoogleAnalytics_utm_campaign"]) )
+         $_IoLOO[] = 'utm_campaign='.urlencode($_6j88I["GoogleAnalytics_utm_campaign"]);
 
-     return $_II1Ot;
+     return $_IoLOO;
   }
 
 ?>

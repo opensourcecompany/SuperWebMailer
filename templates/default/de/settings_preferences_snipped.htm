@@ -153,6 +153,14 @@
                               </tr>
                               <tr>
                                 <td class="MessageDescriptionColumn">
+                                  <label for="SendEngineBooster">&nbsp;&quot;Booster&quot; verwenden</label><img onmouseover="showTooltip(event, 'Durch Aktivierung dieser Option werden mehrfach die eingestellte Anzahl E-Mails versendet, insofern in der Ausgangswarteschlange sich E-Mails befinden. Der Versand wird erst beendet nach dem die, in der Datei php.ini, eingestellte Script-Laufzeit von max_execution_time (Ihre php.ini <max_execution_time></max_execution_time>&nbsp;Sekunden) erreicht ist.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                </td>
+                                <td>
+                                  <input type="checkbox" name="SendEngineBooster" id="SendEngineBooster" />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">
                                   &nbsp;
                                 </td>
                                 <td>
@@ -190,7 +198,7 @@
 
                       <fieldset>
                       <legend><SHOWHIDE:TOOLTIPS>
-                                  <img onmouseover="showTooltip(event, 'Die ECG-Liste muss in das Verzeichnis ECG mit dem Dateinamen ecg-liste.hash gespeichert werden. Informationen zum Erhalt der Datei finden Sie unter http://www.rtr.at/de/tk/NutzenECG.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  <img onmouseover="showTooltip(event, 'Es muss in der Datei userdefined.inc.php die Konstante ECG_APIKEY aktiviert und ein API-Key angegeben werden. Informationen zum Erhalt des API-Keys finden Sie unter http://www.rtr.at/de/tk/NutzenECG.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
                                   </SHOWHIDE:TOOLTIPS>E-Commerce-Gesetz (ECG)-Liste, nur f&uuml;r &Ouml;sterreich</legend>
                       <br />
                           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">

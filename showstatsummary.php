@@ -27,176 +27,176 @@
 
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeAllMLStatBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeAllMLStatBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  $_QJlJ0 = "SELECT DISTINCT $_Q60QL.id, Name, MaillistTableName, LocalBlocklistTableName, StatisticsTableName FROM $_Q60QL";
+  $_QLfol = "SELECT DISTINCT $_QL88I.id, Name, MaillistTableName, LocalBlocklistTableName, StatisticsTableName FROM $_QL88I";
   if($OwnerUserId == 0) // ist es ein Admin?
-     $_QJlJ0 .= " WHERE (users_id=$UserId)";
+     $_QLfol .= " WHERE (users_id=$UserId)";
      else {
-      $_QJlJ0 .= " LEFT JOIN $_Q6fio ON $_Q60QL.id=$_Q6fio.maillists_id WHERE (".$_Q6fio.".users_id=$UserId) AND ($_Q60QL.users_id=$OwnerUserId)";
+      $_QLfol .= " LEFT JOIN $_QlQot ON $_QL88I.id=$_QlQot.maillists_id WHERE (".$_QlQot.".users_id=$UserId) AND ($_QL88I.users_id=$OwnerUserId)";
      }
-  $_QJlJ0 .= " ORDER BY Name ASC";
+  $_QLfol .= " ORDER BY Name ASC";
 
-  $_jol0I = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
+  $_Jooll = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000370"], "", 'showstatsummary', 'mailinglistsummarystat_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000370"], "", 'showstatsummary', 'mailinglistsummarystat_snipped.htm');
 
   // get list entries
-  $_6Ot08 = _OP81D($_QJCJi, "<LIST:ENTRY>", "</LIST:ENTRY>");
-  $_QJCJi = _OPR6L($_QJCJi, "<LIST:ENTRY>", "</LIST:ENTRY>", "<LIST:ENTRIES>"."</LIST:ENTRIES>");
+  $_8Iti0 = _L81DB($_QLJfI, "<LIST:ENTRY>", "</LIST:ENTRY>");
+  $_QLJfI = _L81BJ($_QLJfI, "<LIST:ENTRY>", "</LIST:ENTRY>", "<LIST:ENTRIES>"."</LIST:ENTRIES>");
 
   // *********** Total statistics
-  $_6OtL1 = 0;
-  $_6OOtO = 0;
-  $_6OoQo = 0;
-  $_6Oo86 = 0;
-  $_6OCji = 0;
-  $_QL61I = 0;
-  $_6OCLf = 0;
-  $_6Oi0i = 0;
-  while( $_Q6Q1C=mysql_fetch_assoc($_jol0I) ) {
-    $_QJlJ0 = "SELECT COUNT(*) AS Total FROM $_Q6Q1C[MaillistTableName]";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_6OtL1 += $_QL8Q8[0];
+  $_8Itlf = 0;
+  $_8Itll = 0;
+  $_8IOQ1 = 0;
+  $_8Io1I = 0;
+  $_8IofC = 0;
+  $_IffCj = 0;
+  $_8Iotj = 0;
+  $_8IC6C = 0;
+  while( $_QLO0f=mysql_fetch_assoc($_Jooll) ) {
+    $_QLfol = "SELECT COUNT(*) AS Total FROM $_QLO0f[MaillistTableName]";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_8Itlf += $_Ift08[0];
 
-    $_QJlJ0 = "SELECT COUNT(*) AS CONFIRMEDSUBSCRIBTIONS FROM $_Q6Q1C[MaillistTableName] WHERE SubscriptionStatus='Subscribed' AND IsActive=1";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_6OOtO += $_QL8Q8[0];
+    $_QLfol = "SELECT COUNT(*) AS CONFIRMEDSUBSCRIBTIONS FROM $_QLO0f[MaillistTableName] WHERE SubscriptionStatus='Subscribed' AND IsActive=1";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_8Itll += $_Ift08[0];
 
-    $_QJlJ0 = "SELECT COUNT(*) AS CONFIRMEDSUBSCRIBTIONS FROM $_Q6Q1C[MaillistTableName] WHERE SubscriptionStatus='Subscribed' AND IsActive=0";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_6OoQo += $_QL8Q8[0];
+    $_QLfol = "SELECT COUNT(*) AS CONFIRMEDSUBSCRIBTIONS FROM $_QLO0f[MaillistTableName] WHERE SubscriptionStatus='Subscribed' AND IsActive=0";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_8IOQ1 += $_Ift08[0];
 
-    $_QJlJ0 = "SELECT COUNT(*) AS UNCONFIRMEDSUBSCRIBTIONS FROM $_Q6Q1C[MaillistTableName] WHERE SubscriptionStatus='OptInConfirmationPending'";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_6Oo86 += $_QL8Q8[0];
+    $_QLfol = "SELECT COUNT(*) AS UNCONFIRMEDSUBSCRIBTIONS FROM $_QLO0f[MaillistTableName] WHERE SubscriptionStatus='OptInConfirmationPending'";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_8Io1I += $_Ift08[0];
 
-    $_QJlJ0 = "SELECT COUNT(*) AS UNCONFIRMEDUNSUBSCRIBTIONS FROM $_Q6Q1C[MaillistTableName] WHERE SubscriptionStatus='OptOutConfirmationPending'";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_6OCji += $_QL8Q8[0];
+    $_QLfol = "SELECT COUNT(*) AS UNCONFIRMEDUNSUBSCRIBTIONS FROM $_QLO0f[MaillistTableName] WHERE SubscriptionStatus='OptOutConfirmationPending'";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_8IofC += $_Ift08[0];
 
-    $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[LocalBlocklistTableName]";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_QL61I += $_QL8Q8[0];
+    $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[LocalBlocklistTableName]";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_IffCj += $_Ift08[0];
 
-    $_QJlJ0 = "SELECT COUNT(*) AS BOUNCES FROM $_Q6Q1C[MaillistTableName] WHERE BounceStatus='PermanentlyBounced' AND IsActive=1";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_6OCLf += $_QL8Q8[0];
+    $_QLfol = "SELECT COUNT(*) AS BOUNCES FROM $_QLO0f[MaillistTableName] WHERE BounceStatus='PermanentlyBounced' AND IsActive=1";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_8Iotj += $_Ift08[0];
 
-    $_QJlJ0 = "SELECT COUNT(*) AS BOUNCES FROM $_Q6Q1C[MaillistTableName] WHERE BounceStatus='PermanentlyBounced' AND IsActive=0";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_6Oi0i += $_QL8Q8[0];
+    $_QLfol = "SELECT COUNT(*) AS BOUNCES FROM $_QLO0f[MaillistTableName] WHERE BounceStatus='PermanentlyBounced' AND IsActive=0";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_8IC6C += $_Ift08[0];
 
   }
 
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:TOTAL>', '</LIST:TOTAL>', $_6OtL1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:CONFIRMEDACTIVESUBSCRIBTIONS>', '</LIST:CONFIRMEDACTIVESUBSCRIBTIONS>', $_6OOtO);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:CONFIRMEDINACTIVESUBSCRIBTIONS>', '</LIST:CONFIRMEDINACTIVESUBSCRIBTIONS>', $_6OoQo);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:UNCONFIRMEDSUBSCRIBTIONS>', '</LIST:UNCONFIRMEDSUBSCRIBTIONS>', $_6Oo86);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:UNCONFIRMEDUNSUBSCRIBTIONS>', '</LIST:UNCONFIRMEDUNSUBSCRIBTIONS>', $_6OCji);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:RECIPIENTSINBLACKLIST>', '</LIST:RECIPIENTSINBLACKLIST>', $_QL61I);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:BOUNCEDACTIVE>', '</LIST:BOUNCEDACTIVE>', $_6OCLf);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:BOUNCEDINACTIVE>', '</LIST:BOUNCEDINACTIVE>', $_6Oi0i);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:TOTAL>', '</LIST:TOTAL>', $_8Itlf);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:CONFIRMEDACTIVESUBSCRIBTIONS>', '</LIST:CONFIRMEDACTIVESUBSCRIBTIONS>', $_8Itll);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:CONFIRMEDINACTIVESUBSCRIBTIONS>', '</LIST:CONFIRMEDINACTIVESUBSCRIBTIONS>', $_8IOQ1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:UNCONFIRMEDSUBSCRIBTIONS>', '</LIST:UNCONFIRMEDSUBSCRIBTIONS>', $_8Io1I);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:UNCONFIRMEDUNSUBSCRIBTIONS>', '</LIST:UNCONFIRMEDUNSUBSCRIBTIONS>', $_8IofC);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:RECIPIENTSINBLACKLIST>', '</LIST:RECIPIENTSINBLACKLIST>', $_IffCj);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:BOUNCEDACTIVE>', '</LIST:BOUNCEDACTIVE>', $_8Iotj);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:BOUNCEDINACTIVE>', '</LIST:BOUNCEDINACTIVE>', $_8IC6C);
 
   // *********** Total statistics END
 
   // go top
-  if(mysql_num_rows($_jol0I) > 0)
-     mysql_data_seek ($_jol0I, 0);
+  if(mysql_num_rows($_Jooll) > 0)
+     mysql_data_seek ($_Jooll, 0);
 
   // *********** detailed statistics
 
-  $_6Oi8o = "";
-  while( $_Q6Q1C=mysql_fetch_assoc($_jol0I) ) {
-    $_Q66jQ = $_6Ot08;
-    $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:NAME>", "</LIST:NAME>", $_Q6Q1C["Name"]);
-    $_Q66jQ = str_replace("<MLID>", $_Q6Q1C["id"], $_Q66jQ);
+  $_8ICfl = "";
+  while( $_QLO0f=mysql_fetch_assoc($_Jooll) ) {
+    $_Ql0fO = $_8Iti0;
+    $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:NAME>", "</LIST:NAME>", $_QLO0f["Name"]);
+    $_Ql0fO = str_replace("<MLID>", $_QLO0f["id"], $_Ql0fO);
 
-    $_QJlJ0 = "SELECT COUNT(*) AS Total FROM $_Q6Q1C[MaillistTableName] WHERE IsActive=1";
-    $_Q60l1 = mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_Q66jQ = _OPR6L($_Q66jQ, '<LIST:TOTALACTIVE>', '</LIST:TOTALACTIVE>', $_QL8Q8[0]);
+    $_QLfol = "SELECT COUNT(*) AS Total FROM $_QLO0f[MaillistTableName] WHERE IsActive=1";
+    $_QL8i1 = mysql_query($_QLfol);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_Ql0fO = _L81BJ($_Ql0fO, '<LIST:TOTALACTIVE>', '</LIST:TOTALACTIVE>', $_Ift08[0]);
 
-    $_QJlJ0 = "SELECT COUNT(*) AS Total FROM $_Q6Q1C[MaillistTableName] WHERE IsActive=0";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_Q66jQ = _OPR6L($_Q66jQ, '<LIST:TOTALINACTIVE>', '</LIST:TOTALINACTIVE>', $_QL8Q8[0]);
+    $_QLfol = "SELECT COUNT(*) AS Total FROM $_QLO0f[MaillistTableName] WHERE IsActive=0";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_Ql0fO = _L81BJ($_Ql0fO, '<LIST:TOTALINACTIVE>', '</LIST:TOTALINACTIVE>', $_Ift08[0]);
 
-    $_QJlJ0 = "SELECT COUNT(*) AS CONFIRMEDSUBSCRIBTIONS FROM $_Q6Q1C[MaillistTableName] WHERE SubscriptionStatus='Subscribed'";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_Q66jQ = _OPR6L($_Q66jQ, '<LIST:CONFIRMEDSUBSCRIBTIONS>', '</LIST:CONFIRMEDSUBSCRIBTIONS>', $_QL8Q8[0]);
+    $_QLfol = "SELECT COUNT(*) AS CONFIRMEDSUBSCRIBTIONS FROM $_QLO0f[MaillistTableName] WHERE SubscriptionStatus='Subscribed'";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_Ql0fO = _L81BJ($_Ql0fO, '<LIST:CONFIRMEDSUBSCRIBTIONS>', '</LIST:CONFIRMEDSUBSCRIBTIONS>', $_Ift08[0]);
 
-    $_QJlJ0 = "SELECT COUNT(*) AS UNCONFIRMEDSUBSCRIBTIONS FROM $_Q6Q1C[MaillistTableName] WHERE SubscriptionStatus='OptInConfirmationPending'";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_Q66jQ = _OPR6L($_Q66jQ, '<LIST:UNCONFIRMEDSUBSCRIBTIONS>', '</LIST:UNCONFIRMEDSUBSCRIBTIONS>', $_QL8Q8[0]);
+    $_QLfol = "SELECT COUNT(*) AS UNCONFIRMEDSUBSCRIBTIONS FROM $_QLO0f[MaillistTableName] WHERE SubscriptionStatus='OptInConfirmationPending'";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_Ql0fO = _L81BJ($_Ql0fO, '<LIST:UNCONFIRMEDSUBSCRIBTIONS>', '</LIST:UNCONFIRMEDSUBSCRIBTIONS>', $_Ift08[0]);
 
-    $_QJlJ0 = "SELECT COUNT(*) AS UNCONFIRMEDUNSUBSCRIBTIONS FROM $_Q6Q1C[MaillistTableName] WHERE SubscriptionStatus='OptOutConfirmationPending'";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_Q66jQ = _OPR6L($_Q66jQ, '<LIST:UNCONFIRMEDUNSUBSCRIBTIONS>', '</LIST:UNCONFIRMEDUNSUBSCRIBTIONS>', $_QL8Q8[0]);
+    $_QLfol = "SELECT COUNT(*) AS UNCONFIRMEDUNSUBSCRIBTIONS FROM $_QLO0f[MaillistTableName] WHERE SubscriptionStatus='OptOutConfirmationPending'";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_Ql0fO = _L81BJ($_Ql0fO, '<LIST:UNCONFIRMEDUNSUBSCRIBTIONS>', '</LIST:UNCONFIRMEDUNSUBSCRIBTIONS>', $_Ift08[0]);
 
-    $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[LocalBlocklistTableName]";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_Q66jQ = _OPR6L($_Q66jQ, '<LIST:RECIPIENTSINBLACKLIST>', '</LIST:RECIPIENTSINBLACKLIST>', $_QL8Q8[0]);
+    $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[LocalBlocklistTableName]";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_Ql0fO = _L81BJ($_Ql0fO, '<LIST:RECIPIENTSINBLACKLIST>', '</LIST:RECIPIENTSINBLACKLIST>', $_Ift08[0]);
 
-    $_QJlJ0 = "SELECT COUNT(*) AS BOUNCES FROM $_Q6Q1C[MaillistTableName] WHERE BounceStatus='PermanentlyBounced'";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_QL8Q8=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_Q66jQ = _OPR6L($_Q66jQ, '<LIST:BOUNCES>', '</LIST:BOUNCES>', $_QL8Q8[0]);
-    $_6Oi8o .= $_Q66jQ;
+    $_QLfol = "SELECT COUNT(*) AS BOUNCES FROM $_QLO0f[MaillistTableName] WHERE BounceStatus='PermanentlyBounced'";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Ift08=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_Ql0fO = _L81BJ($_Ql0fO, '<LIST:BOUNCES>', '</LIST:BOUNCES>', $_Ift08[0]);
+    $_8ICfl .= $_Ql0fO;
   }
 
-  $_QJCJi = _OPR6L($_QJCJi, "<LIST:ENTRIES>", "</LIST:ENTRIES>", $_6Oi8o);
+  $_QLJfI = _L81BJ($_QLJfI, "<LIST:ENTRIES>", "</LIST:ENTRIES>", $_8ICfl);
 
   // *********** detailed statistics END
 
@@ -206,46 +206,46 @@
 
   // addCultureInfo
   include_once("chartcultureinfo.inc.php");
-  $_QJCJi = addCultureInfo($_QJCJi);
+  $_QLJfI = addCultureInfo($_QLJfI);
   // addCultureInfo /
 
   # Set chart attributes
-  $_QJCJi = str_replace("CHARTTOP20TITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000360"]." Top 20", $_Q6QQL), $_QJCJi);
-  $_QJCJi = str_replace("CHARTTOP20AXISXTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["DomainName"], $_Q6QQL), $_QJCJi);
-  $_QJCJi = str_replace("CHARTTOP20AXISYTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Quantity"], $_Q6QQL), $_QJCJi);
+  $_QLJfI = str_replace("CHARTTOP20TITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000360"]." Top 20", $_QLo06), $_QLJfI);
+  $_QLJfI = str_replace("CHARTTOP20AXISXTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["DomainName"], $_QLo06), $_QLJfI);
+  $_QLJfI = str_replace("CHARTTOP20AXISYTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Quantity"], $_QLo06), $_QLJfI);
 
   // go top
-  if(mysql_num_rows($_jol0I) > 0)
-    mysql_data_seek ($_jol0I, 0);
+  if(mysql_num_rows($_Jooll) > 0)
+    mysql_data_seek ($_Jooll, 0);
 
-  $_6OLIO = array();
-  while( $_Q6Q1C=mysql_fetch_assoc($_jol0I) ) {
-    $_QJlJ0 = "SELECT COUNT(id) AS DomainCount, SUBSTRING_INDEX(u_EMail, '@', -1) AS Domain FROM $_Q6Q1C[MaillistTableName] GROUP BY Domain ORDER BY DomainCount DESC LIMIT 20";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    while($_IoioQ = mysql_fetch_array($_Q60l1)) {
-      if( isset($_6OLIO[$_IoioQ["Domain"]]) )
-         $_6OLIO[$_IoioQ["Domain"]] += $_IoioQ["DomainCount"];
+  $_8Ii1f = array();
+  while( $_QLO0f=mysql_fetch_assoc($_Jooll) ) {
+    $_QLfol = "SELECT COUNT(id) AS DomainCount, SUBSTRING_INDEX(u_EMail, '@', -1) AS Domain FROM $_QLO0f[MaillistTableName] GROUP BY Domain ORDER BY DomainCount DESC LIMIT 20";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    while($_j60Q0 = mysql_fetch_array($_QL8i1)) {
+      if( isset($_8Ii1f[$_j60Q0["Domain"]]) )
+         $_8Ii1f[$_j60Q0["Domain"]] += $_j60Q0["DomainCount"];
          else
-         $_6OLIO[$_IoioQ["Domain"]] = $_IoioQ["DomainCount"];
+         $_8Ii1f[$_j60Q0["Domain"]] = $_j60Q0["DomainCount"];
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
   }
 
-  arsort($_6OLIO, SORT_NUMERIC);
-  reset($_6OLIO);
+  arsort($_8Ii1f, SORT_NUMERIC);
+  reset($_8Ii1f);
 
-  $_jCfit = array();
-  $_Q6llo=1;
-  foreach ($_6OLIO as $key => $_Q6ClO) {
-    $_jC6IQ = array("label" => $key, "y" => $_Q6ClO, "indexLabelFontSize" => "16", "indexLabel" => "{y}");
-    $_jCfit[] = $_jC6IQ;
+  $_JCQoQ = array();
+  $_Qli6J=1;
+  foreach ($_8Ii1f as $key => $_QltJO) {
+    $_JC0jO = array("label" => $key, "y" => $_QltJO, "indexLabelFontSize" => "16", "indexLabel" => "{y}");
+    $_JCQoQ[] = $_JC0jO;
 
-    if(++$_Q6llo > 20) break;
+    if(++$_Qli6J > 20) break;
   }
 
-  $_QJCJi = str_replace("/* CHARTTOP20_DATA */", _OCR88($_jCfit, JSON_NUMERIC_CHECK), $_QJCJi);
+  $_QLJfI = str_replace("/* CHARTTOP20_DATA */", _LAFFB($_JCQoQ, JSON_NUMERIC_CHECK), $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
-  mysql_free_result($_jol0I);
+  mysql_free_result($_Jooll);
 ?>

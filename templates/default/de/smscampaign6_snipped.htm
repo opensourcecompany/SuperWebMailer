@@ -147,11 +147,11 @@
               <script language="javascript" type="text/javascript">
               <!--
                function smstextchange() {
-                 maxsmslen = document.CampaignEditForm.maxsmslen.value;
+                 maxsmslen = document.getElementById("maxsmslen").value;
                  if(maxsmslen <= 0)
                    maxsmslen=160;
 
-                 document.CampaignEditForm.smstextlength.value=document.CampaignEditForm.SMSText.value.length;
+                 document.getElementById("smstextlength").value=document.getElementById("SMSText").value.length;
                  allsmsdataOK();
                  PageModified=true;
                  return true;
@@ -160,10 +160,10 @@
                function smstextkeypress(evt) {
                  evt = (evt) ? evt : ((event) ? event : null);
                  smstextchange();
-                 maxsmslen = document.CampaignEditForm.maxsmslen.value;
+                 maxsmslen = document.getElementById("maxsmslen").value;
                  if(maxsmslen <= 0)
                    maxsmslen=160;
-                 if(document.CampaignEditForm.SMSText.value.length >= maxsmslen) {
+                 if(document.getElementById("SMSText").value.length >= maxsmslen) {
                    if(evt){
                      if(evt.keyCode < 65)
                        return true;
@@ -176,14 +176,14 @@
                }
 
                function allsmsdataOK(){
-                maxsmslen = document.CampaignEditForm.maxsmslen.value;
+                maxsmslen = document.getElementById("maxsmslen").value;
                 if(maxsmslen <= 0)
                   maxsmslen=160;
-                document.CampaignEditForm.maxsmstextlength.value=maxsmslen;
+                document.getElementById("maxsmslen").value=maxsmslen;
 
 
                 OK = true;
-                if (document.CampaignEditForm.SMSText.value.length == 0) {
+                if (document.getElementById("SMSText").value.length == 0) {
                   OK = false;
                 }
 

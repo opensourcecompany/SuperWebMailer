@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2019 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,11 +26,11 @@
   include_once("sessioncheck.inc.php");
 
  if($INTERFACE_LANGUAGE == "de")
-   $_jl1Jj = 'http://www.superscripte.de/fb-connect/superwebmailer/index_de.php?FBLink=' . urlencode( $_POST["FBLink"] ). '&FBMessageText=' . urlencode( $_POST["FBMessageText"] );
+   $_JlL1I = 'https://www.superscripte.de/fb-connect/superwebmailer/index_de.php?FBLink=' . urlencode( $_POST["FBLink"] ). '&FBMessageText=' . urlencode( $_POST["FBMessageText"] );
    else
-   $_jl1Jj = 'http://www.superscripte.de/fb-connect/superwebmailer/index_en.php?FBLink=' . urlencode( $_POST["FBLink"] ). '&FBMessageText=' . urlencode( $_POST["FBMessageText"] );
+   $_JlL1I = 'https://www.superscripte.de/fb-connect/superwebmailer/index_en.php?FBLink=' . urlencode( $_POST["FBLink"] ). '&FBMessageText=' . urlencode( $_POST["FBMessageText"] );
 
- header("Location: ".$_jl1Jj);
+ header("Location: ".$_JlL1I);
  exit;
 ?>
 

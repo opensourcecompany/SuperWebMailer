@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -24,34 +24,40 @@
 
    // PHP 5+
    class ResourceStrings implements ArrayAccess {
-    private $_686i1;
+    private $_80Jii;
 
-    public function offsetExists($_ILCIC) {
+    #[\ReturnTypeWillChange]
+    public function offsetExists($_jOJ1C) {
       global $INTERFACE_LANGUAGE;
-      if(!isset($this->_686i1)){
-        if(empty($INTERFACE_LANGUAGE))
-          _LQLRQ("de");
+      if(!isset($this->_80Jii)){
+        if(empty($INTERFACE_LANGUAGE)){
+          $INTERFACE_LANGUAGE = "de";
+          _JQRLR($INTERFACE_LANGUAGE);
+         }
           else{
-            _LQLRQ($INTERFACE_LANGUAGE);
+            _JQRLR($INTERFACE_LANGUAGE);
           }
       }
-      return isset($this->_686i1);
+      return isset($this->_80Jii);
     }
 
-    public function offsetGet($_ILCIC) {
-       if(!isset($this->_686i1) ){
-         $this->offsetExists($_ILCIC);
-         return $this->_686i1;
+    #[\ReturnTypeWillChange]
+    public function offsetGet($_jOJ1C) {
+       if(!isset($this->_80Jii) ){
+         $this->offsetExists($_jOJ1C);
+         return $this->_80Jii;
        } else
-         return $this->_686i1;
+         return $this->_80Jii;
     }
 
-    public function offsetSet($_ILCIC, $_Q6ClO) {
-       $this->_686i1 = $_Q6ClO;
+    #[\ReturnTypeWillChange]
+    public function offsetSet($_jOJ1C, $_QltJO) {
+       $this->_80Jii = $_QltJO;
     }
 
-    public function offsetUnset($_ILCIC) {
-      unset($this->_686i1);
+    #[\ReturnTypeWillChange]
+    public function offsetUnset($_jOJ1C) {
+      unset($this->_80Jii);
     }
 
    }

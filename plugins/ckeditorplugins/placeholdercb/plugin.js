@@ -1,7 +1,7 @@
 	/************************************************************************************************************
   #############################################################################
   #                SuperMailingList / SuperWebMailer                          #
-  #               Copyright © 2007 - 2017 Mirko Boeer                         #
+  #               Copyright © 2007 - 2020 Mirko Boeer                         #
   #                    Alle Rechte vorbehalten.                               #
   #                http://www.supermailinglist.de/                            #
   #                http://www.superwebmailer.de/                              #
@@ -86,6 +86,10 @@ function GetPlaceholders(editor){
 			for (var i = 0; i < parent.arrUnsubscribePlaceholders.length; i++)
 				tags[t++] = [parent.arrUnsubscribePlaceholders[i][0], '<b>' + parent.arrUnsubscribePlaceholders[i][1] + '</b>'];
 
+ if ( (parent.arrEditPlaceholders != undefined) && (editor.name == 'EditConfirmationMailHTMLText') )
+			for (var i = 0; i < parent.arrEditPlaceholders.length; i++)
+				tags[t++] = [parent.arrEditPlaceholders[i][0], '<b>' + parent.arrEditPlaceholders[i][1] + '</b>'];
+
 	if ((parent.arrPlaceholderItems ? arrPlaceholders = parent.arrPlaceholderItems : arrPlaceholders = arrPlaceholderItems) != undefined) {
    for (var i = 0; i < arrPlaceholders.length; i++)
 			 tags[t++] = [arrPlaceholders[i][0], arrPlaceholders[i][1]];
@@ -122,6 +126,10 @@ function GetPlaceholdersForLinkDialog(editor){
  if ( (parent.arrUnsubscribePlaceholders != undefined) && (editor.name == 'OptOutConfirmationMailHTMLText') )
 			for (var i = 0; i < parent.arrUnsubscribePlaceholders.length; i++)
 				tags[t++] = [html_entity_decode(parent.arrUnsubscribePlaceholders[i][1]), parent.arrUnsubscribePlaceholders[i][0]];
+
+ if ( (parent.arrEditPlaceholders != undefined) && (editor.name == 'EditConfirmationMailHTMLText') )
+			for (var i = 0; i < parent.arrEditPlaceholders.length; i++)
+				tags[t++] = [html_entity_decode(parent.arrEditPlaceholders[i][1]), parent.arrEditPlaceholders[i][0]];
 
  if ((parent.arrPlaceholderItems ? arrPlaceholders = parent.arrPlaceholderItems : arrPlaceholders = arrPlaceholderItems) != undefined) {
 			for (var i = 0; i < arrPlaceholders.length; i++)

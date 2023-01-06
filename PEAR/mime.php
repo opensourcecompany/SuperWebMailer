@@ -62,8 +62,8 @@
  *
  * This package depends on PEAR to raise errors.
  */
-require_once 'PEAR/PEAR_.php';
-require_once 'PEAR/RFC822.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'PEAR_.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'RFC822.php';
 
 /**
  * require Mail_mimePart
@@ -72,7 +72,7 @@ require_once 'PEAR/RFC822.php';
  * create all the different parts a mail can
  * consist of.
  */
-require_once 'PEAR/mimePart.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'mimePart.php';
 
  // (PHP 4 >= 4.3.0, PHP 5)
  if (!function_exists ('file_get_contents') ) {
@@ -195,6 +195,8 @@ class Mail_mime
      */
     var $ismultipart = false;
 
+    var $_mb_encode_mimeheaderexists;
+
     /**
      * Constructor function.
      *
@@ -228,6 +230,8 @@ class Mail_mime
           # lt. doku sinnvoll es fuer unix zu ersetzen, da es sonst zu \r\r\n kommen kann z.b. qmail spinnt auch
           $this->_headereol = "\n";
         } */
+
+        $this->_mb_encode_mimeheaderexists = function_exists("mb_encode_mimeheader");
 
     }
 
@@ -474,12 +478,15 @@ class Mail_mime
             return $err;
         }
 
-        //Temporarily reset magic_quotes_runtime and read file contents
-        if ($magic_quote_setting = get_magic_quotes_runtime()) {
-            set_magic_quotes_runtime(0);
+        if( version_compare(PHP_VERSION, "5.4.0", "<") ){
+          //Temporarily reset magic_quotes_runtime and read file contents
+          if ($magic_quote_setting = get_magic_quotes_runtime()) {
+              set_magic_quotes_runtime(0);
+          }
         }
+
         $cont = file_get_contents($file_name);
-        if ($magic_quote_setting) {
+        if (isset($magic_quote_setting)) {
             set_magic_quotes_runtime($magic_quote_setting);
         }
 
@@ -719,7 +726,7 @@ class Mail_mime
     function &get($build_params = null)
     {
         if (isset($build_params)) {
-            while (list($key, $value) = each($build_params)) {
+            foreach($build_params as $key => $value){
                 $this->_build_params[$key] = $value;
             }
         }
@@ -1028,6 +1035,17 @@ class Mail_mime
        $suffixlen = strlen($hdr_value_suffix);
            if (preg_match('#([\x80-\xFF]){1}#', $hdr_value)) {
 
+                if($this->_mb_encode_mimeheaderexists && !$useIconv && $build_params['head_encoding'] !== 'base64'){ #doesn't work with base64, spaces are lost
+                   // M.B.
+                   if($hdr_value_suffix != "")
+                     $hdr_value = str_replace('"', '', $hdr_value);
+                   // M.B.
+                   mb_internal_encoding($build_params['head_charset']);
+                   // trick with char 01 ever at beginning
+                   $hdr_value = str_replace('?=01', '?', mb_encode_mimeheader( chr(01) . $hdr_value, $build_params['head_charset'], "Q", $this->_headereol, strlen($hdr_name) + 2) );
+                   return str_replace($this->_headereol." ", $this->_headereol."\t", $hdr_value); // Outlook Express doesn't use Space it use TAB
+                }
+
                 if ($useIconv && function_exists('iconv_mime_encode')) {
                     // M.B.
                     if($hdr_value_suffix != "")
@@ -1131,11 +1149,11 @@ class Mail_mime
                     //suffix variable so that we can concat the encoded string and
                     //the double quotes back together to get the intended string.
                     $quotePrefix = $quoteSuffix = '';
-                    if ($hdr_value{0} == '"') {
+                    if ($hdr_value[0] == '"') {
                         $hdr_value = substr($hdr_value, 1);
                         $quotePrefix = '"';
                     }
-                    if ($hdr_value{strlen($hdr_value)-1} == '"') {
+                    if ($hdr_value[strlen($hdr_value)-1] == '"') {
                         $hdr_value = substr($hdr_value, 0, -1);
                         $quoteSuffix = '"';
                     }
@@ -1372,7 +1390,7 @@ class Mail_mime
     {
 
         $build_params = $this->_build_params;
-        while (list($key, $value) = each($params)) {
+        foreach($params as $key => $value){
             $build_params[$key] = $value;
         }
         //$hdr_name: Name of the header
@@ -1443,7 +1461,7 @@ class Mail_mime
     {
         $this->_eol = $eol;
         if (!defined('MAIL_MIME_CRLF')) {
-            define('MAIL_MIME_CRLF', $this->_eol, true);
+            define('MAIL_MIME_CRLF', $this->_eol);
         }
     }
 

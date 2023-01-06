@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -29,7 +29,7 @@ class api_base{
    * @access private
    *
 	  */
-  var $_Q8Q1Q = false;
+  var $_I1jfC = false;
 
   /**
    * constructor PHP 5 style
@@ -51,7 +51,7 @@ class api_base{
     if($APIToken == "" || !$this->CheckAPIKey($APIToken)) {
       throw new Exception("Authentification required or authentification incorrect.");
     }
-    $this->_Q8Q1Q = true;
+    $this->_I1jfC = true;
   }
 
   function api_base() {
@@ -67,52 +67,52 @@ class api_base{
   * @access private
   */
  function CheckAPIKey($apikey){
-   global $_Q61I1;
-   global $UserId, $OwnerUserId, $OwnerOwnerUserId, $_Q8J1j, $Username, $UserType, $AccountType, $INTERFACE_STYLE, $INTERFACE_THEMESID, $INTERFACE_LANGUAGE, $ProductLogoURL;
-   global $resourcestrings, $_Q8f1L, $_Q880O, $_Q88iO;
+   global $_QLttI;
+   global $UserId, $OwnerUserId, $OwnerOwnerUserId, $_I16ll, $Username, $UserType, $AccountType, $INTERFACE_STYLE, $INTERFACE_THEMESID, $INTERFACE_LANGUAGE, $ProductLogoURL;
+   global $resourcestrings, $_I18lo, $_I1tQf, $_I1O0i;
 
    if(empty($apikey)) return false;
 
-   $_QJlJ0 = "SELECT * FROM `$_Q8f1L` WHERE `apikey`="._OPQLR($apikey)." AND (`UserType`='Admin' OR `UserType`='SuperAdmin')";
-   $_Q8to6 = mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol = "SELECT * FROM `$_I18lo` WHERE `apikey`="._LRAFO($apikey)." AND (`UserType`='Admin' OR `UserType`='SuperAdmin')";
+   $_I1OQL = mysql_query($_QLfol, $_QLttI);
 
-   if($_Q8to6 && ($_Q6Q1C = mysql_fetch_assoc($_Q8to6)) ) {
+   if($_I1OQL && ($_QLO0f = mysql_fetch_assoc($_I1OQL)) ) {
 
-      $UserId = $_Q6Q1C["id"];
+      $UserId = $_QLO0f["id"];
       $OwnerUserId = 0; // ever admin or superadmin
-      $Username = $_Q6Q1C["Username"];
-      $UserType = $_Q6Q1C["UserType"];
-      $AccountType = $_Q6Q1C["AccountType"];
-      $INTERFACE_THEMESID = $_Q6Q1C["ThemesId"];
-      $INTERFACE_LANGUAGE = $_Q6Q1C["Language"];
+      $Username = $_QLO0f["Username"];
+      $UserType = $_QLO0f["UserType"];
+      $AccountType = $_QLO0f["AccountType"];
+      $INTERFACE_THEMESID = $_QLO0f["ThemesId"];
+      $INTERFACE_LANGUAGE = $_QLO0f["Language"];
 
-      $_QJlJ0 = "SELECT `Theme` FROM `$_Q880O` WHERE `id`=$INTERFACE_THEMESID";
-      $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q8OiJ = mysql_fetch_row($_Q8Oj8);
-      $INTERFACE_STYLE = $_Q8OiJ[0];
-      mysql_free_result($_Q8Oj8);
+      $_QLfol = "SELECT `Theme` FROM `$_I1tQf` WHERE `id`=$INTERFACE_THEMESID";
+      $_I1O6j = mysql_query($_QLfol, $_QLttI);
+      $_I1OfI = mysql_fetch_row($_I1O6j);
+      $INTERFACE_STYLE = $_I1OfI[0];
+      mysql_free_result($_I1O6j);
 
-      _OP0D0($_Q6Q1C);
+      _LR8AP($_QLO0f);
 
-      _OP0AF($UserId);
+      _LRRFJ($UserId);
 
-      _OP10J($INTERFACE_LANGUAGE);
-      _LQLRQ($INTERFACE_LANGUAGE);
+      _LRPQ6($INTERFACE_LANGUAGE);
+      _JQRLR($INTERFACE_LANGUAGE);
 
-      mysql_free_result($_Q8to6);
+      mysql_free_result($_I1OQL);
 
-      $_QJlJ0 = "SELECT * FROM `$_Q88iO` LIMIT 0,1";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if(!$_Q6Q1C = mysql_fetch_assoc($_Q60l1))
+      $_QLfol = "SELECT * FROM `$_I1O0i` LIMIT 0,1";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if(!$_QLO0f = mysql_fetch_assoc($_QL8i1))
        return false;
-      mysql_free_result($_Q60l1);
-      $ProductLogoURL = $_Q6Q1C["ProductLogoURL"];
-      $_Q8otJ = _LQEQR($_Q6Q1C);
-      if($_Q8otJ === false)
+      mysql_free_result($_QL8i1);
+      $ProductLogoURL = $_QLO0f["ProductLogoURL"];
+      $_I1OoI = _JOLOA($_QLO0f);
+      if($_I1OoI === false)
         return false;
-      if(isset($_Q8otJ["DashboardTag"])){
-        $OwnerOwnerUserId = ord( substr($_Q8otJ["DashboardTag"], strlen($_Q8otJ["DashboardTag"]) - 1, 1) );
-        $_Q8J1j = sprintf("%06X", intval(strrev(substr(substr($_Q8otJ["DashboardTag"], 0, 13), 7))));
+      if(isset($_I1OoI["DashboardTag"])){
+        $OwnerOwnerUserId = ord( substr($_I1OoI["DashboardTag"], strlen($_I1OoI["DashboardTag"]) - 1, 1) );
+        $_I16ll = sprintf("%06X", intval(strrev(substr(substr($_I1OoI["DashboardTag"], 0, 13), 7))));
       }
 
       return true;
@@ -125,27 +125,27 @@ class api_base{
    * Shows SQL error
    * @access public
    *
-	  * @param string $_QJlJ0
+	  * @param string $_QLfol
    * @return void
 	  */
-   function api_ShowSQLError($_QJlJ0){
-     global $AppName, $_Q61I1;
-     $_QJCJi = mysql_error($_Q61I1);
-     if($_QJCJi == "") return;
-     return $this->api_Error("An SQL error occurs: ".$_QJCJi." ".$_QJlJ0);
+   function api_ShowSQLError($_QLfol){
+     global $AppName, $_QLttI;
+     $_QLJfI = mysql_error($_QLttI);
+     if($_QLJfI == "") return;
+     return $this->api_Error("An SQL error occurs: ".$_QLJfI." ".$_QLfol);
    }
 
   /**
    * Shows an error text
    * @access public
    *
-	  * @param string $_Q8oLt
+	  * @param string $_I1OLj
    * @return void
 	  */
-  function api_Error($_Q8oLt){
+  function api_Error($_I1OLj){
      global $AppName, $apiserver;
-     $_Q8C08 = $AppName." - Error: " . $_Q8oLt;
-     return $apiserver->fault("1", $_Q8C08, "", $_Q8C08);
+     $_I1Ilj = $AppName." - Error: " . $_I1OLj;
+     return $apiserver->fault("1", $_I1Ilj, "", $_I1Ilj);
   }
 
 

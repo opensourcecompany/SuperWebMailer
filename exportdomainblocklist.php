@@ -26,9 +26,9 @@
   include_once("sessioncheck.inc.php");
   include_once("templates.inc.php");
 
-  $_jLOo1 = "exportdomainblocklist.txt";
-  $_IjfjI = $_Qlt66;
-  $_IjfLj = true;
+  $_Jljf6 = "exportdomainblocklist.txt";
+  $_Ii6tC = $_I8OoJ;
+  $_Ii6CO = true;
 
   if(isset($_POST["Action"]))
      $_POST["action"] = $_POST["Action"];
@@ -39,7 +39,7 @@
        (isset($_GET["action"]) && $_GET["action"] == "local")
      ) {
          if (! isset($_POST["OneMailingListId"]) && ! isset($_GET["OneMailingListId"]) ) {
-           $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001142"];
+           $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001142"];
            include_once("mailinglistselect.inc.php");
            if (!isset($_POST["OneMailingListId"]) )
               exit;
@@ -50,24 +50,24 @@
 
          $OneMailingListId = intval($_POST["OneMailingListId"]);
 
-         if(!_OCJCC($OneMailingListId)){
-           $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-           $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-           print $_QJCJi;
+         if(!_LAEJL($OneMailingListId)){
+           $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+           $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+           print $_QLJfI;
            exit;
          }
 
          // get local blocklist
-         $_QJlJ0 = "SELECT LocalDomainBlocklistTableName, Name FROM $_Q60QL WHERE id=".intval($_POST["OneMailingListId"]);
-         $_Q60l1 = mysql_query($_QJlJ0);
-         $_IjfLj = false;
-         if(mysql_num_rows($_Q60l1) > 0) {
-           $_Q6Q1C = mysql_fetch_row($_Q60l1);
-           mysql_free_result($_Q60l1);
-           $_IjfjI = $_Q6Q1C[0];
-           $_IjOJC = $_Q6Q1C[1];
+         $_QLfol = "SELECT LocalDomainBlocklistTableName, Name FROM $_QL88I WHERE id=".intval($_POST["OneMailingListId"]);
+         $_QL8i1 = mysql_query($_QLfol);
+         $_Ii6CO = false;
+         if(mysql_num_rows($_QL8i1) > 0) {
+           $_QLO0f = mysql_fetch_row($_QL8i1);
+           mysql_free_result($_QL8i1);
+           $_Ii6tC = $_QLO0f[0];
+           $_Ii8Q6 = $_QLO0f[1];
          } else {
-           $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["001142"];
+           $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["001142"];
            include_once("mailinglistselect.inc.php");
            exit;
          }
@@ -79,163 +79,163 @@
   if(isset($_GET["action"]))
      $_POST["action"] = $_GET["action"];
 
-  if($_IjfLj)
-   $_Iji86 = $resourcestrings[$INTERFACE_LANGUAGE]["001141"];
+  if($_Ii6CO)
+   $_IiOfO = $resourcestrings[$INTERFACE_LANGUAGE]["001141"];
    else
-   $_Iji86 = $_IjOJC." - ".$resourcestrings[$INTERFACE_LANGUAGE]["001142"];
+   $_IiOfO = $_Ii8Q6." - ".$resourcestrings[$INTERFACE_LANGUAGE]["001142"];
 
   if(!isset($_POST["ExportLines"]))
     $_POST["ExportLines"] = 100;
   $_POST["ExportLines"] = intval($_POST["ExportLines"]);
 
   if(isset($_POST["step"]) && $_POST["step"] == 3 && isset($_POST["RemoveExportFileBtn"])) {
-    $_jLCf6 = "";
-    if($_Q6lfJ = fopen($_jji0C.$_jLOo1, "w") )
-       fclose($_Q6lfJ);
+    $_JlJLO = "";
+    if($_QlCtl = fopen($_J1t6J.$_Jljf6, "w") )
+       fclose($_QlCtl);
        else
-       $_jLCf6 = "Can't open file ".$_jji0C.$_jLOo1;
+       $_JlJLO = "Can't open file ".$_J1t6J.$_Jljf6;
 
-    if(!unlink($_jji0C.$_jLOo1))
-       $_jLCf6 .= "Can't remove file ".$_jji0C.$_jLOo1;
+    if(!unlink($_J1t6J.$_Jljf6))
+       $_JlJLO .= "Can't remove file ".$_J1t6J.$_Jljf6;
     unset($_POST["step"]);
-    if($_jLCf6 == "")
-       $_jLCf6 = "OK";
+    if($_JlJLO == "")
+       $_JlJLO = "OK";
 
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_Iji86, "", 'browsedomainblmembers', 'blocklistexport4_snipped.htm');
-    $_QJCJi = str_replace("exportblocklist.php", "exportdomainblocklist.php", $_QJCJi);
-    $_QJCJi = str_replace("browseblmembers.php", "browsedomainblmembers.php", $_QJCJi);
-    $_QJCJi = str_replace("[ERRORTEXT]", $_jLCf6, $_QJCJi);
-    $_QJCJi = _OPFJA(array(), $_POST, $_QJCJi);
-    print $_QJCJi;
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_IiOfO, "", 'browsedomainblmembers', 'blocklistexport4_snipped.htm');
+    $_QLJfI = str_replace("exportblocklist.php", "exportdomainblocklist.php", $_QLJfI);
+    $_QLJfI = str_replace("browseblmembers.php", "browsedomainblmembers.php", $_QLJfI);
+    $_QLJfI = str_replace("[ERRORTEXT]", $_JlJLO, $_QLJfI);
+    $_QLJfI = _L8AOB(array(), $_POST, $_QLJfI);
+    print $_QLJfI;
 
     exit;
   }
 
   if(!isset($_POST["step"])) {
 
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_Iji86, "", 'browsedomainblmembers', 'blocklistexport1_snipped.htm');
-    $_QJCJi = str_replace("exportblocklist.php", "exportdomainblocklist.php", $_QJCJi);
-    $_QJCJi = str_replace("browseblmembers.php", "browsedomainblmembers.php", $_QJCJi);
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_IiOfO, "", 'browsedomainblmembers', 'blocklistexport1_snipped.htm');
+    $_QLJfI = str_replace("exportblocklist.php", "exportdomainblocklist.php", $_QLJfI);
+    $_QLJfI = str_replace("browseblmembers.php", "browsedomainblmembers.php", $_QLJfI);
 
-    $_QJCJi = str_replace('/userfiles/export', $_jji0C, $_QJCJi);
+    $_QLJfI = str_replace('/userfiles/export', $_J1t6J, $_QLJfI);
 
-    if( isset($_POST["OneMailingListId"]) && $_POST["OneMailingListId"] != "" ) {
-       $_QJCJi = str_replace('exportdomainblocklist.php', 'exportdomainblocklist.php?action=local&OneMailingListId='.$_POST["OneMailingListId"], $_QJCJi);
-       $_QJCJi = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$OneMailingListId.'"', $_QJCJi);
+    if( isset($_POST["OneMailingListId"]) && $_POST["OneMailingListId"] > 0 ) {
+       $_QLJfI = str_replace('exportdomainblocklist.php', 'exportdomainblocklist.php?action=local&OneMailingListId='.$_POST["OneMailingListId"], $_QLJfI);
+       $_QLJfI = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$OneMailingListId.'"', $_QLJfI);
        $action = "";
        if(isset($_POST["action"]))
           $action = $_POST["action"];
-       $_QJCJi = str_replace('name="action"', 'name="action" value="'.$action.'"', $_QJCJi);
-       $_QJCJi = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$_POST["OneMailingListId"].'"', $_QJCJi);
+       $_QLJfI = str_replace('name="action"', 'name="action" value="'.$action.'"', $_QLJfI);
+       $_QLJfI = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$_POST["OneMailingListId"].'"', $_QLJfI);
     }
 
-    print $_QJCJi;
+    print $_QLJfI;
     exit;
   }
 
   if( isset($_POST["NextBtn"]) )
     $_POST["step"]++;
   if($_POST["step"] == 2) {
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_Iji86, "", 'browsedomainblmembers', 'blocklistexport2_snipped.htm');
-    $_QJCJi = str_replace("exportblocklist.php", "exportdomainblocklist.php", $_QJCJi);
-    $_QJCJi = str_replace("browseblmembers.php", "browsedomainblmembers.php", $_QJCJi);
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_IiOfO, "", 'browsedomainblmembers', 'blocklistexport2_snipped.htm');
+    $_QLJfI = str_replace("exportblocklist.php", "exportdomainblocklist.php", $_QLJfI);
+    $_QLJfI = str_replace("browseblmembers.php", "browsedomainblmembers.php", $_QLJfI);
 
-    $_IJ0Jo = 0;
-    $_jLCff = 0;
+    $_IiiJf = 0;
+    $_Jl6OO = 0;
     if(isset($_POST["RowCount"]))
-       $_IJ0Jo += $_POST["RowCount"];
+       $_IiiJf += $_POST["RowCount"];
     if(isset($_POST["ExportRowCount"]))
-       $_jLCff += $_POST["ExportRowCount"];
+       $_Jl6OO += $_POST["ExportRowCount"];
 
-    $_QJlJ0 = "SELECT COUNT(*) FROM `$_IjfjI`";
-    $_Q60l1 = mysql_query($_QJlJ0);
-    $_Q6Q1C = mysql_fetch_row($_Q60l1);
-    $_I6Qfj = $_Q6Q1C[0];
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT COUNT(*) FROM `$_Ii6tC`";
+    $_QL8i1 = mysql_query($_QLfol);
+    $_QLO0f = mysql_fetch_row($_QL8i1);
+    $_IlQll = $_QLO0f[0];
+    mysql_free_result($_QL8i1);
 
-    $_QCC8C = 0;
+    $_IJljf = 0;
 
     if(!isset($_POST["start"]))
       { // noch nie angefasst
-        $_QCC8C = fopen($_jji0C.$_jLOo1, "w");
-        fwrite($_QCC8C, "Domain".$_Q6JJJ );
+        $_IJljf = fopen($_J1t6J.$_Jljf6, "w");
+        fwrite($_IJljf, "Domain".$_QLl1Q );
       }
 
-    if(!$_QCC8C)
-      $_QCC8C = fopen($_jji0C.$_jLOo1, "a");
+    if(!$_IJljf)
+      $_IJljf = fopen($_J1t6J.$_Jljf6, "a");
 
     if(!isset($_POST["start"]) ) {
-      $_IJQQI = 0;
+      $_Iil6i = 0;
     } else {
-      $_IJQQI = $_POST["start"];
+      $_Iil6i = $_POST["start"];
       unset($_POST["start"]);
     }
 
     unset($_POST["step"]);
 
-    $_IJ0Q8 = "";
-    $_QJCJi = _OPFJA(array(), $_POST, $_QJCJi);
-    $_QJCJi = _OPR6L($_QJCJi, '<HIDDEN:FIELDS>', '</HIDDEN:FIELDS>', $_IJ0Q8);
+    $_IiCfO = "";
+    $_QLJfI = _L8AOB(array(), $_POST, $_QLJfI);
+    $_QLJfI = _L81BJ($_QLJfI, '<HIDDEN:FIELDS>', '</HIDDEN:FIELDS>', $_IiCfO);
 
-    $_IJQJ8 = substr($_QJCJi, 0, strpos($_QJCJi, "<BLOCK />") - 1);
-    $_QJCJi = substr($_QJCJi, strpos($_QJCJi, "<BLOCK />") + strlen("<BLOCK />"));
+    $_IilfC = substr($_QLJfI, 0, strpos($_QLJfI, "<BLOCK />") - 1);
+    $_QLJfI = substr($_QLJfI, strpos($_QLJfI, "<BLOCK />") + strlen("<BLOCK />"));
 
     // progress
-    if($_I6Qfj > 0)
-      $_Q6i6i = sprintf("%d", $_IJQQI * 100 / $_I6Qfj );
+    if($_IlQll > 0)
+      $_QlOjt = sprintf("%d", $_Iil6i * 100 / $_IlQll );
       else
-      $_Q6i6i = 0;
+      $_QlOjt = 0;
     // progressbar macht bei 0 mist
-    if($_Q6i6i == 0)
-      $_Q6i6i = 1;
-    $_IJQJ8 = _OPR6L($_IJQJ8, "<SHOW:PERCENT>", "</SHOW:PERCENT>", $_Q6i6i);
+    if($_QlOjt == 0)
+      $_QlOjt = 1;
+    $_IilfC = _L81BJ($_IilfC, "<SHOW:PERCENT>", "</SHOW:PERCENT>", $_QlOjt);
 
-    $_ILQL0 = "Domainname";
+    $_jtiJJ = "Domainname";
 
-    $_QJlJ0 = "SELECT $_ILQL0, id FROM `$_IjfjI` ORDER BY id LIMIT $_IJQQI, ".intval($_POST["ExportLines"]);
-    $_Q60l1 = mysql_query($_QJlJ0);
-    if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
-        fclose($_QCC8C);
-        $_I0600 = "";
-        $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_Iji86, $_I0600, 'browsedomainblmembers', 'blocklistexport3_snipped.htm');
-        $_QJCJi = str_replace("exportblocklist.php", "exportdomainblocklist.php", $_QJCJi);
-        $_QJCJi = str_replace("browseblmembers.php", "browsedomainblmembers.php", $_QJCJi);
-        $_QJCJi = _OPR6L($_QJCJi, "<EXPORT:FILECOUNT>", "</EXPORT:FILECOUNT>", $_I6Qfj);
-        $_QJCJi = str_replace("DOWNLOAD", $_jjCtI."export/".$_jLOo1, $_QJCJi);
-        $_QJCJi = _OPFJA(array(), $_POST, $_QJCJi);
-        print $_QJCJi;
+    $_QLfol = "SELECT $_jtiJJ, id FROM `$_Ii6tC` ORDER BY id LIMIT $_Iil6i, ".intval($_POST["ExportLines"]);
+    $_QL8i1 = mysql_query($_QLfol);
+    if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
+        fclose($_IJljf);
+        $_Itfj8 = "";
+        $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_IiOfO, $_Itfj8, 'browsedomainblmembers', 'blocklistexport3_snipped.htm');
+        $_QLJfI = str_replace("exportblocklist.php", "exportdomainblocklist.php", $_QLJfI);
+        $_QLJfI = str_replace("browseblmembers.php", "browsedomainblmembers.php", $_QLJfI);
+        $_QLJfI = _L81BJ($_QLJfI, "<EXPORT:FILECOUNT>", "</EXPORT:FILECOUNT>", $_IlQll);
+        $_QLJfI = str_replace("DOWNLOAD", $_jfOJj."export/".$_Jljf6, $_QLJfI);
+        $_QLJfI = _L8AOB(array(), $_POST, $_QLJfI);
+        print $_QLJfI;
         exit;
     }
 
     // output here, if eof() than do nothing
-    print $_IJQJ8;
+    print $_IilfC;
     flush();
 
     $_POST["Separator"] = ";";
-    $_IflL6 = 0;
-    while($_Q6Q1C = mysql_fetch_row($_Q60l1)) {
-      _OPQ6J();
+    $_j1881 = 0;
+    while($_QLO0f = mysql_fetch_row($_QL8i1)) {
+      _LRCOC();
       if(isset($_POST["AddQuotes"]) && $_POST["AddQuotes"] != "") {
-        for($_Q6llo=0; $_Q6llo<count($_Q6Q1C) - 1 /* -1 id field */; $_Q6llo++)
-           $_Q6Q1C[$_Q6llo] = _OPQJR($_Q6Q1C[$_Q6llo]);
+        for($_Qli6J=0; $_Qli6J<count($_QLO0f) - 1 /* -1 id field */; $_Qli6J++)
+           $_QLO0f[$_Qli6J] = _LRBC0($_QLO0f[$_Qli6J]);
       } else {
-        unset($_Q6Q1C[count($_Q6Q1C) - 1]); /* -1 id field */
+        unset($_QLO0f[count($_QLO0f) - 1]); /* -1 id field */
       }
-      fwrite($_QCC8C, join($_POST["Separator"], $_Q6Q1C).$_Q6JJJ );
-      $_IflL6++;
+      fwrite($_IJljf, join($_POST["Separator"], $_QLO0f).$_QLl1Q );
+      $_j1881++;
     }
 
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_IJQQI += $_IflL6;
-    $_jLCff += $_IflL6;
+    $_Iil6i += $_j1881;
+    $_Jl6OO += $_j1881;
 
-    print '<input type="hidden" name="start" value="'.$_IJQQI.'" />';
-    print '<input type="hidden" name="ExportRowCount" value="'.$_jLCff.'" />';
+    print '<input type="hidden" name="start" value="'.$_Iil6i.'" />';
+    print '<input type="hidden" name="ExportRowCount" value="'.$_Jl6OO.'" />';
 
-    fclose($_QCC8C);
+    fclose($_IJljf);
 
-    print $_QJCJi;
+    print $_QLJfI;
   }
 
 ?>

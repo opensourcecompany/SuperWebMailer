@@ -32,7 +32,7 @@
 <h1>Newsletter-Archiv bearbeiten</h1>
 <p>&nbsp;</p>
 <p><b>Registerkarte Allgemein</b></p>
-<p><img border="0" src="../images/newsletterarchive1.png" width="956" height="689"></p>
+<p><img border="0" src="../images/newsletterarchive1.png" width="741" height="734"></p>
 <p>&nbsp;</p>
 <table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
   <tr valign="top">
@@ -51,8 +51,7 @@
   <tr valign="top">
     <td width="28%">E-Mailings</td>
     <td width="72%">In der Liste der E-Mailings müssen Sie alle E-Mailings
-      wählen, die im Newsletter-Archiv dargestellt werden sollen. Zur Auswahl
-      mehrerer Einträge verwenden Sie die Tasten Strg (Ctrl) und Umsch (Shift).
+      wählen, die im Newsletter-Archiv dargestellt werden sollen.
       <p>Hinweise:</p>
       <ul>
         <li>Alle versendeten E-Mails der einzelnen E-Mailings werden sortiert
@@ -70,7 +69,7 @@
   <tr valign="top">
     <td width="28%"><a name="option_templates_directory"></a>Vorlagenverzeichnis</td>
     <td width="72%">Lassen Sie die Angabe leer um die Standard-Vorlage zu
-      verwenden, die im Unterverzeichnis na/de zu finden ist.
+      verwenden, die im Unterverzeichnis na zu finden ist.
       <p>Zur Verwendung einer eigenen Vorlage sollte ein Vorlagenverzeichnis
       definiert werden. Das Vorlagenverzeichnis <b>muss</b> ein Unterverzeichnis
       des SuperWebMailer-Installationsverzeichnisses sein.</p>
@@ -83,60 +82,105 @@
 </table>
 <p>&nbsp;</p>
 <p><b>Registerkarte Erscheinungsbild</b></p>
-<p><img border="0" src="../images/newsletterarchive2.png" width="955" height="813"></p>
+<p><img border="0" src="../images/newsletterarchive2.png" width="945" height="659"></p>
 <p>&nbsp;</p>
 <table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
   <tr valign="top">
-    <td width="28%">Farben und Schriftarten anpassen (bei eigenen Layouts
-      deaktivieren)</td>
-    <td width="72%">Aktivieren Sie diese Einstellung, um die Farben und
-      Schriftarten direkt in der SuperWebMailer-Oberfläche anpassen zu können.
-      Lassen Sie die Einstellung deaktiviert, wenn Sie die Farben selbst über
-      die CSS-Datei na.css im Unterverzeichnis css anpassen bzw. ein eigenes
-      Layout verwenden möchten.
+    <td width="28%">Farbschema</td>
+    <td width="72%">Wählen Sie das gewünschte Farbschema. Sollte das
+      Farbschema nicht passen, müssen Sie selbst die <a href="#option_templates_directory">Vorlagedatei
+      anpassen</a>.
+      <p>Klicken Sie auf &quot;Beispieldarstellung&quot;, um Die Hauptseite des
+      Newsletterarchivs anzeigen zu lassen.</p>
       <p>&nbsp;</p>
     </td>
   </tr>
   <tr valign="top">
-    <td width="28%">Farben und Schriftarten
+    <td width="28%">Sprache der Newsletter-E-Mail-Inhalte
       <p>&nbsp;</td>
-    <td width="72%">&nbsp;
-      <p><u>Farben</u></p>
-      <p>Geben Sie alle Farbwerte in hexadezimaler Form in RGB-Werten, die Farbe
-      kann ebenfalls im angezeigten Farbwahldialog direkt gewählt werden.</p>
-      <p><u>Schriftarten</u></p>
-      <p>Es sollten nur Schriftarten angegeben werden, die auf jedem Rechner
-      installiert sind. Mehrere Schriftarten können mit Komma (,) voneinander
-      getrennt angegeben werden, so dass der Browser selbst die passende
-      Schriftart aussuchen kann.</p>
-      <p><u>Schriftgrad</u></p>
-      <p>Den Schriftgrad können Sie mit dem Zusatz pt, em oder px angeben.</p>
+    <td width="72%"><span style="color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13.3333px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;">Wählen
+      Sie die Sprache des Newsletters, diese Angabe wird an den Google
+      Übersetzer als Quellsprache übermittelt.</span>
+      <p style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;"><b>Hinweis</b></p>
+      <p style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">Sind
+      Newsletter in unterschiedlichen Sprachen im Newsletterarchiv, dann sollte
+      im Quelltext des Newsletters am HTML-Tag &lt;html&gt; die Sprache mit
+      lang=&quot;&quot; definiert werden, alternativ verwenden Sie im Quelltext
+      &lt;meta http-equiv=&quot;content-language&quot;
+      content=&quot;sprachkürzel&quot;&gt;, z.B.</p>
+      <p style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">&lt;html&gt;
+      ändern in &lt;html lang=&quot;en&quot;&gt;</p>
+      <p style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">oder</p>
+      <p style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">&lt;meta
+      http-equiv=&quot;content-language&quot; content=&quot;en&quot;&gt;</p>
+      <p style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">Das
+      Script sucht nach der Sprachangabe und verwendet diese für den Dienst
+      Google Übersetzer als Quellsprache. Es dürfen natürlich nur
+      Sprachkürzel verwendet werden, die Google Übersetzer unterstützt.</p>
+      <p style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">SuperWebMailer
+      unterstützt</p>
+      <ul style="list-style-type: square; color: rgb(0, 0, 0); font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 13.3333px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">
+        <li style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif;">en
+          - English</li>
+        <li style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif;">cs
+          - &#268;esky</li>
+        <li style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif;">nl
+          - Nederlands</li>
+        <li style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif;">fr
+          - Français</li>
+        <li style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif;">it
+          - Italiano</li>
+        <li style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif;">pl
+          - Polski</li>
+        <li style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif;">pt
+          - Português</li>
+        <li style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif;">ru
+          - &#1056;&#1091;&#1089;&#1089;&#1082;&#1080;&#1081;</li>
+        <li style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif;">es
+          - Español</li>
+        <li style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif;">tr
+          - Türkçe</li>
+      </ul>
+      <p style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">Die
+      Sprachen können erweitert werdern, dazu finden Sie im Unterverzeichnis
+      altbrowserlink die Datei _AltBrowserLinkLangs.txt, diese wird für das
+      Newsletterarchiv und den alternativen Browserlink verwendet.</p>
+      <p style="font-size: 10pt; font-family: Verdana, Arial, Helvetica, sans-serif; color: rgb(0, 0, 0); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Optional: HTML-Code direkt nach der Info-Leiste</td>
+    <td width="72%">Sie können optional HTML-Code direkte nach der oberen
+      feststehenden Leiste angeben, das kann notwendig sein, um den eigenen
+      Newsletter nicht mit der Leiste zu überdecken.
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
+    <td width="28%">Anzuzeigende Links</td>
+    <td width="72%">Sie können die sichtbaren Bezeichner und URLs ändern.
+      Aktivieren Sie den Link, um diesen in der Newsletterarchiv-Leiste oberhalb
+      des Newsletters anzeigen zu lassen.<br>
+      <p>Hinweise zu den Links:<br>
+      <br>
+      Die Links Übersetzen, RSS-Feed und Anmeldung zum Newsletter werden immer
+      rechts in der oberen Info-Leiste ausgerichtet, alle anderen Links immer
+      links. Die Anhänge, falls vorhanden, werden immer in der unteren Leiste
+      links dargestellt.</p>
       <p>&nbsp;</td>
   </tr>
 </table>
 <p>&nbsp;</p>
 <p><b>Registerkarte Texte</b></p>
-<p><img border="0" src="../images/newsletterarchive3.png" width="960" height="804"></p>
+<p><img border="0" src="../images/newsletterarchive3.png" width="950" height="734"></p>
 <table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
   <tr valign="top">
     <td width="28%">Standard-Texte des Newsletter-Archivs</td>
     <td width="72%">Geben Sie die anzuzeigenden Texte ein. Es ist ebenfalls
       möglich, den Text in einer anderen Sprache z.B. englisch anzugeben.
-      <p>&nbsp;</p>
-      <p>Im Feld &quot;Überschrift auf der Seite nach Auswahl eines
-      Jahres&quot; kann der Platzhalter [NewsletterYear] verwendet werden, das
-      Script wird an dieser Stelle das Jahr einsetzen.</p>
-      <p>Im Feld &quot;Text für einen Newsletter-Eintrag&quot; können die
-      Platzhalter:</p>
-      <ul>
-        <li>[NewsletterDate] = Versanddatum der E-Mail
-        <li>[NewsletterYear] = Versandjahr der E-Mail
-        <li>[NewsletterMonth] = Versandmonat der E-Mail
-        <li>[NewsletterDay] = Versandtag der E-Mail</li>
-      </ul>
-      <p>verwendet werden.</p>
-      <p>&nbsp;</p>
-    </td>
+      <p>Geben Sie im Feld &quot;Alternativ eigenes Bild mit http(s):// auf der
+      Startseite&quot; eine URL zu einem Bild an, dann wird &quot;Überschrift
+      auf der Startseite&quot; nicht dargestellt, sondern als alternativer Text
+      für das Bild verwendet.</p>
+      <p>&nbsp;</td>
   </tr>
   <tr valign="top">
     <td width="28%">Impressum auf der Startseite anzeigen
@@ -154,7 +198,7 @@
 </table>
 <p>&nbsp;</p>
 <p><b>Registerkarte Optionen</b></p>
-<p><img border="0" src="../images/newsletterarchive4.png" width="956" height="638"></p>
+<p><img border="0" src="../images/newsletterarchive4.png" width="842" height="692"></p>
 <p>&nbsp;</p>
 <table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
   <tr valign="top">
@@ -180,6 +224,29 @@
             <p>&nbsp;</td>
         </tr>
         <tr>
+          <td width="50%" valign="top">Anmeldelink auf der Startseite des
+            Newsletter-Archivs zeigen</td>
+          <td width="50%">Zeigt den Link zur Anmeldung zum Newsletter auf der
+            Startseite an. Dieser wird nur dargestellt wenn auf dem Reiter
+            &quot;Erscheinungsbild&quot; eine URL hinterlegt und der Link zur
+            Anmeldung aktiviert wurde.
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="50%" valign="top">Anzahl letzte Newsletter-Einträge auf
+            der Startseite</td>
+          <td width="50%">Geben Sie an wie viele letzte Newsletter auf der
+            Startseite dagestellt werden sollen.
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
+          <td width="50%" valign="top">Gewähltes Jahr/Newsletter-Eintrag immer
+            an erster Position im Menü zeigen</td>
+          <td width="50%">Zeigt das gerade gewählte Jahr und Newsletter-Eintrag
+            im jeweiligen Menü immer an der ersten Stelle.
+            <p>&nbsp;</td>
+        </tr>
+        <tr>
           <td width="50%" valign="top">Alle mailto: Links entfernen</td>
           <td width="50%">Entfernt alle mailto: Links aus dem E-Mail-Text der
             anzuzeigenden Newsletter. Dies kann vor Spam schützen, da etwaige
@@ -190,7 +257,7 @@
           <td width="50%" valign="top">Alle Platzhalter zur Personalisierung
             entfernen</td>
           <td width="50%">Entfernt alle Platzhalter zur Personalisierung der
-            E-Mails aus dem anzuzeigenden Newsletter. 
+            E-Mails aus dem anzuzeigenden Newsletter.
             <p>&nbsp;</td>
         </tr>
         <tr>
@@ -210,7 +277,7 @@
 <p><b>Registerkarte RSS-Feed</b></p>
 <p>Bei Verwendung der RSS-Feed-Funktion sollten die Angaben auf dieser
 Registerkarte ausgefüllt werden.</p>
-<p><img border="0" src="../images/newsletterarchive5.png" width="957" height="317"></p>
+<p><img border="0" src="../images/newsletterarchive5.png" width="821" height="396"></p>
 <p>&nbsp;</p>
 <table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
   <tr valign="top">
@@ -222,7 +289,8 @@ Registerkarte ausgefüllt werden.</p>
   </tr>
   <tr valign="top">
     <td width="28%">Link zur eigenen Webseite</td>
-    <td width="72%">Geben Sie die URL mit http:// zu Ihrer eigenen Webseite ein.
+    <td width="72%">Geben Sie die URL mit http(s):// zu Ihrer eigenen Webseite
+      ein.
       <p>&nbsp;</td>
   </tr>
   <tr valign="top">
@@ -245,27 +313,28 @@ Registerkarte ausgefüllt werden.</p>
 <p><b><a name="head_templates_customization"></a>Layout-Anpassungen des
 Newsletter-Archivs</b></p>
 <p>Es ist empfehlenswert das Layout des Newsletter-Archivs an das Layout der
-eigenen Webseite anzupassen. Dazu müssen die Dateien na_start.htm, na_year.htm
-und na_day.htm im Verzeichnis /na/de angepasst werden. Zusätzlich wird die
-Datei na.css im /css-Verzeichnis verwendet, wenn die Einstellung &quot;Farben
-und Schriftarten anpassen (bei eigenen Layouts deaktivieren)&quot; nicht
-aktiviert worden ist. Die Dateien sollte in ein separates Verzeichnis kopiert
+eigenen Webseite anzupassen. Das komplette Layout des Newsletterarchivs ist in
+der Datei na_start.htm hinterlegt. Die Datei na_start.htm finden Sie im
+Unterverzeichnis /na. Die Datei sollte in ein separates Verzeichnis kopiert
 werden, dieses Verzeichnis geben Sie als <a href="#option_templates_directory">Vorlagenverzeichnis</a>
 an.</p>
-<p>In den HTML-Dateien befinden sich Platzhalter in Form von Kommentaren. Diese
-Kommentare werden vom Script ersetzt. Es gelten dabei die folgenden Regeln:</p>
-<ol>
-  <li>Angaben im Kommentar &lt;!--NAME//-&gt; werden durch Zeichenketten
-    ersetzt, die auf der Registerkarte Texte definiert worden.
-  <li>Angaben im Kommentarblock &lt;!--NAME_BEGIN//-&gt; und &lt;!--NAME_END//-&gt;
-    werden mehrfach verwendet z.B. um mehrere Jahre oder Einträge des Archivs
-    darzustellen.
-  <li>Angaben im Kommentarblock &lt;!--NAME_IF_FIRST_BEGIN//-&gt;, &lt;!--NAME_IF_FIRST_END//-&gt;,
-    &lt;!--NAME_IF_LAST_BEGIN//-&gt;, &lt;!--NAME_IF_LAST_END//-&gt; werden nur
-    verwendet, falls es sich um den ersten bzw. letzten Eintrag handelt.</li>
-</ol>
-<p>Die Kommentare sind Dateispezifisch, d.h. es können nur die Kommentare in
-den Dateien verwendet werden, die in den Vorgabedateien angegeben sind.</p>
+<p>Bei Änderung der Datei na_start.htm beachten Sie:</p>
+<ul>
+  <li>Die verwendeten speziellen Tags müssen in der Datei erhalten bleiben und
+    in der korrekte Reihenfolge geschlossen werden.</li>
+  <li>Der erste &lt;style&gt;-Block muss der erste Block in der Datei bleiben,
+    da SuperWebMailer aus dem Block die Farbwerte ausliest und auf dem Reiter
+    Erscheinungsbild anzeigt.</li>
+  <li>Zwischen &lt;!--COLORSCHEME und /COLORSCHEME--&gt; können weitere
+    Farbschematas hinzugefügt werden. Der englische Wert muss dabei eindeutig
+    sein und als Kommentar hinter dem Stylesheet-Attribut mit dem Farbwert
+    angegeben werden.<br>
+    Die Farbe schwarz/black muss immer die erste Farbe sein und ebenfalls beim
+    Stylesheet-Attribut als Farbe angegeben werden. Wird beim
+    Stylesheet-Attribut keine Farbe für das gewählte Farbschema gewählt, dann
+    wird immer der 1. Farbwert = schwarz verwendet.</li>
+</ul>
+<p>&nbsp;</p>
 <p>Für RSS-Feeds wird die Datei rsstemplate.xml als Vorlage verwendet, die
 Datei finden Sie im Verzeichnis /templates/default/de.</p>
 <p>&nbsp;</p>

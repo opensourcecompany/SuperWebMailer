@@ -41,6 +41,7 @@
 	"size": "Größe",
 	"name": "Name",
 	"could_not_retrieve_folder": "Konnte Ordnerinhalt nicht lesen.",
+ "noelementsfound": "Der Ordner ist leer.",
 	"yes": "Ja",
 	"no": "Nein",
 	"upload": "Hochladen",
@@ -62,16 +63,15 @@
  "ERROR_CANTOPENSRCFILE": "Kann Datei %s nicht öffnen",
  "ERROR_CANTSAVEDSTFILE": "Kann Datei %s nicht speichern",
 
- "changeimagesizeh1" : "Bildgröße ändern",
- "newimagesizeh1": "Neue Größe",
-
  "fileName": "Datei",
  "ok": "OK",
- "imgcurrentsize": "Aktuelle Größe:",
 
  "pixel": "Pixel",
  "lockimagedim": "Größenverhältnis beibehalten",
- "width": "Breite",
- "height": "Höhe",
- "resizeimage": "Bildgröße"
+
+ "reload": "Bild neu laden",
+
+ "resizeimage": "Bildgröße",
+ "BackBtnWarnText": "Nutzen Sie nur die Men&uuml;-Elemente und Links zur Navigation in der Oberfl&auml;che, nicht die Vor-/Zur&uuml;ck-Schaltfl&auml;che des Browsers.",
+ "webserver_error": "Bild konnte nicht geladen werden, wahrscheinlich zu viele Verbindungen zum Webserver oder &uuml;berlastet."
 }

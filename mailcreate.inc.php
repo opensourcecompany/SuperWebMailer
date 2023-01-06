@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -31,515 +31,624 @@
   }
   include_once("targetgroups.inc.php");
 
-  // $_Jf0Ii = Params to create email (from, subject, text, attachments...), mail send mta settings
-  // isset($_Jf0Ii["AltBrowserLink"]) alt browserlink we will not send mails
-  function _OED01(&$_IiJit, &$_Ii6QI, &$_Ii6lO, $_IitJj, $_Jf0Ii, $_jIiQ8, $MailingListId, $_jQLfQ, $_JiC8l, &$errors, &$_Ql1O8, $AdditionalHeaders=array(), $ResponderId=0, $ResponderType="") {
-    global $UserId, $OwnerUserId, $_QOCJo, $_QCo6j, $_jji0i, $_jji0C, $_jJtJt;
-    global $_jJJjO, $_Q61I1, $_jJ88O, $_Q6JJJ;
-    global $_III0L, $_jJ1Li, $_jJQ66, $_Ij18l, $_III86, $_IjQQ8, $_jQt18, $_j601Q, $_j610t;
-    global $_jjLO0, $_jJ088, $_jJ1Il;
-    global $_jjiCt, $_jjlQ0, $_jjlC6;
-    global $_QOifL, $_j616i;
+  // $_6j88I = Params to create email (from, subject, text, attachments...), mail send mta settings
+  // isset($_6j88I["AltBrowserLink"]) alt browserlink we will not send mails
+  function _LEJE8(&$_j10IJ, &$_j108i, &$_j10O1, $_jfo8L, $_6j88I, $_j11Io, $MailingListId, $_jlt8j, $_fIiiL, &$errors, &$_I816i, $AdditionalHeaders=array(), $ResponderId=0, $ResponderType="") {
+    global $UserId, $OwnerUserId, $_IIlfi, $_IJi8f, $_J1t6J, $_Il06C;
+    global $_JQ1I6, $_QLttI, $_JQj6J, $_QLl1Q, $_QLo06;
+    global $_IolCJ, $_J1i1C, $_jfilQ, $_ICiQ1, $_IC0fL, $_ICitL, $_jlJ1o, $_JQoLt, $_JQol8;
+    global $_J1OIO, $_J1Cf8, $_J1Clo;
+    global $_J1tCf, $_J1OLl, $_J1oCI;
+    global $_Ij08l, $_JQC0J;
 
-    $_JiiQJ = array(); // => key is here with [], all others without
+    $_fILtI = array(); // => key is here with [], all others without
 
-    $_jIiQ8["PersonalizeEMails"] = 1;
-    if(isset($_Jf0Ii["PersonalizeEMails"]))
-      $_jIiQ8["PersonalizeEMails"] = $_Jf0Ii["PersonalizeEMails"];
+    $_j11Io["PersonalizeEMails"] = 1;
+    if(isset($_6j88I["PersonalizeEMails"]))
+      $_j11Io["PersonalizeEMails"] = $_6j88I["PersonalizeEMails"];
+
+    if(isset($_6j88I["PrivacyPolicyURL"]))
+      $_fILtI["[PrivacyPolicyURL]"] = $_6j88I["PrivacyPolicyURL"];
 
     // distriblists
-    reset($_j616i);
-    foreach($_j616i as $key => $_Q6ClO){
-      if(isset($_Jf0Ii[$key]))
-        $_JiiQJ[$_Q6ClO] = $_Jf0Ii[$key];
+    reset($_JQC0J);
+    foreach($_JQC0J as $key => $_QltJO){
+      if(isset($_6j88I[$key]))
+        $_fILtI[$_QltJO] = $_6j88I[$key];
     }
+    if(isset($_6j88I["DistribSenderFromToCC"]) && !is_array($_6j88I["DistribSenderFromToCC"]))
+      unset($_6j88I["DistribSenderFromToCC"]);
     //
 
-    $_Ii6QI = "";
-    $_Ii6lO = "";
-    if(isset($_Jf0Ii["OverrideSubUnsubURL"])) # autoresponder can't have it
-      $_Iijft = $_Jf0Ii["OverrideSubUnsubURL"];
+    $_j108i = "";
+    $_j10O1 = "";
+    if(isset($_6j88I["OverrideSubUnsubURL"])) # autoresponder can't have it
+      $_j1IIf = $_6j88I["OverrideSubUnsubURL"];
       else
-      $_Iijft = "";
+      $_j1IIf = "";
 
-    if(!isset($_Jf0Ii["MailFormat"]))
-      $_Jf0Ii["MailFormat"] = "Multipart";
+    if(!isset($_6j88I["MailFormat"]))
+      $_6j88I["MailFormat"] = "Multipart";
 
-    if(!isset($_jIiQ8["u_EMailFormat"]))
-      $_jIiQ8["u_EMailFormat"] = "HTML";
+    if(!isset($_j11Io["u_EMailFormat"]))
+      $_j11Io["u_EMailFormat"] = "HTML";
 
-    for($_Q6llo=count($errors) - 1; $_Q6llo>=0; $_Q6llo--)
-       unset($errors[$_Q6llo]);
+    $errors = array();  
+    $_I816i = array();  
 
-    for($_Q6llo=count($_Ql1O8) - 1; $_Q6llo>=0; $_Q6llo--)
-       unset($_Ql1O8[$_Q6llo]);
+    if(isset($_6j88I["GroupIds"]))
+       $_6j88I["GroupIds"] = urlencode($_6j88I["GroupIds"]);
 
     // default
-    $_JiiL6 = true;
-    $_JiL8L = false;
-    $_Jil8I = false;
+    $_fIlQC = true;
+    $_fIl8t = false;
+    $_fj0QO = false;
 
-    if($_Jf0Ii["MailFormat"] == "PlainText") {
-       $_Jil8I = true;
-       $_JiiL6 = false;
+    if($_6j88I["MailFormat"] == "PlainText") {
+       $_fj0QO = true;
+       $_fIlQC = false;
     }
     else
-     if($_Jf0Ii["MailFormat"] == "HTML") {
-        $_JiL8L = true;
-        $_JiiL6 = false;
+     if($_6j88I["MailFormat"] == "HTML") {
+        $_fIl8t = true;
+        $_fIlQC = false;
      }
 
     // recipient has selected plain text and it is a multi part email
-    if($_jIiQ8["u_EMailFormat"] == "PlainText" && $_JiiL6) {
+    if($_j11Io["u_EMailFormat"] == "PlainText" && $_fIlQC) {
       // mail_mime handles this automatically correct
-      $_JiiL6 = false;
-      $_JiL8L = false;
-      $_Jil8I = true;
+      $_fIlQC = false;
+      $_fIl8t = false;
+      $_fj0QO = true;
     }
 
     // Unique String
-    $_Jill8 = "";
+    $_fj0ol = "";
     if( $ResponderId != 0 && $ResponderType != "" ) {
-       $_If010 = 0;
-       if(isset($_Jf0Ii["CurrentSendId"]))
-         $_If010 = $_Jf0Ii["CurrentSendId"];
+       $_j01OI = 0;
+       if(isset($_6j88I["CurrentSendId"]))
+         $_j01OI = $_6j88I["CurrentSendId"];
 
        if($OwnerUserId == 0)
-         $_Ii016 = $UserId;
+         $_jfIoi = $UserId;
          else
-         $_Ii016 = $OwnerUserId;
+         $_jfIoi = $OwnerUserId;
 
-       $_JL0f0 = _OAP0L($ResponderType);
+       $_fj1fI = _LPO6C($ResponderType);
 
-       $_Jill8 = sprintf("%02X", $_If010)."_".sprintf("%02X", $_Ii016)."_".sprintf("%02X", $_JL0f0)."_".sprintf("%02X", $ResponderId);
-       if($_JiC8l != $_jQLfQ)
-         $_Jill8 .= "_"."x".sprintf("%02X", $_JiC8l);
+       $_fj0ol = sprintf("%02X", $_j01OI)."_".sprintf("%02X", $_jfIoi)."_".sprintf("%02X", $_fj1fI)."_".sprintf("%02X", $ResponderId);
+       if($_fIiiL != $_jlt8j)
+         $_fj0ol .= "_"."x".sprintf("%02X", $_fIiiL);
     }
 
     // target groups support
-    $_JL1IJ = false;
-    $_JL1Oi = false;
-    if ($_JiiL6 || $_JiL8L){
-      if(!isset($_Jf0Ii["TargetGroupsWithEmbeddedFilesIncluded"]))
-        $_JL1IJ = _LJOAD($_Jf0Ii["MailHTMLText"]);
+    $_fjQ6o = false;
+    $_fjI1J = false;
+    if ($_fIlQC || $_fIl8t){
+      if(!isset($_6j88I["TargetGroupsWithEmbeddedFilesIncluded"]))
+        $_fjQ6o = _JJ8DO($_6j88I["MailHTMLText"]);
         else
-        $_JL1IJ = (bool)$_Jf0Ii["TargetGroupsWithEmbeddedFilesIncluded"];
+        $_fjQ6o = (bool)$_6j88I["TargetGroupsWithEmbeddedFilesIncluded"];
 
-      $_j1L1C = array();
-      if(!isset($_Jf0Ii["TargetGroupsInHTMLPartIncluded"])){
-        if(!$_JL1IJ)
-           _LJO8O($_Jf0Ii["MailHTMLText"], $_j1L1C, 1);
+      $_jLtli = array();
+      if(!isset($_6j88I["TargetGroupsInHTMLPartIncluded"])){
+        if(!$_fjQ6o)
+           _JJREP($_6j88I["MailHTMLText"], $_jLtli, 1);
       } else{
-        if(!$_JL1IJ && $_Jf0Ii["TargetGroupsInHTMLPartIncluded"])
-          $_j1L1C[] = "dummy";
+        if(!$_fjQ6o && $_6j88I["TargetGroupsInHTMLPartIncluded"])
+          $_jLtli[] = "dummy";
       }
 
-      $_JL1Oi = $_JL1IJ || count($_j1L1C) > 0;
+      $_fjI1J = $_fjQ6o || count($_jLtli) > 0;
     }
     // target groups support /
 
-    if( $_IitJj || $_JL1IJ || !empty($_Jf0Ii["PersAttachments"]) ) {
-      $_IiJit->_OEADF();
+    if( $_jfo8L || $_fjQ6o || !empty($_6j88I["PersAttachments"]) ) {
+      $_j10IJ->_LEOPF();
     }
 
     // set mail object params
-    $_IiJit->_OE868();
-    $_IQf88 = $_Jf0Ii["SenderFromAddress"];
+    $_j10IJ->_LEQ1C();
+    $_Io6Lf = $_6j88I["SenderFromAddress"];
 
     // MUST overwrite it?
-    if(!empty($_Jf0Ii["MTASenderEMailAddress"]))
-      $_IQf88 = $_Jf0Ii["MTASenderEMailAddress"];
-    $_IiJit->From[] = array("address" => _L1ERL($_jIiQ8, $MailingListId, $_IQf88, $_Jf0Ii["MailEncoding"], false, array()), "name" => _L1ERL($_jIiQ8, $MailingListId, $_Jf0Ii["SenderFromName"], $_Jf0Ii["MailEncoding"], false, array()) );
-    $_IiJit->To[] = array("address" => $_jIiQ8["u_EMail"], "name" => _L1ERL($_jIiQ8, $MailingListId, $_jIiQ8["u_FirstName"]." ".$_jIiQ8["u_LastName"], $_Jf0Ii["MailEncoding"], false, array()) );
-    if(!empty($_Jf0Ii["ReplyToEMailAddress"]))
-       $_IiJit->ReplyTo[] = array("address" => _L1ERL($_jIiQ8, $MailingListId, $_Jf0Ii["ReplyToEMailAddress"], $_Jf0Ii["MailEncoding"], false, array()), "name" => "");
-    if(!empty($_Jf0Ii["ReturnPathEMailAddress"]))
-      $_IiJit->ReturnPath[] = array("address" => _L1ERL($_jIiQ8, $MailingListId, $_Jf0Ii["ReturnPathEMailAddress"], $_Jf0Ii["MailEncoding"], false, array()), "name" => "");
+    if(!empty($_6j88I["MTASenderEMailAddress"]))
+      $_Io6Lf = $_6j88I["MTASenderEMailAddress"];
+      
+    if(!isset($_6j88I["DistribSenderFromToCC"]) || !count($_6j88I["DistribSenderFromToCC"])){
+    
+      $_j10IJ->From[] = array("address" => _J1EBE($_j11Io, $MailingListId, $_Io6Lf, $_6j88I["MailEncoding"], false, array()), "name" => _J1EBE($_j11Io, $MailingListId, $_6j88I["SenderFromName"], $_6j88I["MailEncoding"], false, array()) );
+      $_j10IJ->To[] = array("address" => $_j11Io["u_EMail"], "name" => _J1EBE($_j11Io, $MailingListId, $_j11Io["u_FirstName"]." ".$_j11Io["u_LastName"], $_6j88I["MailEncoding"], false, array()) );
+      if(!empty($_6j88I["ReplyToEMailAddress"])){
+         $_IjO6t = explode(",", $_6j88I["ReplyToEMailAddress"]);
+         for($_Qli6J=0; $_Qli6J<count($_IjO6t); $_Qli6J++)
+           if(trim($_IjO6t[$_Qli6J]) != ""){
+             $_IjO6t[$_Qli6J] = trim( _J1EBE($_j11Io, $MailingListId, trim($_IjO6t[$_Qli6J]), $_6j88I["MailEncoding"], false, array()) ); 
+             if($_IjO6t[$_Qli6J] != "")
+                $_j10IJ->ReplyTo[] = array("address" => $_IjO6t[$_Qli6J], "name" => "");
+           }
+      }else{
+        if( isset($_6j88I["INBOXEMailAddress"]) && isset($_6j88I["NoPOSTToDistributionList"]) && !$_6j88I["NoPOSTToDistributionList"] )
+          $_j10IJ->ReplyTo[] = array("address" => $_6j88I["INBOXEMailAddress"], "name" => "");
+      }
 
-    if(!empty($_Jf0Ii["CcEMailAddresses"])) {
-       $_Qot0C = explode(",", $_Jf0Ii["CcEMailAddresses"]);
-       for($_Q6llo=0; $_Q6llo<count($_Qot0C); $_Q6llo++)
-         if(trim($_Qot0C[$_Q6llo]) != "")
-           $_IiJit->Cc[] = array("address" => _L1ERL($_jIiQ8, $MailingListId, trim($_Qot0C[$_Q6llo]), $_Jf0Ii["MailEncoding"], false, array()), "name" => "");
-    }
+      // https://www.ietf.org/rfc/rfc2369.txt
+      if(isset($_6j88I["INBOXEMailAddress"])){
+        if( isset($_6j88I["NoPOSTToDistributionList"]) && !$_6j88I["NoPOSTToDistributionList"] )
+           $AdditionalHeaders["List-Post"] = "<mailto:" . $_6j88I["INBOXEMailAddress"] . ">";
+           else
+           if( isset($_6j88I["NoPOSTToDistributionList"]) && $_6j88I["NoPOSTToDistributionList"] )
+              $AdditionalHeaders["List-Post"] = "NO";
+      }  
+      
+      if(isset($_6j88I["ReturnReceipt"]) && $_6j88I["ReturnReceipt"] != 0) {
+        $_j10IJ->ReturnReceiptTo[] = array("address" => _J1EBE($_j11Io, $MailingListId, $_6j88I["SenderFromAddress"], $_6j88I["MailEncoding"], false, array()), "name" => "");
+      }
+      
+      if(!empty($_6j88I["ReturnPathEMailAddress"]))
+        $_j10IJ->ReturnPath[] = array("address" => _J1EBE($_j11Io, $MailingListId, $_6j88I["ReturnPathEMailAddress"], $_6j88I["MailEncoding"], false, array()), "name" => "");
+        else{
+         if(isset($_6j88I["INBOXEMailAddress"])){
+            $_j10IJ->ReturnPath[] = array("address" => $_6j88I["INBOXEMailAddress"], "name" => "");
+         } 
+        }
 
-    if(!empty($_Jf0Ii["BCcEMailAddresses"])) {
-       $_Qot0C = explode(",", $_Jf0Ii["BCcEMailAddresses"]);
-       for($_Q6llo=0; $_Q6llo<count($_Qot0C); $_Q6llo++)
-         if(trim($_Qot0C[$_Q6llo]) != "")
-           $_IiJit->BCc[] = array("address" => _L1ERL($_jIiQ8, $MailingListId, trim($_Qot0C[$_Q6llo]), $_Jf0Ii["MailEncoding"], false, array()), "name" => "");
-    }
+      if(!empty($_6j88I["CcEMailAddresses"])) {
+         $_IjO6t = explode(",", $_6j88I["CcEMailAddresses"]);
+         for($_Qli6J=0; $_Qli6J<count($_IjO6t); $_Qli6J++)
+           if(trim($_IjO6t[$_Qli6J]) != ""){
+             $_IjO6t[$_Qli6J] = trim(_J1EBE($_j11Io, $MailingListId, trim($_IjO6t[$_Qli6J]), $_6j88I["MailEncoding"], false, array()));
+             if($_IjO6t[$_Qli6J] != "")
+               $_j10IJ->Cc[] = array("address" => $_IjO6t[$_Qli6J], "name" => "");
+           }  
+      }
 
-    if(isset($_Jf0Ii["ReturnReceipt"]) && $_Jf0Ii["ReturnReceipt"] != 0) {
-      $_IiJit->ReturnReceiptTo[] = array("address" => _L1ERL($_jIiQ8, $MailingListId, $_Jf0Ii["SenderFromAddress"], $_Jf0Ii["MailEncoding"], false, array()), "name" => "");
+      if(!empty($_6j88I["BCcEMailAddresses"])) {
+         $_IjO6t = explode(",", $_6j88I["BCcEMailAddresses"]);
+         for($_Qli6J=0; $_Qli6J<count($_IjO6t); $_Qli6J++)
+           if(trim($_IjO6t[$_Qli6J]) != ""){
+             $_IjO6t[$_Qli6J] = trim(_J1EBE($_j11Io, $MailingListId, trim($_IjO6t[$_Qli6J]), $_6j88I["MailEncoding"], false, array()));
+             if($_IjO6t[$_Qli6J] != "")
+               $_j10IJ->BCc[] = array("address" => $_IjO6t[$_Qli6J], "name" => "");
+           }  
+      }
+      
     }
+   
+
+    if(isset($_6j88I["DistribSenderFromToCC"]) && count($_6j88I["DistribSenderFromToCC"])){
+
+      if(!empty($_6j88I["ReturnPathEMailAddress"])){
+        $AdditionalHeaders["X-EnvelopeSender"] = _J1EBE($_j11Io, $MailingListId, $_6j88I["ReturnPathEMailAddress"], $_6j88I["MailEncoding"], false, array());
+      }
+      
+      // https://www.ietf.org/rfc/rfc2369.txt
+      if(isset($_6j88I["INBOXEMailAddress"])){
+        if( isset($_6j88I["NoPOSTToDistributionList"]) && !$_6j88I["NoPOSTToDistributionList"] ){
+           $AdditionalHeaders["List-Post"] = "<mailto:" . $_6j88I["INBOXEMailAddress"] . ">";
+           $_j10IJ->ReplyTo[] = array("address" => $_6j88I["INBOXEMailAddress"], "name" => "");
+        }
+         else
+          if( isset($_6j88I["NoPOSTToDistributionList"]) && $_6j88I["NoPOSTToDistributionList"] ){
+             $AdditionalHeaders["List-Post"] = "NO";
+          } 
+      }
+      
+      $AdditionalHeaders["X-EnvelopeRecipients"] = array();
+      $AdditionalHeaders["X-EnvelopeRecipients"][] = array("address" => $_j11Io["u_EMail"], "name" => "");
+       
+      if(!empty($_6j88I["CcEMailAddresses"])) {
+         $_IjO6t = explode(",", $_6j88I["CcEMailAddresses"]);
+         for($_Qli6J=0; $_Qli6J<count($_IjO6t); $_Qli6J++)
+           if(trim($_IjO6t[$_Qli6J]) != ""){
+             $_IjO6t[$_Qli6J] = trim(_J1EBE($_j11Io, $MailingListId, trim($_IjO6t[$_Qli6J]), $_6j88I["MailEncoding"], false, array()));
+             if($_IjO6t[$_Qli6J] != "")
+               $AdditionalHeaders["X-EnvelopeRecipients"][] = array("address" => $_IjO6t[$_Qli6J], "name" => "");
+           }  
+      }
+
+      if(!empty($_6j88I["BCcEMailAddresses"])) {
+         $_IjO6t = explode(",", $_6j88I["BCcEMailAddresses"]);
+         for($_Qli6J=0; $_Qli6J<count($_IjO6t); $_Qli6J++)
+           if(trim($_IjO6t[$_Qli6J]) != ""){
+             $_IjO6t[$_Qli6J] = trim(_J1EBE($_j11Io, $MailingListId, trim($_IjO6t[$_Qli6J]), $_6j88I["MailEncoding"], false, array()));
+             if($_IjO6t[$_Qli6J] != "")
+               $AdditionalHeaders["X-EnvelopeRecipients"][] = array("address" => $_IjO6t[$_Qli6J], "name" => "");
+           }  
+      }
+
+      $_j10IJ->From[] = $_6j88I["DistribSenderFromToCC"]["From"];
+      for($_Qli6J=0; $_Qli6J<count($_j10IJ->From); $_Qli6J++)
+        $_j10IJ->From[$_Qli6J]["name"] = ConvertString($_QLo06, $_6j88I["MailEncoding"], $_j10IJ->From[$_Qli6J]["name"], false);
+      
+      for($_Qli6J=0; $_Qli6J<count($_6j88I["DistribSenderFromToCC"]["To"]); $_Qli6J++){
+         $_j10IJ->To[] = $_6j88I["DistribSenderFromToCC"]["To"][$_Qli6J];
+         $_j10IJ->To[count($_j10IJ->To) - 1]["name"] = ConvertString($_QLo06, $_6j88I["MailEncoding"], $_j10IJ->To[count($_j10IJ->To) - 1]["name"], false);
+      }   
+
+      for($_Qli6J=0; $_Qli6J<count($_6j88I["DistribSenderFromToCC"]["Cc"]); $_Qli6J++){
+         $_j10IJ->Cc[] = $_6j88I["DistribSenderFromToCC"]["Cc"][$_Qli6J];
+         $_j10IJ->Cc[count($_j10IJ->Cc) - 1]["name"] = ConvertString($_QLo06, $_6j88I["MailEncoding"], $_j10IJ->Cc[count($_j10IJ->Cc) - 1]["name"], false);
+      }   
+
+    }  
 
     # UserMailHeaderFields, per campaign, not used
-    if(isset($_Jf0Ii["UserMailHeaderFields"]) && $_Jf0Ii["UserMailHeaderFields"] != "") {
-      if(!is_array($_Jf0Ii["UserMailHeaderFields"])) {
-        $_Jf0Ii["UserMailHeaderFields"] = @unserialize($_Jf0Ii["UserMailHeaderFields"]);
-        if($_Jf0Ii["UserMailHeaderFields"] === false)
-           $_Jf0Ii["UserMailHeaderFields"] = array();
+    if(isset($_6j88I["UserMailHeaderFields"]) && $_6j88I["UserMailHeaderFields"] != "") {
+      if(!is_array($_6j88I["UserMailHeaderFields"])) {
+        $_6j88I["UserMailHeaderFields"] = @unserialize($_6j88I["UserMailHeaderFields"]);
+        if($_6j88I["UserMailHeaderFields"] === false)
+           $_6j88I["UserMailHeaderFields"] = array();
       }
-      $_IiJit->UserHeaders = $_Jf0Ii["UserMailHeaderFields"];
-      if(is_array($_IiJit->UserHeaders)) {
-        foreach($_IiJit->UserHeaders as $key => $_Q6ClO) {
-          $_Q6ClO = _L1ERL($_jIiQ8, $MailingListId, $_Q6ClO, $_Jf0Ii["MailEncoding"], false, $_JiiQJ);
-          $_IiJit->UserHeaders[$key] = $_Q6ClO;
+      $_j10IJ->UserHeaders = $_6j88I["UserMailHeaderFields"];
+      if(is_array($_j10IJ->UserHeaders)) {
+        foreach($_j10IJ->UserHeaders as $key => $_QltJO) {
+          $_QltJO = _J1EBE($_j11Io, $MailingListId, $_QltJO, $_6j88I["MailEncoding"], false, $_fILtI);
+          $_j10IJ->UserHeaders[$key] = $_QltJO;
         }
       }
     }
 
     // Autoresponder
-    if(isset($_Jf0Ii["OrgMailSubject"]) && !isset($_Jf0Ii["DistributionListEntryId"])) { // DistributionListEntryId => is distribution list no autoresponder, we must not do this loop here
-      reset($_III86);
-      foreach ($_III86 as $key => $_Q6ClO) {
-         $_JiiQJ[$_Q6ClO] = $_Jf0Ii[$key];
+    if(isset($_6j88I["OrgMailSubject"]) && !isset($_6j88I["DistributionListEntryId"])) { // DistributionListEntryId => is distribution list no autoresponder, we must not do this loop here
+      reset($_IC0fL);
+      foreach ($_IC0fL as $key => $_QltJO) {
+         $_fILtI[$_QltJO] = $_6j88I[$key];
       }
     }
 
     // Birthday and campaign responder
-    if(isset($_jIiQ8["MembersAge"])) {
-      reset($_IjQQ8);
-      foreach ($_IjQQ8 as $key => $_Q6ClO) {
-         if(isset($_jIiQ8[$key]))
-           $_JiiQJ[$_Q6ClO] = $_jIiQ8[$key];
+    if(isset($_j11Io["MembersAge"])) {
+      reset($_ICitL);
+      foreach ($_ICitL as $key => $_QltJO) {
+         if(isset($_j11Io[$key]))
+           $_fILtI[$_QltJO] = $_j11Io[$key];
       }
     }
 
-    if($MailingListId != 0 && $_jQLfQ != 0) {
-      $_Ij0oj = array();
-      $_Ij0oj = array_merge($_Ij0oj, $_III0L, $_QOifL);
-      if($_Jill8 != "")
-        $_Ij0oj = array_merge($_Ij0oj, $_jQt18, $_j601Q, $_Ij18l, $_j610t);
-      reset($_Ij0oj);
-      foreach ($_Ij0oj as $key => $_Q6ClO) {
-         $_I1L81 = "";
-         if ($_Q6ClO == '[UnsubscribeLink]') {
-            $_QlQC8 = "";
-            if(isset($_Jf0Ii["MaillistTableName"]))
-              $_QlQC8 = $_Jf0Ii["MaillistTableName"];
-            $_jIiQ8["IdentString"] = _OA81R($_jIiQ8["IdentString"], $_jIiQ8["id"], $MailingListId, $_jQLfQ, $_QlQC8);
-            $_I1L81 = (!empty($_Iijft) ? $_Iijft.$_jjlC6 : $_jJ1Il)."?key=".$_jIiQ8["IdentString"];
-            if($_Jill8 != "")
-              $_I1L81 .= "&rid=".$_Jill8;
-            if(isset($_Jf0Ii["GroupIds"]))
-              $_I1L81 .= "&RG=".$_Jf0Ii["GroupIds"];
+    if($MailingListId != 0 && $_jlt8j != 0 && isset($_j11Io["id"])) {
+      $_ICCIo = array();
+      $_ICCIo = array_merge($_ICCIo, $_IolCJ, $_Ij08l);
+      if($_fj0ol != "")
+        $_ICCIo = array_merge($_ICCIo, $_jlJ1o, $_JQoLt, $_ICiQ1, $_JQol8);
+      reset($_ICCIo);
+      foreach ($_ICCIo as $key => $_QltJO) {
+         $_IOCjL = "";
+         if ($_QltJO == '[UnsubscribeLink]') {
+            $_I8I6o = "";
+            if(isset($_6j88I["MaillistTableName"]))
+              $_I8I6o = $_6j88I["MaillistTableName"];
+            $_j11Io["IdentString"] = _LPQ8Q($_j11Io["IdentString"], $_j11Io["id"], $MailingListId, $_jlt8j, $_I8I6o);
+            $_IOCjL = (!empty($_j1IIf) ? $_j1IIf.$_J1oCI : $_J1Clo)."?key=".$_j11Io["IdentString"];
+            if($_fj0ol != "")
+              $_IOCjL .= "&rid=".$_fj0ol;
+            if(isset($_6j88I["GroupIds"]))
+              $_IOCjL .= "&RG=" . $_6j88I["GroupIds"];
 
          }
-         if ($_Q6ClO == '[EditLink]') {
-            $_QlQC8 = "";
-            if(isset($_Jf0Ii["MaillistTableName"]))
-              $_QlQC8 = $_Jf0Ii["MaillistTableName"];
-            $_jIiQ8["IdentString"] = _OA81R($_jIiQ8["IdentString"], $_jIiQ8["id"], $MailingListId, $_jQLfQ, $_QlQC8);
-            $_I1L81 = (!empty($_Iijft) ? $_Iijft.$_jjiCt : $_jjLO0)."?key=".$_jIiQ8["IdentString"]."&ML=$MailingListId&F=$_jQLfQ&HTMLForm=editform";
-            if($_Jill8 != "")
-              $_I1L81 .= "&rid=".$_Jill8;
+         if ($_QltJO == '[EditLink]') {
+            $_I8I6o = "";
+            if(isset($_6j88I["MaillistTableName"]))
+              $_I8I6o = $_6j88I["MaillistTableName"];
+            $_j11Io["IdentString"] = _LPQ8Q($_j11Io["IdentString"], $_j11Io["id"], $MailingListId, $_jlt8j, $_I8I6o);
+            $_IOCjL = (!empty($_j1IIf) ? $_j1IIf.$_J1tCf : $_J1OIO)."?key=".$_j11Io["IdentString"]."&ML=$MailingListId&F=$_jlt8j&HTMLForm=editform";
+            if($_fj0ol != "")
+              $_IOCjL .= "&rid=".$_fj0ol;
          }
-         if (defined("SWM") && $_Q6ClO == '[AltBrowserLink]') {
-            $_QlQC8 = "";
-            if(isset($_Jf0Ii["MaillistTableName"]))
-              $_QlQC8 = $_Jf0Ii["MaillistTableName"];
-            $_jIiQ8["IdentString"] = _OA81R($_jIiQ8["IdentString"], $_jIiQ8["id"], $MailingListId, $_jQLfQ, $_QlQC8);
-            $_I1L81 = (!empty($_Iijft) ? $_Iijft.$_jJ1Li : $_jJQ66)."?key=".$_jIiQ8["IdentString"];
-            $_I1L81 .= "&rid=".$_Jill8;
-            if(isset($_Jf0Ii["GroupIds"]))
-              $_I1L81 .= "&RG=".$_Jf0Ii["GroupIds"];
+         if (defined("SWM") && $_QltJO == '[AltBrowserLink]') {
+            $_I8I6o = "";
+            if(isset($_6j88I["MaillistTableName"]))
+              $_I8I6o = $_6j88I["MaillistTableName"];
+            $_j11Io["IdentString"] = _LPQ8Q($_j11Io["IdentString"], $_j11Io["id"], $MailingListId, $_jlt8j, $_I8I6o);
+            $_IOCjL = (!empty($_j1IIf) ? $_j1IIf.$_J1i1C : $_jfilQ)."?key=".$_j11Io["IdentString"];
+            $_IOCjL .= "&rid=".$_fj0ol;
+            if(isset($_6j88I["GroupIds"]))
+              $_IOCjL .= "&RG=" . $_6j88I["GroupIds"];
          }
          // Social media links, AltBrowserLink_SME only
-         if (defined("SWM") && $_Q6ClO == '[AltBrowserLink_SME]') {
-            $_QlQC8 = "";
-            if(isset($_Jf0Ii["MaillistTableName"]))
-              $_QlQC8 = $_Jf0Ii["MaillistTableName"];
-            $_jIiQ8["IdentString"] = _OA81R($_jIiQ8["IdentString"], $_jIiQ8["id"], $MailingListId, $_jQLfQ, $_QlQC8);
-            $_JLQI1 = $_jIiQ8["IdentString"];
-            $_JLQI1 = explode("-", $_JLQI1);
-            $_JLQI1[0] = "sme";
-            $_JLQI1 = join("-", $_JLQI1);
-            $_I1L81 = (!empty($_Iijft) ? $_Iijft.$_jJ1Li : $_jJQ66)."?key=".$_JLQI1;
-            $_I1L81 .= "&rid=".$_Jill8;
-            if(isset($_Jf0Ii["GroupIds"]))
-              $_I1L81 .= "&RG=".$_Jf0Ii["GroupIds"];
+         if (defined("SWM") && $_QltJO == '[AltBrowserLink_SME]') {
+            $_I8I6o = "";
+            if(isset($_6j88I["MaillistTableName"]))
+              $_I8I6o = $_6j88I["MaillistTableName"];
+            $_j11Io["IdentString"] = _LPQ8Q($_j11Io["IdentString"], $_j11Io["id"], $MailingListId, $_jlt8j, $_I8I6o);
+            $_fjIIi = $_j11Io["IdentString"];
+            $_fjIIi = explode("-", $_fjIIi);
+            $_fjIIi[0] = "sme";
+            $_fjIIi = join("-", $_fjIIi);
+            $_IOCjL = (!empty($_j1IIf) ? $_j1IIf.$_J1i1C : $_jfilQ)."?key=".$_fjIIi;
+            $_IOCjL .= "&rid=".$_fj0ol;
+            if(isset($_6j88I["GroupIds"]))
+              $_IOCjL .= "&RG=" . $_6j88I["GroupIds"];
          }
          // Social media links /
-         if(empty($_jIiQ8["u_EMail"]) && $_Q6ClO != '[AltBrowserLink_SME]') // social media links we need the links
-           $_JiiQJ[$_Q6ClO] = ""; // recipient doesn't exists e.g. browserlink, newsletter archive
+         if(empty($_j11Io["u_EMail"]) && $_QltJO != '[AltBrowserLink_SME]') // social media links we need the links
+           $_fILtI[$_QltJO] = ""; // recipient doesn't exists e.g. browserlink, newsletter archive
            else
-           $_JiiQJ[$_Q6ClO] = $_I1L81;
+           $_fILtI[$_QltJO] = $_IOCjL;
       }
     }
 
     # MailHeaderFields for mta
-    if(isset($_Jf0Ii["MailHeaderFields"]) && $_Jf0Ii["MailHeaderFields"] != "") {
-      if(!is_array($_Jf0Ii["MailHeaderFields"])) {
-        $_Jf0Ii["MailHeaderFields"] = @unserialize($_Jf0Ii["MailHeaderFields"]);
-        if($_Jf0Ii["MailHeaderFields"] === false)
-           $_Jf0Ii["MailHeaderFields"] = array();
+    if(isset($_6j88I["MailHeaderFields"]) && $_6j88I["MailHeaderFields"] != "") {
+      if(!is_array($_6j88I["MailHeaderFields"])) {
+        $_6j88I["MailHeaderFields"] = @unserialize($_6j88I["MailHeaderFields"]);
+        if($_6j88I["MailHeaderFields"] === false)
+           $_6j88I["MailHeaderFields"] = array();
       }
       // AdditionalHeaders overrides MailHeaderFields
-      $AdditionalHeaders = array_merge($_Jf0Ii["MailHeaderFields"], $AdditionalHeaders);
+      $AdditionalHeaders = array_merge($_6j88I["MailHeaderFields"], $AdditionalHeaders);
     }
 
     # AdditionalHeaders
     reset($AdditionalHeaders);
-    foreach($AdditionalHeaders as $key => $_Q6ClO){
-       $_Q6ClO = _L1ERL($_jIiQ8, $MailingListId, $_Q6ClO, $_Jf0Ii["MailEncoding"], false, array());
+    foreach($AdditionalHeaders as $key => $_QltJO){
+      if(is_array($_QltJO)) continue; 
+      $_QltJO = _J1EBE($_j11Io, $MailingListId, $_QltJO, $_6j88I["MailEncoding"], false, array());
        if($key == "X-Loop")
-          $_Q6ClO = str_ireplace("%XLOOP-SENDERADDRESS%", _L1ERL($_jIiQ8, $MailingListId, $_IQf88, $_Jf0Ii["MailEncoding"], false, array()), $_Q6ClO);
+          $_QltJO = str_ireplace("%XLOOP-SENDERADDRESS%", _J1EBE($_j11Io, $MailingListId, $_Io6Lf, $_6j88I["MailEncoding"], false, array()), $_QltJO);
        if($key == "List-Unsubscribe") {
-         if(isset($_JiiQJ["[UnsubscribeLink]"])) {
-            if(isset($_Jf0Ii["SubscriptionUnsubscription"]) && ($_Jf0Ii["SubscriptionUnsubscription"] == 'Denied' || $_Jf0Ii["SubscriptionUnsubscription"] == 'SubscribeOnly')){
+         if(isset($_fILtI["[UnsubscribeLink]"])) {
+            if(isset($_6j88I["SubscriptionUnsubscription"]) && ($_6j88I["SubscriptionUnsubscription"] == 'Denied' || $_6j88I["SubscriptionUnsubscription"] == 'SubscribeOnly')){
                unset($AdditionalHeaders[$key]);
                continue;
             }
-            $_Q6ClO = str_replace("[UnsubscribeLink]", $_JiiQJ["[UnsubscribeLink]"], $_Q6ClO);
-            $AdditionalHeaders[$key] = $_Q6ClO;
+            $_fjIOL = (bool)$_6j88I["DKIM"] || defined("ListUnsubscribePostOnNoDKIMSignature") || ($_6j88I["Type"] == "smtp" && stripos($_6j88I["SMTPServer"], ".is-fun.net") !== false);
+            $_QltJO = str_replace("[UnsubscribeLink]", $_fILtI["[UnsubscribeLink]"] . ($_fjIOL  ? '&lup=lup' : '' ), $_QltJO);
+            $AdditionalHeaders[$key] = $_QltJO;
+            if( $_fjIOL && !isset($AdditionalHeaders["List-Unsubscribe-Post"]) ){
+               $AdditionalHeaders["List-Unsubscribe-Post"] = "List-Unsubscribe=One-Click";
+            }
          } else{
            unset($AdditionalHeaders[$key]);
          }
          continue;
        }
-       $AdditionalHeaders[$key] = $_Q6ClO;
+       $AdditionalHeaders[$key] = $_QltJO;
     }
 
-    if(empty($_Jf0Ii["ModifiedEMailSubject"])) // // no distriblist
-      $_IiJit->Subject = _L1ERL($_jIiQ8, $MailingListId, $_Jf0Ii["MailSubject"], $_Jf0Ii["MailEncoding"], false, $_JiiQJ);
+    if(empty($_6j88I["ModifiedEMailSubject"])) // // no distriblist
+      $_j10IJ->Subject = _J1EBE($_j11Io, $MailingListId, $_6j88I["MailSubject"], $_6j88I["MailEncoding"], false, $_fILtI);
       else {
-        if(!$_Jf0Ii["DontModifyEMailSubjectOnReFw"]){
-          $_IiJit->Subject = _L1ERL($_jIiQ8, $MailingListId, $_Jf0Ii["ModifiedEMailSubject"], $_Jf0Ii["MailEncoding"], false, $_JiiQJ);
+        if(!$_6j88I["DontModifyEMailSubjectOnReFw"]){
+          $_j10IJ->Subject = _J1EBE($_j11Io, $MailingListId, $_6j88I["ModifiedEMailSubject"], $_6j88I["MailEncoding"], false, $_fILtI);
         } else{
 
-          if( strpos($_Jf0Ii["MailSubject"], "Re: ") === 0 || strpos($_Jf0Ii["MailSubject"], "Aw: ") === 0 || strpos($_Jf0Ii["MailSubject"], "Fw: ") === 0 || strpos($_Jf0Ii["MailSubject"], "Wg: ") === 0 ) {
-               // do nothing
-               $_IiJit->Subject = _L1ERL($_jIiQ8, $MailingListId, $_Jf0Ii["MailSubject"], $_Jf0Ii["MailEncoding"], false, $_JiiQJ);
+          if( stripos($_6j88I["MailSubject"], "Re: ") === false && stripos($_6j88I["MailSubject"], "Aw: ") === false && stripos($_6j88I["MailSubject"], "Fw: ") === false && stripos($_6j88I["MailSubject"], "Wg: ") === false ) {
+             $_j10IJ->Subject = _J1EBE($_j11Io, $MailingListId, $_6j88I["ModifiedEMailSubject"], $_6j88I["MailEncoding"], false, $_fILtI);
             }
             else
-             $_IiJit->Subject = _L1ERL($_jIiQ8, $MailingListId, $_Jf0Ii["ModifiedEMailSubject"], $_Jf0Ii["MailEncoding"], false, $_JiiQJ);
+             // do nothing
+             $_j10IJ->Subject = _J1EBE($_j11Io, $MailingListId, $_6j88I["MailSubject"], $_6j88I["MailEncoding"], false, $_fILtI);
         }
       }
 
     // Social media links, Mailsubject
-    if(defined("SWM") && !empty($_JiiQJ[$_QOifL["AltBrowserLink_SME"]])){
-       $_JiiQJ['[AltBrowserLink_SME_URLEncoded]'] = urlencode($_JiiQJ["[AltBrowserLink_SME]"]);
-       $_JiiQJ['[Mail_Subject_ISO88591]'] = $_IiJit->Subject;
-       $_JIO8t = ConvertString($_Jf0Ii["MailEncoding"], "ISO-8859-1", $_IiJit->Subject, false);
-       if($_JIO8t != "")
-          $_JiiQJ['[Mail_Subject_ISO88591]'] = $_JIO8t;
-       $_JiiQJ['[Mail_Subject_ISO88591_URLEncoded]'] = urlencode($_JiiQJ['[Mail_Subject_ISO88591]']);
+    if(defined("SWM") && !empty($_fILtI[$_Ij08l["AltBrowserLink_SME"]])){
+       $_fILtI['[AltBrowserLink_SME_URLEncoded]'] = urlencode($_fILtI["[AltBrowserLink_SME]"]);
+       $_fILtI['[Mail_Subject_ISO88591]'] = $_j10IJ->Subject;
+       $_6JiJ6 = ConvertString($_6j88I["MailEncoding"], "ISO-8859-1", $_j10IJ->Subject, false);
+       if($_6JiJ6 != "")
+          $_fILtI['[Mail_Subject_ISO88591]'] = $_6JiJ6;
+       $_fILtI['[Mail_Subject_ISO88591_URLEncoded]'] = urlencode($_fILtI['[Mail_Subject_ISO88591]']);
 
-       $_JiiQJ['[Mail_Subject_UTF8]'] = $_IiJit->Subject;
-       $_JIO8t = ConvertString($_Jf0Ii["MailEncoding"], "UTF-8", $_IiJit->Subject, false);
-       if($_JIO8t != "")
-          $_JiiQJ['[Mail_Subject_UTF8]'] = $_JIO8t;
-       $_JiiQJ['[Mail_Subject_UTF8_URLEncoded]'] = urlencode($_JiiQJ['[Mail_Subject_UTF8]']);
+       $_fILtI['[Mail_Subject_UTF8]'] = $_j10IJ->Subject;
+       $_6JiJ6 = ConvertString($_6j88I["MailEncoding"], "UTF-8", $_j10IJ->Subject, false);
+       if($_6JiJ6 != "")
+          $_fILtI['[Mail_Subject_UTF8]'] = $_6JiJ6;
+       $_fILtI['[Mail_Subject_UTF8_URLEncoded]'] = urlencode($_fILtI['[Mail_Subject_UTF8]']);
     }
     // Social media links
 
-    if($_JiiL6 || $_Jil8I){
+    if($_fIlQC || $_fj0QO){
         // distriblists
-        if(isset($_Jf0Ii["AddSignature"]) && $_Jf0Ii["AddSignature"])
-           $_Jf0Ii["MailPlainText"] .= $_Q6JJJ . $_Jf0Ii["SignaturePlainText"];
+        if(isset($_6j88I["AddSignature"]) && $_6j88I["AddSignature"])
+           $_6j88I["MailPlainText"] .= $_QLl1Q . $_6j88I["SignaturePlainText"];
 
-        $_IiJit->TextPart = _L1ERL($_jIiQ8, $MailingListId, $_Jf0Ii["MailPlainText"], $_Jf0Ii["MailEncoding"], false, $_JiiQJ);
+        $_j10IJ->TextPart = _J1EBE($_j11Io, $MailingListId, $_6j88I["MailPlainText"], $_6j88I["MailEncoding"], false, $_fILtI);
       }
       else
-      $_IiJit->TextPart = "";
+      $_j10IJ->TextPart = "";
 
-    if( ($_Jf0Ii["MailFormat"] != "PlainText") && ($_JiiL6 || $_JiL8L) ) {
+    if( ($_6j88I["MailFormat"] != "PlainText") && ($_fIlQC || $_fIl8t) ) {
 
        // distriblists
-       if(isset($_Jf0Ii["AddSignature"]) && $_Jf0Ii["AddSignature"]){
-          $_JLQ60 = stripos($_Jf0Ii["MailHTMLText"], '</body');
-          if($_JLQ60 === false)
-             $_JLQ60 = stripos($_Jf0Ii["MailHTMLText"], '</html');
-          if($_JLQ60 === false){
-            $_Jf0Ii["MailHTMLText"] .= $_Jf0Ii["SignatureHTMLText"];
+       if(isset($_6j88I["AddSignature"]) && $_6j88I["AddSignature"]){
+          $_fjIlo = stripos($_6j88I["MailHTMLText"], '</body');
+          if($_fjIlo === false)
+             $_fjIlo = stripos($_6j88I["MailHTMLText"], '</html');
+          if($_fjIlo === false){
+            $_6j88I["MailHTMLText"] .= $_6j88I["SignatureHTMLText"];
           } else {
-            $_Jf0Ii["MailHTMLText"] = substr_replace($_Jf0Ii["MailHTMLText"], $_Jf0Ii["SignatureHTMLText"], $_JLQ60, 0);
+            $_6j88I["MailHTMLText"] = substr_replace($_6j88I["MailHTMLText"], $_6j88I["SignatureHTMLText"], $_fjIlo, 0);
           }
        }
 
-       $_JLIjo = "";
-       if(isset($_Jf0Ii["MailPreHeaderText"]))
-         $_JLIjo = $_Jf0Ii["MailPreHeaderText"];
+       $_fjjjl = "";
+       if(isset($_6j88I["MailPreHeaderText"]))
+         $_fjjjl = $_6j88I["MailPreHeaderText"];
 
-       $_JjflQ = $_Jf0Ii["MailHTMLText"];
+       $_66flC = $_6j88I["MailHTMLText"];
 
        // install tracking if field TrackLinks exists
-       if(isset($_Jf0Ii["TrackLinks"]) && defined("SWM")) {
-          $_JjflQ = _LJ8PF($_JjflQ, $_Jf0Ii, $_jIiQ8, $MailingListId, $_jQLfQ, $ResponderId, $ResponderType, $_JiC8l);
+       if(isset($_6j88I["TrackLinks"]) && defined("SWM")) {
+          $_66flC = _JJDRF($_66flC, $_6j88I, $_j11Io, $MailingListId, $_jlt8j, $ResponderId, $ResponderType, $_fIiiL);
        }
        //
 
        // install Google Analytics if field GoogleAnalyticsActive exists
-       if(isset($_Jf0Ii["GoogleAnalyticsActive"]) && $_Jf0Ii["GoogleAnalyticsActive"] && defined("SWM")) {
-         $_JjflQ = _OCFOP($_JjflQ, $_Jf0Ii);
-         if(isset($_JiiQJ["[AltBrowserLink]"])) {
-           $_JiiQJ["[AltBrowserLink]"] .= "&".join("&", _OCFFQ($_Jf0Ii));
+       if(isset($_6j88I["GoogleAnalyticsActive"]) && $_6j88I["GoogleAnalyticsActive"] && defined("SWM")) {
+         $_66flC = _LBCQ6($_66flC, $_6j88I);
+         if(isset($_fILtI["[AltBrowserLink]"])) {
+           $_fILtI["[AltBrowserLink]"] .= "&".join("&", _LBCJL($_6j88I));
          }
        }
        //
 
-       $_JjflQ = _OB8O0("<title>", "</title>", $_JjflQ, htmlspecialchars($_Jf0Ii["MailSubject"], ENT_COMPAT, $_Jf0Ii["MailEncoding"]));
-       $_JjflQ = _L1ERL($_jIiQ8, $MailingListId, $_JjflQ, $_Jf0Ii["MailEncoding"], true, $_JiiQJ);
-       $_JjflQ = SetHTMLCharSet($_JjflQ, $_Jf0Ii["MailEncoding"], true);
+       $_66flC = _LPFQD("<title>", "</title>", $_66flC, htmlspecialchars($_6j88I["MailSubject"], ENT_COMPAT, $_6j88I["MailEncoding"], false));
+       $_66flC = _J1EBE($_j11Io, $MailingListId, $_66flC, $_6j88I["MailEncoding"], true, $_fILtI);
+       $_66flC = SetHTMLCharSet($_66flC, $_6j88I["MailEncoding"], true);
 
-       if(!empty($_JLIjo))
-         $_JLIjo = _L1ERL($_jIiQ8, $MailingListId, htmlspecialchars($_JLIjo, ENT_COMPAT, $_Jf0Ii["MailEncoding"]), $_Jf0Ii["MailEncoding"], true, $_JiiQJ);
+       if(!empty($_fjjjl))
+         $_fjjjl = _J1EBE($_j11Io, $MailingListId, htmlspecialchars($_fjjjl, ENT_COMPAT, $_6j88I["MailEncoding"], false), $_6j88I["MailEncoding"], true, $_fILtI);
 
        // inline images
-       $_IiJit->_OEPOO();
-       $_jitLI = array();
-       GetInlineFiles($_JjflQ, $_jitLI, true);
-       $_jt8IL = InstallPath;
-       if(isset($_Jf0Ii["AltBrowserLink"])){
-         $_jt8IL = ScriptBaseURL;
+       $_j10IJ->_LEQ1D();
+       $_JiI11 = array();
+       GetInlineFiles($_66flC, $_JiI11, true);
+       $_Jf1C8 = InstallPath;
+       if(isset($_6j88I["AltBrowserLink"])){
+         $_Jf1C8 = ScriptBaseURL;
        }
-       for($_Q6llo=0; $_Q6llo< count($_jitLI); $_Q6llo++) {
-         if(!@file_exists($_jitLI[$_Q6llo])) {
-           $_QJCJi = _OBEDB($_jitLI[$_Q6llo]);
-           $_JjflQ = str_replace($_jitLI[$_Q6llo], $_QJCJi, $_JjflQ);
-           $_jitLI[$_Q6llo] = $_QJCJi;
+       for($_Qli6J=0; $_Qli6J< count($_JiI11); $_Qli6J++) {
+         if(!@file_exists($_JiI11[$_Qli6J])) {
+           $_QLJfI = _LA6ED($_JiI11[$_Qli6J]);
+           $_66flC = str_replace($_JiI11[$_Qli6J], $_QLJfI, $_66flC);
+           $_JiI11[$_Qli6J] = $_QLJfI;
+           if(!@file_exists($_JiI11[$_Qli6J]) && isset($_6j88I["DistributionListEntryId"])) {
+             continue; // for distribution lists we ignore missing inline files
+           }
          }
-         $_IiJit->InlineImages[] = array ("file" => $_jitLI[$_Q6llo], "c_type" => _OBCE8($_jitLI[$_Q6llo]), "name" => "", "isfile" => true );
+         $_j10IJ->InlineImages[] = array ("file" => $_JiI11[$_Qli6J], "c_type" => _LALJ6($_JiI11[$_Qli6J]), "name" => "", "isfile" => true );
        }
 
        // target groups support
-       if($_JL1Oi){
-         if($_JiiL6 || $_Jil8I){
+       if($_fjI1J){
+         if($_fIlQC || $_fj0QO){
 
-           $_j1CJ0 = true;
-           if(isset($_Jf0Ii["AutoCreateTextPart"])) // campaign can deactivate it
-             $_j1CJ0 = $_Jf0Ii["AutoCreateTextPart"];
+           $_jLt1Q = true;
+           if(isset($_6j88I["AutoCreateTextPart"])) // campaign can deactivate it
+             $_jLt1Q = $_6j88I["AutoCreateTextPart"];
 
-           if($_j1CJ0)
-              $_IiJit->TextPart = _ODQAB($_JjflQ, $_Jf0Ii["MailEncoding"]);
+           if($_jLt1Q)
+              $_j10IJ->TextPart = _LBDA8($_66flC, $_6j88I["MailEncoding"]);
          }
        }
 
-       if(!empty($_JLIjo)){
-        //$_JjflQ = explode('<body', $_JjflQ, 2);
-        $_JjflQ = preg_split("/\<body/i", $_JjflQ, 2);
-        if(count($_JjflQ) > 1 && strpos($_JjflQ[1], '>') !== false){
-          $_I1t0l = strpos($_JjflQ[1], '>');
-          $_JjflQ[1] = substr_replace($_JjflQ[1], sprintf($_jJ88O, $_JLIjo), $_I1t0l + 1, 0);
+       if(!empty($_fjjjl)){
+        //$_66flC = explode('<body', $_66flC, 2);
+        $_66flC = preg_split("/\<body/i", $_66flC);
+        for($_Qli6J=1; $_Qli6J<count($_66flC); $_Qli6J++){
+          if(strpos($_66flC[$_Qli6J], '>') !== false){
+            $_IOO6C = strpos($_66flC[$_Qli6J], '>');
+            $_66flC[$_Qli6J] = substr_replace($_66flC[$_Qli6J], sprintf($_JQj6J, $_fjjjl), $_IOO6C + 1, 0);
+          }
         }
-        $_JjflQ = join('<body', $_JjflQ);
+        $_66flC = join('<body', $_66flC);
        }
-       $_IiJit->HTMLPart = $_JjflQ;
+       $_j10IJ->HTMLPart = $_66flC;
 
     } else {
-      $_IiJit->_OEPOO();
-      $_IiJit->HTMLPart = "";
+      $_j10IJ->_LEQ1D();
+      $_j10IJ->HTMLPart = "";
     }
 
     // attachments
-    $_IiJit->_OEPFA();
-    if(!is_array($_Jf0Ii["Attachments"])) {
-      if($_Jf0Ii["Attachments"] != "") {
-        $_Jf0Ii["Attachments"] = @unserialize($_Jf0Ii["Attachments"]);
-        if( $_Jf0Ii["Attachments"] === false)
-          $_Jf0Ii["Attachments"] = array();
+    $_j10IJ->_LEQFP();
+    if(!is_array($_6j88I["Attachments"])) {
+      if($_6j88I["Attachments"] != "") {
+        $_6j88I["Attachments"] = @unserialize($_6j88I["Attachments"]);
+        if( $_6j88I["Attachments"] === false)
+          $_6j88I["Attachments"] = array();
       } else
-        $_Jf0Ii["Attachments"] = array();
+        $_6j88I["Attachments"] = array();
     }
 
-    $_jt8IL = $_QOCJo;
-    if(isset($_Jf0Ii["AltBrowserLink"])){
-      $_jt8IL = ScriptBaseURL;
+    $_Jf1C8 = $_IIlfi;
+    if(isset($_6j88I["AltBrowserLink"])){
+      $_Jf1C8 = ScriptBaseURL;
     }
-    for($_Q6llo=0; $_Q6llo<count($_Jf0Ii["Attachments"]); $_Q6llo++) {
-      $_IiJit->Attachments[] = array ("file" => $_jt8IL.CheckFileNameForUTF8($_Jf0Ii["Attachments"][$_Q6llo]), "c_type" => "application/octet-stream", "name" => "", "isfile" => true );
+    for($_Qli6J=0; $_Qli6J<count($_6j88I["Attachments"]); $_Qli6J++) {
+      $_j10IJ->Attachments[] = array ("file" => $_Jf1C8.CheckFileNameForUTF8($_6j88I["Attachments"][$_Qli6J]), "c_type" => "application/octet-stream", "name" => "", "isfile" => true );
     }
 
     // pers attachments
-    if(!isset($_Jf0Ii["PersAttachments"]) || !defined("SWM"))
-      $_Jf0Ii["PersAttachments"] = array();
+    if(!isset($_6j88I["PersAttachments"]) || !defined("SWM"))
+      $_6j88I["PersAttachments"] = array();
 
-    if(!is_array($_Jf0Ii["PersAttachments"])) {
-      if($_Jf0Ii["PersAttachments"] != "") {
-        $_Jf0Ii["PersAttachments"] = @unserialize($_Jf0Ii["PersAttachments"]);
-        if( $_Jf0Ii["PersAttachments"] === false)
-          $_Jf0Ii["PersAttachments"] = array();
+    if(!is_array($_6j88I["PersAttachments"])) {
+      if($_6j88I["PersAttachments"] != "") {
+        $_6j88I["PersAttachments"] = @unserialize($_6j88I["PersAttachments"]);
+        if( $_6j88I["PersAttachments"] === false)
+          $_6j88I["PersAttachments"] = array();
       } else
-        $_Jf0Ii["PersAttachments"] = array();
+        $_6j88I["PersAttachments"] = array();
     }
 
-    $_jt8IL = $_QOCJo;
-    if(isset($_Jf0Ii["AltBrowserLink"])){
-      $_jt8IL = ScriptBaseURL;
+    $_Jf1C8 = $_IIlfi;
+    if(isset($_6j88I["AltBrowserLink"])){
+      $_Jf1C8 = ScriptBaseURL;
     }
 
     // wildcard *
-    $_JLI6j = count($_Jf0Ii["PersAttachments"]);
-    for($_Q6llo=0; $_Q6llo<$_JLI6j; $_Q6llo++) {
+    $_fjjt1 = count($_6j88I["PersAttachments"]);
+    for($_Qli6J=0; $_Qli6J<$_fjjt1; $_Qli6J++) {
 
-      if(strpos($_Jf0Ii["PersAttachments"][$_Q6llo], '*') === false) continue;
+      if(strpos($_6j88I["PersAttachments"][$_Qli6J], '*') === false) continue;
 
-      $_jt8LJ = $_Jf0Ii["PersAttachments"][$_Q6llo];
+      $_JfIIf = $_6j88I["PersAttachments"][$_Qli6J];
       // there should be no visiblefilename
-      $_JLIOO = "";
-      $_Q6i6i = strpos($_jt8LJ, ";");
-      if($_Q6i6i !== false){
-        $_JLIOO = trim(substr($_jt8LJ, $_Q6i6i + 1));
-        $_jt8LJ = substr($_jt8LJ, 0, $_Q6i6i);
+      $_fjJjC = "";
+      $_QlOjt = strpos($_JfIIf, ";");
+      if($_QlOjt !== false){
+        $_fjJjC = trim(substr($_JfIIf, $_QlOjt + 1));
+        $_JfIIf = substr($_JfIIf, 0, $_QlOjt);
       }
 
-      $_jt8LJ = trim(_L1ERL($_jIiQ8, $MailingListId, $_jt8LJ, $_Jf0Ii["MailEncoding"], false, $_JiiQJ));
+      $_JfIIf = trim(_J1EBE($_j11Io, $MailingListId, $_JfIIf, $_6j88I["MailEncoding"], false, $_fILtI));
 
-      $_JLILQ = dirname($_QOCJo.$_jt8LJ);
-      $_QllO8 = dirname($_jt8LJ);
-      if($_QllO8 == ".")
-        $_QllO8 = "";
-      if($_QllO8 !== "")
-        $_QllO8 = $_QllO8."/";
-      $_JLIlt = opendir($_JLILQ);
-      $_Q6LIL = array();
-      while ($_JLIlt && $_Q6lfJ = readdir($_JLIlt)) {
-        if(!is_dir($_JLILQ.'/'.$_Q6lfJ) && is_readable($_JLILQ.'/'.$_Q6lfJ)){
-          $_Q6LIL[] = $_QllO8.$_Q6lfJ;
+      $_fj618 = dirname($_IIlfi.$_JfIIf);
+      $_I016j = dirname($_JfIIf);
+      if($_I016j == ".")
+        $_I016j = "";
+      if($_I016j !== "")
+        $_I016j = $_I016j."/";
+      $_fj6CI = opendir($_fj618);
+      $_QlooO = array();
+      while ($_fj6CI && $_QlCtl = readdir($_fj6CI)) {
+        if(!is_dir($_fj618.'/'.$_QlCtl) && is_readable($_fj618.'/'.$_QlCtl)){
+          $_QlooO[] = $_I016j.$_QlCtl;
         }
       }
-      if($_JLIlt)
-        closedir($_JLIlt);
+      if($_fj6CI)
+        closedir($_fj6CI);
         else{
-           if(isset($_Jf0Ii["SendEMailWithoutPersAttachment"]) && !$_Jf0Ii["SendEMailWithoutPersAttachment"]){
+           if(isset($_6j88I["SendEMailWithoutPersAttachment"]) && !$_6j88I["SendEMailWithoutPersAttachment"]){
              $errors[] = 9999;
-             $_Ql1O8[] = "Path '$_JLILQ' not found.";
-             if(!isset($_Jf0Ii["AltBrowserLink"])) { // # we want only AltBrowserLink text not sending email, attachments
+             $_I816i[] = "Path '$_fj618' not found.";
+             if(!isset($_6j88I["AltBrowserLink"])) { // # we want only AltBrowserLink text not sending email, attachments
                return false;
              }
            }
         }
 
-      if(count($_Q6LIL)){
-        $_Jf0Ii["PersAttachments"][$_Q6llo] = $_Q6LIL[0];
-        for($_Q8otJ = 1; $_Q8otJ < count($_Q6LIL); $_Q8otJ++)
-          $_Jf0Ii["PersAttachments"][] = $_Q6LIL[$_Q8otJ];
+      if(count($_QlooO)){
+        $_6j88I["PersAttachments"][$_Qli6J] = $_QlooO[0];
+        for($_I1OoI = 1; $_I1OoI < count($_QlooO); $_I1OoI++)
+          $_6j88I["PersAttachments"][] = $_QlooO[$_I1OoI];
       }
     }
 
-    for($_Q6llo=0; $_Q6llo<count($_Jf0Ii["PersAttachments"]); $_Q6llo++) {
-      $_jt8LJ = $_Jf0Ii["PersAttachments"][$_Q6llo];
-      $_JLIOO = "";
-      $_Q6i6i = strpos($_jt8LJ, ";");
-      if($_Q6i6i !== false){
-        $_JLIOO = trim(substr($_jt8LJ, $_Q6i6i + 1));
-        $_jt8LJ = substr($_jt8LJ, 0, $_Q6i6i);
+    for($_Qli6J=0; $_Qli6J<count($_6j88I["PersAttachments"]); $_Qli6J++) {
+      $_JfIIf = $_6j88I["PersAttachments"][$_Qli6J];
+      $_fjJjC = "";
+      $_QlOjt = strpos($_JfIIf, ";");
+      if($_QlOjt !== false){
+        $_fjJjC = trim(substr($_JfIIf, $_QlOjt + 1));
+        $_JfIIf = substr($_JfIIf, 0, $_QlOjt);
       }
-      $_jt8LJ = trim(_L1ERL($_jIiQ8, $MailingListId, $_jt8LJ, $_Jf0Ii["MailEncoding"], false, $_JiiQJ));
-      $_jt8LJ = CheckFileNameForUTF8($_jt8LJ);
-      if($_JLIOO){
-        $_JLIOO = trim(_L1ERL($_jIiQ8, $MailingListId, $_JLIOO, $_Jf0Ii["MailEncoding"], false, $_JiiQJ));
-        $_JLIOO = CheckFileNameForUTF8($_JLIOO);
+      $_JfIIf = trim(_J1EBE($_j11Io, $MailingListId, $_JfIIf, $_6j88I["MailEncoding"], false, $_fILtI));
+      $_JfIIf = CheckFileNameForUTF8($_JfIIf);
+      if($_fjJjC){
+        $_fjJjC = trim(_J1EBE($_j11Io, $MailingListId, $_fjJjC, $_6j88I["MailEncoding"], false, $_fILtI));
+        $_fjJjC = CheckFileNameForUTF8($_fjJjC);
       }
-      if(!empty($_jt8LJ) && !is_dir($_QOCJo.$_jt8LJ) && is_readable($_QOCJo.$_jt8LJ)) # local filename check
-         $_IiJit->Attachments[] = array ("file" => $_jt8IL.$_jt8LJ, "c_type" => "application/octet-stream", "name" => $_JLIOO, "isfile" => true );
+      if(!empty($_JfIIf) && !is_dir($_IIlfi.$_JfIIf) && is_readable($_IIlfi.$_JfIIf)) # local filename check
+         $_j10IJ->Attachments[] = array ("file" => $_Jf1C8.$_JfIIf, "c_type" => "application/octet-stream", "name" => $_fjJjC, "isfile" => true );
          else{
-           if(isset($_Jf0Ii["SendEMailWithoutPersAttachment"]) && !$_Jf0Ii["SendEMailWithoutPersAttachment"]){
+           if(isset($_6j88I["SendEMailWithoutPersAttachment"]) && !$_6j88I["SendEMailWithoutPersAttachment"]){
              $errors[] = 9999;
-             $_Ql1O8[] = "Attachment '$_jt8IL".$_jt8LJ."' not found.";
-             if(!isset($_Jf0Ii["AltBrowserLink"])) { // # we want only AltBrowserLink text not sending email, attachments
+             $_I816i[] = "Attachment '$_Jf1C8".$_JfIIf."' not found.";
+             if(!isset($_6j88I["AltBrowserLink"])) { // # we want only AltBrowserLink text not sending email, attachments
                return false;
              }
            }
@@ -547,109 +656,218 @@
     }
 
     # we want only AltBrowserLink text not sending email
-    if(isset($_Jf0Ii["AltBrowserLink"])) {
-      $_Ii6lO = $_IiJit->HTMLPart;
-      if($_Ii6lO == "")
-        $_Ii6lO = $_IiJit->TextPart;
+    if(isset($_6j88I["AltBrowserLink"])) {
+      $_j10O1 = $_j10IJ->HTMLPart;
+      if($_j10O1 == "")
+        $_j10O1 = $_j10IJ->TextPart;
       return true;
     }
 
-    switch ($_Jf0Ii["MailPriority"]) {
+    switch ($_6j88I["MailPriority"]) {
       case 'Low' :
-         $_IiJit->Priority = mpLow;
+         $_j10IJ->Priority = mpLow;
          break;
       case 'Normal':
-         $_IiJit->Priority = mpNormal;
+         $_j10IJ->Priority = mpNormal;
          break;
       case 'High'  :
-         $_IiJit->Priority = mpHighest;
+         $_j10IJ->Priority = mpHighest;
     }
 
     // email options
-    if($_IiJit->EMailOptionsTag != "1") {
-      $_QJlJ0 = "SELECT * FROM `$_jJJjO`";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if(mysql_error($_Q61I1) != ""){
-        $errors[] = mysql_errno($_Q61I1);
-        $_Ql1O8[] = mysql_error($_Q61I1);
+    if($_j10IJ->EMailOptionsTag != "1") {
+      $_QLfol = "SELECT * FROM `$_JQ1I6`";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if(mysql_error($_QLttI) != ""){
+        $errors[] = mysql_errno($_QLttI);
+        $_I816i[] = mysql_error($_QLttI);
         return false;
       }
-      $_Q8OiJ = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
-      $_IiJit->crlf = $_Q8OiJ["CRLF"];
-      $_IiJit->head_encoding = $_Q8OiJ["Head_Encoding"];
-      $_IiJit->text_encoding = $_Q8OiJ["Text_Encoding"];
-      $_IiJit->html_encoding = $_Q8OiJ["HTML_Encoding"];
-      $_IiJit->attachment_encoding = $_Q8OiJ["Attachment_Encoding"];
-      $_IiJit->XMailer = $_Q8OiJ["XMailer"];
-      if(isset($_Q8OiJ["AddUniqueIdHeaderField"]))
-         $_IiJit->Tag = $_Q8OiJ["AddUniqueIdHeaderField"];
-      $_IiJit->EMailOptionsTag = "1"; // we have load it
+      $_I1OfI = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
+      $_j10IJ->crlf = $_I1OfI["CRLF"];
+      $_j10IJ->head_encoding = $_I1OfI["Head_Encoding"];
+      $_j10IJ->text_encoding = $_I1OfI["Text_Encoding"];
+      $_j10IJ->html_encoding = $_I1OfI["HTML_Encoding"];
+      $_j10IJ->attachment_encoding = $_I1OfI["Attachment_Encoding"];
+      $_j10IJ->XMailer = $_I1OfI["XMailer"];
+      if(isset($_I1OfI["AddUniqueIdHeaderField"]))
+         $_j10IJ->Tag = $_I1OfI["AddUniqueIdHeaderField"];
+      $_j10IJ->EMailOptionsTag = "1"; // we have load it
     }
 
+    if($_6j88I["Type"] == "text") // for text ever CRLF
+      $_j10IJ->crlf = $_QLl1Q;
+    
     // AddUniqueIdHeaderField
-    if( $_IiJit->EMailOptionsTag && $_Jill8 != "" )
-       $AdditionalHeaders[$_jJtJt] = $_Jill8;
+    if( $_j10IJ->EMailOptionsTag && $_fj0ol != "" )
+       $AdditionalHeaders[$_Il06C] = $_fj0ol;
 
     // AdditionalHeaders
-    $_IiJit->AdditionalHeaders = $AdditionalHeaders;
+    $_j10IJ->AdditionalHeaders = $AdditionalHeaders;
 
-    $_IiJit->charset = $_Jf0Ii["MailEncoding"];
+    $_j10IJ->charset = $_6j88I["MailEncoding"];
 
   // mail send settings
-    $_IiJit->Sendvariant = $_Jf0Ii["Type"]; // mail, sendmail, smtp, smtpmx, text
+    $_j10IJ->Sendvariant = $_6j88I["Type"]; // mail, sendmail, smtp, smtpmx, text, savetodir
 
-    $_IiJit->PHPMailParams = $_Jf0Ii["PHPMailParams"];
-    $_IiJit->HELOName = $_Jf0Ii["HELOName"];
+    $_j10IJ->PHPMailParams = $_6j88I["PHPMailParams"];
+    $_j10IJ->HELOName = $_6j88I["HELOName"];
 
-    $_IiJit->SMTPpersist = (bool)$_Jf0Ii["SMTPPersist"];
-    $_IiJit->SMTPpipelining = (bool)$_Jf0Ii["SMTPPipelining"];
-    $_IiJit->SMTPTimeout = $_Jf0Ii["SMTPTimeout"];
-    $_IiJit->SMTPServer = $_Jf0Ii["SMTPServer"];
-    $_IiJit->SMTPPort = $_Jf0Ii["SMTPPort"];
-    $_IiJit->SMTPAuth = (bool)$_Jf0Ii["SMTPAuth"];
-    $_IiJit->SMTPUsername = $_Jf0Ii["SMTPUsername"];
-    $_IiJit->SMTPPassword = $_Jf0Ii["SMTPPassword"];
-    if(isset($_Jf0Ii["SMTPSSL"]))
-      $_IiJit->SSLConnection = (bool)$_Jf0Ii["SMTPSSL"];
+    $_j10IJ->SMTPpersist = (bool)$_6j88I["SMTPPersist"];
+    $_j10IJ->SMTPpipelining = (bool)$_6j88I["SMTPPipelining"];
+    $_j10IJ->SMTPTimeout = $_6j88I["SMTPTimeout"];
+    $_j10IJ->SMTPServer = $_6j88I["SMTPServer"];
+    $_j10IJ->SMTPPort = $_6j88I["SMTPPort"];
+    $_j10IJ->SMTPAuth = (bool)$_6j88I["SMTPAuth"];
+    $_j10IJ->SMTPUsername = $_6j88I["SMTPUsername"];
+    $_j10IJ->SMTPPassword = $_6j88I["SMTPPassword"];
+    if(isset($_6j88I["SMTPSSL"]))
+      $_j10IJ->SSLConnection = (bool)$_6j88I["SMTPSSL"];
 
-    $_IiJit->sendmail_path = $_Jf0Ii["sendmail_path"];
-    $_IiJit->sendmail_args = $_Jf0Ii["sendmail_args"];
+    $_j10IJ->sendmail_path = $_6j88I["sendmail_path"];
+    $_j10IJ->sendmail_args = $_6j88I["sendmail_args"];
 
-    $_IiJit->SignMail = (bool)$_Jf0Ii["SMIMESignMail"];
-    $_IiJit->SMIMEMessageAsPlainText = (bool)$_Jf0Ii["SMIMEMessageAsPlainText"];
+    $_j10IJ->savetodir_filepathandname = "";
 
-    $_IiJit->SignCert = $_Jf0Ii["SMIMESignCert"];
-    $_IiJit->SignPrivKey = $_Jf0Ii["SMIMESignPrivKey"];
-    $_IiJit->SignPrivKeyPassword = $_Jf0Ii["SMIMESignPrivKeyPassword"];
-    $_IiJit->SignTempFolder = $_jji0C;
+    if($_j10IJ->Sendvariant == "savetodir"){
+      $_j10IJ->savetodir_filepathandname = _LBQFJ($_6j88I["savetodir_pathname"], $MailingListId, (isset($_j11Io["id"]) ? $_j11Io["id"] : 0), (isset($_6j88I["CurrentSendId"]) ? $_6j88I["CurrentSendId"] : 0), (isset($_6j88I["MTAsId"]) ? $_6j88I["MTAsId"] : 0), $ResponderType, $ResponderId, 0);
+    }
 
-    $_IiJit->SMIMEIgnoreSignErrors = (bool)$_Jf0Ii["SMIMEIgnoreSignErrors"];
+    $_j10IJ->SignMail = (bool)$_6j88I["SMIMESignMail"];
+    $_j10IJ->SMIMEMessageAsPlainText = (bool)$_6j88I["SMIMEMessageAsPlainText"];
 
-    $_IiJit->DKIM = (bool)$_Jf0Ii["DKIM"];
-    $_IiJit->DomainKey = (bool)$_Jf0Ii["DomainKey"];
-    $_IiJit->DKIMSelector = $_Jf0Ii["DKIMSelector"];
-    $_IiJit->DKIMPrivKey = $_Jf0Ii["DKIMPrivKey"];
-    $_IiJit->DKIMPrivKeyPassword = $_Jf0Ii["DKIMPrivKeyPassword"];
-    $_IiJit->DKIMIgnoreSignErrors = (bool)$_Jf0Ii["DKIMIgnoreSignErrors"];
+    $_j10IJ->SignCert = $_6j88I["SMIMESignCert"];
+    $_j10IJ->SignPrivKey = $_6j88I["SMIMESignPrivKey"];
+    $_j10IJ->SignPrivKeyPassword = $_6j88I["SMIMESignPrivKeyPassword"];
+    $_j10IJ->SignTempFolder = $_J1t6J;
+    $_j10IJ->SignExtraCerts = $_6j88I["SMIMESignExtraCerts"];
 
-    $_IiJit->ListId = $MailingListId."-";
-    if(isset($_jIiQ8["id"]))
-      $_IiJit->ListId .= $_jIiQ8["id"];
+    $_j10IJ->SMIMEIgnoreSignErrors = (bool)$_6j88I["SMIMEIgnoreSignErrors"];
+
+    $_j10IJ->DKIM = (bool)$_6j88I["DKIM"];
+    $_j10IJ->DomainKey = (bool)$_6j88I["DomainKey"];
+    $_j10IJ->DKIMSelector = $_6j88I["DKIMSelector"];
+    $_j10IJ->DKIMPrivKey = $_6j88I["DKIMPrivKey"];
+    $_j10IJ->DKIMPrivKeyPassword = $_6j88I["DKIMPrivKeyPassword"];
+    $_j10IJ->DKIMIgnoreSignErrors = (bool)$_6j88I["DKIMIgnoreSignErrors"];
+
+    $_j10IJ->ListId = $MailingListId."-";
+    if(isset($_j11Io["id"]))
+      $_j10IJ->ListId .= $_j11Io["id"];
       else
-      $_IiJit->ListId .= "0";
-    $_IiJit->ListId .= ".localhost";
+      $_j10IJ->ListId .= "0";
+    $_j10IJ->ListId .= ".localhost";
 
-    if($_Jf0Ii["Type"] == "smtp" && stripos($_IiJit->SMTPServer, ".is-fun.net") !== false)
-      $_IiJit->XCSAComplaints = true;
+    if($_6j88I["Type"] == "smtp" && stripos($_j10IJ->SMTPServer, ".is-fun.net") !== false)
+      $_j10IJ->XCSAComplaints = true;
 
-    _OPQ6J();
-    if(!$_IiJit->_OED01($_Ii6QI, $_Ii6lO)) {
-       $errors[] = $_IiJit->errors["errorcode"];
-       $_Ql1O8[] = $_IiJit->errors["errortext"];
+    _LRCOC();
+    if(!$_j10IJ->_LEJE8($_j108i, $_j10O1)) {
+       $errors[] = $_j10IJ->errors["errorcode"];
+       $_I816i[] = $_j10IJ->errors["errortext"];
        return false;
     }
 
     return true;
   }
+  
+  class SubjectGenerator{
+
+    // @private
+    var $_fj6l1;
+    var $_fjfL1 = -1;
+    var $_fj8Jj = array();
+    var $_fj8fl;
+    var $_fjtQ0;
+    
+    function __construct($_fjO1O) {
+      $this->_LECC8($_fjO1O, false);
+    }
+
+    function SubjectGenerator() {
+      self::__construct();
+    }
+
+    function __destruct() {
+    }
+    
+    function _LECC8($_fjO1O, $_fjOto){
+      if ($_fjOto)
+        if ($this->_fj6l1 != '' && $this->_fj6l1 == $_fjO1O) 
+          return;
+      $this->_fjfL1 = -1;    
+      
+      $this->_fj6l1 = $_fjO1O;
+      $this->_fj8Jj = explode(EMailSubjectVariantsSeparator, $_fjO1O);    
+      
+      $this->_fj8fl = true;
+      $this->_fjtQ0 = 1;
+      if(count($this->_fj8Jj)){
+        if ('random' == strtolower($this->_fj8Jj[count($this->_fj8Jj) - 1]))
+          array_pop($this->_fj8Jj);
+          else
+          if( stripos($this->_fj8Jj[count($this->_fj8Jj) - 1], "changesubjectafter:") !== false ){
+            $this->_fjtQ0 = intval( substr($this->_fj8Jj[count($this->_fj8Jj) - 1], strpos($this->_fj8Jj[count($this->_fj8Jj) - 1], ':') + 1) );
+            if($this->_fjtQ0 <= 0)
+              $this->_fjtQ0 = 1;
+            $this->_fj8fl = false;
+            array_pop($this->_fj8Jj);  
+          }
+      }
+    }
+  
+    function _LED8C(){
+      return count($this->_fj8Jj);
+    }
+  
+    function _LEE0J(){
+      $_ILJjL = 0;
+      for ($_Qli6J=0; $_Qli6J<count($this->_fj8Jj); $_Qli6J++)
+         if (strlen( rtrim( $this->_fj8Jj[$_Qli6J] ) ) > $_ILJjL )
+           $_ILJjL = strlen( rtrim( $this->_fj8Jj[$_Qli6J] ) );
+      return $_ILJjL;     
+    }
+  
+    function _LEEPA($_JfiIt = 0, $_fjOCJ = true){
+     if(count($this->_fj8Jj) == 1)
+       return rtrim($this->_fj8Jj[0]);
+     if($_JfiIt < 0) // return ever first entry => newsletter archive 
+       return rtrim($this->_fj8Jj[0]);
+
+     if(!$_fjOCJ){
+       if($this->_fjfL1 < 0)
+         return rtrim($this->_fj8Jj[0]);
+       else
+         return rtrim($this->_fj8Jj[$this->_fjfL1]);
+     }
+
+     if(!$this->_fj8fl && $this->_fjfL1 == -1 && $_JfiIt + 1 > $this->_fjtQ0){
+       for($_Qli6J=0; $_Qli6J < $_JfiIt + 1; $_Qli6J += $this->_fjtQ0){
+           $this->_fjfL1++;
+            if ($this->_fjfL1 > count($this->_fj8Jj) - 1)
+               $this->_fjfL1 = 0;
+       }  
+       return rtrim($this->_fj8Jj[$this->_fjfL1]); 
+     }
+     
+     if ($this->_fj8fl){
+        $_fjo6J = rand(0, count($this->_fj8Jj) - 1);
+        $this->_fjfL1 = $_fjo6J;
+     }
+      else{
+         if ($_JfiIt % $this->_fjtQ0 == 0){
+             $this->_fjfL1++;
+             if ($this->_fjfL1 > count($this->_fj8Jj) - 1)
+               $this->_fjfL1 = 0;
+           }
+         if($this->_fjfL1 < 0) 
+            $this->_fjfL1 = 0;
+      }
+      return rtrim($this->_fj8Jj[$this->_fjfL1]);
+    }
+  
+    
+  }
+  
 ?>

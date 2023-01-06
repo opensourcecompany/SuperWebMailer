@@ -1,5 +1,5 @@
       <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./campaignedit.php">
-      <span class="Backlink"><br /><a href="./browsecampaigns.php" onclick="document.CampaignEditForm.action='./browsecampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <span class="Backlink"><br /><a href="./browsecampaigns.php" onclick="document.CampaignEditForm.action='./browsecampaigns.php';$('#CampaignEditForm').submit(); return false;">Zur&uuml;ck</a></span><br />
       <input type="hidden" name="PageSelected" />
       <input type="hidden" name="EditPage" value="1" />
       <input type="hidden" name="CampaignListId" id="CampaignListId" />
@@ -11,14 +11,14 @@
       <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
          <tbody>
            <tr>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.CampaignEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.CampaignEditForm.submit(); return false;">Gruppen</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.CampaignEditForm.submit(); return false;">Regeln</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.CampaignEditForm.submit(); return false;">Report/Planung</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.CampaignEditForm.submit(); return false;">Versand</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';document.CampaignEditForm.submit(); return false;">E-Mail-Inhalt</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='7';document.CampaignEditForm.submit(); return false;">Tracking</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';document.CampaignEditForm.submit(); return false;">Zusammenfassung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';$('#CampaignEditForm').submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';$('#CampaignEditForm').submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';$('#CampaignEditForm').submit(); return false;">Regeln</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';$('#CampaignEditForm').submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';$('#CampaignEditForm').submit(); return false;">Versand</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';$('#CampaignEditForm').submit(); return false;">E-Mail-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='7';$('#CampaignEditForm').submit(); return false;">Tracking</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';$('#CampaignEditForm').submit(); return false;">Zusammenfassung</a></td>
           </tr>
         </tbody>
       </table>
@@ -97,11 +97,12 @@
       <br />
       <br />
 
-      <input type="button" class="FormButton" value="Zur&uuml;ck zur E-Mailing-&Uuml;bersicht" onclick="document.CampaignEditForm.action='./browsecampaigns.php';document.CampaignEditForm.submit(); " /><br />
+      <input type="button" class="FormButton" value="Zur&uuml;ck zur E-Mailing-&Uuml;bersicht" onclick="document.CampaignEditForm.action='./browsecampaigns.php';$('#CampaignEditForm').submit(); " /><br />
       <br />
       <script type="text/javascript">
       <!--
 
+         InsertLoadingStatusOnSubmit();
         //AUTO_SCRIPT_CODE_PLACEHOLDER//
 
       //-->

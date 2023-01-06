@@ -23,6 +23,7 @@
                    <option value="smtp">Versand &uuml;ber Postausgangsserver/SMTP-Server</option>
                    <option value="smtpmx">Direkt an den Server des Empf&auml;ngers (SMTP/MX)</option>
                    <option value="sendmail">sendmail verwenden</option>
+                   <option value="savetodir">In Verzeichnis speichern</option>
                 </select>
                 </td>
               </tr>
@@ -50,7 +51,61 @@
           </table>
       </fieldset>
 
-      <fieldset>
+      <if:curl_installed>
+      <fieldset id="multithreaded_fieldset">
+      <legend>Einstellungen f&uuml;r den Versand mit mehreren Threads</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                  <table width="100%">
+                  <tr>
+                    <td style="vertical-align: middle"><img src="images/icon_warning.gif" border="0" width="24" height="24" style="align: left;" alt="icon_warning" /></td>
+                    <td width="100%">
+                      <b>Dies ist eine Profi-Funktion und sollte nur bei einem eigenen Server verwendet werden, beachten Sie dazu unbedingt die <a href="javascript:ShowHelpWindow(document.getElementById('HelpTopic').value)">Hilfe</a>.</b><br /><br />
+                      Der Versand mit mehreren Versandthreads steht nur beim Versand per CronJob zur Verf&uuml;gung.
+                      <br />
+                      Die Verwendung dieser Option f&uuml;hrt, abh&auml;ngig von der Anzahl Versandthreads und zu versendender E-Mails pro Versandthread, zu einer starken Serverbelastung und
+                      beschleunigten E-Mail-Versand, der zu einer erh&ouml;hten Erkennung als Spam f&uuml;hren kann.
+                      <br />
+                    </td>
+                  </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2">
+                  <input type="checkbox" name="enablemultithreadedsending" id="enablemultithreadedsending" onclick="EnableControls()" /><label for="enablemultithreadedsending">&nbsp;multi-threaded Versand verwenden</label>
+                  <br />
+                  <br />
+                </td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="MailThreadCount">Anzahl Versandthreads<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie eine Wert gr&ouml;&szlig;er 1 ein, um parallel die E-Mails versenden zu lassen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS></label>
+                </td>
+                <td><input type="text" name="MailThreadCount" id="MailThreadCount" size="5" maxlength="5" style="text-align: right;" /></td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="MaxMailsPerThread">Maximale Anzahl E-Mails, die pro Versandthread versendet werden d&uuml;rfen<SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Geben Sie die maximale Anzahl E-Mails an, die pro Versandthread versendet werden d&uuml;rfen, danach wird ein neuer Versandthread verwendet. Effizienter ist es weniger Versandthreads zu verwenden aber mehr E-Mails pro Versandthread versenden zu lassen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS></label>
+                </td>
+                <td><input type="text" name="MaxMailsPerThread" id="MaxMailsPerThread" size="5" maxlength="5" style="text-align: right;" /></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+      </if:curl_installed>
+
+      <fieldset id="phpmail_fieldset">
       <legend>Einstellungen f&uuml;r den Versand per PHP mail()</legend>
       <br />
           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
@@ -64,7 +119,7 @@
           </table>
       </fieldset>
 
-      <fieldset>
+      <fieldset id="smtpmail_fieldset">
       <legend>Einstellungen f&uuml;r den Versand &uuml;ber Postausgangsserver/SMTP-Server</legend>
       <br />
           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
@@ -140,7 +195,7 @@
           </table>
       </fieldset>
 
-       <fieldset>
+      <fieldset id="sendmail_fieldset">
       <legend>Einstellungen f&uuml;r den Versand per sendmail</legend>
       <br />
           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
@@ -159,6 +214,27 @@
           </table>
       </fieldset>
 
+      <fieldset id="savetodir_fieldset">
+      <legend>Einstellungen zur Speicherung in Verzeichnis</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td colspan="2">
+                  Dies speichert die generierten E-Mails nur in ein Verzeichnis auf dem Server. Der Versand muss danach durch ein externes Programm/Script erfolgen.
+                  <br /><br />
+                </td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="savetodir_pathname">Absoluter Verzeichnisname</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Das Script muss f&uuml;r das angegebene Verzeichnis Lese-/Schreibrechte besitzen, so dass bestehende Dateien gesucht und neue Dateien gespeichert werden k&ouml;nnen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                </td>
+                <td><input type="text" id="savetodir_pathname" name="savetodir_pathname" maxlength="255" size="52" /></td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
 
       <fieldset>
       <legend>Pause w&auml;hrend des Versands von mehreren E-Mails</legend>
@@ -285,6 +361,18 @@
                   <input type="password" name="SMIMESignPrivKeyPassword" id="SMIMESignPrivKeyPassword" size="52" />
                 </td>
               </tr>
+              <tr>
+                <td colspan="2">
+                &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td class="StatColumn"><label for="SMIMESignExtraCerts">Optional: <b>Dateiname</b> mit Zwischenzertifikat(en) (Intermediate Certificate)<br />Angabe <b>mit</b> file://</label>
+                </td>
+                <td>
+                  <textarea style="font-family: Courier New, Courier" name="SMIMESignExtraCerts" id="SMIMESignExtraCerts" cols="65" rows="2"></textarea>
+                </td>
+              </tr>
             </tbody>
           </table>
           </if:SSL>
@@ -397,15 +485,23 @@
 
        function EnableControls() {
          var Type = document.getElementById('Type');
+         ShowItem('phpmail_fieldset', Type.selectedIndex == 0);
+         ShowItem('smtpmail_fieldset', Type.selectedIndex == 1 || Type.selectedIndex == 2);
+         ShowItem('sendmail_fieldset', Type.selectedIndex == 3);
+         ShowItem('savetodir_fieldset', Type.selectedIndex == 4);
+         ShowItem('multithreaded_fieldset', Type.selectedIndex != 4);
+
+
          for(var i=0; i<document.forms[0].length; i++) {
             if(document.forms[0].elements[i].type == "text" || document.forms[0].elements[i].type == "password" || document.forms[0].elements[i].type == "checkbox"  ) {
                if( document.forms[0].elements[i].name == "Name" || document.forms[0].elements[i].name == "Type" || document.forms[0].elements[i].name == "MailLimit" ||
-                   document.forms[0].elements[i].name == "MTASenderEMailAddress" || document.forms[0].elements[i].name == "SleepInMailSendingLoop" ||
+                   document.forms[0].elements[i].name == "MTASenderEMailAddress" || document.forms[0].elements[i].name == "savetodir_pathname" || document.forms[0].elements[i].name == "SleepInMailSendingLoop" ||
                    document.forms[0].elements[i].name == "mailheaderfieldscheckbox" || document.forms[0].elements[i].name == "SMIMESignMail" ||
                    document.forms[0].elements[i].name == "SMIMESignPrivKeyPassword" ||  document.forms[0].elements[i].name == "SMIMEIgnoreSignErrors" ||
                    document.forms[0].elements[i].name == "DomainKeyDKIM" || document.forms[0].elements[i].name == "DKIMIgnoreSignErrors" || document.forms[0].elements[i].name == "DKIM" ||
                    document.forms[0].elements[i].name == "DomainKey" || document.forms[0].elements[i].name == "DKIMPrivKey" || document.forms[0].elements[i].name == "DKIMPrivKeyPassword" ||
-                   document.forms[0].elements[i].name == "DKIMSelector" || document.forms[0].elements[i].name == "SMIMEMessageAsPlainText"
+                   document.forms[0].elements[i].name == "DKIMSelector" || document.forms[0].elements[i].name == "SMIMEMessageAsPlainText" ||
+                   document.forms[0].elements[i].name == "enablemultithreadedsending" || document.forms[0].elements[i].name == "MailThreadCount" || document.forms[0].elements[i].name == "MaxMailsPerThread"
 
                    )
                    continue;
@@ -451,6 +547,9 @@
 
          }
          DisableControlsArray(document.getElementById('SMTPAuth').checked && document.getElementById('Type').selectedIndex == 1, Array( document.getElementById('SMTPUsername'), document.getElementById('SMTPPassword') ), Array( document.getElementById('SMTPUsernameLabel'), document.getElementById('SMTPPasswordLabel') ) );
+         DisableItem('MailThreadCount', document.getElementById('enablemultithreadedsending').checked && document.getElementById('Type').selectedIndex != 4);
+         DisableItem('MaxMailsPerThread', document.getElementById('enablemultithreadedsending').checked && document.getElementById('Type').selectedIndex != 4);
+
        }
 
        EnableControls();

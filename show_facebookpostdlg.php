@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -28,7 +28,7 @@
   include_once("functions.inc.php");
   include_once("twitter.inc.php");
 
-  $_I0600 = "";
+  $_Itfj8 = "";
   $errors = array();
 
   if(!empty($_GET["CampaignId"]))
@@ -48,7 +48,7 @@
 
   if(!isset($SendStatId)) {
     $_GET["action"] = "show_facebookpostdlg.php";
-    _LOQCJ($CampaignId);
+    _JOPLD($CampaignId);
     if(!isset($_POST["SendStatId"]))
        exit;
        else
@@ -67,100 +67,100 @@
   }
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000741"], $_I0600, 'browsecampaigns', 'facebook_post.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000741"], $_Itfj8, 'browsecampaigns', 'facebook_post.htm');
 
   if(empty($_POST["FBMessageText"])) {
-    $_IiQl1 = $_Q6jOo;
+    $_jfJJ0 = $_QLi60;
 
-    $_QJlJ0 = "SELECT $_IiQl1.Name, CurrentSendTableName, ArchiveTableName, $_Q60QL.id AS MailingListId, $_Q60QL.forms_id FROM $_IiQl1 LEFT JOIN $_Q60QL ON $_Q60QL.id=$_IiQl1.maillists_id WHERE $_IiQl1.id=$CampaignId";
-    $_Q60l1 = mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    $_j0fti = $_Q6Q1C["CurrentSendTableName"];
-    $_j06O8 = $_Q6Q1C["Name"];
-    $_IiI8C = $_Q6Q1C["ArchiveTableName"];
-    $MailingListId = $_Q6Q1C["MailingListId"];
-    $FormId = $_Q6Q1C["forms_id"];
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT $_jfJJ0.Name, CurrentSendTableName, ArchiveTableName, $_QL88I.id AS MailingListId, $_QL88I.forms_id FROM $_jfJJ0 LEFT JOIN $_QL88I ON $_QL88I.id=$_jfJJ0.maillists_id WHERE $_jfJJ0.id=$CampaignId";
+    $_QL8i1 = mysql_query($_QLfol);
+    _L8D88($_QLfol);
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    $_jClC1 = $_QLO0f["CurrentSendTableName"];
+    $_jC6ot = $_QLO0f["Name"];
+    $_jfJJ1 = $_QLO0f["ArchiveTableName"];
+    $MailingListId = $_QLO0f["MailingListId"];
+    $FormId = $_QLO0f["forms_id"];
+    mysql_free_result($_QL8i1);
 
-    $_QJlJ0 = "SELECT MailEncoding, MailSubject FROM $_IiI8C WHERE SendStat_id=$SendStatId";
-    $_Q60l1 = mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
-    $_Q6Q1C= mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT MailEncoding, MailSubject FROM $_jfJJ1 WHERE SendStat_id=$SendStatId";
+    $_QL8i1 = mysql_query($_QLfol);
+    _L8D88($_QLfol);
+    $_QLO0f= mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
 
-    $_6OLoi = new _LJPOA("", "");
+    $_8Iioo = new _JJDPE("", "");
 
     if($OwnerUserId == 0)
-      $_Ii016 = $UserId;
+      $_jfIoi = $UserId;
       else
-      $_Ii016 = $OwnerUserId;
-    $_JL0f0 = _OAP0L("Campaign");
-    $_Jill8 = sprintf("%02X", $SendStatId)."_".sprintf("%02X", $_Ii016)."_".sprintf("%02X", $_JL0f0)."_".sprintf("%02X", $CampaignId);
+      $_jfIoi = $OwnerUserId;
+    $_fj1fI = _LPO6C("Campaign");
+    $_fj0ol = sprintf("%02X", $SendStatId)."_".sprintf("%02X", $_jfIoi)."_".sprintf("%02X", $_fj1fI)."_".sprintf("%02X", $CampaignId);
     // Twitter
     $key = sprintf("twitter-%02X-%02X", $MailingListId, $FormId);
 
-    $_6Olt8 = $_jJQ66."?key=$key&rid=".$_Jill8;
-    $_6Olto = "";
-    $_6Olt8 = $_6OLoi->TwitterGetShortURL($_6Olt8, $_6Olto);
-    $_POST["FBMessageText"] = $_Q6Q1C["MailSubject"];
-    $_POST["FBLink"] = $_6Olt8;
+    $_8ILOQ = $_jfilQ."?key=$key&rid=".$_fj0ol;
+    $Error = "";
+    $_8ILOQ = $_8Iioo->TwitterGetShortURL($_8ILOQ, $Error);
+    $_POST["FBMessageText"] = $_QLO0f["MailSubject"];
+    $_POST["FBLink"] = $_8ILOQ;
   }
 
 
   $_POST["CampaignId"] = $CampaignId;
   $_POST['SendStatId'] = $SendStatId;
 
-  $_QJCJi = _OPFJA($errors, $_POST, $_QJCJi);
+  $_QLJfI = _L8AOB($errors, $_POST, $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
-  function _LOQCJ($_I6lOO){
-    global $_Q6jOo, $INTERFACE_LANGUAGE, $resourcestrings, $_Q6JJJ, $UserType, $Username, $_I0600;
+  function _JOPLD($_j01fj){
+    global $_QLi60, $INTERFACE_LANGUAGE, $resourcestrings, $_QLl1Q, $UserType, $Username, $_Itfj8;
 
-    $_Q6QiO = "'%d.%m.%Y %H:%i:%s'";
-    $_If0Ql = "'%d.%m.%Y'";
+    $_QLo60 = "'%d.%m.%Y %H:%i:%s'";
+    $_j01CJ = "'%d.%m.%Y'";
     if($INTERFACE_LANGUAGE != "de") {
-       $_Q6QiO = "'%Y-%m-%d %H:%i:%s'";
-       $_If0Ql = "'%Y-%m-%d'";
+       $_QLo60 = "'%Y-%m-%d %H:%i:%s'";
+       $_j01CJ = "'%Y-%m-%d'";
     }
 
-    $_IiQl1 = $_Q6jOo;
-    $_QJlJ0 = "SELECT Name, CurrentSendTableName FROM $_IiQl1 WHERE id=".intval($_I6lOO);
-    $_Q60l1 = mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    $_j0fti = $_Q6Q1C["CurrentSendTableName"];
-    $_j06O8 = $_Q6Q1C["Name"];
-    mysql_free_result($_Q60l1);
+    $_jfJJ0 = $_QLi60;
+    $_QLfol = "SELECT Name, CurrentSendTableName FROM $_jfJJ0 WHERE id=".intval($_j01fj);
+    $_QL8i1 = mysql_query($_QLfol);
+    _L8D88($_QLfol);
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    $_jClC1 = $_QLO0f["CurrentSendTableName"];
+    $_jC6ot = $_QLO0f["Name"];
+    mysql_free_result($_QL8i1);
 
-    $_QJlJ0 = "SELECT id, DATE_FORMAT(StartSendDateTime, $_Q6QiO) AS StartSendDateTimeFormated, RecipientsCount FROM $_j0fti ORDER BY StartSendDateTime DESC";
-    $_Q60l1 = mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
+    $_QLfol = "SELECT id, DATE_FORMAT(StartSendDateTime, $_QLo60) AS StartSendDateTimeFormated, RecipientsCount FROM $_jClC1 ORDER BY StartSendDateTime DESC";
+    $_QL8i1 = mysql_query($_QLfol);
+    _L8D88($_QLfol);
 
-    if(mysql_num_rows($_Q60l1) != 1) {
-      $_jjQIo = "";
-      while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-        $_jjQIo .= str_replace('%RECIPIENTCOUNT%', $_Q6Q1C["RecipientsCount"], '<option value="'.$_Q6Q1C["id"].'">'.$_Q6Q1C["StartSendDateTimeFormated"].$resourcestrings[$INTERFACE_LANGUAGE]["RecipientCount"].'</option>'.$_Q6JJJ);
+    if(mysql_num_rows($_QL8i1) != 1) {
+      $_J0iof = "";
+      while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+        $_J0iof .= str_replace('%RECIPIENTCOUNT%', $_QLO0f["RecipientsCount"], '<option value="'.$_QLO0f["id"].'">'.$_QLO0f["StartSendDateTimeFormated"].$resourcestrings[$INTERFACE_LANGUAGE]["RecipientCount"].'</option>'.$_QLl1Q);
       }
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
 
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000741"], $_I0600, 'DISABLED', 'facebook_post_sententry_select.htm');
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000741"], $_Itfj8, 'DISABLED', 'facebook_post_sententry_select.htm');
 
-      $_QJCJi = _OPR6L($_QJCJi, "<SHOW:SENDITEMS>", "</SHOW:SENDITEMS>", $_jjQIo);
+      $_QLJfI = _L81BJ($_QLJfI, "<SHOW:SENDITEMS>", "</SHOW:SENDITEMS>", $_J0iof);
 
-      $_QJCJi = _OPR6L($_QJCJi, "<ResponderLegendLabel>", "</ResponderLegendLabel>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000486"], $_j06O8));
-      $_QJCJi = _OPR6L($_QJCJi, "<ResponderLabel1>", "</ResponderLabel1>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000487"], $_j06O8));
-      $_QJCJi = _OPR6L($_QJCJi, "<ResponderLabel2>", "</ResponderLabel2>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000488"], $_j06O8));
+      $_QLJfI = _L81BJ($_QLJfI, "<ResponderLegendLabel>", "</ResponderLegendLabel>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000486"], $_jC6ot));
+      $_QLJfI = _L81BJ($_QLJfI, "<ResponderLabel1>", "</ResponderLabel1>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000487"], $_jC6ot));
+      $_QLJfI = _L81BJ($_QLJfI, "<ResponderLabel2>", "</ResponderLabel2>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000488"], $_jC6ot));
 
-      $_QJCJi = str_replace('name="CampaignId"', 'name="CampaignId" value="'.$_I6lOO.'"', $_QJCJi);
-      $_QJCJi = str_replace('action=""', 'action="'.$_GET["action"].'"', $_QJCJi);
+      $_QLJfI = str_replace('name="CampaignId"', 'name="CampaignId" value="'.$_j01fj.'"', $_QLJfI);
+      $_QLJfI = str_replace('action=""', 'action="'.$_GET["action"].'"', $_QLJfI);
 
-      print $_QJCJi;
+      print $_QLJfI;
     } else {
-      $_Q6Q1C=mysql_fetch_array($_Q60l1);
-      $_POST['SendStatId'] = $_Q6Q1C["id"];
-      mysql_free_result($_Q60l1);
+      $_QLO0f=mysql_fetch_array($_QL8i1);
+      $_POST['SendStatId'] = $_QLO0f["id"];
+      mysql_free_result($_QL8i1);
     }
 
   }

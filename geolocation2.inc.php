@@ -30,9 +30,9 @@ define('GEOIP2', 1);
 #set_include_path(get_include_path().PATH_SEPARATOR.GEO_BASE_PATH.'/geoip');
 
 
-function geopip2_autoload ($_J6O1O) {
-   if($_J6O1O !== "JsonSerializable"){ // compat for PHP < 5.4, don't load JsonSerializable itself
-       include(GEO_BASE_PATH . "/geoip/" . str_replace("\\", "/", $_J6O1O) . ".php");
+function geopip2_autoload ($_6tJt0) {
+   if($_6tJt0 !== "JsonSerializable"){ // compat for PHP < 5.4, don't load JsonSerializable itself
+       include(GEO_BASE_PATH . "/geoip/" . str_replace("\\", "/", $_6tJt0) . ".php");
      }
 }
 spl_autoload_register("geopip2_autoload");
@@ -43,10 +43,10 @@ spl_autoload_register("geopip2_autoload");
 
 use GeoIp2\Database\Reader;
 
-function _OCEED($_jt8LJ){
+function _LBC01($_JfIIf){
   try {
-    return new Reader($_jt8LJ);
-  } catch (Exception $_Qot0C) {
+    return new Reader($_JfIIf);
+  } catch (Exception $_IjO6t) {
     return false;
   }
 }

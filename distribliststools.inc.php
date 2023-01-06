@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -32,269 +32,301 @@
     exit;
 
 
-  function _O8LCL($_jLJlC, $_jL68i = "", $_QlQC8="", $_Q6t6j="", $_QLI68="", $_ItCCo="") {
-    global $_QoOft, $_Q61I1;
-    $_QJlJ0 = "SELECT * FROM `$_QoOft` WHERE `id`=".intval($_jLJlC);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_jL6Oo = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
-    if(!empty($_jL68i))
-      $_jL6Oo["DistribSenderEMailAddress"] = $_jL68i;
-    return _O8JPF($_jL6Oo, $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo);
+  function _L6OAD($_JLfjQ, $_I8I6o="", $_QljJi="", $_IfJ66="", $_jjj8f="") {
+    global $_IjC0Q, $_QLttI;
+    $_QLfol = "SELECT * FROM `$_IjC0Q` WHERE `id`=".intval($_JLfjQ);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_JLfol = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
+    return _L6LOF($_JLfol, $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f);
   }
 
-  function _O8JPF($_jL6Oo, $_QlQC8="", $_Q6t6j="", $_QLI68="", $_ItCCo="") {
-    global $_Q60QL, $_Ql8C0, $_Q6JJJ, $_Q61I1, $_QoOft;
+  function _L6LOF($_JLfol, $_I8I6o="", $_QljJi="", $_IfJ66="", $_jjj8f="") {
+    global $_QL88I, $_I8tfQ, $_QLl1Q, $_QLttI, $_IjC0Q;
 
-    if($_QlQC8 == "") {
-      $_QJlJ0 = "SELECT `MaillistTableName`, `GroupsTableName`, `MailListToGroupsTableName`, `LocalBlocklistTableName` FROM `$_Q60QL` WHERE `id`=$_jL6Oo[maillists_id]";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
-      $_QlQC8 = $_Q6Q1C["MaillistTableName"];
-      $_Q6t6j = $_Q6Q1C["GroupsTableName"];
-      $_QLI68 = $_Q6Q1C["MailListToGroupsTableName"];
-      $_ItCCo = $_Q6Q1C["LocalBlocklistTableName"];
+    if($_I8I6o == "") {
+      $_QLfol = "SELECT `MaillistTableName`, `GroupsTableName`, `MailListToGroupsTableName`, `LocalBlocklistTableName` FROM `$_QL88I` WHERE `id`=$_JLfol[maillists_id]";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      $_QLO0f = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
+      $_I8I6o = $_QLO0f["MaillistTableName"];
+      $_QljJi = $_QLO0f["GroupsTableName"];
+      $_IfJ66 = $_QLO0f["MailListToGroupsTableName"];
+      $_jjj8f = $_QLO0f["LocalBlocklistTableName"];
     }
 
-    $_QJlJ0 = "SELECT COUNT(`ml_groups_id`) FROM `$_jL6Oo[GroupsTableName]`";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_IO0Jo = 0;
-    if($_Q60l1 && $_Q6Q1C = mysql_fetch_row($_Q60l1)) {
-      $_IO0Jo = $_Q6Q1C[0];
-      mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT COUNT(`ml_groups_id`) FROM `$_JLfol[GroupsTableName]`";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_jj6f1 = 0;
+    if($_QL8i1 && $_QLO0f = mysql_fetch_row($_QL8i1)) {
+      $_jj6f1 = $_QLO0f[0];
+      mysql_free_result($_QL8i1);
     }
 
-    $_IO1I1 = 0;
-    if($_IO0Jo > 0){
-      $_QJlJ0 = "SELECT COUNT(`ml_groups_id`) FROM `$_jL6Oo[NotInGroupsTableName]`";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if($_Q60l1 && $_Q6Q1C = mysql_fetch_row($_Q60l1)) {
-        $_IO1I1 = $_Q6Q1C[0];
-        mysql_free_result($_Q60l1);
+    $_jjfiO = 0;
+    if($_jj6f1 > 0){
+      $_QLfol = "SELECT COUNT(`ml_groups_id`) FROM `$_JLfol[NotInGroupsTableName]`";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if($_QL8i1 && $_QLO0f = mysql_fetch_row($_QL8i1)) {
+        $_jjfiO = $_QLO0f[0];
+        mysql_free_result($_QL8i1);
       }
     }
 
-    if($_IO0Jo > 1) {
-      $_IOJ8I = "DISTINCT `$_QlQC8`.`u_EMail`,";
+    if($_jj6f1 > 1) {
+      $_jjOlo = "DISTINCT `$_I8I6o`.`u_EMail`,";
     } else
-      $_IOJ8I = "";
-    $_QJlJ0 = "SELECT $_IOJ8I `$_QlQC8`.*, IF(`$_QlQC8`.`u_Birthday` <> '0000-00-00', YEAR( CURRENT_DATE() ) - YEAR( `$_QlQC8`.`u_Birthday`), 0) AS `MembersAge` FROM `$_QlQC8`".$_Q6JJJ;
+      $_jjOlo = "";
+    $_QLfol = "SELECT $_jjOlo `$_I8I6o`.*, IF(`$_I8I6o`.`u_Birthday` <> '0000-00-00', YEAR( CURRENT_DATE() ) - YEAR( `$_I8I6o`.`u_Birthday`), 0) AS `MembersAge` FROM `$_I8I6o`".$_QLl1Q;
 
-    $_QJlJ0 .= " LEFT JOIN `$_Ql8C0` ON `$_Ql8C0`.`u_EMail`=`$_QlQC8`.`u_EMail`".$_Q6JJJ;
-    $_QJlJ0 .= " LEFT JOIN `$_ItCCo` ON `$_ItCCo`.`u_EMail`=`$_QlQC8`.`u_EMail`".$_Q6JJJ;
+    $_QLfol .= " LEFT JOIN `$_I8tfQ` ON `$_I8tfQ`.`u_EMail`=`$_I8I6o`.`u_EMail`".$_QLl1Q;
+    $_QLfol .= " LEFT JOIN `$_jjj8f` ON `$_jjj8f`.`u_EMail`=`$_I8I6o`.`u_EMail`".$_QLl1Q;
 
-    if($_IO0Jo > 0) {
-      $_QJlJ0 .= " LEFT JOIN `$_QLI68` ON `$_QlQC8`.`id`=`$_QLI68`.`Member_id`".$_Q6JJJ;
-      $_QJlJ0 .= " LEFT JOIN `$_jL6Oo[GroupsTableName]` ON `$_jL6Oo[GroupsTableName]`.`ml_groups_id`=`$_QLI68`.`groups_id`".$_Q6JJJ;
-      if($_IO1I1 > 0) {
-        $_QJlJ0 .= "  LEFT JOIN ( ".$_Q6JJJ;
+    if($_jj6f1 > 0) {
+      $_QLfol .= " LEFT JOIN `$_IfJ66` ON `$_I8I6o`.`id`=`$_IfJ66`.`Member_id`".$_QLl1Q;
+      $_QLfol .= " LEFT JOIN `$_JLfol[GroupsTableName]` ON `$_JLfol[GroupsTableName]`.`ml_groups_id`=`$_IfJ66`.`groups_id`".$_QLl1Q;
+      if($_jjfiO > 0) {
+        $_QLfol .= "  LEFT JOIN ( ".$_QLl1Q;
 
-        $_QJlJ0 .= "    SELECT `$_QlQC8`.`id`".$_Q6JJJ;
-        $_QJlJ0 .= "    FROM `$_QlQC8`".$_Q6JJJ;
+        $_QLfol .= "    SELECT `$_I8I6o`.`id`".$_QLl1Q;
+        $_QLfol .= "    FROM `$_I8I6o`".$_QLl1Q;
 
-        $_QJlJ0 .= "    LEFT JOIN `$_QLI68` ON `$_QlQC8`.`id`=`$_QLI68`.`Member_id`".$_Q6JJJ;
-        $_QJlJ0 .= "    LEFT JOIN `$_jL6Oo[NotInGroupsTableName]` ON".$_Q6JJJ;
-        $_QJlJ0 .= "    `$_jL6Oo[NotInGroupsTableName]`.`ml_groups_id`=`$_QLI68`.`groups_id`".$_Q6JJJ;
-        $_QJlJ0 .= "    WHERE `$_jL6Oo[NotInGroupsTableName]`.`ml_groups_id` IS NOT NULL".$_Q6JJJ;
+        $_QLfol .= "    LEFT JOIN `$_IfJ66` ON `$_I8I6o`.`id`=`$_IfJ66`.`Member_id`".$_QLl1Q;
+        $_QLfol .= "    LEFT JOIN `$_JLfol[NotInGroupsTableName]` ON".$_QLl1Q;
+        $_QLfol .= "    `$_JLfol[NotInGroupsTableName]`.`ml_groups_id`=`$_IfJ66`.`groups_id`".$_QLl1Q;
+        $_QLfol .= "    WHERE `$_JLfol[NotInGroupsTableName]`.`ml_groups_id` IS NOT NULL".$_QLl1Q;
 
-        $_QJlJ0 .= "  ) AS `subquery` ON `subquery`.`id`=`$_QlQC8`.`id`".$_Q6JJJ;
+        $_QLfol .= "  ) AS `subquery` ON `subquery`.`id`=`$_I8I6o`.`id`".$_QLl1Q;
       }
     }
 
-    $_QJlJ0 .= " WHERE (`$_QlQC8`.`IsActive`=1 AND `$_QlQC8`.`SubscriptionStatus`<>'OptInConfirmationPending')".$_Q6JJJ;
-    $_QJlJ0 .= " AND (`$_Ql8C0`.`u_EMail` IS NULL AND `$_ItCCo`.`u_EMail` IS NULL) ".$_Q6JJJ;
-    if($_IO0Jo > 0) {
-      $_QJlJ0 .= " AND (`$_jL6Oo[GroupsTableName]`.`ml_groups_id` IS NOT NULL)".$_Q6JJJ;
-      if($_IO1I1 > 0) {
-       $_QJlJ0 .= " AND (`subquery`.`id` IS NULL)".$_Q6JJJ;
+    $_QLfol .= " WHERE (`$_I8I6o`.`IsActive`=1 AND `$_I8I6o`.`SubscriptionStatus`<>'OptInConfirmationPending')".$_QLl1Q;
+    $_QLfol .= " AND (`$_I8tfQ`.`u_EMail` IS NULL AND `$_jjj8f`.`u_EMail` IS NULL) ".$_QLl1Q;
+    if($_jj6f1 > 0) {
+      $_QLfol .= " AND (`$_JLfol[GroupsTableName]`.`ml_groups_id` IS NOT NULL)".$_QLl1Q;
+      if($_jjfiO > 0) {
+       $_QLfol .= " AND (`subquery`.`id` IS NULL)".$_QLl1Q;
       }
     }
 
-    if(!empty($_jL6Oo["DistribSenderEMailAddress"]) && isset($_jL6Oo["NoEMailToDistribSenderEMailAddress"]) && $_jL6Oo["NoEMailToDistribSenderEMailAddress"]){
-      $_QJlJ0 .= " AND `$_QlQC8`.`u_EMail` <> "._OPQLR($_jL6Oo["DistribSenderEMailAddress"]);
+    if(!empty($_JLfol["DistribSenderEMailAddress"]) && isset($_JLfol["NoEMailToDistribSenderEMailAddress"]) && $_JLfol["NoEMailToDistribSenderEMailAddress"]){
+      $_QLfol .= " AND `$_I8I6o`.`u_EMail` <> "._LRAFO($_JLfol["DistribSenderEMailAddress"]);
     }
 
-    return $_QJlJ0;
+    return $_QLfol;
   }
 
-  function _O86JC($_jLJlC, $_jL68i, &$_jQIIi, $_QlQC8="", $_Q6t6j="", $_QLI68="", $_ItCCo="") {
-    global $_QoOft, $_Q61I1;
-    $_QJlJ0 = "SELECT * FROM `$_QoOft` WHERE `id`=".intval($_jLJlC);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_jL6Oo = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
-    if(!empty($_jL68i))
-      $_jL6Oo["DistribSenderEMailAddress"] = $_jL68i;
-    return _O86EP($_jL6Oo, $_jQIIi, $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo);
+  function _L6J1O($_JLfjQ, $_IOJoI, &$_jLiOt, $_I8I6o="", $_QljJi="", $_IfJ66="", $_jjj8f="") {
+    global $_IjC0Q, $_QLttI;
+    $_QLfol = "SELECT * FROM `$_IjC0Q` WHERE `id`=".intval($_JLfjQ);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_JLfol = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
+
+    if(is_array($_IOJoI) && count($_IOJoI))
+      $_JLfol = array_merge($_JLfol, $_IOJoI);
+
+    return _L6JLD($_JLfol, $_jLiOt, $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f);
   }
 
-  function _O86EP($_jL6Oo, &$_jQIIi, $_QlQC8="", $_Q6t6j="", $_QLI68="", $_ItCCo="") {
-    global $_Q61I1;
-    $_jQIIi = _O8JPF($_jL6Oo, $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo);
+  function _L6JLD($_JLfol, &$_jLiOt, $_I8I6o="", $_QljJi="", $_IfJ66="", $_jjj8f="") {
+    global $_QLttI;
+    $_jLiOt = _L6LOF($_JLfol, $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f);
 
-    $_Q60l1 = mysql_query($_jQIIi, $_Q61I1);
-    if(mysql_error($_Q61I1) == "") {
-      return mysql_num_rows($_Q60l1);
+    $_QL8i1 = mysql_query($_jLiOt, $_QLttI);
+    if(mysql_error($_QLttI) == "") {
+      return mysql_num_rows($_QL8i1);
     } else {
-      return "<b>MySQL Error: </b>".mysql_error($_Q61I1)."<br />";
+      return "<b>MySQL Error: </b>".mysql_error($_QLttI)."<br />";
     }
 
     return 0;
   }
 
-  function _O8R66($_jL6Oo, &$_jQIIi, $_QlQC8="", $_Q6t6j="", $_QLI68="", $_ItCCo="") {
-    global $_Q61I1;
-    $_jQIIi = _O8JPF($_jL6Oo, $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo);
+  function _L6J61($_JLfol, &$_jLiOt, $_I8I6o="", $_QljJi="", $_IfJ66="", $_jjj8f="") {
+    global $_QLttI;
+    $_jLiOt = _L6LOF($_JLfol, $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f);
 
-    $_QJlJ0 = $_jQIIi;
+    $_QLfol = $_jLiOt;
 
-    $_jjjjC = $_QlQC8;
-    if($_jjjjC == ""){
-      $_jjjjC = substr($_QJlJ0, 0, strpos($_QJlJ0, "."));
-      $_jjjjC = substr($_jjjjC, strpos($_jjjjC, " ") + 1);
-      if(strpos($_jjjjC, " ") !== false)
-        $_jjjjC = substr($_jjjjC, strpos($_jjjjC, " ") + 1);
+    $_J0Lo8 = $_I8I6o;
+    if($_J0Lo8 == ""){
+      $_J0Lo8 = substr($_QLfol, 0, strpos($_QLfol, "."));
+      $_J0Lo8 = substr($_J0Lo8, strpos($_J0Lo8, " ") + 1);
+      if(strpos($_J0Lo8, " ") !== false)
+        $_J0Lo8 = substr($_J0Lo8, strpos($_J0Lo8, " ") + 1);
     }
 
-    $_QtjtL = substr($_QJlJ0, 0, strpos($_QJlJ0, ' ') + 1);
-    $_j1toJ = substr($_QJlJ0, strpos($_QJlJ0, 'FROM'));
-    if(strpos($_jQIIi, "DISTINCT ") !== false) // NO `
-       $_QJlJ0 = $_QtjtL." COUNT(DISTINCT $_jjjjC.`u_EMail`) ".$_j1toJ;
+    $_QLlO6 = substr($_QLfol, 0, strpos($_QLfol, ' ') + 1);
+    $_jLI6l = substr($_QLfol, strpos($_QLfol, 'FROM'));
+    if(strpos($_jLiOt, "DISTINCT ") !== false) // NO `
+       $_QLfol = $_QLlO6." COUNT(DISTINCT $_J0Lo8.`u_EMail`) ".$_jLI6l;
        else
-       $_QJlJ0 = $_QtjtL." COUNT($_jjjjC.`u_EMail`) ".$_j1toJ;
+       $_QLfol = $_QLlO6." COUNT($_J0Lo8.`u_EMail`) ".$_jLI6l;
 
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if(mysql_error($_Q61I1) == "") {
-      $_Q6Q1C = mysql_fetch_row($_Q60l1);
-      mysql_free_result($_Q60l1);
-      return $_Q6Q1C[0];
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if(mysql_error($_QLttI) == "") {
+      $_QLO0f = mysql_fetch_row($_QL8i1);
+      mysql_free_result($_QL8i1);
+      return $_QLO0f[0];
     } else {
-      return "<b>MySQL Error: </b>".mysql_error($_Q61I1)."<br />";
+      return "<b>MySQL Error: </b>".mysql_error($_QLttI)."<br />";
     }
 
     return 0;
   }
 
-  function _O8RPL($_jLJlC, $_jL68i, &$_jQIIi, $_QlQC8="", $_Q6t6j="", $_QLI68="", $_ItCCo="") {
-    global $_QoOft, $_Q61I1;
-    $_QJlJ0 = "SELECT * FROM `$_QoOft` WHERE `id`=".intval($_jLJlC);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_jL6Oo = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
-    if(!empty($_jL68i))
-      $_jL6Oo["DistribSenderEMailAddress"] = $_jL68i;
-    return _O8R66($_jL6Oo, $_jQIIi, $_QlQC8, $_Q6t6j, $_QLI68, $_ItCCo);
+  function _L6J68($_JLfjQ, $_IOJoI, &$_jLiOt, $_I8I6o="", $_QljJi="", $_IfJ66="", $_jjj8f="") {
+    global $_IjC0Q, $_QLttI;
+    $_QLfol = "SELECT * FROM `$_IjC0Q` WHERE `id`=".intval($_JLfjQ);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_JLfol = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
+    if(is_array($_IOJoI) && count($_IOJoI))
+      $_JLfol = array_merge($_JLfol, $_IOJoI);
+    return _L6J61($_JLfol, $_jLiOt, $_I8I6o, $_QljJi, $_IfJ66, $_jjj8f);
   }
 
-  function _O88Q6($_j080i, $_jLfI1, $_If010, $_jLfjL) {
-    global $_Qofoi, $_Q61I1;
+  function _L66JQ($_ji0I0, $_JL80l, $_j01OI, $_JL8l8) {
+    global $_Ijt0i, $_QLttI;
 
-    $_If010 = intval($_If010);
-    $_QJlJ0 = "SELECT `$_Qofoi`.* FROM `$_jLfI1` LEFT JOIN `$_j080i` ON `$_j080i`.`mtas_id`=`$_jLfI1`.`mtas_id` LEFT JOIN `$_Qofoi` ON `$_Qofoi`.`id` = `$_j080i`.`mtas_id` WHERE `$_j080i`.`SendStat_id`=$_If010 AND `$_j080i`.`distriblistentry_id`=$_jLfjL AND (`$_j080i`.`MailCount` < `$_Qofoi`.`MailLimit` OR `$_Qofoi`.`MailLimit` <= 0) ORDER BY `$_jLfI1`.`sortorder` LIMIT 0, 1";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if(mysql_num_rows($_Q60l1) == 0) {
+    $_j01OI = intval($_j01OI);
+    $_QLfol = "SELECT `$_Ijt0i`.* FROM `$_JL80l` LEFT JOIN `$_ji0I0` ON `$_ji0I0`.`mtas_id`=`$_JL80l`.`mtas_id` LEFT JOIN `$_Ijt0i` ON `$_Ijt0i`.`id` = `$_ji0I0`.`mtas_id` WHERE `$_ji0I0`.`SendStat_id`=$_j01OI AND `$_ji0I0`.`distriblistentry_id`=$_JL8l8 AND (`$_ji0I0`.`MailCount` < `$_Ijt0i`.`MailLimit` OR `$_Ijt0i`.`MailLimit` <= 0) ORDER BY `$_JL80l`.`sortorder` LIMIT 0, 1";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if(mysql_num_rows($_QL8i1) == 0) {
        // reset to zero
-       $_QJlJ0 = "UPDATE `$_j080i` SET `MailCount`=0 WHERE `$_j080i`.`SendStat_id`=$_If010 AND `$_j080i`.`distriblistentry_id`=$_jLfjL";
-       mysql_query($_QJlJ0, $_Q61I1);
-       return _O88Q6($_j080i, $_jLfI1, $_If010, $_jLfjL);
+       $_QLfol = "UPDATE `$_ji0I0` SET `MailCount`=0 WHERE `$_ji0I0`.`SendStat_id`=$_j01OI AND `$_ji0I0`.`distriblistentry_id`=$_JL8l8";
+       mysql_query($_QLfol, $_QLttI);
+       return _L66JQ($_ji0I0, $_JL80l, $_j01OI, $_JL8l8);
     }
 
-    $_jIfO0 = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_J00C0 = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
 
-    $_QJlJ0 = "UPDATE `$_j080i` SET `MailCount`=`MailCount` + 1 WHERE `mtas_id`=$_jIfO0[id] AND `SendStat_id`=$_If010 AND `$_j080i`.`distriblistentry_id`=$_jLfjL";
-    mysql_query($_QJlJ0, $_Q61I1);
-    return $_jIfO0;
+    $_QLfol = "UPDATE `$_ji0I0` SET `MailCount`=`MailCount` + 1 WHERE `mtas_id`=$_J00C0[id] AND `SendStat_id`=$_j01OI AND `$_ji0I0`.`distriblistentry_id`=$_JL8l8";
+    mysql_query($_QLfol, $_QLttI);
+    return $_J00C0;
   }
 
   include_once("mail.php");
   include_once("mailer.php");
 
-  function _O88P1($From, $To, $Subject, $_jOfjQ, $_jLt0J, $_IQo0I){
-     global $_Q61I1, $_jJJjO, $_Qofoi, $_jji0C;
+  function _L6R1E($From, $To, $Subject, $Text, $_JLO0O, $_IotL0, $_JLOii = "", $_JLotf = ""){
+     global $_QLttI, $_JQ1I6, $_Ijt0i, $_J1t6J;
 
-     if($_IQo0I == 0){
-       return _OPEDJ($From, $To, $Subject, $_jOfjQ, false);
+     if($_IotL0 == 0){
+       return _L8P6B($From, $To, $Subject, $Text, false);
      }
 
-     $_QJlJ0 = "SELECT * FROM `$_Qofoi` WHERE id=$_IQo0I";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     $_jIfO0 = mysql_fetch_assoc($_Q60l1);
-     mysql_free_result($_Q60l1);
+     $_QLfol = "SELECT * FROM `$_Ijt0i` WHERE id=$_IotL0";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     $_J00C0 = mysql_fetch_assoc($_QL8i1);
+     mysql_free_result($_QL8i1);
 
      // mail class
-     $_IiJit = new _OF0EE(mtDistribListConfirmationLinkMail);
-     $_IiJit->_OEADF();
-     $_IiJit->_OE868();
+     $_j10IJ = new _LEFO8(mtDistribListConfirmationLinkMail);
+     $_j10IJ->DisableECGListCheck();
+     $_j10IJ->_LEOPF();
+     $_j10IJ->_LEQ1C();
 
-     if(!empty($_jIfO0["MTASenderEMailAddress"]))
-       $_IiJit->From[] = array("address" => $_jIfO0["MTASenderEMailAddress"], "name" => "");
+     if(!empty($_J00C0["MTASenderEMailAddress"]))
+       $_j10IJ->From[] = array("address" => $_J00C0["MTASenderEMailAddress"], "name" => "");
        else
-       $_IiJit->From[] = array("address" => $From, "name" => "");
-     $_IiJit->To[] = array("address" => $To, "name" => "");
-     $_IiJit->Subject = $Subject;
-     $_IiJit->TextPart = $_jOfjQ;
-     $_IiJit->HTMLPart = "";
-     $_IiJit->Priority = mpNormal;
-     $_IiJit->charset = $_jLt0J;
+       $_j10IJ->From[] = array("address" => $From, "name" => "");
+     if(strpos($To, ',') !== false){
+       $To = explode(',', $To);
+       for($_Qli6J=0; $_Qli6J<count($To); $_Qli6J++)
+          $_j10IJ->To[] = array("address" => $To[$_Qli6J], "name" => "");
+      }
+       else
+         $_j10IJ->To[] = array("address" => $To, "name" => "");
+     $_j10IJ->Subject = $Subject;
+     $_j10IJ->TextPart = $Text;
+     $_j10IJ->HTMLPart = "";
+     $_j10IJ->Priority = mpNormal;
+     $_j10IJ->charset = $_JLO0O;
 
-     $_QJlJ0 = "SELECT * FROM `$_jJJjO`";
-     $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-     $_Q8OiJ = mysql_fetch_array($_Q8Oj8);
-     mysql_free_result($_Q8Oj8);
-     $_IiJit->crlf = $_Q8OiJ["CRLF"];
-     $_IiJit->head_encoding = $_Q8OiJ["Head_Encoding"];
-     $_IiJit->text_encoding = $_Q8OiJ["Text_Encoding"];
-     $_IiJit->html_encoding = $_Q8OiJ["HTML_Encoding"];
-     $_IiJit->attachment_encoding = $_Q8OiJ["Attachment_Encoding"];
-     $_IiJit->XMailer = $_Q8OiJ["XMailer"];
+     if($_JLOii != "" && $_JLotf != "")
+       $_j10IJ->Attachments[] = array ("file" => $_JLOii, "c_type" => "message/rfc822", "name" => $_JLotf, "isfile" => false );
 
-     $_IiJit->Sendvariant = $_jIfO0["Type"]; // mail, sendmail, smtp, smtpmx, text
+     if($_JLOii != "" && $_JLotf != ""){
+       if(!mbfunctionsExists)
+         $_j10IJ->Attachments[] = array ("file" => $_JLOii, "c_type" => "message/rfc822", "name" => $_JLotf, "isfile" => false );
+         else{
+            include("Zip.php");
+            try{
+              $z = new Zip();
+              $z->addFile($_JLOii, $_JLotf);
+              $_JLOii = "";
+              $_j10IJ->Attachments[] = array ("file" => $z->getZipData(), "c_type" => "application/zip", "name" => str_replace('.eml', '.zip', $_JLotf), "isfile" => false );
+              $z = null;
+            } catch (Exception $e) {
+               $_j10IJ->Attachments[] = array ("file" => $_JLOii, "c_type" => "message/rfc822", "name" => $_JLotf, "isfile" => false );
+            }
+         }
+     }
+
+     $_QLfol = "SELECT * FROM `$_JQ1I6`";
+     $_I1O6j = mysql_query($_QLfol, $_QLttI);
+     $_I1OfI = mysql_fetch_array($_I1O6j);
+     mysql_free_result($_I1O6j);
+     $_j10IJ->crlf = $_I1OfI["CRLF"];
+     $_j10IJ->head_encoding = $_I1OfI["Head_Encoding"];
+     $_j10IJ->text_encoding = $_I1OfI["Text_Encoding"];
+     $_j10IJ->html_encoding = $_I1OfI["HTML_Encoding"];
+     $_j10IJ->attachment_encoding = $_I1OfI["Attachment_Encoding"];
+     $_j10IJ->XMailer = $_I1OfI["XMailer"];
+
+     $_j10IJ->Sendvariant = $_J00C0["Type"]; // mail, sendmail, smtp, smtpmx, text
      # Demo version
      if(defined("DEMO") || defined("SimulateMailSending"))
-        $_IiJit->Sendvariant = "null";
+        $_j10IJ->Sendvariant = "null";
 
-     $_IiJit->PHPMailParams = $_jIfO0["PHPMailParams"];
-     $_IiJit->HELOName = $_jIfO0["HELOName"];
+     $_j10IJ->PHPMailParams = $_J00C0["PHPMailParams"];
+     $_j10IJ->HELOName = $_J00C0["HELOName"];
 
-     $_IiJit->SMTPpersist = (bool)$_jIfO0["SMTPPersist"];
-     $_IiJit->SMTPpipelining = (bool)$_jIfO0["SMTPPipelining"];
-     $_IiJit->SMTPTimeout = $_jIfO0["SMTPTimeout"];
-     $_IiJit->SMTPServer = $_jIfO0["SMTPServer"];
-     $_IiJit->SMTPPort = $_jIfO0["SMTPPort"];
-     $_IiJit->SMTPAuth = (bool)$_jIfO0["SMTPAuth"];
-     $_IiJit->SMTPUsername = $_jIfO0["SMTPUsername"];
-     $_IiJit->SMTPPassword = $_jIfO0["SMTPPassword"];
-     if(isset($_jIfO0["SMTPSSL"]))
-       $_IiJit->SSLConnection = (bool)$_jIfO0["SMTPSSL"];
+     $_j10IJ->SMTPpersist = (bool)$_J00C0["SMTPPersist"];
+     $_j10IJ->SMTPpipelining = (bool)$_J00C0["SMTPPipelining"];
+     $_j10IJ->SMTPTimeout = $_J00C0["SMTPTimeout"];
+     $_j10IJ->SMTPServer = $_J00C0["SMTPServer"];
+     $_j10IJ->SMTPPort = $_J00C0["SMTPPort"];
+     $_j10IJ->SMTPAuth = (bool)$_J00C0["SMTPAuth"];
+     $_j10IJ->SMTPUsername = $_J00C0["SMTPUsername"];
+     $_j10IJ->SMTPPassword = $_J00C0["SMTPPassword"];
+     if(isset($_J00C0["SMTPSSL"]))
+       $_j10IJ->SSLConnection = (bool)$_J00C0["SMTPSSL"];
 
-     $_IiJit->sendmail_path = $_jIfO0["sendmail_path"];
-     $_IiJit->sendmail_args = $_jIfO0["sendmail_args"];
+     $_j10IJ->sendmail_path = $_J00C0["sendmail_path"];
+     $_j10IJ->sendmail_args = $_J00C0["sendmail_args"];
 
-     $_IiJit->SignMail = (bool)$_jIfO0["SMIMESignMail"];
-     $_IiJit->SMIMEMessageAsPlainText = (bool)$_jIfO0["SMIMEMessageAsPlainText"];
+     if($_j10IJ->Sendvariant == "savetodir"){
+       $_j10IJ->savetodir_filepathandname = _LBQFJ($_J00C0["savetodir_pathname"]);
+     }
 
-     $_IiJit->SignCert = $_jIfO0["SMIMESignCert"];
-     $_IiJit->SignPrivKey = $_jIfO0["SMIMESignPrivKey"];
-     $_IiJit->SignPrivKeyPassword = $_jIfO0["SMIMESignPrivKeyPassword"];
-     $_IiJit->SignTempFolder = $_jji0C;
+     $_j10IJ->SignMail = (bool)$_J00C0["SMIMESignMail"];
+     $_j10IJ->SMIMEMessageAsPlainText = (bool)$_J00C0["SMIMEMessageAsPlainText"];
 
-     $_IiJit->SMIMEIgnoreSignErrors = (bool)$_jIfO0["SMIMEIgnoreSignErrors"];
+     $_j10IJ->SignCert = $_J00C0["SMIMESignCert"];
+     $_j10IJ->SignPrivKey = $_J00C0["SMIMESignPrivKey"];
+     $_j10IJ->SignPrivKeyPassword = $_J00C0["SMIMESignPrivKeyPassword"];
+     $_j10IJ->SignTempFolder = $_J1t6J;
+     $_j10IJ->SignExtraCerts = $_J00C0["SMIMESignExtraCerts"];
 
-     $_IiJit->DKIM = (bool)$_jIfO0["DKIM"];
-     $_IiJit->DomainKey = (bool)$_jIfO0["DomainKey"];
-     $_IiJit->DKIMSelector = $_jIfO0["DKIMSelector"];
-     $_IiJit->DKIMPrivKey = $_jIfO0["DKIMPrivKey"];
-     $_IiJit->DKIMPrivKeyPassword = $_jIfO0["DKIMPrivKeyPassword"];
-     $_IiJit->DKIMIgnoreSignErrors = (bool)$_jIfO0["DKIMIgnoreSignErrors"];
+     $_j10IJ->SMIMEIgnoreSignErrors = (bool)$_J00C0["SMIMEIgnoreSignErrors"];
+
+     $_j10IJ->DKIM = (bool)$_J00C0["DKIM"];
+     $_j10IJ->DomainKey = (bool)$_J00C0["DomainKey"];
+     $_j10IJ->DKIMSelector = $_J00C0["DKIMSelector"];
+     $_j10IJ->DKIMPrivKey = $_J00C0["DKIMPrivKey"];
+     $_j10IJ->DKIMPrivKeyPassword = $_J00C0["DKIMPrivKeyPassword"];
+     $_j10IJ->DKIMIgnoreSignErrors = (bool)$_J00C0["DKIMIgnoreSignErrors"];
 
 
-     $_Ii6QI = "";
-     $_Ii6lO = "";
-     if($_IiJit->_OED01($_Ii6QI, $_Ii6lO)) {
-       $_Q8COf = $_IiJit->_OEDRQ($_Ii6QI, $_Ii6lO);
-       if($_Q8COf)
+     $_j108i = "";
+     $_j10O1 = "";
+     if($_j10IJ->_LEJE8($_j108i, $_j10O1)) {
+       $_I1o8o = $_j10IJ->_LE6A8($_j108i, $_j10O1);
+       if($_I1o8o)
          return true;
          else
          return false;
@@ -304,4 +336,39 @@
 
   }
 
+  function _L6ROQ($_I1OfI){
+    global $_IIlfi; 
+    
+    if(substr($_I1OfI["MailHTMLText"], 0, 4) == "xb64"){
+       $_I1OfI["MailHTMLText"] = base64_decode( substr($_I1OfI["MailHTMLText"], 4) );
+    }
+    
+    if($_I1OfI["Attachments"] != ""){
+      $_I1OfI["Attachments"] = @unserialize($_I1OfI["Attachments"]);
+      if( $_I1OfI["Attachments"] === false)
+       $_I1OfI["Attachments"] = array();
+    }else
+      $_I1OfI["Attachments"] = array();
+    
+    for($_QliOt=0; $_QliOt<count($_I1OfI["Attachments"]); $_QliOt++){
+      @unlink($_IIlfi . $_I1OfI["Attachments"][$_QliOt]);
+    }
+    
+    $_JiI11 = array();
+    GetInlineFiles($_I1OfI["MailHTMLText"], $_JiI11, true);
+    
+    for($_QliOt=0; $_QliOt< count($_JiI11); $_QliOt++) {
+       if(!@file_exists($_JiI11[$_QliOt])) {
+         $_QLJfI = _LA6ED($_JiI11[$_QliOt]);
+         $_JiI11[$_QliOt] = $_QLJfI;
+         if(!@file_exists($_JiI11[$_QliOt]) ) {
+           continue;
+         }
+       }
+       @unlink($_JiI11[$_QliOt]);
+    }
+    
+    
+  }
+  
 ?>

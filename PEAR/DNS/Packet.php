@@ -569,7 +569,7 @@ class Net_DNS_Packet
             return array(null, null);
         }
 
-        $Net_DNS_RR = new Net_DNS_RR();
+        $Net_DNS_RR = new Net_DNS_RR("", "");
         $rrobj = $Net_DNS_RR->factory(array($name,
                     $type,
                     $class,

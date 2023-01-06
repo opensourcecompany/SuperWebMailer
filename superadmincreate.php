@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -31,9 +31,11 @@
   if(!isset($INTERFACE_LANGUAGE) || $INTERFACE_LANGUAGE == "")
      $INTERFACE_LANGUAGE = "de";
 
+  $INTERFACE_LANGUAGE = preg_replace( '/[^a-z]+/', '', strtolower( $INTERFACE_LANGUAGE ) );
+
   // hart coded
   $Username = "superadmin";
-  $_I0600 = "";
+  $_Itfj8 = "";
   $errors = array();
 
   if(!isset($_POST["Password"]) || trim($_POST["Password"]) == "")
@@ -43,41 +45,45 @@
       $errors[] = "PasswordAgain";
       else
     if(trim($_POST["Password"]) != trim($_POST["PasswordAgain"]) || trim($_POST["Password"]) == "*PASSWORDSET*" ) {
-      $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090001"];
+      $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090001"];
       $errors[] = "Password";
       $errors[] = "PasswordAgain";
     }
   if(count($errors) > 0) {
-    $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090000"], $_I0600, 'useredit', 'superadmin_create_snipped.htm');
-    _LJ81E($_QJCJi);
+    $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090000"], $_Itfj8, 'useredit', 'superadmin_create_snipped.htm');
+    _JJCCF($_QLJfI);
 
     // Language
-    $_QJlJ0 = "SELECT * FROM $_Qo6Qo";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6ICj = "";
-    while($_Q6Q1C  = mysql_fetch_assoc($_Q60l1)) {
-       $_Q6ICj .= '<option value="'.$_Q6Q1C["Language"].'">'.$_Q6Q1C["Text"].'</option>'.$_Q6JJJ;
+    $_QLfol = "SELECT * FROM $_Ijf8l";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLoli = "";
+    while($_QLO0f  = mysql_fetch_assoc($_QL8i1)) {
+       $_QLoli .= '<option value="'.$_QLO0f["Language"].'">'.$_QLO0f["Text"].'</option>'.$_QLl1Q;
     }
-    $_QJCJi = _OPR6L($_QJCJi, '<SHOW:LANGUAGE>', '</SHOW:LANGUAGE>', $_Q6ICj);
-    mysql_free_result($_Q60l1);
+    $_QLJfI = _L81BJ($_QLJfI, '<SHOW:LANGUAGE>', '</SHOW:LANGUAGE>', $_QLoli);
+    mysql_free_result($_QL8i1);
     // *************
 
-    $_QJCJi = _OPFJA($errors, $_POST, $_QJCJi);
+    $_QLJfI = _L8AOB($errors, $_POST, $_QLJfI);
 
-    print $_QJCJi;
+    print $_QLJfI;
     exit;
   }
 
   include_once("superadmin.inc.php");
-  $_QlLfl=_LLEQD($Username, "SuperAdmin", $_POST["Language"]);
+  $_I8l8o=_JJQOE($Username, "SuperAdmin", $_POST["Language"]);
 
-  $_QlLOL = _OC1CF();
-  $_QJlJ0 = "UPDATE $_Q8f1L SET Password=CONCAT("._OPQLR($_QlLOL).", PASSWORD("._OPQLR($_QlLOL.trim($_POST["Password"])).") ) WHERE id=".$_QlLfl;
-  mysql_query($_QJlJ0, $_Q61I1);
+  $_I8li6 = _LAPE1();
+  $_It0IQ = version_compare(_LBL0A(), '8.0.11') >= 0;
+  if(!$_It0IQ)
+    $_QLfol = "UPDATE $_I18lo SET Password=CONCAT("._LRAFO($_I8li6).", PASSWORD("._LRAFO($_I8li6.trim($_POST["Password"])).") ) WHERE id=".$_I8l8o;
+    else
+    $_QLfol = "UPDATE $_I18lo SET Password=CONCAT("._LRAFO($_I8li6).", SHA2("._LRAFO($_I8li6.trim($_POST["Password"])).", 224) ) WHERE id=".$_I8l8o;
+  mysql_query($_QLfol, $_QLttI);
 
 
-  $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090000"], $resourcestrings[$INTERFACE_LANGUAGE]["090002"], 'useredit', 'superadmin_done_snipped.htm');
-  $_QJCJi = str_replace('%PASSWORD%', trim($_POST["Password"]), $_QJCJi);
+  $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090000"], $resourcestrings[$INTERFACE_LANGUAGE]["090002"], 'useredit', 'superadmin_done_snipped.htm');
+  $_QLJfI = str_replace('%PASSWORD%', trim($_POST["Password"]), $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 ?>

@@ -35,7 +35,7 @@
 //
 // $Id: POP3.php,v 1.5 2007/03/27 13:16:02 cweiske Exp $
 
-require_once 'PEAR/Socket.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Socket.php';
 
 
 
@@ -51,9 +51,9 @@ require_once 'PEAR/Socket.php';
 * For usage see the example script
 */
 
-define('NET_POP3_STATE_DISCONNECTED',  1, true);
-define('NET_POP3_STATE_AUTHORISATION', 2, true);
-define('NET_POP3_STATE_TRANSACTION',   4, true);
+define('NET_POP3_STATE_DISCONNECTED',  1);
+define('NET_POP3_STATE_AUTHORISATION', 2);
+define('NET_POP3_STATE_TRANSACTION',   4);
 
 class Net_POP3
 {
@@ -162,7 +162,7 @@ class Net_POP3
         * Include the Auth_SASL package.  If the package is not available,
         * we disable the authentication methods that depend upon it.
         */
-        @include_once 'PEAR/SASL.php';
+        @include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'SASL.php';
         if (!class_exists('Auth_SASL')) {
             if ($this->_debug){
                 echo "AUTH_SASL NOT PRESENT!\n";
@@ -192,7 +192,7 @@ class Net_POP3
     */
     function _raiseError($msg, $code =-1)
     {
-        include_once 'PEAR/PEAR_.php';
+        include_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'PEAR_.php';
         return PEARraiseError($msg, $code);
     }
 

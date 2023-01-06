@@ -6,12 +6,12 @@
   $get = array();
   reset($_GET);
   foreach($_GET as $key => $value)
-    $get[] = $key.'='.$value;
+    $get[] = $key.'='.rawurlencode($value);
 
   $post = array();
   reset($_POST);
   foreach($_POST as $key => $value)
-    $post[] = $key.'='.$value;
+    $post[] = $key.'='.rawurlencode($value);
 
   if(count($get) > 0)
     $get = join("&", $get);

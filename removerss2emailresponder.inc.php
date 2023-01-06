@@ -26,57 +26,57 @@
   include_once("sessioncheck.inc.php");
 
   if($OwnerUserId != 0) {
-    if(empty($_QJojf) || !is_array($_QJojf))
-      $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeRSS2EMailMailsRemove"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    if(empty($_QLJJ6) || !is_array($_QLJJ6))
+      $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeRSS2EMailMailsRemove"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  if(isset($_66ifC))
-     unset($_66ifC);
-  $_66Jti = array();
+  if(isset($_fLJ86))
+     unset($_fLJ86);
+  $_fiLlo = array();
   if ( isset($_POST["OneRSS2EMailresponderListId"]) && $_POST["OneRSS2EMailresponderListId"] != "" )
-      $_66ifC[] = $_POST["OneRSS2EMailresponderListId"];
+      $_fLJ86[] = $_POST["OneRSS2EMailresponderListId"];
       else
       if ( isset($_POST["OneRSS2EMailresponderListIds"]) )
-        $_66ifC = array_merge($_66ifC, $_POST["OneRSS2EMailresponderListIds"]);
+        $_fLJ86 = array_merge($_fLJ86, $_POST["OneRSS2EMailresponderListIds"]);
 
 
-  $_QtIiC = array();
-  _L1EJB($_66ifC, $_QtIiC);
+  $_IQ0Cj = array();
+  _J1EP1($_fLJ86, $_IQ0Cj);
 
   // we don't check for errors here
-  function _L1EJB($_66ifC, &$_QtIiC) {
-    global $_IoOLJ, $_ICjCO, $_Q61I1;
+  function _J1EP1($_fLJ86, &$_IQ0Cj) {
+    global $_jJLQo, $_j68Co, $_QLttI;
 
-    for($_Q6llo=0; $_Q6llo<count($_66ifC); $_Q6llo++) {
-      $_66ifC[$_Q6llo] = intval($_66ifC[$_Q6llo]);
-      $_QJlJ0 = "SELECT * FROM $_IoOLJ WHERE id=$_66ifC[$_Q6llo]";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
+    for($_Qli6J=0; $_Qli6J<count($_fLJ86); $_Qli6J++) {
+      $_fLJ86[$_Qli6J] = intval($_fLJ86[$_Qli6J]);
+      $_QLfol = "SELECT * FROM $_jJLQo WHERE id=$_fLJ86[$_Qli6J]";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      $_QLO0f = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
 
-      reset($_Q6Q1C);
-      foreach($_Q6Q1C as $key => $_Q6ClO) {
+      reset($_QLO0f);
+      foreach($_QLO0f as $key => $_QltJO) {
         if (strpos($key, "TableName") !== false) {
-          $_QJlJ0 = "DROP TABLE IF EXISTS `$_Q6ClO`";
-          mysql_query($_QJlJ0, $_Q61I1);
-          if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+          $_QLfol = "DROP TABLE IF EXISTS `$_QltJO`";
+          mysql_query($_QLfol, $_QLttI);
+          if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
         }
       }
 
       // and now from RSS2EMailresponders table
-      $_QJlJ0 = "DELETE FROM $_IoOLJ WHERE id=".$_66ifC[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM $_jJLQo WHERE id=".$_fLJ86[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
 
       // stat
-      $_QJlJ0 = "DELETE FROM $_ICjCO WHERE rss2emailresponders_id=".$_66ifC[$_Q6llo];
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
+      $_QLfol = "DELETE FROM $_j68Co WHERE rss2emailresponders_id=".$_fLJ86[$_Qli6J];
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
 
     }
   }

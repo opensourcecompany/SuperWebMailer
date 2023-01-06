@@ -1,0 +1,111 @@
+<div class="spacerborder">
+  <form name="LoginHistoryListsForm" id="LoginHistoryListsForm" method="post">
+
+  <input type="hidden" name="OneLoginHistoryListAction" id="OneLoginHistoryListAction" value="" />
+  <input type="hidden" name="OneLoginHistoryListId" id="OneLoginHistoryListId" value="" />
+
+  <script language="javascript" type="text/javascript">
+  <!--
+
+    function SetListId(ASender, AFormID) {
+      var AForm = document.getElementById(AFormID);
+      var OneLoginHistoryListAction = document.getElementById('OneLoginHistoryListAction');
+      var OneLoginHistoryListId = document.getElementById('OneLoginHistoryListId');
+      OneLoginHistoryListAction.value = ASender.name;
+      OneLoginHistoryListId.value = ASender.value;
+      return true;
+    }
+
+  //-->
+  </script>
+
+  <table class="FixedTable">
+    <tbody>
+      <tr>
+        <td>
+         &nbsp;
+        </td>
+      </tr>
+      <tr>
+      <td><img src="images/blind.gif" alt="" height="4" class="normalimage" /></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <table id="TableLoginHistoryList" name="TableLoginHistoryList" class="FixedTable">
+  	<thead>
+  		<tr>
+  			<td class="NoWrapAlignCenter" width="5%">ID</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="40%">Nutzername</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" style="width:auto;">Angemeldet</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" style="width:auto;">Abgemeldet</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" style="width:auto;">IP-Adresse</td>
+  		</tr>
+  	</thead>
+  	<tbody>
+    <LIST:ENTRY>
+  		<tr>
+  			<td class="NoWrapAlignRight"><LIST:ID></LIST:ID></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:USERNAME></LIST:USERNAME></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:LOGINDATE></LIST:LOGINDATE></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:LOGOUTDATE></LIST:LOGOUTDATE></td>
+  			<td>&nbsp;</td>
+  			<td><LIST:IPADDRESS></LIST:IPADDRESS></td>
+  		</tr>
+    </LIST:ENTRY>
+  	</tbody>
+  </table>
+
+  <table class="FixedTable">
+  	<thead>
+  	</thead>
+  	<tbody>
+  	</tbody>
+  	<tfoot>
+
+  		<tr>
+  		  <td colspan="9">
+    		  <table border="0" cellpadding="0" cellspacing="0" style="width: 100%">
+    		  <tr>
+    		  <td style="width:100%; white-space:nowrap;">
+        		  &nbsp;
+    		  </td>
+     			<td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <input type="image" width="16" height="16" name="TopBtn" id="TopBtn" value="Top" onclick="SetListId(this, 'LoginHistoryListsForm');" src="images/arrow_left_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Anfang der Liste');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="PrevBtn" id="PrevBtn" value="Prev" onclick="SetListId(this, 'LoginHistoryListsForm');" src="images/arrow_left.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Vorherige Seite');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="NextBtn" id="NextBtn" value="Next" onclick="SetListId(this, 'LoginHistoryListsForm');" src="images/arrow_right.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'N&auml;chste Seite');return false" />&nbsp;
+         			  <input type="image" width="16" height="16" name="EndBtn" id="EndBtn" value="End" onclick="SetListId(this, 'LoginHistoryListsForm');" src="images/arrow_right_end.gif" style="vertical-align:bottom; cursor: pointer;" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Ende der Liste');return false" />&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  Seite:&nbsp;
+        </td>
+        <td style="text-align:right; width:1%; white-space:nowrap; ">
+         			  <select name="PageSelected" id="PageSelected" size="1" style="min-width:30pt ! important;" onchange="document.LoginHistoryListsForm.submit()">
+                <OPTION:PAGES>
+                <option>1</option>
+                </OPTION:PAGES>
+         			  </select>
+        </td>
+       	</tr>
+       	</table>
+  			</td>
+  		</tr>
+
+  	</tfoot>
+  </table>
+  </form>
+</div>
+<script type="text/javascript">
+<!--
+  addTableRolloverEffect('TableLoginHistoryList','tableRollOverEffect','tableRowClickEffect');
+  AddTableDblClickEvent('TableLoginHistoryList');
+  //AUTO_SCRIPT_CODE_PLACEHOLDER//
+//-->
+</script>

@@ -616,7 +616,7 @@
                                 <option value="europe">Europa</option>
                                 <option value="germany">Deutschland</option>
                               </select><br /><br />
-                              <iframe id="geo" width="100%" height="900" border="0" marginheight="0" marginwidth="0" frameborder="0" src="./mailinglistsubunsubstat_iframe_geo.php"></iframe>
+                              <iframe id="geo" name="geo" width="100%" height="900" border="0" marginheight="0" marginwidth="0" frameborder="0" src=""></iframe>
                             </td>
                           </tr>
                         </tbody>
@@ -718,6 +718,18 @@
                addTableRolloverEffect('ReasonTexts','tableRollOverEffect','');
 
 
+               $('#tabTabdhtmlgoodies_tabView_0').on('click', function(){
+                 charttop10.render();
+               });
+
+               $('#tabTabdhtmlgoodies_tabView_1').on('click', function(){
+                 subunsubchart.render();
+               });
+
+               $('#tabTabdhtmlgoodies_tabView_4').on('click', function(){
+                 chartRFUSurvey.render();
+               });
+
                //AUTO_SCRIPT_CODE_PLACEHOLDER//
 
               //-->
@@ -726,14 +738,20 @@
               <NoGoogleMaps>
               <script language="JavaScript" type="text/javascript">
               <!--
+               var Geoiframeurl = "./mailinglistsubunsubstat_iframe_geo.php";
                function ChangeGeoTargeting(){
                  var geo = document.getElementById("geo");
                  var card = document.getElementById("Card");
-                 var src = geo.src;
+                 var src = Geoiframeurl;
                  src = src.substr(0, src.indexOf("&Card=")) + "&Card="+card.value;
-                 geo.src = src;
+                 CreateFormAndPostIt(src, {}, 'post', "geo");
                  document.getElementById("ACard").value = card.value;
                }
+
+               $(document).ready(function(){
+                 CreateFormAndPostIt(Geoiframeurl, {}, 'post', "geo");
+               })
+
               //-->
               </script>
               </NoGoogleMaps>
@@ -820,19 +838,6 @@
                       $(this).off('click');*/
                   });
                 }
-
-
-                $('#tabTabdhtmlgoodies_tabView_0').on('click', function(){
-                  charttop10.render();
-                });
-
-                $('#tabTabdhtmlgoodies_tabView_1').on('click', function(){
-                  subunsubchart.render();
-                });
-
-                $('#tabTabdhtmlgoodies_tabView_4').on('click', function(){
-                  chartRFUSurvey.render();
-                });
 
               -->
               </script>

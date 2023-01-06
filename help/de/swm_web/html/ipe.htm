@@ -105,9 +105,6 @@ newsletter_templates (Dateien Wizard-Sample*).</p>
       werden aus <font face="Courier New">&lt;singleline&gt;&lt;/singleline&gt;</font>
       mit Attribut <font face="Courier New">tableofcontentstitle=&quot;true&quot;
       </font>Einträgen übernommen.
-      <br><br>Optional:<br>Geben Sie beim Tag &lt;tableofcontents&gt; oder &lt;tableofcontentstitle&gt; 
-	die Attribute class=&quot;&quot; und/oder style=&quot;&quot; an, um die Einträge des 
-	Inhaltsverzeichnisses zu formatieren.&nbsp;
       <p>&nbsp;</p>
       <p>Beispiel:</p>
       <p><font face="Courier New">&lt;h2&gt;Inhalt&lt;/h2&gt;<br>
@@ -134,6 +131,11 @@ newsletter_templates (Dateien Wizard-Sample*).</p>
       <p>Geben Sie das Attribut label=&quot;beliebiger einzeiliger Text&quot;
       an, damit anstelle der Schaltflächen-Bezeichnung &quot;Neues
       Standard-Element&quot; der eigene Text angezeigt wird.</p>
+      <p>Geben Sie das Attribut disableOtherElements=&quot;true&quot; an, damit
+      die Schaltfläche &quot;Anderes Element&quot; nicht dargestellt wird. Es
+      können danach nur noch die Elemente verwendet werden, die in der Vorlage
+      vorgegeben sind (Beispiel Wizard-Sample (0).htm im
+      newsletter_templates-Verzeichnis).</p>
       <p>&nbsp;</p>
       <p>Beispiel:</p>
       <p><font face="Courier New">&lt;h2&gt;Inhalt&lt;/h2&gt;<br>
@@ -188,6 +190,13 @@ newsletter_templates (Dateien Wizard-Sample*).</p>
       <p>Geben Sie das Attribut label=&quot;beliebiger einzeiliger Text&quot;
       an, so dass im Bearbeitungsdialog dieser Text als Feldbezeichner für das
       Eingabefeld angezeigt wird.</p>
+      <p>Vergeben Sie beim Bild das CSS-Attribut &quot;max-width:
+      &lt;breite&gt;px&quot;, um die maximale Breite eines Bildes festzulegen.
+      Wird später ein Bild gewählt, dann wird bei abweichender Bildbreite der
+      Dialog zur Größenänderung eines Bildes angezeigt und diese Breite für
+      das Bild vorgeschlagen. Der Anwender kann diese Breite bestätigen, muss
+      dies aber nicht.</p>
+      <p>&nbsp;</p>
       <p>Hinweis: Befindet sich dieser HTML-Tag innerhalb eines
       &lt;multiline&gt;-Tags dann wird das Attribut editable=&quot;true&quot;
       ignoriert und damit die Bearbeitung des Elements direkt im WYSIWYG-Editor
@@ -229,6 +238,42 @@ newsletter_templates (Dateien Wizard-Sample*).</p>
       <p><font face="Courier New">&lt;a
       href=&quot;http://www.superwebmailer.de&quot;
       editable=&quot;true&quot;&gt;SuperWebMailer Webseite&lt;/a&gt;</font></p>
+      <p>&nbsp;</p>
+      <p><u>Buttons mit abgerundeten Ecken (border-radius)</u></p>
+      <p>Verwenden Sie diesen Code, unter etwaiger Abwandlung der Farben und
+      border-Radius, um Schaltflächen mit abgerundeten Ecken in HTML-E-Mails,
+      auch im Outlook, darstellen zu lassen:</p>
+      <p><font face="Courier New">&lt;div class=&quot;LinkAsButton&quot;&gt;<br>
+      &lt;!--[if mso]&gt;<br>
+      &lt;v:roundrect xmlns:v=&quot;urn:schemas-microsoft-com:vml&quot;
+      xmlns:w=&quot;urn:schemas-microsoft-com:office:word&quot;
+      href=&quot;https://www.superwebmailer.de&quot;
+      style=&quot;height:40px;v-text-anchor:middle;width:500px;&quot;
+      arcsize=&quot;25%&quot; strokecolor=&quot;#4a4a4a&quot;
+      fillcolor=&quot;#4a4a4a&quot;&gt;<br>
+      &lt;w:anchorlock/&gt;<br>
+      &lt;center
+      style=&quot;color:#ffffff;font-family:arial,helvetica,sans-serif;font-size:18px;&quot;
+      class=&quot;orderButton&quot;&gt;Jetzt bestellen/Order now&lt;/center&gt;<br>
+      &lt;/v:roundrect&gt;<br>
+      &lt;![endif]--&gt;<br>
+      &lt;a class=&quot;orderButton&quot;<br>
+      style=&quot;color: #FFFFFF;font-size: 18px; text-decoration: none; border:
+      #4a4a4a 10px solid; display: inline-block; background-color: #4a4a4a;
+      border-radius: 10px; -webkit-border-radius: 10px; -moz-border-radius:
+      10px; -ms-border-radius: 10px; -khtml-border-radius: 10px;
+      -webkit-text-size-adjust: none;mso-hide:all;&quot;<br>
+      href=&quot;https://www.superwebmailer.de/&quot;
+      editable=&quot;true&quot;&gt;Jetzt bestellen/Order now&lt;/a&gt;<br>
+      &lt;/div&gt;</font><br>
+      </p>
+      <p>Wichtig der Kommentarblock für die Outlook-Darstellung muss sich <b>direkt</b>
+      vor dem Link &lt;a...&gt; befinden, keine Leerzeile einfügen, nur dann
+      wird der Inplace Editor Änderungen des Links in diesem Kommentarblock
+      übernehmen. Bei der Änderung im Kommentarblock wird nach href= gesucht,
+      um den Link zu ändern. Der anzuzeigende Text wird durch
+      Zeichenkettenvergleich ersetzt, daher muss der Text im Kommentarblock
+      genau mit der Angabe im Link übereinstimmen.</p>
       <p>&nbsp;</td>
   </tr>
   <tr valign="top">
@@ -252,17 +297,54 @@ newsletter_templates (Dateien Wizard-Sample*).</p>
   </tr>
 </table>
 <p><strong>Zielgruppen vordefinieren</strong></p>
-<p>In der E-Mail-Vorlage kann das Attribut <span class="auto-style1">
-target_groups=&quot;</span>zielgruppe1 zielgruppe2...&quot; zur Anzeige nur für eine
-bestimmte <a href="targetgroupsedit.htm">Zielgruppe</a> für jeden HTML-Tag
-vordefiniert werden. Sollte das Attribut für ein bearbeitbares Element
-vordefiniert werden, dann kann der Nutzer die Zielgruppenvorgabe per Mausklick
-später im Assistenten ändern. <br><strong>Hinweis:</strong> Die Schaltfläche zum
-Ändern der Zielgruppe wird nur im Assistenten angezeigt, wenn auch Zielgruppen
-definiert wurden.</p>
+<p>In der E-Mail-Vorlage kann das Attribut <span class="auto-style1">target_groups=&quot;</span>zielgruppe1
+zielgruppe2...&quot; zur Anzeige nur für eine bestimmte <a href="targetgroupsedit.htm">Zielgruppe</a>
+für jeden HTML-Tag vordefiniert werden. Sollte das Attribut für ein
+bearbeitbares Element vordefiniert werden, dann kann der Nutzer die
+Zielgruppenvorgabe per Mausklick später im Assistenten ändern.<br>
+<strong>Hinweis:</strong> Die Schaltfläche zum Ändern der Zielgruppe wird nur
+im Assistenten angezeigt, wenn auch Zielgruppen definiert wurden.</p>
 <p>&nbsp;</p>
-<p><strong>Hinweise</strong></p>
+<p><img border="0" src="../images/ownipe_elements.png" align="right" width="418" height="478"></p>
+<p><b>Eigene Elemente, die beim Klick auf &quot;Anderes Element&quot; angezeigt
+werden sollen</b></p>
+<p>Sie können eigene Elemente definieren, die beim Klick auf &quot;Anderes
+Element&quot; dem Nutzer angezeigt und eingefügt werden können.&nbsp; Diese
+eingefügten Elemente dürfen nur HTML-Code-Teile (Snippets) enthalten, z.B.
+für ein bearbeitbares Bild</p>
+<p><font face="Courier New">&lt;div style=&quot;text-align: center&quot;
+editable=&quot;false&quot;&gt;<br>
+&lt;img src=&quot;images/noimage.gif&quot; alt=&quot;Alt text&quot;
+border=&quot;0&quot; vspace=&quot;5&quot; hspace=&quot;5&quot; <b>editable=&quot;true&quot;</b>
+/&gt;<br>
+&lt;/div&gt;</font><br>
+</p>
+<p>Der HTML-Code muss valide, dass heißt alle Tags müssen in der korrekten
+Reihenfolge geschlossen sein. Ebenfalls dürfen im HTML-Code nur HTML-Tags
+verwendet werden, dei von allen E-Mail-Programmen unterstützt werden.
+JavaScript, ActiveXControls, Java Applets oder Videos sind nicht erlaubt.</p>
+<p>Der eigenen HTML-Code muss als einzelne Datei in das Verzeichnis
+userfiles/&lt;id des admin-nutzers&gt;/templates/ipe/elements gespeichert
+werden. Ein Bild mit gleichen Dateinamen, jedoch Dateierweiterung .png, sollte
+in das Verzeichnis userfiles/&lt;id des
+admin-nutzers&gt;/templates/ipe/elements/images mit einer Größe von 130x100
+Pixeln gespeichert werden. Ist kein Bild vorhanden, dann wird ein Standard-Bild
+verwendet.</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>Hinweise zum Assistenten allgemein</strong></p>
 <ul>
+  <li>Zur Bearbeitung von Vorlagen im Assistenten muss der Browser JavaScript
+    unterstützen. Es sollten dabei nur Browser größerer Anbieter verwendet
+    werden, die die JavaScript-Anweisungen und DOM-Manipulationen korrekt
+    unterstützen (Mozilla Firefox, Microsoft Internet Explorer 11, Microsoft
+    Edge, Google Chrome).</li>
   <li>Der HTML-Code einer Vorlage für den Assistenten muss syntaktisch korrekt
     sein, dies bedeutet:
     <ul>

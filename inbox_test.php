@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -31,82 +31,82 @@
   if( !isset($_GET["inbox_id"]) && !isset($_POST["inbox_id"])  )
     exit;
 
-  if(isset($_Jt6ft))
-     unset($_Jt6ft);
+  if(isset($_6Ctt8))
+     unset($_6Ctt8);
 
   if(isset($_GET["inbox_id"]))
-    $_Jt6ft = intval($_GET["inbox_id"]);
+    $_6Ctt8 = intval($_GET["inbox_id"]);
   if(isset($_POST["inbox_id"]))
-    $_Jt6ft = intval($_POST["inbox_id"]);
+    $_6Ctt8 = intval($_POST["inbox_id"]);
 
-  if(isset($_Jt6ft)) {
-    SetHTMLHeaders($_Q6QQL);
+  if(isset($_6Ctt8)) {
+    SetHTMLHeaders($_QLo06);
 
-    $_I0600 = "";
+    $_Itfj8 = "";
 
     // Inboxes
-    $_QJlJ0 = "SELECT * FROM $_QolLi WHERE id=".$_Jt6ft;
-    $_Q60l1 = mysql_query($_QJlJ0);
-    if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) exit; // spam protection
-    $_Jt6fL = mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT * FROM $_IjljI WHERE id=".$_6Ctt8;
+    $_QL8i1 = mysql_query($_QLfol);
+    if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) exit; // spam protection
+    $_6CO8C = mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
 
-    $_jftQf = new _ODPCC(InstallPath."js");
+    $_Jji6J = new _LCAO8(InstallPath."js");
 
-    $_jftQf->Name = $_Jt6fL["Name"];
-    $_jftQf->InboxType = $_Jt6fL["InboxType"]; // 'pop3', 'imap'
-    $_jftQf->EMailAddress = $_Jt6fL["EMailAddress"];
-    $_jftQf->Servername = $_Jt6fL["Servername"];
-    $_jftQf->Serverport = $_Jt6fL["Serverport"];
-    $_jftQf->Username = $_Jt6fL["Username"];
-    $_jftQf->Password = $_Jt6fL["Password"];
-    $_jftQf->SSLConnection = $_Jt6fL["SSL"];
-    $_jftQf->LeaveMessagesInInbox = $_Jt6fL["LeaveMessagesInInbox"];
-    $_jftQf->NumberOfEMailsToProcess = _LQDLR("BounceEMailCount");
-    if($_Jt6fL["UIDL"] != "") {
-         $_jftQf->UIDL = @unserialize($_Jt6fL["UIDL"]);
-         if($_jftQf->UIDL === false)
-            $_jftQf->UIDL = array();
+    $_Jji6J->Name = $_6CO8C["Name"];
+    $_Jji6J->InboxType = $_6CO8C["InboxType"]; // 'pop3', 'imap'
+    $_Jji6J->EMailAddress = $_6CO8C["EMailAddress"];
+    $_Jji6J->Servername = $_6CO8C["Servername"];
+    $_Jji6J->Serverport = $_6CO8C["Serverport"];
+    $_Jji6J->Username = $_6CO8C["Username"];
+    $_Jji6J->Password = $_6CO8C["Password"];
+    $_Jji6J->SSLConnection = $_6CO8C["SSL"];
+    $_Jji6J->LeaveMessagesInInbox = $_6CO8C["LeaveMessagesInInbox"];
+    $_Jji6J->NumberOfEMailsToProcess = _JOLQE("BounceEMailCount");
+    if( isset($_6CO8C["UIDL"]) && $_6CO8C["UIDL"] != "") {
+         $_Jji6J->UIDL = @unserialize($_6CO8C["UIDL"]);
+         if($_Jji6J->UIDL === false)
+            $_Jji6J->UIDL = array();
        }
        else
-       $_jftQf->UIDL = array();
+       $_Jji6J->UIDL = array();
 
-    $_jj0JO = "";
-    $_J8C8O = 0;
-    $_Q8COf = $_jftQf->_ODA1F($_jj0JO, $_J8C8O);
-    if($_Q8COf) {
-      $_I0600 = sprintf( $resourcestrings[$INTERFACE_LANGUAGE]["000164"], $_J8C8O);
+    $_J0COJ = "";
+    $_6oL8t = 0;
+    $_I1o8o = $_Jji6J->_LCAR0($_J0COJ, $_6oL8t);
+    if($_I1o8o) {
+      $_Itfj8 = sprintf( $resourcestrings[$INTERFACE_LANGUAGE]["000164"], $_6oL8t);
     } else {
-      $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000165"].$_jj0JO;
+      $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000165"].$_J0COJ;
     }
 
-    $_QJCJi = _ODFLQ($_I0600, $_Jt6fL["Name"]);
-    print $_QJCJi;
+    $_QLJfI = _LCFDR($_Itfj8, $_6CO8C["Name"]);
+    print $_QLJfI;
     exit;
   }
 
- function _ODFLQ($_I0600, $_Jtf01) {
-   global $_Q8f1L, $_Jtf66, $UserId, $resourcestrings, $INTERFACE_LANGUAGE, $_Q6JJJ;
-    $_QJCJi = join("", file(_O68QF()."inbox_test.htm"));
+ function _LCFDR($_Itfj8, $_6CoI6) {
+   global $_I18lo, $_6Coii, $UserId, $resourcestrings, $INTERFACE_LANGUAGE, $_QLl1Q;
+    $_QLJfI = _JJAQE("inbox_test.htm");
     if(isset($_GET["inbox_id"]))
-       $_Jt6ft = intval($_GET["inbox_id"]);
+       $_6Ctt8 = intval($_GET["inbox_id"]);
        else
-       $_Jt6ft = intval($_POST["inbox_id"]);
-    $_QJCJi = str_replace('name="inbox_id"', 'name="inbox_id" value="'.$_Jt6ft.'"', $_QJCJi);
+       $_6Ctt8 = intval($_POST["inbox_id"]);
+    $_QLJfI = str_replace('name="inbox_id"', 'name="inbox_id" value="'.$_6Ctt8.'"', $_QLJfI);
 
     // spam protection
     if($UserId == 0) exit;
 
 
-    $_QJCJi = str_replace('%SERVER_NAME%', $_Jtf01, $_QJCJi);
+    $_QLJfI = str_replace('%SERVER_NAME%', $_6CoI6, $_QLJfI);
 
-    if($_I0600 == "") {
-      $_QJCJi = _OP6PQ($_QJCJi, "<SHOWHIDE:ERRORTOPIC>", "</SHOWHIDE:ERRORTOPIC>");
+    if($_Itfj8 == "") {
+      $_QLJfI = _L80DF($_QLJfI, "<SHOWHIDE:ERRORTOPIC>", "</SHOWHIDE:ERRORTOPIC>");
     } else {
-      $_QJCJi = _OPR6L($_QJCJi, "<LABEL:ERRORMESSAGETEXT>", "</LABEL:ERRORMESSAGETEXT>", $_I0600 );
+      $_QLJfI = _L81BJ($_QLJfI, "<LABEL:ERRORMESSAGETEXT>", "</LABEL:ERRORMESSAGETEXT>", $_Itfj8 );
     }
 
-    return $_QJCJi;
+    return $_QLJfI;
  }
 
 ?>

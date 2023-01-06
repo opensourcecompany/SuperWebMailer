@@ -21,6 +21,7 @@
         <LIST:JOBINTERVAL>
           <input type="text" name="JobWorkingInterval" size="3" maxlength="3" style="text-align: right" />&nbsp;
           <select name="JobWorkingIntervalType" size="1">
+          <option value="Second">Sekunde(n)</option>
           <option value="Minute">Minute(n)</option>
           <option value="Hour">Stunde(n)</option>
           <option value="Day">Tag(e)</option>
@@ -78,12 +79,14 @@
           Der Aufruf sollte einmal pro Minute aber sp&auml;testens einmal pro Stunde durchgef&uuml;hrt werden, so dass die oben aufgef&uuml;hrten Ausf&uuml;hrungsintervalle eingehalten werden k&ouml;nnen.
           <br />
           <a href="images/plesk_task.png" target="_blank">Beispiel f&uuml;r eine geplante Aufgabe/CronJob in Plesk&trade; mit Ausf&uuml;hrung einmal pro Minute</a>
+          <br /><br />
+          F&uuml;r die Ausf&uuml;hrung von Aufgaben mehr als einmal pro Minute, beachten Sie die Anweisungen in der Hilfe.
           </p>
           <br /><br />
 										<p>2. Verwendung eines externen CronJob-Diensts</p>
 										<p>Sie k&ouml;nnen einen externen CronJob-Dienst verwenden, welches das Script<br /><br /><pre><crons_php></pre><br /> in regelm&auml;&szlig;igen Abst&auml;nden aufruft.</p>
           <br /><br />
-										<p>3. Einf&uuml;gen des Scriptaufrufs in die eigene Webseite</p>
+										<p>3. Einf&uuml;gen des Scriptaufrufs in die eigene Webseite(<b>nicht empfohlen</b>)</p>
 										<p>F&uuml;gen Sie den folgenden JavaScript-Code in Ihre Webseite (z.B. Startseite der Webpr&auml;senz) ein. Jedesmal wenn ein Besucher die Webseite aufruft wird das CronJob-Script ausgef&uuml;hrt.</p>
 
 

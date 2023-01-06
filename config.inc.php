@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -29,9 +29,11 @@
    define("E_RECOVERABLE_ERROR", 4096);
 
  error_reporting( 0 );
+ //error_reporting( E_ALL & ~ ( /*E_NOTICE | E_WARNING  |*/ E_DEPRECATED | E_STRICT ) );
  ini_set("display_errors", 0);
 
  define("SWM", 1);
+ #define("SML", 1);
  include_once("config_paths.inc.php");
  include_once(InstallPath."userdefined.inc.php");
 
@@ -45,105 +47,146 @@
  include_once(InstallPath."phpcompat.php");
  include_once(InstallPath."ressources.inc.php");
  include_once(InstallPath."functions.inc.php");
+ include_once(InstallPath."emoji_helper.inc.php");
+ 
+ define("LOCAL_PATH", dirname(__FILE__) . DIRECTORY_SEPARATOR);
 
  if(!function_exists("mysql_connect")) {
    // Include the definitions
-   require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'mysqli' . DIRECTORY_SEPARATOR . 'MySQL_Definitions.php');
+   require_once(LOCAL_PATH . 'mysqli' . DIRECTORY_SEPARATOR . 'MySQL_Definitions.php');
    // Include the object
-   require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'mysqli' . DIRECTORY_SEPARATOR . 'MySQL.php');
+   require_once(LOCAL_PATH . 'mysqli' . DIRECTORY_SEPARATOR . 'MySQL.php');
    // Include the mysql_* functions
-   require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'mysqli' . DIRECTORY_SEPARATOR . 'MySQL_Functions.php');
+   require_once(LOCAL_PATH . 'mysqli' . DIRECTORY_SEPARATOR . 'MySQL_Functions.php');
  }
 
+ # Csrf
+ define("CKEDITOR_TOKEN_COOKIE_NAME", 'ckCsrfToken');
+ define("SMLSWM_TOKEN_COOKIE_NAME", 'smlswmCsrfToken');
+ define("SMLSWM_FILEMANAGER_TOKEN_COOKIE_NAME", 'smlswmFMCsrfToken');
+
+ define("PEAR_PATH", LOCAL_PATH . "PEAR" . DIRECTORY_SEPARATOR);
+ 
  # default paths
- $_jjC06 = InstallPath."userfiles/";
- $_jjCtI = ScriptBaseURL."userfiles/";
- @mkdir($_jjC06, 0777);
- $_I0lQJ = $_jjC06."import/";
- $_jji0C = $_jjC06."export/";
- $_QOCJo = $_jjC06."file/";
- $_QCo6j = $_jjC06."image/";
- $_jji0i = $_jjC06."media/";
+ $_J18oI = InstallPath."userfiles/";
+ $_jfOJj = ScriptBaseURL."userfiles/";
+ @mkdir($_J18oI, 0777);
+ $_ItL8f = $_J18oI."import/";
+ $_J1t6J = $_J18oI."export/";
+ $_IIlfi = $_J18oI."file/";
+ $_IJi8f = $_J18oI."image/";
+ $_J1tfC = $_J18oI."media/";
+ $_QlLlJ = $_J18oI."templates/";
+
+ # default DateFormat
+ $ShortDateFormat = 'd.m.Y';
+ $LongDateFormat = 'd.m.Y H:i:s';
 
  # default newsletter subscribtion/unsubscribtion Script
- $_jjiCt = "defaultnewsletter.php";
- $_jjLO0 = ScriptBaseURL.$_jjiCt;
- $_jjlQ0 = "nl.php";
- $_jjlC6 = "nlu.php";
- $_jJ088 = ScriptBaseURL.$_jjlQ0;
- $_jJ1Il = ScriptBaseURL.$_jjlC6;
+ $_J1tCf = "defaultnewsletter.php";
+ $_J1OIO = ScriptBaseURL.$_J1tCf;
+ $_J1OLl = "nl.php";
+ $_J1oCI = "nlu.php";
+ $_J1Cf8 = ScriptBaseURL.$_J1OLl;
+ $_J1Clo = ScriptBaseURL.$_J1oCI;
 
  # default alt browser link
- $_jJ1Li = "browser.php";
- $_jJQ66 = ScriptBaseURL.$_jJ1Li;
+ $_J1i1C = "browser.php";
+ $_jfilQ = ScriptBaseURL.$_J1i1C;
 
  # Tracking scripts
- $_jJIJ8 = "ostat.php";
- $_jJIol = ScriptBaseURL.$_jJIJ8;
- $_jJjo6 = "link.php";
- $_jJjCi = ScriptBaseURL.$_jJjo6;
+ $_J1L0I = "ostat.php";
+ $_J1Lt8 = ScriptBaseURL.$_J1L0I;
+ $_J1l0i = "link.php";
+ $_J1l1J = ScriptBaseURL.$_J1l0i;
 
  # Default Tablenames
- $_Qofjo = TablePrefix."fieldnames";
- $_Q88iO = TablePrefix."options";
- $_jJJjO = TablePrefix."emailoptions";
- $_jJJtf = TablePrefix."cronoptions";
- $_jJ6Qf = TablePrefix."cronlog";
- $_Q60QL = TablePrefix."maillists";
- $_Q6fio = TablePrefix."maillists_users";
- $_Q880O = TablePrefix."themes";
- $_Qo6Qo = TablePrefix."languages";
- $_Q8f1L = TablePrefix."users";
- $_QLtQO = TablePrefix."users_owner";
- $_QtjLI = TablePrefix."outqueue";
- $_Io680 = TablePrefix."localusermessages";
+ $_J1lLC = TablePrefix."failed_logins";
+ $_Ij8oL = TablePrefix."fieldnames";
+ $_JQ00O = TablePrefix."auth_options";
+ $_JQ0if = TablePrefix."2fa_blacklist";
+ $_I1O0i = TablePrefix."options";
+ $_JQ1I6 = TablePrefix."emailoptions";
+ $_JQQI1 = TablePrefix."cronoptions";
+ $_JQQoC = TablePrefix."cronlog";
+ $_QL88I = TablePrefix."maillists";
+ $_QlQot = TablePrefix."maillists_users";
+ $_I1tQf = TablePrefix."themes";
+ $_Ijf8l = TablePrefix."languages";
+ $_I18lo = TablePrefix."users";
+ $_IfOtC = TablePrefix."users_owner";
+ $_jCJ6O = TablePrefix."users_login";
+ $_IQQot = TablePrefix."outqueue";
+ $_jJtt8 = TablePrefix."localusermessages";
 
- $_QolLi = "";
- $_Qofoi = "";
- $_ICljl = "";
- $_QLo0Q = "";
- $_Ql8C0 = "";
- $_Qlt66 = "";
- $_I88i8 = "";
- $_Q6C0i = "";
- $_Q66li = "";
- $_Q6ftI = "";
- $_I8tjl = "";
+ $_IjljI = "";
+ $_Ijt0i = "";
+ $_jfQtI = "";
+ $_Ifi1J = "";
+ $_I8tfQ = "";
+ $_I8OoJ = "";
+ $_jQ68I = "";
+ $_QlfCL = "";
+ $_Ql10t = "";
+ $_Ql18I = "";
+ $_jQf81 = "";
 
- $_I0f8O = "";
+ $_ItfiJ = "";
 
- $_IC1lt = "";
- $_Q6jOo = "";
- $_IIl8O = "";
- $_IjQIf = "";
- $_IQL81 = "";
- $_II8J0 = "";
- $_QCLCI = "";
+ $_j6JfL = "";
+ $_QLi60 = "";
 
- $_IC0oQ = "";
- $_ICjQ6 = "";
+ $_ICo0J = "";
+ $_ICl0j = "";
+ $_IoCo0 = "";
+ $_ICIJo = "";
+ $_I616t = "";
 
- $_IoOLJ = "";
- $_ICjCO = "";
+ $_j6Ql8 = "";
+ $_j68Q0 = "";
 
- $_jJ6f0 = "";
+ $_jJLQo = "";
+ $_j68Co = "";
 
- $_IooOQ = "";
+ $_JQQiJ = "";
 
- $_IoCtL = "";
+ $_jJL88 = "";
 
- $_QoOft = "";
- $_Qoo8o = "";
+ $_jJLLf = "";
+
+ $_IjC0Q = "";
+ $_IjCfJ = "";
+
+ // global Campaigns tables
+ $_jC80J = "";
+ $_jC8Li = "";
+ $_jCtCI = "";
+ $_jCOO1 = "";
+ $_jCOlI = "";
+ $_jCo0Q = "";
+ $_jCooQ = "";
+ $_jCC16 = "";
+ $_jCC1i = "";
+ $_jCi01 = "";
+ $_jCi8J = "";
+ $_jCiL1 = "";
+ $_jCLC8 = "";
+ $_jClC0 = "";
+ // global Campaigns tables /
 
 # ControlTabs, we must remove it because firefox has problems
- $_jJf6o = array('<SHOWHIDE:ProductLogo>', '<ENABLE:SYSTEMMENU>', '<ISUSER:SUPERADMIN>', '<ISUSER:USER>', '<ISUSER:ADMINISTRATOR>', '<SHOWHIDE:LOGGEDINUSER>', '<ENABLE:MAINMENU>', '<SHOWHIDE:WARNHEADER>', '<SHOWHIDE:PAGETOPIC>', '<SHOWHIDE:HELPTOPIC>', '<SHOWHIDE:ERRORTOPIC>', '<CONTAINER:CONTENT>', '<SHOW:SUPPORTLINKS>', '<SHOW:SHOWCOPYRIGHT>', '<SHOW:PRODUCTVERSION>', '<SHOWHIDE:TOOLTIPS>', '<IS:SWM>', '<IS:SML>', '<SHOWHIDE:EVALUATIONHEADER>');
- $_Q6JJJ = "\r\n";
- $_Q6QQL = "utf-8";
- $_jJfoI = "target_groups";
- $_jJ88O = '<span style="mso-hide:all;display:none !important;font-size:0;max-height:0;line-height:0;visibility:hidden;overflow:hidden;opacity:0;color:transparent;height:0;width:0;">%s</span>';
+ $_JQI6L = array('<SHOWHIDE:ProductLogo>', '<ENABLE:SYSTEMMENU>', '<ISUSER:SUPERADMIN>', '<ISUSER:USER>', '<ISUSER:ADMINISTRATOR>', '<SHOWHIDE:LOGGEDINUSER>', '<ENABLE:MAINMENU>', '<SHOWHIDE:WARNHEADER>', '<SHOWHIDE:PAGETOPIC>', '<SHOWHIDE:HELPTOPIC>', '<SHOWHIDE:ERRORTOPIC>', '<CONTAINER:CONTENT>', '<SHOW:SUPPORTLINKS>', '<SHOW:SHOWCOPYRIGHT>', '<SHOW:PRODUCTVERSION>', '<SHOWHIDE:TOOLTIPS>', '<IS:SWM>', '<IS:SML>', '<SHOWHIDE:EVALUATIONHEADER>');
+ $_QLl1Q = "\r\n";
+ $_QLo06 = "utf-8";
+ $_JQjQ6 = "target_groups";
+ $_JQj6J = '<span style="mso-hide:all;display:none !important;font-size:0;max-height:0;line-height:0;visibility:hidden;overflow:hidden;opacity:0;color:transparent;height:0;width:0;">%s</span>';
+ $_IC18i = '<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><title></title><meta http-equiv="X-UA-Compatible" content="IE=edge"></head><body>&nbsp;</body></html>';
 
- $_jJtJt = "X-SWM-BOUNCE";
- $_jJt8t = -9999999; // MTA = SMSout
+ if(defined("SWM"))
+   $_Il06C = "X-SWM-BOUNCE";
+   else
+   $_Il06C = "X-SML-BOUNCE";
+ $_JQjt6 = -9999999; // MTA = SMSout
 
  # > 9000 check
  define("MonthlySendQuotaExceeded", 9990);
@@ -151,21 +194,24 @@
  define("RecipientIsInECGList", 9992);
 
 # Defaults for Login
- $AppName = "SuperWebMailer";
- $_jJtt0 = $AppName." ".$_QoJ8j;
+ if(defined("SWM"))
+   $AppName = "SuperWebMailer";
+   else
+   $AppName = "SuperMailingList";
+ $_JQjlt = $AppName." ".$_Ij6Lj;
  $UserId = 0;
  $OwnerUserId = 0;
  $OwnerOwnerUserId = 0xA;
- $_Q8J1j = rand();
+ $_I16ll = rand();
  $Username = "";
  $UserType = "none";
  $AccountType = "none";
  $INTERFACE_STYLE = "default";
  $INTERFACE_LANGUAGE = "de";
  $INTERFACE_THEMESID = 1;
- $_jJO1j = false;
- $_jJO6j = 0x90;
- $_jJo1i = 0x99;
+ $_JQJjJ = false;
+ $_JQJll = 0x90;
+ $_JQ6CI = 0x99;
  $SHOW_LOGGEDINUSER = true;
  $SHOW_SUPPORTLINKS = true;
  $SHOW_SHOWCOPYRIGHT = true;
@@ -174,39 +220,55 @@
  if(!defined("PHP_VERSION"))
    define("PHP_VERSION", phpversion());
 
+ define("rtBirthdayResponders", 1);
+ define("rtEventResponders", 2);
+ define("rtFUResponders", 3);
+ define("rtCampaigns", 4);
+ define("rtRSS2EMailResponders", 5);
+ define("rtDistributionLists", 6);
+ define("rtAutoResponders", 999);
+
+ define("No_rtMailingLists", 10000);
+ define("No_rtMailingListForms", 10001);
+
  define("FUResponderTypeTimeBased", 0);
  define("FUResponderTypeActionBased", 1);
-
+ 
+ define("EMailSubjectVariantsSeparator", '|~&|');
+ 
 ########### MySQL Connection
- $_Q61I1 = 0;
+ if(!defined("DefaultMySQLEncoding") && !defined("Install"))
+    define("DefaultMySQLEncoding", 'utf8');
+ $_QLttI = 0;
  if(MySQLServername != "") { # not on installation
-   $_Q61I1 = mysql_connect (MySQLServername, MySQLUsername, MySQLPassword);
+   $_QLttI = mysql_connect (MySQLServername, MySQLUsername, MySQLPassword);
 
-   if ($_Q61I1 == 0) {
+   if ($_QLttI == 0) {
       print ($resourcestrings[$INTERFACE_LANGUAGE]["000001"]."<br/>".mysql_error());
       exit;
    }
 
    // UTF-8 connection
-   @mysql_query("SET NAMES 'utf8'", $_Q61I1);
-   @mysql_query("SET CHARACTER SET 'utf8'", $_Q61I1);
+   @mysql_query("SET NAMES '" . DefaultMySQLEncoding . "'", $_QLttI);
+   @mysql_query("SET CHARACTER SET '" . DefaultMySQLEncoding . "'", $_QLttI);
    // not STRICT mode
-   @mysql_query('SET SQL_MODE=""', $_Q61I1);
+   @mysql_query('SET SQL_MODE=""', $_QLttI);
 
-   if (!mysql_select_db (MySQLDBName, $_Q61I1)) {
-     print ($resourcestrings[$INTERFACE_LANGUAGE]["000002"]." ".MySQLDBName."<br/>".mysql_error($_Q61I1));
-     mysql_close ($_Q61I1);
+   if (!mysql_select_db (MySQLDBName, $_QLttI)) {
+     print ($resourcestrings[$INTERFACE_LANGUAGE]["000002"]." ".MySQLDBName."<br/>".mysql_error($_QLttI));
+     mysql_close ($_QLttI);
      exit;
    }
 
    // UTF-8 connection
-   @mysql_query("SET NAMES 'utf8'", $_Q61I1);
-   @mysql_query("SET CHARACTER SET 'utf8'", $_Q61I1);
+   @mysql_query("SET NAMES '" . DefaultMySQLEncoding . "'", $_QLttI);
+   @mysql_query("SET CHARACTER SET '" . DefaultMySQLEncoding . "'", $_QLttI);
    // not STRICT mode
-   @mysql_query('SET SQL_MODE=""', $_Q61I1);
+   @mysql_query('SET SQL_MODE=""', $_QLttI);
 
-   // set to utf8_general_ci when possible
-   @mysql_query("ALTER DATABASE ".MySQLDBName." CHARACTER SET utf8;", $_Q61I1);
+   // set to DefaultMySQLEncoding when possible
+   @mysql_query("ALTER DATABASE ".MySQLDBName." CHARACTER SET " . DefaultMySQLEncoding . ";", $_QLttI);
+   ClearLastError();
  }
 
 ##################################
@@ -218,10 +280,17 @@
  }
 #################################
 
+################################# change emojis on Startup
+ if( !defined("Install") && !defined("Setup") ){
+    $_JQttC = new emoji_helper_Class();
+    $_JQttC = null;
+ }
+#################################
+
 #################################
 // special placeholders
 
-$_IIQI8 = array ('DateShort' => '[Date_short]',
+$_Iol8t = array ('DateShort' => '[Date_short]',
                               'DateLong' => '[Date_long]',
                               'Time' => '[Time]',
                               'RecipientId' => '[RecipientId]',
@@ -230,75 +299,78 @@ $_IIQI8 = array ('DateShort' => '[Date_short]',
                               'DateOfSubscription' => '[DateOfSubscription]',
                               'DateOfOptInConfirmation' => '[DateOfOptInConfirmation]',
                               'IPOnSubscription' => '[IPOnSubscription]',
+                              'EMail_LocalPart' => '[EMail_LocalPart]',
+                              'EMail_DomainPart' => '[EMail_DomainPart]'
                             );
 
-$_III0L = array(
+$_IolCJ = array(
                                  'UnsubscribeLink' => '[UnsubscribeLink]',
                                  'EditLink' => '[EditLink]'
                                 );
 
 // on subscribe
-$_jJioL = array(
+$_JQtOo = array(
                                  'SubscribeRejectLink' => '[SubscribeRejectLink]',
                                  'SubscribeConfirmationLink' => '[SubscribeConfirmationLink]'
                                 );
 
 // on unsubscribe
-$_jJLJ6 = array(
+$_JQOIC = array(
                                  'UnsubscribeRejectLink' => '[UnsubscribeRejectLink]',
                                  'UnsubscribeConfirmationLink' => '[UnsubscribeConfirmationLink]'
                                   );
 
 // on edit
-$_jJLoj = array(
+$_JQOtf = array(
                                  'EditRejectLink' => '[EditRejectLink]',
                                  'EditConfirmationLink' => '[EditConfirmationLink]'
                                   );
 
 // on unsubscribe survey
-$_jJl6I = array(
+$_JQofl = array(
                                            'ReasonsForUnsubscriptionSurvey' => '[ReasonsForUnsubscriptionSurvey]'
                                      );
 
 // Alt browser link
-$_Ij18l = array (
+$_ICiQ1 = array (
                                     'AltBrowserLink' => '[AltBrowserLink]'
                                    );
 
 // Autoresponder
-$_III86 = array(
+$_IC0fL = array(
                                  'OrgMailSubject' => '[OrgMailSubject]'
                                 );
 
 // Birthday responder
-$_IjQQ8 = array(
+$_ICitL = array(
                                  'MembersAge' => '[MembersAge]',
                                  'Days_to_Birthday' => '[Days_to_Birthday]'
                                 );
 
 // FollowUp responder
-$_j601Q = array(
+$_JQoLt = array(
                                  );
 
 // Campaigns
-$_jQt18 = array(
+$_jlJ1o = array(
                               );
 
 // RSS2EMail responder
-$_j610t = array(
+$_JQol8 = array(
                                  );
 
 // DistribListModifySubject
-$_j616i = array(
+$_JQC0J = array(
                                  'OrgMailSubject' => '[OrgMailSubject]',
                                  'DistribListsName' => '[DistribListsName]',
                                  'DistribListsDescription' => '[DistribListsDescription]',
                                  'MailingListName' => '[MailingListName]',
-                                 'DistribSenderEMailAddress' => '[DistribSenderEMailAddress]'
+                                 'DistribSenderEMailAddress' => '[DistribSenderEMailAddress]',
+                                 'INBOXEMailAddress' => '[INBOXEMailAddress]'
                                 );
 
-// DistribListConfirmInfo, [CONFIRMATIONLINK] must the last one, don't put to $_IifjO
-$_j61l6 = array(
+// DistribListConfirmInfo, [CONFIRMATIONLINK] must the last one, don't put to $_jft6l
+$_JQCjf = array(
                                  'DistribListsName' => '[DISTRIBLISTNAME]',
                                  'DistribListsSubject' => '[SUBJECT]',
                                  'DistribSenderEMailAddress' => '[FROMADDRESS]',
@@ -306,11 +378,11 @@ $_j61l6 = array(
                                 );
 
 // all placeholder names
-$_IifjO = array_merge($_IIQI8, $_III0L, $_jJioL, $_jJLJ6, $_jJl6I, $_Ij18l, $_III86, $_IjQQ8, $_j601Q, $_jQt18, $_j610t, $_j616i);
+$_jft6l = array_merge($_Iol8t, $_IolCJ, $_JQtOo, $_JQOIC, $_JQofl, $_ICiQ1, $_IC0fL, $_ICitL, $_JQoLt, $_jlJ1o, $_JQol8, $_JQC0J);
 //$AllDefaultPlaceholdersNames = array("DefaultPlaceholders", "DefaultUnsubscribePlaceholders", "OnSubscribePlaceholders", "OnUnsubscribePlaceholders", "AltBrowserLinkPlaceholder", "AutoresponderPlaceholders", "BirthdayresponderPlaceholders", "FollowUpresponderPlaceholders", "CampaignsPlaceholders", "RSS2EMailresponderPlaceholders");
 
 // invisible for user!
-$_QOifL = array(
+$_Ij08l = array(
                                'AltBrowserLink_SME' => '[AltBrowserLink_SME]',
                                'AltBrowserLink_SME_URLEncoded' => '[AltBrowserLink_SME_URLEncoded]',
                                'Mail_Subject_ISO88591' => '[Mail_Subject_ISO88591]',
@@ -321,11 +393,44 @@ $_QOifL = array(
 
 #################################
 
+
+################################# AltBrowserLink InfoBar
+
+class TAltBrowserLinkInfoBarLinkType{
+  var $abtSubscribe = 0;
+  var $abtUnsubscribe = 1;
+  var $abtFacebook = 2;
+  var $abtTwitter = 3;
+  var $abtArchieve = 4;
+  var $abtRSS = 5;
+  var $abtTranslate = 6;
+  // Newsletter archive specific
+  var $abtHome = 127;
+  var $abtYears = 128;
+  var $abtEntries = 129;
+  var $abtAttachments = 130;
+  
+  function IsLinkType($_QltJO){
+    return ($_QltJO >= $this->abtSubscribe && $_QltJO <= $this->abtTranslate) ||
+           ($_QltJO >= $this->abtHome && $_QltJO <= $this->abtAttachments)
+           ;
+  }
+}
+
+class TAltBrowserLinkInfoBarLink{ 
+   var $Checked = false;
+   var $LinkType = 0; // => TAltBrowserLinkInfoBarLinkType
+   var $internalCaption;
+   var $URL = "";
+   var $Title = "";
+   var $Text = "";
+}
+
 # allowed import file upload extensions
-$_I0l08 = array(".txt", ".csv");
+$_ItLJj = array(".txt", ".csv");
 
 #################################
-$_Qo8OO = array(
+$_Ijt8j = array(
     'iso-8859-2' => '',
     'iso-8859-3' => '',
     'iso-8859-4' => '',
@@ -353,6 +458,11 @@ $_Qo8OO = array(
 
 #################################
 
+# for PHP < 5.0 only
+if(!$_JIQCl){
+  _JQRLR($INTERFACE_LANGUAGE);
+}
+
 # Set timezone PHP 5.3+ required
 @setlocale (LC_ALL, 'en_US');
 if(function_exists("date_default_timezone_set"))
@@ -368,40 +478,48 @@ if(function_exists("date_default_timezone_set"))
   if(ini_get('include_path') == "") {
     ini_set('include_path', './');
   } else {
-    $_Q8otJ = explode(PATH_SEPARATOR, ini_get('include_path'));
-    $_Qo1oC = false;
-    for($_Q6llo=0; $_Q6llo<count($_Q8otJ); $_Q6llo++)
-      if(strpos($_Q8otJ[$_Q6llo], "./") !== false || strpos($_Q8otJ[$_Q6llo], ".\\") !== false ) {
-        $_Qo1oC = true;
+    $_I1OoI = explode(PATH_SEPARATOR, ini_get('include_path'));
+    $_QLCt1 = false;
+    for($_Qli6J=0; $_Qli6J<count($_I1OoI); $_Qli6J++)
+      if(strpos($_I1OoI[$_Qli6J], "./") !== false || strpos($_I1OoI[$_Qli6J], ".\\") !== false ) {
+        $_QLCt1 = true;
         break;
       }
-    if(!$_Qo1oC)
+    if(!$_QLCt1)
       ini_set('include_path', './'.PATH_SEPARATOR.ini_get('include_path'));
   }
 
 #################################
 
- function _O68QF() {
+ function _LOC8P() {
    global $INTERFACE_STYLE, $INTERFACE_LANGUAGE;
-   $_QJCJi = DefaultPath.TemplatesPath."/";
+
+   if(!defined("TemplatesPath"))
+     define('TemplatesPath', 'templates');
+   $_j8otC = TemplatesPath;
+   if($_j8otC == ""){
+     $_j8otC = 'templates';
+   }
+
+   $_QLJfI = DefaultPath.$_j8otC."/";
 
    if(isset($INTERFACE_STYLE) && $INTERFACE_STYLE != "")
-     $_QJCJi .= $INTERFACE_STYLE."/";
+     $_QLJfI .= $INTERFACE_STYLE."/";
    if(isset($INTERFACE_LANGUAGE) && $INTERFACE_LANGUAGE != "")
-     $_QJCJi .= $INTERFACE_LANGUAGE."/";
-   return $_QJCJi;
+     $_QLJfI .= $INTERFACE_LANGUAGE."/";
+   return $_QLJfI;
  }
 
- function _O68A8() {
+ function _LOCFC() {
    return InstallPath."sql/";
  }
 
  function LoadUserSettings() { // called from sessioncheck.inc.php, login.php and usersedit.php
    global $_SESSION;
-   global $UserId, $OwnerUserId, $OwnerOwnerUserId, $_Q8J1j, $Username, $UserType, $AccountType, $INTERFACE_STYLE, $INTERFACE_THEMESID, $INTERFACE_LANGUAGE, $_jJO1j;
+   global $UserId, $OwnerUserId, $OwnerOwnerUserId, $_I16ll, $Username, $UserType, $AccountType, $INTERFACE_STYLE, $INTERFACE_THEMESID, $INTERFACE_LANGUAGE, $_JQJjJ;
    global $SHOW_LOGGEDINUSER, $SHOW_SUPPORTLINKS, $SHOW_SHOWCOPYRIGHT, $SHOW_PRODUCTVERSION, $SHOW_TOOLTIPS;
-   global $_Qo8OO, $resourcestrings, $_Q61I1, $_Q8f1L;
-   global $_jjC06, $_jjCtI, $_I0lQJ, $_jji0C, $_QOCJo, $_QCo6j, $_jji0i;
+   global $_Ijt8j, $resourcestrings, $_QLttI, $_I18lo;
+   global $_J18oI, $_jfOJj, $_ItL8f, $_J1t6J, $_IIlfi, $_IJi8f, $_J1tfC, $_QlLlJ;
 
    if(isset($_SESSION["UserId"]))
      $UserId = intval($_SESSION["UserId"]);
@@ -409,7 +527,7 @@ if(function_exists("date_default_timezone_set"))
      $UserId = -1;
    $OwnerUserId = intval($_SESSION["OwnerUserId"]);
    $OwnerOwnerUserId = intval($_SESSION["AOwnerOwnerUserId"]);
-   $_Q8J1j = sprintf("%06x", intval($_SESSION["_j6QI6"]));
+   $_I16ll = sprintf("%06x", intval($_SESSION["AOwnerOwnerUserUniqueId"]));
    $Username = $_SESSION["Username"];
    $UserType = $_SESSION["UserType"];
    $AccountType = $_SESSION["AccountType"];
@@ -427,63 +545,67 @@ if(function_exists("date_default_timezone_set"))
    if($INTERFACE_LANGUAGE == "")
      $INTERFACE_LANGUAGE = "de";
 
-   _OP10J($INTERFACE_LANGUAGE);
+   _LRPQ6($INTERFACE_LANGUAGE);
 
-   _LQLRQ($INTERFACE_LANGUAGE);
+   _JQRLR($INTERFACE_LANGUAGE);
 
-   reset($_Qo8OO);
-   foreach($_Qo8OO as $key => $_Q6ClO) {
-      $_Qo8OO[$key] = $resourcestrings[$INTERFACE_LANGUAGE][$key];
+   reset($_Ijt8j);
+   foreach($_Ijt8j as $key => $_QltJO) {
+      $_Ijt8j[$key] = $resourcestrings[$INTERFACE_LANGUAGE][$key];
    }
 
    // paths
    if($OwnerUserId != 0)
-     _OP0AF($OwnerUserId);
+     _LRRFJ($OwnerUserId);
      else
-     _OP0AF($UserId);
+     _LRRFJ($UserId);
 
-   _OBL6Q(_OBLCO($_jjC06), 0777);
-   @chmod (_OBLCO($_jjC06), 0777);
+   _LPABA(_LPBCC($_J18oI), 0777);
+   @chmod (_LPBCC($_J18oI), 0777);
 
-   _OBL6Q(_OBLCO($_I0lQJ), 0777);
-   @chmod (_OBLCO($_I0lQJ), 0777);
+   _LPABA(_LPBCC($_ItL8f), 0777);
+   @chmod (_LPBCC($_ItL8f), 0777);
 
-   _OBL6Q(_OBLCO($_jji0C), 0777);
-   @chmod (_OBLCO($_jji0C), 0777);
+   _LPABA(_LPBCC($_J1t6J), 0777);
+   @chmod (_LPBCC($_J1t6J), 0777);
 
-   _OBL6Q(_OBLCO($_QOCJo), 0777);
-   @chmod (_OBLCO($_QOCJo), 0777);
+   _LPABA(_LPBCC($_IIlfi), 0777);
+   @chmod (_LPBCC($_IIlfi), 0777);
 
-   _OBL6Q(_OBLCO($_QCo6j), 0777);
-   @chmod (_OBLCO($_QCo6j), 0777);
+   _LPABA(_LPBCC($_IJi8f), 0777);
+   @chmod (_LPBCC($_IJi8f), 0777);
 
-   _OBL6Q(_OBLCO($_jji0i), 0777);
-   @chmod (_OBLCO($_jji0i), 0777);
+   _LPABA(_LPBCC($_J1tfC), 0777);
+   @chmod (_LPBCC($_J1tfC), 0777);
+
+   _LPABA(_LPBCC($_QlLlJ), 0777);
+   @chmod (_LPBCC($_QlLlJ), 0777);
 
    // flash not used
-   _OBL6Q(_OBLCO($_jjC06."flash/"), 0777);
-   @chmod (_OBLCO($_jjC06."flash/"), 0777);
+   _LPABA(_LPBCC($_J18oI."flash/"), 0777);
+   @chmod (_LPBCC($_J18oI."flash/"), 0777);
 
    // Load User tables
-   $_ICoOt = $OwnerUserId;
-   if($_ICoOt == 0)
-     $_ICoOt = $UserId;
-   $_QJlJ0 = "SELECT * FROM `$_Q8f1L` WHERE `id`=$_ICoOt";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(mysql_error($_Q61I1) != ""){
-     print "Load User Settings MySQL-ERROR ".mysql_error($_Q61I1)."<br /><br />SQL: $_QJlJ0";
+   $_j6lIj = $OwnerUserId;
+   if($_j6lIj == 0)
+     $_j6lIj = $UserId;
+   $_QLfol = "SELECT * FROM `$_I18lo` WHERE `id`=$_j6lIj";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(mysql_error($_QLttI) != ""){
+     print "Load User Settings MySQL-ERROR ".mysql_error($_QLttI)."<br /><br />SQL: $_QLfol";
      exit;
    }
-   if(!($_ICQQo = mysql_fetch_assoc($_Q60l1))){
-     print "Load User Settings MySQL-ERROR "."No result for SQL query"."<br /><br />SQL: $_QJlJ0";
+   if(!($_j661I = mysql_fetch_assoc($_QL8i1))){
+     print "Load User Settings MySQL-ERROR "."No result for SQL query"."<br /><br />SQL: $_QLfol";
      exit;
 
    }
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
-   $_jJO1j = $_ICQQo["NewsletterTemplatesImported"];
+   if(defined("SWM"))
+     $_JQJjJ = $_j661I["NewsletterTemplatesImported"];
 
-   _OP0D0($_ICQQo);
+   _LR8AP($_j661I);
    //
  }
 

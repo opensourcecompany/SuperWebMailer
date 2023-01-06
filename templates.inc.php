@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,557 +26,580 @@
  include_once("securitycheck.inc.php");
  include_once("savedoptions.inc.php");
 
- function GetMainTemplate($_fQOlQ, $UserType, $_fQoJi, $_fQC1O, $_fQCO8, $_fQif8, $_fQLfj, $_fQl1j, $_fQliQ = "", $_6jOOo = "utf-8") {
-   global $_QoJ8j, $AppName, $_Q6QQL, $INTERFACE_LANGUAGE, $resourcestrings;
-   global $_fI061, $_fI1J6, $_fIQ1t;
-   global $SHOW_LOGGEDINUSER, $SHOW_SUPPORTLINKS, $SHOW_SHOWCOPYRIGHT, $SHOW_PRODUCTVERSION, $SHOW_TOOLTIPS, $_SESSION;
-   global $_jJf6o, $OwnerOwnerUserId, $UserId, $OwnerUserId, $_jjC06, $_Io680;
-   global $_Q61I1;
+ function _JJAQE($_8CCLt, $_8Cit6 = true){
+   $_I1OoI = @file(_LOC8P().$_8CCLt);
+   if($_I1OoI) {
+      $_QLoli = join("", $_I1OoI);
+      unset($_I1OoI);
+     }
+     else
+     $_QLoli = join("", file(InstallPath._LOC8P().$_8CCLt));
 
-   if($_fQoJi == "" || $UserType == "none") {
-     $_fQOlQ = false;
-     $_fQC1O = false;
+   if(strpos($_QLoli, 'js_localization.php') === false){
+     $_QLoli = str_replace('<head>', '<head><script type="text/javascript" src="js_localization.php"></script>', $_QLoli);
+   }
+   if(strpos($_QLoli, 'jquery-latest.min.js') === false){
+     $_QLoli = str_replace('</head>', '<script type="text/javascript" src="js/jquery-latest.min.js"></script>'.'</head>', $_QLoli);
+   }
+   if(strpos($_QLoli, 'common.js') === false){
+     $_QLoli = str_replace('</head>', '<script language="javascript" type="text/javascript" src="js/common.js"></script>'.'</head>', $_QLoli);
+   }
+   return $_8Cit6 ? _LJA6C($_QLoli) : $_QLoli;
+ }
+
+ function GetMainTemplate($_8CiO0, $UserType, $_8Cioo, $_8CiCQ, $_8Cil8, $_8CLtL, $_8Cl1I, $_8ClIt, $_8Cllt = "", $_foQ6I = "utf-8") {
+   global $_Ij6Lj, $AppName, $_QLo06, $INTERFACE_LANGUAGE, $resourcestrings;
+   global $_foo18, $_8i0Ol, $_8i1tf;
+   global $SHOW_LOGGEDINUSER, $SHOW_SUPPORTLINKS, $SHOW_SHOWCOPYRIGHT, $SHOW_PRODUCTVERSION, $SHOW_TOOLTIPS, $_SESSION;
+   global $_JQI6L, $OwnerOwnerUserId, $UserId, $OwnerUserId, $_J18oI, $_jJtt8;
+   global $_QLttI;
+
+   if($_8Cioo == "" || $UserType == "none") {
+     $_8CiO0 = false;
+     $_8CiCQ = false;
    }
 
-   $_Q8otJ = @file(_O68QF()."main.htm");
-   if($_Q8otJ) {
-      $_Q6ICj = join("", $_Q8otJ);
-      unset($_Q8otJ);
-     }
-     else
-     $_Q6ICj = join("", file(InstallPath._O68QF()."main.htm"));
+   $_QLoli = _JJAQE("main.htm", false);
 
-   $_Q8otJ = @file(_O68QF()."$_fQl1j");
-   if($_Q8otJ)
-     $_fIQIO = join("", $_Q8otJ);
-     else
-     $_fIQIO = join("", file(InstallPath._O68QF()."$_fQl1j"));
+   $_8i1OJ = _JJAQE("$_8ClIt", false);
 
-   if(strpos($_fIQIO, "<html") === false)
-     $_fIQfI = true;
+   if(strpos($_8i1OJ, "<html") === false)
+     $_8iQ1Q = true;
      else {
-       $_fIQfI = false;
-       $_Q6ICj = $_fIQIO;
-       $_fIQIO = "";
+       $_8iQ1Q = false;
+       $_QLoli = $_8i1OJ;
+       $_8i1OJ = "";
      }
 
-   if($_fQliQ == "")
-     $_fQliQ = "$_fQCO8";
+   if($_8Cllt == "")
+     $_8Cllt = "$_8Cil8";
 
-   if(defined("ShowUserNameInTitlebar") && $_fQoJi != "")
-     $_Q6ICj = str_replace("<title>", "<title>".$_fQoJi." - ". $_fQliQ, $_Q6ICj);
+   if(defined("ShowUserNameInTitlebar") && $_8Cioo != "")
+     $_QLoli = str_replace("<title>", "<title>".$_8Cioo." - ". $_8Cllt, $_QLoli);
    else
-     $_Q6ICj = str_replace("<title>", "<title>".$AppName." - ". $_fQliQ, $_Q6ICj);
+     $_QLoli = str_replace("<title>", "<title>".$AppName." - ". $_8Cllt, $_QLoli);
 
-   if($_fQoJi == "" || $UserType == "none") {
-     $_Q6ICj = _OPR6L($_Q6ICj, "<SHOW:PRODUCTVERSION>", "</SHOW:PRODUCTVERSION>", "&nbsp;" );
+   if($_8Cioo == "" || $UserType == "none") {
+     $_QLoli = _L81BJ($_QLoli, "<SHOW:PRODUCTVERSION>", "</SHOW:PRODUCTVERSION>", "&nbsp;" );
      $SHOW_SUPPORTLINKS = false;
      $SHOW_SHOWCOPYRIGHT = false;
    }
 
-   if($_fQLfj != "DISABLED") {
-       $_Q6ICj = str_replace('name="HelpTopic"', 'name="HelpTopic" value="'.$_fQLfj.'"', $_Q6ICj);
+   if($_8Cl1I != "DISABLED") {
+       $_QLoli = str_replace('name="HelpTopic"', 'name="HelpTopic" value="'.$_8Cl1I.'"', $_QLoli);
      }
      else {
-       $_Q6ICj = _OPR6L($_Q6ICj, "<SHOWHIDE:HELPTOPIC>", "</SHOWHIDE:HELPTOPIC>", "");
+       $_QLoli = _L81BJ($_QLoli, "<SHOWHIDE:HELPTOPIC>", "</SHOWHIDE:HELPTOPIC>", "");
      }
 
-   _LJ81E($_Q6ICj);
+   _JJCCF($_QLoli);
 
    if(!$SHOW_SUPPORTLINKS) {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<SHOW:SUPPORTLINKS>", "</SHOW:SUPPORTLINKS>");
+     $_QLoli = _L80DF($_QLoli, "<SHOW:SUPPORTLINKS>", "</SHOW:SUPPORTLINKS>");
    }
 
    if(!$SHOW_SHOWCOPYRIGHT) {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<SHOW:SHOWCOPYRIGHT>", "</SHOW:SHOWCOPYRIGHT>");
+     $_QLoli = _L80DF($_QLoli, "<SHOW:SHOWCOPYRIGHT>", "</SHOW:SHOWCOPYRIGHT>");
    }
 
    if(!$SHOW_PRODUCTVERSION) {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<SHOW:PRODUCTVERSION>", "</SHOW:PRODUCTVERSION>");
+     $_QLoli = _L80DF($_QLoli, "<SHOW:PRODUCTVERSION>", "</SHOW:PRODUCTVERSION>");
    }
 
-   if(!$_fQOlQ) {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<ENABLE:SYSTEMMENU>", "</ENABLE:SYSTEMMENU>");
+   if(!$_8CiO0) {
+     $_QLoli = _L80DF($_QLoli, "<ENABLE:SYSTEMMENU>", "</ENABLE:SYSTEMMENU>");
    }
 
    # login screen disable all
-   if($_fQl1j == "login_snipped.htm") {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<SHOW:SUPPORTLINKS>", "</SHOW:SUPPORTLINKS>");
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<SHOW:SHOWCOPYRIGHT>", "</SHOW:SHOWCOPYRIGHT>");
+   if($_8ClIt == "login_snipped.htm") {
+     $_QLoli = _L80DF($_QLoli, "<SHOW:SUPPORTLINKS>", "</SHOW:SUPPORTLINKS>");
+     $_QLoli = _L80DF($_QLoli, "<SHOW:SHOWCOPYRIGHT>", "</SHOW:SHOWCOPYRIGHT>");
    }
 
    // snipped insert
-   if($_fIQfI)
-      $_Q6ICj = _OPR6L($_Q6ICj, "<CONTAINER:CONTENT>", "</CONTAINER:CONTENT>", $_fIQIO);
+   if($_8iQ1Q)
+      $_QLoli = _L81BJ($_QLoli, "<CONTAINER:CONTENT>", "</CONTAINER:CONTENT>", $_8i1OJ);
 
    if ( $UserType != "SuperAdmin"  ) {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<ISUSER:SUPERADMIN>", "</ISUSER:SUPERADMIN>");
+     $_QLoli = _L80DF($_QLoli, "<ISUSER:SUPERADMIN>", "</ISUSER:SUPERADMIN>");
    }
 
    if ( ($UserType != "SuperAdmin") && ($UserType != "Admin") ) {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<ISUSER:ADMINISTRATOR>", "</ISUSER:ADMINISTRATOR>");
+     $_QLoli = _L80DF($_QLoli, "<ISUSER:ADMINISTRATOR>", "</ISUSER:ADMINISTRATOR>");
    }
 
    if ( ($UserType != "SuperAdmin") && ($UserType != "Admin") && ($UserType != "User") ){
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<ISUSER:USER>", "</ISUSER:USER>");
+     $_QLoli = _L80DF($_QLoli, "<ISUSER:USER>", "</ISUSER:USER>");
    }
 
-   if ( (!$SHOW_LOGGEDINUSER) || ($_fQoJi == "") ) {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<SHOWHIDE:LOGGEDINUSER>", "</SHOWHIDE:LOGGEDINUSER>");
+   if ( (!$SHOW_LOGGEDINUSER) || ($_8Cioo == "") ) {
+     $_QLoli = _L80DF($_QLoli, "<SHOWHIDE:LOGGEDINUSER>", "</SHOWHIDE:LOGGEDINUSER>");
    }
 
    // SuperAdmin doesn't need mainmenu
    if ( ($UserType == "SuperAdmin") )
-     $_fQC1O = false;
+     $_8CiCQ = false;
 
-   $_Q6ICj = _OPR6L($_Q6ICj, "<LABEL:LOGGEDINUSER>", "</LABEL:LOGGEDINUSER>", $_fQoJi );
+   $_QLoli = _L81BJ($_QLoli, "<LABEL:LOGGEDINUSER>", "</LABEL:LOGGEDINUSER>", $_8Cioo );
 
-   if(!$_fQC1O) {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<ENABLE:MAINMENU>", "</ENABLE:MAINMENU>");
+   if(!$_8CiCQ) {
+     $_QLoli = _L80DF($_QLoli, "<ENABLE:MAINMENU>", "</ENABLE:MAINMENU>");
    }
 
-   if($_fQCO8 == "") {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<SHOWHIDE:PAGETOPIC>", "</SHOWHIDE:PAGETOPIC>");
+   if($_8Cil8 == "") {
+     $_QLoli = _L80DF($_QLoli, "<SHOWHIDE:PAGETOPIC>", "</SHOWHIDE:PAGETOPIC>");
    } else {
-     $_Q6ICj = _OPR6L($_Q6ICj, "<LABEL:PAGETOPIC>", "</LABEL:PAGETOPIC>", $_fQCO8 );
+     $_QLoli = _L81BJ($_QLoli, "<LABEL:PAGETOPIC>", "</LABEL:PAGETOPIC>", $_8Cil8 );
    }
 
 
-   if($_fQif8 == "") {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<SHOWHIDE:ERRORTOPIC>", "</SHOWHIDE:ERRORTOPIC>");
+   if($_8CLtL == "") {
+     $_QLoli = _L80DF($_QLoli, "<SHOWHIDE:ERRORTOPIC>", "</SHOWHIDE:ERRORTOPIC>");
    } else {
-     $_Q6ICj = _OPR6L($_Q6ICj, "<LABEL:ERRORMESSAGETEXT>", "</LABEL:ERRORMESSAGETEXT>", $_fQif8 );
+     $_QLoli = _L81BJ($_QLoli, "<LABEL:ERRORMESSAGETEXT>", "</LABEL:ERRORMESSAGETEXT>", $_8CLtL );
    }
 
    if(!$SHOW_TOOLTIPS) {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<SHOWHIDE:TOOLTIPS>", "</SHOWHIDE:TOOLTIPS>");
+     $_QLoli = _L80DF($_QLoli, "<SHOWHIDE:TOOLTIPS>", "</SHOWHIDE:TOOLTIPS>");
    }
 
-   if( isset($_SESSION["ProductLogoURL"]) && $_SESSION["ProductLogoURL"] != "") {
-     $_Q6ICj = _OPR6L($_Q6ICj, "<SHOWHIDE:ProductLogo>", "</SHOWHIDE:ProductLogo>", '<img src="'.$_SESSION["ProductLogoURL"].'" class="normalimage" alt="" />');
-   } else if(!defined("Setup") && ($_fQl1j == "login_snipped.htm" || $_fQl1j == "pw_reminder_snipped.htm" || $_fQl1j == "pw_reminder_sendpw_snipped.htm" || $_fQl1j == "pw_reminder_notsendpw_snipped.htm")
-    && ( ($_fIQtL = _LQDLR("ProductLogoURL")) != "") && !defined("DEMO") ) {
-     $_Q6ICj = _OPR6L($_Q6ICj, "<SHOWHIDE:ProductLogo>", "</SHOWHIDE:ProductLogo>", '<img src="'.$_fIQtL.'" class="normalimage" alt="" />');
+   if( isset($_SESSION["ProductLogoURL"]) && trim($_SESSION["ProductLogoURL"]) != "") {
+     $_QLoli = _L81BJ($_QLoli, "<SHOWHIDE:ProductLogo>", "</SHOWHIDE:ProductLogo>", '<img src="'.$_SESSION["ProductLogoURL"].'" class="normalimage" alt="" />');
+   } else if(!defined("Setup") && ($_8ClIt == "login_snipped.htm" || $_8ClIt == "pw_reminder_snipped.htm" || $_8ClIt == "pw_reminder_sendpw_snipped.htm" || $_8ClIt == "pw_reminder_notsendpw_snipped.htm" || $_8ClIt == "login2fa1_snipped.htm")
+    && ( ($_8iI00 = _JOLQE("ProductLogoURL")) != "") && !defined("DEMO") ) {
+     $_QLoli = _L81BJ($_QLoli, "<SHOWHIDE:ProductLogo>", "</SHOWHIDE:ProductLogo>", '<img src="'.$_8iI00.'" class="normalimage" alt="" />');
    }
 
    if(!defined("SWM")) {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<IS:SWM>", "</IS:SWM>");
+     $_QLoli = _L80DF($_QLoli, "<IS:SWM>", "</IS:SWM>");
    }
    if(!defined("SML")) {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<IS:SML>", "</IS:SML>");
+     $_QLoli = _L80DF($_QLoli, "<IS:SML>", "</IS:SML>");
    }
 
-   if(!$_fQC1O || defined("Setup")) {
-     $_Q6ICj = _OP6PQ($_Q6ICj, "<SHOWHIDE:EVALUATIONHEADER>", "</SHOWHIDE:EVALUATIONHEADER>");
+   if(!$_8CiCQ || defined("Setup")) {
+     $_QLoli = _L80DF($_QLoli, "<SHOWHIDE:EVALUATIONHEADER>", "</SHOWHIDE:EVALUATIONHEADER>");
    } else {
      if(function_exists("ioncube_file_is_encoded") && ioncube_file_is_encoded()){
-        $_Q6ICj = _OPR6L($_Q6ICj, "<LABEL:EVALUATIONHEADER>", "</LABEL:EVALUATIONHEADER>", $resourcestrings[$INTERFACE_LANGUAGE]["999998"] );
+        $_QLoli = _L81BJ($_QLoli, "<LABEL:EVALUATIONHEADER>", "</LABEL:EVALUATIONHEADER>", $resourcestrings[$INTERFACE_LANGUAGE]["999998"] );
      } else
         if(defined("DEMO") || defined("SimulateMailSending"))
-          $_Q6ICj = _OPR6L($_Q6ICj, "<LABEL:EVALUATIONHEADER>", "</LABEL:EVALUATIONHEADER>", $resourcestrings[$INTERFACE_LANGUAGE]["999997"] );
+          $_QLoli = _L81BJ($_QLoli, "<LABEL:EVALUATIONHEADER>", "</LABEL:EVALUATIONHEADER>", $resourcestrings[$INTERFACE_LANGUAGE]["999997"] );
           else
-          $_Q6ICj = _OP6PQ($_Q6ICj, "<SHOWHIDE:EVALUATIONHEADER>", "</SHOWHIDE:EVALUATIONHEADER>");
+          $_QLoli = _L80DF($_QLoli, "<SHOWHIDE:EVALUATIONHEADER>", "</SHOWHIDE:EVALUATIONHEADER>");
    }
 
    // Security check
-   if(!$_fQC1O && !defined("Setup")) {
+   if(!$_8CiCQ && !defined("Setup")) {
 
-     $_fII16 = false;
-     if ($_fQoJi == "") { // Login Screen
-       if( _LO0BO() ) {
-          $_Q6ICj = _OPR6L($_Q6ICj, "<LABEL:WARNHEADER>", "</LABEL:WARNHEADER>", $resourcestrings[$INTERFACE_LANGUAGE]["ConfigFilesWriteable"]);
-          $_fII16 = true;
+     $_8iIj6 = false;
+     if ($_8Cioo == "") { // Login Screen
+       if( _JO6D0() ) {
+          $_QLoli = _L81BJ($_QLoli, "<LABEL:WARNHEADER>", "</LABEL:WARNHEADER>", $resourcestrings[$INTERFACE_LANGUAGE]["ConfigFilesWriteable"]);
+          $_8iIj6 = true;
        }
      }
 
      // only if dashboard is shown
-     if(!$_fII16 && $_fQl1j == 'dashboard_snipped.htm' ) {
-       if (!_LO0BL() ) {
+     if(!$_8iIj6 && $_8ClIt == 'dashboard_snipped.htm' ) {
+       if (!_JORB8() ) {
 
           if ( ($UserType == "SuperAdmin") )
-             $_fIIO6 = InstallPath."userfiles/";
+             $_8ijjI = InstallPath."userfiles/";
              else
-             $_fIIO6 = $_jjC06;
+             $_8ijjI = $_J18oI;
 
-          $_Q6ICj = _OPR6L($_Q6ICj, "<LABEL:WARNHEADER>", "</LABEL:WARNHEADER>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["UserPathsNotWriteable"], $_fIIO6) );
-          $_fII16 = true;
+          $_QLoli = _L81BJ($_QLoli, "<LABEL:WARNHEADER>", "</LABEL:WARNHEADER>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["UserPathsNotWriteable"], $_8ijjI) );
+          $_8iIj6 = true;
        }
      }
 
-     if(!$_fII16)
-        $_Q6ICj = _OP6PQ($_Q6ICj, "<SHOWHIDE:WARNHEADER>", "</SHOWHIDE:WARNHEADER>");
+     if(!$_8iIj6)
+        $_QLoli = _L80DF($_QLoli, "<SHOWHIDE:WARNHEADER>", "</SHOWHIDE:WARNHEADER>");
    } else {
 
-      $_fII16 = false;
-#     if( _LO0BO() ) {
-#        $_Q6ICj = _OPR6L($_Q6ICj, "<LABEL:WARNHEADER>", "</LABEL:WARNHEADER>", $resourcestrings[$INTERFACE_LANGUAGE]["ConfigFilesWriteable"]);
-#        $_fII16 = true;
+      $_8iIj6 = false;
+#     if( _JO6D0() ) {
+#        $_QLoli = _L81BJ($_QLoli, "<LABEL:WARNHEADER>", "</LABEL:WARNHEADER>", $resourcestrings[$INTERFACE_LANGUAGE]["ConfigFilesWriteable"]);
+#        $_8iIj6 = true;
 #     }
 
      // only if dashboard is shown
-     if(!$_fII16 && $_fQl1j == 'dashboard_snipped.htm' ) {
-       if (!_LO0BL() ) {
-          $_Q6ICj = _OPR6L($_Q6ICj, "<LABEL:WARNHEADER>", "</LABEL:WARNHEADER>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["UserPathsNotWriteable"], $_jjC06) );
-          $_fII16 = true;
+     if(!$_8iIj6 && $_8ClIt == 'dashboard_snipped.htm' ) {
+       if (!_JORB8() ) {
+          $_QLoli = _L81BJ($_QLoli, "<LABEL:WARNHEADER>", "</LABEL:WARNHEADER>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["UserPathsNotWriteable"], $_J18oI) );
+          $_8iIj6 = true;
        }
      }
 
-     if(!$_fII16)
-        $_Q6ICj = _OP6PQ($_Q6ICj, "<SHOWHIDE:WARNHEADER>", "</SHOWHIDE:WARNHEADER>");
+     if(!$_8iIj6)
+        $_QLoli = _L80DF($_QLoli, "<SHOWHIDE:WARNHEADER>", "</SHOWHIDE:WARNHEADER>");
    }
    // Security check
 
-   if( ($_fQC1O || defined("CampaignLiveSending")) && !defined("Setup") && $SHOW_LOGGEDINUSER && $_fIQfI && $_fQoJi != "" ) {
-     $_QJlJ0 = "SELECT COUNT(id) FROM `$_Io680` WHERE `To_users_id`=$UserId AND `IsReaded`=0";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     $_fIIoC = 0;
-     if($_Q60l1) {
-       $_Q6Q1C = mysql_fetch_row($_Q60l1);
-       mysql_free_result($_Q60l1);
-       $_fIIoC = $_Q6Q1C[0];
+   if( ($_8CiCQ || defined("CampaignLiveSending") || defined("OnlineUpdate")) && !defined("Setup") && $SHOW_LOGGEDINUSER && $_8iQ1Q && $_8Cioo != "" ) {
+     $_QLfol = "SELECT COUNT(id) FROM `$_jJtt8` WHERE `To_users_id`=$UserId AND `IsReaded`=0";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     $_8iJIf = 0;
+     if($_QL8i1) {
+       $_QLO0f = mysql_fetch_row($_QL8i1);
+       mysql_free_result($_QL8i1);
+       $_8iJIf = $_QLO0f[0];
      }
-     $_Q6ICj = _OPR6L($_Q6ICj, "<LOCALMESSAGES_COUNT>", "</LOCALMESSAGES_COUNT>", $_fIIoC);
+     $_QLoli = _L81BJ($_QLoli, "<LOCALMESSAGES_COUNT>", "</LOCALMESSAGES_COUNT>", $_8iJIf);
    }
 
    // remove ControlTags
 
-   for($_Q6llo=0; $_Q6llo < count($_jJf6o); $_Q6llo++) {
-     $_Q6ICj = _OPPRR($_Q6ICj, $_jJf6o[$_Q6llo]);
+   for($_Qli6J=0; $_Qli6J < count($_JQI6L); $_Qli6J++) {
+     $_QLoli = _L8OF8($_QLoli, $_JQI6L[$_Qli6J]);
    }
 
    // privilegs
-   if( /*($OwnerUserId != 0 || $UserType == "SuperAdmin") &&*/ !defined("Setup") && $_fIQfI && ( strpos($_Q6ICj, '<div class="PageContainer">') !== false ) ) { // only for snippeds!
-     $_IIf8o = substr($_Q6ICj, strpos($_Q6ICj, '<div class="PageContainer">'));
-     $_Q6ICj = substr($_Q6ICj, 0, strpos($_Q6ICj, '<div class="PageContainer">') - 1);
+   if( /*($OwnerUserId != 0 || $UserType == "SuperAdmin") &&*/ !defined("Setup") && $_8iQ1Q && ( strpos($_QLoli, '<div class="PageContainer">') !== false ) ) { // only for snippeds!
+     $_ICIIQ = substr($_QLoli, strpos($_QLoli, '<div class="PageContainer">'));
+     $_QLoli = substr($_QLoli, 0, strpos($_QLoli, '<div class="PageContainer">') - 1);
 
+     if($UserType != "SuperAdmin" && $UserType != "Admin") {
+       $_QLoli = _JJB1L($_QLoli, "settings_branding.php");
+     }
+     
      if($UserType != "SuperAdmin") {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "settings_branding.php");
+       $_QLoli = _JJB1L($_QLoli, "settings_authsettings.php");
      }
 
      if($UserType != "SuperAdmin" && $UserType != "Admin") {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browseoutqueue.php");
+       $_QLoli = _JJB1L($_QLoli, "browseoutqueue.php");
      }
 
-     $_QJojf = _OBOOC($UserId);
-     if(!$_QJojf["PrivilegePageBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browsepages.php");
-     }
-     if(!$_QJojf["PrivilegeMessageBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browsemessages.php");
-     }
-     if(!$_QJojf["PrivilegeMTABrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browsemtas.php");
-     }
-     if(!$_QJojf["PrivilegeInboxBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browseinboxes.php");
-     }
-     if(!$_QJojf["PrivilegeAutoImportBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browseimports.php");
-     }
-     if(!$_QJojf["PrivilegeOptionsEdit"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "settings_preferences.php");
-     }
-     if(!$_QJojf["PrivilegeFormBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browseforms.php");
-     }
-
-     if(!$_QJojf["PrivilegeDbRepair"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "settings_db.php");
-     }
-     if(!$_QJojf["PrivilegeSystemTest"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "settings_test.php");
-     }
-     if(!$_QJojf["PrivilegeViewProcessLog"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "stat_processlog.php");
-     }
-     if(!$_QJojf["PrivilegeCron"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "settings_cron.php");
-     }
-
-     if(!$_QJojf["PrivilegeLocalMessageBrowse"]) {
-       $_Q6ICj = _OP6PQ($_Q6ICj, '<SHOWHIDE:LOCALMESSAGES>', '</SHOWHIDE:LOCALMESSAGES>');
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browselocalmessages.php");
-       $_Q6ICj = _LJJDQ($_Q6ICj, "javascript:LocalMessagesBrowse()");
-     } else{
-       $_Q6ICj = _OPPRR($_Q6ICj, '<SHOWHIDE:LOCALMESSAGES>');
-     }
-
-     if(!$_QJojf["PrivilegeUserBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browseusers.php");
-       $_Q6ICj = _LJ6RJ($_Q6ICj, "browseusers.php");
-     }
-
-     if(!$_QJojf["PrivilegeMailingListCreate"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "mailinglistcreate.php");
-     }
-
-     if(!$_QJojf["PrivilegeMailingListBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browsemailinglists.php");
-       $_Q6ICj = _LJJDQ($_Q6ICj, "searchrecipients.php");
-     }
-
-     if(!$_QJojf["PrivilegeRecipientCreate"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "recipientedit.php");
-     }
-     if(!$_QJojf["PrivilegeRecipientBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browsercpts.php");
-       $_Q6ICj = _LJJDQ($_Q6ICj, "searchrecipients.php");
-     }
-
-     if(!$_QJojf["PrivilegeLocalBlockListRecipientBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browseblmembers.php?action=local");
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browsedomainblmembers.php?action=local");
-       $_Q6ICj = _LJJDQ($_Q6ICj, "ml_remove_recipients_by_blocklists.php");
-     }
-     if(!$_QJojf["PrivilegeGlobalBlockListRecipientBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browseblmembers.php?action=global");
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browsedomainblmembers.php?action=global");
-       $_Q6ICj = _LJJDQ($_Q6ICj, "ml_remove_recipients_by_blocklists.php");
-     }
-
-     if(!$_QJojf["PrivilegeImportBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "importrecipients.php");
-     }
-     if(!$_QJojf["PrivilegeExportBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "exportrecipients.php");
-     }
-
-     if(!$_QJojf["PrivilegeMLSubUnsubStatBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "mailinglistsubunsubstat.php");
-     }
-     if(!$_QJojf["PrivilegeAllMLStatBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "showstatsummary.php");
-     }
-
-     if(!$_QJojf["PrivilegeMailsSentStatBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "stat_sentmails.php");
-     }
-
-     if(!$_QJojf["PrivilegeAutoImportBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "browseautoimports.php");
-     }
-
-     if(!$_QJojf["PrivilegeFunctionBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "javascript:FunctionsOpen('null', 'null', false)");
-     }
-
-     if(!$_QJojf["PrivilegeTargetGroupsBrowse"]) {
-       $_Q6ICj = _LJJDQ($_Q6ICj, "javascript:TargetGroupsOpen()");
-     }
-
-     // SML start
-     if( defined("SML") && isset($_QJojf["PrivilegeDistribListCreate"])) {
-       if(!$_QJojf["PrivilegeDistribListBrowse"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "browsedistriblists.php");
-         $_Q6ICj = _LJJDQ($_Q6ICj, "distriblistcreate.php");
+     if($UserId){
+       $_QLJJ6 = _LPALQ($UserId);
+       if(!$_QLJJ6["PrivilegePageBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "browsepages.php");
+       }
+       if(!$_QLJJ6["PrivilegeMessageBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "browsemessages.php");
+       }
+       if(!$_QLJJ6["PrivilegeMTABrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "browsemtas.php");
+       }
+       if(!$_QLJJ6["PrivilegeInboxBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "browseinboxes.php");
+       }
+       if(!$_QLJJ6["PrivilegeAutoImportBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "browseimports.php");
+       }
+       if(!$_QLJJ6["PrivilegeOptionsEdit"]) {
+         $_QLoli = _JJB1L($_QLoli, "settings_preferences.php");
+       }
+       if(!$_QLJJ6["PrivilegeFormBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "browseforms.php");
        }
 
-       if(!$_QJojf["PrivilegeDistribListCreate"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "distriblistcreate.php");
+       if(!$_QLJJ6["PrivilegeDbRepair"]) {
+         $_QLoli = _JJB1L($_QLoli, "settings_db.php");
+       }
+       if(!$_QLJJ6["PrivilegeSystemTest"]) {
+         $_QLoli = _JJB1L($_QLoli, "settings_test.php");
+       }
+       if(!$_QLJJ6["PrivilegeViewProcessLog"]) {
+         $_QLoli = _JJB1L($_QLoli, "stat_processlog.php");
+       }
+       if(!$_QLJJ6["PrivilegeCron"]) {
+         $_QLoli = _JJB1L($_QLoli, "settings_cron.php");
        }
 
-       if(!$_QJojf["PrivilegeViewDistribListLog"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_distriblistlog.php");
+       if(!$_QLJJ6["PrivilegeLocalMessageBrowse"]) {
+         $_QLoli = _L80DF($_QLoli, '<SHOWHIDE:LOCALMESSAGES>', '</SHOWHIDE:LOCALMESSAGES>');
+         $_QLoli = _JJB1L($_QLoli, "browselocalmessages.php");
+         $_QLoli = _JJB1L($_QLoli, "javascript:LocalMessagesBrowse()");
+       } else{
+         $_QLoli = _L8OF8($_QLoli, '<SHOWHIDE:LOCALMESSAGES>');
        }
 
-       if(!$_QJojf["PrivilegeViewDistribListTrackingStat"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_respondertracking.php?ResponderType=DistributionList");
+       if(!$_QLJJ6["PrivilegeUserBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "browseusers.php");
+         $_QLoli = _JJC0E($_QLoli, "browseusers.php");
        }
 
-       if($OwnerOwnerUserId == 0x41){
-          $_Q6ICj = _LJJDQ($_Q6ICj, "browsedistriblists.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "browsedistriblists.php");
-
-          $_Q6ICj = _LJJDQ($_Q6ICj, "stat_distriblistlog.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "stat_distriblistlog.php");
-
-          $_Q6ICj = _LJJDQ($_Q6ICj, "browseoutqueue.php");
-          $_IIf8o = _LJJDQ($_IIf8o, "browseoutqueue.php");
-
-          $_Q6ICj = _LJJDQ($_Q6ICj, "distriblistcreate.php");
-          $_IIf8o = _LJJDQ($_IIf8o, "distriblistcreate.php");
+       if(!$_QLJJ6["PrivilegeMailingListCreate"]) {
+         $_QLoli = _JJB1L($_QLoli, "mailinglistcreate.php");
        }
 
-     }
-
-     // SWM start
-     if( defined("SWM") && isset($_QJojf["PrivilegeAutoresponderBrowse"])) {
-
-       if(!$_QJojf["PrivilegeNewsletterArchiveBrowse"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "browsenas.php");
+       if(!$_QLJJ6["PrivilegeMailingListBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "browsemailinglists.php");
+         $_QLoli = _JJB1L($_QLoli, "searchrecipients.php");
        }
 
-       if(!$_QJojf["PrivilegeTemplateBrowse"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "browsetemplates.php");
+       if(!$_QLJJ6["PrivilegeRecipientCreate"]) {
+         $_QLoli = _JJB1L($_QLoli, "recipientedit.php");
+       }
+       if(!$_QLJJ6["PrivilegeRecipientBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "browsercpts.php");
+         $_QLoli = _JJB1L($_QLoli, "searchrecipients.php");
        }
 
-       if(!$_QJojf["PrivilegeAutoresponderBrowse"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "browseautoresponders.php");
+       if(!$_QLJJ6["PrivilegeLocalBlockListRecipientBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "browseblmembers.php?action=local");
+         $_QLoli = _JJB1L($_QLoli, "browsedomainblmembers.php?action=local");
+         $_QLoli = _JJB1L($_QLoli, "ml_remove_recipients_by_blocklists.php");
+       }
+       if(!$_QLJJ6["PrivilegeGlobalBlockListRecipientBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "browseblmembers.php?action=global");
+         $_QLoli = _JJB1L($_QLoli, "browsedomainblmembers.php?action=global");
+         $_QLoli = _JJB1L($_QLoli, "ml_remove_recipients_by_blocklists.php");
        }
 
-       if(!$_QJojf["PrivilegeViewAutoresponderLog"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_autoresponderlog.php");
+       if(!$_QLJJ6["PrivilegeImportBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "importrecipients.php");
+       }
+       if(!$_QLJJ6["PrivilegeExportBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "exportrecipients.php");
        }
 
-       if(!$_QJojf["PrivilegeViewAutoresponderTrackingStat"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_respondertracking.php?ResponderType=AutoResponder");
+       if(!$_QLJJ6["PrivilegeMLSubUnsubStatBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "mailinglistsubunsubstat.php");
+       }
+       if(!$_QLJJ6["PrivilegeAllMLStatBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "showstatsummary.php");
        }
 
-       if(!$_QJojf["PrivilegeFUResponderBrowse"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "browsefuresponders.php");
+       if(!$_QLJJ6["PrivilegeMailsSentStatBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "stat_sentmails.php");
        }
 
-       if(!$_QJojf["PrivilegeViewFUResponderLog"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_furesponderlog.php");
+       if(!$_QLJJ6["PrivilegeAutoImportBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "browseautoimports.php");
        }
 
-       if(!$_QJojf["PrivilegeViewFUResponderTrackingStat"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_respondertracking.php?ResponderType=FollowUpResponder");
+       if(!$_QLJJ6["PrivilegeFunctionBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "javascript:FunctionsOpen('null', 'null', false)");
        }
 
-       if(!$_QJojf["PrivilegeBirthdayMailsBrowse"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "browsebirthdayresponders.php");
+       if(!$_QLJJ6["PrivilegeTargetGroupsBrowse"]) {
+         $_QLoli = _JJB1L($_QLoli, "javascript:TargetGroupsOpen()");
        }
 
-       if(!$_QJojf["PrivilegeBirthdayMailsBrowse"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "browsebirthdaymails.php");
+       if(!$_QLJJ6["PrivilegeOnlineUpdate"]) {
+         $_QLoli = _JJB1L($_QLoli, "onlineupdate.php");
+         $_QLoli = _JJC0E($_QLoli, "onlineupdate.php");
+       }
+       
+       // SML start
+       if( defined("SML") && isset($_QLJJ6["PrivilegeDistribListCreate"])) {
+         if(!$_QLJJ6["PrivilegeDistribListBrowse"]) {
+           $_QLoli = _JJB1L($_QLoli, "browsedistriblists.php");
+           $_QLoli = _JJB1L($_QLoli, "distriblistcreate.php");
+         }
+
+         if(!$_QLJJ6["PrivilegeDistribListCreate"]) {
+           $_QLoli = _JJB1L($_QLoli, "distriblistcreate.php");
+         }
+
+         if(!$_QLJJ6["PrivilegeViewDistribListLog"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_distriblistlog.php");
+         }
+
+         if(!$_QLJJ6["PrivilegeViewDistribListTrackingStat"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_respondertracking.php?ResponderType=DistributionList");
+         }
+
+         if($OwnerOwnerUserId == 0x41){
+            $_QLoli = _JJB1L($_QLoli, "browsedistriblists.php");
+            $_ICIIQ = _JJC0E($_ICIIQ, "browsedistriblists.php");
+
+            $_QLoli = _JJB1L($_QLoli, "stat_distriblistlog.php");
+            $_ICIIQ = _JJC0E($_ICIIQ, "stat_distriblistlog.php");
+
+            $_QLoli = _JJB1L($_QLoli, "browseoutqueue.php");
+            $_ICIIQ = _JJB1L($_ICIIQ, "browseoutqueue.php");
+
+            $_QLoli = _JJB1L($_QLoli, "distriblistcreate.php");
+            $_ICIIQ = _JJB1L($_ICIIQ, "distriblistcreate.php");
+         }
+
        }
 
-       if(!$_QJojf["PrivilegeViewBirthdayMailsLog"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_birthdayresponderlog.php");
-       }
+       // SWM start
+       if( defined("SWM") && isset($_QLJJ6["PrivilegeAutoresponderBrowse"])) {
 
-       if(!$_QJojf["PrivilegeViewBirthdayMailsTrackingStat"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_respondertracking.php?ResponderType=BirthdayResponder");
-       }
+         if(!$_QLJJ6["PrivilegeNewsletterArchiveBrowse"]) {
+           $_QLoli = _JJB1L($_QLoli, "browsenas.php");
+         }
 
-       if(!$_QJojf["PrivilegeRSS2EMailMailsBrowse"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "browserss2emailresponders.php");
-       }
+         if(!$_QLJJ6["PrivilegeTemplateBrowse"]) {
+           $_QLoli = _JJB1L($_QLoli, "browsetemplates.php");
+         }
 
-       if(!$_QJojf["PrivilegeRSS2EMailMailsBrowse"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "browserss2emailmails.php");
-       }
+         if(!$_QLJJ6["PrivilegeAutoresponderBrowse"]) {
+           $_QLoli = _JJB1L($_QLoli, "browseautoresponders.php");
+         }
 
-       if(!$_QJojf["PrivilegeViewRSS2EMailMailsLog"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_rss2emailresponderlog.php");
-       }
+         if(!$_QLJJ6["PrivilegeViewAutoresponderLog"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_autoresponderlog.php");
+         }
 
-       if(!$_QJojf["PrivilegeViewRSS2EMailMailsTrackingStat"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_respondertracking.php?ResponderType=RSS2EMailResponder");
-       }
+         if(!$_QLJJ6["PrivilegeViewAutoresponderTrackingStat"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_respondertracking.php?ResponderType=AutoResponder");
+         }
 
-       if(!$_QJojf["PrivilegeEventMailsBrowse"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "browseeventmails.php");
-       }
+         if(!$_QLJJ6["PrivilegeFUResponderBrowse"]) {
+           $_QLoli = _JJB1L($_QLoli, "browsefuresponders.php");
+         }
 
-       if(!$_QJojf["PrivilegeViewEventMailsLog"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_eventresponderlog.php");
-       }
+         if(!$_QLJJ6["PrivilegeViewFUResponderLog"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_furesponderlog.php");
+         }
 
-       if(!$_QJojf["PrivilegeViewEventMailsTrackingStat"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_respondertracking.php?ResponderType=EventResponder");
-       }
+         if(!$_QLJJ6["PrivilegeViewFUResponderTrackingStat"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_respondertracking.php?ResponderType=FollowUpResponder");
+         }
 
-       if(!$_QJojf["PrivilegeCampaignBrowse"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "browsecampaigns.php");
-         $_Q6ICj = _LJJDQ($_Q6ICj, "campaigncreate.php");
-         $_Q6ICj = _LJJDQ($_Q6ICj, "browsesplittests.php");
-         $_Q6ICj = _LJJDQ($_Q6ICj, "splittestcreate.php");
-       }
+         if(!$_QLJJ6["PrivilegeBirthdayMailsBrowse"]) {
+           $_QLoli = _JJB1L($_QLoli, "browsebirthdayresponders.php");
+         }
 
-       if(!$_QJojf["PrivilegeCampaignCreate"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "campaigncreate.php");
-         $_Q6ICj = _LJJDQ($_Q6ICj, "splittestcreate.php");
-       }
+         if(!$_QLJJ6["PrivilegeBirthdayMailsBrowse"]) {
+           $_QLoli = _JJB1L($_QLoli, "browsebirthdaymails.php");
+         }
 
-       if(!$_QJojf["PrivilegeViewCampaignLog"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_campaignlog.php");
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_splittestlog.php");
-       }
+         if(!$_QLJJ6["PrivilegeViewBirthdayMailsLog"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_birthdayresponderlog.php");
+         }
 
-       if(!$_QJojf["PrivilegeViewCampaignTrackingStat"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_campaigntracking.php");
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_splittesttracking.php");
-       }
+         if(!$_QLJJ6["PrivilegeViewBirthdayMailsTrackingStat"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_respondertracking.php?ResponderType=BirthdayResponder");
+         }
 
-       if(!$_QJojf["PrivilegeSMSCampaignBrowse"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "browsesmscampaigns.php");
-         $_Q6ICj = _LJJDQ($_Q6ICj, "smscampaigncreate.php");
-       }
+         if(!$_QLJJ6["PrivilegeRSS2EMailMailsBrowse"]) {
+           $_QLoli = _JJB1L($_QLoli, "browserss2emailresponders.php");
+         }
 
-       if(!$_QJojf["PrivilegeSMSCampaignCreate"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "smscampaigncreate.php");
-       }
+         if(!$_QLJJ6["PrivilegeRSS2EMailMailsBrowse"]) {
+           $_QLoli = _JJB1L($_QLoli, "browserss2emailmails.php");
+         }
 
-       if(!$_QJojf["PrivilegeViewSMSCampaignLog"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_smscampaignlog.php");
-       }
+         if(!$_QLJJ6["PrivilegeViewRSS2EMailMailsLog"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_rss2emailresponderlog.php");
+         }
 
-       if(!$_QJojf["PrivilegeDistribListBrowse"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "browsedistriblists.php");
-         $_Q6ICj = _LJJDQ($_Q6ICj, "distriblistcreate.php");
-       }
+         if(!$_QLJJ6["PrivilegeViewRSS2EMailMailsTrackingStat"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_respondertracking.php?ResponderType=RSS2EMailResponder");
+         }
 
-       if(!$_QJojf["PrivilegeDistribListCreate"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "distriblistcreate.php");
-       }
+         if(!$_QLJJ6["PrivilegeEventMailsBrowse"]) {
+           $_QLoli = _JJB1L($_QLoli, "browseeventmails.php");
+         }
 
-       if(!$_QJojf["PrivilegeViewDistribListLog"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_distriblistlog.php");
-       }
+         if(!$_QLJJ6["PrivilegeViewEventMailsLog"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_eventresponderlog.php");
+         }
 
-       if(!$_QJojf["PrivilegeViewDistribListTrackingStat"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "stat_respondertracking.php?ResponderType=DistributionList");
-       }
+         if(!$_QLJJ6["PrivilegeViewEventMailsTrackingStat"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_respondertracking.php?ResponderType=EventResponder");
+         }
 
-       if(!$_QJojf["PrivilegeTextBlockBrowse"]) {
-         $_Q6ICj = _LJJDQ($_Q6ICj, "javascript:TextBlocksOpen('null', 'null', false)");
-       }
+         if(!$_QLJJ6["PrivilegeCampaignBrowse"]) {
+           $_QLoli = _JJB1L($_QLoli, "browsecampaigns.php");
+           $_QLoli = _JJB1L($_QLoli, "campaigncreate.php");
+           $_QLoli = _JJB1L($_QLoli, "browsesplittests.php");
+           $_QLoli = _JJB1L($_QLoli, "splittestcreate.php");
+         }
 
+         if(!$_QLJJ6["PrivilegeCampaignCreate"]) {
+           $_QLoli = _JJB1L($_QLoli, "campaigncreate.php");
+           $_QLoli = _JJB1L($_QLoli, "splittestcreate.php");
+         }
+
+         if(!$_QLJJ6["PrivilegeViewCampaignLog"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_campaignlog.php");
+           $_QLoli = _JJB1L($_QLoli, "stat_splittestlog.php");
+         }
+
+         if(!$_QLJJ6["PrivilegeViewCampaignTrackingStat"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_campaigntracking.php");
+           $_QLoli = _JJB1L($_QLoli, "stat_splittesttracking.php");
+         }
+
+         if(!$_QLJJ6["PrivilegeSMSCampaignBrowse"]) {
+           $_QLoli = _JJB1L($_QLoli, "browsesmscampaigns.php");
+           $_QLoli = _JJB1L($_QLoli, "smscampaigncreate.php");
+         }
+
+         if(!$_QLJJ6["PrivilegeSMSCampaignCreate"]) {
+           $_QLoli = _JJB1L($_QLoli, "smscampaigncreate.php");
+         }
+
+         if(!$_QLJJ6["PrivilegeViewSMSCampaignLog"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_smscampaignlog.php");
+         }
+
+         if(!$_QLJJ6["PrivilegeDistribListBrowse"]) {
+           $_QLoli = _JJB1L($_QLoli, "browsedistriblists.php");
+           $_QLoli = _JJB1L($_QLoli, "distriblistcreate.php");
+         }
+
+         if(!$_QLJJ6["PrivilegeDistribListCreate"]) {
+           $_QLoli = _JJB1L($_QLoli, "distriblistcreate.php");
+         }
+
+         if(!$_QLJJ6["PrivilegeViewDistribListLog"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_distriblistlog.php");
+         }
+
+         if(!$_QLJJ6["PrivilegeViewDistribListTrackingStat"]) {
+           $_QLoli = _JJB1L($_QLoli, "stat_respondertracking.php?ResponderType=DistributionList");
+         }
+
+         if(!$_QLJJ6["PrivilegeTextBlockBrowse"]) {
+           $_QLoli = _JJB1L($_QLoli, "javascript:TextBlocksOpen('null', 'null', false)");
+         }
+
+     } // if($UserId)
+       
        if($UserType != "SuperAdmin" && ($OwnerOwnerUserId <= 65 || $OwnerOwnerUserId == 90) ){
-          $_Q6ICj = _LJJDQ($_Q6ICj, "browseusers.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "browseusers.php");
+          $_QLoli = _JJB1L($_QLoli, "browseusers.php");
+          $_ICIIQ = _JJC0E($_ICIIQ, "browseusers.php");
        }
 
        if($OwnerOwnerUserId == 90){
-          $_Q6ICj = _LJJDQ($_Q6ICj, "stat_respondertracking.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "stat_respondertracking.php");
-          $_Q6ICj = _LJJDQ($_Q6ICj, "stat_autoresponderlog.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "stat_autoresponderlog.php");
-          $_Q6ICj = _LJJDQ($_Q6ICj, "stat_birthdayresponderlog.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "stat_birthdayresponderlog.php");
-          $_Q6ICj = _LJJDQ($_Q6ICj, "stat_furesponderlog.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "stat_furesponderlog.php");
-          $_Q6ICj = _LJJDQ($_Q6ICj, "stat_rss2emailresponderlog.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "stat_rss2emailresponderlog.php");
-          $_Q6ICj = _LJJDQ($_Q6ICj, "stat_distriblistlog.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "stat_distriblistlog.php");
+          $_QLoli = _JJB1L($_QLoli, "stat_respondertracking.php");
+          $_ICIIQ = _JJC0E($_ICIIQ, "stat_respondertracking.php");
+          $_QLoli = _JJB1L($_QLoli, "stat_autoresponderlog.php");
+          $_ICIIQ = _JJC0E($_ICIIQ, "stat_autoresponderlog.php");
+          $_QLoli = _JJB1L($_QLoli, "stat_birthdayresponderlog.php");
+          $_ICIIQ = _JJC0E($_ICIIQ, "stat_birthdayresponderlog.php");
+          $_QLoli = _JJB1L($_QLoli, "stat_furesponderlog.php");
+          $_ICIIQ = _JJC0E($_ICIIQ, "stat_furesponderlog.php");
+          $_QLoli = _JJB1L($_QLoli, "stat_rss2emailresponderlog.php");
+          $_ICIIQ = _JJC0E($_ICIIQ, "stat_rss2emailresponderlog.php");
+          $_QLoli = _JJB1L($_QLoli, "stat_distriblistlog.php");
+          $_ICIIQ = _JJC0E($_ICIIQ, "stat_distriblistlog.php");
 
-          $_Q6ICj = _LJJDQ($_Q6ICj, "browseautoresponders.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "browseautoresponders.php");
-          $_Q6ICj = _LJJDQ($_Q6ICj, "browsebirthdayresponders.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "browsebirthdayresponders.php");
-          $_Q6ICj = _LJJDQ($_Q6ICj, "browsefuresponders.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "browsefuresponders.php");
-          $_Q6ICj = _LJJDQ($_Q6ICj, "browserss2emailresponders.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "browserss2emailresponders.php");
+          $_QLoli = _JJB1L($_QLoli, "browseautoresponders.php");
+          $_ICIIQ = _JJC0E($_ICIIQ, "browseautoresponders.php");
+          $_QLoli = _JJB1L($_QLoli, "browsebirthdayresponders.php");
+          $_ICIIQ = _JJC0E($_ICIIQ, "browsebirthdayresponders.php");
+          $_QLoli = _JJB1L($_QLoli, "browsefuresponders.php");
+          $_ICIIQ = _JJC0E($_ICIIQ, "browsefuresponders.php");
+          $_QLoli = _JJB1L($_QLoli, "browserss2emailresponders.php");
+          $_ICIIQ = _JJC0E($_ICIIQ, "browserss2emailresponders.php");
 
-          $_Q6ICj = _LJJDQ($_Q6ICj, "browsedistriblists.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "browsedistriblists.php");
+          $_QLoli = _JJB1L($_QLoli, "browsedistriblists.php");
+          $_ICIIQ = _JJC0E($_ICIIQ, "browsedistriblists.php");
 
-          $_Q6ICj = _LJJDQ($_Q6ICj, "distriblistcreate.php");
-          $_IIf8o = _LJ6RJ($_IIf8o, "distriblistcreate.php");
+          $_QLoli = _JJB1L($_QLoli, "distriblistcreate.php");
+          $_ICIIQ = _JJC0E($_ICIIQ, "distriblistcreate.php");
 
-          $_Q6ICj = _LJJDQ($_Q6ICj, '"./browsetemplates.php" id="Responder"');
+          $_QLoli = _JJB1L($_QLoli, '"./browsetemplates.php" id="Responder"');
 
-          $_JQQI6 = '<li><a href="#">Responder</a>';
-          $_JQQOi = '</li>';
-          if (strpos($_Q6ICj, $_JQQI6) !== false ) {
-            $_JQI0f = substr($_Q6ICj, 0, strpos($_Q6ICj, $_JQQI6));
-            $_Q6ICj = substr($_Q6ICj, strpos($_Q6ICj, $_JQQI6) + strlen($_JQQI6));
-            $_JQII8 = substr($_Q6ICj, strpos($_Q6ICj, $_JQQOi) + strlen($_JQQOi));
-            $_Q6ICj = $_JQI0f.$_JQII8;
+          $_6It18 = '<li><a href="#">Responder</a>';
+          $_6ItL1 = '</li>';
+          if (strpos($_QLoli, $_6It18) !== false ) {
+            $_6IOQj = substr($_QLoli, 0, strpos($_QLoli, $_6It18));
+            $_QLoli = substr($_QLoli, strpos($_QLoli, $_6It18) + strlen($_6It18));
+            $_6IOj1 = substr($_QLoli, strpos($_QLoli, $_6ItL1) + strlen($_6ItL1));
+            $_QLoli = $_6IOQj.$_6IOj1;
           }
 
        }
@@ -584,119 +607,126 @@
      }
 
      if($UserType != "SuperAdmin" && !defined("Setup")){
-        $_6O18o = _LQDLR('OptionsCronJobOptionsOnlyAsSuperAdmin');
-        if($_6O18o) {
-          $_Q6ICj = _LJJDQ($_Q6ICj, "settings_preferences.php");
-          $_Q6ICj = _LJJDQ($_Q6ICj, "stat_processlog.php");
-          $_Q6ICj = _LJJDQ($_Q6ICj, "settings_cron.php");
+        $_8I1IO = _JOLQE('OptionsCronJobOptionsOnlyAsSuperAdmin');
+        if($_8I1IO) {
+          $_QLoli = _JJB1L($_QLoli, "settings_preferences.php");
+          $_QLoli = _JJB1L($_QLoli, "stat_processlog.php");
+          $_QLoli = _JJB1L($_QLoli, "settings_cron.php");
         }
      }
 
-     $_Q6ICj .= $_IIf8o;
+     $_QLoli .= $_ICIIQ;
    }
 
    /* falls notwendig muesste man das noch einbauen
-   $_Q6ICj = str_replace ("PHPSESSIONIDVARNAME", "$PHPSESSIONIDVARNAME=".session_id(), $_Q6ICj);
+   $_QLoli = str_replace ("PHPSESSIONIDVARNAME", "$PHPSESSIONIDVARNAME=".session_id(), $_QLoli);
    */
 
-   if(!empty($_6jOOo))
-     SetHTMLHeaders($_6jOOo);
+   if(!empty($_foQ6I))
+     SetHTMLHeaders($_foQ6I);
 
-   return $_Q6ICj;
+   if($_8ClIt == "session_error_snipped.htm" || $_8ClIt == "common_error_page.htm" || $_8ClIt == "login_snipped.htm" || $_8ClIt == "pw_reminder_snipped.htm" || $_8ClIt == "logout_snipped.htm" || $_8ClIt == "formcode_external_snipped.htm" || $_8ClIt == "login2fa1_snipped.htm" )
+     return $_QLoli;
+   else
+     return _LJA6C($_QLoli);
  }
 
- function _LJJDQ($_Q6ICj, $_fIjoQ) {
-    $_QllO8 = strpos ($_Q6ICj, $_fIjoQ);
-    while($_QllO8 !== false) {
+ function _JJB1L($_QLoli, $_8iJ88) {
+    $_I016j = strpos ($_QLoli, $_8iJ88);
+    while($_I016j !== false) {
       // search vor <a
-      $_Io0l8 = strpos_reverse($_Q6ICj, "<", $_QllO8);
-      $_Q66jQ = substr($_Q6ICj, 0, $_Io0l8);
-      $_JQCIj = substr($_Q6ICj, $_Io0l8 + 1);
-      $_JjjC6 = strpos($_JQCIj, "</a>");
-      $_JQCIj = substr($_JQCIj, $_JjjC6 + 4);
+      $_jJjQi = strpos_reverse($_QLoli, "<", $_I016j);
+      $_Ql0fO = substr($_QLoli, 0, $_jJjQi);
+      $_6joLQ = substr($_QLoli, $_jJjQi + 1);
+      $_66JoO = strpos($_6joLQ, "</a>");
+      $_6joLQ = substr($_6joLQ, $_66JoO + 4);
 
       // remove <li
-      $_Io0l8 = strpos_reverse($_Q66jQ, "<li", strlen($_Q66jQ));
-      $_Q66jQ = substr($_Q66jQ, 0, $_Io0l8);
+      $_jJjQi = strpos_reverse($_Ql0fO, "<li", strlen($_Ql0fO));
+      $_Ql0fO = substr($_Ql0fO, 0, $_jJjQi);
 
       // remove </li>
-      $_Io0l8 = strpos($_JQCIj, "</li>");
-      $_JQCIj = substr($_JQCIj, $_Io0l8 + 5);
+      $_jJjQi = strpos($_6joLQ, "</li>");
+      $_6joLQ = substr($_6joLQ, $_jJjQi + 5);
 
 
-      $_Q6ICj = $_Q66jQ.$_JQCIj;
-      $_QllO8 = strpos ($_Q6ICj, $_fIjoQ);
+      $_QLoli = $_Ql0fO.$_6joLQ;
+      $_I016j = strpos ($_QLoli, $_8iJ88);
     }
-    return $_Q6ICj;
+    return $_QLoli;
  }
 
- function _LJ6RJ($_Q6ICj, $_fIjoQ) {
-    $_QllO8 = strpos ($_Q6ICj, ' href="'.$_fIjoQ);
-    if($_QllO8 === false)
-      $_QllO8 = strpos ($_Q6ICj, ' href="./'.$_fIjoQ);
-    while($_QllO8 !== false) {
+ function _JJC0E($_QLoli, $_8iJ88) {
+    $_I016j = strpos ($_QLoli, ' href="'.$_8iJ88);
+    if($_I016j === false)
+      $_I016j = strpos ($_QLoli, ' href="./'.$_8iJ88);
+    while($_I016j !== false) {
       // search vor <a
-      $_Io0l8 = strpos_reverse($_Q6ICj, "<", $_QllO8);
-      $_Q66jQ = substr($_Q6ICj, 0, $_Io0l8);
-      $_JQCIj = substr($_Q6ICj, $_Io0l8 + 1);
-      $_JjjC6 = strpos($_JQCIj, "</a>");
-      $_JQCIj = substr($_JQCIj, $_JjjC6 + 4);
+      $_jJjQi = strpos_reverse($_QLoli, "<", $_I016j);
+      $_Ql0fO = substr($_QLoli, 0, $_jJjQi);
+      $_6joLQ = substr($_QLoli, $_jJjQi + 1);
+      $_66JoO = strpos($_6joLQ, "</a>");
+      $_6joLQ = substr($_6joLQ, $_66JoO + 4);
 
-      $_Q6ICj = $_Q66jQ.$_JQCIj;
-      $_QllO8 = strpos ($_Q6ICj, ' href="'.$_fIjoQ);
-      if($_QllO8 === false)
-        $_QllO8 = strpos ($_Q6ICj, ' href="./'.$_fIjoQ);
+      $_QLoli = $_Ql0fO.$_6joLQ;
+      $_I016j = strpos ($_QLoli, ' href="'.$_8iJ88);
+      if($_I016j === false)
+        $_I016j = strpos ($_QLoli, ' href="./'.$_8iJ88);
     }
-    return $_Q6ICj;
+    return $_QLoli;
  }
 
- function _LJ6B1($_Q6ICj, $_fIjoQ) {
-    $_QllO8 = strpos ($_Q6ICj, 'name="'.$_fIjoQ);
-    while($_QllO8 !== false) {
+ function _JJC1E($_QLoli, $_8iJ88) {
+    $_I016j = strpos ($_QLoli, 'name="'.$_8iJ88);
+    while($_I016j !== false) {
       // search vor <input
-      $_Io0l8 = strpos_reverse($_Q6ICj, "<", $_QllO8);
-      $_Q66jQ = substr($_Q6ICj, 0, $_Io0l8);
-      $_JQCIj = substr($_Q6ICj, $_Io0l8 + 1);
-      $_JjjC6 = strpos($_JQCIj, " />");
-      $_JQCIj = substr($_JQCIj, $_JjjC6 + 3);
+      $_jJjQi = strpos_reverse($_QLoli, "<", $_I016j);
+      $_Ql0fO = substr($_QLoli, 0, $_jJjQi);
+      $_6joLQ = substr($_QLoli, $_jJjQi + 1);
+      $_66JoO = strpos($_6joLQ, " />");
+      $_6joLQ = substr($_6joLQ, $_66JoO + 3);
 
-      $_Q6ICj = $_Q66jQ.$_JQCIj;
-      $_QllO8 = strpos ($_Q6ICj, 'name="'.$_fIjoQ);
+      $_QLoli = $_Ql0fO.$_6joLQ;
+      $_I016j = strpos ($_QLoli, 'name="'.$_8iJ88);
     }
-    return $_Q6ICj;
+    return $_QLoli;
  }
 
- function _LJRLJ($_Q6ICj, $_fIjoQ) {
-    $_QllO8 = strpos ($_Q6ICj, 'value="'.$_fIjoQ);
-    while($_QllO8 !== false) {
+ function _JJCRD($_QLoli, $_8iJ88) {
+    $_I016j = strpos ($_QLoli, 'value="'.$_8iJ88);
+    while($_I016j !== false) {
       // search vor <input
-      $_Io0l8 = strpos_reverse($_Q6ICj, "<", $_QllO8);
-      $_Q66jQ = substr($_Q6ICj, 0, $_Io0l8);
-      $_JQCIj = substr($_Q6ICj, $_Io0l8 + 1);
-      $_JjjC6 = strpos($_JQCIj, "</option>");
-      $_JQCIj = substr($_JQCIj, $_JjjC6 + 9);
+      $_jJjQi = strpos_reverse($_QLoli, "<", $_I016j);
+      $_Ql0fO = substr($_QLoli, 0, $_jJjQi);
+      $_6joLQ = substr($_QLoli, $_jJjQi + 1);
+      $_66JoO = strpos($_6joLQ, "</option>");
+      $_6joLQ = substr($_6joLQ, $_66JoO + 9);
 
-      $_Q6ICj = $_Q66jQ.$_JQCIj;
-      $_QllO8 = strpos ($_Q6ICj, 'value="'.$_fIjoQ);
+      $_QLoli = $_Ql0fO.$_6joLQ;
+      $_I016j = strpos ($_QLoli, 'value="'.$_8iJ88);
     }
-    return $_Q6ICj;
+    return $_QLoli;
  }
 
- function _LJ81E(&$_Q6ICj) {
-   global $_QoJ8j, $AppName;
-   global $_fI061, $_fI1J6, $_fIQ1t;
+ function _JJCCF(&$_QLoli) {
+   global $_Ij6Lj, $AppName;
+   global $_foo18, $_8i0Ol, $_8i1tf;
    // footer
-   $_Q6ICj = str_replace("PRODUCTURL", $_fI061, $_Q6ICj);
-   $_Q6ICj = str_replace("PRODUCTAPPNAME", $AppName, $_Q6ICj);
-   $_Q6ICj = str_replace("PRODUCTURL", $_fI1J6, $_Q6ICj);
-   $_fIJf8 = $_fIQ1t;
-   if(strftime("%Y") != $_fIJf8)
-     $_fIJf8 .= " - ".strftime("%Y");
-   $_Q6ICj = str_replace("<!--PRODUCTCOPYRIGHTYEAR-->", $_fIJf8, $_Q6ICj);
-   $_Q6ICj = _OPR6L($_Q6ICj, "<LABEL:PRODUCTVERSION>", "</LABEL:PRODUCTVERSION>", $_QoJ8j);
-   $_Q6ICj = str_replace("SCRIPTBASEURL", ScriptBaseURL, $_Q6ICj);
+   $_QLoli = str_replace("PRODUCTURL", $_foo18, $_QLoli);
+   $_QLoli = str_replace("PRODUCTAPPNAME", $AppName, $_QLoli);
+   $_QLoli = str_replace("PRODUCTURL", $_8i0Ol, $_QLoli);
+   $_8iJoI = $_8i1tf;
+   if(date("Y") != $_8iJoI)
+     $_8iJoI .= " - ".date("Y");
+   $_QLoli = str_replace("<!--PRODUCTCOPYRIGHTYEAR-->", $_8iJoI, $_QLoli);
+   $_QLoli = _L81BJ($_QLoli, "<LABEL:PRODUCTVERSION>", "</LABEL:PRODUCTVERSION>", $_Ij6Lj);
+   $_QLoli = str_replace("SCRIPTBASEURL", ScriptBaseURL, $_QLoli);
    // footer END
-   return $_Q6ICj;
+   return $_QLoli;
  }
 
+ function _JJDJC($_QLoli, $_8i6tl) {
+   return str_replace('for="' . $_8i6tl . '"', 'for="' . $_8i6tl . '" disabled="disabled" style="cursor: default;"', $_QLoli);
+ }
+ 
 ?>

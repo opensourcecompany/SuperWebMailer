@@ -27,25 +27,25 @@
   define('TWITTER_API_URL', 'http://twitter.com/');
   define('TWITTER_API_PORT', 80);
 
-  class _LJPOA {
+  class _JJDPE {
 
    // @public
 
    // @private
-   var $_fIo1I = "";
-   var $_fIoII = "";
+   var $_8itOC = "";
+   var $_8iO8o = "";
 
 
    // constructor
 
    // @public
-   function __construct($_JJfL8, $_JJ8jj) {
-      $this->_fIo1I = $_JJfL8;
-      $this->_fIoII = $_JJ8jj;
+   function __construct($_6fCJQ, $_6fi18) {
+      $this->_8itOC = $_6fCJQ;
+      $this->_8iO8o = $_6fi18;
    }
 
-   function _LJPOA($_JJfL8, $_JJ8jj) {
-     self::__construct($_JJfL8, $_JJ8jj);
+   function _JJDPE($_6fCJQ, $_6fi18) {
+     self::__construct($_6fCJQ, $_6fi18);
    }
 
    // destructor
@@ -53,80 +53,81 @@
    }
 
    // @public
-   function TwitterGetShortURL($_JJLf0, &$_6Olto){
-      $_QJCJi = $this->_LJAOL('http://api.bit.ly/v3/shorten', 'uri=' . urlencode($_JJLf0) . '&login=superwebmailer&apiKey=R_0be8cc8d5110127518b26a3059443a79&format=json', false, $_6Olto);
-      if(strpos($_QJCJi, '"status_code": 200') !== false || strpos($_QJCJi, '"status_code":200') !== false) {
-          if(strpos($_QJCJi, "\n") !== false)
-             $_Q66jQ = explode("\n", $_QJCJi);
+   function TwitterGetShortURL($URL, &$Error){
+      $_QLJfI = $this->_JJF0F('http://api.bit.ly/v3/shorten', 'uri=' . urlencode($URL) . '&login=superwebmailer&apiKey=R_0be8cc8d5110127518b26a3059443a79&format=json', false, $Error);
+      if(strpos($_QLJfI, '"status_code": 200') !== false || strpos($_QLJfI, '"status_code":200') !== false) {
+          if(strpos($_QLJfI, "\n") !== false)
+             $_Ql0fO = explode("\n", $_QLJfI);
              else
-             $_Q66jQ = explode("\r", $_QJCJi);
-          for($_Q6llo=0; $_Q6llo<count($_Q66jQ); $_Q6llo++){
-             if(strpos($_Q66jQ[$_Q6llo], '"url":') !== false){
-                $_QJCJi = substr(trim($_Q66jQ[$_Q6llo]), strpos($_Q66jQ[$_Q6llo], '"url":') + strlen('"url":') - 1); // 11
-                $_QJCJi = substr($_QJCJi, strpos($_QJCJi, '"') + 1); // 11
-                $_QJCJi = trim($_QJCJi);
-                $_QJCJi = substr($_QJCJi, 0, strpos($_QJCJi, '"'));
-                $_QJCJi = str_replace("\\", "", $_QJCJi);
+             $_Ql0fO = explode("\r", $_QLJfI);
+          for($_Qli6J=0; $_Qli6J<count($_Ql0fO); $_Qli6J++){
+             if(strpos($_Ql0fO[$_Qli6J], '"url":') !== false){
+                $_QLJfI = substr(trim($_Ql0fO[$_Qli6J]), strpos($_Ql0fO[$_Qli6J], '"url":') + strlen('"url":') - 1); // 11
+                $_QLJfI = substr($_QLJfI, strpos($_QLJfI, '"') + 1); // 11
+                $_QLJfI = trim($_QLJfI);
+                $_QLJfI = substr($_QLJfI, 0, strpos($_QLJfI, '"'));
+                $_QLJfI = str_replace("\\", "", $_QLJfI);
                 break;
              }
          }
-         return $_QJCJi;
+         return $_QLJfI;
       } else{
-        if($_6Olto == "")
-           $_6Olto = "Can't connect to bit.ly.";
+        if($Error == "")
+           $Error = "Can't connect to bit.ly.";
         return false;
       }
    }
 
    // old variant with Basic Auth
    // @public
-   function TwitterSendStatusMessage($_fICQo, &$_jj0JO){
-     $_QJCJi = $this->_LJAL6(TWITTER_API_URL.'statuses/update.xml', "status=".urlencode($_fICQo), true, $_jj0JO);
-     if(strpos($_QJCJi, '<created_at>') !== false)
+   function TwitterSendStatusMessage($_8iOLJ, &$_J0COJ){
+     $_QLJfI = $this->_JJF66(TWITTER_API_URL.'statuses/update.xml', "status=".urlencode($_8iOLJ), true, $_J0COJ);
+     if(strpos($_QLJfI, '<created_at>') !== false)
        return true;
        else
        return false;
    }
 
    // @private
-   function _LJAOL($_JJLf0, $_fIC8O, $_fIiJt, &$_6J6iQ){
-     $_6J6iQ = "";
-     $_j88of = 0;
-     $_j8t8L = "";
-     $_j8O60 = 80;
-     if(strpos($_JJLf0, "http://") !== false) {
-        $_j8O8t = substr($_JJLf0, 7);
-     } elseif(strpos($_JJLf0, "https://") !== false) {
-       $_j8O60 = 443;
-       $_j8O8t = substr($_JJLf0, 8);
+   function _JJF0F($URL, $_8ioIf, $_8iotJ, &$_JO0lI){
+     $_JO0lI = "";
+     $_JJl1I = 0;
+     $_J600J = "";
+     $_J608j = 80;
+     if(strpos($URL, "http://") !== false) {
+        $_J60tC = substr($URL, 7);
+     } elseif(strpos($URL, "https://") !== false) {
+       $_J608j = 443;
+       $_J60tC = substr($URL, 8);
      }
-     $_QCoLj = substr($_j8O8t, strpos($_j8O8t, "/"));
-     $_j8O8t = substr($_j8O8t, 0, strpos($_j8O8t, "/"));
+     $_IJL6o = substr($_J60tC, strpos($_J60tC, "/"));
+     $_J60tC = substr($_J60tC, 0, strpos($_J60tC, "/"));
 
-     $_QJCJi = _OCQ6E($_j8O8t, "GET", $_QCoLj, $_fIC8O, 0, $_j8O60, $_fIiJt, $this->_fIo1I, $this->_fIoII, $_j88of, $_j8t8L);
-     $_6J6iQ = $_j8t8L;
+     $_QLJfI = DoHTTPRequest($_J60tC, "GET", $_IJL6o, $_8ioIf, 0, $_J608j, $_8iotJ, $this->_8itOC, $this->_8iO8o, $_JJl1I, $_J600J);
+     $_JO0lI = $_J600J;
 
-     return $_QJCJi;
+     return $_QLJfI;
   }
 
    // @private
-   function _LJAL6($_JJLf0, $_fIC8O, $_fIiJt, &$_6J6iQ){
-      $_j88of = 0;
-      $_j8t8L = "";
-      $_j8O60 = 80;
-      if(strpos($_JJLf0, "http://") !== false) {
-         $_j8O8t = substr($_JJLf0, 7);
-      } elseif(strpos($_JJLf0, "https://") !== false) {
-        $_j8O60 = 443;
-        $_j8O8t = substr($_JJLf0, 8);
+   function _JJF66($URL, $_8ioIf, $_8iotJ, &$_JO0lI){
+      $_JJl1I = 0;
+      $_J600J = "";
+      $_J608j = 80;
+      if(strpos($URL, "http://") !== false) {
+         $_J60tC = substr($URL, 7);
+      } elseif(strpos($URL, "https://") !== false) {
+        $_J608j = 443;
+        $_J60tC = substr($URL, 8);
       }
-      $_QCoLj = substr($_j8O8t, strpos($_j8O8t, "/"));
-      $_j8O8t = substr($_j8O8t, 0, strpos($_j8O8t, "/"));
+      $_IJL6o = substr($_J60tC, strpos($_J60tC, "/"));
+      $_J60tC = substr($_J60tC, 0, strpos($_J60tC, "/"));
 
-      $_QJCJi = _OCQ6E($_j8O8t, "POST", $_QCoLj, $_fIC8O, 0, $_j8O60, $_fIiJt, $this->_fIo1I, $this->_fIoII, $_j88of, $_j8t8L);
-      $_6J6iQ = $_j8t8L;
+      $_QLJfI = DoHTTPRequest($_J60tC, "POST", $_IJL6o, $_8ioIf, 0, $_J608j, $_8iotJ, $this->_8itOC, $this->_8iO8o, $_JJl1I, $_J600J);
+      if($_JJl1I != 200)
+        $_JO0lI = $_J600J;
 
-      return $_QJCJi;
+      return $_QLJfI;
    }
 
 

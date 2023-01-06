@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -24,106 +24,117 @@
   include_once("config.inc.php");
   include_once("templates.inc.php");
 
-  function _LJ8PF($_Q6ICj, $_Jf0Ii, $_jIiQ8, $MailingListId, $_fI8IJ, $ResponderId, $ResponderType, $_JiC8l) {
-    global $_Q61I1, $_Q60QL, $_jJIol, $_jJjCi, $_jJIJ8, $_jJjo6;
+  function _JJDRF($_QLoli, $_6j88I, $_j11Io, $MailingListId, $_8i8Co, $ResponderId, $ResponderType, $_fIiiL) {
+    global $_QLttI, $_QL88I, $_J1Lt8, $_J1l1J, $_J1L0I, $_J1l0i;
     global $UserId, $OwnerUserId;
 
-    if( (!$_Jf0Ii["TrackLinks"] && !$_Jf0Ii["TrackLinksByRecipient"]  &&
-        !$_Jf0Ii["TrackEMailOpenings"] && !$_Jf0Ii["TrackEMailOpeningsByRecipient"]) ||
+    if( (!$_6j88I["TrackLinks"] && !$_6j88I["TrackLinksByRecipient"]  &&
+        !$_6j88I["TrackEMailOpenings"] && !$_6j88I["TrackEMailOpeningsByRecipient"]) ||
         $ResponderId == 0 || $ResponderType == ""
       )
-        return $_Q6ICj;
+        return $_QLoli;
 
-    $_fI8io = $_jJIol;
-    $_fIttL = $_jJjCi;
-    if(!empty($_Jf0Ii["OverrideTrackingURL"])){
-      $_fI8io = _OBLDR($_Jf0Ii["OverrideTrackingURL"]) . $_jJIJ8;
-      $_fIttL = _OBLDR($_Jf0Ii["OverrideTrackingURL"]) . $_jJjo6;
+    if(!isset($_j11Io["u_PersonalizedTracking"]))
+      $_j11Io["u_PersonalizedTracking"] = 1;
+
+    # member don't want it
+    if(!$_j11Io["u_PersonalizedTracking"]){
+      $_6j88I["TrackEMailOpeningsByRecipient"] = 0;
+      $_6j88I["TrackLinksByRecipient"] = 0;
+    }
+
+    $_8i8lL = $_J1Lt8;
+    $_8itQj = $_J1l1J;
+    if(!empty($_6j88I["OverrideTrackingURL"])){
+      $_8i8lL = _LPC1C($_6j88I["OverrideTrackingURL"]) . $_J1L0I;
+      $_8itQj = _LPC1C($_6j88I["OverrideTrackingURL"]) . $_J1l0i;
     }
 
     # CurrentSendId can be 0 for test mails
-    $_If010 = 0;
-    if(isset($_Jf0Ii["CurrentSendId"]))
-      $_If010 = $_Jf0Ii["CurrentSendId"];
+    $_j01OI = 0;
+    if(isset($_6j88I["CurrentSendId"]))
+      $_j01OI = $_6j88I["CurrentSendId"];
 
     # personal tracking, ever create ident key!!!
-    if( ($_Jf0Ii["TrackLinksByRecipient"] || $_Jf0Ii["TrackEMailOpeningsByRecipient"])  ) {
-       $_QlQC8 = "";
-       if(isset($_Jf0Ii["MaillistTableName"]))
-         $_QlQC8 = $_Jf0Ii["MaillistTableName"];
-       $_jIiQ8["IdentString"] = _OA81R($_jIiQ8["IdentString"], $_jIiQ8["id"], $MailingListId, $_fI8IJ, $_QlQC8);
+    if( ($_6j88I["TrackLinksByRecipient"] || $_6j88I["TrackEMailOpeningsByRecipient"])  ) {
+       $_I8I6o = "";
+       if(isset($_6j88I["MaillistTableName"]))
+         $_I8I6o = $_6j88I["MaillistTableName"];
+       $_j11Io["IdentString"] = _LPQ8Q($_j11Io["IdentString"], $_j11Io["id"], $MailingListId, $_8i8Co, $_I8I6o);
     }
 
     if($OwnerUserId == 0)
-      $_Ii016 = $UserId;
+      $_jfIoi = $UserId;
       else
-      $_Ii016 = $OwnerUserId;
+      $_jfIoi = $OwnerUserId;
 
-    $ResponderType = _OAP0L($ResponderType);
+    $ResponderType = _LPO6C($ResponderType);
 
-    $_Jill8 = sprintf("%02X", $_If010)."_".sprintf("%02X", $_Ii016)."_".sprintf("%02X", $ResponderType)."_".sprintf("%02X", $ResponderId);
-    if($_JiC8l != $_fI8IJ)
-      $_Jill8 .= "_"."x".sprintf("%02X", $_JiC8l);
+    $_fj0ol = sprintf("%02X", $_j01OI)."_".sprintf("%02X", $_jfIoi)."_".sprintf("%02X", $ResponderType)."_".sprintf("%02X", $ResponderId);
+    if($_fIiiL != $_8i8Co)
+      $_fj0ol .= "_"."x".sprintf("%02X", $_fIiiL);
 
     // email openings
-    $_IOOit = "";
-    if( $_Jf0Ii["TrackEMailOpenings"] && !$_Jf0Ii["TrackEMailOpeningsByRecipient"] ) {
-       $_IOOit = $_fI8io."?link=$_Jill8";
+    $_jjllL = "";
+    if( $_6j88I["TrackEMailOpenings"] && !$_6j88I["TrackEMailOpeningsByRecipient"] ) {
+       $_jjllL = $_8i8lL."?link=$_fj0ol";
     } else
-      if( $_Jf0Ii["TrackEMailOpeningsByRecipient"] ) {
-         $_IOOit = $_fI8io."?link=$_Jill8"."_"."$_jIiQ8[IdentString]";
+      if( $_6j88I["TrackEMailOpeningsByRecipient"] ) {
+         $_jjllL = $_8i8lL."?link=$_fj0ol"."_"."$_j11Io[IdentString]";
       }
 
-    if($_IOOit != "") {
-      if($_Jf0Ii["TrackEMailOpeningsImageURL"] == "") {
-         if(defined("TrackingPixelTop") && stripos($_Q6ICj, "<body") !== false) {
-           $_fIO0Q = substr($_Q6ICj, 0, stripos($_Q6ICj, "<body") + strlen("<body"));
-           $_fIOQ0 = substr($_Q6ICj, stripos($_Q6ICj, "<body") +  strlen("<body"));
-           $_fIO0Q .= substr($_fIOQ0, 0, strpos($_fIOQ0, ">") + 1);
-           $_fIOQ0 = substr($_fIOQ0, strpos($_fIOQ0, ">") + 1);
-           $_fIOQ0 = '<img src="'.$_IOOit.'" border="0" style="width:1px;height:1px;" alt="" />'.$_fIOQ0;
-           $_Q6ICj = $_fIO0Q.$_fIOQ0;
+    if($_jjllL != "") {
+      if($_6j88I["TrackEMailOpeningsImageURL"] == "") {
+         if(defined("TrackingPixelTop") && stripos($_QLoli, "<body") !== false) {
+           $_j8oLj = substr($_QLoli, 0, stripos($_QLoli, "<body") + strlen("<body"));
+           $_j8C8I = substr($_QLoli, stripos($_QLoli, "<body") +  strlen("<body"));
+           $_j8oLj .= substr($_j8C8I, 0, strpos($_j8C8I, ">") + 1);
+           $_j8C8I = substr($_j8C8I, strpos($_j8C8I, ">") + 1);
+           $_j8C8I = '<img src="'.$_jjllL.'" border="0" style="width:1px;height:1px;" alt="" />'.$_j8C8I;
+           $_QLoli = $_j8oLj.$_j8C8I;
          } else
-           $_Q6ICj = str_ireplace("</body", '<img src="'.$_IOOit.'" border="0" style="width:1px;height:1px;" alt="" />'."</body", $_Q6ICj);
+           $_QLoli = str_ireplace("</body", '<img src="'.$_jjllL.'" border="0" style="width:1px;height:1px;" alt="" />'."</body", $_QLoli);
          } else {
-            $_Q6ICj = str_ireplace('"'.$_Jf0Ii["TrackEMailOpeningsImageURL"].'"', '"'.$_IOOit.'"', $_Q6ICj);
+            $_QLoli = str_ireplace('"'.$_6j88I["TrackEMailOpeningsImageURL"].'"', '"'.$_jjllL.'"', $_QLoli);
          }
     }
 
     # link tracking
-    if( $_Jf0Ii["TrackLinks"] || $_Jf0Ii["TrackLinksByRecipient"] ) {
-      $_QJlJ0 = "SELECT `id`, `Link` FROM `$_Jf0Ii[LinksTableName]` WHERE `IsActive`=1";
+    if( $_6j88I["TrackLinks"] || $_6j88I["TrackLinksByRecipient"] ) {
+      $_QLfol = "SELECT `id`, `Link` FROM `$_6j88I[LinksTableName]` WHERE `IsActive`=1";
+      if($ResponderType == 4)// Campaign can have all links in one table
+         $_QLfol .= " AND `Campaigns_id`=$ResponderId";
 
-      if($ResponderType == 6 && isset($_Jf0Ii["DistributionListEntryId"])){ // DistributionList has all links in one table
-        $_QJlJ0 .= " AND `distriblistentry_id`=$_Jf0Ii[DistributionListEntryId]";
+      if($ResponderType == 6 && isset($_6j88I["DistributionListEntryId"])){ // DistributionList has all links in one table
+        $_QLfol .= " AND `distriblistentry_id`=$_6j88I[DistributionListEntryId]";
       }
 
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
         $link = "";
-        $_QffOf = "";
-        if(strpos($_Q6Q1C["Link"], "?") !== false){
-          $_QffOf = "&".substr($_Q6Q1C["Link"], strpos($_Q6Q1C["Link"], "?") + 1);
+        $_I08CQ = "";
+        if(strpos($_QLO0f["Link"], "?") !== false){
+          $_I08CQ = "&".substr($_QLO0f["Link"], strpos($_QLO0f["Link"], "?") + 1);
         }
 
-        if( $_Jf0Ii["TrackLinks"] && !$_Jf0Ii["TrackLinksByRecipient"] ) {
-           $link = $_fIttL."?link=$_Jill8"."_".sprintf("%X", $_Q6Q1C["id"]).$_QffOf;
+        if( $_6j88I["TrackLinks"] && !$_6j88I["TrackLinksByRecipient"] ) {
+           $link = $_8itQj."?link=$_fj0ol"."_".sprintf("%X", $_QLO0f["id"]).$_I08CQ;
         } else
-         if( ($_Jf0Ii["TrackLinks"] && $_Jf0Ii["TrackLinksByRecipient"]) || !$_Jf0Ii["TrackLinks"] ) {
-            $link = $_fIttL."?link=$_Jill8"."_".sprintf("%X", $_Q6Q1C["id"])."_"."$_jIiQ8[IdentString]".$_QffOf;
+         if( ($_6j88I["TrackLinks"] && $_6j88I["TrackLinksByRecipient"]) || !$_6j88I["TrackLinks"] ) {
+            $link = $_8itQj."?link=$_fj0ol"."_".sprintf("%X", $_QLO0f["id"])."_"."$_j11Io[IdentString]".$_I08CQ;
          }
 
         if($link != "") {
-           $_Q6ICj = str_replace('"'.$_Q6Q1C["Link"].'"', '"'.$link.'"', $_Q6ICj);
-           if($_QffOf == "")
-              $_Q6ICj = str_replace('"'._OBLDR($_Q6Q1C["Link"]).'"', '"'.$link.'"', $_Q6ICj);
+           $_QLoli = str_replace('"'.$_QLO0f["Link"].'"', '"'.$link.'"', $_QLoli);
+           if($_I08CQ == "")
+              $_QLoli = str_replace('"'._LPC1C($_QLO0f["Link"]).'"', '"'.$link.'"', $_QLoli);
         }
 
       }
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
     }
 
-    return $_Q6ICj;
+    return $_QLoli;
   }
 
 ?>

@@ -26,38 +26,38 @@
   include_once("sessioncheck.inc.php");
 
   if($OwnerUserId != 0) {
-    if(empty($_QJojf) || !is_array($_QJojf))
-      $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeInboxRemove"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    if(empty($_QLJJ6) || !is_array($_QLJJ6))
+      $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeInboxRemove"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  if(isset($_6681f))
-     unset($_6681f);
-  $_6681f = array();
+  if(isset($_filCL))
+     unset($_filCL);
+  $_filCL = array();
   if ( isset($_POST["OneInboxListId"]) && $_POST["OneInboxListId"] != "" )
-      $_6681f[] = $_POST["OneInboxListId"];
+      $_filCL[] = $_POST["OneInboxListId"];
       else
       if ( isset($_POST["OneInboxListIds"]) )
-        $_6681f = array_merge($_6681f, $_POST["OneInboxListIds"]);
+        $_filCL = array_merge($_filCL, $_POST["OneInboxListIds"]);
 
 
-  $_QtIiC = array();
-  _L1ADA($_6681f, $_QtIiC);
+  $_IQ0Cj = array();
+  _J1BRR($_filCL, $_IQ0Cj);
 
   // we don't check for errors here
-  function _L1ADA($_6681f, &$_QtIiC) {
-    global $_QolLi, $_Q61I1;
+  function _J1BRR($_filCL, &$_IQ0Cj) {
+    global $_IjljI, $_QLttI;
 
-    for($_Q6llo=0; $_Q6llo<count($_6681f); $_Q6llo++) {
+    for($_Qli6J=0; $_Qli6J<count($_filCL); $_Qli6J++) {
       // and now from mtas table
-      $_QJlJ0 = "DELETE FROM $_QolLi WHERE id=".intval($_6681f[$_Q6llo]);
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM $_IjljI WHERE id=".intval($_filCL[$_Qli6J]);
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
     }
   }
 

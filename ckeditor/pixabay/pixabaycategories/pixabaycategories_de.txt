@@ -1,0 +1,26 @@
+Alle;0;category=;
+Ostern;1;category=;q=ostern|hase
+Helloween;2;category=;q=helloween
+Weihnachten;3;category=;q=weihnachten
+Neues Jahr;4;category=;q=neujahr|silvester
+Geburtstag;5;category=;q=geburtstag
+Architektur/Gebäude;100;category=buildings;
+Business/Finanzen;100;category=business;
+Computer/Kommunikation;100;category=computer;
+Emotionen;100;category=feelings;
+Essen/Trinken;100;category=food;
+Gesundheit/Medizin;100;category=health;
+Hintergründe/Muster;100;category=backgrounds;
+Industrie/Handwerk;100;category=industry;
+Menschen;100;category=people;
+Musik;100;category=music;
+Natur/Landschaft;100;category=nature;
+Plätze/Monumente;100;category=places;
+Reisen/Ferien;100;category=travel;
+Religion;100;category=religion;
+Schönheit/Mode;100;category=fashion;
+Schule/Ausbildung;100;category=education;
+Sport;100;category=sports;
+Tiere;100;category=animals;
+Transport/Verkehr;100;category=transportation;
+Wissenschaft/Technik;100;category=science;

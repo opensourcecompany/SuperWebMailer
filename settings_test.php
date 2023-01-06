@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,29 +26,38 @@
   include_once("templates.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeSystemTest"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeSystemTest"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
   $errors = array();
-  $_I0600 = "";
+  $_Itfj8 = "";
 
-  $_QJlJ0= "SELECT EMail FROM $_Q8f1L WHERE id=$UserId";
-  $_Q60l1 = mysql_query($_QJlJ0);
-  _OAL8F($_QJlJ0);
-  $_6OftJ=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_QLfol= "SELECT EMail FROM $_I18lo WHERE id=$UserId";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_8IfOt=mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
 
   if(isset($_POST['LocalMailSendBtn'])) {
-    if( !mail($_6OftJ["EMail"], $AppName." Test", $AppName." Test", "From: ".$_6OftJ["EMail"]."\r\n") )
-      $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000327"];
+    $_6j8O1 = @ini_set('track_errors', 1);
+    if( !mail($_8IfOt["EMail"], $AppName." Test", $AppName." Test", "From: ".$_8IfOt["EMail"]."\r\n") ){
+      $_6lio8 = "";
+      if(function_exists("error_get_last"))
+        $_6lio8 = " " . join(" ", error_get_last());
+        else
+        if(isset($php_errormsg))
+          $_6lio8 = " " . $php_errormsg;
+      $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000327"] . $_6lio8;
+    }
       else
-      $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000326"];
+      $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000326"];
+    @ini_set('track_errors', $_6j8O1);
   }
 
   if(isset($_POST["phpinfoBtn"])) {
@@ -58,18 +67,18 @@
 
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000325"], $_I0600, 'settings_test', 'settings_test_snipped.htm');
-  $_QJCJi = _OPFJA($errors, $_POST, $_QJCJi);
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000325"], $_Itfj8, 'settings_test', 'settings_test_snipped.htm');
+  $_QLJfI = _L8AOB($errors, $_POST, $_QLJfI);
 
   if($UserType == "SuperAdmin") {
-    $_QJCJi = _OP6PQ($_QJCJi, "<IF:NOT_SUPERADMIN>", "</IF:NOT_SUPERADMIN>");
+    $_QLJfI = _L80DF($_QLJfI, "<IF:NOT_SUPERADMIN>", "</IF:NOT_SUPERADMIN>");
   } else {
-    $_QJCJi = str_replace("<IF:NOT_SUPERADMIN>", "", $_QJCJi);
-    $_QJCJi = str_replace("</IF:NOT_SUPERADMIN>", "", $_QJCJi);
+    $_QLJfI = str_replace("<IF:NOT_SUPERADMIN>", "", $_QLJfI);
+    $_QLJfI = str_replace("</IF:NOT_SUPERADMIN>", "", $_QLJfI);
   }
 
-  $_QJCJi = _OPR6L($_QJCJi, "<EMAILADDRESS>", "</EMAILADDRESS>", $_6OftJ["EMail"]);
+  $_QLJfI = _L81BJ($_QLJfI, "<EMAILADDRESS>", "</EMAILADDRESS>", $_8IfOt["EMail"]);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 ?>

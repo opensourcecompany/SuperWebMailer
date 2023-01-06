@@ -152,7 +152,7 @@ body {
           
           if(IsIFrame) {
             //SourceElement.onload=function() {_IPE();}
-            SourceElement.src=SourceURL+"ipe_loadhtmltemplate.php?id=" + value;
+            CreateFormAndPostIt(SourceURL + "ipe_loadhtmltemplate.php?id=" + value, {}, "post", document.getElementById("formIframeName").value);
           }
           else
           if(!IsFCK) {
@@ -175,7 +175,7 @@ body {
       <input type="hidden" name="_FORMNAME" />
       <input type="hidden" name="_FORMFIELD" />
       <input type="hidden" name="_IsFCKEditor" />
-      <input type="hidden" name="formIframeName" />
+      <input type="hidden" name="formIframeName" id="formIframeName" />
       <input type="hidden" name="wizardableonly" />
 
       <script language="javascript" type="text/javascript">

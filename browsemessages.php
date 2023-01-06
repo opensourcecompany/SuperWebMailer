@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -28,20 +28,20 @@
   include_once("defaulttexts.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeMessageBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeMessageBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  if (count($_POST) == 0)
-    _O81AE();
+  if (count($_POST) <= 1)
+    _LJFP0();
 
-  $_I0600 = "";
-  if (count($_POST) != 0) {
+  $_Itfj8 = "";
+  if (count($_POST) > 1) {
     if( isset($_POST["OneMessageListAction"]) && isset($_POST["OneMessageListId"]) ) {
       // hier die Einzelaktionen
       if($_POST["OneMessageListAction"] == "EditMessageProperties") {
@@ -52,10 +52,10 @@
       if($_POST["OneMessageListAction"] == "DeleteMessage") {
 
           if($OwnerUserId != 0) {
-            if(!$_QJojf["PrivilegeMessageRemove"]) {
-              $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-              $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-              print $_QJCJi;
+            if(!$_QLJJ6["PrivilegeMessageRemove"]) {
+              $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+              $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+              print $_QLJfI;
               exit;
             }
           }
@@ -63,195 +63,195 @@
         include_once("removemessage.inc.php");
 
         // show now the list
-        if(count($_QtIiC) > 0)
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000062"].join("<br />", $_QtIiC);
+        if(count($_IQ0Cj) > 0)
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000062"].join("<br />", $_IQ0Cj);
         else
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000061"];
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000061"];
       }
     }
 
   }
 
   // default SQL query
-  $_QJlJ0 = "SELECT DISTINCT {} FROM $_QLo0Q";
+  $_QLfol = "SELECT DISTINCT {} FROM $_Ifi1J";
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000063"].$resourcestrings[$INTERFACE_LANGUAGE]["EntryCount"], $_I0600, 'browsemessages', 'browse_messages_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000063"].$resourcestrings[$INTERFACE_LANGUAGE]["EntryCount"], $_Itfj8, 'browsemessages', 'browse_messages_snipped.htm');
 
-  $_QJCJi = _OJ1R0($_QJlJ0, $_QJCJi);
+  $_QLJfI = _LQ011($_QLfol, $_QLJfI);
 
   // privilegs
   if($OwnerUserId != 0) {
-    $_Q6ICj = substr($_QJCJi, strpos($_QJCJi, '<div class="PageContainer">'));
-    $_IIf8o = substr($_QJCJi, 0, strpos($_QJCJi, '<div class="PageContainer">') - 1);
+    $_QLoli = substr($_QLJfI, strpos($_QLJfI, '<div class="PageContainer">'));
+    $_ICIIQ = substr($_QLJfI, 0, strpos($_QLJfI, '<div class="PageContainer">') - 1);
 
-    $_QJojf = _OBOOC($UserId);
+    $_QLJJ6 = _LPALQ($UserId);
 
-    if(!$_QJojf["PrivilegeMessageCreate"]) {
-      $_Q6ICj = _LJ6RJ($_Q6ICj, "messageedit.php");
+    if(!$_QLJJ6["PrivilegeMessageCreate"]) {
+      $_QLoli = _JJC0E($_QLoli, "messageedit.php");
     }
-    if(!$_QJojf["PrivilegeMessageEdit"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "EditMessageProperties");
-    }
-
-    if(!$_QJojf["PrivilegeMessageRemove"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "DeleteMessage");
-      $_Q6ICj = _LJRLJ($_Q6ICj, "RemoveMessages");
+    if(!$_QLJJ6["PrivilegeMessageEdit"]) {
+      $_QLoli = _JJC1E($_QLoli, "EditMessageProperties");
     }
 
-    $_QJCJi = $_IIf8o.$_Q6ICj;
+    if(!$_QLJJ6["PrivilegeMessageRemove"]) {
+      $_QLoli = _JJC1E($_QLoli, "DeleteMessage");
+      $_QLoli = _JJCRD($_QLoli, "RemoveMessages");
+    }
+
+    $_QLJfI = $_ICIIQ.$_QLoli;
   }
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 
 
-  function _OJ1R0($_QJlJ0, $_Q6ICj) {
-    global $_QLo0Q, $UserId, $OwnerUserId, $_SESSION, $INTERFACE_LANGUAGE, $resourcestrings, $_Q60QL, $_Q6fio;
-    $_I61Cl = array();
+  function _LQ011($_QLfol, $_QLoli) {
+    global $_Ifi1J, $UserId, $OwnerUserId, $_SESSION, $INTERFACE_LANGUAGE, $resourcestrings, $_QL88I, $_QlQot;
+    $_Il0o6 = array();
 
     // wie viele pro Seite?
-    $_I6Q68 = 20;
+    $_Il1jO = 20;
     if(isset($_POST["ItemsPerPage"])) {
-       $_QllO8 = intval($_POST["ItemsPerPage"]);
-       if ($_QllO8 <= 0) $_QllO8 = 20;
-       $_I6Q68 = $_QllO8;
+       $_I016j = intval($_POST["ItemsPerPage"]);
+       if ($_I016j <= 0) $_I016j = 20;
+       $_Il1jO = $_I016j;
     }
-    $_I61Cl["ItemsPerPage"] = $_I6Q68;
+    $_Il0o6["ItemsPerPage"] = $_Il1jO;
 
-    $_IJQQI = 0;
+    $_Iil6i = 0;
     if ( (!isset($_POST['PageSelected'])) || ($_POST['PageSelected'] == 0) )
-      $_I6Q6O = 1;
+      $_IlQQ6 = 1;
       else
-      $_I6Q6O = intval($_POST['PageSelected']);
+      $_IlQQ6 = intval($_POST['PageSelected']);
 
     // zaehlen wie viele es sind
-    $_I6Qfj = 0;
-    $_QtjtL = $_QJlJ0;
-    $_QtjtL = str_replace('{}', 'COUNT(id)', $_QtjtL);
-    $_Q60l1 = mysql_query($_QtjtL);
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_I6Qfj = $_Q6Q1C[0];
-    $_I6IJ8 = $_I6Qfj / $_I6Q68;
-    $_I6IJ8 = ceil($_I6IJ8);
-    if(intval($_I6IJ8 * $_I6Q68) - $_I6Q68 > $_I6Qfj)
-       if($_I6IJ8 > 1) $_I6IJ8--;
-    $_Q6ICj = str_replace ('%RECIPIENTCOUNT%', $_I6Qfj, $_Q6ICj);
+    $_IlQll = 0;
+    $_QLlO6 = $_QLfol;
+    $_QLlO6 = str_replace('{}', 'COUNT(id)', $_QLlO6);
+    $_QL8i1 = mysql_query($_QLlO6);
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_IlQll = $_QLO0f[0];
+    $_IlILC = $_IlQll / $_Il1jO;
+    $_IlILC = ceil($_IlILC);
+    if(intval($_IlILC * $_Il1jO) - $_Il1jO > $_IlQll)
+       if($_IlILC > 1) $_IlILC--;
+    $_QLoli = str_replace ('%RECIPIENTCOUNT%', $_IlQll, $_QLoli);
 
     if( isset( $_POST["OneMessageListId"] ) && ($_POST["OneMessageListId"] == "Top") )
-       $_I6Q6O = 1;
+       $_IlQQ6 = 1;
     if( isset( $_POST["OneMessageListId"] ) && ($_POST["OneMessageListId"] == "Prev") )
-       $_I6Q6O = $_I6Q6O - 1;
+       $_IlQQ6 = $_IlQQ6 - 1;
     if( isset( $_POST["OneMessageListId"] ) && ($_POST["OneMessageListId"] == "Next") )
-       $_I6Q6O = $_I6Q6O + 1;
+       $_IlQQ6 = $_IlQQ6 + 1;
     if( isset( $_POST["OneMessageListId"] ) && ($_POST["OneMessageListId"] == "End") )
-       $_I6Q6O = $_I6IJ8;
+       $_IlQQ6 = $_IlILC;
 
-    if ( ($_I6Q6O > $_I6IJ8) || ($_I6Q6O <= 0) )
-       $_I6Q6O = 1;
+    if ( ($_IlQQ6 > $_IlILC) || ($_IlQQ6 <= 0) )
+       $_IlQQ6 = 1;
 
-    $_IJQQI = ($_I6Q6O - 1) * $_I6Q68;
+    $_Iil6i = ($_IlQQ6 - 1) * $_Il1jO;
 
-    $_Q6i6i = "";
-    for($_Q6llo=1; $_Q6llo<=$_I6IJ8; $_Q6llo++)
-      if($_Q6llo != $_I6Q6O)
-       $_Q6i6i .= "<option>$_Q6llo</option>";
+    $_QlOjt = "";
+    for($_Qli6J=1; $_Qli6J<=$_IlILC; $_Qli6J++)
+      if($_Qli6J != $_IlQQ6)
+       $_QlOjt .= "<option>$_Qli6J</option>";
        else
-       $_Q6i6i .= '<option selected="selected">'.$_Q6llo.'</option>';
+       $_QlOjt .= '<option selected="selected">'.$_Qli6J.'</option>';
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<OPTION:PAGES>", "</OPTION:PAGES>", $_Q6i6i);
+    $_QLoli = _L81BJ($_QLoli, "<OPTION:PAGES>", "</OPTION:PAGES>", $_QlOjt);
 
     // Nav-Buttons
-    $_I6ICC = "";
-    if($_I6Q6O == 1) {
-      $_I6ICC .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
+    $_Iljoj = "";
+    if($_IlQQ6 == 1) {
+      $_Iljoj .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
     }
-    if ( ($_I6Q6O == $_I6IJ8) || ($_I6Qfj == 0) ) {
-      $_I6ICC .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
+    if ( ($_IlQQ6 == $_IlILC) || ($_IlQll == 0) ) {
+      $_Iljoj .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
     }
 
-    if($_I6Qfj == 0)
-      $_I6ICC .= "  DisableItem('PageSelected', false);\r\n";
+    if($_IlQll == 0)
+      $_Iljoj .= "  DisableItem('PageSelected', false);\r\n";
 
-    $_Q6ICj = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_I6ICC, $_Q6ICj);
+    $_QLoli = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_Iljoj, $_QLoli);
     //
 
     // Sort
-    $_I6jfj = " ORDER BY Name ASC";
+    $_IlJj8 = " ORDER BY Name ASC";
 
-    $_QJlJ0 .= $_I6jfj;
+    $_QLfol .= $_IlJj8;
 
-    $_QJlJ0 .= " LIMIT $_IJQQI, $_I6Q68";
+    $_QLfol .= " LIMIT $_Iil6i, $_Il1jO";
 
-    $_QJlJ0 = str_replace('{}', 'id, Name, '.$_QLo0Q.'.IsDefault', $_QJlJ0);
-    $_Q60l1 = mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
+    $_QLfol = str_replace('{}', 'id, Name, '.$_Ifi1J.'.IsDefault', $_QLfol);
+    $_QL8i1 = mysql_query($_QLfol);
+    _L8D88($_QLfol);
 
     // get all table FormsTable
-    $_I6jtI = array();
-    $_I6jtf = "SELECT FormsTableName FROM $_Q60QL";
+    $_IlJ61 = array();
+    $_IlJlC = "SELECT FormsTableName FROM $_QL88I";
     if($OwnerUserId == 0) // ist es ein Admin?
-       $_I6jtf .= " WHERE (users_id=$UserId)";
+       $_IlJlC .= " WHERE (users_id=$UserId)";
        else {
-        $_I6jtf .= " LEFT JOIN $_Q6fio ON $_Q60QL.id=$_Q6fio.maillists_id WHERE (".$_Q6fio.".users_id=$UserId) AND ($_Q60QL.users_id=$OwnerUserId)";
+        $_IlJlC .= " LEFT JOIN $_QlQot ON $_QL88I.id=$_QlQot.maillists_id WHERE (".$_QlQot.".users_id=$UserId) AND ($_QL88I.users_id=$OwnerUserId)";
        }
 
-    $_Q8Oj8 = mysql_query($_I6jtf);
-    while ($_Q8OiJ = mysql_fetch_row($_Q8Oj8)) {
-      $_I6jtI[] = $_Q8OiJ[0];
+    $_I1O6j = mysql_query($_IlJlC);
+    while ($_I1OfI = mysql_fetch_row($_I1O6j)) {
+      $_IlJ61[] = $_I1OfI[0];
     }
-    mysql_free_result($_Q8Oj8);
+    mysql_free_result($_I1O6j);
 
-    $_Q6tjl = "";
-    $_IIJi1 = _OP81D($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>");
-    $_IIJi1 = str_replace ('<LIST:ENTRY>', '', $_IIJi1);
-    $_IIJi1 = str_replace ('</LIST:ENTRY>', '', $_IIJi1);
+    $_QlIf1 = "";
+    $_IC1C6 = _L81DB($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>");
+    $_IC1C6 = str_replace ('<LIST:ENTRY>', '', $_IC1C6);
+    $_IC1C6 = str_replace ('</LIST:ENTRY>', '', $_IC1C6);
 
-    while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-      $_Q66jQ = $_IIJi1;
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:ID>", "</LIST:ID>", $_Q6Q1C["id"]);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:NAME>", "</LIST:NAME>", $_Q6Q1C["Name"]);
+    while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+      $_Ql0fO = $_IC1C6;
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:ID>", "</LIST:ID>", $_QLO0f["id"]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:NAME>", "</LIST:NAME>", $_QLO0f["Name"]);
 
-      $_Q66jQ = str_replace ('name="EditMessageProperties"', 'name="EditMessageProperties" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
-      $_Q66jQ = str_replace ('name="DeleteMessage"', 'name="DeleteMessage" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
+      $_Ql0fO = str_replace ('name="EditMessageProperties"', 'name="EditMessageProperties" value="'.$_QLO0f["id"].'"', $_Ql0fO);
+      $_Ql0fO = str_replace ('name="DeleteMessage"', 'name="DeleteMessage" value="'.$_QLO0f["id"].'"', $_Ql0fO);
 
-      if($_Q6Q1C["IsDefault"]) {
-        $_Q66jQ = _OPR6L($_Q66jQ, "<CAN:DELETE>", "</CAN:DELETE>", $resourcestrings[$INTERFACE_LANGUAGE]["000031"]);
+      if($_QLO0f["IsDefault"]) {
+        $_Ql0fO = _L81BJ($_Ql0fO, "<CAN:DELETE>", "</CAN:DELETE>", $resourcestrings[$INTERFACE_LANGUAGE]["000031"]);
       } else {
         // referenzen vorhanden?
-        $_IflL6 = 0;
-        for($_Q6llo=0; $_Q6llo<count($_I6jtI); $_Q6llo++) {
-          $_QJlJ0 = "SELECT COUNT(*) FROM $_I6jtI[$_Q6llo] WHERE messages_id=$_Q6Q1C[id]";
-          $_ItlJl = mysql_query($_QJlJ0);
-          _OAL8F($_QJlJ0);
-          $_IO08Q = mysql_fetch_row($_ItlJl);
-          $_IflL6 += $_IO08Q[0];
-          mysql_free_result($_ItlJl);
-          if($_IflL6 > 0) break;
+        $_j1881 = 0;
+        for($_Qli6J=0; $_Qli6J<count($_IlJ61); $_Qli6J++) {
+          $_QLfol = "SELECT COUNT(*) FROM $_IlJ61[$_Qli6J] WHERE messages_id=$_QLO0f[id]";
+          $_jjJfo = mysql_query($_QLfol);
+          _L8D88($_QLfol);
+          $_jj6L6 = mysql_fetch_row($_jjJfo);
+          $_j1881 += $_jj6L6[0];
+          mysql_free_result($_jjJfo);
+          if($_j1881 > 0) break;
         }
-        if($_IflL6 > 0)
-           $_Q66jQ = _OPR6L($_Q66jQ, "<CAN:DELETE>", "</CAN:DELETE>", $resourcestrings[$INTERFACE_LANGUAGE]["000033"]);
+        if($_j1881 > 0)
+           $_Ql0fO = _L81BJ($_Ql0fO, "<CAN:DELETE>", "</CAN:DELETE>", $resourcestrings[$INTERFACE_LANGUAGE]["000033"]);
       }
 
-      $_Q6tjl .= $_Q66jQ;
+      $_QlIf1 .= $_Ql0fO;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>", $_Q6tjl);
+    $_QLoli = _L81BJ($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>", $_QlIf1);
 
-    $_Q6ICj = _OPFJA(array(), $_I61Cl, $_Q6ICj);
+    $_QLoli = _L8AOB(array(), $_Il0o6, $_QLoli);
 
-    $_Q6ICj = str_replace ("<CAN:DELETE>", "", $_Q6ICj);
-    $_Q6ICj = str_replace ("</CAN:DELETE>", "", $_Q6ICj);
+    $_QLoli = str_replace ("<CAN:DELETE>", "", $_QLoli);
+    $_QLoli = str_replace ("</CAN:DELETE>", "", $_QLoli);
 
-    return $_Q6ICj;
+    return $_QLoli;
   }
 
 ?>

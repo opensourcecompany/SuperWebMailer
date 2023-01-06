@@ -155,6 +155,8 @@ body {
      newFileName = newFileName.replace(/\?/g, "");
      newFileName = newFileName.replace(/\"/g, "");
      newFileName = newFileName.replace(/\'/g, "");
+     newFileName = newFileName.replace(/\</g, "");
+     newFileName = newFileName.replace(/\>/g, "");
      if(newFileName == "") return false;
 
      if(newFileName.indexOf(".") < 0 && newFileName.indexOf("*") < 0)
@@ -173,6 +175,8 @@ body {
      visibleattachmentname = visibleattachmentname.replace(/\?/g, "");
      visibleattachmentname = visibleattachmentname.replace(/\"/g, "");
      visibleattachmentname = visibleattachmentname.replace(/\'/g, "");
+     visibleattachmentname = visibleattachmentname.replace(/\>/g, "");
+     visibleattachmentname = visibleattachmentname.replace(/\</g, "");
      if(newFileName.indexOf("*") > -1 && visibleattachmentname != ""){
         visibleattachmentname = "";
         alert(html_entity_decode("Bei Verwendung des Wildcard-Zeichens '*' kann kein anzuzeigender Dateiname vergeben werden."));

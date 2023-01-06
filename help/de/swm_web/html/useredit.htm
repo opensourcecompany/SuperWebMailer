@@ -75,13 +75,17 @@ Nutzer, falls das Erstellen neuer Nutzer erlaubt ist, der Nutzer-Typ Nutzer.</p>
       Benutzername und Kennwort &quot;user&quot; ist z.B. mehr als unsicher.
       Schwierige Kennworte können Sie z.B. in der Software <a href="http://www.alle-meine-passworte.de" target="_blank">Alle
       meine Passworte</a> erstellen und dauerhaft speichern.</b></p>
+      <p>Wurde für die <a href="settings_authsettings.htm">Authentifizierung an
+      der Weboberfläche</a> LDAP gewählt, wird das eingegebene Kennwort nicht
+      verwendet.</p>
       <p>&nbsp;</td>
   </tr>
   <tr valign="top">
     <td width="28%">E-Mail-Adresse</td>
     <td width="72%">Geben Sie die E-Mail-Adresse des Nutzers ein. Mit Hilfe der
       E-Mail-Adresse kann sich der Nutzer selbst das Kennwort zusenden, falls er
-      es vergessen hat.
+      es vergessen hat (nicht bei <a href="settings_authsettings.htm">Authentifizierung
+      an der Weboberfläche</a> mit LDAP).
       <p><b>Hinweis:</b> Bei einem Administrator wird bei der Erstellung von
       Empfängerlisten, Autorespondern, Mailings, Follow-Up-Respondern und
       Geburtstags-Respondern die E-Mail-Adresse, Vorname und Nachname als
@@ -129,10 +133,31 @@ Nutzer, falls das Erstellen neuer Nutzer erlaubt ist, der Nutzer-Typ Nutzer.</p>
       <p>&nbsp;</td>
   </tr>
 </table>
+<p>&nbsp;</p>
+<p>Nur als <b>SuperAdmin </b>beim Ändern eines Admin-Nutzer<b> </b>bzw. als
+Admin-Nutzer beim Ändern eines Nutzer-Kontos und aktivierter
+2-Faktor-Authentisierung.</p>
+<table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
+  <tr valign="top">
+    <td width="28%">2-Faktor-Authentisierung - Secret/Seed</td>
+    <td width="72%">Es wird das Secret/Seed des Nutzer angezeigt, falls der
+      Nutzer sich bereits einmal nach aktivierter 2-Faktor-Authentisierung
+      angemeldet hat.
+      <p>Sollte der Nutzer das Secret/Seed vergessen haben, dann kann es hier
+      wieder zur Verfügung gestellt werden. Alternativ kann das Secret/Seed
+      zurückgesetzt werden, so dass bei erneuter Anmeldung des Nutzers ein
+      neues Secret/Seed erstellt und angezeigt wird.</p>
+      <p>WICHTIG: Für den Nutzer SuperAdmin kann das Secret/Seed nicht
+      zurückgesetzt werden., es muss dauerhaft an einem sicheren Ort
+      gespeichert werden.</p>
+      <p>&nbsp;</td>
+  </tr>
+</table>
+<p>&nbsp;</p>
 <p>Nur als <b>SuperAdmin</b></p>
 <table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
   <tr valign="top">
-    <td width="28%">URL / http://-Aufruf der Grafikdatei</td>
+    <td width="28%">URL / http(s)://-Aufruf der Grafikdatei</td>
     <td width="72%">Für jeden Administrator kann ein eigenes Logo definiert
       werden, welches links oben in der Ecke dargestellt wird. Ist kein Logo
       definiert, dann wird das Logo angezeigt welches unter Menü Einstellungen
@@ -165,7 +190,7 @@ als Admin-Nutzer, beim Ändern des eigenen Kontos</p>
     <td width="72%">Es ist möglich den Aufruf der Scripte für die
       Newsletteran- und Newsletterabmeldung zu limitieren, um so den Aufruf
       durch automatisierte Scripte von außen zu verhindern. Die Limitierung
-      erfolgt dabei anhand der IP-Adresse des Aufrufers. 
+      erfolgt dabei anhand der IP-Adresse des Aufrufers.
       <p>Wählen Sie die Variante &quot;Unlimitiert&quot;, um keine
       Limitierungen vorzunehmen (Standard).</p>
       <p>Bei Wahl der Variante &quot;Limitiert auf&quot;, geben Sie an wie viele
@@ -183,7 +208,11 @@ als Admin-Nutzer, beim Ändern des eigenen Kontos</p>
 <p>&nbsp;</p>
 <p><b>Registerkarte Persönliche Daten</b></p>
 <p>Auf dieser Registerkarte können Namen und Anschrift angeben werden, die
-Angaben sind keine Pflichtangaben.</p>
+Angaben sind keine Pflichtangaben. Es ist jedoch empfehlenswert die Daten
+auszufüllen, da diese Daten für die Erstellung der <a href="recipientedit.htm">Auskunft
+zu gespeicherten Daten nach Art. 15 DSGVO</a> verwendet werden. Die URL zur
+eigenen Datenschutzerklärung wird automatisch beim Anlegen einer neuen
+Empfängerliste <a href="formedit.htm">im Standard-Formular übernommen</a>.</p>
 <p>Bei einem Administrator wird bei der Erstellung von Empfängerlisten,
 Autorespondern, Mailings, Follow-Up-Respondern und Geburtstags-Respondern die
 E-Mail-Adresse, Vorname und Nachname als Absender-E-Mail-Adresse und angezeigter

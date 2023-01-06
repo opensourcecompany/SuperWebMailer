@@ -30,6 +30,7 @@ DHTML_modalMessage = function()
 	var height;								// Height of message box
 	
 	var existingBodyOverFlowStyle;			// Existing body overflow css
+	var existingHTMLOverFlowStyle = '';			// Existing HTML overflow css
 	var dynContentObj;						// Reference to dynamic content object
 	var cssClassOfMessageBox;				// Alternative css class of message box - in case you want a different appearance on one of them
 	var shadowDivVisible;					// Shadow div visible ? 
@@ -150,24 +151,29 @@ DHTML_modalMessage.prototype = {
 		if(!this.divs_transparentDiv){
 			this.__createDivs();
 		}	
-		
+
 		// Redisplaying divs
+  this.divs_content.innerHTML = '';
 		this.divs_transparentDiv.style.display='block';
 		this.divs_content.style.display='block';
 		this.divs_shadow.style.display='block';		
 		if(this.MSIE)this.iframe.style.display='block';	
-		this.__resizeDivs();
-		
+		this.__resizeDivs(1);
+
 		/* Call the __resizeDivs method twice in case the css file has changed. The first execution of this method may not catch these changes */
 		window.refToThisModalBoxObj = this;		
-		setTimeout('window.refToThisModalBoxObj.__resizeDivs()',150);
-		
+		setTimeout('window.refToThisModalBoxObj.__resizeDivs(0)',10);
+		setTimeout('window.refToThisModalBoxObj.__resizeDivs(0)',100);
+
+  if (document.documentElement.scrollLeft == 0 && document.body.scrollLeft == 0)
+     document.documentElement.style.cssText = 'overflow-x: hidden;' + document.documentElement.style.cssText;
+
 		this.__insertContent();	// Calling method which inserts content into the message div.
 
   if(this.CloseOnEscape == true) {
-    var Escapefunction = function(e){ if ((e.which && e.which == 27) || (e.keyCode && e.keyCode == 27)) { window.refToThisModalBoxObj.close(); e.preventDefault ? e.preventDefault() : e.returnValue = false; e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true; return false; } };
-    this.addEvent(window,'keydown', Escapefunction);
-    this.addEvent(window,'keypress', Escapefunction);
+    function mmEscapefunction(e){ if ((e.which && e.which == 27) || (e.keyCode && e.keyCode == 27)) { try {window.refToThisModalBoxObj.removeEvent(window,'keydown', mmEscapefunction); window.refToThisModalBoxObj.removeEvent(window,'keypress', mmEscapefunction);} catch(E) {} window.refToThisModalBoxObj.close(); e.preventDefault ? e.preventDefault() : e.returnValue = false; e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true; return false; } };
+    this.addEvent(window,'keydown', mmEscapefunction);
+    this.addEvent(window,'keypress', mmEscapefunction);
   }
 
   if(this.defaultButtonOnReturnKey == true) {
@@ -176,7 +182,7 @@ DHTML_modalMessage.prototype = {
     if(!body)
      body = window;
 
-    this.addEvent(body,'keydown', function(e){
+    this.addEvent(body,'keydown', function mmkeydown(e){
 
        if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)){
 
@@ -185,13 +191,14 @@ DHTML_modalMessage.prototype = {
            btn.click();
            e.preventDefault ? e.preventDefault() : e.returnValue = false;
            e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+           try {window.refToThisModalBoxObj.removeEvent(body,'keydown', mmkeydown);} catch(E) {}
            return false;
          }
        }
 
      });
 
-    this.addEvent(body,'keypress', function(e){
+    this.addEvent(body,'keypress', function mmkeypress(e){
        if ((e.which && e.which == 13) || (e.keyCode && e.keyCode == 13)){
 
          var btn = document.getElementById('defaultBtn');
@@ -199,6 +206,7 @@ DHTML_modalMessage.prototype = {
            btn.click();
            e.preventDefault ? e.preventDefault() : e.returnValue = false;
            e.stopPropagation ? e.stopPropagation() : e.cancelBubble = true;
+           try {window.refToThisModalBoxObj.removeEvent(body,'keypress', mmkeypress);} catch(E) {}
            return false;
          }
        }
@@ -233,13 +241,17 @@ DHTML_modalMessage.prototype = {
 	close : function()
 	{
 		//document.documentElement.style.overflow = '';	// Setting the CSS overflow attribute of the <html> tag back to default.
-		
+
 		/* Hiding divs */
-		this.divs_transparentDiv.style.display='none';
-		this.divs_content.style.display='none';
-		this.divs_shadow.style.display='none';
-		if(this.MSIE)this.iframe.style.display='none';
-		
+  if(this && this.divs_transparentDiv){
+   this.divs_transparentDiv.style.display='none';
+	 	this.divs_content.style.display='none';
+		 this.divs_shadow.style.display='none';
+ 		if(this.MSIE)this.iframe.style.display='none';
+   document.documentElement.style.cssText = this.existingHTMLOverFlowStyle;
+  }
+
+
 	}	
 	// }}}	
 	,
@@ -248,13 +260,13 @@ DHTML_modalMessage.prototype = {
 	{
 		var v = document.getElementById(fieldname);
   if(v)
-   v.focus();
+   v.focus({preventScroll:true});
 		if(this.MSIE) {
     var i = this.iframe.contentDocument || this.iframe.contentWindow.document;
     if(i){
       var v = i.getElementById(fieldname);
       if(v)
-       v.focus();
+       v.focus({preventScroll:true});
     }
   }
 	}
@@ -338,6 +350,7 @@ DHTML_modalMessage.prototype = {
 		this.addEvent(window,'scroll',function(e){ window.refToModMessage.__repositionTransparentDiv() });
 		this.addEvent(window,'resize',function(e){ window.refToModMessage.__repositionTransparentDiv() });
 		
+  this.existingHTMLOverFlowStyle = document.documentElement.style.cssText;
 
 	}
 	// }}}
@@ -379,15 +392,15 @@ DHTML_modalMessage.prototype = {
      *
      * @private	
      */	
-    __resizeDivs : function()
+    __resizeDivs : function(firstShow)
     {
     	
     	var topOffset = Math.max(document.body.scrollTop,document.documentElement.scrollTop);
 
-		if(this.cssClassOfMessageBox)
-			this.divs_content.className=this.cssClassOfMessageBox;
-		else
-			this.divs_content.className='modalDialog_contentDiv';	
+   		if(this.cssClassOfMessageBox)
+   			this.divs_content.className=this.cssClassOfMessageBox;
+   		else
+   			this.divs_content.className='modalDialog_contentDiv';
 			    	
     	if(!this.divs_transparentDiv)return;
     	
@@ -395,8 +408,10 @@ DHTML_modalMessage.prototype = {
     	var st = Math.max(document.body.scrollTop,document.documentElement.scrollTop);
     	var sl = Math.max(document.body.scrollLeft,document.documentElement.scrollLeft);
     	
-    	window.scrollTo(sl,st);
-    	setTimeout('window.scrollTo(' + sl + ',' + st + ');',10);
+     //if(!window.frameElement){
+       window.scrollTo(sl,st);
+      	setTimeout('window.scrollTo(' + sl + ',' + st + ');',10);
+     //}
 
     	this.__repositionTransparentDiv();
     	
@@ -406,31 +421,53 @@ DHTML_modalMessage.prototype = {
 		var bodyHeight = brSize[1];
     	
     	// Setting width and height of content div
-      	this.divs_content.style.width = this.width + 'px';
-    	this.divs_content.style.height= this.height + 'px';  	
+     this.divs_content.style.width = this.width + 'px';
+    	this.divs_content.style.height = this.height + 'px';
     	
+     // set calculated Width an Height
+     var child = null;
+     if(!firstShow){
+       var childs = this.divs_content.childNodes;
+       for(var i = 0; i<Math.min(3, childs.length); i++){
+         if(childs[i].tagName == "FORM" || childs[i].tagName == "TABLE"){  // no DIV or P check here!!
+           child = childs[i];
+           // block element after FORM holds the correct visual size
+           if(child.tagName == "FORM" && child.firstChild && (child.firstChild.tagName == "TABLE" || child.firstChild.tagName == "DIV" || child.firstChild.tagName == "P"))
+             child = child.firstChild;
+           break;
+         }
+       }
+     }
+
+     if(!child){
+       this.divs_content.style.width = (this.divs_content.offsetWidth) + 'px';
+      	this.divs_content.style.height = (this.divs_content.offsetHeight) + 'px';
+     }else{
+       this.divs_content.style.width = (child.offsetWidth) + 'px';
+      	this.divs_content.style.height = (child.offsetHeight) + 'px';
+     }
     	// Creating temporary width variables since the actual width of the content div could be larger than this.width and this.height(i.e. padding and border)
     	var tmpWidth = this.divs_content.offsetWidth;	
     	var tmpHeight = this.divs_content.offsetHeight;
-    	
-    	
-    	// Setting width and height of left transparent div
-    	
-    	
 
-    	
-    	
-		
-    	this.divs_content.style.left = Math.ceil((bodyWidth - tmpWidth) / 2) + 'px';;
-    	this.divs_content.style.top = (Math.ceil((bodyHeight - tmpHeight) / 2) +  topOffset) + 'px';
-    	
- 		if(this.MSIE){
- 			this.iframe.style.left = this.divs_content.style.left;
- 			this.iframe.style.top = this.divs_content.style.top;
- 			this.iframe.style.width = this.divs_content.style.width;
- 			this.iframe.style.height = this.divs_content.style.height;
- 		}
+
+     if(!firstShow){
+      	// Setting width and height of left transparent div
+      	this.divs_content.style.left = Math.ceil((bodyWidth - tmpWidth) / 2) + 'px';;
+      	this.divs_content.style.top = (Math.ceil((bodyHeight - tmpHeight) / 2) +  topOffset) + 'px';
+     }else{
+       /// move it outside of visible area for correct calculation of elements width/height
+       this.divs_content.style.left = '-1000px';
+      	this.divs_content.style.top = '-1000px';
+     }
  		
+   		if(this.MSIE){
+   			this.iframe.style.left = this.divs_content.style.left;
+   			this.iframe.style.top = this.divs_content.style.top;
+   			this.iframe.style.width = this.divs_content.style.width;
+   			this.iframe.style.height = this.divs_content.style.height;
+   		}
+
     	this.divs_shadow.style.left = (this.divs_content.style.left.replace('px','')/1 + this.shadowOffset) + 'px';
     	this.divs_shadow.style.top = (this.divs_content.style.top.replace('px','')/1 + this.shadowOffset) + 'px';
     	this.divs_shadow.style.height = tmpHeight + 'px';
@@ -453,7 +490,7 @@ DHTML_modalMessage.prototype = {
      */	    
     __repositionTransparentDiv : function()
     {
-    	this.divs_transparentDiv.style.top = Math.max(document.body.scrollTop,document.documentElement.scrollTop) + 'px';
+     this.divs_transparentDiv.style.top = Math.max(document.body.scrollTop,document.documentElement.scrollTop) + 'px';
     	this.divs_transparentDiv.style.left = Math.max(document.body.scrollLeft,document.documentElement.scrollLeft) + 'px';
 		var brSize = this.__getBrowserSize();
 		var bodyWidth = brSize[0];

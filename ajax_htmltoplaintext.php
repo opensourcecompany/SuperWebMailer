@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -25,6 +25,13 @@
   include_once("config.inc.php");
   include_once("sessioncheck.inc.php");
 
+  if(!_LJBLD()){
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]." - Csrf");
+    print $_QLJfI;
+    exit;
+  }
+
   // Prevent the browser from caching the result.
   // Date in the past
   @header('Expires: Mon, 26 Jul 1997 05:00:00 GMT') ;
@@ -37,12 +44,16 @@
   @header('Pragma: no-cache') ;
 
   // Set the response format.
-  @header( 'Content-Type: text/plain; charset='.$_Q6QQL ) ;
+  @header( 'Content-Type: text/plain; charset='.$_QLo06 ) ;
 
   if(!isset($_POST["html"])) {
     print "";
     return;
   }
 
-  print _ODQAB($_POST["html"], $_Q6QQL);
+  $_QloQi = isset($_GET["ipe_editor"]) ? $_GET["ipe_editor"] == "true" : false;
+  if(!$_QloQi)
+    $_QloQi = isset($_POST["ipe_editor"]) ? $_POST["ipe_editor"] == "true" : false;
+
+  print _LBDA8($_POST["html"], $_QLo06, $_QloQi);
 ?>

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -27,18 +27,21 @@
   include_once("mailinglistq.inc.php");
   include_once("defaulttexts.inc.php");
 
+  
+  if(function_exists("opcache_reset"))
+    opcache_reset();
+
   # file exists than show it!
+  clearstatcache();
   if(file_exists("upgrade.php")) {
+  if(isset($_POST["step"]))
+
     include_once("upgrade.php");
     exit;
   }
 
-  if(!isset($_POST["step"])) {
-    exit; // security
-  }
-
   define('Setup', 1); # we install
-  $_Jtf68 = "http://";
+  $_6CC10 = "http://";
   $Language = $INTERFACE_LANGUAGE;
   if(isset($_POST["Language"]))
      $Language = $_POST["Language"];
@@ -48,30 +51,24 @@
     $Language = $INTERFACE_LANGUAGE;
   $INTERFACE_LANGUAGE = $Language;
 
-  _LQLRQ($INTERFACE_LANGUAGE);
-  $_I0600 = "";
-  $_JtffC = false;
+  $INTERFACE_LANGUAGE = preg_replace( '/[^a-z]+/', '', strtolower( $INTERFACE_LANGUAGE ) );
+
+  _JQRLR($INTERFACE_LANGUAGE);
+  $_Itfj8 = "";
+  $_6CCQt = false;
   $errors = array();
 
-  $_POST["step"]++;
-  switch($_POST["step"]) {
-    case 5:
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090186"], $_I0600, 'DISABLED', 'upgrade5_snipped.htm');
-      $link = ScriptBaseURL."index.php?Language=".$INTERFACE_LANGUAGE;
-      $_QJCJi = str_replace("START_LINK", $link, $_QJCJi);
+  $_QLJfI = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090186"], $_Itfj8, 'DISABLED', 'upgrade6_snipped.htm');
+  $link = ScriptBaseURL."index.php?Language=".$INTERFACE_LANGUAGE;
+  $_QLJfI = str_replace("START_LINK", $link, $_QLJfI);
 
-      break;
-    default:
-      $_QJCJi = GetMainTemplate(False, $UserType, '', False, $resourcestrings[$INTERFACE_LANGUAGE]["090170"], $_I0600, 'DISABLED', 'upgrade1_snipped.htm');
-  }
+  if(isset($_POST["step"]))
+    unset($_POST["step"]);
 
-  unset($_POST["step"]);
+  _JJCCF($_QLJfI);
 
+  $_QLJfI = _L8AOB($errors, $_POST, $_QLJfI);
 
-  _LJ81E($_QJCJi);
-
-  $_QJCJi = _OPFJA($errors, $_POST, $_QJCJi);
-
-  print $_QJCJi;
+  print $_QLJfI;
 
 ?>

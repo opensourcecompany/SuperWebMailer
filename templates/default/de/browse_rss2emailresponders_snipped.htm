@@ -55,11 +55,13 @@
   		<tr>
   			<td class="NoWrapAlignCenter" width="5%">ID</td>
   			<td class="NoWrap" width="1%">&nbsp;</td>
-  			<td class="NoWrap" width="40%">Bezeichnung</td>
+  			<td class="NoWrap" width="29%">Bezeichnung</td>
   			<td class="NoWrap" width="1%">&nbsp;</td>
-  			<td class="NoWrap" width="20%">RSS-Feed</td>
+  			<td class="NoWrap" width="16%">Empf&auml;ngerliste</td>
   			<td class="NoWrap" width="1%">&nbsp;</td>
-  			<td class="NoWrap" width="12%">Aktiv</td>
+  			<td class="NoWrap" width="10%">Aktiv</td>
+  			<td class="NoWrap" width="1%">&nbsp;</td>
+  			<td class="NoWrap" width="10%">RSS-Feed</td>
   			<td class="NoWrap" width="1%">&nbsp;</td>
   			<td class="NoWrap" width="25%">Aktionen</td>
   		</tr>
@@ -71,9 +73,11 @@
   			<td>&nbsp;</td>
   			<td><LIST:NAME></LIST:NAME></td>
   			<td>&nbsp;</td>
-  			<td><a href="<LIST:RSSFEEDURL></LIST:RSSFEEDURL>" target="_blank"><img src="images/rss.gif" width="16" height="16" class="normalimage" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'<LIST:RSSFEEDURL></LIST:RSSFEEDURL>');return false" /></a></td>
+  			<td><LIST:MAILINGLISTNAME></LIST:MAILINGLISTNAME></td>
   			<td>&nbsp;</td>
   			<td><LIST:ACTIVE></LIST:ACTIVE></td>
+  			<td>&nbsp;</td>
+  			<td><a href="<LIST:RSSFEEDURL></LIST:RSSFEEDURL>" target="_blank"><img src="images/rss.gif" width="16" height="16" class="normalimage" alt="" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'<LIST:RSSFEEDURL></LIST:RSSFEEDURL>');return false" /></a></td>
   			<td>&nbsp;</td>
   			<td>
   			    <input type="image" src="images/edit.gif" width="16" height="16" name="EditRSS2EMailresponderProperties" onclick="SetListId(this, 'RSS2EMailrespondersListsForm');" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'&Auml;ndern des RSS2EMail-Responders');return false" />&nbsp;

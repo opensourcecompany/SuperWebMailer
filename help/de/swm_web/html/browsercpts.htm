@@ -31,11 +31,11 @@
 
 <body>
 
-<h1>Empfänger der Empf&auml;ngerlisten</h1>
-<p>Zur Anzeige der Empfänger einer Empf&auml;ngerliste wählen Sie im Menü Empfänger
-- Empfänger anzeigen oder klicken Sie in der Liste der <a href="browsemailinglists.htm">Empf&auml;ngerlisten</a>
+<h1>Empfänger der Empfängerlisten</h1>
+<p>Zur Anzeige der Empfänger einer Empfängerliste wählen Sie im Menü
+Empfänger - Empfänger anzeigen oder klicken Sie in der Liste der <a href="browsemailinglists.htm">Empfängerlisten</a>
 auf das Symbol <img border="0" src="../images/usersbrowse.gif" width="16" height="16">
-neben der jeweiligen Empf&auml;ngerliste.</p>
+neben der jeweiligen Empfängerliste.</p>
 <p>&nbsp;</p>
 <p><img border="0" src="../images/browsercpts.png" width="954" height="212"></p>
 <p>&nbsp;</p>
@@ -43,14 +43,14 @@ neben der jeweiligen Empf&auml;ngerliste.</p>
 <table border="1" cols="2" frame="box" rules="all" width="90%" cellspacing="0">
   <tr valign="top">
     <td width="28%">Symbol <img border="0" src="../images/user_activated16.gif" width="16" height="16"></td>
-    <td width="72%">Der Empfänger ist in der Empf&auml;ngerliste aktiv, an den
+    <td width="72%">Der Empfänger ist in der Empfängerliste aktiv, an den
       Empfänger können E-Mails und Newsletter gesendet werden.
       <p>&nbsp;</td>
   </tr>
   <tr valign="top">
     <td width="28%">Symbol <img border="0" src="../images/user_deactivated16.gif" width="16" height="16"></td>
-    <td width="72%">Der Empfänger ist in der Empf&auml;ngerliste inaktiv, es können
-      damit keine E-Mails an den Empfänger gesendet werden.<br>
+    <td width="72%">Der Empfänger ist in der Empfängerliste inaktiv, es
+      können damit keine E-Mails an den Empfänger gesendet werden.<br>
       Ein Empfänger ist inaktiv, wenn sein Bounce-Status auf &quot;permanent
       unzustellbar&quot; steht und die Anzahl Bounces in den <a href="settings_preferences.htm">Einstellungen</a>
       erreicht ist.
@@ -67,10 +67,10 @@ neben der jeweiligen Empf&auml;ngerliste.</p>
   </tr>
   <tr valign="top">
     <td width="28%">Symbol <img border="0" src="../images/user_unconfirmed_unsub16.gif" width="16" height="16"></td>
-    <td width="72%">Der Empfänger möchte sich von der Empf&auml;ngerliste/Newsletter
-      abmelden, hat aber bisher noch nicht den Link in der Bestätigungs-E-Mail
-      angeklickt. Ein Versand von E-Mails und / oder Newslettern ist damit
-      weiterhin möglich.
+    <td width="72%">Der Empfänger möchte sich von der
+      Empfängerliste/Newsletter abmelden, hat aber bisher noch nicht den Link
+      in der Bestätigungs-E-Mail angeklickt. Ein Versand von E-Mails und / oder
+      Newslettern ist damit weiterhin möglich.
       <p>Dieser Zustand tritt nur ein, wenn die Abmeldung mit Double-Opt-Out
       verwendet wird (nicht empfohlen).</p>
       <p>&nbsp;</td>
@@ -101,7 +101,7 @@ neben der jeweiligen Empf&auml;ngerliste.</p>
   </tr>
   <tr valign="top">
     <td width="28%">Empfänger exportieren</td>
-    <td width="72%">Ermöglicht es die Empfänger der Empf&auml;ngerliste in eine <a href="exportrecipients.htm">CSV-Datei
+    <td width="72%">Ermöglicht es die Empfänger der Empfängerliste in eine <a href="exportrecipients.htm">CSV-Datei
       zu exportieren</a>.
       <p>&nbsp;</td>
   </tr>
@@ -136,19 +136,47 @@ neben der jeweiligen Empf&auml;ngerliste.</p>
           <tr>
             <td width="50%" valign="top">Verschieben in Liste...</td>
             <td width="50%">Verschiebt die gewählten Empfänger dauerhaft in
-              die gewählte Empf&auml;ngerliste.
-              <p>Hinweis:<br>
-              Gruppenzuordnungen gehen beim Verschieben der Empfänger in der
-              Quell- und Ziel-Empf&auml;ngerliste verloren.</p>
+              die gewählte Empfängerliste.
+              <p>Hinweise</p>
+              <ul>
+                <li>Gruppenzuordnungen gehen beim Verschieben der Empfänger in
+                  der Quell- und Ziel-Empfängerliste verloren, wenn Sie nicht
+                  die Option &quot;Gruppenzuordnung anhand des gleichen
+                  Gruppennamens übernehmen&quot; aktivieren.</li>
+                <li>Ist die Option aktiviert, dann werden die Empfänger in der
+                  Ziel-Empfängerliste den Gruppen zugeordnet, deren Gruppenname
+                  ohne Berücksichtigung von Groß-/Kleinschreibung identisch
+                  ist. Existiert in der Ziel-Empfängerliste eine Gruppe nicht,
+                  dann erfolgt keine Zuordnung, die Gruppe wird nicht
+                  automatisch erstellt.</li>
+                <li>Das Verschieben von Empfängern mit Zuordnung der Gruppen
+                  führt zu einer hohen Serverlast oder es kann zum Abbruch des
+                  Scripts führen, falls zu viele Empfänger verschoben werden
+                  sollen.</li>
+              </ul>
               <p>&nbsp;</td>
           </tr>
           <tr>
             <td width="50%" valign="top">Kopieren in Liste...</td>
             <td width="50%">Kopiert die gewählten Empfänger in die gewählte
-              Empf&auml;ngerliste.
-              <p>Hinweis:<br>
-              Gruppenzuordnungen gehen beim Kopieren der Empfänger in der neuen
-              Empf&auml;ngerliste verloren.</p>
+              Empfängerliste.
+              <p>Hinweise</p>
+              <ul>
+                <li>Gruppenzuordnungen gehen beim Kopieren der Empfänger in der
+                  neuen Empfängerliste verloren, wenn Sie nicht die Option
+                  &quot;Gruppenzuordnung anhand des gleichen Gruppennamens
+                  übernehmen&quot; aktivieren.</li>
+                <li>Ist die Option aktiviert, dann werden die Empfänger in der
+                  Ziel-Empfängerliste den Gruppen zugeordnet, deren Gruppenname
+                  ohne Berücksichtigung von Groß-/Kleinschreibung identisch
+                  ist. Existiert in der Ziel-Empfängerliste eine Gruppe nicht,
+                  dann erfolgt keine Zuordnung, die Gruppe wird nicht
+                  automatisch erstellt.</li>
+                <li>Das Kopieren von Empfängern mit Zuordnung der Gruppen
+                  führt zu einer hohen Serverlast oder es kann zum Abbruch des
+                  Scripts führen, falls zu viele Empfänger kopiert werden
+                  sollen.</li>
+              </ul>
               <p>&nbsp;</td>
           </tr>
           <tr>
@@ -180,13 +208,32 @@ neben der jeweiligen Empf&auml;ngerliste.</p>
           <tr>
             <td width="50%" valign="top">Deaktivierte Empfänger aktivieren</td>
             <td width="50%">Ermöglicht es deaktivierte Empfänger wieder zu
-              aktivieren. Eine Deaktivierung des Empfänger ist nur
+              aktivieren. Der Empfänger erhält damit zukünftig wieder
+              E-Mails.
+              <p>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top">Aktive Empfänger deaktivieren
+              <p>&nbsp;</td>
+            <td width="50%">Deaktviert aktive Empfänger. Die Empfänger
+              erhalten damit keine E-Mails mehr, werden aber nicht aus der
+              Empfängerliste gelöscht.
               <p>&nbsp;</td>
           </tr>
           <tr>
             <td width="50%" valign="top">Bounce-Status zurücksetzen</td>
             <td width="50%">Setzt den Bounce-Status der gewählten Empfänger
               auf &quot;zustellbar&quot; zurück.
+              <p>&nbsp;</td>
+          </tr>
+          <tr>
+            <td width="50%" valign="top">Anmeldestatus auf
+              &quot;angemeldet&quot; setzen</td>
+            <td width="50%">Empfänger, die nicht auf den Link in der E-Mail mit
+              dem Bestätigungslink geklickt haben, werden auf den Status
+              &quot;angemeldet&quot; gesetzt.
+              <p>Diese Option sollte nicht verwendet werden, da dies als nicht
+              genehmigter Spam-Versand angesehen wird.</p>
               <p>&nbsp;</td>
           </tr>
         </table>
@@ -198,5 +245,7 @@ neben der jeweiligen Empf&auml;ngerliste.</p>
 <p>&nbsp;</p>
 
 </body>
+
+</html>
 
 </html>

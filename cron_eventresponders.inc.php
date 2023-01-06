@@ -27,50 +27,50 @@
   include_once("mail.php");
   include_once("mailcreate.inc.php");
 
-  function _OR6FQ(&$_j6O8O) {
-    global $_Q61I1;
+  function _LLA0E(&$_JIfo0) {
+    global $_QLttI;
     global $UserId, $OwnerUserId, $Username, $UserType, $AccountType, $INTERFACE_STYLE, $INTERFACE_THEMESID, $INTERFACE_LANGUAGE;
-    global $_Qo8OO, $resourcestrings, $_Q8f1L, $_Q880O;
-    global $_jjC06, $_jjCtI, $_I0lQJ, $_jji0C, $_QOCJo, $_QCo6j, $_jji0i;
-    global $_QolLi, $_Qofoi, $_ICljl, $_QLo0Q, $_Ql8C0, $_I88i8, $_Q60QL, $_QtjLI;
-    global $_Q6jOo, $_IC0oQ, $_ICjQ6;
+    global $_Ijt8j, $resourcestrings, $_I18lo, $_I1tQf;
+    global $_J18oI, $_jfOJj, $_ItL8f, $_J1t6J, $_IIlfi, $_IJi8f, $_J1tfC;
+    global $_IjljI, $_Ijt0i, $_jfQtI, $_Ifi1J, $_I8tfQ, $_jQ68I, $_QL88I, $_IQQot;
+    global $_QLi60, $_j6Ql8, $_j68Q0;
 
-    $_j6O8O = "Event responder checking starts...<br />";
-    $_jIojl = 0;
+    $_JIfo0 = "Event responder checking starts...<br />";
+    $_J0J6C = 0;
 
-    $_QJlJ0 = "SELECT * FROM $_Q8f1L WHERE UserType='Admin' AND IsActive>0";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    while($_Q6Q1C = mysql_fetch_assoc($_Q60l1) ) {
-      _OPQ6J();
-      $UserId = $_Q6Q1C["id"];
+    $_QLfol = "SELECT * FROM $_I18lo WHERE UserType='Admin' AND IsActive>0";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    while($_QLO0f = mysql_fetch_assoc($_QL8i1) ) {
+      _LRCOC();
+      $UserId = $_QLO0f["id"];
       $OwnerUserId = 0;
-      $Username = $_Q6Q1C["Username"];
-      $UserType = $_Q6Q1C["UserType"];
-      $AccountType = $_Q6Q1C["AccountType"];
-      $INTERFACE_THEMESID = $_Q6Q1C["ThemesId"];
-      $INTERFACE_LANGUAGE = $_Q6Q1C["Language"];
+      $Username = $_QLO0f["Username"];
+      $UserType = $_QLO0f["UserType"];
+      $AccountType = $_QLO0f["AccountType"];
+      $INTERFACE_THEMESID = $_QLO0f["ThemesId"];
+      $INTERFACE_LANGUAGE = $_QLO0f["Language"];
 
-      _OP10J($INTERFACE_LANGUAGE);
+      _LRPQ6($INTERFACE_LANGUAGE);
 
-      _LQLRQ($INTERFACE_LANGUAGE);
+      _JQRLR($INTERFACE_LANGUAGE);
 
-      $_QJlJ0 = "SELECT Theme FROM $_Q880O WHERE id=$INTERFACE_THEMESID";
-      $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q8OiJ = mysql_fetch_row($_Q8Oj8);
-      $INTERFACE_STYLE = $_Q8OiJ[0];
-      mysql_free_result($_Q8Oj8);
+      $_QLfol = "SELECT Theme FROM $_I1tQf WHERE id=$INTERFACE_THEMESID";
+      $_I1O6j = mysql_query($_QLfol, $_QLttI);
+      $_I1OfI = mysql_fetch_row($_I1O6j);
+      $INTERFACE_STYLE = $_I1OfI[0];
+      mysql_free_result($_I1O6j);
 
-      _OP0D0($_Q6Q1C);
+      _LR8AP($_QLO0f);
 
-      _OP0AF($UserId);
+      _LRRFJ($UserId);
 
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_j6O8O .= "<br />$_jIojl emails sent to queue<br />";
-    $_j6O8O .= "<br />Event responder checking end.";
+    $_JIfo0 .= "<br />$_J0J6C emails sent to queue<br />";
+    $_JIfo0 .= "<br />Event responder checking end.";
 
-    if($_jIojl)
+    if($_J0J6C)
       return true;
       else
       return -1;

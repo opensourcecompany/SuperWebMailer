@@ -9,6 +9,16 @@ CREATE TABLE IF NOT EXISTS `TABLE_ML_RM_REFERENCE` (
   KEY ( `LastRSSFeedChecking` )
 );
 
+CREATE TABLE IF NOT EXISTS `TABLE_RM_GROUPS` (
+  `ml_groups_id` int(11) NOT NULL,
+  PRIMARY KEY ( `ml_groups_id` )
+);
+
+CREATE TABLE IF NOT EXISTS `TABLE_RM_NOTINGROUPS` (
+  `ml_groups_id` int(11) NOT NULL,
+  PRIMARY KEY ( `ml_groups_id` )
+);
+
 CREATE TABLE IF NOT EXISTS `TABLE_RMLINKS` (
   `id` int(11) NOT NULL auto_increment,
   `IsActive` tinyint(1) NOT NULL default '1',
@@ -83,3 +93,4 @@ CREATE TABLE IF NOT EXISTS `TABLE_RMTRACKINGOSS` (
   KEY `OS` (`OS`),
   KEY `IP` (`IP`)
 );
+

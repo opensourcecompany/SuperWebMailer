@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2016 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -38,76 +38,76 @@
   @header('Pragma: no-cache') ;
 
   if(defined("SML")){
-    $_QJCJi = join("", file(InstallPath."plugins/cktemplates.js"));
+    $_QLJfI = join("", file(InstallPath."plugins/cktemplates.js"));
     // Set the response format.
-    @header( 'Content-Type: text/javascript; charset='.$_Q6QQL ) ;
-    print $_QJCJi;
+    @header( 'Content-Type: text/javascript; charset='.$_QLo06 ) ;
+    print $_QLJfI;
     exit;
   }
 
   // import sample newsletter templates
   include_once("defaulttexts.inc.php");
-  _O8QO8();
+  _L61BJ();
 
   // Set the response format.
-  @header( 'Content-Type: text/javscript; charset='.$_Q6QQL ) ;
+  @header( 'Content-Type: text/javascript; charset='.$_QLo06 ) ;
 
 
 
-  print " CKEDITOR.addTemplates( 'default', ".$_Q6JJJ;
-  print "  {".$_Q6JJJ;
+  print " CKEDITOR.addTemplates( 'default', ".$_QLl1Q;
+  print "  {".$_QLl1Q;
 
     // The name of the subfolder that contains the preview images of the templates.
-  print "  imagesPath : CKEDITOR.basePath.substr(0, CKEDITOR.basePath.indexOf('ckeditor/')) + 'plugins/template_images/',".$_Q6JJJ;
+  print "  imagesPath : CKEDITOR.basePath.substr(0, CKEDITOR.basePath.indexOf('ckeditor/')) + 'plugins/template_images/',".$_QLl1Q;
 
-  print "   // Template definitions.".$_Q6JJJ;
-  print " templates :".$_Q6JJJ;
-  print "  [".$_Q6JJJ;
+  print "   // Template definitions.".$_QLl1Q;
+  print " templates :".$_QLl1Q;
+  print "  [".$_QLl1Q;
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeTemplateBrowse"]) {
-     $_Q6Q1C["Name"] = $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"];
-     $_Q6Q1C["MailHTMLText"] = "<p>".$resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]."</p>";
-     $_QJCJi = str_replace("&", "&amp;", $_Q6Q1C["Name"]);
-     print _O8PAD($_QJCJi, "swm_logo32x32.gif", "", $_Q6Q1C["MailHTMLText"]);
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeTemplateBrowse"]) {
+     $_QLO0f["Name"] = $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"];
+     $_QLO0f["MailHTMLText"] = "<p>".$resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]."</p>";
+     $_QLJfI = str_replace("&", "&amp;", $_QLO0f["Name"]);
+     print _L6F1B($_QLJfI, "swm_logo32x32.gif", "", $_QLO0f["MailHTMLText"]);
 
-   		print " ]".$_Q6JJJ;
-     print "});".$_Q6JJJ;
+   		print " ]".$_QLl1Q;
+     print "});".$_QLl1Q;
      exit;
     }
   }
 
 
   if($OwnerUserId == 0)
-    $_QJlJ0 = "SELECT id, UsersOption, Name, MailHTMLText FROM $_Q66li WHERE MailFormat <> 'PlainText' ORDER BY Name";
+    $_QLfol = "SELECT id, UsersOption, Name, MailHTMLText FROM $_Ql10t WHERE MailFormat <> 'PlainText' ORDER BY Name";
     else
-    $_QJlJ0 = "SELECT id, UsersOption, Name, MailHTMLText FROM $_Q66li LEFT JOIN $_Q6ftI ON templates_id=id WHERE ((`UsersOption` = 0) OR (`UsersOption` <> 0 AND users_id=$UserId)) AND MailFormat <> 'PlainText' ORDER BY Name";
+    $_QLfol = "SELECT id, UsersOption, Name, MailHTMLText FROM $_Ql10t LEFT JOIN $_Ql18I ON templates_id=id WHERE ((`UsersOption` = 0) OR (`UsersOption` <> 0 AND users_id=$UserId)) AND MailFormat <> 'PlainText' ORDER BY Name";
 
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_II6ft = 0;
-  while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      if($_II6ft++)
-        print ",".$_Q6JJJ;
-      $_QJCJi = str_replace("&", "&amp;", $_Q6Q1C["Name"]);
-      print _O8PAD($_QJCJi, "swm_logo32x32.gif", "", $_Q6Q1C["MailHTMLText"]);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_ICQjo = 0;
+  while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      if($_ICQjo++)
+        print ",".$_QLl1Q;
+      $_QLJfI = str_replace("&", "&amp;", unhtmlentities($_QLO0f["Name"]));
+      print _L6F1B($_QLJfI, "swm_logo32x32.gif", "", $_QLO0f["MailHTMLText"] );
   }
 
-		print " ]".$_Q6JJJ;
-  print "});".$_Q6JJJ;
+		print " ]".$_QLl1Q;
+  print "});".$_QLl1Q;
 
 
-  function _O8PAD($_jlQol, $_jlQC0, $_j0O0L, $_Q6ICj){
-   global $_Q6JJJ;
-   $_Q6ICj = _OPQLR($_Q6ICj);
+  function _L6F1B($Title, $_600I8, $_jiILL, $_QLoli){
+   global $_QLl1Q;
+   $_QLoli = _LRAFO($_QLoli);
    return
-    " { ".$_Q6JJJ.
-    "   title: '".$_jlQol."',".$_Q6JJJ.
-    "   image: '".$_jlQC0."',".$_Q6JJJ.
-    "  description: '".$_j0O0L."',".$_Q6JJJ.
-    "   html:".$_Q6JJJ.
-    "   ".$_Q6ICj.$_Q6JJJ.
-    "  }".$_Q6JJJ;
+    " { ".$_QLl1Q.
+    "   title: '".$Title."',".$_QLl1Q.
+    "   image: '".$_600I8."',".$_QLl1Q.
+    "  description: '".$_jiILL."',".$_QLl1Q.
+    "   html:".$_QLl1Q.
+    "   ".$_QLoli.$_QLl1Q.
+    "  }".$_QLl1Q;
   }
 
 ?>

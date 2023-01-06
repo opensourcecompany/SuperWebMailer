@@ -1,4 +1,11 @@
 <?php
+/**
+ *      Filemanager extension
+ *
+ *      @author         Mirko Boeer <info (at) superwebmailer (dot) de>
+ */
+ define("RemoveFileCalled", 1);
+
  require_once('./inc/filemanager.inc.php');
  require_once('filemanager.config.php');
  require_once('filemanager.class.php');
@@ -34,7 +41,18 @@
  $responses = array();
 
  if(!auth()) {
-   $fm->error($fm->lang('AUTHORIZATION_REQUIRED'));
+   if(!empty($_GET['CKEditor']))
+     $fm->error($fm->lang('AUTHORIZATION_REQUIRED'));
+     else{
+     $response["Code"] = 1000;
+     $response["Error"] = $fm->lang('AUTHORIZATION_REQUIRED');
+     $response["Path"] = "";
+     $response["Name"] = "";
+     $responses[] = $response;
+
+     SendRemoveResults( $responses );
+     exit;
+     }
  }
 
  if( isset($_GET["files"]) ) { # sets the var

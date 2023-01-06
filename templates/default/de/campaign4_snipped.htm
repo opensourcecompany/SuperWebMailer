@@ -1,14 +1,11 @@
-      <script language="javascript" type="text/javascript" src="js/dhtmlgoodies_calendar.js" /></script>
-     	<link type="text/css" rel="stylesheet" href="css/dhtmlgoodies_calendar.css" media="screen" />
-      <script language="JavaScript">
-      <!--
-        ChangeLanguageCode("de");
-        // german ever dd.mm.yyyy hh:ii, others must be ever yyyy-mm-dd hh:ii the php script doesn't support other formats
-      //-->
-      </script>
+      <script language="javascript" type="text/javascript" src="js/datetimepicker/jquery.datetimepicker.full.min.js" /></script>
+     	<link type="text/css" rel="stylesheet" href="css/jquery.datetimepicker.css" />
+
+      <link rel="stylesheet" type="text/css" href="css/scrollbox.css" />
+      <script language="javascript" type="text/javascript" src="js/scrollbox.js"></script>
 
       <form id="CampaignEditForm" name="CampaignEditForm" method="post" action="./campaignedit.php">
-      <span class="Backlink"><br /><a href="./browsecampaigns.php" onclick="document.CampaignEditForm.action='./browsecampaigns.php';document.CampaignEditForm.submit(); return false;">Zur&uuml;ck</a></span><br />
+      <span class="Backlink"><br /><a href="./browsecampaigns.php" onclick="document.CampaignEditForm.action='./browsecampaigns.php';$('#CampaignEditForm').submit(); return false;">Zur&uuml;ck</a></span><br />
       <input type="hidden" name="PageSelected" />
       <input type="hidden" name="EditPage" value="1" />
       <input type="hidden" name="CampaignListId" id="CampaignListId" />
@@ -20,14 +17,14 @@
       <table class="FormTable" cellspacing="2" cellpadding="0" border="0">
          <tbody>
            <tr>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';document.CampaignEditForm.submit(); return false;">Empf&auml;ngerliste</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';document.CampaignEditForm.submit(); return false;">Gruppen</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';document.CampaignEditForm.submit(); return false;">Regeln</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='4';document.CampaignEditForm.submit(); return false;">Report/Planung</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';document.CampaignEditForm.submit(); return false;">Versand</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';document.CampaignEditForm.submit(); return false;">E-Mail-Inhalt</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='7';document.CampaignEditForm.submit(); return false;">Tracking</a></td>
-             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';document.CampaignEditForm.submit(); return false;">Zusammenfassung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='1';$('#CampaignEditForm').submit(); return false;">Empf&auml;ngerliste</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='2';$('#CampaignEditForm').submit(); return false;">Gruppen</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='3';$('#CampaignEditForm').submit(); return false;">Regeln</a></td>
+             <td class="highlighted selected"><a href="#" onclick="document.getElementById('SetupLevel').value='4';$('#CampaignEditForm').submit(); return false;">Report/Planung</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='5';$('#CampaignEditForm').submit(); return false;">Versand</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='6';$('#CampaignEditForm').submit(); return false;">E-Mail-Inhalt</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='7';$('#CampaignEditForm').submit(); return false;">Tracking</a></td>
+             <td class="highlighted"><a href="#" onclick="document.getElementById('SetupLevel').value='8';$('#CampaignEditForm').submit(); return false;">Zusammenfassung</a></td>
           </tr>
         </tbody>
       </table>
@@ -109,25 +106,62 @@
               <tr>
                 <td>
                    Datum und Uhrzeit:<br />
-                   <input type="text" name="SendInFutureOnceDateTime" id="SendInFutureOnceDateTime" maxlength="20" size="20" readonly="readonly" />
-                   <input type="image" src="images/calendar16.gif" width="16" height="16" border="0" alt="Datum und Uhrzeit w&auml;hlen" onclick="displayCalendar(document.getElementById('SendInFutureOnceDateTime'),'dd.mm.yyyy hh:ii',this, true); return false;" />
+                   <input type="text" name="SendInFutureOnceDateTime" id="SendInFutureOnceDateTime" maxlength="20" size="20" />
                    <br />
                    <br />
                    <br />
                    Hinweis: Wird ein Datum oder Uhrzeit in der Vergangenheit festgelegt, dann werden die E-Mails sofort versendet.
                    <br />
                    <br />
-                   <br />
-                   <br />
-                   <br />
-                   <br />
-                   <br />
-                   <br />
-                   <br />
-                   <br />
                 </td>
               </tr>
             </tbody>
+          </table>
+      </fieldset>
+
+      <fieldset name="SendTimeLimitedOptions" id="SendTimeLimitedOptions">
+      <legend>Zeit des E-Mail-Versands</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+
+             <tbody>
+
+              <tr>
+                <td colspan="2">
+                  <input type="checkbox" name="SendTimeNotLimited" id="SendTimeNotLimited" onclick="ShowItem('SendTimeLimited', !this.checked);ShowItem('SendTimeLimited1', !this.checked);" /><label for="SendTimeNotLimited">&nbsp;Versandzeit nicht beschr&auml;nken</label>
+                  <br />
+                </td>
+              </tr>
+
+              <tr id="SendTimeLimited">
+                <td id="TimingLabel" style="width: 20%">
+                  Nur versenden zwischen
+                </td>
+                <td>
+                  <span id="TimingLabel1" style="width: 80%">
+                    <input type="text" name="SendTimeFrom" id="SendTimeFrom" maxlength="8" size="8" />&nbsp;Uhr
+                    und&nbsp;
+                    <input type="text" name="SendTimeTo" id="SendTimeTo" maxlength="8" size="8" />&nbsp;Uhr
+                  </span>
+                </td>
+              </tr>
+
+              <tr id="SendTimeLimited1">
+                <td style="width: 20%">
+                  &nbsp;
+                </td>
+                <td>
+                  <span id="TimingLabel2" style="width: 80%">
+                     <div class="scrollbox" style="width: 310px; height: 100px" name="SendTimeMultipleDayNamesScrollbox" id="SendTimeMultipleDayNamesScrollbox">
+                       <SHOW:SendTimeMultipleDayNames>
+                         <span class="scrollboxSpan"><input type="checkbox" name="SendTimeMultipleDayNames[]" value="<SendTimeMultipleDayNamesValue></SendTimeMultipleDayNamesValue>" id="SendTimeMultipleDayNamesId" />&nbsp;<label for="SendTimeMultipleDayNamesId"><SendTimeMultipleDayName></SendTimeMultipleDayName></label><br /></span>
+                       </SHOW:SendTimeMultipleDayNames>
+                     </div>
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+
           </table>
       </fieldset>
 
@@ -137,30 +171,35 @@
           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
             <tbody>
               <tr>
-                <td colspan="4">
+                <td colspan="6">
                   Sende die E-Mails<SHOWHIDE:TOOLTIPS>
                    <img onmouseover="showTooltip(event, 'Legen Sie die Uhrzeit f&uuml;r den E-Mail-Versand so fest, so dass der Versand an alle E-Mail-Empf&auml;nger m&ouml;glich ist. Planen Sie z.B. einen gro&szlig;en E-Mail-Versand f&uuml;r einen Mittwoch um 23:59 Uhr und das Script schafft die Abarbeitung der zu versendenden nicht, dann k&ouml;nnte es sein, das nur ein Teil der E-Mails versendet wird, da der n&auml;chste Tag ein Donnerstag ist.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
                    </SHOWHIDE:TOOLTIPS>
                 </td>
               </tr>
               <tr>
-                <td colspan="4">
+                <td colspan="6">
                    um&nbsp;
                    <input type="text" name="SendInFutureMultipleTime" id="SendInFutureMultipleTime" maxlength="8" size="8" />&nbsp;Uhr
                 </td>
               </tr>
               <tr>
                 <td style="width: 1%">
-                   <br />
                    <select name="SendInFutureMultipleDays[]" id="SendInFutureMultipleDays" size="12" multiple="multiple">
                      <SendInFutureMultipleDays></SendInFutureMultipleDays>
-                   </select>&nbsp;ODER&nbsp;
+                   </select>
+                </td>
+                <td style="width: 1%">
+                   <br />&nbsp;ODER&nbsp;
                 </td>
                 <td style="width: 1%">
                    <br />
                    <select name="SendInFutureMultipleDayNames[]" id="SendInFutureMultipleDayNames" size="12" multiple="multiple">
                      <SendInFutureMultipleDayNames></SendInFutureMultipleDayNames>
                    </select>&nbsp;
+                </td>
+                <td style="width: 1%">
+                   <br />&nbsp;
                 </td>
                 <td style="width: 1%">
                    <br />
@@ -173,7 +212,7 @@
                 </td>
               </tr>
               <tr>
-                <td colspan="4">
+                <td colspan="6">
                   <br /><br />
                   Mit Strg-(Ctrl) und Umsch-(Shift) Taste k&ouml;nnen mehrere Listeneintr&auml;ge gew&auml;hlt werden.<br /><br />
                 </td>
@@ -194,13 +233,57 @@
           if(document.CampaignEditForm.SendScheduler == null || document.CampaignEditForm.SendScheduler[3] == null) {
             ShowItem("SendInFutureOnce", false);
             ShowItem("SendInFutureMultiple", false);
+            ShowItem('SendTimeLimitedOptions', false);
+            ShowItem('SendTimeLimited', false);
+            ShowItem('SendTimeLimited1', false);
             return false;
           }
           ShowItem("SendInFutureOnce", document.CampaignEditForm.SendScheduler[3].checked == true);
           ShowItem("SendInFutureMultiple", document.CampaignEditForm.SendScheduler[4].checked == true);
+
+          ShowItem('SendTimeLimitedOptions', document.CampaignEditForm.SendScheduler[2].checked || document.CampaignEditForm.SendScheduler[3].checked);
+          ShowItem('SendTimeLimited', !document.getElementById('SendTimeNotLimited').checked && (document.CampaignEditForm.SendScheduler[2].checked || document.CampaignEditForm.SendScheduler[3].checked) );
+          ShowItem('SendTimeLimited1', !document.getElementById('SendTimeNotLimited').checked && (document.CampaignEditForm.SendScheduler[2].checked || document.CampaignEditForm.SendScheduler[3].checked) );
+          return true;
         }
-        ShowTimingOptions();
-        DisableControl( document.getElementById('SendReportToEMailAddress').checked, document.getElementById('SendReportToEMailAddressEMailAddress'), null);
+
+        InsertLoadingStatusOnSubmit();
+
+        $(document).ready(function () {
+
+            var available = ShowTimingOptions();
+            DisableControl( document.getElementById('SendReportToEMailAddress').checked, document.getElementById('SendReportToEMailAddressEMailAddress'), null);
+
+            if(available){
+
+              // https://xdsoft.net/jqplugins/datetimepicker/
+
+              var dateTimerPickerLocale="de";
+
+              $.datetimepicker.setLocale(dateTimerPickerLocale);
+              if(dateTimerPickerLocale == "de"){
+               var format =	'd.m.Y H:i';
+               var formatTime =	'H:i';
+               var formatDate =	'd.m.Y';
+              }else{
+               var format =	'Y-m-d H:i';
+               var formatTime =	'H:i';
+               var formatDate =	'Y-m-d';
+              }
+
+              $('#SendInFutureOnceDateTime').datetimepicker({
+                 dayOfWeekStart: (dateTimerPickerLocale=="de") ? 1 : 0,
+                 todayButton: false,
+                 validateOnBlur: true,
+                 step: 1,
+                 format:	format,
+                 formatTime:	formatTime,
+                 formatDate: formatDate
+              });
+            }
+        });
+
+
         //AUTO_SCRIPT_CODE_PLACEHOLDER//
       //-->
       </script>

@@ -3,7 +3,7 @@
 # to use it as shell script use must upload it in ASCII mode remove the blank between # and ! in line above and place it before <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -23,6 +23,9 @@
 #   Veraenderungen koennen nicht supported werden.                          #
 #                                                                           #
 #############################################################################
+
+ if(empty($_SERVER["REQUEST_TIME_FLOAT"])) // PHP 5.4+
+   $_SERVER["REQUEST_TIME_FLOAT"] = microtime(true);
 
  include_once("config.inc.php");
  include_once("php_register_globals_off.inc.php");
@@ -49,26 +52,44 @@
    ini_set("display_errors", 1);
  }
 
- $_QJlJ0 = "SELECT @@global.time_zone, @@session.time_zone";
- $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
- $_j6IO1 = "";
- if($_Q60l1 && $_Q6Q1C = mysql_fetch_row($_Q60l1)){
-   $_j6IO1 = $_Q6Q1C[0];
-   mysql_free_result($_Q60l1);
+ if(!ini_get("session.auto_start")){
+   session_name($AppName);
+   if(!session_start()){
+     if(isset($_GET["language"]))
+       $_JIfo0 .= "WARNING: Can't create send session!<br /><br />";
+   }
  }
 
+ $_QLfol = "SELECT @@global.time_zone, @@session.time_zone";
+ $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+ $_JIfii = "";
+ if($_QL8i1 && $_QLO0f = mysql_fetch_row($_QL8i1)){
+   $_JIfii = $_QLO0f[0];
+   mysql_free_result($_QL8i1);
+ }
+
+ ClearLastError();
+
+ if(isset($_GET["language"])){
+   print "memory used: "._LB1D8()."<br /><br />";
+
+   $_GET["language"] = preg_replace( '/[^a-z]+/', '', strtolower( $_GET["language"] ) );
+   if(strlen($_GET["language"]) > 3)
+     $_GET["language"] = substr($_GET["language"], 0, 3);
+ }  
+
  // cron job locking per file check
- $_j6j1C = false;
+ $_JI8Io = false;
  if( !defined("NoCronJobLockFile") && is_writable(InstallPath)){
 
-   $_j6jio = InstallPath.$AppName.".lock";
-   $_j6Jfj = 1800; // in sekunden
-   $_j6618 = @filemtime($_j6jio);  // returns FALSE if file does not exist
+   $_JI8i6 = InstallPath.$AppName.".lock";
+   $_JItJt = 1800; // in sekunden
+   $_JIt8Q = @filemtime($_JI8i6);  // returns FALSE if file does not exist
 
-   if ( !(!$_j6618 or (time() - $_j6618 >= $_j6Jfj))  ){
+   if ( !(!$_JIt8Q or (time() - $_JIt8Q >= $_JItJt))  ){
 
     if(isset($_GET["language"])) {
-      print "CronJob lock by file $_j6jio active, try again later.<br />";
+      print "CronJob lock by file $_JI8i6 active, try again later.<br />";
       flush();
     }
 
@@ -76,39 +97,39 @@
       exit;
     }
    } else {
-     @unlink($_j6jio);
+     @unlink($_JI8i6);
    }
 
-   if($_j66Il = fopen($_j6jio, "w")){
-     if (!flock($_j66Il, LOCK_EX + LOCK_SH + LOCK_NB) ) {
-       fclose($_j66Il);
-       @unlink($_j6jio);
+   if($_JIttj = fopen($_JI8i6, "w")){
+     if (!flock($_JIttj, LOCK_EX + LOCK_SH + LOCK_NB) ) {
+       fclose($_JIttj);
+       @unlink($_JI8i6);
      } else {
-       $_j6j1C = true;
+       $_JI8Io = true;
      }
    }
 
  }
 
  // cron job locking check
- _O6D0O($_j6IO1);
- $_QJlJ0 = "SELECT `CronJobLock`, (UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(`CronJobLockTime`)) AS `CronJobRunTime` FROM `$_Q88iO`";
- $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
- if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-   mysql_free_result($_Q60l1);
-   if($_Q6Q1C["CronJobLock"] > 0) {
-     if($_Q6Q1C["CronJobRunTime"] < 1800) { # max. 30 min, after than we ignore lock
+ _LL06Q($_JIfii);
+ $_QLfol = "SELECT `CronJobLock`, (UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(`CronJobLockTime`)) AS `CronJobRunTime` FROM `$_I1O0i`";
+ $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+ if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+   mysql_free_result($_QL8i1);
+   if($_QLO0f["CronJobLock"] > 0) {
+     if($_QLO0f["CronJobRunTime"] < 1800) { # max. 30 min, after than we ignore lock
        if(isset($_GET["language"])) {
           print "CronJob lock active, try again later.<br />";
           flush();
-          #if($_j6ftl) ob_flush();
+          #if($_JIOfO) ob_flush();
        }
        if(!isset($_GET["IGNORECRONJOBLOCK"])){
-         if($_j6j1C){
-           flock($_j66Il, LOCK_UN);
-           fclose($_j66Il);
-           @unlink($_j6jio);
-           $_j6j1C = false;
+         if($_JI8Io){
+           flock($_JIttj, LOCK_UN);
+           fclose($_JIttj);
+           @unlink($_JI8i6);
+           $_JI8Io = false;
          }
          exit;
        }
@@ -116,637 +137,643 @@
    }
  }
 
- $_j6fIQ = 0;
+ $_JIOjJ = 0;
  register_shutdown_function('CronJobsDone');
  ignore_user_abort(1);
 
- $_j6ftl = false;
+ $_JIOfO = false;
  # PHP 5.2 or newer
  if (function_exists("error_get_last")) {
    ob_start('CronJobsErrorHandler');
-   $_j6ftl = true;
+   $_JIOfO = true;
  }
- if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+ if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
 
- _LQF1R();
+ _JOLFC();
 
- $_QJlJ0 = "UPDATE `$_Q88iO` SET `CronJobLock`=1, `CronJobLockTime`=NOW()";
- mysql_query($_QJlJ0, $_Q61I1);
+ $_QLfol = "UPDATE `$_I1O0i` SET `CronJobLock`=1, `CronJobLockTime`=NOW()";
+ mysql_query($_QLfol, $_QLttI);
 
- $_QJlJ0 = "SELECT `id`, `JobType`, `JobWorkingIntervalType` FROM `$_jJJtf` WHERE `JobEnabled` > 0";
- $_j686l = mysql_query($_QJlJ0, $_Q61I1);
+ // https://support.plesk.com/hc/en-us/articles/115004281794-How-to-create-a-scheduled-task-to-fetch-URL-every-15-seconds
+ $_QLfol = "SELECT `id`, `JobType`, `JobWorkingIntervalType` FROM `$_JQQI1` WHERE `JobEnabled` > 0";
+ $_JIoQt = mysql_query($_QLfol, $_QLttI);
 
- while($_j688L = mysql_fetch_row($_j686l)) {
+ while($_JIC00 = mysql_fetch_row($_JIoQt)) {
 
-  $_QJlJ0 = "SELECT `id`, `JobType` FROM `$_jJJtf` WHERE `id`=$_j688L[0] AND ((`LastExecution`=0) OR ( DATE_ADD(`LastExecution`, INTERVAL `JobWorkingInterval` $_j688L[2]) <= NOW()  ) )";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if(mysql_num_rows($_Q60l1) == 0) {
-    mysql_free_result($_Q60l1);
+  $_QLfol = "SELECT `id`, `JobType` FROM `$_JQQI1` WHERE `id`=$_JIC00[0] AND ((`LastExecution`=0) OR ( DATE_ADD(`LastExecution`, INTERVAL `JobWorkingInterval` $_JIC00[2]) <= NOW()  ) )";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if(mysql_num_rows($_QL8i1) == 0) {
+    mysql_free_result($_QL8i1);
     continue;
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
-  $_j6fIQ = 1;
-  _OPQ6J();
+  $_JIOjJ = 1;
+  _LRCOC();
 
   // OptInOptOutExpirationCheck
-  if($_j688L[1] == 'OptInOptOutExpirationCheck') {
+  if($_JIC00[1] == 'OptInOptOutExpirationCheck') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_subunsubcheck.inc.php");
-     $_Q8COf = _ORDCQ($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LJ8PL($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE id=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE id=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
-  _OPQ6J();
-  $_j6fIQ = 2;
+  _LRCOC();
+  $_JIOjJ = 2;
 
   // CronLogCleanUp
-  if($_j688L[1] == 'CronLogCleanUp') {
+  if($_JIC00[1] == 'CronLogCleanUp') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_logcleanup.inc.php");
-     $_Q8COf = _ORR86($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LLADE($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE id=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE id=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
 
-  _OPQ6J();
-  $_j6fIQ = 3;
+  _LRCOC();
+  $_JIOjJ = 3;
 
   // MailingListStatCleanUp
-  if($_j688L[1] == 'MailingListStatCleanUp') {
+  if($_JIC00[1] == 'MailingListStatCleanUp') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_logcleanup.inc.php");
-     $_Q8COf = _ORRBB($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LLBOO($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE id=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE id=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
 
-  _OPQ6J();
-  $_j6fIQ = 4;
+  _LRCOC();
+  $_JIOjJ = 4;
 
   // AutoImport
-  if($_j688L[1] == 'AutoImport') {
+  if($_JIC00[1] == 'AutoImport') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_autoimport.inc.php");
-     $_Q8COf = _O6D8Q($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LL1JL($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE id=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE id=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
-  _OPQ6J();
-  $_j6fIQ = 5;
+  _LRCOC();
+  $_JIOjJ = 5;
 
   // ResponderStatCleanUp
-  if($_j688L[1] == 'ResponderStatCleanUp') {
+  if($_JIC00[1] == 'ResponderStatCleanUp') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_logcleanup.inc.php");
-     $_Q8COf = _ORRBE($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LLBAO($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE id=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE id=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
-  _OPQ6J();
-  $_j6fIQ = 6;
+  _LRCOC();
+  $_JIOjJ = 6;
 
   // TrackingStatCleanUp
-  if($_j688L[1] == 'TrackingStatCleanUp') {
+  if($_JIC00[1] == 'TrackingStatCleanUp') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_logcleanup.inc.php");
-     $_Q8COf = _OR81A($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LLC61($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE id=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE id=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
 
-  _OPQ6J();
-  $_j6fIQ = 7;
+  _LRCOC();
+  $_JIOjJ = 7;
 
 
    // BounceChecking
-  if($_j688L[1] == 'BounceChecking') {
+  if($_JIC00[1] == 'BounceChecking') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_bounces.inc.php");
-     $_Q8COf = _OR0OJ($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LLL8O($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE id=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE id=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
    }
 
 
-  _OPQ6J();
-  $_j6fIQ = 8;
+  _LRCOC();
+  $_JIOjJ = 8;
 
 
   // Autoresponder checking
-  if($_j688L[1] == 'AutoresponderChecking') {
+  if($_JIC00[1] == 'AutoresponderChecking') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_autoresponders.inc.php");
-     $_Q8COf = _O6E8R($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LLQ8B($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE id=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE id=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
-  _OPQ6J();
-  $_j6fIQ = 9;
+  _LRCOC();
+  $_JIOjJ = 9;
 
 
   // FollowUpResponder checking
-  if($_j688L[1] == 'FollowUpResponderChecking') {
+  if($_JIC00[1] == 'FollowUpResponderChecking') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_furesponders.inc.php");
-     $_Q8COf = _OR6FF($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LLAOR($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE id=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE id=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
-  _OPQ6J();
-  $_j6fIQ = 10;
+  _LRCOC();
+  $_JIOjJ = 10;
 
 
   // BirthdayResponder checking
-  if($_j688L[1] == 'BirthdayResponderChecking') {
+  if($_JIC00[1] == 'BirthdayResponderChecking') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_birthdayresponders.inc.php");
-     $_Q8COf = _OR01E($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LLOD6($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE id=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE id=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
-  _OPQ6J();
-  $_j6fIQ = 11;
+  _LRCOC();
+  $_JIOjJ = 11;
 
 
   // EventMailResponder checking
-  if($_j688L[1] == 'EventResponderChecking') {
+  if($_JIC00[1] == 'EventResponderChecking') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_eventresponders.inc.php");
-     $_Q8COf = _OR6FQ($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LLA0E($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE id=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE id=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
 
-  _OPQ6J();
-  $_j6fIQ = 12;
+  _LRCOC();
+  $_JIOjJ = 12;
 
   // Campaign checking
-  if($_j688L[1] == 'CampaignChecking') {
+  if($_JIC00[1] == 'CampaignChecking') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_campaigns.inc.php");
-     $_Q8COf = _OR1LE($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LLJPL($_JIfo0, $_JICLJ);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE id=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE id=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
-  _OPQ6J();
-  $_j6fIQ = 13;
+  _LRCOC();
+  $_JIOjJ = 13;
 
   // SplitTest checking
-  if($_j688L[1] == 'SplitTestChecking') {
+  if($_JIC00[1] == 'SplitTestChecking') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_splittests.inc.php");
-     $_Q8COf = _ORCAO($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LJRCR($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE id=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE id=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
-  _OPQ6J();
-  $_j6fIQ = 14;
+  _LRCOC();
+  $_JIOjJ = 14;
 
   // RSS2EMailResponder checking
-  if($_j688L[1] == 'RSS2EMailResponderChecking') {
+  if($_JIC00[1] == 'RSS2EMailResponderChecking') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_rss2emailresponders.inc.php");
-     $_Q8COf = _OR8BL($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LLD0O($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE id=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE id=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
 
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
-  _OPQ6J();
-  $_j6fIQ = 15;
+  _LRCOC();
+  $_JIOjJ = 15;
 
   // SendEngine checking
-  if($_j688L[1] == 'SendEngineChecking') {
+  if($_JIC00[1] == 'SendEngineChecking') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
 
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_sendengine.inc.php");
-     $_Q8COf = _OR8BP($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LLDDR($_JIfo0, $_JICLJ);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`=IF(`ResultText`='Executing', "._LRAFO($_JIfo0).", CONCAT(`ResultText`, " . _LRAFO($_JIfo0) . ")) WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE `id`=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE `id`=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
 
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
 
-  _OPQ6J();
-  $_j6fIQ = 16;
+  _LRCOC();
+  $_JIOjJ = 16;
 
   // SMSCampaign checking
-  if($_j688L[1] == 'SMSCampaignChecking') {
+  if($_JIC00[1] == 'SMSCampaignChecking') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_smscampaigns.inc.php");
-     $_Q8COf = _ORADR($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LJJQJ($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE `id`=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE `id`=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
 
-  _OPQ6J();
-  $_j6fIQ = 17;
+  _LRCOC();
+  $_JIOjJ = 17;
 
   // DistribList checking
-  if($_j688L[1] == 'DistribListChecking') {
+  if($_JIC00[1] == 'DistribListChecking') {
      if(isset($_GET["language"])) {
-        print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+        print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
-     $_j6t6f = time();
-     $_j6tO0 = _O6CCE($_j688L[0], $_j6t6f);
+     $_JICOi = time();
+     $_JICLJ = _LOFF1($_JIC00[0], $_JICOi);
 
      include_once("cron_distriblists.inc.php");
-     $_Q8COf = _OROED($_j6O8O);
-     _O6D0O($_j6IO1);
-     if($_Q8COf === false)
-        $_Q8COf = 0;
+     $_I1o8o = _LLR1O($_JIfo0);
+     _LL06Q($_JIfii);
+     if($_I1o8o === false)
+        $_I1o8o = 0;
         else
-        if($_Q8COf === true)
-          $_Q8COf = 1;
+        if($_I1o8o === true)
+          $_I1o8o = 1;
 
-     $_QJlJ0 = "UPDATE `$_jJ6Qf` SET `EndDateTime`=NOW(), `Result`=$_Q8COf, `ResultText`="._OPQLR($_j6O8O)." WHERE `id`=$_j6tO0";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQoC` SET `EndDateTime`=NOW(), `Result`=$_I1o8o, `ResultText`="._LRAFO($_JIfo0)." WHERE `id`=$_JICLJ";
+     mysql_query($_QLfol, $_QLttI);
 
-     $_QJlJ0 = "UPDATE `$_jJJtf` SET `LastExecution`=NOW() WHERE `id`=$_j688L[0]";
-     mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "UPDATE `$_JQQI1` SET `LastExecution`=NOW() WHERE `id`=$_JIC00[0]";
+     mysql_query($_QLfol, $_QLttI);
      if(isset($_GET["language"])) {
         print "Done.<br />";
         flush();
-        if($_j6ftl) {ob_flush(); ob_start('CronJobsErrorHandler');}
+        if($_JIOfO) {ob_flush(); ob_start('CronJobsErrorHandler');}
      }
   }
  }
 
- mysql_free_result($_j686l);
- $_j6fIQ = 999;
+ mysql_free_result($_JIoQt);
+ $_JIOjJ = 999;
+
+ if(isset($_GET["language"])){
+   print "<br />"."memory used: "._LB1D8()."<br /><br />";
+   print "Script runtime: " . sprintf("%1.2fs", microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"]) . "<br /><br />";
+ }
 
  if(isset($_GET["language"])) {
-    print "CurrentCronJobScriptLevel: $_j6fIQ<br />";
+    print "CurrentCronJobScriptLevel: $_JIOjJ<br />";
     print "Done.<br />";
     flush();
-    if($_j6ftl) ob_flush();
+    if($_JIOfO) ob_flush();
  }
 
  if(isset($_GET["language"])) {
@@ -755,101 +782,101 @@
      print $resourcestrings[$_GET["language"]]["000347"];
  }
 
- if($_j6ftl) ob_flush();
+ if($_JIOfO) ob_flush();
 
  // shutdown
  function CronJobsDone() {
-   global $_Q88iO, $_Q61I1, $_jJ6Qf, $_j6fIQ, $_j6IO1, $_j6j1C, $_j6jio, $_j66Il;
+   global $_I1O0i, $_QLttI, $_JQQoC, $_JIOjJ, $_JIfii, $_JI8Io, $_JI8i6, $_JIttj;
 
-   _O6D0O($_j6IO1);
+   _LL06Q($_JIfii);
 
    # script timeout, rollback all, when there are an open transaction
-   if($_j6fIQ != 999) {
-     mysql_query("ROLLBACK", $_Q61I1);
+   if($_JIOjJ != 999) {
+     mysql_query("ROLLBACK", $_QLttI);
    }
 
-   $_QJlJ0 = "UPDATE `$_Q88iO` SET `CronJobLock`=0";
-   mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol = "UPDATE `$_I1O0i` SET `CronJobLock`=0";
+   mysql_query($_QLfol, $_QLttI);
 
-   if(mysql_error($_Q61I1) != "")
-     print mysql_error($_Q61I1);
+   if(mysql_error($_QLttI) != "")
+     print mysql_error($_QLttI);
 
-   if($_j6fIQ != 999) {
-     $_QJlJ0 = "INSERT INTO `$_jJ6Qf` SET `cronoptions_id`=0, `StartDateTime`=NOW(), `EndDateTime`=NOW(), `Result`=0, `ResultText`="._OPQLR('Script timeout at level $_j6fIQ.<br />Check options of email retrieving or for email sending.');
-     mysql_query($_QJlJ0, $_Q61I1);
+   if($_JIOjJ != 999) {
+     $_QLfol = "INSERT INTO `$_JQQoC` SET `cronoptions_id`=0, `StartDateTime`=NOW(), `EndDateTime`=NOW(), `Result`=0, `ResultText`="._LRAFO('Script timeout at level $_JIOjJ.<br />Check options of email retrieving or for email sending.');
+     mysql_query($_QLfol, $_QLttI);
 
      if(isset($_GET["language"])) {
-       print "Script timeout at level $_j6fIQ.</br />Check options of email retrieving or for email sending.";
+       print "Script timeout at level $_JIOjJ.</br />Check options of email retrieving or for email sending.";
      }
    }
 
-   if($_j6j1C){
-     flock($_j66Il, LOCK_UN);
-     fclose($_j66Il);
-     @unlink($_j6jio);
-     $_j6j1C = false;
+   if($_JI8Io){
+     flock($_JIttj, LOCK_UN);
+     fclose($_JIttj);
+     @unlink($_JI8i6);
+     $_JI8Io = false;
    }
-
+   @session_destroy();
  }
 
- function CronJobsErrorHandler($_j6OL6) {
-   global $_Q88iO, $_Q61I1, $_jJ6Qf, $_j6fIQ, $_j6IO1, $_j6j1C, $_j6jio, $_j66Il;
+ function CronJobsErrorHandler($_JIiLQ) {
+   global $_I1O0i, $_QLttI, $_JQQoC, $_JIOjJ, $_JIfii, $_JI8Io, $_JI8i6, $_JIttj;
 
-   $_Q8C08 = error_get_last();
+   $_I1Ilj = error_get_last();
 
    # rollback all, when there are an open transaction
-   mysql_query("ROLLBACK", $_Q61I1);
+   mysql_query("ROLLBACK", $_QLttI);
 
-   if(!$_Q8C08)
-     return $_j6OL6;
+   if(!$_I1Ilj)
+     return $_JIiLQ;
 
-   _O6D0O($_j6IO1);
+   _LL06Q($_JIfii);
 
-   if( $_Q8C08["type"] == E_ERROR || $_Q8C08["type"] == E_USER_ERROR ) {
-     $_QJlJ0 = "UPDATE `$_Q88iO` SET `CronJobLock`=0";
-     mysql_query($_QJlJ0, $_Q61I1);
+   if( $_I1Ilj["type"] == E_ERROR || $_I1Ilj["type"] == E_USER_ERROR ) {
+     $_QLfol = "UPDATE `$_I1O0i` SET `CronJobLock`=0";
+     mysql_query($_QLfol, $_QLttI);
 
-     if($_j6j1C){
-       flock($_j66Il, LOCK_UN);
-       fclose($_j66Il);
-       @unlink($_j6jio);
-       $_j6j1C = false;
+     if($_JI8Io){
+       flock($_JIttj, LOCK_UN);
+       fclose($_JIttj);
+       @unlink($_JI8i6);
+       $_JI8Io = false;
      }
 
    } else
-     return $_j6OL6;
+     return $_JIiLQ;
 
-   if($_j6fIQ != 999) {
-     $_j6oj1 = sprintf("Fatal PHP ERROR type=%d; message=%s; file=%s; line=%d", $_Q8C08["type"], $_Q8C08["message"], $_Q8C08["file"], $_Q8C08["line"]);
-     $_QJlJ0 = "INSERT INTO `$_jJ6Qf` SET `cronoptions_id`=0, `StartDateTime`=NOW(), `EndDateTime`=NOW(), `Result`=0, `ResultText`="._OPQLR($_j6oj1);
-     mysql_query($_QJlJ0, $_Q61I1);
+   if($_JIOjJ != 999) {
+     $_JIL6C = sprintf("Fatal PHP ERROR type=%d; message=%s; file=%s; line=%d", $_I1Ilj["type"], $_I1Ilj["message"], $_I1Ilj["file"], $_I1Ilj["line"]);
+     $_QLfol = "INSERT INTO `$_JQQoC` SET `cronoptions_id`=0, `StartDateTime`=NOW(), `EndDateTime`=NOW(), `Result`=0, `ResultText`="._LRAFO($_JIL6C);
+     mysql_query($_QLfol, $_QLttI);
 
      if(isset($_GET["language"])) {
-       print "Script error at level $_j6fIQ.</br />".$_j6oj1;
-       $_j6OL6 .= "<br />Script error at level $_j6fIQ.</br />".$_j6oj1;
+       print "Script error at level $_JIOjJ.</br />".$_JIL6C;
+       $_JIiLQ .= "<br />Script error at level $_JIOjJ.</br />".$_JIL6C;
      }
    }
 
-   return $_j6OL6;
+   return $_JIiLQ;
  }
 
- function _O6CCE($_j6ofo, $_j6t6f) {
-   global $_Q61I1, $_jJ6Qf;
-   $_QJlJ0 = "INSERT INTO `$_jJ6Qf` SET `cronoptions_id`=$_j6ofo, `StartDateTime`=FROM_UNIXTIME($_j6t6f), `EndDateTime`=NOW(), `Result`=-2, `ResultText`="._OPQLR("Executing");
-   mysql_query($_QJlJ0, $_Q61I1);
+ function _LOFF1($_JIl0C, $_JICOi) {
+   global $_QLttI, $_JQQoC;
+   $_QLfol = "INSERT INTO `$_JQQoC` SET `cronoptions_id`=$_JIl0C, `StartDateTime`=FROM_UNIXTIME($_JICOi), `EndDateTime`=NOW(), `Result`=-2, `ResultText`="._LRAFO("Executing");
+   mysql_query($_QLfol, $_QLttI);
 
-   $_Q60l1 = mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-   $_Q6Q1C = mysql_fetch_row($_Q60l1);
-   $id = $_Q6Q1C[0];
-   mysql_free_result($_Q60l1);
+   $_QL8i1 = mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+   $_QLO0f = mysql_fetch_row($_QL8i1);
+   $id = $_QLO0f[0];
+   mysql_free_result($_QL8i1);
 
    return $id;
  }
 
- function _O6D0O($_j6IO1){
-   global $_Q61I1;
-   if($_j6IO1 == "") return;
-   @mysql_query('SET time_zone = '._OPQLR($_j6IO1), $_Q61I1);
+ function _LL06Q($_JIfii){
+   global $_QLttI;
+   if($_JIfii == "") return;
+   @mysql_query('SET time_zone = '._LRAFO($_JIfii), $_QLttI);
  }
 
 ?>

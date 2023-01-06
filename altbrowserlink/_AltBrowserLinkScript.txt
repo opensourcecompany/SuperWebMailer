@@ -1,0 +1,123 @@
+<noscript>
+ <style>
+   #AltBrowserLink {display: none;}
+ </style>
+</noscript>
+
+<script>
+
+(function (w) {
+  // old browsers don't supporting URLSearchParams
+  w.URLSearchParams = w.URLSearchParams || function (searchString) {
+      var self = this;
+      self.searchString = searchString;
+      self.get = function (name) {
+          var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(self.searchString);
+          if (results == null) {
+              return null;
+          }
+          else {
+              return decodeURI(results[1]) || 0;
+          }
+      };
+  }
+
+})(window)
+
+var _lastvisiblemenu;
+
+function MenuShowFunction(_currentMenuItem, doShow, popupUp){
+  if(!_currentMenuItem || !_currentMenuItem.parentNode) return;
+
+  if( (doShow == null && _currentMenuItem.style.visibility == "visible") || doShow == false ){
+    _currentMenuItem.style.visibility = "hidden";
+    _lastvisiblemenu = null;
+    return;
+  }
+
+  if(_lastvisiblemenu){
+    _lastvisiblemenu.style.visibility = "hidden";
+    _lastvisiblemenu = null;
+  }
+
+  var w = document.body.clientWidth || window.innerWidth || document.documentElement.clientWidth;
+  var positionInfo = _currentMenuItem.parentNode.getBoundingClientRect();
+  var left = positionInfo.left + _currentMenuItem.parentNode.scrollLeft;
+
+  var positionInfo = _currentMenuItem.getBoundingClientRect();
+  var width = positionInfo.width;
+  var height = positionInfo.height;
+
+  if(!width){
+    // for <IE9
+    width = _currentMenuItem.offsetWidth;
+  }
+
+  if(!height){
+    // for <IE9
+    height = _currentMenuItem.offsetHeigth;
+  }
+
+  if(left + width > w){
+    _currentMenuItem.style.left = (w - width - 12) + 'px';
+  }else
+    _currentMenuItem.style.left = left + 'px';
+
+  if(!popupUp)
+    _currentMenuItem.style.top = _currentMenuItem.parentNode.offsetHeight + -1 + "px";
+    else
+    _currentMenuItem.style.top = (height * -1) + "px";
+
+  _currentMenuItem.style.visibility = "visible";
+  _lastvisiblemenu = _currentMenuItem;
+}
+
+function ReplaceAllLinks(){
+  try{
+   var links = document.querySelectorAll('A');
+  }catch(e){
+   var links = document.getElementsByTagName('A');
+  }
+  var link = window.location.href.substr(0, window.location.href.indexOf('?'));
+
+  var searchParams = new URLSearchParams(window.location.search);
+
+  var params = '?key=' + searchParams.get('key') + '&socialshare';
+
+  if(searchParams.get('rid') != "")
+    params = params + '&rid=' + searchParams.get('rid');
+  link = link + params;
+
+  for(var i=0; i<links.length; i++){
+    links[i].href = links[i].href.replace("*ALTBROWSERLINKURLANONYM*", encodeURIComponent(link));
+    links[i].href = links[i].href.replace("*ALTBROWSERLINKURL*", encodeURIComponent(window.location.href));
+  }
+  /*DEMO*/
+}
+
+function Loaded(){
+  ReplaceAllLinks();
+
+  var supportsTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
+
+  if(supportsTouch){
+    var A = ["translate"];
+    for(var i=0; i<A.length; i++){
+      var el = document.getElementById(A[i]);
+      if(el){
+        while(el != null && el.tagName != "LI")
+           el = el.parentNode;
+        el.onmouseover = null;
+        el.onmouseout = null;
+      }
+    }
+  }
+
+}
+
+if (window.addEventListener)
+window.addEventListener("load", Loaded, false)
+else if (window.attachEvent)
+window.attachEvent("onload", Loaded)
+
+</script>

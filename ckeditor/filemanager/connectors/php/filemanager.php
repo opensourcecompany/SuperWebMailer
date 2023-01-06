@@ -29,11 +29,11 @@ if (isset($config['plugin']) && !empty($config['plugin'])) {
 $response = '';
 
 if(!auth()) {
-  $fm->error($fm->lang('AUTHORIZATION_REQUIRED'));
+  $fm->error($fm->lang('AUTHORIZATION_REQUIRED'), true);
 }
 
 if(!isset($_GET)) {
-  $fm->error($fm->lang('INVALID_ACTION'));
+  $fm->error($fm->lang('INVALID_ACTION'), true);
 } else {
 
   if(isset($_GET['mode']) && $_GET['mode']!='') {
@@ -42,7 +42,7 @@ if(!isset($_GET)) {
 
       default:
 
-        $fm->error($fm->lang('MODE_ERROR'));
+        $fm->error($fm->lang('MODE_ERROR'), true);
         break;
 
       case 'getinfo':
@@ -106,7 +106,7 @@ if(!isset($_GET)) {
 
       default:
 
-        $fm->error($fm->lang('MODE_ERROR'));
+        $fm->error($fm->lang('MODE_ERROR'), true);
         break;
 
       case 'add':

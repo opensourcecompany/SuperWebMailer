@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -35,66 +35,66 @@
   if(isset($_GET["IsFCKEditor"]))
     $_POST["_IsFCKEditor"] = $_GET["IsFCKEditor"];
 
-  $_QJCJi = join("", file(_O68QF()."loadfile.htm"));
+  $_QLJfI = _JJAQE("loadfile.htm");
 
-  $_QJCJi = str_replace ('name="cmbUploaderUrl"', 'value="'.BasePath.'ckeditor/filemanager/connectors/php/uploadgetcontents.php"', $_QJCJi);
+  $_QLJfI = str_replace ('name="cmbUploaderUrl"', 'value="'.BasePath.'ckeditor/filemanager/connectors/php/uploadgetcontents.php"', $_QLJfI);
 
 
-  $_I00tC = ini_get("upload_max_filesize");
-  if(!isset($_I00tC) || $_I00tC == "")
-    $_I00tC = "2M";
-  if(!(strpos($_I00tC, "G") === false))
-     $_I0188 = $_I00tC * 1024 * 1024 * 1024;
+  $_It18j = ini_get("upload_max_filesize");
+  if(!isset($_It18j) || $_It18j == "")
+    $_It18j = "2M";
+  if(!(strpos($_It18j, "G") === false))
+     $_ItQIo = intval($_It18j) * 1024 * 1024 * 1024;
      else
-     if(!(strpos($_I00tC, "M") === false))
-        $_I0188 = $_I00tC * 1024 * 1024;
+     if(!(strpos($_It18j, "M") === false))
+        $_ItQIo = intval($_It18j) * 1024 * 1024;
         else
-        if(!(strpos($_I00tC, "K") === false))
-           $_I0188 = $_I00tC * 1024;
+        if(!(strpos($_It18j, "K") === false))
+           $_ItQIo = intval($_It18j) * 1024;
            else
-           $_I0188 = $_I00tC * 1;
-  if($_I0188 == 0)
-    $_I0188 = 2 * 1024 * 1024;
-  $_I00tC .= "B";
-  $_QJCJi = str_replace('upload_max_filesize', $_I00tC, $_QJCJi);
-  $_QJCJi = str_replace('name="MAX_FILE_SIZE"', 'name="MAX_FILE_SIZE" value="'.$_I0188.'"', $_QJCJi);
+           $_ItQIo = intval($_It18j) * 1;
+  if($_ItQIo == 0)
+    $_ItQIo = 2 * 1024 * 1024;
+  $_It18j .= "B";
+  $_QLJfI = str_replace('upload_max_filesize', $_It18j, $_QLJfI);
+  $_QLJfI = str_replace('name="MAX_FILE_SIZE"', 'name="MAX_FILE_SIZE" value="'.$_ItQIo.'"', $_QLJfI);
 
-  $_QJCJi = _OPFJA(array(), $_POST, $_QJCJi);
+  $_QLJfI = _L8AOB(array(), $_POST, $_QLJfI);
 
 
   if(isset($_POST["_FORMNAME"]) && $_POST["_FORMNAME"] != "null" && $_POST["_FORMNAME"] != "")
-    $_QJCJi = str_replace("'FORMNAME'", "'".$_POST["_FORMNAME"]."'", $_QJCJi);
+    $_QLJfI = str_replace("'FORMNAME'", "'".$_POST["_FORMNAME"]."'", $_QLJfI);
     else
-      $_QJCJi = _OP6PQ($_QJCJi, "<HAS_SOURCEELEMENT>", "</HAS_SOURCEELEMENT>");
+      $_QLJfI = _L80DF($_QLJfI, "<HAS_SOURCEELEMENT>", "</HAS_SOURCEELEMENT>");
 
   if(isset($_POST["_FORMFIELD"]) && $_POST["_FORMFIELD"] != "null" && $_POST["_FORMFIELD"] != "") {
-      $_QJCJi = str_replace('.FORMFIELD', ".".$_POST["_FORMFIELD"], $_QJCJi);
-      $_QJCJi = str_replace('<HAS_SOURCEELEMENT>', '', $_QJCJi);
-      $_QJCJi = str_replace('</HAS_SOURCEELEMENT>', '', $_QJCJi);
+      $_QLJfI = str_replace('.FORMFIELD', ".".$_POST["_FORMFIELD"], $_QLJfI);
+      $_QLJfI = str_replace('<HAS_SOURCEELEMENT>', '', $_QLJfI);
+      $_QLJfI = str_replace('</HAS_SOURCEELEMENT>', '', $_QLJfI);
     }
     else
-    $_QJCJi = _OP6PQ($_QJCJi, "<HAS_SOURCEELEMENT>", "</HAS_SOURCEELEMENT>");
+    $_QLJfI = _L80DF($_QLJfI, "<HAS_SOURCEELEMENT>", "</HAS_SOURCEELEMENT>");
 
   if (!isset($_POST["_IsFCKEditor"]) || $_POST["_IsFCKEditor"] == "false" ) {
-     $_QJCJi = str_replace('<ISNOTFCKEDITOR>', '', $_QJCJi);
-     $_QJCJi = str_replace('</ISNOTFCKEDITOR>', '', $_QJCJi);
-     $_QJCJi = _OP6PQ($_QJCJi, "<ISFCKEDITOR>", "</ISFCKEDITOR>");
+     $_QLJfI = str_replace('<ISNOTFCKEDITOR>', '', $_QLJfI);
+     $_QLJfI = str_replace('</ISNOTFCKEDITOR>', '', $_QLJfI);
+     $_QLJfI = _L80DF($_QLJfI, "<ISFCKEDITOR>", "</ISFCKEDITOR>");
    }
     else {
-      $_QJCJi = _OP6PQ($_QJCJi, "<ISNOTFCKEDITOR>", "</ISNOTFCKEDITOR>");
-      $_QJCJi = str_replace('<ISFCKEDITOR>', '', $_QJCJi);
-      $_QJCJi = str_replace('</ISFCKEDITOR>', '', $_QJCJi);
+      $_QLJfI = _L80DF($_QLJfI, "<ISNOTFCKEDITOR>", "</ISNOTFCKEDITOR>");
+      $_QLJfI = str_replace('<ISFCKEDITOR>', '', $_QLJfI);
+      $_QLJfI = str_replace('</ISFCKEDITOR>', '', $_QLJfI);
     }
 
   if(isset($_POST["_FORMFIELD"]))
-    $_QJCJi = str_replace('"SourceCKEditor"', '"'.$_POST["_FORMFIELD"].'"', $_QJCJi);
+    $_QLJfI = str_replace('"SourceCKEditor"', '"'.$_POST["_FORMFIELD"].'"', $_QLJfI);
 
   if( !ini_get("allow_url_fopen") ) {
-    $_I6ICC = "  ShowItem('FileFromInternet', false);\r\n";
-    $_QJCJi = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_I6ICC, $_QJCJi);
+    $_Iljoj = "  ShowItem('FileFromInternet', false);\r\n";
+    $_QLJfI = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_Iljoj, $_QLJfI);
   }
 
-  SetHTMLHeaders($_Q6QQL);
+  SetHTMLHeaders($_QLo06);
 
-  print $_QJCJi;
+  print $_QLJfI;
 ?>

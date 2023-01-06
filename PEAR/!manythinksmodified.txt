@@ -1,1 +1,3 @@
 do never install original PEAR package these files are modified and includes many bug fixes and extensions
+
+PHP7+ compatible

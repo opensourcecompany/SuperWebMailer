@@ -26,38 +26,38 @@
   include_once("sessioncheck.inc.php");
 
   if($OwnerUserId != 0) {
-    if(empty($_QJojf) || !is_array($_QJojf))
-      $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegePageRemove"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    if(empty($_QLJJ6) || !is_array($_QLJJ6))
+      $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegePageRemove"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  if(isset($_66olL))
-     unset($_66olL);
-  $_66olL = array();
+  if(isset($_fLjJJ))
+     unset($_fLjJJ);
+  $_fLjJJ = array();
   if ( isset($_POST["OnePageListId"]) && $_POST["OnePageListId"] != "" )
-      $_66olL[] = $_POST["OnePageListId"];
+      $_fLjJJ[] = $_POST["OnePageListId"];
       else
       if ( isset($_POST["OnePageListIDs"]) )
-        $_66olL = array_merge($_66olL, $_POST["OnePageListIDs"]);
+        $_fLjJJ = array_merge($_fLjJJ, $_POST["OnePageListIDs"]);
 
 
-  $_QtIiC = array();
-  _L1DB8($_66olL, $_QtIiC);
+  $_IQ0Cj = array();
+  _J1DPQ($_fLjJJ, $_IQ0Cj);
 
   // we don't check for errors here
-  function _L1DB8($_66olL, &$_QtIiC) {
-    global $_ICljl, $_Q61I1;
+  function _J1DPQ($_fLjJJ, &$_IQ0Cj) {
+    global $_jfQtI, $_QLttI;
 
-    for($_Q6llo=0; $_Q6llo<count($_66olL); $_Q6llo++) {
+    for($_Qli6J=0; $_Qli6J<count($_fLjJJ); $_Qli6J++) {
       // and now from pages table
-      $_QJlJ0 = "DELETE FROM $_ICljl WHERE id=".intval($_66olL[$_Q6llo]);
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if (mysql_error($_Q61I1) != "") $_QtIiC[] = mysql_error($_Q61I1)." SQL: ".$_QJlJ0;
+      $_QLfol = "DELETE FROM $_jfQtI WHERE id=".intval($_fLjJJ[$_Qli6J]);
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if (mysql_error($_QLttI) != "") $_IQ0Cj[] = mysql_error($_QLttI)." SQL: ".$_QLfol;
     }
   }
 

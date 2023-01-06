@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -31,8 +31,8 @@ require_once("./nusoap/lib/nusoap.php");
 include_once('api.inc.php');
 
 # set include path to find correct external script locations
-$_Qfoof = ini_get('include_path');
-if($_Qfoof == "")
+$_I0L8J = ini_get('include_path');
+if($_I0L8J == "")
   ini_set('include_path', InstallPath);
   else{
      if ( ! defined( "PATH_SEPARATOR" ) ) {
@@ -40,7 +40,7 @@ if($_Qfoof == "")
          define( "PATH_SEPARATOR", ";" );
        else define( "PATH_SEPARATOR", ":" );
      }
-     ini_set('include_path', InstallPath.PATH_SEPARATOR.$_Qfoof);
+     ini_set('include_path', InstallPath.PATH_SEPARATOR.$_I0L8J);
   }
 
 require_once('api_base.php');
@@ -56,23 +56,23 @@ if(defined("SWM")){
   require_once('api_furesponders.php');
 }
 
-$_QfC8t = new GetFunctionsList();
-$_QfC8t->preventMethods = array("__construct", "__destruct", "api_base", "CheckAPIKey", "api_ShowSQLError", "api_Error", "_internal_refreshTracking", "_internalCheckFileExtension");
+$_I0lji = new GetFunctionsList();
+$_I0lji->preventMethods = array("__construct", "__destruct", "api_base", "CheckAPIKey", "api_ShowSQLError", "api_Error", "_internal_refreshTracking", "_internalCheckFileExtension", "_internal_initRecipientsData");
 
-$_QfCl0 = array("api_Common", "api_Mailinglists", "api_Recipients", "api_Users", "api_Files", "api_DistributionLists");
+$_I0lfQ = array("api_Common", "api_Mailinglists", "api_Recipients", "api_Users", "api_Files", "api_DistributionLists");
 
 if(defined("SWM")){
-  $_QfCl0 = array_merge($_QfCl0, array("api_Campaigns", "api_FUResponders"));
+  $_I0lfQ = array_merge($_I0lfQ, array("api_Campaigns", "api_FUResponders"));
 }
 
-arsort($_QfCl0, SORT_STRING);
+arsort($_I0lfQ, SORT_STRING);
 
-foreach($_QfCl0 as $key) {
-  $_QfC8t->classname = $key;
-  $_QfC8t->classMethodsIntoStruct();
+foreach($_I0lfQ as $key) {
+  $_I0lji->classname = $key;
+  $_I0lji->classMethodsIntoStruct();
 }
 
-@arsort($_QfC8t->wsdlStruct, SORT_STRING);
+@arsort($_I0lji->wsdlStruct, SORT_STRING);
 
 @header('Expires: Mon, 26 Jul 1997 05:00:00 GMT') ;
 // always modified
@@ -94,124 +94,134 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
 }
 
 $api = null;
+$_I6oQo = "APIToken";
 
 if (!function_exists('apache_request_headers')) {
-  $APIToken = !empty($_SERVER["HTTP_APITOKEN"]) ? $_SERVER["HTTP_APITOKEN"] : "";
+  $APIToken = !empty($_SERVER[strtoupper("HTTP_" . $_I6oQo)]) ? $_SERVER[strtoupper("HTTP_" . $_I6oQo)] : "";
+  if(empty($APIToken))
+     $APIToken = !empty($_SERVER["HTTP_" . $_I6oQo]) ? $_SERVER["HTTP_" . $_I6oQo] : "";
 } else{
-  $_QiOo1 = apache_request_headers();
-  if(!empty($_QiOo1["APIToken"]))
-    $APIToken = $_QiOo1["APIToken"];
+  $_I6C0o = apache_request_headers();
+  if(!empty($_I6C0o[$_I6oQo]))
+    $APIToken = $_I6C0o[$_I6oQo];
+  else
+    foreach ($_I6C0o as $_I6C8f => $_QltJO) {
+      if( strtoupper($_I6C8f) == strtoupper($_I6oQo)){
+        $APIToken = $_QltJO;
+        break;
+      }
+    }
 }
 
 
 if(empty($APIToken)){
-  _OQ6RR(500, "No valid APIToken.");
+  _OF1RQ(500, "No valid APIToken.");
   exit;
 }
 
 
-$_Qiojj = array();
+$_I6CiJ = array();
 
-reset($_QfC8t->wsdlStruct);
-foreach($_QfC8t->wsdlStruct as $key => $_QfjtQ){
+reset($_I0lji->wsdlStruct);
+foreach($_I0lji->wsdlStruct as $key => $_I060f){
   $classname = $key;
 
-  foreach($_QfjtQ["method"] as $_QfJI8 => $_Q80Qf){
-   $_Q80lL = array();
-   $_Q8186 = array('result' => 'xsd:void');
+  foreach($_I060f["method"] as $_I06t6 => $_I1Q0I){
+   $_I1QI0 = array();
+   $_I1I0L = array('result' => 'xsd:void');
 
-   foreach($_Q80Qf["var"] as $_Q6llo => $_QffOf){
-     if(isset($_QffOf["return"]))
-       $_Q8186 = array("result" => $_QffOf["type"]);
+   foreach($_I1Q0I["var"] as $_Qli6J => $_I08CQ){
+     if(isset($_I08CQ["return"]))
+       $_I1I0L = array("result" => $_I08CQ["type"]);
        else{
-        $_Q80lL = array_merge($_Q80lL, array( $_QffOf["name"] => $_QffOf["type"] ) );
+        $_I1QI0 = array_merge($_I1QI0, array( $_I08CQ["name"] => $_I08CQ["type"] ) );
        }
    }
-   $_Qiojj[$classname.".".$_QfJI8] = array("inparams" => $_Q80lL, "returnparams" => $_Q8186);
+   $_I6CiJ[$classname.".".$_I06t6] = array("inparams" => $_I1QI0, "returnparams" => $_I1I0L);
   }
 }
 
-#print_r($_Qiojj);
+#print_r($_I6CiJ);
 
  #api_Recipients__api_createRecipient
- $_QfC8t = "";
- $_QioiC = "";
- foreach($_POST as $key => $_Q6ClO){
+ $_I0lji = "";
+ $_I6i6I = "";
+ foreach($_POST as $key => $_QltJO){
    if(strpos($key, "__") === false) continue;
-   $_QfC8t = str_replace("__", ".", $key);
-   if(isset($_Qiojj[$_QfC8t])){
-     $_QioiC = $key;
+   $_I0lji = str_replace("__", ".", $key);
+   if(isset($_I6CiJ[$_I0lji])){
+     $_I6i6I = $key;
      break;
      }
  }
 
  // find as substr *.<name> for too long var names on some plattforms
- if(empty($_QioiC)){
-   foreach($_POST as $key => $_Q6ClO){
+ if(empty($_I6i6I)){
+   foreach($_POST as $key => $_QltJO){
      if(strpos($key, "__") !== false) continue;
 
-     foreach($_Qiojj as $_QiCJJ => $_Q66jQ){
-      if(strpos($_QiCJJ, ".".$key) !== false){
-       $_QfC8t = $_QiCJJ;
-       $_QioiC = $key;
+     foreach($_I6CiJ as $_I6iot => $_Ql0fO){
+      if(strpos($_I6iot, ".".$key) !== false){
+       $_I0lji = $_I6iot;
+       $_I6i6I = $key;
        break;
       }
      }
 
-     if(!empty($_QioiC)){
+     if(!empty($_I6i6I)){
       break;
      }
    }
  }
 
- if(empty($_QioiC)){
-   _OQ6RR(501, "No valid method found.");
+ if(empty($_I6i6I)){
+   _OF1RQ(501, "No valid method found.");
    exit;
  }
 
- $api = _OBLDR(ScriptBaseURL)."api/api.php?wsdl";
+ $api = _LPC1C( defined("ScriptBaseJSONAlternateURL") && ScriptBaseJSONAlternateURL != "" ? ScriptBaseJSONAlternateURL : ScriptBaseURL )."api/api.php?wsdl";
 
  # DEBUG overwrite
  # $api = "http://localhost/swm/api/api.php";
 
- $_QiCoJ = new nusoap_client($api);
- $_QiCoJ->soap_defencoding = 'UTF-8';# use UTF-8!
- $_QiCoJ->decode_utf8 = false; # don't decode UTF-8, json_encode NEEDS UTF-8!
- $_Qiift = $_QiCoJ->getError();
- if ($_Qiift) {
-  _OQ6RR(500, "SOAP constructor error, $_Qiift");
+ $_I6L8i = new nusoap_client($api);
+ $_I6L8i->soap_defencoding = 'UTF-8';# use UTF-8!
+ $_I6L8i->decode_utf8 = false; # don't decode UTF-8, json_encode NEEDS UTF-8!
+ $_I6LlC = $_I6L8i->getError();
+ if ($_I6LlC) {
+  _OF1RQ(500, "SOAP constructor error, $_I6LlC");
   exit;
  }
 
  # set APIToken
- $_QiCoJ->setHeaders(array('APIToken' => $APIToken));
+ $_I6L8i->setHeaders(array('APIToken' => $APIToken));
 
- $_QffOf = json_decode($_POST[$_QioiC], true);  // assoc arrays no objects!
- $_Q60l1 = $_QiCoJ->call($_QfC8t, $_QffOf, '', '', false, true);
+ $_I08CQ = json_decode($_POST[$_I6i6I], true);  // assoc arrays no objects!
+ $_QL8i1 = $_I6L8i->call($_I0lji, $_I08CQ, '', '', false, true);
 
 
- if ($_QiCoJ->fault) {
-   _OQ6RR( $_Q60l1["faultcode"], !empty($_Q60l1["faultstring"]) ? $_Q60l1["faultstring"] : $_Q60l1["detail"]  );
+ if ($_I6L8i->fault) {
+   _OF1RQ( $_QL8i1["faultcode"], !empty($_QL8i1["faultstring"]) ? $_QL8i1["faultstring"] : $_QL8i1["detail"]  );
   } else {
-   $_Qiift = $_QiCoJ->getError();
-   if ($_Qiift) {
-     _OQ6RR(500, $_Qiift);
+   $_I6LlC = $_I6L8i->getError();
+   if ($_I6LlC) {
+     _OF1RQ(500, $_I6LlC);
    } else {
      header("Content-Type: application/json; charset=utf-8");
-     print json_encode($_Q60l1);
+     print json_encode($_QL8i1);
    }
   }
 
- function _OQ6RR($_QiLI8, $_QiLCl, $_QilCi = false){
+ function _OF1RQ($_I6llO, $_If0JJ, $_If0iI = false){
    global $api;
-   if($_QilCi)
-      header($_SERVER["SERVER_PROTOCOL"]." $_QiLI8 $_QiLCl");
+   if($_If0iI)
+      header($_SERVER["SERVER_PROTOCOL"]." $_I6llO $_If0JJ");
    if(count($_POST) > 0)
      @header("Content-Type: application/json; charset=utf-8");
      else
      @header("Content-Type: text/html; charset=utf-8");
-   $_QoQOL = json_encode(array("xml_api_url" => $api, "error_code" => $_QiLI8, "error" => "$_QiLCl"));
-   print $_QoQOL;
+   $_Ijj6Q = json_encode(array("xml_api_url" => $api, "error_code" => $_I6llO, "error" => "$_If0JJ"));
+   print $_Ijj6Q;
  }
 
 ?>

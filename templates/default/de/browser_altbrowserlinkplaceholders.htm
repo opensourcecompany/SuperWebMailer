@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Platzhalter einf&uuml;gen</title>
+
+<meta http-equiv="content-language" content="de">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="pragma" content="no-cache">
+<meta name="author" content="Mirko Boeer">
+<meta name="copyright" content="Mirko Boeer">
+<meta name="generator" content="SuperWebMailer http://www.superwebmailer.de/">
+
+<link href="../../../css/help.css" rel="stylesheet" type="text/css">
+<link href="../../../css/tab-view.css" rel="stylesheet" type="text/css" media="screen">
+<link href="../../../css/modal-message.css" rel="stylesheet" type="text/css">
+<link href="../../../css/default.css" rel="stylesheet" type="text/css">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script language="javascript" type="text/javascript" src="../../../js/common.js"></script>
+<script language="javascript" type="text/javascript" src="../../../js/help.js"></script>
+<script language="javascript" type="text/javascript" src="../../../js/ajax.js"></script>
+<script language="javascript" type="text/javascript" src="../../../js/ajax-dynamic-content.js"></script>
+<script language="javascript" type="text/javascript" src="../../../js/tab-view.js"></script>
+<script language="javascript" type="text/javascript" src="../../../js/modal-message.js"></script>
+<script language="javascript" type="text/javascript" src="../../../js/messagebox.js"></script>
+<script language="javascript" type="text/javascript" src="../../../js/menu.js"></script>
+<script language="javascript" type="text/javascript" src="../../../js/table_highlighted.js"></script>
+
+<style type="text/css">
+<!--
+
+body {
+  min-width: 700px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 8px;
+}
+
+-->
+</style>
+<script type="text/javascript" src="../../../js/jquery-latest.min.js"></script>
+
+<script>
+
+(function (w) {
+  // old browsers don't supporting URLSearchParams
+  w.URLSearchParams = w.URLSearchParams || function (searchString) {
+      var self = this;
+      self.searchString = searchString;
+      self.get = function (name) {
+          var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(self.searchString);
+          if (results == null) {
+              return null;
+          }
+          else {
+              return decodeURI(results[1]) || 0;
+          }
+      };
+  }
+
+})(window)
+
+$(document).ready(function(){
+  var Params = new URLSearchParams(window.location.search);
+  if(Params.get('FormEdit')){
+    $(".ALTBROWSERLINK").show();
+    $(".NA").hide();
+  }
+  if(Params.get('NAEdit')){
+    $(".ALTBROWSERLINK").hide();
+    $(".NA").show();
+  }
+});
+
+
+</script>
+
+<style>
+  .ALTBROWSERLINK, .NA {display: none;}
+</style>
+
+</head>
+
+
+<body>
+
+
+
+
+<div class="PageContainerDialog">
+
+   <div class="container">
+
+      <script language="JavaScript" type="text/javascript">
+      <!--
+        function InsertValue(value) {
+          parent.ShowAltBrowserLinkPlaceholdersCallback(value);
+        }
+
+      //-->
+      </script>
+
+
+      <form id="TablePlaceholdersForm" name="TablePlaceholdersForm" method="post" action="">
+
+      <script language="javascript" type="text/javascript">
+      <!--
+        InsertSymbol = '<img src="../../../images/paste.gif" width="16" height="16" />';
+      //-->
+      </script>
+
+
+      <table id="TablePlaceholdersLists" name="TablePlaceholdersLists" class="FixedTable">
+      	<thead>
+      		<tr>
+      			<td class="NoWrap" width="width:75%;">Platzhalter</td>
+      			<td class="NoWrap" width="1%">&nbsp;</td>
+      			<td class="NoWrapAlignRight" width="width:20%;">Aktionen</td>
+      		</tr>
+      	</thead>
+      	<tbody>
+
+      		<tr class="ALTBROWSERLINK">
+      			<td>[UnsubscribeLink]</td>
+      			<td>&nbsp;</td>
+      			<td class="NoWrapAlignRight">
+      			    &nbsp;&nbsp;
+      			    <input type="image" src="../../../images/paste.gif" width="16" height="16" name="Apply" value="[UnsubscribeLink]" onclick="InsertValue(this.value); parent.closeDialog(); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event, '&Uuml;bernimmt den Platzhalter.');return false">&nbsp;
+    		    </td>
+      		</tr>
+
+
+      		<tr class="ALTBROWSERLINK">
+      			<td>*ALTBROWSERLINKURLANONYM*</td>
+      			<td>&nbsp;</td>
+      			<td class="NoWrapAlignRight">
+      			    &nbsp;&nbsp;
+      			    <input type="image" src="../../../images/paste.gif" width="16" height="16" name="Apply" value="*ALTBROWSERLINKURLANONYM*" onclick="InsertValue(this.value); parent.closeDialog(); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event, '&Uuml;bernimmt den Platzhalter.');return false">&nbsp;
+    		    </td>
+      		</tr>
+
+      		<tr class="ALTBROWSERLINK">
+      			<td>*ALTBROWSERLINKURL*</td>
+      			<td>&nbsp;</td>
+      			<td class="NoWrapAlignRight">
+      			    &nbsp;&nbsp;
+      			    <input type="image" src="../../../images/paste.gif" width="16" height="16" name="Apply" value="*ALTBROWSERLINKURL*" onclick="InsertValue(this.value); parent.closeDialog(); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event, '&Uuml;bernimmt den Platzhalter.');return false">&nbsp;
+    		    </td>
+      		</tr>
+
+      		<tr class="NA">
+      			<td>*SHARELINKURL*</td>
+      			<td>&nbsp;</td>
+      			<td class="NoWrapAlignRight">
+      			    &nbsp;&nbsp;
+      			    <input type="image" src="../../../images/paste.gif" width="16" height="16" name="Apply" value="*SHARELINKURL*" onclick="InsertValue(this.value); parent.closeDialog(); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event, '&Uuml;bernimmt den Platzhalter.');return false">&nbsp;
+    		    </td>
+      		</tr>
+
+      	</tbody>
+      	</table>
+
+      <p>&nbsp;</p>
+      <input type="button" name="CloseBtn" value="Schlie&szlig;en" class="FormButton" onclick="parent.closeDialog();">
+
+      </form>
+
+      <script type="text/javascript">
+      <!--
+        addTableRolloverEffect('TablePlaceholdersLists','tableRollOverEffect','tableRowClickEffect');
+
+      //-->
+      </script>
+   </div>
+
+
+</div>
+
+
+
+</body></html>

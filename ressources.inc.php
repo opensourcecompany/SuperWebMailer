@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -22,32 +22,36 @@
 #                                                                           #
 #############################################################################
 
- $_68Q6l = "";
- $_68Ql6 = version_compare(PHP_VERSION, "5.0.0") >= 0;
+ $_801j1 = "";
+ $_JIQCl = version_compare(PHP_VERSION, "5.0.0") >= 0;
 
- if($_68Ql6) {
+ if($_JIQCl) {
    include_once("ressources_array_access.inc.php");
  }
 
- function _LQLRQ($INTERFACE_LANGUAGE){
-    global $resourcestrings, $_68Q6l, $_68Ql6;
+ function _JQRLR($INTERFACE_LANGUAGE){
+    global $resourcestrings, $_801j1, $_JIQCl, $ShortDateFormat, $LongDateFormat;
+
+    $INTERFACE_LANGUAGE = preg_replace( '/[^a-z]+/', '', strtolower( $INTERFACE_LANGUAGE ) );
+    if(strlen($INTERFACE_LANGUAGE) > 3)
+      $INTERFACE_LANGUAGE = substr($INTERFACE_LANGUAGE, 0, 3);
 
     if(empty($INTERFACE_LANGUAGE)) $INTERFACE_LANGUAGE = "de";
 
-    if($_68Q6l == $INTERFACE_LANGUAGE) return;
+    if($_801j1 == $INTERFACE_LANGUAGE) return;
 
-    $_QfC8t = "./language/$INTERFACE_LANGUAGE.php";
-    if(file_exists($_QfC8t))
-      include($_QfC8t);
+    $_I0lji = "./language/$INTERFACE_LANGUAGE.php";
+    if(file_exists($_I0lji))
+      include($_I0lji);
       else{
-       $_QfC8t = InstallPath."language/$INTERFACE_LANGUAGE.php";
-       if(file_exists($_QfC8t))
-          include($_QfC8t);
+       $_I0lji = InstallPath."language/$INTERFACE_LANGUAGE.php";
+       if(file_exists($_I0lji))
+          include($_I0lji);
       }
 
-    if($_68Ql6){
-        if($_68Q6l != "")
-           unset($resourcestrings[$_68Q6l]);
+    if($_JIQCl){
+        if($_801j1 != "")
+           unset($resourcestrings[$_801j1]);
       }
       else
       $resourcestrings = array();
@@ -61,19 +65,27 @@
 
     // utf-8 encoding if necessary
     reset($lang);
-    foreach ($lang as $key => $_Q6ClO) {
-       $_Q6ClO = utf8_encode($_Q6ClO);
-       $lang[$key] = $_Q6ClO;
+    foreach ($lang as $key => $_QltJO) {
+       $_QltJO = utf8_encode($_QltJO);
+       $lang[$key] = $_QltJO;
     }
 
-    $_68Q6l = $INTERFACE_LANGUAGE;
+    $_801j1 = $INTERFACE_LANGUAGE;
 
-    if($_68Ql6)
+    if($_JIQCl)
       $resourcestrings[$INTERFACE_LANGUAGE] = $lang;
       else
       $resourcestrings = array($INTERFACE_LANGUAGE => $lang);
+      
+    if($INTERFACE_LANGUAGE == "de") {
+       $ShortDateFormat = 'd.m.Y';
+       $LongDateFormat = 'd.m.Y H:i:s';
+    }else{
+       $ShortDateFormat = 'Y/m/d';
+       $LongDateFormat = 'Y/m/d H:i:s';
+    }
 
-  }
+ }
 
   # Default de/en error texts
   $commonmsgAnErrorOccured = "Es ist ein Fehler aufgetreten / An error occured";
@@ -98,6 +110,7 @@
   $commonmsgSubUnsubNotAllowed = "An-/Abmeldungen sind f&uuml;r diese Empf&auml;ngerliste nicht erlaubt.<br /><br />Subscriptions/Cancelling subscriptions for this mailing list not allowed.";
   $commonmsgSubscriptionsNotAllowed = "Anmeldungen/&Auml;nderungen sind f&uuml;r diese Empf&auml;ngerliste nicht erlaubt.<br /><br />Subscriptions/Changes for this mailing list not allowed.";
   $commonmsgUnsubscriptionsNotAllowed = "Abmeldungen sind f&uuml;r diese Empf&auml;ngerliste nicht erlaubt.<br /><br />Cancelling subscriptions for this mailing list not allowed.";
+  $_Ji60j = "Der Eintrag wurde nicht gefunden oder wurde bereits aktiviert.<br /><br />Entry not found or was always activated.";
 
   # default mime types
   $Mimetypes = 'txt=text/plain,c=text/plain,cc=text/plain,g=text/plain,h=text/plain,hh=text/plain,m=text/plain,f90=text/plain,rtx=text/richtext,css=text/css,xml=text/xml,htm=text/html,html=text/html,shtm=text/html,shtml=text/html,js=text/javascript,';

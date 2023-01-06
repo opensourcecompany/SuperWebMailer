@@ -1,4 +1,5 @@
 <?php
+
 if ( !function_exists('json_decode') ) {
 
   function json_decode($content, $assoc=false){
@@ -13,13 +14,24 @@ if ( !function_exists('json_decode') ) {
 
 }
 
-if ( !function_exists('json_encode') ) {
+ function __json_encode($val, $options = 0){
+   if(version_compare(PHP_VERSION, "5.3") >= 0){
+     return json_encode($val, $options);
+   }
+   /*if(version_compare(PHP_VERSION, "5.2") >= 0){
+     //return json_encode($val); // 5.2 doesn't support $options
+     return internal_json_encode($val, $options);
+   } */
+   // older PHP versions
+   // function in jsonencode.inc.php
+   include("./jsonencode.inc.php");
+   return internal_json_encode($val, $options);
+ }
 
-  function json_encode($content) {
-    require_once 'JSON.php';
-    $json = new Services_JSON;
-    return $json->encode($content);
-  }
+ if(!function_exists("json_encode")){
+   function json_encode($val, $options = 0){
+     return __json_encode($val, $options);
+   }
+ }
 
-}
 ?>

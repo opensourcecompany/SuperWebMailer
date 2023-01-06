@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -22,120 +22,122 @@
 #                                                                           #
 #############################################################################
 
- function _LQRFC(&$HTMLPart, &$Subject, $_68ftC, $_68flo, $_688oJ){
-   $_688lo = array("TITLE", "LINK", "DESCRIPTION", "CONTENT:ENCODED", "PUBDATE", "AUTHOR", "CATEGORY", "COMMENTS", "GUID", "SOURCE", "ENCLOSURE");
-   $_68tji = array("URL", "LENGTH", "TYPE");
+ function _JQ8RF(&$HTMLPart, &$Subject, $_80660, $_806io, $_80ftL){
+   $_80866 = array("TITLE", "LINK", "DESCRIPTION", "CONTENT:ENCODED", "PUBDATE", "AUTHOR", "CATEGORY", "COMMENTS", "GUID", "SOURCE", "ENCLOSURE");
+   $_808Cf = array("URL", "LENGTH", "TYPE");
 
-   $HTMLPart = _LQ8JB($HTMLPart, $_68flo);
-   $Subject = _LQ8JB($Subject, $_68flo);
+   $HTMLPart = _JQPJJ($HTMLPart, $_806io);
+   $Subject = _JQPJJ($Subject, $_806io);
 
    // [rss_channel_items] Block
-   $_68tJl = _OP81D($HTMLPart, '[rss_channel_items]', '[/rss_channel_items]');
-   if($_68tJl == "") return;
-   $_QJCJi = "";
-   if(isset($_68flo["ITEMS"])) {
-     reset($_68flo["ITEMS"]);
-     foreach($_68flo["ITEMS"] as $key => $_Q6ClO){
+   $_808l0 = _L81DB($HTMLPart, '[rss_channel_items]', '[/rss_channel_items]');
+   if($_808l0 == "") return;
+   $_QLJfI = "";
+   if(isset($_806io["ITEMS"])) {
+     reset($_806io["ITEMS"]);
+     foreach($_806io["ITEMS"] as $key => $_QltJO){
          // new entries only=
-         if(!$_688oJ && !in_array($_68flo["ITEMS"][$key]["GUID"], $_68ftC)) continue;
-         $_QJCJi .= $_68tJl;
+         if(!$_80ftL && !in_array($_806io["ITEMS"][$key]["GUID"], $_80660)) continue;
+         $_QLJfI .= $_808l0;
 
-         reset($_688lo);
-         foreach($_688lo as $_68tto){
-           $_Q6ClO = "";
+         reset($_80866);
+         foreach($_80866 as $_80t10){
+           $_QltJO = "";
 
-           if($_68tto == "ENCLOSURE") {
-             if(!isset($_68flo["ITEMS"][$key][$_68tto]))
-               $_QJCJi = _OP6PQ($_QJCJi, '[rss_channel_item_enclosure_included]', '[/rss_channel_item_enclosure_included]');
+           if($_80t10 == "ENCLOSURE") {
+             if(!isset($_806io["ITEMS"][$key][$_80t10]))
+               $_QLJfI = _L80DF($_QLJfI, '[rss_channel_item_enclosure_included]', '[/rss_channel_item_enclosure_included]');
                else {
-                reset($_68tji);
-                foreach($_68tji as $_68tLl){
-                   $_Q6ClO = "";
-                   if(isset($_68flo["ITEMS"][$key][$_68tto][$_68tLl])) {
-                     $_Q6ClO = $_68flo["ITEMS"][$key][$_68tto][$_68tLl];
+                reset($_808Cf);
+                foreach($_808Cf as $_80t68){
+                   $_QltJO = "";
+                   if(isset($_806io["ITEMS"][$key][$_80t10][$_80t68])) {
+                     $_QltJO = $_806io["ITEMS"][$key][$_80t10][$_80t68];
                    }
-                   $_QJCJi = str_ireplace("[rss_channel_item_enclosure_$_68tLl]", $_Q6ClO, $_QJCJi);
+                   $_QLJfI = str_ireplace("[rss_channel_item_enclosure_$_80t68]", $_QltJO, $_QLJfI);
                 }
-                $_QJCJi = str_ireplace("[rss_channel_item_enclosure_included]", "", $_QJCJi);
-                $_QJCJi = str_ireplace("[/rss_channel_item_enclosure_included]", "", $_QJCJi);
+                $_QLJfI = str_ireplace("[rss_channel_item_enclosure_included]", "", $_QLJfI);
+                $_QLJfI = str_ireplace("[/rss_channel_item_enclosure_included]", "", $_QLJfI);
                }
              continue;
            }
 
-           if(isset($_68flo["ITEMS"][$key][$_68tto]))
-              $_Q6ClO = $_68flo["ITEMS"][$key][$_68tto];
-           if($_68tto == "PUBDATE" || $_68tto == "LASTBUILDDATE")
-              $_Q6ClO = _LQP0A($_Q6ClO);
-           $_QJCJi = str_ireplace("[rss_channel_item_$_68tto]", $_Q6ClO, $_QJCJi);
+           if(isset($_806io["ITEMS"][$key][$_80t10]))
+              $_QltJO = $_806io["ITEMS"][$key][$_80t10];
+           if($_80t10 == "PUBDATE" || $_80t10 == "LASTBUILDDATE")
+              $_QltJO = _JQPF0($_QltJO);
+           $_QLJfI = str_ireplace("[rss_channel_item_$_80t10]", $_QltJO, $_QLJfI);
          }
 
      }
    }
 
    // Block replacement
-   $HTMLPart = _OPR6L($HTMLPart, '[rss_channel_items]', '[/rss_channel_items]', $_QJCJi);
+   $HTMLPart = _L81BJ($HTMLPart, '[rss_channel_items]', '[/rss_channel_items]', $_QLJfI, true);
+   // recursive again
+   _JQ8RF($HTMLPart, $Subject, $_80660, $_806io, $_80ftL);
  }
 
 
- function _LQ8JB($_Q6ICj, $_68flo){
-   $_68Ojl = array("TITLE", "LINK", "DESCRIPTION", "COPYRIGHT", "PUBDATE", "LASTBUILDDATE", "LANGUAGE", "CATEGORY", "TTL", "MANAGINGEDITOR", "WEBMASTER", "GENERATOR");
-   $_68OLj = array("URL", "LINK", "TITLE", "DESCRIPTION");
+ function _JQPJJ($_QLoli, $_806io){
+   $_80tCf = array("TITLE", "LINK", "DESCRIPTION", "COPYRIGHT", "PUBDATE", "LASTBUILDDATE", "LANGUAGE", "CATEGORY", "TTL", "MANAGINGEDITOR", "WEBMASTER", "GENERATOR");
+   $_80OIo = array("URL", "LINK", "TITLE", "DESCRIPTION");
 
-   reset($_68Ojl);
-   foreach($_68Ojl as $key){
-     $_Q6ClO = "";
-     if(isset($_68flo[$key]))
-        $_Q6ClO = $_68flo[$key];
+   reset($_80tCf);
+   foreach($_80tCf as $key){
+     $_QltJO = "";
+     if(isset($_806io[$key]))
+        $_QltJO = $_806io[$key];
      if($key == "PUBDATE" || $key == "LASTBUILDDATE")
-        $_Q6ClO = _LQP0A($_Q6ClO);
-     $_Q6ICj = str_ireplace("[rss_channel_$key]", $_Q6ClO, $_Q6ICj);
+        $_QltJO = _JQPF0($_QltJO);
+     $_QLoli = str_ireplace("[rss_channel_$key]", $_QltJO, $_QLoli);
    }
 
-   reset($_68OLj);
-   foreach($_68OLj as $key){
-     $_Q6ClO = "";
-     if(isset($_68flo["IMAGE"]) && isset($_68flo["IMAGE"][$key]))
-        $_Q6ClO = $_68flo["IMAGE"][$key];
-     $_Q6ICj = str_ireplace("[rss_channel_image_$key]", $_Q6ClO, $_Q6ICj);
+   reset($_80OIo);
+   foreach($_80OIo as $key){
+     $_QltJO = "";
+     if(isset($_806io["IMAGE"]) && isset($_806io["IMAGE"][$key]))
+        $_QltJO = $_806io["IMAGE"][$key];
+     $_QLoli = str_ireplace("[rss_channel_image_$key]", $_QltJO, $_QLoli);
    }
 
-   $_Q6ClO = 0;
-   if(isset($_68flo["ITEMS"]))
-     $_Q6ClO = count($_68flo["ITEMS"]);
-   $_Q6ICj = str_ireplace("[rss_items_count]", $_Q6ClO, $_Q6ICj);
+   $_QltJO = 0;
+   if(isset($_806io["ITEMS"]))
+     $_QltJO = count($_806io["ITEMS"]);
+   $_QLoli = str_ireplace("[rss_items_count]", $_QltJO, $_QLoli);
 
-   return $_Q6ICj;
+   return $_QLoli;
  }
 
- function _LQP0A($_QJCJi){
+ function _JQPF0($_QLJfI){
    global $INTERFACE_LANGUAGE;
-   $_I1L81 = strtotime($_QJCJi);
-   if($_I1L81 === false || $_I1L81 == -1)
-      $_I1L81 = time();
+   $_IOCjL = strtotime($_QLJfI);
+   if($_IOCjL === false || $_IOCjL == -1)
+      $_IOCjL = time();
    if($INTERFACE_LANGUAGE != "de")
-     return date("Y/m/d H:i:s", $_I1L81);
+     return date("Y/m/d H:i:s", $_IOCjL);
      else
-     return date("d.m.Y H:i:s", $_I1L81);
+     return date("d.m.Y H:i:s", $_IOCjL);
  }
 
- function _LQP10($_QJCJi){
-   $_QJCJi = _OP6PQ($_QJCJi, '<head>', '</head>');
+ function _JQAQR($_QLJfI){
+   $_QLJfI = _L80DF($_QLJfI, '<head>', '</head>');
 
-   if ( stripos($_QJCJi, '</html') !== false )
-      $_QJCJi = substr($_QJCJi, 0, stripos($_QJCJi, '</html'));
-   if ( stripos($_QJCJi, '<html') !== false ) {
-    $_QJCJi = substr($_QJCJi, stripos($_QJCJi, '<html'));
-    $_QJCJi = substr($_QJCJi, stripos($_QJCJi, '>') + 1);
+   if ( stripos($_QLJfI, '</html') !== false )
+      $_QLJfI = substr($_QLJfI, 0, stripos($_QLJfI, '</html'));
+   if ( stripos($_QLJfI, '<html') !== false ) {
+    $_QLJfI = substr($_QLJfI, stripos($_QLJfI, '<html'));
+    $_QLJfI = substr($_QLJfI, stripos($_QLJfI, '>') + 1);
    }
 
-   if ( stripos($_QJCJi, '</body') !== false )
-      $_QJCJi = substr($_QJCJi, 0, stripos($_QJCJi, '</body'));
-   if ( stripos($_QJCJi, '<body') !== false ) {
-    $_QJCJi = substr($_QJCJi, stripos($_QJCJi, '<body'));
-    $_QJCJi = substr($_QJCJi, stripos($_QJCJi, '>') + 1);
+   if ( stripos($_QLJfI, '</body') !== false )
+      $_QLJfI = substr($_QLJfI, 0, stripos($_QLJfI, '</body'));
+   if ( stripos($_QLJfI, '<body') !== false ) {
+    $_QLJfI = substr($_QLJfI, stripos($_QLJfI, '<body'));
+    $_QLJfI = substr($_QLJfI, stripos($_QLJfI, '>') + 1);
    }
 
-   return $_QJCJi;
+   return $_QLJfI;
  }
 
 ?>

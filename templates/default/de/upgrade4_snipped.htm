@@ -1,30 +1,49 @@
-      <form id="InstallForm" name="InstallForm" method="post" action="./upgrade_done.php">
+      <form id="InstallForm" name="InstallForm" method="post" action="./upgrade.php">
       <input type="hidden" name="step" value="4" />
       <input type="hidden" name="Language" />
-      <fieldset>
-      <legend>PRODUCTAPPNAME - Script upgrade.php und install.php l&ouml;schen</legend>
+      <fieldset id="fieldset1" name="fieldset1">
+      <legend>Upgrade - PRODUCTAPPNAME</legend>
       <br />
           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
             <tbody>
-            	<tr>
+              <tr>
                 <td>
-                <b>L&ouml;schen Sie jetzt das Script upgrade.php UND, falls vorhanden, install.php mit Ihrem FTP-Programm von Ihrer Webpr&auml;senz.</b>
-                <br />
-                <br />
-                Das Script sollte unbedingt gel&ouml;scht werden, damit keine Manipulation der PRODUCTAPPNAME-Installation
-                von au&szlig;en m&ouml;glich ist.
-                <br />
-                <br />
-                <br />
+             			<br />Bitte warten Sie w&auml;hrend die Tabellen analysiert und angepasst werden&nbsp;&nbsp;<img src="images/loading.gif" width="32" height="32" alt="" />
+             			<br />
+            				<br />
                 </td>
-            	</tr>
-
+              </tr>
             </tbody>
           </table>
       </fieldset>
-      <!-- a hack //-->
-      <input type="image" src="images/blind.gif" width="1" height="1" />
 
-      <!-- <input type="submit" name="BackBtn" value="&lt Zur&uuml;ck" class="FormButton" /> no back //-->
-      &nbsp;<input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+      <!--SPACER//-->
+
+      <fieldset id="fieldset2" name="fieldset2">
+      <legend>Upgrade - PRODUCTAPPNAME</legend>
+      <br />
+          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+            <tbody>
+              <tr>
+                <td>
+             			<br />
+             			<br />
+                <b>Die Tabellen im Schritt 3 wurden aktualisiert, klicken Sie auf &quot;Weiter&quot;, um fortzufahren.</b>
+             			<br />
+            				<br />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+      </fieldset>
+
+      <input type="submit" name="NextBtn" value="Weiter &gt;" class="FormButton" />
+
       </form>
+      
+      <script type="text/javascript" name="idRefresh" id="idRefresh">
+      <!--
+        ShowItem("fieldset1", false);
+        //AUTO_SCRIPT_CODE_PLACEHOLDER//
+      //-->
+      </script>

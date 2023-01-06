@@ -23,80 +23,76 @@
 #############################################################################
 
   include_once("config.inc.php");
-  $_J66tC = "./PEAR/";
-  if(!@include_once($_J66tC."PEAR_.php")){
-    $_J66tC = InstallPath."PEAR/";
-    include_once($_J66tC."PEAR_.php");
-  }
-  include_once($_J66tC."GeoIP.php");
+  include_once(PEAR_PATH . "PEAR_.php");
+  include_once(PEAR_PATH . "GeoIP.php");
 
   if(version_compare(PHP_VERSION, "5.3.1", ">="))
     include_once("geolocation2.inc.php");
 
 
-  class _OCB1C{
+  class _LBPJO{
 
     // @public
     var $GeoLiteCityExists = false;
     var $GeoLiteCity2Exists = false;
 
     // @private
-    var $_J680L = "";
-    var $_J68fj = false;
-    var $_J6tQt = false;
+    var $_6tQ8Q = "";
+    var $_6tIIO = false;
+    var $_6tj1o = false;
 
     /**
      * Construct a GeoLocation instance.
-     * @param string $_JICij Path to geoip database(s).
+     * @param string $_6JL81 Path to geoip database(s).
      */
-    function __construct($_JICij){
+    function __construct($_6JL81){
 
      $this->GeoLiteCityExists = false;
      $this->GeoLiteCity2Exists = false;
 
-     if(!(substr($_JICij, strlen($_JICij) - 1) == "/"))
-       $_JICij .= "/";
+     if(!(substr($_6JL81, strlen($_6JL81) - 1) == "/"))
+       $_6JL81 .= "/";
 
-     $this->_J680L = $_JICij;
+     $this->_6tQ8Q = $_6JL81;
 
-     $_QfC8t = @fopen($this->_J680L.'GeoLiteCity.dat', 'r');
-     if($_QfC8t){
+     $_I0lji = @fopen($this->_6tQ8Q.'GeoLiteCity.dat', 'r');
+     if($_I0lji){
        $this->GeoLiteCityExists = true;
-       fclose($_QfC8t);
+       fclose($_I0lji);
      }
 
      if(GEOIP2){
-       $_QfC8t = @fopen($this->_J680L.'GeoLite2-City.mmdb', 'r');
-       if($_QfC8t){
+       $_I0lji = @fopen($this->_6tQ8Q.'GeoLite2-City.mmdb', 'r');
+       if($_I0lji){
          $this->GeoLiteCity2Exists = true;
-         fclose($_QfC8t);
+         fclose($_I0lji);
        }
      }
 
     }
 
-    function _OCB1C($_JICij){
-      self::__construct($_JICij);
+    function _LBPJO($_6JL81){
+      self::__construct($_6JL81);
     }
 
     function __destruct() {
-      $this->_J68fj = null;
-      $this->_J6tQt = null;
+      $this->_6tIIO = null;
+      $this->_6tj1o = null;
     }
 
     function Openable(){
       if(!$this->GeoLiteCityExists && !$this->GeoLiteCity2Exists) return false;
 
       if($this->GeoLiteCity2Exists){
-        if(!$this->_J6tQt){
-           $this->_J6tQt = _OCEED($this->_J680L.'GeoLite2-City.mmdb');
+        if(!$this->_6tj1o){
+           $this->_6tj1o = _LBC01($this->_6tQ8Q.'GeoLite2-City.mmdb');
         }
-        return $this->_J6tQt !== false;
+        return $this->_6tj1o !== false;
       }
 
-      if(!$this->_J68fj)
-         $this->_J68fj = new Net_GeoIP($this->_J680L.'GeoLiteCity.dat', 0);
-      return $this->_J68fj->filehandle !== false;
+      if(!$this->_6tIIO)
+         $this->_6tIIO = new Net_GeoIP($this->_6tQ8Q.'GeoLiteCity.dat', 0);
+      return $this->_6tIIO->filehandle !== false;
 
     }
 
@@ -106,40 +102,40 @@
 
 
       if($this->GeoLiteCity2Exists){
-        if(!$this->_J6tQt){
-           $this->_J6tQt = _OCEED($this->_J680L.'GeoLite2-City.mmdb');
+        if(!$this->_6tj1o){
+           $this->_6tj1o = _LBC01($this->_6tQ8Q.'GeoLite2-City.mmdb');
         }
-        if(!$this->_J6tQt) return "UNKNOWN_COUNTRY";
+        if(!$this->_6tj1o) return "UNKNOWN_COUNTRY";
         try{
-          $_J6tjl = $this->_J6tQt->city($IP);
-        } catch (Exception $_Qot0C) {
+          $_6tJ00 = $this->_6tj1o->city($IP);
+        } catch (Exception $_IjO6t) {
           return "UNKNOWN_COUNTRY";
         }
-        $_IJQOL = $_J6tjl->country->name;
-        if($_IJQOL == "")
-          $_IJQOL = $_J6tjl->country->isoCode;
-        if($_IJQOL == "")
-          $_IJQOL = "UNKNOWN_COUNTRY";
-        return $_IJQOL;
+        $_Iiloo = $_6tJ00->country->name;
+        if($_Iiloo == "")
+          $_Iiloo = $_6tJ00->country->isoCode;
+        if($_Iiloo == "")
+          $_Iiloo = "UNKNOWN_COUNTRY";
+        return $_Iiloo;
       }
 
       if(strpos($IP, ":") !== false) return "UNKNOWN_COUNTRY"; // no ipv6 Support for old database
 
-      if(!$this->_J68fj)
-         $this->_J68fj = new Net_GeoIP($this->_J680L.'GeoLiteCity.dat', 0);
+      if(!$this->_6tIIO)
+         $this->_6tIIO = new Net_GeoIP($this->_6tQ8Q.'GeoLiteCity.dat', 0);
 
-      if($this->_J68fj) {
-          $_J6t8o = $this->_J68fj->lookupLocation($IP);
-          if(IsPEARError($_J6t8o) || $_J6t8o == null ) {
-            $_IJQOL = "UNKNOWN_COUNTRY";
+      if($this->_6tIIO) {
+          $_6tJfO = $this->_6tIIO->lookupLocation($IP);
+          if(IsPEARError($_6tJfO) || $_6tJfO == null ) {
+            $_Iiloo = "UNKNOWN_COUNTRY";
           } else {
-            $_IJQOL = $_J6t8o->countryName;
-            if($_IJQOL == "")
-              $_IJQOL = $_J6t8o->countryCode;
-            if($_IJQOL == "")
-               $_IJQOL = "UNKNOWN_COUNTRY";
+            $_Iiloo = $_6tJfO->countryName;
+            if($_Iiloo == "")
+              $_Iiloo = $_6tJfO->countryCode;
+            if($_Iiloo == "")
+               $_Iiloo = "UNKNOWN_COUNTRY";
           }
-          return $_IJQOL;
+          return $_Iiloo;
       } else
         return "UNKNOWN_COUNTRY";
     }
@@ -152,42 +148,42 @@
 
 
       if($this->GeoLiteCity2Exists){
-        if(!$this->_J6tQt){
-           $this->_J6tQt = _OCEED($this->_J680L.'GeoLite2-City.mmdb');
+        if(!$this->_6tj1o){
+           $this->_6tj1o = _LBC01($this->_6tQ8Q.'GeoLite2-City.mmdb');
         }
-        if(!$this->_J6tQt) return null;
+        if(!$this->_6tj1o) return null;
         try{
-          $_J6tjl = $this->_J6tQt->city($IP);
-        } catch (Exception $_Qot0C) {
+          $_6tJ00 = $this->_6tj1o->city($IP);
+        } catch (Exception $_IjO6t) {
           return null;
         }
 
-        $_J6tLi = new GeoIP2_Location();
-        $_J6tLi->countryCode = $_J6tjl->country->isoCode;
-        $_J6tLi->countryName = $_J6tjl->country->name;
-        $_J6tLi->region = $_J6tjl->mostSpecificSubdivision->name;
-        $_J6tLi->city = $_J6tjl->city->name;
-        $_J6tLi->postalCode = $_J6tjl->postal->code;
-        $_J6tLi->latitude = $_J6tjl->location->latitude;
-        $_J6tLi->longitude = $_J6tjl->location->longitude;
-        $_J6tLi->areaCode = "";
-        $_J6tLi->dmaCode = "";
+        $_6tJ8i = new GeoIP2_Location();
+        $_6tJ8i->countryCode = $_6tJ00->country->isoCode;
+        $_6tJ8i->countryName = $_6tJ00->country->name;
+        $_6tJ8i->region = $_6tJ00->mostSpecificSubdivision->name;
+        $_6tJ8i->city = $_6tJ00->city->name;
+        $_6tJ8i->postalCode = $_6tJ00->postal->code;
+        $_6tJ8i->latitude = $_6tJ00->location->latitude;
+        $_6tJ8i->longitude = $_6tJ00->location->longitude;
+        $_6tJ8i->areaCode = "";
+        $_6tJ8i->dmaCode = "";
 
-        return $_J6tLi;
+        return $_6tJ8i;
       }
 
 
       if(strpos($IP, ":") !== false) return null; // no ipv6 Support for old database
 
-      if(!$this->_J68fj)
-         $this->_J68fj = new Net_GeoIP($this->_J680L.'GeoLiteCity.dat', 0);
+      if(!$this->_6tIIO)
+         $this->_6tIIO = new Net_GeoIP($this->_6tQ8Q.'GeoLiteCity.dat', 0);
 
-      if($this->_J68fj) {
-         $_J6t8o = $this->_J68fj->lookupLocation($IP);
-         if(IsPEARError($_J6t8o))
+      if($this->_6tIIO) {
+         $_6tJfO = $this->_6tIIO->lookupLocation($IP);
+         if(IsPEARError($_6tJfO))
            return null;
            else
-           return $_J6t8o;
+           return $_6tJfO;
       } else
         return null;
 

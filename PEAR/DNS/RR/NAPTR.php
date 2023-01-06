@@ -44,7 +44,7 @@ class Net_DNS_RR_NAPTR extends Net_DNS_RR
 
     /* }}} */
     /* class constructor - RR(&$rro, $data, $offset = '') {{{ */
-    function __construct(&$rro, $data, $offset = '')
+    function __construct($rro, $data, $offset = '')
     {
         $this->name = $rro->name;
         $this->type = $rro->type;
@@ -73,7 +73,7 @@ class Net_DNS_RR_NAPTR extends Net_DNS_RR
         } else {
             $data = str_replace('\\\\', chr(1) . chr(1), $data); /* disguise escaped backslash */
             $data = str_replace('\\"', chr(2) . chr(2), $data); /* disguise \" */
-            ereg('([0-9]+)[ \t]+([0-9]+)[ \t]+("[^"]*"|[^ \t]*)[ \t]+("[^"]*"|[^ \t]*)[ \t]+("[^"]*"|[^ \t]*)[ \t]+(.*?)[ \t]*$', $data, $regs);
+            preg_match('/([0-9]+)[ \t]+([0-9]+)[ \t]+("[^"]*"|[^ \t]*)[ \t]+("[^"]*"|[^ \t]*)[ \t]+("[^"]*"|[^ \t]*)[ \t]+(.*?)[ \t]*$/', $data, $regs);
             $this->preference = $regs[1];
             $this->weight = $regs[2];
             foreach($regs as $idx => $value) {
@@ -88,7 +88,7 @@ class Net_DNS_RR_NAPTR extends Net_DNS_RR
         }
     }
 
-    function Net_DNS_RR_NAPTR(&$rro, $data, $offset = '')
+    function Net_DNS_RR_NAPTR($rro, $data, $offset = '')
     {
      self::__construct($rro, $data, $offset);
     }

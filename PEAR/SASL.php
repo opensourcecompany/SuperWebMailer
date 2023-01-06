@@ -43,7 +43,7 @@
 * @package Auth_SASL
 */
 
-require_once('PEAR/PEAR_.php');
+require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'PEAR_.php');
 
 class Auth_SASL
 {
@@ -90,7 +90,7 @@ class Auth_SASL
                 break;
         }
 
-        require_once("PEAR/".$filename);
+        require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . $filename);
         $obj = new $classname();
         return $obj;
     }

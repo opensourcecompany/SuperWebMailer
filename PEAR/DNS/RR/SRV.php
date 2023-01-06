@@ -42,7 +42,7 @@ class Net_DNS_RR_SRV extends Net_DNS_RR
 
     /* }}} */
     /* class constructor - RR(&$rro, $data, $offset = '') {{{ */
-    function __construct(&$rro, $data, $offset = '')
+    function __construct($rro, $data, $offset = '')
     {
         $this->name = $rro->name;
         $this->type = $rro->type;
@@ -63,15 +63,15 @@ class Net_DNS_RR_SRV extends Net_DNS_RR
                 $this->target = $target;
             }
         } else {
-            ereg("([0-9]+)[ \t]+([0-9]+)[ \t]+([0-9]+)[ \t]+(.+)[ \t]*$", $data, $regs);
+            preg_match("/([0-9]+)[ \t]+([0-9]+)[ \t]+([0-9]+)[ \t]+(.+)[ \t]*$/", $data, $regs);
             $this->preference = $regs[1];
             $this->weight = $regs[2];
             $this->port = $regs[3];
-            $this->target = ereg_replace('(.*)\.$', '\\1', $regs[4]);
+            $this->target = preg_replace('/(.*)\.$/', '\\1', $regs[4]);
         }
     }
 
-    function Net_DNS_RR_SRV(&$rro, $data, $offset = '')
+    function Net_DNS_RR_SRV($rro, $data, $offset = '')
     {
       self::__construct($rro, $data, $offset);
     }

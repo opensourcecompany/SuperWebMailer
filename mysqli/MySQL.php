@@ -1,4 +1,7 @@
 <?php
+ 
+ if(function_exists("mysqli_report"))
+   mysqli_report(MYSQLI_REPORT_OFF); // no exceptions in PHP 8+!!
  class MySQL
  {
     /**
@@ -191,7 +194,7 @@
         if(!$res){
          $this->_loadError($link, $this->_instances[$link]->errno, $this->_instances[$link]->error);
         }
-
+        
         return $res;
     }
 
@@ -353,6 +356,8 @@
             return false;
         }
 
+        if($rowNumber < 0) return false;
+        
         return $result["queryresult"]->data_seek($rowNumber);
     }
 

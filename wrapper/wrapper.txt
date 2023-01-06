@@ -1,4 +1,4 @@
-Beispiel Wrapper Scripte für die Scripte nl.php, nlu.php und defaultnewsletter.php
+Beispiel Wrapper Scripte für die Scripte browser.php, distriblistconfirm.php, nl.php, nlu.php und defaultnewsletter.php
 
 1. die Scripte auf dem Webspace der anderen Domain in ein Verzeichnis ablegen
 2. im Script _path.inc.php den korrekten http://-Aufruf zur SuperWebMailer-Installation angeben

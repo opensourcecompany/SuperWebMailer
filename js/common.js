@@ -1,7 +1,7 @@
 	/************************************************************************************************************
   #############################################################################
   #                SuperMailingList / SuperWebMailer                          #
-  #               Copyright © 2007 - 2017 Mirko Boeer                         #
+  #               Copyright © 2007 - 2022 Mirko Boeer                         #
   #                    Alle Rechte vorbehalten.                               #
   #                http://www.supermailinglist.de/                            #
   #                http://www.superwebmailer.de/                              #
@@ -22,6 +22,7 @@
   #                                                                           #
   #############################################################################
 	************************************************************************************************************/
+var SMLSWM_TOKEN_COOKIE_NAME = 'smlswmCsrfToken';
 
 function DisableControl(Enabled, AControl, ALabel) {
   AControl.disabled = !Enabled;
@@ -167,14 +168,38 @@ function DisableItem(AItemId, Enabled) {
 function DisableChildElements(elem, Enabled){
  if(elem == null) return;
  try {
-   if(elem.nodeType == 1)
+   if(elem.nodeType == 1 && elem.tagName != "LABEL")
       elem.disabled = !Enabled;
+      else
+      if(elem.nodeType == 1 && elem.tagName == "LABEL"){
+        // FF problems
+        if(!Enabled) {
+          elem.setAttribute("borderBottomColor", elem.style.color, false);
+          elem.style.color = "#C0C0C0";
+          elem.style.cursor = 'default';
+        } else {
+          elem.style.cursor = 'pointer';
+          elem.style.color = elem.style.borderBottomColor;
+        }
+        elem.disabled = !Enabled;
+      }
  } catch(e) {}
  
  var childs = elem.childNodes;
  if(childs == null) return;
  for(var i=0; i<childs.length; i++){
      DisableChildElements(childs[i], Enabled);
+ }
+}
+
+function DisableSiblingElements(elem, Enabled){
+ var nextNode = elem.parentNode;
+ nextNode = nextNode.nextSibling;
+ while(nextNode != null){
+   if(nextNode.nodeType == 1){
+      DisableChildElements(nextNode, Enabled);
+   }
+   nextNode = nextNode.nextSibling;
  }
 }
 
@@ -220,6 +245,12 @@ function GetCheckedCount(ACheckBoxId, AFormId) {
   return 0;
 }
 
+function GetCheckBoxChecked(ACheckBoxId){
+  var AItem = document.getElementById(ACheckBoxId);
+  if(AItem == null) return false;
+  return AItem.checked && !AItem.disabled;
+}
+
 function CheckAndRemoveCriticalChars(AFormId) {
   var AForm = document.getElementById(AFormId);
   if(AForm == null)
@@ -233,7 +264,7 @@ function CheckAndRemoveCriticalChars(AFormId) {
         element.value = element.value.replace(/[´`\\]/g, "");
       else
         if(AForm.elements[i].name.indexOf("Name") != -1)
-           element.value = element.value.replace(/[´`'"\\%?=+<>]/g, "");
+           element.value = element.value.replace(/[´`'"\\%?=+]/g, "");
     }
   }
 }
@@ -247,6 +278,21 @@ function InsertFieldValue(CBId, TargetElementId) {
      if(document.getElementById(TargetElementId) && document.getElementById(TargetElementId).onchange != null)
        document.getElementById(TargetElementId).onchange();
    }
+}
+
+function IsCKEditorVisible(elementName){
+  if(document.getElementById(elementName)){
+     var editor = null;
+     for(var i in CKEDITOR.instances) {
+        if(CKEDITOR.instances[i].name == elementName) {
+          editor = CKEDITOR.instances[i];
+          break;
+        }
+     }
+
+     return editor != null ? true : false;
+  }
+  return false;
 }
 
 function ShowCKEditor(elementName, Awidth, Aheight, AToolbar, AfullPage){
@@ -431,22 +477,26 @@ function utf8_decode(utftext) {
 }
 //
 
-function OpenEditor(formId, formElementId) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
+function GetFrameIndex(name){
+  for(var i = 0; i < window.frames.length; i++)
+    if(window.frames[i].name == name)
+      return i;
+  return -1;
+}
 
-  ShowModalDialog("htmledit.php?form=" + formId + "&formElement=" + formElementId + "&nocache=" + nocache, 708, 540);
+function getNoCache(){
+  return new Date().getTime() / 1000;
+}
+
+function OpenEditor(formId, formElementId) {
+  ShowModalDialog("htmledit.php?form=" + formId + "&formElement=" + formElementId + "&nocache=" + getNoCache(), 708, 540);
 }
 
 function AttachmentUpload(formId, formElement1Name, Element1Name, formElement2Name, Element2Name) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-  ShowModalDialog("attachmentsupload.php?form=" + formId + "&formElement1=" + formElement1Name + "&formElement2=" + formElement2Name + '&Element1Name=' + Element1Name + '&Element2Name=' + Element2Name + "&nocache=" + nocache, 708, 400);
+  ShowModalDialog("attachmentsupload.php?form=" + formId + "&formElement1=" + formElement1Name + "&formElement2=" + formElement2Name + '&Element1Name=' + Element1Name + '&Element2Name=' + Element2Name + "&nocache=" + getNoCache(), 708, 400);
 }
 
 function AttachmentDelete(formId, formElement1Name, formElement2Name) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
   var AForm = document.getElementById(formId);
   if(AForm == null)
     return 0;
@@ -461,112 +511,78 @@ function AttachmentDelete(formId, formElement1Name, formElement2Name) {
           files = files + ";" + AItems[i].value;
   }
 
-  ShowModalDialog("attachmentsdelete.php?form=" + formId + "&formElement1=" + formElement1Name + "&formElement2=" + formElement2Name + "&files=" + escape(files) + "&nocache=" + nocache, 708, 480);
+  ShowModalDialog("attachmentsdelete.php?form=" + formId + "&formElement1=" + formElement1Name + "&formElement2=" + formElement2Name + "&files=" + escape(files) + "&nocache=" + getNoCache(), 708, 480);
 }
 
 function PersAttachmentAddEdit(formId, formElement1Name, editvalue) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-
-  ShowModalDialog("persattachmentsaddedit.php?form=" + formId + "&formElement1=" + formElement1Name + '&EditValue=' + encodeURIComponent(editvalue) + "&nocache=" + nocache, 708, 480);
+  ShowModalDialog("persattachmentsaddedit.php?form=" + formId + "&formElement1=" + formElement1Name + '&EditValue=' + encodeURIComponent(editvalue) + "&nocache=" + getNoCache(), 708, 480);
 }
 
 function MailHeaderFieldsAddEdit(formId, formElement1Name, editvalue) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-
-  ShowModalDialog("mailheaderfieldsaddedit.php?form=" + formId + "&formElement1=" + formElement1Name + '&EditValue=' + encodeURIComponent(editvalue) + "&nocache=" + nocache, 708, 300);
+  ShowModalDialog("mailheaderfieldsaddedit.php?form=" + formId + "&formElement1=" + formElement1Name + '&EditValue=' + encodeURIComponent(editvalue) + "&nocache=" + getNoCache(), 708, 300);
 }
 
 function MTATestWindow(MTAId) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-
-  ShowModalDialog("mta_test.php?mta_id=" + MTAId + "&nocache=" + nocache, 708, 440);
+  ShowModalDialog("mta_test.php?mta_id=" + MTAId + "&nocache=" + getNoCache(), 708, 440);
 }
 
 function InboxTestWindow(InboxId) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-
-  ShowModalDialog("inbox_test.php?inbox_id=" + InboxId + "&nocache=" + nocache, 708, 140);
+  ShowModalDialog("inbox_test.php?inbox_id=" + InboxId + "&nocache=" + getNoCache(), 708, 140);
 }
 
 function FunctionsOpen(formId, formElementId, isfckeditor) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
+  ShowModalDialog("browsefunctions.php?form=" + formId + "&formElement=" + formElementId + "&IsFCKEditor=" + isfckeditor + "&nocache=" + getNoCache(), 708, 480);
+}
 
-  ShowModalDialog("browsefunctions.php?form=" + formId + "&formElement=" + formElementId + "&IsFCKEditor=" + isfckeditor + "&nocache=" + nocache, 708, 480);
+function EmojisOpen(formId, formElementId, isfckeditor) {
+  ShowModalDialog("browseemojis.php?form=" + formId + "&formElement=" + formElementId + "&IsFCKEditor=" + isfckeditor + "&nocache=" + getNoCache(), 708, 600);
+}
+
+function VariantsOfSubjectsOpen(formId, formElementId) {
+  ShowModalDialog("browsevariantsofsubject.php?form=" + formId + "&formElement=" + formElementId + "&nocache=" + getNoCache(), 708, 480);
 }
 
 function TextBlocksOpen(formId, formElementId, isfckeditor) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-
-  ShowModalDialog("browsetextblocks.php?form=" + formId + "&formElement=" + formElementId + "&IsFCKEditor=" + isfckeditor + "&nocache=" + nocache, 708, 400);
+  ShowModalDialog("browsetextblocks.php?form=" + formId + "&formElement=" + formElementId + "&IsFCKEditor=" + isfckeditor + "&nocache=" + getNoCache(), 708, 400);
 }
 
 function TargetGroupsOpen() {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-
-  ShowModalDialog("browsetargetgroups.php?" + "nocache=" + nocache, 708, 400);
+  ShowModalDialog("browsetargetgroups.php?" + "nocache=" + getNoCache(), 708, 400);
 }
 
 function ReasonsForUnsubscriptionOpen(MailingListId, FormsId) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-
-  ShowModalDialog("browsereasonsforunsubscription.php?MailingListId=" + MailingListId + "&FormsId=" + FormsId + "&nocache=" + nocache, 708, 400);
+  ShowModalDialog("browsereasonsforunsubscription.php?MailingListId=" + MailingListId + "&FormsId=" + FormsId + "&nocache=" + getNoCache(), 708, 400);
 }
 
 function SurveysOpen(formId, formElementId, isfckeditor) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-
-  ShowModalDialog("browsesurveys.php?form=" + formId + "&formElement=" + formElementId + "&IsFCKEditor=" + isfckeditor + "&nocache=" + nocache, 708, 400);
+  ShowModalDialog("browsesurveys.php?form=" + formId + "&formElement=" + formElementId + "&IsFCKEditor=" + isfckeditor + "&nocache=" + getNoCache(), 708, 400);
 }
 
 function LocalMessagesBrowse() {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-
-  ShowModalDialog("browselocalmessages.php?nocache=" + nocache, 708, 400);
+  ShowModalDialog("browselocalmessages.php?nocache=" + getNoCache(), 708, 400);
 }
 
 function TemplatesSelectDlgOpen(formId, formElementId, isfckeditor) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-
-  ShowModalDialog("plaintexttemplates.php?form=" + formId + "&formElement=" + formElementId + "&IsFCKEditor=" + isfckeditor + "&nocache=" + nocache, 708, 400);
+  ShowModalDialog("plaintexttemplates.php?form=" + formId + "&formElement=" + formElementId + "&IsFCKEditor=" + isfckeditor + "&nocache=" + getNoCache(), 708, 400);
 }
 
 function HTMLTemplatesSelectDlgOpen(formId, formElementId, isfckeditor, formIframeName, wizardableonly) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-
-  ShowModalDialog("htmltemplates.php?form=" + formId + "&formElement=" + formElementId + "&IsFCKEditor=" + isfckeditor + "&formIframeName=" + formIframeName + "&wizardableonly=" + wizardableonly + "&nocache=" + nocache, 708, 400);
+  ShowModalDialog("htmltemplates.php?form=" + formId + "&formElement=" + formElementId + "&IsFCKEditor=" + isfckeditor + "&formIframeName=" + formIframeName + "&wizardableonly=" + wizardableonly + "&nocache=" + getNoCache(), 708, 400);
 }
 
 function SerialMailPreviewOpen(MailingListId, FormId, MailTemplate) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-  oWindow = window.open("serialmailpreview.php?MailingListId=" + MailingListId + "&FormId=" + FormId + "&MailTemplate=" + MailTemplate + "&nocache=" + nocache, "SerialMailPreviewWnd","width=750,height=700,scrollbars=yes,status=yes,toolbar=no,resizable=no,location=no,dependent=yes,modal=yes");
+  oWindow = openWindowWithPost("serialmailpreview.php?MailingListId=" + MailingListId + "&FormId=" + FormId + "&MailTemplate=" + MailTemplate + "&nocache=" + getNoCache(), {}, "SerialMailPreviewWnd", "width=750,height=700,scrollbars=yes,status=yes,toolbar=no,resizable=no,location=no,dependent=yes,modal=yes");
   oWindow.opener = window;
   oWindow.focus();
 }
 
 function SerialMailPreviewOpenResponder(MailingListId, FormId, ResponderType, ResponderId, ResponderMailItemId) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-  oWindow = window.open("serialmailpreview.php?MailingListId=" + MailingListId + "&FormId=" + FormId + "&ResponderType=" + ResponderType + "&ResponderId=" + ResponderId + '&ResponderMailItemId=' + ResponderMailItemId + "&nocache=" + nocache, "SerialMailPreviewWnd","width=750,height=700,scrollbars=yes,status=yes,toolbar=no,resizable=no,location=no,dependent=yes,modal=yes");
+  oWindow = openWindowWithPost("serialmailpreview.php?MailingListId=" + MailingListId + "&FormId=" + FormId + "&ResponderType=" + ResponderType + "&ResponderId=" + ResponderId + '&ResponderMailItemId=' + ResponderMailItemId + "&nocache=" + getNoCache(), {}, "SerialMailPreviewWnd", "width=750,height=700,scrollbars=yes,status=yes,toolbar=no,resizable=no,location=no,dependent=yes,modal=yes");
   oWindow.opener = window;
   oWindow.focus();
 }
 
 function ResponderPreviewOpenResponder(MailingListId, FormId, ResponderType, ResponderId, ResponderMailItemId, RequestedInfos) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
   height = 670;
   width = 708;
   if(RequestedInfos == "GetBandwidth")
@@ -575,64 +591,51 @@ function ResponderPreviewOpenResponder(MailingListId, FormId, ResponderType, Res
     width = 900;
   if(RequestedInfos == "TestMail")
     height = 300;
-
-  ShowModalDialog("responderpreview.php?MailingListId=" + MailingListId + "&FormId=" + FormId + "&ResponderType=" + ResponderType + "&ResponderId=" + ResponderId + '&ResponderMailItemId=' + ResponderMailItemId + '&' + RequestedInfos + '=1' + "&nocache=" + nocache, width, height);
+  ShowModalDialog("responderpreview.php?MailingListId=" + MailingListId + "&FormId=" + FormId + "&ResponderType=" + ResponderType + "&ResponderId=" + ResponderId + '&ResponderMailItemId=' + ResponderMailItemId + '&' + RequestedInfos + '=1' + "&nocache=" + getNoCache(), width, height);
 }
 
 function ShowHelpWindow(helpTopic) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
-  oWindow = window.open("help.php?helpTopic=" + helpTopic + "&nocache=" + nocache, "HelpWnd","width=800,height=480,scrollbars=yes,status=no,toolbar=yes,resizable=yes,location=no,modal=no");
+  oWindow = window.open("help.php?helpTopic=" + helpTopic + "&nocache=" + getNoCache(), "HelpWnd","width=800,height=480,scrollbars=yes,status=no,toolbar=yes,resizable=yes,location=no,modal=no");
   oWindow.opener = window;
   oWindow.focus();
 }
 
 function ShowNewsletterArchive(NAUniqueId, NAId, UserId) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
   height = 670;
   width = 800;
-  oWindow = window.open("show_na.php?na=" + NAUniqueId + "&newsletterarchive=" + NAId + "&nauser=" + UserId + "&nocache=" + nocache, "ShowNewsletterArchiveWnd","width=" + width + ",height=" + height + ",scrollbars=yes,status=yes,toolbar=no,resizable=yes,location=yes,dependent=yes,modal=no");
+  oWindow = window.open("show_na.php?na=" + NAUniqueId + "&newsletterarchive=" + NAId + "&nauser=" + UserId + "&nocache=" + getNoCache(), "ShowNewsletterArchiveWnd","width=" + width + ",height=" + height + ",scrollbars=yes,status=yes,toolbar=no,resizable=yes,location=yes,dependent=yes,modal=no");
   oWindow.opener = window;
   oWindow.focus();
 }
 
 function ShowNewsletterArchiveAsRSS(NAUniqueId, NAId, UserId) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
   height = 670;
   width = 800;
-  oWindow = window.open("show_na.php?na=" + NAUniqueId + "&newsletterarchive=" + NAId + "&nauser=" + UserId + "&nocache=" + nocache + '&showRSS=1', "ShowNewsletterRSSArchiveWnd","width=" + width + ",height=" + height + ",scrollbars=yes,status=yes,toolbar=no,resizable=yes,location=yes,dependent=yes,modal=no");
+  oWindow = window.open("show_na.php?na=" + NAUniqueId + "&newsletterarchive=" + NAId + "&nauser=" + UserId + "&nocache=" + getNoCache() + '&showRSS=1', "ShowNewsletterRSSArchiveWnd","width=" + width + ",height=" + height + ",scrollbars=yes,status=yes,toolbar=no,resizable=yes,location=yes,dependent=yes,modal=no");
   oWindow.opener = window;
   oWindow.focus();
 }
 
 function ShowRcptsColumnsDlg(PersTrackingRcptsListColumns) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
   var s = "";
   if(PersTrackingRcptsListColumns)
      s = "&PersTrackingRcptsListColumns=1";
 
-  ShowModalDialog("rcptscolumns.php?nocache=" + nocache + s, 708, 500);
+  ShowModalDialog("rcptscolumns.php?nocache=" + getNoCache() + s, 708, 500);
 }
 
 function ShowTwitterPostDlg(CampaignId) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
   height = 770;
   width = 890;
-  oWindow = window.open("show_twitterpostdlg.php?CampaignId=" + CampaignId + "&nocache=" + nocache, "ShowTwitterPostDlg","width=" + width + ",height=" + height + ",scrollbars=yes,status=yes,toolbar=no,resizable=yes,location=yes,dependent=yes,modal=yes");
+  oWindow = openWindowWithPost("show_twitterpostdlg.php?CampaignId=" + CampaignId + "&nocache=" + getNoCache(), {}, "ShowTwitterPostDlg", "width=" + width + ",height=" + height + ",scrollbars=yes,status=yes,toolbar=no,resizable=yes,location=yes,dependent=yes,modal=yes");
   oWindow.opener = window;
   oWindow.focus();
 }
 
 function ShowFacebookPostDlg(CampaignId) {
-  var date = new Date();
-  var nocache = date.getTime() / 1000;
   height = 770;
   width = 890;
-  oWindow = window.open("show_facebookpostdlg.php?CampaignId=" + CampaignId + "&nocache=" + nocache, "ShowFacebookPostDlg","width=" + width + ",height=" + height + ",scrollbars=yes,status=yes,toolbar=no,resizable=yes,location=yes,dependent=yes,modal=yes");
+  oWindow = openWindowWithPost("show_facebookpostdlg.php?CampaignId=" + CampaignId + "&nocache=" + getNoCache(), {}, "ShowFacebookPostDlg","width=" + width + ",height=" + height + ",scrollbars=yes,status=yes,toolbar=no,resizable=yes,location=yes,dependent=yes,modal=yes");
   oWindow.opener = window;
   oWindow.focus();
 }
@@ -757,7 +760,7 @@ function SortOnClick(sortfieldname, sortfieldnames, sortorder){
 
  if(changeSortOrder){
    var sortorder  = document.getElementsByName(sortorder);
-   if(sortorder == 0) return;
+   if(sortorder.length == 0) return;
    sortorder = sortorder[0];
    if(sortorder.selectedIndex == 0)
      sortorder.selectedIndex = 1;
@@ -799,14 +802,165 @@ function CSSremoveClass(classname, element) {
     element.className = cn;
 }
 
-// add ajaxLoading ever when it used with jQuery
-window.onload = function () {
-   if (!(typeof jQuery === "undefined")){
+function getCookieValue( name ) {
+ 			name = name.toLowerCase();
+ 			var parts = document.cookie.split( ';' );
+ 			var pair, key;
+
+
+ 			for ( var i = 0; i < parts.length; i++ ) {
+ 				pair = parts[ i ].split( '=' );
+ 				key = decodeURIComponent( pair[ 0 ].trim().toLowerCase() );
+ 				if ( key === name ) {
+ 					return decodeURIComponent( pair.length > 1 ? pair[ 1 ] : '' );
+ 				}
+ 			}
+
+ 			return null;
+}
+
+function openWindowWithPost(path, PostParams, WindowName, WindowParams){
+  var newwindow = window.open('', WindowName, WindowParams);
+  if(newwindow)
+    CreateFormAndPostIt(path, PostParams, "post", WindowName);
+  return newwindow;
+}
+
+// usage CreateFormAndPostIt('fullurlpath', {field1:'value1', field2:'value2'}, 'post', '_self');
+function CreateFormAndPostIt(path, params, method, target) {
+  try{
+    method = method || "post";
+
+    var form = document.createElement("form");
+    form.setAttribute("method", method);
+    form.setAttribute("action", path);
+    if(target)
+      form.setAttribute("target", target);
+
+    if(document.getElementsByName(SMLSWM_TOKEN_COOKIE_NAME).length){
+      if(!params)
+        params = {};
+      params[SMLSWM_TOKEN_COOKIE_NAME] = document.getElementsByName(SMLSWM_TOKEN_COOKIE_NAME)[0].value;
+    }
+
+    for(var key in params) {
+        if(params.hasOwnProperty(key)) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+
+            form.appendChild(hiddenField);
+         }
+    }
+
+    document.body.appendChild(form);
+    form.submit();
+    try{
+      document.body.removeChild(form);
+      form.remove();
+    }catch(e){}
+    return true;
+ } catch(e) { return false}
+}
+
+function HTMLEntityDecode( string ) {
+    var ret, tarea = document.createElement('textarea');
+    tarea.innerHTML = string;
+    ret = tarea.value;
+    tarea = null;
+    return ret;
+}
+
+
+// Initialize onclick handler and add ajaxLoading ever when it used with jQuery
+var IsInitializedSMLSWMJS=false;
+
+if(window.addEventListener){
+  window.addEventListener("load", function _xload(event) {
+      window.removeEventListener("load", _xload, false);
+      InitializeSMLSWMJS();
+  }, false);
+
+  window.addEventListener('DOMContentLoaded', function _xDOMContentLoaded(){
+    window.removeEventListener("DOMContentLoaded", _xDOMContentLoaded, false);
+    InitializeSMLSWMJS();
+  }, false);
+
+} else{
+  window.onload = function () {
+    InitializeSMLSWMJS();
+  }
+}
+
+// alternative to DOMContentLoaded
+document.onreadystatechange = function () {
+    if (document.readyState === "interactive") {
+        InitializeSMLSWMJS();
+    }
+}
+
+InitializeSMLSWMJS = function () {
+   if (!(typeof jQuery === "undefined") && !IsInitializedSMLSWMJS){
+     IsInitializedSMLSWMJS = true;
+
+    	$(document).ready(function(){
+
+        if(document.getElementsByName(SMLSWM_TOKEN_COOKIE_NAME).length){
+
+          $('a').on("contextmenu", function(evt) {evt.preventDefault(); return false;});
+
+          $('a').click(function(e) {
+             var _href = $(this).attr("href");
+             if(!_href) return true;
+             var _onclick = $(this).attr("onclick");
+             var bm = (_href == '') || (_href.indexOf('#') == 0) || (_href.indexOf('http:') == 0) || (_href.indexOf('https:') == 0);
+             if(!bm && !_onclick && _href.indexOf('javascript:') == -1 && _href.indexOf(SMLSWM_TOKEN_COOKIE_NAME) == -1 && _href.indexOf('show_saved_data.php') == -1 ){
+     //console.log(_href + "  " + bm);
+               if(!CreateFormAndPostIt(_href, {}, 'post', $(this).attr("target")))
+                 $(this).attr("href", _href + ( _href.indexOf('?') != -1 ? "&" + SMLSWM_TOKEN_COOKIE_NAME + '=' + document.getElementsByName(SMLSWM_TOKEN_COOKIE_NAME)[0].value : "?" + SMLSWM_TOKEN_COOKIE_NAME + '=' + document.getElementsByName(SMLSWM_TOKEN_COOKIE_NAME)[0].value) );
+                 else{
+                   e.stopPropagation();
+                   e.preventDefault();
+                   return false;
+                 }
+             }else{
+               if(_href.indexOf('javascript:') > -1)
+                e.stopPropagation();
+             }
+          });
+
+          $('a').mousedown(function(e) {
+            var _href = $(this).attr("href");
+            if(!_href) return true;
+            var _onclick = $(this).attr("onclick");
+            var bm = (_href == '') || (_href.indexOf('#') == 0) || (_href.indexOf('http:') == 0) || (_href.indexOf('https:') == 0);
+
+            // 2 or 4 is middle, 3 is right
+            if(e.which == 2 || e.which == 4) {
+              if(!bm && !_onclick && _href.indexOf('javascript:') == -1 && _href.indexOf(SMLSWM_TOKEN_COOKIE_NAME) == -1 && _href.indexOf('show_saved_data.php') == -1 ){
+                e.preventDefault();
+                e.stopPropagation();
+                $(this).trigger('click');
+                return false;
+              }
+            }
+          });
+
+        }
+    	});
+
      $(document).ajaxStart(function(){
         $("body, .dhtmlgoodies_tabPane div").addClass('ajaxLoading');
      });
      $(document).ajaxStop(function(){
         $("body, .dhtmlgoodies_tabPane div").removeClass('ajaxLoading');
+     });
+     $(document).ajaxSend(function(event, jqxhr, settings){
+       if( (settings["method"] == "GET" || settings["type"] == "GET" || settings["method"] == "HEAD" || settings["type"] == "HEAD") && document.getElementsByName(SMLSWM_TOKEN_COOKIE_NAME).length ){
+          settings["headers"] = "X-" + SMLSWM_TOKEN_COOKIE_NAME + ": " + document.getElementsByName(SMLSWM_TOKEN_COOKIE_NAME)[0].value;
+          jqxhr.setRequestHeader("X-" + SMLSWM_TOKEN_COOKIE_NAME, document.getElementsByName(SMLSWM_TOKEN_COOKIE_NAME)[0].value);
+       }
      });
 
      $('#AutoUpdateTextPart, #MailFormat').on('click', function(){
@@ -816,6 +970,7 @@ window.onload = function () {
 
      $('#tabTabdhtmlgoodies_HTMLTexttabView_1').on('click', function(){
        var AutoUpdateTextPart = document.getElementById("AutoUpdateTextPart") && document.getElementById("AutoUpdateTextPart").checked;
+       var ipe_editor = false;
        if(!document.getElementById('MailFormat') || !document.getElementById("MailPlainText") || !document.getElementById("MailHTMLText") || !AutoUpdateTextPart) return;
        if( document.getElementById('MailFormat').selectedIndex > 1 &&
           (AutoUpdateTextPart || document.getElementById("MailPlainText").value.trim() == "") ){
@@ -838,6 +993,7 @@ window.onload = function () {
                }
                else
                if(document.getElementById('WizardHTMLText') && document.getElementById('MailEditType').selectedIndex == 1){
+                ipe_editor = true;
                 if(!$.browser.msie){ // not in IE
                   SaveIPE(true);
                   ShowItem("WizardHTMLText", false);
@@ -865,11 +1021,12 @@ window.onload = function () {
               }
           }
           if(html){
-             var nocache = new Date().getTime() / 1000;
              $.ajaxSetup({ cache: false });
-             $.post("ajax_htmltoplaintext.php" + "?nocache=" + nocache, {html: html} )
+             data = {html: html};
+             data[SMLSWM_TOKEN_COOKIE_NAME] = document.getElementsByName(SMLSWM_TOKEN_COOKIE_NAME)[0].value;
+             $.post("ajax_htmltoplaintext.php" + "?nocache=" + getNoCache() + "&ipe_editor=" + ipe_editor, data )
                .done(function( data ) {
-                  document.getElementById("MailPlainText").value = data;
+                  document.getElementById("MailPlainText").value = HTMLEntityDecode(data);
                });
           }
        }
@@ -908,11 +1065,12 @@ function AddAutoUpdateTextPart(TabbedControlid, MailFormatCBid, MailHTMLTextid, 
                 editor.updateElement();
              }
              if(html){
-                var nocache = new Date().getTime() / 1000;
                 $.ajaxSetup({ cache: false });
-                $.post("ajax_htmltoplaintext.php" + "?nocache=" + nocache, {html: html} )
+                data = {html: html};
+                data[SMLSWM_TOKEN_COOKIE_NAME] = document.getElementsByName(SMLSWM_TOKEN_COOKIE_NAME)[0].value;
+                $.post("ajax_htmltoplaintext.php" + "?nocache=" + getNoCache(), data )
                   .done(function( data ) {
-                     document.getElementById(MailPlainTextid).value = data;
+                     document.getElementById(MailPlainTextid).value = HTMLEntityDecode(data);
                      editor.resetDirty();
                   });
              }
@@ -921,9 +1079,62 @@ function AddAutoUpdateTextPart(TabbedControlid, MailFormatCBid, MailHTMLTextid, 
    }
 }
 
+function InsertLoadingStatusOnSubmit(formId){
+  if(window.navigator.userAgent.indexOf("Firefox") != -1) return; // not in FF, it's to slow never loads image
+  try {
+    if(formId){
+      $("#" + formId).submit(function( event ) {
+         var e = $(this)[0].onsubmit;
+         if(e == undefined || e == null || String(e).indexOf("CheckAndRemoveCriticalChars") != -1)
+           ShowModalDialog('templates/default/loading.htm', 32, 32, false, false, ' ', false, true);
+         return true;
+      });
+    } else {
+      $("form").submit(function( event ) {
+         var e = $(this)[0].onsubmit;
+         if(e == undefined || e == null || String(e).indexOf("CheckAndRemoveCriticalChars") != -1)
+           ShowModalDialog('templates/default/loading.htm', 32, 32, false, false, ' ', false, true);
+         return true;
+      });
+    }
+  } catch(err) {}
+}
+
+function RemoveLoadingStatusOnSubmit(){
+ try {
+  if(_mdialogObj)
+    _mdialogObj.close();
+ } catch(e) {}
+}
+
+document.addEventListener('contextmenu', function(event) {
+   var prevent = (!event.srcElement) || !(event.srcElement.tagName == "INPUT" || event.srcElement.tagName == "TEXTAREA");
+
+   var types = ["checkbox", "radio", "button", "submit", "image"];
+
+   if(!prevent && (event.srcElement.readOnly || event.srcElement.disabled || event.srcElement.tagName == "INPUT" && types.includes(event.srcElement.type)  ) ) // INPUT/TEXTAREA => property readOnly exists
+      prevent = true;
+
+   if(prevent)
+      event.preventDefault();
+}, true);
+
 // no trim() function?
 if(typeof String.prototype.trim !== 'function') {
    String.prototype.trim = function() {
       return this.replace(/^\s+|\s+$/, '');
    }
+}
+
+// Internet Explorer
+if (!Array.prototype.includes) {
+  Object.defineProperty(Array.prototype, "includes", {
+    enumerable: false,
+    value: function(obj) {
+        var newArr = this.filter(function(el) {
+          return el === obj;
+        });
+        return newArr.length > 0;
+      }
+  });
 }

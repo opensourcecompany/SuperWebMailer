@@ -36,19 +36,19 @@
     $_POST["FormsId"] = $_GET["FormsId"];
 
   if(isset($_POST["FormsId"]))
-     $_ILLiJ = intval($_POST["FormsId"]);
+     $_jO6t1 = intval($_POST["FormsId"]);
 
-  if(!isset($MailingListId) || !isset($_ILLiJ)){
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-    $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-    print $_QJCJi;
+  if(!isset($MailingListId) || !isset($_jO6t1)){
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+    print $_QLJfI;
     exit;
   }
 
-  if(!_OCJCC($MailingListId)){
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-    $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-    print $_QJCJi;
+  if(!_LAEJL($MailingListId)){
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+    print $_QLJfI;
     exit;
   }
 
@@ -57,61 +57,61 @@
     exit;
   }
 
-  $_I0600 = "";
+  $_Itfj8 = "";
 
   if(isset($_POST["OneReasonId"]))
-    $_Il0OJ = intval($_POST["OneReasonId"]);
+    $_jO861 = intval($_POST["OneReasonId"]);
     else
     if(isset($_GET["OneReasonId"]))
-      $_Il0OJ = intval($_GET["OneReasonId"]);
+      $_jO861 = intval($_GET["OneReasonId"]);
 
 
   if(!isset($_POST["ReasonType"]))
     $_POST["ReasonType"] = "Radio";
 
-  $_QJlJ0 = "SELECT `ReasonsForUnsubscripeTableName` FROM `$_Q60QL` WHERE id=$MailingListId";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_I8Jtl = $_Q6Q1C["ReasonsForUnsubscripeTableName"];
+  $_QLfol = "SELECT `ReasonsForUnsubscripeTableName` FROM `$_QL88I` WHERE id=$MailingListId";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_QLO0f = mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_jQIIl = $_QLO0f["ReasonsForUnsubscripeTableName"];
 
   $errors = array();
   if(isset($_POST["SaveBtn"])) {
     if(!isset($_POST["Reason"]) || trim($_POST["Reason"]) == "") {
        $errors[] = "Reason";
-       $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["002716"];
+       $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["002716"];
     }
 
     if (count($errors) == 0) {
 
-       if(isset($_Il0OJ) && $_Il0OJ != 0)
-          $_QJlJ0 = "UPDATE `$_I8Jtl` SET `Reason`="._OPQLR($_POST["Reason"]).", `ReasonType`="._OPQLR( $_POST["ReasonType"] )." WHERE id=".$_Il0OJ;
+       if(isset($_jO861) && $_jO861 != 0)
+          $_QLfol = "UPDATE `$_jQIIl` SET `Reason`="._LRAFO($_POST["Reason"]).", `ReasonType`="._LRAFO( $_POST["ReasonType"] )." WHERE id=".$_jO861;
           else {
 
            // get highest sort_order
-           $_IlQJi = 1;
-           $_QJlJ0 = "SELECT `sort_order` FROM `$_I8Jtl` WHERE `forms_id`=$_ILLiJ ORDER BY `sort_order` DESC LIMIT 0, 1";
-           $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-           if (!$_Q60l1 || mysql_num_rows($_Q60l1) == 0)
-              $_IlQJi = 1;
+           $_jOtot = 1;
+           $_QLfol = "SELECT `sort_order` FROM `$_jQIIl` WHERE `forms_id`=$_jO6t1 ORDER BY `sort_order` DESC LIMIT 0, 1";
+           $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+           if (!$_QL8i1 || mysql_num_rows($_QL8i1) == 0)
+              $_jOtot = 1;
               else {
-                $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-                $_IlQJi = $_Q6Q1C["sort_order"] + 1;
+                $_QLO0f = mysql_fetch_assoc($_QL8i1);
+                $_jOtot = $_QLO0f["sort_order"] + 1;
            }
-           if($_Q60l1)
-             mysql_free_result($_Q60l1);
+           if($_QL8i1)
+             mysql_free_result($_QL8i1);
 
-           $_QJlJ0 = "INSERT INTO `$_I8Jtl` SET `Reason`="._OPQLR($_POST["Reason"]).", `ReasonType`="._OPQLR( $_POST["ReasonType"] ).", `forms_id`=$_ILLiJ, `sort_order`=$_IlQJi";
+           $_QLfol = "INSERT INTO `$_jQIIl` SET `Reason`="._LRAFO($_POST["Reason"]).", `ReasonType`="._LRAFO( $_POST["ReasonType"] ).", `forms_id`=$_jO6t1, `sort_order`=$_jOtot";
           }
 
-       mysql_query($_QJlJ0);
-       _OAL8F($_QJlJ0);
+       mysql_query($_QLfol);
+       _L8D88($_QLfol);
 
-       if(!isset($_Il0OJ)){
-          $_Q60l1 = mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-          $_Q6Q1C = mysql_fetch_array($_Q60l1);
-          $_Il0OJ = $_Q6Q1C[0];
-          mysql_free_result($_Q60l1);
+       if(!isset($_jO861)){
+          $_QL8i1 = mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+          $_QLO0f = mysql_fetch_array($_QL8i1);
+          $_jO861 = $_QLO0f[0];
+          mysql_free_result($_QL8i1);
        }
 
        include_once("browsereasonsforunsubscription.php");
@@ -122,23 +122,23 @@
   }
 
   // get reason
-  if(isset($_Il0OJ) && $_Il0OJ > 0) {
-    $_QJlJ0 = "SELECT `Reason`, `ReasonType` FROM `$_I8Jtl` WHERE id=".intval($_Il0OJ);
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-      $_POST = array_merge($_POST, $_Q6Q1C);
-      mysql_free_result($_Q60l1);
+  if(isset($_jO861) && $_jO861 > 0) {
+    $_QLfol = "SELECT `Reason`, `ReasonType` FROM `$_jQIIl` WHERE id=".intval($_jO861);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+      $_POST = array_merge($_POST, $_QLO0f);
+      mysql_free_result($_QL8i1);
     }
   }
 
   // Template
-  if (isset($_Il0OJ))
-    $_POST["OneReasonId"] = intval($_Il0OJ);
+  if (isset($_jO861))
+    $_POST["OneReasonId"] = intval($_jO861);
 
 
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["002715"], ""), $_I0600, 'reasonsforunsubscriptionedit', 'reasonsforunsubscriptionedit.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, sprintf($resourcestrings[$INTERFACE_LANGUAGE]["002715"], ""), $_Itfj8, 'reasonsforunsubscriptionedit', 'reasonsforunsubscriptionedit.htm');
 
-  $_QJCJi = _OPFJA(array(), $_POST, $_QJCJi);
+  $_QLJfI = _L8AOB(array(), $_POST, $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 ?>

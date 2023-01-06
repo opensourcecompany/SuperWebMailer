@@ -25,61 +25,61 @@
  require './UASparser/UASparser.php';
 
 
- function _OJJJE(&$_IL8io, &$_ILtIQ){
-   $_IL8io = "";
-   $_ILtIQ = "";
-   $_ILt8f = "";
-   $_ILOjO = "";
+ function _LQ6C1(&$_jOQQo, &$_jOQf8){
+   $_jOQQo = "";
+   $_jOQf8 = "";
+   $_jOI6J = "";
+   $_jOjI0 = "";
    if(!empty($_SERVER['HTTP_REFERER']))
-      $_ILt8f = $_SERVER['HTTP_REFERER'];
+      $_jOI6J = $_SERVER['HTTP_REFERER'];
    if(!empty($_SERVER['HTTP_USER_AGENT']))
-      $_ILOjO = $_SERVER['HTTP_USER_AGENT'];
-   #print $_ILOjO."<br />".$_ILt8f;
-   if($_ILt8f != "") {
-     if(stripos($_ILt8f, "mail.live.com") !== false)
-        $_IL8io = "name="."Windows Live Mail".";icon=ua/hotmail.gif";
-     if(stripos($_ILt8f, "mail.yahoo.com") !== false)
-        $_IL8io = "name="."Yahoo! Mail".";icon=ua/yahoo.gif";
-     if(stripos($_ILt8f, "mail.aol.com") !== false)
-        $_IL8io = "name="."AOL Mail".";icon=ua/aol.gif";
-     if(stripos($_ILt8f, "mail.google.com") !== false || stripos($_ILt8f, ".gmail.com") !== false)
-        $_IL8io = "name="."Google Mail".";icon=ua/google.gif";
-     if(stripos($_ILt8f, ".gmx.net") !== false || stripos($_ILt8f, ".gmx.com") !== false)
-        $_IL8io = "name="."GMX".";icon=ua/gmx.gif";
-     if(stripos($_ILt8f, ".web.de") !== false)
-        $_IL8io = "name="."Web.de".";icon=ua/webde.gif";
-     if(stripos($_ILt8f, ".arcor.net") !== false || stripos($_ILt8f, ".arcor.de") !== false)
-        $_IL8io = "name="."Arcor".";icon=ua/arcor.gif";
+      $_jOjI0 = $_SERVER['HTTP_USER_AGENT'];
+   #print $_jOjI0."<br />".$_jOI6J;
+   if($_jOI6J != "") {
+     if(stripos($_jOI6J, "mail.live.com") !== false)
+        $_jOQQo = "name="."Windows Live Mail".";icon=ua/hotmail.gif";
+     if(stripos($_jOI6J, "mail.yahoo.com") !== false)
+        $_jOQQo = "name="."Yahoo! Mail".";icon=ua/yahoo.gif";
+     if(stripos($_jOI6J, "mail.aol.com") !== false)
+        $_jOQQo = "name="."AOL Mail".";icon=ua/aol.gif";
+     if(stripos($_jOI6J, "mail.google.com") !== false || stripos($_jOI6J, ".gmail.com") !== false)
+        $_jOQQo = "name="."Google Mail".";icon=ua/google.gif";
+     if(stripos($_jOI6J, ".gmx.net") !== false || stripos($_jOI6J, ".gmx.com") !== false)
+        $_jOQQo = "name="."GMX".";icon=ua/gmx.gif";
+     if(stripos($_jOI6J, ".web.de") !== false)
+        $_jOQQo = "name="."Web.de".";icon=ua/webde.gif";
+     if(stripos($_jOI6J, ".arcor.net") !== false || stripos($_jOI6J, ".arcor.de") !== false)
+        $_jOQQo = "name="."Arcor".";icon=ua/arcor.gif";
    }
 
-   if($_ILOjO != "") {
+   if($_jOjI0 != "") {
      // IE11 on Windows10
-     if(stripos($_ILOjO, "Trident/7.0") !== false && stripos($_ILOjO, "rv:11.0") !== false)
-        $_IL8io = "name="."Internet Explorer 11".";icon=msie.png";
+     if(stripos($_jOjI0, "Trident/7.0") !== false && stripos($_jOjI0, "rv:11.0") !== false)
+        $_jOQQo = "name="."Internet Explorer 11".";icon=msie.png";
 
-     $_IJ8oI = new UASparser();
-     $_IJ8oI->SetCacheDir(/*getcwd()*/"./UASparser/"."/cache/");
-     $_QoQOL = $_IJ8oI->Parse($_ILOjO);
+     $_IL6Jt = new UASparser();
+     $_IL6Jt->SetCacheDir(/*getcwd()*/"./UASparser/"."/cache/");
+     $_Ijj6Q = $_IL6Jt->Parse($_jOjI0);
 
-     if($_IL8io == "") {
-       if(isset($_QoQOL["ua_name"]))
-         $_IL8io = "name=".$_QoQOL["ua_name"].";icon=";
+     if($_jOQQo == "") {
+       if(isset($_Ijj6Q["ua_name"]))
+         $_jOQQo = "name=".$_Ijj6Q["ua_name"].";icon=";
          else
-          if(isset($_QoQOL["ua_family"]))
-            $_IL8io = "name=".$_QoQOL["ua_family"].";icon=";
-       if(isset($_QoQOL["ua_icon"]) && $_IL8io != "")
-            $_IL8io .= $_QoQOL["ua_icon"];
+          if(isset($_Ijj6Q["ua_family"]))
+            $_jOQQo = "name=".$_Ijj6Q["ua_family"].";icon=";
+       if(isset($_Ijj6Q["ua_icon"]) && $_jOQQo != "")
+            $_jOQQo .= $_Ijj6Q["ua_icon"];
             else
-            if($_IL8io != "")
-               $_IL8io .= "ua/unknown.gif";
+            if($_jOQQo != "")
+               $_jOQQo .= "ua/unknown.gif";
      }
 
-     if(isset($_QoQOL["os_name"])) {
-       $_ILtIQ = "name=".$_QoQOL["os_name"].";icon=";
-       if(isset($_QoQOL["os_icon"])) {
-         $_ILtIQ .= $_QoQOL["os_icon"];
+     if(isset($_Ijj6Q["os_name"])) {
+       $_jOQf8 = "name=".$_Ijj6Q["os_name"].";icon=";
+       if(isset($_Ijj6Q["os_icon"])) {
+         $_jOQf8 .= $_Ijj6Q["os_icon"];
        } else
-         $_ILtIQ .= "ua/unknown.gif";
+         $_jOQf8 .= "ua/unknown.gif";
      }
 
    }
@@ -88,25 +88,25 @@
 
 # PHP 5 includes this functions
  if (!function_exists ('stripos') ) {
-   function stripos ( $_ILo0C, $_ILooj, $_ILCIC=NULL ) {
-   if (isset($_ILCIC) && $_ILCIC != NULL)
-     return strpos( strtolower($_ILo0C), strtolower($_ILooj), $_ILCIC);
+   function stripos ( $_jOjjt, $_jOjt8, $_jOJ1C=NULL ) {
+   if (isset($_jOJ1C) && $_jOJ1C != NULL)
+     return strpos( strtolower($_jOjjt), strtolower($_jOjt8), $_jOJ1C);
      else
-     return strpos(strtolower($_ILo0C), strtolower($_ILooj), $_ILooj);
+     return strpos(strtolower($_jOjjt), strtolower($_jOjt8), $_jOjt8);
    }
  }
 
  if (!function_exists ('str_ireplace') ) {
-   function str_ireplace($_ILCOl,$_ILi66,$_I6016){
-       $_ILL10 = chr(1);
-       $_ILo0C = strtolower($_I6016);
-       $_ILooj = strtolower($_ILCOl);
-       while (($_I1t0l=strpos($_ILo0C,$_ILooj))!==FALSE){
-         $_I6016 = substr_replace($_I6016,$_ILL10,$_I1t0l,strlen($_ILCOl));
-         $_ILo0C = substr_replace($_ILo0C,$_ILL10,$_I1t0l,strlen($_ILCOl));
+   function str_ireplace($_jOJtO,$_jOJCl,$_ILi8o){
+       $token = chr(1);
+       $_jOjjt = strtolower($_ILi8o);
+       $_jOjt8 = strtolower($_jOJtO);
+       while (($_IOO6C=strpos($_jOjjt,$_jOjt8))!==FALSE){
+         $_ILi8o = substr_replace($_ILi8o,$token,$_IOO6C,strlen($_jOJtO));
+         $_jOjjt = substr_replace($_jOjjt,$token,$_IOO6C,strlen($_jOJtO));
        }
-       $_I6016 = str_replace($_ILL10,$_ILi66,$_I6016);
-       return $_I6016;
+       $_ILi8o = str_replace($token,$_jOJCl,$_ILi8o);
+       return $_ILi8o;
      }
  }
 # PHP 5 includes this functions END

@@ -22,26 +22,26 @@
 #                                                                           #
 #############################################################################
 
-  function utf8_to_windows1255($_fj8t1) {
-      $_fjtQC = "";
-      $_fjtOQ = preg_split("//",$_fj8t1);
-      for ($_Q6llo=1; $_Q6llo<count($_fjtOQ)-1; $_Q6llo++) {
-          $_I8i66 = ord($_fjtOQ[$_Q6llo]);
-          $_fjO81 = ord($_fjtOQ[$_Q6llo+1]);
-          //print ("<p>$_I8i66 $_fjO81");
-          if ($_I8i66==215) {
-              $_fjtQC .= chr($_fjO81+80);
-              $_Q6llo++;
+  function utf8_to_windows1255($_8LfQO) {
+      $_8Lf6C = "";
+      $_8Lfl0 = preg_split("//",$_8LfQO);
+      for ($_Qli6J=1; $_Qli6J<count($_8Lfl0)-1; $_Qli6J++) {
+          $_jQCjt = ord($_8Lfl0[$_Qli6J]);
+          $_8L8t1 = ord($_8Lfl0[$_Qli6J+1]);
+          //print ("<p>$_jQCjt $_8L8t1");
+          if ($_jQCjt==215) {
+              $_8Lf6C .= chr($_8L8t1+80);
+              $_Qli6J++;
           }
-          elseif ($_I8i66==214) {
-              $_fjtQC .= chr($_fjO81+16);
-              $_Q6llo++;
+          elseif ($_jQCjt==214) {
+              $_8Lf6C .= chr($_8L8t1+16);
+              $_Qli6J++;
           }
           else {
-              $_fjtQC .= $_fjtOQ[$_Q6llo];
+              $_8Lf6C .= $_8Lfl0[$_Qli6J];
           }
       }
-      return $_fjtQC;
+      return $_8Lf6C;
   }
 
 ?>

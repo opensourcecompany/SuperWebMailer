@@ -1,7 +1,7 @@
 	/************************************************************************************************************
   #############################################################################
   #                SuperMailingList / SuperWebMailer                          #
-  #               Copyright © 2007 - 2015 Mirko Boeer                         #
+  #               Copyright © 2007 - 2022 Mirko Boeer                         #
   #                    Alle Rechte vorbehalten.                               #
   #                http://www.supermailinglist.de/                            #
   #                http://www.superwebmailer.de/                              #
@@ -29,6 +29,17 @@ var createtableofcontents = false;
 var item_id = 1;
 var repeater_item_id = 1;
 var Initialized = false;
+var supportsTouch = 'ontouchstart' in window || navigator.msMaxTouchPoints;
+
+// added SM 13, quicker unwrap DOM variant
+// IPE_unwrap($(this).get(0));
+function IPE_unwrap(el){
+    var parent = el.parentNode; // get the element's parent node
+    while (el.firstChild){
+        parent.insertBefore(el.firstChild, el); // move all children out of the element
+    }
+    parent.removeChild(el); // remove the empty element
+}
 
 function MakeRepeatersSortable(){
 		$('.ipe_repeater').sortable('destroy');
@@ -60,6 +71,8 @@ function MakeRepeatersSortable(){
           $('.ipe_repeater_item').removeClass("ipe_repeater_item_hover");
 		    	   $('.ipe_move').removeClass('ui-state-hover');
 
+          event.srcElement.scrollIntoView();
+
           $('.ipe_repeater_item').css("left", null);
           $('.ipe_repeater_item').css("top", null);
           $('.ipe_repeater_item').css("right", null);
@@ -68,7 +81,7 @@ function MakeRepeatersSortable(){
           $('.ipe_repeater_item').css("opacity", null);
 
           SortTableOfContents();
-		    	   parent.Modified = true;
+		    	   parent._Modified(true);
 		    	   $('.ipe_repeater').each(function(){
 
 		    		   $(this).append($(this).find('.ipe_repeater_toolbar:first'));
@@ -93,13 +106,53 @@ function SetupIPEItem(that){
  $(that).attr("id", item_id++);
  $(that).attr("title", rsDoubleClickToEdit);
 
- $(that).off('click');
+ $(that).off('mousedown');  // not on touch
+	$(that).mousedown(function(e){
+
+  if(e && e.srcElement && e.srcElement.href){ // problem mailto:, tel:... will be executed before click, we prevent it here
+    if(e.srcElement.href.toLowerCase().indexOf('mailto:') == 0 || e.srcElement.href.toLowerCase().indexOf('tel:') == 0 || e.srcElement.href.toLowerCase().indexOf('[') > -1){
+      e.preventDefault();
+      e.stopPropagation();
+      //return false;
+    }else
+      return true;
+  }
+
+  if(e && e.srcElement)
+     var srcElement = e.srcElement.className;
+     else
+     var srcElement = "";
+  if(srcElement && (srcElement.indexOf('ipe_') == 0 || srcElement.indexOf(' ipe_') > -1 ) )
+    return true;
+  e.stopPropagation();
+  if(e.button == 1 || e.which == 1)
+    EditItem($(this));
+		return false; // for hyperlinks
+	});
+
+ $(that).off('click'); // for on touch
 	$(that).click(function(e){
   e.stopPropagation();
 		EditItem($(this));
 		return false; // for hyperlinks
 	});
 
+ // complete item paint for editing
+ $(that).off('hover');
+	$(that).hover(function(e){
+ 		$(this).addClass("ipe_hover");
+   $(that).find('.ipe_toolbar').find(".ipe_edit").addClass('ui-state-hover');
+	}, function(e){
+
+    // IE bug it shows hover when there a a-Tag and doesn't remove it
+    if(createtableofcontents) {
+      $(this).parent().addClass("ipe_hover");
+    		$(this).parent().removeClass("ipe_hover");
+    }
+
+  		$(this).removeClass("ipe_hover");
+    $(that).find('.ipe_toolbar').find(".ipe_edit").removeClass('ui-state-hover');
+	});
 
  $(that).find('.ipe_toolbar').find(".ipe_edit").off('click');
 	$(that).find('.ipe_toolbar').find(".ipe_edit").click(function(e){
@@ -111,22 +164,6 @@ function SetupIPEItem(that){
 	$(that).find('.ipe_toolbar').find(".ipe_targetgroups").click(function(e){
   e.stopPropagation();
 		ShowTargetGroupsDialog($(this).closest(".ipe_item"));
-	});
-
- $(that).find('.ipe_toolbar').find(".ipe_edit,.ipe_targetgroups").off('hover');
-	$(that).find('.ipe_toolbar').find(".ipe_edit,.ipe_targetgroups").hover(function(e){
-   $(this).addClass('ui-state-hover');
- 		$(this).closest('.ipe_item').addClass("ipe_hover");
-	}, function(){
-    $(this).removeClass('ui-state-hover');
-
-    // IE bug it shows hover when there a a-Tag and doesn't remove it
-    if(createtableofcontents) {
-      $(this).closest('.ipe_item').parent().addClass("ipe_hover");
-    		$(this).closest('.ipe_item').parent().removeClass("ipe_hover");
-    }
-
-  		$(this).closest('.ipe_item').removeClass("ipe_hover");
 	});
 
 	$(that).find('.ipe_toolbar').off('click');
@@ -159,18 +196,47 @@ function SetupRepeaterItem(that){
 	});
 
 
+ $(that).find('.ipe_toolbar').find(".ipe_edit").off('hover');
+	$(that).find('.ipe_toolbar').find(".ipe_edit").hover(function(e){
+   $(this).addClass('ui-state-hover');
+	}, function(e){
+    $(this).removeClass('ui-state-hover');
+	});
+
+/* now hover from ipe_item itself
+ $(that).find('.ipe_toolbar').find(".ipe_edit,.ipe_targetgroups").off('hover');
+	$(that).find('.ipe_toolbar').find(".ipe_edit,.ipe_targetgroups").hover(function(e){
+   $(this).addClass('ui-state-hover');
+ 		$(this).closest('.ipe_item').addClass("ipe_hover");
+	}, function(e){
+    $(this).removeClass('ui-state-hover');
+
+    // IE bug it shows hover when there a a-Tag and doesn't remove it
+    if(createtableofcontents) {
+      $(this).closest('.ipe_item').parent().addClass("ipe_hover");
+    		$(this).closest('.ipe_item').parent().removeClass("ipe_hover");
+    }
+
+  		$(this).closest('.ipe_item').removeClass("ipe_hover");
+	});*/
+
  $(that).find('.ipe_toolbar').find(".ipe_move").off('hover');
 	$(that).find('.ipe_toolbar').find(".ipe_move").hover(
 			function(e){
     $(this).addClass('ui-state-hover');
     $(this).css('cursor','move');
 				$(this).closest(".ipe_repeater_item").addClass("ipe_repeater_item_hover");
+    $(this).closest(".ipe_item").removeClass("ipe_hover");
+    $(this).parent().find(".ipe_edit, .ipe_delete, .ipe_cssedit, .ipe_targetgroups").removeClass("ui-state-hover");
 			}
 			,
 			function(e){
 				$(this).closest(".ipe_repeater_item").removeClass("ipe_repeater_item_hover");
     $(this).css('cursor','auto');
     $(this).removeClass('ui-state-hover');
+
+    var elementMouseIsOver = document.elementFromPoint(e.clientX, e.clientY);
+    $(elementMouseIsOver).trigger("mouseenter");
 			}
 	);
 
@@ -179,11 +245,15 @@ function SetupRepeaterItem(that){
 			function(e){
     $(this).addClass('ui-state-hover');
 				$(this).closest(".ipe_repeater_item").addClass("ipe_repeater_item_hover");
+    $(this).closest(".ipe_item").removeClass("ipe_hover");
+    $(this).parent().find(".ipe_edit, .ipe_move, .ipe_cssedit, .ipe_targetgroups").removeClass("ui-state-hover");
 			}
 			,
 			function(e){
 				$(this).closest(".ipe_repeater_item").removeClass("ipe_repeater_item_hover");
 				$(this).removeClass('ui-state-hover');
+    var elementMouseIsOver = document.elementFromPoint(e.clientX, e.clientY);
+    $(elementMouseIsOver).trigger("mouseenter");
 			}
 	);
 
@@ -192,11 +262,32 @@ function SetupRepeaterItem(that){
 			function(e){
     $(this).addClass('ui-state-hover');
 				$(this).closest(".ipe_repeater_item").addClass("ipe_repeater_item_hover");
+    $(this).closest(".ipe_item").removeClass("ipe_hover");
+    $(this).parent().find(".ipe_edit, .ipe_move, .ipe_delete, .ipe_targetgroups").removeClass("ui-state-hover");
 			}
 			,
 			function(e){
 				$(this).closest(".ipe_repeater_item").removeClass("ipe_repeater_item_hover");
 				$(this).removeClass('ui-state-hover');
+    var elementMouseIsOver = document.elementFromPoint(e.clientX, e.clientY);
+    $(elementMouseIsOver).trigger("mouseenter");
+			}
+	);
+
+ $(that).find('.ipe_toolbar').find(".ipe_targetgroups").off('hover');
+	$(that).find('.ipe_toolbar').find(".ipe_targetgroups").hover(
+			function(e){
+    $(this).addClass('ui-state-hover');
+				$(this).closest(".ipe_repeater_item").addClass("ipe_repeater_item_hover");
+    $(this).closest(".ipe_item").removeClass("ipe_hover");
+    $(this).parent().find(".ipe_edit, .ipe_move, .ipe_delete, .ipe_cssedit").removeClass("ui-state-hover");
+			}
+			,
+			function(e){
+				$(this).closest(".ipe_repeater_item").removeClass("ipe_repeater_item_hover");
+				$(this).removeClass('ui-state-hover');
+    var elementMouseIsOver = document.elementFromPoint(e.clientX, e.clientY);
+    $(elementMouseIsOver).trigger("mouseenter");
 			}
 	);
 
@@ -213,28 +304,32 @@ function SetupRepeaterItem(that){
   var id = $(this).closest(".ipe_item").attr('id');
   var remove_element = $(this);
 
+  if( parent.$( "#NoConfirmOnRemoveItem" ).prop("checked") ){
+    RemoveIPEElement(remove_element, id);
+    MakeRepeatersSortable();
+    return;
+  }
+
   parent.$( "#dialog-removeitem" ).dialog("destroy");
 		parent.$( "#dialog-removeitem" ).dialog({
-			resizable: false,
+   resizable: false,
 			draggable: false,
-			height:150,
-			modal: true
+			height: 160,
+   width: 410,
+			modal: true,
+   beforeClose: function() {
+      parent.$( "#NoConfirmOnRemoveItem" ).prop("checked", false); // when click on X and checkbox is checked
+   }
 		});
 
   parent.$( "#dialog-removeitem" ).dialog( "option", "buttons", [
     {
         text: rsYes,
         click: function() {
+                             var b = parent.$( "#NoConfirmOnRemoveItem" ).prop("checked"); // save state
                              parent.$(this).dialog("close");
-                          			RemoveTableOfContentsEntry(id);
-                          			tableofcontentsincludedoncemore = false;
-                          			if(remove_element.closest(".ipe_repeater_item").attr("tableofcontents_mainitem") == "true")
-                             			tableofcontentsincludedoncemore = RemoveTableOfContents( remove_element.closest(".ipe_repeater_item") );
-                             remove_element.closest(".ipe_repeater_item").removeClass("ipe_repeater_item_hover");
-                          			remove_element.closest(".ipe_repeater_item").remove();
-                          			parent.Modified = true;
-                          			if(tableofcontentsincludedoncemore)
-                          			  CreateTableOfContents();
+                             RemoveIPEElement(remove_element, id);
+                             parent.$( "#NoConfirmOnRemoveItem" ).prop("checked", b); // recall state
                           }
     },
 
@@ -246,10 +341,24 @@ function SetupRepeaterItem(that){
                           }
     }
 
-  ] );
+  ]
+
+  );
 
 	});
 	MakeRepeatersSortable();
+}
+
+function RemoveIPEElement(remove_element, id){
+	RemoveTableOfContentsEntry(id);
+	tableofcontentsincludedoncemore = false;
+	if(remove_element.closest(".ipe_repeater_item").attr("tableofcontents_mainitem") == "true")
+ 			tableofcontentsincludedoncemore = RemoveTableOfContents( remove_element.closest(".ipe_repeater_item") );
+ remove_element.closest(".ipe_repeater_item").removeClass("ipe_repeater_item_hover");
+	remove_element.closest(".ipe_repeater_item").remove();
+ parent._Modified(true);
+	if(tableofcontentsincludedoncemore)
+	  CreateTableOfContents();
 }
 
 function Init_IPE(){
@@ -272,12 +381,22 @@ function Init_IPE(){
    $(this).find('.ipe_repeater_toolbar').append("<div class='ipe_addrepeater_item ui-button ui-state-default ui-corner-all' style='font-size:0.8em;font-weight:normal;'>"+addbtntitle+"</div>");
 			$(this).find('.ipe_repeater_toolbar').find(".ipe_addrepeater_item").button({ text: true, icons: {primary:'ui-icon-plus',secondary:''} });
 
- 		$(this).find('.ipe_repeater_toolbar').append("<div class='ipe_newrepeater_item ui-button ui-state-default ui-corner-all' style='font-size:0.8em;font-weight:normal;'>"+rsNew+"</div>");
-	 	$(this).find('.ipe_repeater_toolbar').find(".ipe_newrepeater_item").button({ text: true, icons: {primary:'ui-icon-arrowreturnthick-1-e',secondary:''} });
+   // changed SM 13, disableOtherElements = true => no other items loadable
+   if( $(this).attr("disableOtherElements") == null || $(this).attr("disableOtherElements").toLowerCase() != "true" ){
+   		$(this).find('.ipe_repeater_toolbar').append("<div class='ipe_newrepeater_item ui-button ui-state-default ui-corner-all' style='font-size:0.8em;font-weight:normal;'>"+rsNew+"</div>");
+	  	 $(this).find('.ipe_repeater_toolbar').find(".ipe_newrepeater_item").button({ text: true, icons: {primary:'ui-icon-arrowreturnthick-1-e',secondary:''} });
+   }
 
    anythingDone = true;
 
 		}
+	});
+
+ // set hover effect for add/new button for new loaded and "old" templates
+ $('.ipe_repeater_toolbar').find(".ipe_addrepeater_item, .ipe_newrepeater_item").hover(function(e){
+   $(this).addClass('ui-state-hover');
+	}, function(e){
+    $(this).removeClass('ui-state-hover');
 	});
 
 	$('.ipe_repeater_toolbar').find(".ipe_addrepeater_item").off("click");
@@ -343,7 +462,7 @@ parent.inherit(window)(function(){
 function _IPE(){
   if(Initialized) { return;}
 		Init_IPE();
-		parent.Modified = false;
+  parent._Modified(false);
 		CreateTableOfContents();
 		Initialized = true;
 }
@@ -360,17 +479,28 @@ function InitializeTemplate(){
   		   var targetgroups = "";
        if($(this).attr("target_groups"))
          targetgroups = ' target_groups="' + $(this).attr("target_groups") + '"';
+
+       // changed SM 13 style from parent element, when there is a style
+       var style="";
+       if($(this).parent().attr("style"))
+         style=$(this).parent().attr("style");
+
        if(A[i] == "singleline") {
 
     		   var tableofcontentstitle = "false";
          if($(this).attr("tableofcontentstitle") == "true")
            tableofcontentstitle = $(this).attr("tableofcontentstitle");
 
-         $(this).wrap("<div class=\"ipe_item\" rel=\"" + A[i] + "\"  style=\"\" label=\"" + label + "\" tableofcontentstitle=\"" + tableofcontentstitle + "\"" + targetgroups + "></div>")
+         $(this).wrap("<div class=\"ipe_item\" rel=\"" + A[i] + "\"  style=\"" + style + "\" label=\"" + label + "\" tableofcontentstitle=\"" + tableofcontentstitle + "\"" + targetgroups + "></div>")
        }
        else {
-         $(this).wrap("<div class=\"ipe_item\" rel=\"" + A[i] + "\"  style=\"\" label=\"" + label + "\"" + targetgroups + "></div>")
+         $(this).wrap("<div class=\"ipe_item\" rel=\"" + A[i] + "\"  style=\"" + style + "\" label=\"" + label + "\"" + targetgroups + "></div>")
        }
+
+       // remove tag changed SM 13 quicker variant
+       IPE_unwrap($(this).get(0));
+
+       /*
        // remove tag
        if($(this).children().html())
          $(this).children().unwrap();
@@ -379,6 +509,7 @@ function InitializeTemplate(){
            $(this).parent().html($(this).html());
            $(this).remove();
          }
+      */
   	 }
    );
 
@@ -400,13 +531,19 @@ function InitializeTemplate(){
 		function(aindex){
 		   if($(this).attr("editable") && $(this).attr("editable") == "true") {
         if($(this).closest(".ipe_item").attr("rel") != "multiline") { // when there are an .ipe_item for multiline we don't add a new, we edit it as block
-     		   var label = "";
+          var label = "";
           if($(this).attr("label"))
             label = $(this).attr("label");
           var targetgroups = "";
           if($(this).attr("target_groups"))
              targetgroups = ' target_groups="' + $(this).attr("target_groups") + '"';
-          $(this).wrap("<div class=\"ipe_item\" rel=\"" + "img" + "\"  style=\"\" label=\"" + label + "\"" + targetgroups + "></div>")
+          if($(this).parent().prop("tagName") != "A")
+            $(this).wrap("<div class=\"ipe_item\" rel=\"" + "img" + "\"  style=\"\" label=\"" + label + "\"" + targetgroups + "></div>");
+            else{
+              $(this).parent().attr("editable", null);
+              $(this).parent().attr("label", null);
+              $(this).parent().wrap("<div class=\"ipe_item\" rel=\"" + "img" + "\"  style=\"\" label=\"" + label + "\"" + targetgroups + "></div>");
+            }
         }
         $(this).attr("editable", null); // remove for reload on add item
      }
@@ -484,7 +621,13 @@ function InitializeTemplate(){
      var editablehtml = '';
      if(editable)
        editablehtml = 'editable="true"';
-     $(this).wrap("<div class=\"ipe_repeater\" rel=\"repeater\" id=\"" + repeater_item_id + "\" style=\"\" label=\"" + label + "\" repeateritemdata=\"" + repeateritemdata + "\" " + editablehtml + targetgroups + "></div>")
+
+     // changed SM 13, disableOtherElements = true => no other items loadable
+     var disableOtherElementshtml = '';
+     if($(this).attr("disableOtherElements"))
+       disableOtherElementshtml = ' disableOtherElements="' + $(this).attr("disableOtherElements") + '"';
+
+     $(this).wrap("<div class=\"ipe_repeater\" rel=\"repeater\" id=\"" + repeater_item_id + "\" style=\"\" label=\"" + label + "\" repeateritemdata=\"" + repeateritemdata + "\" " + editablehtml + targetgroups + disableOtherElementshtml + "></div>")
 
      $(this).wrap("<div class=\"ipe_repeater_item\" rel=\"repeater_item\" id=\"" + repeater_item_id + "-0\" style=\"\" label=\"" + label + "\" " + editablehtml + targetgroups + "></div>")
 
@@ -492,8 +635,14 @@ function InitializeTemplate(){
        $(this).wrap("<div class=\"editable\" style=\"\"" + editablehtml + targetgroups + "></div>")
 
      repeater_item_id++;
+
+     // remove tag changed SM 13 quicker variant
+     IPE_unwrap($(this).get(0));
+
+     /*
      // remove tag
      $(this).children().unwrap();
+     */
 	 }
  );
 
@@ -525,6 +674,10 @@ function AddRepeaterItem(target, html, label){
  // remove no_templated_loaded id
  $("#no_template_loaded").remove();
 
+ // changed SM 13 wrap in <div> when there is no <div> at pos 1
+ if(html.trim().indexOf('<div') != 0)
+   html = '<div editable="false">' + html + '</div>';
+
  var editable = false;
  if($(target).attr("editable"))
    editable = true;
@@ -550,7 +703,7 @@ function AddRepeaterItem(target, html, label){
 
  Init_IPE();
  CreateTableOfContents();
-	parent.Modified = true;
+ parent._Modified(true);
 }
 
 function NewRepeaterItem(that){
@@ -588,7 +741,7 @@ function NewRepeaterItem(that){
 
                               	});
 
-                             		parent.Modified = true;
+                               parent._Modified(true);
                            		}
 
                           }
@@ -791,7 +944,7 @@ function EditItem(that){
                                }
                              		$(that).prepend(clone);
 
-                             		parent.Modified = true;
+                               parent._Modified(true);
                                EditTableOfContentsEntry($(that).attr("id"), singleline.val().trim());
                                MakeRepeatersSortable(); // add sortable
                             }
@@ -840,6 +993,56 @@ function EditItem(that){
   		var imageurl = parent.$( "#imageurl" );
   		var alttext = parent.$( "#alttext" );
   		var image_hyperlinkurl = parent.$( "#image_hyperlinkurl" );
+
+    // reqWidth/reqHeight
+     var reqWidth = -1;
+     var reqHeight = -1;
+     var v;
+
+     v = $(that).find("img").css("max-width");
+     if( !(v == undefined || v == null || v == "none") )
+        reqWidth = parseInt(v);
+
+     v = $(that).find("img").css("max-height");
+     if( !(v == undefined || v == null || v == "none") )
+        reqHeight = parseInt(v);
+
+     if(reqWidth <= 0){
+       // check width=
+       v = $(that).find("img").attr("width");
+       if( !(v == undefined || v == null || v == "none") )
+          reqWidth = parseInt(v);
+       // css("width") is computed
+     }
+
+     // we don't check for reqHeight, width is required
+
+     if(reqWidth == 0)
+        reqWidth = -1;
+     if(reqHeight == 0)
+        reqHeight = -1;
+
+     parent.$('#dialog-image_reqWidth').val(reqWidth);
+     parent.$('#dialog-image_reqHeight').val(reqHeight);
+
+     parent.$('#dialog-image_reqImgSize').show();
+     parent.$('#dialog-image_reqImgSizeLabel').show();
+
+     if(reqWidth > 0 && reqHeight > 0)
+        parent.$('#dialog-image_reqImgSize').html( reqWidth + 'px&nbsp;x&nbsp;' + reqHeight + 'px');
+        else
+        if(reqWidth > 0)
+           parent.$('#dialog-image_reqImgSize').html( reqWidth + 'px&nbsp;x&nbsp;' + "&#8734;" + 'px');
+           else
+            if(reqHeight > 0)
+               parent.$('#dialog-image_reqImgSize').html( "&#8734;"  + 'px&nbsp;x&nbsp;' + reqHeight + 'px');
+               else{
+                 parent.$('#dialog-image_reqImgSize').hide();
+                 parent.$('#dialog-image_reqImgSizeLabel').hide();
+             }
+    // reqWidth/reqHeight /
+
+
   		imageurl.val( $(that).find("img").attr("src") );
   		alttext.val( $(that).find("img").attr("alt") );
 
@@ -863,7 +1066,22 @@ function EditItem(that){
                                $(that).closest(".ipe_item").removeClass("ipe_hover");
                                $(that).find(".ipe_toolbar").find(".ipe_edit").removeClass("ui-state-hover");
 
-                             		$(that).find("img").attr("src", imageurl.val().trim());
+                               parent.$(this).dialog("close");
+
+                               var aimageurl = imageurl.val().trim();
+
+                               // extended SM 13, remove img when it's empty
+                               if(aimageurl == ""){
+                                 if( $(that).find(".ipe_toolbar").find(".ipe_delete").get(0) )
+                                   $(that).find(".ipe_toolbar").find(".ipe_delete").click();
+                                   else
+                                     $(that).remove();
+
+                                 parent._Modified(true);
+                                 return;
+                               }
+
+                             		$(that).find("img").attr("src", aimageurl);
                              		$(that).find("img").attr("alt", alttext.val().trim());
 
                               	if( image_hyperlinkurl.val().trim() == "") {
@@ -879,8 +1097,7 @@ function EditItem(that){
                                  $(that).find("img").wrap( '<a href="' + alink + '"></a>' );
                                }
 
-                               parent.$(this).dialog("close");
-                             		parent.Modified = true;
+                               parent._Modified(true);
 
                             }
       },
@@ -940,15 +1157,67 @@ function EditItem(that){
                                parent.$(this).dialog("close");
 
                                var alink = hyperlink.val().trim();
+
+                               // extended SM 13, remove link when it's empty
+                               if(alink == ""){
+
+                                 // SM 13 button
+                                 var p = $(that).parent();
+
+                                 if( $(that).find(".ipe_toolbar").find(".ipe_delete").get(0) )
+                                   $(that).find(".ipe_toolbar").find(".ipe_delete").click();
+                                   else
+                                   $(that).remove();
+
+                                 // SM 13 button
+                                 $(p).contents().filter(function(){
+                                     if(this.nodeType === 8){
+                                        if(this.nodeValue.indexOf('href="') >-1){
+                                          try{
+                                          $(this).remove();
+                                          }catch(e){
+                                            this.nodeValue = ""; // IE can't remove comment tag
+                                          }
+                                        }
+                                     }
+                                 });
+
+                                 parent._Modified(true);
+                                 return;
+                               }
+
                                if(alink.indexOf("http") < 0 && alink.indexOf("mailto:") < 0 && alink.indexOf("#") != 0 && alink.indexOf("[") != 0)
                                   alink = "http://" + alink;
 
                              		$(that).find("a").attr("href", alink);
-                             		if(textforhyperlink.val().trim() != "")
-                               		$(that).find("a").text(textforhyperlink.val().trim());
-                               		else
-                               		$(that).find("a").text(alink);
-                             		parent.Modified = true;
+
+                               // SM 13 button
+                               var oldLinkText = $(that).find("a").text();
+                               if(textforhyperlink.val().trim() != "")
+                                  var newLinkText = textforhyperlink.val().trim();
+                                  else
+                                  var newLinkText = alink;
+
+                             		$(that).find("a").text(newLinkText);
+
+                               parent._Modified(true);
+
+                               // SM 13 button
+                               $(that).parent().contents().filter(function(){
+                                   if(this.nodeType === 8){
+                                      if(this.nodeValue.indexOf('href="') >-1){
+                                        var l = this.nodeValue.substring(0, this.nodeValue.indexOf('href="') + 6);
+                                        var r = this.nodeValue.substring(this.nodeValue.indexOf('href="') + 7);
+                                        r = r.substring(r.indexOf('"'));
+                                        this.nodeValue = l + alink + r;
+                                      }
+                                      this.nodeValue = this.nodeValue.replace(/[\r\n\t]/, " ");
+                                      while(this.nodeValue.indexOf("  ") > 0)
+                                         this.nodeValue = this.nodeValue.replace("  ", " ");
+
+                                      this.nodeValue = this.nodeValue.replace(oldLinkText, newLinkText);
+                                   }
+                               });
 
                             }
       },
@@ -980,6 +1249,8 @@ function EditItem(that){
    	var multilinehtml = $(that).html().replace(/\n/g, ' ').replace(/ +/g, ' ').replace(/\t/g, '');
   		$(that).prepend(clone);
 
+    var startsWithDiv = multilinehtml.trim().toLowerCase().indexOf('<div>') == 0;
+
     // bug ckeditor parent.$( "#dialog-multiline" ).dialog( "destroy" );
     parent.$( "#dialog-multiline" ).dialog({
   			resizable: false,
@@ -988,7 +1259,7 @@ function EditItem(that){
   			width: 700,
   			open : function() {
   			         multiline.val( multilinehtml );
-              parent.LoadMultilineToCKEditor();
+              parent.LoadMultilineToCKEditor( multilinehtml.toLowerCase().indexOf("#ffffff") != -1 || multilinehtml.indexOf("255,255,255") != -1 || multilinehtml.indexOf("255, 255, 255") != -1 );
             },
      close: function() {
                 $(that).closest(".ipe_item").removeClass("ipe_hover");
@@ -1026,10 +1297,17 @@ function EditItem(that){
                               	var clone = $(that).find(".ipe_toolbar").clone(true);
                               	$(that).find(".ipe_toolbar").remove();
                               	$(that).empty();
-                             		$(that).html( multiline.val() );
+
+                               var multilinehtml = multiline.val().trim();
+                               if(!startsWithDiv && multilinehtml.trim().toLowerCase().indexOf('<div>') == 0){ // remove <div> style is not inherited
+                                  multilinehtml = multilinehtml.substr(5);
+                                  multilinehtml = multilinehtml.substr(0, multilinehtml.toLowerCase().lastIndexOf('</div>'));
+                               }
+
+                             		$(that).html( multilinehtml );
                              		$(that).prepend(clone);
 
-                             		parent.Modified = true;
+                               parent._Modified(true);
 
                                multiline.val("");
                             }
@@ -1127,7 +1405,7 @@ function EditItem(that){
 
 
                                parent.$(this).dialog("close");
-                             		parent.Modified = true;
+                               parent._Modified(true);
 
                             }
       },
@@ -1225,7 +1503,7 @@ function EditItem(that){
                                $(that).find(listTag).prepend(clone.html());
                                clone = null;
 
-                             		parent.Modified = true;
+                               parent._Modified(true);
 
                             }
       },
@@ -1342,7 +1620,7 @@ function EditItem(that){
 
 
                                parent.$(this).dialog("close");
-                             		parent.Modified = true;
+                               parent._Modified(true);
 
                             }
       },
@@ -1378,7 +1656,8 @@ function ShowTargetGroupsDialog(obj){
            // ignore
           }
           parent.$( "#dialog-targetgroups" ).find("#_edit_target_groups").val(tgroups);
-          parent.document.getElementById("__wizardtargetgroupsIframe").src = "./ajax_showtargetgroups.php?wizard=wizard";
+          //parent.document.getElementById("__wizardtargetgroupsIframe").src = "./ajax_showtargetgroups.php?wizard=wizard";
+          CreateFormAndPostIt("./ajax_showtargetgroups.php?wizard=wizard", {}, "post", "__wizardtargetgroupsIframe");
          }
 		});
 
@@ -1402,7 +1681,7 @@ function ShowTargetGroupsDialog(obj){
                                 obj.attr("target_groups", tgroups);
 
                              parent.$(this).dialog("close");
-                             parent.Modified = true;
+                             parent._Modified(true);
                              return true;
                           }
     },
@@ -1513,7 +1792,7 @@ function CSSEditor(that){
                                //
 
 
-                             		parent.Modified = true;
+                               parent._Modified(true);
                             }
       },
 
@@ -1600,7 +1879,7 @@ function PageBodyPropertiesEditor(){
                                //
 
 
-                             		parent.Modified = true;
+                               parent._Modified(true);
                             }
       },
 
@@ -1721,3 +2000,4 @@ if(typeof String.prototype.trim !== 'function') {
  return this.replace(/^\s+|\s+$/, '');
 }
 }
+

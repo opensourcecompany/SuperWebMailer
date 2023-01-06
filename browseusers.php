@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -27,42 +27,42 @@
   include_once("templates.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeUserBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeUserBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  $_I0600 = "";
-  if (count($_POST) != 0) {
+  $_Itfj8 = "";
+  if (count($_POST) > 1) {
     if( isset($_POST["FilterApplyBtn"]) ) {
       // Filter
     }
 
-    $_I680t = !isset($_POST["UsersActions"]);
-    if(!$_I680t) {
+    $_Ilt8t = !isset($_POST["UsersActions"]);
+    if(!$_Ilt8t) {
       if( isset($_POST["OneUserAction"]) && $_POST["OneUserAction"] != "" )
-        $_I680t = true;
-      if($_I680t) {
-        if( !( isset($_POST["OneUserId"]) && $_POST["OneUserId"] != "")  )
-           $_I680t = false;
+        $_Ilt8t = true;
+      if($_Ilt8t) {
+        if( !( isset($_POST["OneUserId"]) && $_POST["OneUserId"] > 0)  )
+           $_Ilt8t = false;
       }
     }
 
-    if(  !$_I680t && isset($_POST["UsersActions"]) ) {
+    if(  !$_Ilt8t && isset($_POST["UsersActions"]) ) {
 
         // nur hier die Listenaktionen machen
         if($_POST["UsersActions"] == "RemoveUsers") {
 
           if($OwnerUserId != 0) {
-            $_QJojf = _OBOOC($UserId);
-            if(!$_QJojf["PrivilegeUserRemove"]) {
-              $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-              $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-              print $_QJCJi;
+            $_QLJJ6 = _LPALQ($UserId);
+            if(!$_QLJJ6["PrivilegeUserRemove"]) {
+              $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+              $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+              print $_QLJfI;
               exit;
             }
           }
@@ -70,10 +70,10 @@
           include_once("users_ops.inc.php");
 
         // show now the list
-        if(count($_QtIiC) > 0)
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000102"].join("<br />", $_QtIiC);
+        if(count($_IQ0Cj) > 0)
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000102"].join("<br />", $_IQ0Cj);
         else
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000101"];
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000101"];
         }
 
     }
@@ -88,11 +88,11 @@
       if($_POST["OneUserAction"] == "DeleteUser") {
 
           if($OwnerUserId != 0) {
-            $_QJojf = _OBOOC($UserId);
-            if(!$_QJojf["PrivilegeUserRemove"]) {
-              $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-              $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-              print $_QJCJi;
+            $_QLJJ6 = _LPALQ($UserId);
+            if(!$_QLJJ6["PrivilegeUserRemove"]) {
+              $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+              $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+              print $_QLJfI;
               exit;
             }
           }
@@ -100,309 +100,321 @@
         include_once("users_ops.inc.php");
 
         // show now the list
-        if(count($_QtIiC) > 0)
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000102"].join("<br />", $_QtIiC);
+        if(count($_IQ0Cj) > 0)
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000102"].join("<br />", $_IQ0Cj);
         else
-          $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000101"];
+          $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000101"];
       }
     }
 
   }
 
     // set saved values
-    if ( (count($_POST) == 0) ) {
+    if ( (count($_POST) <= 1) ) {
       include_once("savedoptions.inc.php");
-      $_j0j0O = _LQB6D("BrowseUsersFilter");
+      $_joiLL = _JOO1L("BrowseUsersFilter");
 
-      if( $_j0j0O != "") {
-        $_QllO8 = @unserialize($_j0j0O);
-        if($_QllO8 !== false)
-          $_POST = array_merge($_POST, $_QllO8);
+      if( $_joiLL != "") {
+        $_I016j = @unserialize($_joiLL);
+        if($_I016j !== false)
+          $_POST = array_merge($_POST, $_I016j);
       }
   }
-
+  
   // List of Users of current user SQL query
   if($UserType != "SuperAdmin") {
-    $_j0j6C = $UserId;
+    $_joLCQ = $UserId;
     if($OwnerUserId != 0) // kein Admin?
-      $_j0j6C = $OwnerUserId;
+      $_joLCQ = $OwnerUserId;
 
-    $_QJlJ0 = "SELECT {} FROM $_Q8f1L LEFT JOIN $_QLtQO ON id=users_id WHERE (owner_id=$_j0j6C) AND users_id<>$UserId"; // if user then not user itself
+    $_QLfol = "SELECT {} FROM $_I18lo LEFT JOIN $_IfOtC ON id=users_id WHERE (owner_id=$_joLCQ) AND users_id<>$UserId"; // if user then not user itself
   } else {
-    $_QJlJ0 = "SELECT {} FROM $_Q8f1L WHERE UserType='Admin'";
+    $_QLfol = "SELECT {} FROM $_I18lo WHERE UserType='Admin'";
   }
 
   // Template
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000100"].$resourcestrings[$INTERFACE_LANGUAGE]["EntryCount"], $_I0600, 'browseusers', 'browse_users_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000100"].$resourcestrings[$INTERFACE_LANGUAGE]["EntryCount"], $_Itfj8, 'browseusers', 'browse_users_snipped.htm');
 
 
-  $_QJCJi = _OJCO8($_QJlJ0, $_QJCJi);
+  $_QLJfI = _LQEF0($_QLfol, $_QLJfI);
 
   // privilegs
   if($OwnerUserId != 0) {
-    $_Q6ICj = substr($_QJCJi, strpos($_QJCJi, '<div class="PageContainer">'));
-    $_IIf8o = substr($_QJCJi, 0, strpos($_QJCJi, '<div class="PageContainer">') - 1);
+    $_QLoli = substr($_QLJfI, strpos($_QLJfI, '<div class="PageContainer">'));
+    $_ICIIQ = substr($_QLJfI, 0, strpos($_QLJfI, '<div class="PageContainer">') - 1);
 
-    $_QJojf = _OBOOC($UserId);
+    $_QLJJ6 = _LPALQ($UserId);
 
-    if(!$_QJojf["PrivilegeUserCreate"]) {
-      $_Q6ICj = _LJ6RJ($_Q6ICj, "usersedit.php");
+    if(!$_QLJJ6["PrivilegeUserCreate"]) {
+      $_QLoli = _JJC0E($_QLoli, "usersedit.php");
     }
-    if(!$_QJojf["PrivilegeUserEdit"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "EditUserProperties");
-    }
-
-    if(!$_QJojf["PrivilegeUserRemove"]) {
-      $_Q6ICj = _LJ6B1($_Q6ICj, "DeleteUser");
-      $_Q6ICj = _LJRLJ($_Q6ICj, "RemoveUsers");
+    if(!$_QLJJ6["PrivilegeUserEdit"]) {
+      $_QLoli = _JJC1E($_QLoli, "EditUserProperties");
     }
 
-    $_QJCJi = $_IIf8o.$_Q6ICj;
+    if(!$_QLJJ6["PrivilegeUserRemove"]) {
+      $_QLoli = _JJC1E($_QLoli, "DeleteUser");
+      $_QLoli = _JJCRD($_QLoli, "RemoveUsers");
+    }
+
+    $_QLJfI = $_ICIIQ.$_QLoli;
   }
 
   if( defined("SWM") ) {
     if($UserType != "SuperAdmin" && ($OwnerOwnerUserId <= 65 || $OwnerOwnerUserId == 90)){
-      $_QJCJi = _LJ6RJ($_QJCJi, "usersedit.php");
+      $_QLJfI = _JJC0E($_QLJfI, "usersedit.php");
     }else{
       if($UserType == "SuperAdmin" && ($OwnerOwnerUserId <= 65 || $OwnerOwnerUserId == 90) ){
-         $_QtjtL = str_replace('{}', 'COUNT('.$_Q8f1L.'.id)', $_QJlJ0);
-         $_Q60l1 = mysql_query($_QtjtL);
-         _OAL8F($_QJlJ0);
-         $_Q6Q1C=mysql_fetch_array($_Q60l1);
-         mysql_free_result($_Q60l1);
-         if( $_Q6Q1C[0] > 0)
-           $_QJCJi = _LJ6RJ($_QJCJi, "usersedit.php");
+         $_QLlO6 = str_replace('{}', 'COUNT('.$_I18lo.'.id)', $_QLfol);
+         $_QL8i1 = mysql_query($_QLlO6, $_QLttI);
+         _L8D88($_QLfol);
+         $_QLO0f=mysql_fetch_array($_QL8i1);
+         mysql_free_result($_QL8i1);
+         if( $_QLO0f[0] > 0)
+           $_QLJfI = _JJC0E($_QLJfI, "usersedit.php");
       }
     }
   }
 
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 
 
-  function _OJCO8($_QJlJ0, $_Q6ICj) {
-    global $UserId, $_SESSION, $_Q8f1L, $UserType, $_Q60QL, $_QLtQO;
-    global $resourcestrings, $INTERFACE_LANGUAGE;
-    $_I61Cl = array();
+  function _LQEF0($_QLfol, $_QLoli) {
+    global $UserId, $_SESSION, $_I18lo, $UserType, $_QL88I, $_IfOtC;
+    global $resourcestrings, $INTERFACE_LANGUAGE, $_QLttI;
+    $_Il0o6 = array();
 
     // Searchstring
     if( isset( $_POST["UsersSearchFor"] ) && ($_POST["UsersSearchFor"] != "") ) {
-      $_I61Cl["UsersSearchFor"] = $_POST["UsersSearchFor"];
-      $_I6oQj = "LastName";
+      $_Il0o6["UsersSearchFor"] = $_POST["UsersSearchFor"];
+      $_IliOC = "LastName";
 
       if( isset( $_POST["Usersfieldname"] ) && ($_POST["Usersfieldname"] != "") ) {
-        $_I61Cl["Usersfieldname"] = $_POST["Usersfieldname"];
-        $_QllO8 = substr($_POST["Usersfieldname"], 10);
-        if($_QllO8 != "All")
-          $_I6oQj = $_QllO8;
+        $_Il0o6["Usersfieldname"] = $_POST["Usersfieldname"];
+        $_I016j = substr($_POST["Usersfieldname"], 10);
+        if($_I016j != "All")
+          $_IliOC = $_I016j;
           else {
-            $_I6oQj = "";
-            $_QLLjo = array();
-            $_QtjtL = array();
-            $_QtjtL[] = "(id LIKE '%".trim($_POST["UsersSearchFor"])."%')";
-            $_QtjtL[] = "(Username LIKE '%".trim($_POST["UsersSearchFor"])."%')";
-            $_QtjtL[] = "(EMail LIKE '%".trim($_POST["UsersSearchFor"])."%')";
-            $_QtjtL[] = "(FirstName LIKE '%".trim($_POST["UsersSearchFor"])."%')";
-            $_QtjtL[] = "(LastName LIKE '%".trim($_POST["UsersSearchFor"])."%')";
+            $_IliOC = "";
+            $_Iflj0 = array();
+            $_QLlO6 = array();
+            $_jC1jJ = _LRAFO('%' . trim($_POST["UsersSearchFor"]) . '%');
+            $_QLlO6[] = "(id LIKE " . $_jC1jJ . ")";
+            $_QLlO6[] = "(Username LIKE " . $_jC1jJ . ")";
+            $_QLlO6[] = "(EMail LIKE " . $_jC1jJ . ")";
+            $_QLlO6[] = "(FirstName LIKE " . $_jC1jJ . ")";
+            $_QLlO6[] = "(LastName LIKE " . $_jC1jJ . ")";
           }
 
       }
 
-      if(strpos($_QJlJ0, " WHERE ") === false)
-         $_QJlJ0 .= " WHERE ";
+      if(strpos($_QLfol, " WHERE ") === false)
+         $_QLfol .= " WHERE ";
          else
-         $_QJlJ0 .= " AND ";
-      if($_I6oQj != "")
-        $_QJlJ0 .= "  (`$_I6oQj` LIKE '%".trim($_POST["UsersSearchFor"])."%')";
+         $_QLfol .= " AND ";
+      if($_IliOC != "")
+        $_QLfol .= "  (`$_IliOC` LIKE " . _LRAFO('%' . trim($_POST["UsersSearchFor"]) . '%') . ")";
         else
-        if(count($_QtjtL) > 0)
-          $_QJlJ0 .= " (".join(" OR ", $_QtjtL).")";
+        if(count($_QLlO6) > 0)
+          $_QLfol .= " (".join(" OR ", $_QLlO6).")";
 
 
     } else {
-      $_I61Cl["UsersSearchFor"] = "";
-      $_I61Cl["Usersfieldname"] = "SearchFor_LastName";
+      $_Il0o6["UsersSearchFor"] = "";
+      $_Il0o6["Usersfieldname"] = "SearchFor_LastName";
     }
 
     // wie viele pro Seite?
-    $_I6Q68 = 20;
+    $_Il1jO = 20;
     if(isset($_POST["UsersItemsPerPage"])) {
-       $_QllO8 = intval($_POST["UsersItemsPerPage"]);
-       if ($_QllO8 <= 0) $_QllO8 = 20;
-       $_I6Q68 = $_QllO8;
+       $_I016j = intval($_POST["UsersItemsPerPage"]);
+       if ($_I016j <= 0) $_I016j = 20;
+       $_Il1jO = $_I016j;
     }
-    $_I61Cl["UsersItemsPerPage"] = $_I6Q68;
+    $_Il0o6["UsersItemsPerPage"] = $_Il1jO;
 
-    $_IJQQI = 0;
+    $_Iil6i = 0;
     if ( (!isset($_POST['UsersPageSelected'])) || ($_POST['UsersPageSelected'] == 0) )
-      $_I6Q6O = 1;
+      $_IlQQ6 = 1;
       else
-      $_I6Q6O = intval($_POST['UsersPageSelected']);
+      $_IlQQ6 = intval($_POST['UsersPageSelected']);
 
     // zaehlen wie viele es sind
-    $_I6Qfj = 0;
-    $_QtjtL = $_QJlJ0;
-    $_QtjtL = str_replace('{}', 'COUNT('.$_Q8f1L.'.id)', $_QtjtL);
-    $_Q60l1 = mysql_query($_QtjtL);
-    _OAL8F($_QJlJ0);
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
-    $_I6Qfj = $_Q6Q1C[0];
-    $_I6IJ8 = $_I6Qfj / $_I6Q68;
-    $_I6IJ8 = ceil($_I6IJ8);
-    if(intval($_I6IJ8 * $_I6Q68) - $_I6Q68 > $_I6Qfj)
-       if($_I6IJ8 > 1) $_I6IJ8--;
-    $_Q6ICj = str_replace ('%RECIPIENTCOUNT%', $_I6Qfj, $_Q6ICj);
+    $_IlQll = 0;
+    $_QLlO6 = $_QLfol;
+    $_QLlO6 = str_replace('{}', 'COUNT('.$_I18lo.'.id)', $_QLlO6);
+    $_QL8i1 = mysql_query($_QLlO6, $_QLttI);
+    _L8D88($_QLfol);
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
+    $_IlQll = $_QLO0f[0];
+    $_IlILC = $_IlQll / $_Il1jO;
+    $_IlILC = ceil($_IlILC);
+    if(intval($_IlILC * $_Il1jO) - $_Il1jO > $_IlQll)
+       if($_IlILC > 1) $_IlILC--;
+    $_QLoli = str_replace ('%RECIPIENTCOUNT%', $_IlQll, $_QLoli);
 
     if( isset( $_POST["OneUserId"] ) && ($_POST["OneUserId"] == "Top") )
-       $_I6Q6O = 1;
+       $_IlQQ6 = 1;
     if( isset( $_POST["OneUserId"] ) && ($_POST["OneUserId"] == "Prev") )
-       $_I6Q6O = $_I6Q6O - 1;
+       $_IlQQ6 = $_IlQQ6 - 1;
     if( isset( $_POST["OneUserId"] ) && ($_POST["OneUserId"] == "Next") )
-       $_I6Q6O = $_I6Q6O + 1;
+       $_IlQQ6 = $_IlQQ6 + 1;
     if( isset( $_POST["OneUserId"] ) && ($_POST["OneUserId"] == "End") )
-       $_I6Q6O = $_I6IJ8;
+       $_IlQQ6 = $_IlILC;
 
-    if ( ($_I6Q6O > $_I6IJ8) || ($_I6Q6O <= 0) )
-       $_I6Q6O = 1;
+    if ( ($_IlQQ6 > $_IlILC) || ($_IlQQ6 <= 0) )
+       $_IlQQ6 = 1;
 
-    $_IJQQI = ($_I6Q6O - 1) * $_I6Q68;
+    $_Iil6i = ($_IlQQ6 - 1) * $_Il1jO;
 
-    $_Q6i6i = "";
-    for($_Q6llo=1; $_Q6llo<=$_I6IJ8; $_Q6llo++)
-      if($_Q6llo != $_I6Q6O)
-       $_Q6i6i .= "<option>$_Q6llo</option>";
+    $_QlOjt = "";
+    for($_Qli6J=1; $_Qli6J<=$_IlILC; $_Qli6J++)
+      if($_Qli6J != $_IlQQ6)
+       $_QlOjt .= "<option>$_Qli6J</option>";
        else
-       $_Q6i6i .= '<option selected="selected">'.$_Q6llo.'</option>';
+       $_QlOjt .= '<option selected="selected">'.$_Qli6J.'</option>';
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<OPTION:PAGES>", "</OPTION:PAGES>", $_Q6i6i);
+    $_QLoli = _L81BJ($_QLoli, "<OPTION:PAGES>", "</OPTION:PAGES>", $_QlOjt);
 
     // Nav-Buttons
-    $_I6ICC = "";
-    if($_I6Q6O == 1) {
-      $_I6ICC .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
+    $_Iljoj = "";
+    if($_IlQQ6 == 1) {
+      $_Iljoj .= "  ChangeImage('TopBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('PrevBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('TopBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('PrevBtn', false);\r\n";
     }
-    if ( ($_I6Q6O == $_I6IJ8) || ($_I6Qfj == 0) ) {
-      $_I6ICC .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
-      $_I6ICC .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
+    if ( ($_IlQQ6 == $_IlILC) || ($_IlQll == 0) ) {
+      $_Iljoj .= "  ChangeImage('EndBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  ChangeImage('NextBtn', 'images/blind16x16.gif');\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('EndBtn', false);\r\n";
+      $_Iljoj .= "  DisableItemCursorPointer('NextBtn', false);\r\n";
     }
 
-    if($_I6Qfj == 0)
-      $_I6ICC .= "  DisableItem('UsersPageSelected', false);\r\n";
+    if($_IlQll == 0)
+      $_Iljoj .= "  DisableItem('UsersPageSelected', false);\r\n";
 
-    $_Q6ICj = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_I6ICC, $_Q6ICj);
+    $_QLoli = str_replace ('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_Iljoj, $_QLoli);
     //
 
     // Sort
-    $_I6jfj = " ORDER BY Username ASC";
+    $_IlJj8 = " ORDER BY Username ASC";
     if( isset( $_POST["Userssortfieldname"] ) && ($_POST["Userssortfieldname"] != "") ) {
-      $_I61Cl["Userssortfieldname"] = $_POST["Userssortfieldname"];
+      $_Il0o6["Userssortfieldname"] = $_POST["Userssortfieldname"];
       if($_POST["Userssortfieldname"] == "SortUsername")
-         $_I6jfj = " ORDER BY Username";
+         $_IlJj8 = " ORDER BY Username";
       if($_POST["Userssortfieldname"] == "SortLastName")
-         $_I6jfj = " ORDER BY LastName";
+         $_IlJj8 = " ORDER BY LastName";
       if($_POST["Userssortfieldname"] == "SortFirstName")
-         $_I6jfj = " ORDER BY FirstName";
+         $_IlJj8 = " ORDER BY FirstName";
       if($_POST["Userssortfieldname"] == "SortEMail")
-         $_I6jfj = " ORDER BY EMail";
+         $_IlJj8 = " ORDER BY EMail";
       if($_POST["Userssortfieldname"] == "SortUserType")
-         $_I6jfj = " ORDER BY UserType";
+         $_IlJj8 = " ORDER BY UserType";
       if($_POST["Userssortfieldname"] == "Sortid")
-         $_I6jfj = " ORDER BY id";
+         $_IlJj8 = " ORDER BY id";
+      if($_POST["Userssortfieldname"] == "SortLastLogin")
+         $_IlJj8 = " ORDER BY LastLogin";
       if (isset($_POST["Userssortorder"]) ) {
-         $_I61Cl["Userssortorder"] = $_POST["Userssortorder"];
+         $_Il0o6["Userssortorder"] = $_POST["Userssortorder"];
          if($_POST["Userssortorder"] == "ascending")
-           $_I6jfj .= " ASC";
+           $_IlJj8 .= " ASC";
            else
-           $_I6jfj .= " DESC";
+           $_IlJj8 .= " DESC";
          }
     } else {
-      $_I61Cl["Userssortfieldname"] = "SortUsername";
-      $_I61Cl["Userssortorder"] = "ascending";
+      $_Il0o6["Userssortfieldname"] = "SortUsername";
+      $_Il0o6["Userssortorder"] = "ascending";
     }
-    $_QJlJ0 .= $_I6jfj;
+    $_QLfol .= $_IlJj8;
 
-    $_QJlJ0 .= " LIMIT $_IJQQI, $_I6Q68";
+    $_QLfol .= " LIMIT $_Iil6i, $_Il1jO";
 
-    $_QJlJ0 = str_replace('{}', "$_Q8f1L.*", $_QJlJ0);
-    $_Q60l1 = mysql_query($_QJlJ0);
-    _OAL8F($_QJlJ0);
 
-    $_Q6tjl = "";
-    $_IIJi1 = _OP81D($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>");
-    $_IIJi1 = str_replace ('<LIST:ENTRY>', '', $_IIJi1);
-    $_IIJi1 = str_replace ('</LIST:ENTRY>', '', $_IIJi1);
+    $_QLo60 = "'%d.%m.%Y %H:%i:%s'";
+    if($INTERFACE_LANGUAGE != "de") {
+       $_QLo60 = "'%Y-%m-%d %H:%i:%s'";
+    }
 
-    $_j0616 = true;
-    while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-      $_Q66jQ = $_IIJi1;
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:ID>", "</LIST:ID>", $_Q6Q1C["id"]);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:USERNAME>", "</LIST:USERNAME>", $_Q6Q1C["Username"]);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:LASTNAME>", "</LIST:LASTNAME>", $_Q6Q1C["LastName"]);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:FIRSTNAME>", "</LIST:FIRSTNAME>", $_Q6Q1C["FirstName"]);
-      $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:EMAIL>", "</LIST:EMAIL>", $_Q6Q1C["EMail"]);
-      if(isset($resourcestrings[$INTERFACE_LANGUAGE][$_Q6Q1C["UserType"]]))
-        $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:USERTYPE>", "</LIST:USERTYPE>", $resourcestrings[$INTERFACE_LANGUAGE][$_Q6Q1C["UserType"]]);
+    $_QLfol = str_replace('{}', "`$_I18lo`.*, DATE_FORMAT(`$_I18lo`.`LastLogin`, $_QLo60) As LastLoginDateTime", $_QLfol);
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+
+    $_QlIf1 = "";
+    $_IC1C6 = _L81DB($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>");
+    $_IC1C6 = str_replace ('<LIST:ENTRY>', '', $_IC1C6);
+    $_IC1C6 = str_replace ('</LIST:ENTRY>', '', $_IC1C6);
+
+    $_jCjfI = true;
+    while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+      $_Ql0fO = $_IC1C6;
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:ID>", "</LIST:ID>", $_QLO0f["id"]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:USERNAME>", "</LIST:USERNAME>", $_QLO0f["Username"]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:LASTNAME>", "</LIST:LASTNAME>", $_QLO0f["LastName"]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:FIRSTNAME>", "</LIST:FIRSTNAME>", $_QLO0f["FirstName"]);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:EMAIL>", "</LIST:EMAIL>", $_QLO0f["EMail"]);
+      if(isset($resourcestrings[$INTERFACE_LANGUAGE][$_QLO0f["UserType"]]))
+        $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:USERTYPE>", "</LIST:USERTYPE>", $resourcestrings[$INTERFACE_LANGUAGE][$_QLO0f["UserType"]]);
         else
-        $_Q66jQ = _OPR6L($_Q66jQ, "<LIST:USERTYPE>", "</LIST:USERTYPE>", $resourcestrings[$INTERFACE_LANGUAGE]["NA"]);
+        $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:USERTYPE>", "</LIST:USERTYPE>", $resourcestrings[$INTERFACE_LANGUAGE]["NA"]);
 
-      $_Q66jQ = str_replace ('name="EditUserProperties"', 'name="EditUserProperties" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
-      $_Q66jQ = str_replace ('name="DeleteUser"', 'name="DeleteUser" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
-      $_Q66jQ = str_replace ('name="UsersIDs[]"', 'name="UsersIDs[]" value="'.$_Q6Q1C["id"].'"', $_Q66jQ);
+      $_Ql0fO = _L81BJ($_Ql0fO, "<LIST:LASTLOGIN>", "</LIST:LASTLOGIN>", $_QLO0f["LastLoginDateTime"]);
+      
+        
+      $_Ql0fO = str_replace ('name="EditUserProperties"', 'name="EditUserProperties" value="'.$_QLO0f["id"].'"', $_Ql0fO);
+      $_Ql0fO = str_replace ('name="DeleteUser"', 'name="DeleteUser" value="'.$_QLO0f["id"].'"', $_Ql0fO);
+      $_Ql0fO = str_replace ('name="UsersIDs[]"', 'name="UsersIDs[]" value="'.$_QLO0f["id"].'"', $_Ql0fO);
 
       if($UserType == "SuperAdmin") {
-        $_QJlJ0 = "SELECT count(id) FROM $_Q60QL WHERE users_id=".$_Q6Q1C["id"];
-        $_Qllf1 = mysql_query($_QJlJ0);
-        $_Q8OiJ = mysql_fetch_row($_Qllf1);
-        mysql_free_result($_Qllf1);
-        if($_Q8OiJ[0] > 0) {
-           $_Q66jQ = _OPR6L($_Q66jQ, "<CAN:DELETE>", "</CAN:DELETE>", $resourcestrings[$INTERFACE_LANGUAGE]["000105"]);
-           $_j0616 = false;
+        $_QLfol = "SELECT COUNT(id) FROM $_QL88I WHERE users_id=".$_QLO0f["id"];
+        $_It16Q = mysql_query($_QLfol, $_QLttI);
+        $_I1OfI = mysql_fetch_row($_It16Q);
+        mysql_free_result($_It16Q);
+        if($_I1OfI[0]) {
+           $_Ql0fO = _L81BJ($_Ql0fO, "<CAN:DELETE>", "</CAN:DELETE>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000105"], $_I1OfI[0]));
+           $_jCjfI = false;
         } else {
-          $_QJlJ0 = "SELECT users_id FROM $_QLtQO WHERE owner_id=".$_Q6Q1C["id"];
-          $_Qllf1 = mysql_query($_QJlJ0);
-          $_Q8OiJ = mysql_fetch_row($_Qllf1);
-          mysql_free_result($_Qllf1);
-          if($_Q8OiJ[0] > 0) {
-             $_Q66jQ = _OPR6L($_Q66jQ, "<CAN:DELETE>", "</CAN:DELETE>", $resourcestrings[$INTERFACE_LANGUAGE]["000106"]);
-             $_j0616 = false;
+          $_QLfol = "SELECT COUNT(users_id) FROM $_IfOtC WHERE owner_id=".$_QLO0f["id"];
+          $_It16Q = mysql_query($_QLfol, $_QLttI);
+          $_I1OfI = mysql_fetch_row($_It16Q);
+          mysql_free_result($_It16Q);
+          if($_I1OfI[0]) {
+             $_Ql0fO = _L81BJ($_Ql0fO, "<CAN:DELETE>", "</CAN:DELETE>", sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000106"], $_I1OfI[0]));
+             $_jCjfI = false;
           }
         }
       }
 
-      $_Q66jQ = str_replace("<CAN:DELETE>", "", $_Q66jQ);
-      $_Q66jQ = str_replace("</CAN:DELETE>", "", $_Q66jQ);
+      $_Ql0fO = str_replace("<CAN:DELETE>", "", $_Ql0fO);
+      $_Ql0fO = str_replace("</CAN:DELETE>", "", $_Ql0fO);
 
-      $_Q6tjl .= $_Q66jQ;
+      $_QlIf1 .= $_Ql0fO;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_Q6ICj = _OPR6L($_Q6ICj, "<LIST:ENTRY>", "</LIST:ENTRY>", $_Q6tjl);
+    $_QLoli = _L81BJ($_QLoli, "<LIST:ENTRY>", "</LIST:ENTRY>", $_QlIf1);
 
-    if(!$_j0616) {
-       $_Q6ICj = _OPR6L($_Q6ICj, "<CAN:DELETE>", "</CAN:DELETE>", "");
+    if(!$_jCjfI) {
+       $_QLoli = _L81BJ($_QLoli, "<CAN:DELETE>", "</CAN:DELETE>", "");
     } else {
-      $_Q6ICj = str_replace("<CAN:DELETE>", "", $_Q6ICj);
-      $_Q6ICj = str_replace("</CAN:DELETE>", "", $_Q6ICj);
+      $_QLoli = str_replace("<CAN:DELETE>", "", $_QLoli);
+      $_QLoli = str_replace("</CAN:DELETE>", "", $_QLoli);
     }
 
     // save the filter for later use
     if( isset($_POST["UsersSaveFilter"]) ) {
-       $_I61Cl["UsersSaveFilter"] = $_POST["UsersSaveFilter"];
+       $_Il0o6["UsersSaveFilter"] = $_POST["UsersSaveFilter"];
        include_once("savedoptions.inc.php");
-       _LQC66("BrowseUsersFilter", serialize($_I61Cl) );
+       _JOOFF("BrowseUsersFilter", serialize($_Il0o6) );
     }
 
-    $_Q6ICj = _OPFJA(array(), $_I61Cl, $_Q6ICj);
+    $_QLoli = _L8AOB(array(), $_Il0o6, $_QLoli);
 
 
-    return $_Q6ICj;
+    return $_QLoli;
   }
 
 ?>

@@ -19,27 +19,20 @@ body {
   margin-top: 8px;
 }
 
-@media only screen and (max-width: 640px) {
-   body {
-     min-width: 640px;
-     margin: 0px;
-   }
-   .PageContainerDialog, .container, .containerDialog {width: 620px; margin:0px; padding: 0px; border: 0px}
-   table, tbody, td {display: block}
-   .FormTable td.SubscribeColumn {padding-bottom: 2px; padding-top: 5px}
-   .FormTable td.SubscribeBtnTD, .FormTable td.SubscribeAction {padding-top: 20px}
-}
+.FormTable td.SubscribeColumn {width: 30%;}
+.FormTable td.PrivacyPolicyTD {text-align: justify;}
 
-@media only screen and (max-width: 320px) {
+@media only screen and (max-width: 720px) {
    body {
-     min-width: 320px;
+     min-width: 99%;
      margin: 0px;
    }
-   .PageContainerDialog, .container, .containerDialog {width: 300px; margin:0px; padding: 0px; border: 0px}
-   .FormTable td.SubscribeColumn {padding-bottom: 2px; padding-top: 5px}
-   .FormTable td.SubscribeBtnTD, .FormTable td.SubscribeAction {padding-top: 20px}
+   .PageContainerDialog, .container, .containerDialog {width: 100%; margin:0px; padding: 0px; border: 0px}
+   table, tbody, td {display: block}
+   .FormTable td.SubscribeColumn {padding-bottom: 2px; padding-top: 5px; width: auto;}
+   .FormTable td.SubscribeBtnTD, .FormTable td.SubscribeAction, .FormTable.PrivacyPolicyTD {padding-top: 20px}
    input[type=text]{
-     width: 260px
+     width: 98%;
    }
 }
 
@@ -94,6 +87,8 @@ body {
                      <input type="radio" name="u_Gender" value="m" checked="checked" id="u_Gender_m" />&nbsp;<label for="u_Gender_m">m&auml;nnlich</label>
                      <br />
                      <input type="radio" name="u_Gender" value="w" id="u_Gender_f" />&nbsp;<label for="u_Gender_f">weiblich</label>
+                     <br />
+                     <input type="radio" name="u_Gender" value="d" id="u_Gender_d" />&nbsp;<label for="u_Gender_d">divers</label>
                   </td>
                 </tr>
                 </TABLE:GENDER>
@@ -117,16 +112,27 @@ body {
                 <TABLE:USERBOOL>
                 <tr>
                   <td class="SubscribeColumn">
-                   <label for="u_UserFieldBool"><DESCRIPTION></DESCRIPTION></label>&nbsp;*
+                     &nbsp;
                   </td>
                   <td>
-                    <select name="u_UserFieldBool" size="1" style="max-width: 420px;">
-                      <option value="0">FALSCH</option>
-                      <option value="1">WAHR</option>
-                    </select>
+                   <input type="checkbox" name="u_UserFieldBool" value="1" id="u_UserFieldBool" />&nbsp;<label for="u_UserFieldBool"><DESCRIPTION></DESCRIPTION></label>
                   </td>
                 </tr>
                 </TABLE:USERBOOL>
+
+                <TABLE:PERSONALIZEDTRACKING>
+                <tr>
+                  <td class="SubscribeColumn">
+                   <label for="u_PersonalizedTracking"><DESCRIPTION></DESCRIPTION></label>&nbsp;*
+                  </td>
+                  <td>
+                   <select name="u_PersonalizedTracking" id="u_PersonalizedTracking" size="1">
+                     <option value="0">Nein</option>
+                     <option value="1">Ja</option>
+                   </select>
+                  </td>
+                </tr>
+                </TABLE:PERSONALIZEDTRACKING>
 
                 <TABLE:GROUPS>
                 <tr>
@@ -136,8 +142,8 @@ body {
                 </tr>
                 <tr>
                   <td class="SubscribeColumn">
-                    Anmeldung in folgende Gruppen
-                    <span style="font-size: 8pt;">(Strg/Umsch k&ouml;nnen mehrere Gruppen gew&auml;hlt werden)</span>
+                    <GroupsDescriptionLabel></GroupsDescriptionLabel>
+                    <span style="font-size: 8pt;">(Strg/Umsch k&ouml;nnen mehrere Eintr&auml;ge gew&auml;hlt werden)</span>
                   </td>
                   <td>
                     <select name="RecipientGroups[]" size="5" multiple="multiple" style="max-width: 420px; width: 420px;">
@@ -155,7 +161,7 @@ body {
                 </tr>
                 <tr>
                   <td class="SubscribeColumn">
-                    Anmeldung in folgende Gruppen
+                    <GroupsDescriptionLabel></GroupsDescriptionLabel>
                   </td>
                   <td>
                     <checkbox></checkbox>
@@ -189,8 +195,8 @@ body {
                     Gew&uuml;nschte Aktion
                   </td>
                   <td>
-                    <input type="radio" name="Action" value="subscribe" id="Action1" />&nbsp;<label for="Action1">Anmelden</label><br />
-                    <input type="radio" name="Action" value="unsubscribe" id="Action2" />&nbsp;<label for="Action2">Abmelden</label><br />
+                    <input type="radio" name="Action" value="subscribe" id="Action1" onclick="if(document.getElementById('PrivacyPolicy')) document.getElementById('PrivacyPolicy').style.display='';" />&nbsp;<label for="Action1">Anmelden</label><br />
+                    <input type="radio" name="Action" value="unsubscribe" id="Action2" onclick="if(document.getElementById('PrivacyPolicy')) document.getElementById('PrivacyPolicy').style.display='none';" />&nbsp;<label for="Action2">Abmelden</label><br />
                   </td>
                 </tr>
                 </TABLE:SUBUNSUB>
@@ -208,6 +214,16 @@ body {
                   </td>
                 </tr>
                 </TABLE:CAPTCHA>
+
+                <if:PrivacyPolicyURL>
+                <tr>
+                  <td colspan="2" class="PrivacyPolicyTD">
+                    <span class="PrivacyPolicy" id="PrivacyPolicy">
+                      <PrivacyPolicyURLText></PrivacyPolicyURLText>
+                    </span>
+                  </td>
+                </tr>
+                </if:PrivacyPolicyURL>
 
                 <tr>
                   <td colspan="2" class="SubscribeBtnTD">

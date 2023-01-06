@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital@0;1&display=swap');
+
 * {
 	margin: 0;
 	padding: 0;
@@ -13,11 +15,17 @@ body {
   margin: 0px;
   min-width: 950px;
   width: 99%;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Roboto, Arial, Helvetica, sans-serif;
   font-size: 1.0em;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
+}
+
+a, a:link, a:visited, a:hover{
+ color: #3300FF;
+ text-decoration: underline;
+ cursor: pointer;
 }
 
 .clearer {clear: both;}
@@ -144,7 +152,7 @@ border: 0;
 
   .header .LoggedInUser {
     text-align: right;
-    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-family: Roboto, Verdana, Arial, Helvetica, sans-serif;
     font-size: 0.9em;
     padding-right: 8px;
     letter-spacing: normal;
@@ -164,7 +172,7 @@ border: 0;
 	margin-right: auto;
 	padding: 8px;
 	font-weight:bold;
-	font-size: 0.8em;
+	font-size: 0.85em;
 	color: #758079;
 }
 
@@ -262,12 +270,18 @@ border: 0;
     background: transparent url(../images/menu_bg.jpg) top left repeat-x;
     padding-top:3px;
     padding-left:4px;
-    height: 21px;
+    height: 22px;
 
   }
 
   .headerDialog .MenuTable a {
     color: #FFFFFF;
+    text-decoration: none;
+  }
+
+  .headerDialog .MenuTable img {
+    width: 14px;
+    height: 14px;
   }
 
 .topDialog {
@@ -338,7 +352,7 @@ legend{
 }
 
 input, textarea, select {
- font-family: Arial, Helvetica, sans-serif;
+ font-family: Roboto, Arial, Helvetica, sans-serif;
  font-size: 0.95em;
 	font-weight: normal;
 	color: #000000;
@@ -364,6 +378,11 @@ fieldset input[type=submit], fieldset input[type=button] {
 input[type=image] {
  margin: 0px;
  padding:1px;
+}
+
+input[readonly=readonly] {
+ color: #C0C0C0;
+ cursor: default;
 }
 
 #ShowHideFilterBox input[type=submit]{
@@ -422,12 +441,16 @@ option {
  font-size: 0.85em;
 }
 
-.FormTable td.highlighted {
+.FormTable td.highlighted, .FormTable td.selected {
   text-align: center;
   background-color: #dff1ff; /*FFD69A;*/
 		color: #000000;
 		white-space: nowrap;
 		padding: 6px;
+}
+
+.FormTable td.selected {
+  font-weight: bolder;
 }
 
 .FormTable .SmallText {
@@ -537,7 +560,7 @@ option {
 /*  FixedTable */
 	.FixedTable {
   font-weight:  normal;
-  font-size: 0.85em;
+  font-size: 0.89em;
   letter-spacing: normal;
 		border:1px dotted #BABABA;
 		border-collapse: collapse;
@@ -567,7 +590,7 @@ option {
 
 	.FixedTable thead td a{
 		font-weight:normal;
-		font-size: 0.8em;
+		font-size: 0.89em;
 		color:#000000;
 		background-color: #EAEAEA;
 	}
@@ -791,11 +814,16 @@ option {
 /* Firefox disabled controls */
 [disabled] {
   color:#C0C0C0;
+  pointer-events: none;
 }
 
 /*  Dialog font size */
 .modalDialog_contentDiv{
   font-size: 0.90em;
+}
+
+.modalDialog_contentDiv label, .modalDialog_contentDiv input[type=checkbox] {
+  cursor: pointer;
 }
 
 .modaldialogTitle{
@@ -805,7 +833,7 @@ option {
    height: 22px;
    color: white;
    font-size: 0.80em;
-   font-weight: bold;
+   font-weight: normal;
    width: 100%;
    display: block;
 }
@@ -817,4 +845,8 @@ div#dhtmlgoodies_tabView + br, div#dhtmlgoodies_tabView + br + br {display: none
 /* AJAX loading Cursor */
 .ajaxLoading {cursor: progress !important;}
 
+.FctButton {border:0;background:transparent url("../images/btnCustomFct.png") no-repeat 0 0; width: 24px; height: 24px;border: 1px solid transparent;}
+.EmojiButton {border:0;background:transparent url("../images/smiley_face_24.png") no-repeat 0 0; width: 24px; height: 24px;border: 1px solid transparent;}
+.ShuffleButton {border:0;background:transparent url("../images/btnShuffle.png") no-repeat 0 0; width: 22px; height: 22px;border: 1px solid transparent;}
+.ExternalButton:hover {border: 1px solid #666666;}
 

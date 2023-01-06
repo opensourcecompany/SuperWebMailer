@@ -51,7 +51,7 @@ class Net_IDNA
         $version   = explode( '.', phpversion() );
         $handler   = ((int)$version[0] > 4) ? 'php5' : 'php4';
         $class     = 'Net_IDNA_' . $handler;
-        $classfile = 'PEAR/IDNA/' . $handler . '.php';
+        $classfile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'IDNA/' . $handler . '.php';
 
         /*
          * Attempt to include our version of the named class, but don't treat

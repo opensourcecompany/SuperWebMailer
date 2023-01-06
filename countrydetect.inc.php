@@ -24,9 +24,9 @@
   include_once("geolocation.inc.php");
 
   function GetCountryFromIP($IP){
-    $_j6Qlo = new _OCB1C('./geoip/');
-    if($_j6Qlo)
-      return $_j6Qlo->GetCountryFromIP($IP);
+    $_JIfIj = new _LBPJO('./geoip/');
+    if($_JIfIj)
+      return $_JIfIj->GetCountryFromIP($IP);
       else
       return "UNKNOWN_COUNTRY";
   }

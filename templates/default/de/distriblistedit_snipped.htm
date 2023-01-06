@@ -40,17 +40,17 @@
 
         function ConfirmEditInboxesEvent(value) {
          if(value)
-           window.location.href="./browseinboxes.php";
+           CreateFormAndPostIt("./browseinboxes.php");
         }
 
         function ConfirmEditMTAsEvent(value) {
          if(value)
-           window.location.href="./browsemtas.php";
+           CreateFormAndPostIt("./browsemtas.php");
         }
 
         function ConfirmEditMailinglistsEvent(value) {
          if(value)
-           window.location.href="./browsemailinglists.php";
+           CreateFormAndPostIt("./browsemailinglists.php");
         }
 
         // Firefox fix it returns also textnodes
@@ -153,7 +153,7 @@
                   	<div class="dhtmlgoodies_aTab">
                       <fieldset>
                       <legend><SHOWHIDE:TOOLTIPS>
-                                  <img onmouseover="showTooltip(event, 'Geben Sie der Verteilerliste einen eindeutigen Namen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  <img onmouseover="showTooltip(event, 'Geben Sie der Verteilerliste einen eindeutigen Namen und legen Sie Aktivit&auml;t und Verhalten der Verteilerliste fest.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
                                   </SHOWHIDE:TOOLTIPS>Allgemein</legend>
                       <br />
                           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
@@ -173,6 +173,13 @@
                                 </td>
                                 <td><input type="checkbox" id="IsActive" name="IsActive" /><label for="IsActive">&nbsp;Verteilerliste ist aktiv</label></td>
                               </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">Verhalten der Verteilerliste
+                                </td>
+                                <td><input type="checkbox" id="WorkAsRealMailingList" name="WorkAsRealMailingList" onclick="WorkAsRealMailingListClick()" /><label for="WorkAsRealMailingList">&nbsp;Verteilerliste soll wie ein Mailing List Server E-Mails mit originalen Absender-/Empf&auml;nger-Angaben versenden</label></td>
+                              </tr>
+
                             </tbody>
                           </table>
                       </fieldset>
@@ -184,16 +191,23 @@
                             <tbody>
                               <tr>
                                 <td colspan="2">
-                                  <input type="checkbox" id="SendConfirmationRequired" name="SendConfirmationRequired" onclick="DisableControlsById('SendConfirmationRequired', Array('SendConfirmationRequiredSenderAdmin1', 'SendConfirmationRequiredSenderAdmin2' ) ); DisableControlsById('SendConfirmationRequiredSenderAdmin2', Array('SendInfoMailToSender') );" />&nbsp;<label for="SendConfirmationRequired">E-Mail mit Best&auml;tigungslink f&uuml;r den Start des E-Mail-Versands versenden.</label><SHOWHIDE:TOOLTIPS>
-                                  <img onmouseover="showTooltip(event, 'Versendet eine E-Mail mit Best&auml;tigungslink an den Absender der E-Mail, welcher die E-Mail an die Verteilerliste gesendet hat, oder an die E-Mail-Adresse des Admins. Erst durch Klick auf diesen Link wird der E-Mail-Versand begonnen. (EMPFOHLEN!)');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  <input type="checkbox" id="SendConfirmationRequired" name="SendConfirmationRequired" onclick="DisableControlsById('SendConfirmationRequired', Array('SendConfirmationRequiredSenderAdmin1', 'SendConfirmationRequiredSenderAdmin2', 'SendConfirmationRequiredSenderAdmin3' ) ); DisableItem('SendInfoMailToSender', GetCheckBoxChecked('SendConfirmationRequiredSenderAdmin2'));DisableItem('SendInfoMailToSender1', GetCheckBoxChecked('SendConfirmationRequiredSenderAdmin3'));DisableControlsById('SendConfirmationRequiredSenderAdmin3', Array('SendConfirmationLinkToThisEMailAddresses') );" />&nbsp;<label for="SendConfirmationRequired">E-Mail mit Best&auml;tigungslink f&uuml;r den Start des E-Mail-Versands versenden.</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Versendet eine E-Mail mit Best&auml;tigungslink an den Absender der E-Mail, welcher die E-Mail an die Verteilerliste gesendet hat, an die E-Mail-Adresse des Admins oder eine beliebige E-Mail-Adresse, z.B. eines Moderators. Erst durch Klick auf diesen Link wird der E-Mail-Versand begonnen. (EMPFOHLEN!)');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
                                   </SHOWHIDE:TOOLTIPS>
                                   <br />
                                   <br />
                                   <div style="margin-left: 20px">
-                                    <input type="radio" name="SendConfirmationRequiredSenderAdmin" value="1" id="SendConfirmationRequiredSenderAdmin1" onclick="DisableControlsById('SendConfirmationRequiredSenderAdmin2', Array('SendInfoMailToSender') );" /><label for="SendConfirmationRequiredSenderAdmin1">&nbsp;Best&auml;tigungslink an den Versender der E-Mail versenden</label><br />
-                                    <input type="radio" name="SendConfirmationRequiredSenderAdmin" value="2" id="SendConfirmationRequiredSenderAdmin2" onclick="DisableControlsById('SendConfirmationRequiredSenderAdmin2', Array('SendInfoMailToSender') );" /><label for="SendConfirmationRequiredSenderAdmin2">&nbsp;Best&auml;tigungslink an den Admin versenden</label><br />
+                                    <input type="radio" name="SendConfirmationRequiredSenderAdmin" value="1" id="SendConfirmationRequiredSenderAdmin1" onclick="DisableItem('SendInfoMailToSender', GetCheckBoxChecked('SendConfirmationRequiredSenderAdmin2')); DisableItem('SendInfoMailToSender1', GetCheckBoxChecked('SendConfirmationRequiredSenderAdmin3')); DisableControlsById('SendConfirmationRequiredSenderAdmin3', Array('SendConfirmationLinkToThisEMailAddresses') );" /><label for="SendConfirmationRequiredSenderAdmin1">&nbsp;Best&auml;tigungslink an den Versender der E-Mail versenden</label><br />
+                                    <input type="radio" name="SendConfirmationRequiredSenderAdmin" value="2" id="SendConfirmationRequiredSenderAdmin2" onclick="DisableItem('SendInfoMailToSender', GetCheckBoxChecked('SendConfirmationRequiredSenderAdmin2')); DisableItem('SendInfoMailToSender1', GetCheckBoxChecked('SendConfirmationRequiredSenderAdmin3')); DisableControlsById('SendConfirmationRequiredSenderAdmin3', Array('SendConfirmationLinkToThisEMailAddresses') );" /><label for="SendConfirmationRequiredSenderAdmin2">&nbsp;Best&auml;tigungslink an den Admin versenden</label><br />
                                     <div style="margin-left: 20px">
                                       <input type="checkbox" name="SendInfoMailToSender" id="SendInfoMailToSender" /><label for="SendInfoMailToSender">&nbsp;Informations-E-Mail an den Versender der E-Mail senden</label>
+                                    </div>
+                                    <input type="radio" name="SendConfirmationRequiredSenderAdmin" value="3" id="SendConfirmationRequiredSenderAdmin3" onclick="DisableItem('SendInfoMailToSender1', GetCheckBoxChecked('SendConfirmationRequiredSenderAdmin3'));DisableItem('SendInfoMailToSender', GetCheckBoxChecked('SendConfirmationRequiredSenderAdmin2')); DisableControlsById('SendConfirmationRequiredSenderAdmin3', Array('SendConfirmationLinkToThisEMailAddresses') );" /><label for="SendConfirmationRequiredSenderAdmin3">&nbsp;Best&auml;tigungslink an folgende E-Mail-Adresse versenden</label><br />
+                                    <div style="margin-left: 20px">
+                                      <input type="text" name="SendConfirmationLinkToThisEMailAddresses" id="SendConfirmationLinkToThisEMailAddresses" size="50" />
+                                    </div>
+                                    <div style="margin-left: 20px">
+                                      <input type="checkbox" name="SendInfoMailToSender1" id="SendInfoMailToSender1" /><label for="SendInfoMailToSender1">&nbsp;Informations-E-Mail an den Versender der E-Mail senden</label>
                                     </div>
                                   </div>
 
@@ -203,7 +217,7 @@
                               <tr>
                                 <td colspan="2">
                                    <input type="radio" name="AcceptAllSenderEMailAddresses" value="1" id="AcceptAllSenderEMailAddresses1" onclick="AcceptAllSenderEMailAddressesClick();" /><label for="AcceptAllSenderEMailAddresses1">&nbsp;E-Mails von allen Absender-E-Mail-Adressen f&uuml;r den Verteiler akzeptieren</label><br />
-                                   <input type="radio" name="AcceptAllSenderEMailAddresses" value="2" id="AcceptAllSenderEMailAddresses3" onclick="AcceptAllSenderEMailAddressesClick();" /><label for="AcceptAllSenderEMailAddresses3">&nbsp;E-Mails nur von Absender-E-Mail-Adressen f&uuml;r den Verteiler akzeptieren, die sich in der Empf&auml;ngerliste befinden</label><br />
+                                   <input type="radio" name="AcceptAllSenderEMailAddresses" value="2" id="AcceptAllSenderEMailAddresses3" onclick="AcceptAllSenderEMailAddressesClick();" /><label for="AcceptAllSenderEMailAddresses3">&nbsp;E-Mails nur von Absender-E-Mail-Adressen f&uuml;r den Verteiler akzeptieren, die sich in der Empf&auml;ngerliste und gew&auml;hlten Empf&auml;ngergruppen befinden</label><br />
                                    <input type="radio" name="AcceptAllSenderEMailAddresses" value="0" id="AcceptAllSenderEMailAddresses2" onclick="AcceptAllSenderEMailAddressesClick();" /><label for="AcceptAllSenderEMailAddresses2">&nbsp;E-Mails nur von diesen Absender-E-Mail-Adressen f&uuml;r den Verteiler akzeptieren</label>
                                    <br /><br />
                                    <select name="AcceptSenderEMailAddresses[]" id="AcceptSenderEMailAddresses[]" multiple="multiple" style="min-width: 800px" size="10" onchange="AcceptAllSenderEMailAddressesClick();" onclick="AcceptAllSenderEMailAddressesClick();">
@@ -247,6 +261,29 @@
                                 <input type="text" name="SendReportToEMailAddressEMailAddress" id="SendReportToEMailAddressEMailAddress" size="30" maxlength="255" />
                                 </td>
                               </tr>
+                            </tbody>
+                          </table>
+                      </fieldset>
+
+                      <fieldset>
+                      <legend>Automatisches L&ouml;schen</legend>
+                      <br />
+                          <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
+                            <tbody>
+                              <tr>
+                                <td class="MessageDescriptionColumn" colspan="2">
+                                <input type="checkbox" id="AutoRemoveEMails" name="AutoRemoveEMails" onclick="AutoRemoveEMailsClick();" /><label for="AutoRemoveEMails">&nbsp;Versendete oder nicht best&auml;tigte E-Mails dauerhaft l&ouml;schen</label></td>
+                              </tr>
+
+                              <tr>
+                                <td class="MessageDescriptionColumn">
+                                  &nbsp;
+                                </td>
+                                <td>
+                                  <label for="AutoRemoveEMailDays">Nach</label>&nbsp;<input type="text" name="AutoRemoveEMailDays" id="AutoRemoveEMailDays" size="3" maxlength="3" style="text-align: right;" />&nbsp;<label for="AutoRemoveEMailDays">Tage(n) dauerhaft l&ouml;schen.</label>
+                                </td>
+                              </tr>
+
                             </tbody>
                           </table>
                       </fieldset>
@@ -320,6 +357,14 @@
                                 </td>
                                 <td>
                                 <input type="text" name="MaxEMailsToProcess" size="3" style="text-align: right" />
+                                <br /><br />
+                                </td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn" valign="top">Maximale Gr&ouml;&szlig;e einer E-Mail, die abgerufen werden sollen
+                                </td>
+                                <td>
+                                <input type="text" name="MaxEMailSize" size="10" style="text-align: right" />&nbsp;Byte
                                 <br /><br />
                                 </td>
                               </tr>
@@ -444,7 +489,7 @@
                       <IF:CANCHANGEEMAILADDRESSES>
                       <fieldset id="CANCHANGEEMAILADDRESSES">
                       <legend><SHOWHIDE:TOOLTIPS>
-                                  <img onmouseover="showTooltip(event, 'F&uuml;r den Versand der E-Mails wird der Absender der E-Mail verwendet, welche an den Verteiler gesendet wurde. Sollen andere Absenderangaben verwendet werden, dann geben Sie diese hier an.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  <img onmouseover="showTooltip(event, 'Diese Angabe ist nur &auml;nderbar, wenn nicht wie ein Mailing List Server versendet werden soll.<br />F&uuml;r den Versand der E-Mails wird der Absender der E-Mail verwendet, welche an den Verteiler gesendet wurde. Sollen andere Absenderangaben verwendet werden, dann geben Sie diese hier an.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
                                   </SHOWHIDE:TOOLTIPS>E-Mail-Adressen f&uuml;r den E-Mail-Versand</legend>
                       <br />
                           <table class="FormTable" cellspacing="0" cellpadding="0" border="0">
@@ -547,6 +592,15 @@
                               </tr>
                               <tr>
                                 <td class="MessageDescriptionColumn">
+                                  <label for="NoPOSTToDistributionList">Posten an Verteilerliste nicht erlauben</label><SHOWHIDE:TOOLTIPS>
+                                  <img onmouseover="showTooltip(event, 'Setzt den E-Mail-Header LIST-POST: NO. E-Mail-Programme, die den E-Mail-Header unterst&uuml;tzen, bieten das Versenden einer E-Mail an die Verteilerliste nicht an.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  </SHOWHIDE:TOOLTIPS>
+                                 <br />
+                                </td>
+                                <td><input type="checkbox" name="NoPOSTToDistributionList" id="NoPOSTToDistributionList" /></td>
+                              </tr>
+                              <tr>
+                                <td class="MessageDescriptionColumn">
                                   <label for="AddXLoop">X-Loop Header-Feld beim Versand einer E-Mail hinzuf&uuml;gen (empfohlen)</label><SHOWHIDE:TOOLTIPS>
                                   <img onmouseover="showTooltip(event, 'Der Mail-Looping-Schutz dient dazu Mailschleifen zu vermeiden, d.h. E-Mails von anderen Respondern werden nicht beantwortet, da es ansonsten zu unendlich vielen versendeten E-Mails kommen kann.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
                                   </SHOWHIDE:TOOLTIPS>
@@ -555,7 +609,7 @@
                                 <td><input type="checkbox" name="AddXLoop" id="AddXLoop" /></td>
                               </tr>
                               <tr>
-                                <td class="MessageDescriptionColumn">Lesebest&auml;tigung anfordern<SHOWHIDE:TOOLTIPS>
+                                <td class="MessageDescriptionColumn"><label for="ReturnReceipt">Lesebest&auml;tigung anfordern</label><SHOWHIDE:TOOLTIPS>
                                   <img onmouseover="showTooltip(event, 'Fordert eine Lesebest&auml;tigung an. Nicht jeder Server oder E-Mail-Programm unterst&uuml;tzt diese Funktion. Beim Versand sehr vieler E-Mails kann diese Funktion Ihren eigenen Mailserver stark belasten, da viele E-Mails mit der Lesebest&auml;tigung zur&uuml;ckgesendet werden.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
                                   </SHOWHIDE:TOOLTIPS>
                                 </td>
@@ -563,20 +617,20 @@
                               </tr>
                               <tr>
                                 <td class="MessageDescriptionColumn"><label for="ReturnPathEMailAddress">E-Mail-Adresse f&uuml;r die Return-Path-Angabe</label><SHOWHIDE:TOOLTIPS>
-                                  <img onmouseover="showTooltip(event, 'Geben Sie eine E-Mail-Adresse f&uuml;r die Zustellung unzustellbarer E-Mails an.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
+                                  <img onmouseover="showTooltip(event, 'Diese Angabe ist nur &auml;nderbar, wenn nicht wie ein Mailing List Server versendet werden soll, ansonsten wird die E-Mail-Adresse aus der Return-Path-Angabe der Empf&auml;ngerliste automatisch verwendet.<br />Geben Sie eine E-Mail-Adresse f&uuml;r die Zustellung unzustellbarer E-Mails an.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
                                   </SHOWHIDE:TOOLTIPS>
                                 </td>
                                 <td><input type="text" id="ReturnPathEMailAddress" name="ReturnPathEMailAddress" maxlength="128" size="50" /></td>
                               </tr>
                               <tr>
-                                <td class="MessageDescriptionColumn">Sichtbare Kopien-Empf&auml;nger (Cc)<SHOWHIDE:TOOLTIPS>
+                                <td class="MessageDescriptionColumn"><label for="CcEMailAddresses">Sichtbare Kopien-Empf&auml;nger (Cc)</label><SHOWHIDE:TOOLTIPS>
                                   <img onmouseover="showTooltip(event, 'Geben Sie eine oder mehrere E-Mail-Adressen mit Komma (,) getrennt an, die eine sichtbare Kopie(Cc) erhalten sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
                                   </SHOWHIDE:TOOLTIPS>
                                 </td>
                                 <td><input type="text" id="CcEMailAddresses" name="CcEMailAddresses" size="50" /></td>
                               </tr>
                               <tr>
-                                <td class="MessageDescriptionColumn">Unsichtbare Blindkopien-<br />Empf&auml;nger (BCc)<SHOWHIDE:TOOLTIPS>
+                                <td class="MessageDescriptionColumn"><label for="BCcEMailAddresses">Unsichtbare Blindkopien-<br />Empf&auml;nger (BCc)</label><SHOWHIDE:TOOLTIPS>
                                   <img onmouseover="showTooltip(event, 'Geben Sie eine oder mehrere E-Mail-Adressen mit Komma (,) getrennt an, die eine unsichtbare Blindkopie(BCc) erhalten sollen.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
                                   </SHOWHIDE:TOOLTIPS>
                                 </td>
@@ -584,7 +638,7 @@
                               </tr>
                               <tr>
                                 <td class="MessageDescriptionColumn" valign="top">
-                                  List-Unsubscribe-Header-Feld in die E-Mails f&uuml;r die Abmeldung einf&uuml;gen<SHOWHIDE:TOOLTIPS>
+                                  <label for="AddListUnsubscribe">List-Unsubscribe-Header-Feld in die E-Mails f&uuml;r die Abmeldung einf&uuml;gen</label><SHOWHIDE:TOOLTIPS>
                                   <img onmouseover="showTooltip(event, 'Das List-Unsubscribe Feld mit dem Abmeldelink kann in den unsichtbaren Header der E-Mail aufgenommen werden, so dass bei diversen webbasierten Anbietern z.B. Microsoft Hotmail eine direkte Abmeldung vom Newsletter oberhalb der angezeigten E-Mail mit einem Klick m&ouml;glich ist.');return false" onmouseout="hideTooltip()" src="images/help_icon.gif" width="16" height="16" class="hintimage" alt="" />
                                   </SHOWHIDE:TOOLTIPS>
                                 </td>
@@ -610,7 +664,7 @@
                                <br /><a href="./browsemtas.php" onclick="MessageBox('Best&auml;tigung', 'Alle ver&auml;nderten Einstellungen auf diesen Seite(n) gehen verloren.<br /><br />M&ouml;chten Sie jetzt wirklich neue Versandvarianten definieren?', 3, 320, 160, 'ConfirmEditMTAsEvent'); return false;">(Neue Versandvariante definieren)</a>
                                </td>
                                <td>
-                                  <div class="scrollbox" style=" width: 368px; height: 150px" name="MTAsScrollbox" id="MTAsScrollbox">
+                                  <div class="scrollbox" name="MTAsScrollbox" id="MTAsScrollbox" style="width: 368px; height: 150px">
                                     <SHOW:MTAS>
                                       <span class="scrollboxSpan"><input type="checkbox" name="mtas[]" value="<MTAId></MTAId>" id="MTAsLabelId" onclick="MTAClick(this, 'MTAsScrollbox');" />&nbsp;<label for="MTAsLabelId"><MTAName></MTAName></label><br /></span>
                                     </SHOW:MTAS>
@@ -1032,7 +1086,7 @@
                         )
 
           	            for(var j=0; j<CBs.length; j++) {
-                            CB = document.getElementById(CBs[j]);
+                            var CB = document.getElementById(CBs[j]);
                             if(CB == null) continue;
                             while (CB.length > 1)
                                CB.options[CB.length - 1] = null;
@@ -1040,7 +1094,7 @@
 
                             for(var i=0; i<arrPlaceholderItems.length; i++){
                               if(j<2 && arrPlaceholderItems[i][0].indexOf('Link') > 0) continue; // No Unsubscribe/Edit link
-                              newOption = new Option(html_entity_decode(arrPlaceholderItems[i][1]), arrPlaceholderItems[i][0], false, false);
+                              var newOption = new Option(html_entity_decode(arrPlaceholderItems[i][1]), arrPlaceholderItems[i][0], false, false);
                               CB.options[CB.length] = newOption;
                             }
 
@@ -1058,7 +1112,7 @@
                         )
 
           	            for(var j=0; j<CBs.length; j++) {
-                            CB = document.getElementById(CBs[j]);
+                            var CB = document.getElementById(CBs[j]);
                             if(CB == null) continue;
                             while (CB.length > 1)
                                CB.options[CB.length - 1] = null;
@@ -1066,7 +1120,7 @@
 
                             for(var i=0; i<arrDistribListConfInfoPlaceholderItems.length; i++){
                               if( (j == 0 || j > 1) && i == arrDistribListConfInfoPlaceholderItems.length - 1) continue;
-                              newOption = new Option(html_entity_decode(arrDistribListConfInfoPlaceholderItems[i][1]), arrDistribListConfInfoPlaceholderItems[i][0], false, false);
+                              var newOption = new Option(html_entity_decode(arrDistribListConfInfoPlaceholderItems[i][1]), arrDistribListConfInfoPlaceholderItems[i][0], false, false);
                               CB.options[CB.length] = newOption;
                             }
 
@@ -1086,10 +1140,7 @@
 
                    DisableControlsById('GoogleAnalyticsActive', Array('GoogleAnalytics_utm_source', 'GoogleAnalytics_utm_medium', 'GoogleAnalytics_utm_term', 'GoogleAnalytics_utm_content', 'GoogleAnalytics_utm_campaign'  ) );
 
-
-                   DisableControlsById('SendConfirmationRequired', Array('SendConfirmationRequiredSenderAdmin1', 'SendConfirmationRequiredSenderAdmin2' ) );
-
-                   DisableControlsById('SendConfirmationRequiredSenderAdmin2', Array('SendInfoMailToSender' ) );
+                   document.getElementById('SendConfirmationRequired').onclick();
 
                    function ActivateDeactivateSenderAddresses(){
                      if(document.getElementById('OverwriteSenderAddress') == null) return;
@@ -1185,8 +1236,6 @@
 
                     $("#Loading").hide();
                    }
-                   load_groups(false);
-
 
                    if(document.getElementById('MTAsScrollbox') != null) {
                      addScrollboxRolloverEffect('MTAsScrollbox','scrollboxRollOverEffect', 'scrollboxclickEffect');
@@ -1334,9 +1383,6 @@
 
                    DisableControl( document.getElementById('SendReportToEMailAddress').checked, document.getElementById('SendReportToEMailAddressEMailAddress'), null);
 
-
-                   ShowHideSenderEMailAddresses();
-
                    function ShowHideSenderEMailAddresses(){
                       if(document.getElementById('maillists_id') == null) return;
                       if(document.getElementById('CANCHANGEEMAILADDRESSES') == null) return;
@@ -1353,6 +1399,34 @@
 
 
                    }
+
+                   function WorkAsRealMailingListClick(){
+                     var WorkAsRealMailingList = document.getElementById('WorkAsRealMailingList').checked;
+                     if(document.getElementById('CANCHANGEEMAILADDRESSES')){
+                       if(WorkAsRealMailingList){
+                          document.getElementById('OverwriteSenderAddress').checked = false;
+                       }
+                       DisableItem('OverwriteSenderAddress', !WorkAsRealMailingList);
+                     }
+                     if(WorkAsRealMailingList){
+                        document.getElementById('ReturnReceipt').checked = false;
+                        document.getElementById('ReturnPathEMailAddress').checked = false;
+                     }
+                     DisableItem('ReturnReceipt', !WorkAsRealMailingList);
+                     DisableItem('ReturnPathEMailAddress', !WorkAsRealMailingList);
+                   }
+
+                   function AutoRemoveEMailsClick(){
+                    var AutoRemoveEMails = document.getElementById('AutoRemoveEMails').checked;
+                    DisableItem('AutoRemoveEMailDays', AutoRemoveEMails);
+                   }
+
+                   $(document).ready(function(){
+                     ShowHideSenderEMailAddresses();
+                     load_groups(false);
+                     WorkAsRealMailingListClick();
+                     AutoRemoveEMailsClick();
+                   });
 
                    //AUTO_SCRIPT_CODE_PLACEHOLDER//
 
@@ -1378,7 +1452,7 @@
       </div>
 
       <script type="text/javascript" src="ckeditor/ckeditor.js"></script>
-
+      <script type="text/javascript" src="templates/default/de/ckeditor_imageresize.js"></script>
 
       <script language="JavaScript">
       <!--
@@ -1396,6 +1470,8 @@
                  DisableItem("PlaceHoldersCB", false);
                  DisableItem("LoadFCKEditorBtn", false);
                  DisableItem("HideFCKEditorBtn", true);
+
+                 AddImageSizeChangedEventToCKEditor('SignatureHTMLText');
 
               }
          	}
@@ -1424,6 +1500,8 @@
           DisableItem("HideFCKEditorBtn", false);
 
           ShowItem('dhtmlgoodies_tabView1', document.getElementById('AddSignature').checked );
+
+          InsertLoadingStatusOnSubmit();
 
       //-->
       </script>

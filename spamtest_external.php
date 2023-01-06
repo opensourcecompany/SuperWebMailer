@@ -19,32 +19,32 @@ $UPLOADDIR = "/srv/www/vhosts/ADOMAIN.DE/httpdocs/SpamTest/temp/";
 
 ####################### Ab hier nichts mehr aendern ###########################
 if (move_uploaded_file($_FILES ['SpamTestFile']['tmp_name'], $UPLOADDIR.$_FILES['SpamTestFile']['name'])){
-    $_jt8LJ = $UPLOADDIR.$_FILES ['SpamTestFile']['name'];
-    chmod($_jt8LJ, 0777);
-    $_I00tC = $_FILES ['SpamTestFile']['size'];
+    $_JfIIf = $UPLOADDIR.$_FILES ['SpamTestFile']['name'];
+    chmod($_JfIIf, 0777);
+    $_It18j = $_FILES ['SpamTestFile']['size'];
     
-    $_6f6oo = ('spamassassin -t -L <'.$_jt8LJ.' >'.$_jt8LJ.'.out');
-    system ($_6f6oo);
+    $_fl801 = ('spamassassin -t -L <'.$_JfIIf.' >'.$_JfIIf.'.out');
+    system ($_fl801);
     
-    $_QCioi = fopen("$_jt8LJ.out", "r");
-    if ($_QCioi == FALSE) {
+    $_I60fo = fopen("$_JfIIf.out", "r");
+    if ($_I60fo == FALSE) {
       print "SPAMCHECKERROR "."Can't open result file.";
       exit;
     }
-    fseek($_QCioi, $_I00tC, SEEK_SET);
+    fseek($_I60fo, $_It18j, SEEK_SET);
 
-    $_QJCJi = fread($_QCioi, filesize("$_jt8LJ.out"));
+    $_QLJfI = fread($_I60fo, filesize("$_JfIIf.out"));
     
-    $_I1t0l=strpos($_QJCJi, "Content analysis details:");
-    if (is_string ($_I1t0l) && !$_I1t0l) 
-      $_QJCJi = trim($_QJCJi);
+    $_IOO6C=strpos($_QLJfI, "Content analysis details:");
+    if (is_string ($_IOO6C) && !$_IOO6C) 
+      $_QLJfI = trim($_QLJfI);
     else
-      $_QJCJi = trim(substr($_QJCJi, $_I1t0l, strlen($_QJCJi)));
+      $_QLJfI = trim(substr($_QLJfI, $_IOO6C, strlen($_QLJfI)));
    
-    print $_QJCJi;
-    fclose($_QCioi);
-    unlink($_jt8LJ);
-    unlink($_jt8LJ.".out");
+    print $_QLJfI;
+    fclose($_I60fo);
+    unlink($_JfIIf);
+    unlink($_JfIIf.".out");
   }
   else
   print "SPAMCHECKERROR ".$_FILES ['SpamTestFile']['tmp_name']." -> ".$UPLOADDIR.$_FILES ['SpamTestFile']['name']."\n";

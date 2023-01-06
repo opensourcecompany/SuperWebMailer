@@ -344,12 +344,12 @@
          var date = new Date();
 
          if(ASender.name == 'WhoHasOpenedBtn') {
-            window.open('./stat_campaigntracking_recipients.php?ResponderType='+ResponderType+'&TrackingType=Openers&CampaignId='+CampaignId+'&SendStatId='+SendStatId + '&nocache=' + date.getTime(), 'CampaignRTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=no,location=no,modal=yes');
+            openWindowWithPost('./stat_campaigntracking_recipients.php?ResponderType='+ResponderType+'&TrackingType=Openers&CampaignId='+CampaignId+'&SendStatId='+SendStatId + '&nocache=' + date.getTime(), {}, 'CampaignRTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=no,location=no,modal=yes');
             return false;
          }
 
          if(ASender.name == 'WhoHasClickedBtn') {
-            window.open('./stat_campaigntracking_recipients.php?ResponderType='+ResponderType+'&TrackingType=Clicks&CampaignId='+CampaignId+'&SendStatId='+SendStatId+'&LinkId='+ASender.value + '&nocache=' + date.getTime(), 'CampaignRTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=no,location=no,modal=yes');
+            openWindowWithPost('./stat_campaigntracking_recipients.php?ResponderType='+ResponderType+'&TrackingType=Clicks&CampaignId='+CampaignId+'&SendStatId='+SendStatId+'&LinkId='+ASender.value + '&nocache=' + date.getTime(), {}, 'CampaignRTrackingViewWnd','width=990,height=640,scrollbars=yes,status=no,toolbar=no,resizable=no,location=no,modal=yes');
             return false;
          }
 
@@ -940,10 +940,10 @@
                            <tr>
                              <td colspan="2" nowrap="nowrap">
                                <div style="text-align: right">
-                                <input type="button" class="button" value="Alle zeigen" onclick="window.frames['html_iframe'].overlay_showAll(true); return true;"  />&nbsp;<input type="button" class="button" value="Alle verbergen" onclick="window.frames['html_iframe'].overlay_showAll(false); return true;" />
+                                <input type="button" class="button" value="Alle zeigen" onclick="window.frames[GetFrameIndex('html_iframe')].overlay_showAll(true); return true;"  />&nbsp;<input type="button" class="button" value="Alle verbergen" onclick="window.frames[GetFrameIndex('html_iframe')].overlay_showAll(false); return true;" />
                                 <br /><br />
                                </div>
-                               <iframe id="html_iframe" name="html_iframe" width="100%" height="720" src="stat_campaign_overlay.php" frameborder="0" style="border-style:dotted; border-width:1px;"></iframe>
+                               <iframe id="html_iframe" name="html_iframe" width="100%" height="720" src="" frameborder="0" style="border-style:dotted; border-width:1px;"></iframe>
 
                              </td>
                            </tr>
@@ -1187,6 +1187,27 @@
                     addTableRolloverEffect('EMAILCLIENT_STAT','tableRollOverEffect','');
                     addTableRolloverEffect('OS_STAT','tableRollOverEffect','');
 
+                    $(document).ready(function(){
+                      CreateFormAndPostIt("./stat_campaign_overlay.php", {}, 'post', "html_iframe");
+                    })
+
+
+                    $('#tabTabdhtmlgoodies_tabView_1, #tabTabdhtmlgoodies_OpeningstabView_0').on('click', function(){
+                      openingschartsummary.render();
+                    });
+
+                    $('#tabTabdhtmlgoodies_tabView_2, #tabTabdhtmlgoodies_LinkstabView_0').on('click', function(){
+                      linkcharttopx.render();
+                    });
+
+                    $('#tabTabdhtmlgoodies_OpeningstabView_1, #tabTabdhtmlgoodies_OpeningstabView_1').on('click', function(){
+                      openingcharttime.render();
+                    });
+
+                    $('#tabTabdhtmlgoodies_OpeningstabView_2, #tabTabdhtmlgoodies_OpeningstabView_2').on('click', function(){
+                      openingchartdate.render();
+                    });
+
                   -->
                   </script>
 
@@ -1204,7 +1225,8 @@
                       var date = new Date();
                       url = url + '&nocache=' + date.getTime();
 
-                      document.getElementById("OpeningsIframe").src = url;
+                      //document.getElementById("OpeningsIframe").src = url;
+                      CreateFormAndPostIt(url, {}, 'post', "OpeningsIframe");
                     }
 
                     function ReloadLinksIFrame(CB) {
@@ -1218,7 +1240,8 @@
                       var date = new Date();
                       url = url + '&nocache=' + date.getTime();
 
-                      document.getElementById("LinksIframe").src = url;
+                      //document.getElementById("LinksIframe").src = url;
+                      CreateFormAndPostIt(url, {}, 'post', "LinksIframe");
                     }
 
                     ReloadOpeningsIFrame(null);
@@ -1336,22 +1359,6 @@
                           $(this).off('click');*/
                       });
                     }
-
-                      $('#tabTabdhtmlgoodies_tabView_1, #tabTabdhtmlgoodies_OpeningstabView_0').on('click', function(){
-                        openingschartsummary.render();
-                      });
-
-                      $('#tabTabdhtmlgoodies_tabView_2, #tabTabdhtmlgoodies_LinkstabView_0').on('click', function(){
-                        linkcharttopx.render();
-                      });
-
-                      $('#tabTabdhtmlgoodies_OpeningstabView_1, #tabTabdhtmlgoodies_OpeningstabView_1').on('click', function(){
-                        openingcharttime.render();
-                      });
-
-                      $('#tabTabdhtmlgoodies_OpeningstabView_2, #tabTabdhtmlgoodies_OpeningstabView_2').on('click', function(){
-                        openingchartdate.render();
-                      });
 
                   -->
                   </script>

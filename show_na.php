@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -25,6 +25,7 @@
   include_once("config.inc.php");
   include_once("templates.inc.php");
   include_once("replacements.inc.php");
+  include_once("mailcreate.inc.php");
 
   if( empty($_GET["na"]) || empty($_GET["newsletterarchive"]) || empty($_GET["nauser"]) ) {
     print $commonmsgNewsletterArchiveNotFound;
@@ -33,770 +34,992 @@
 
   $_GET["nauser"] = intval($_GET["nauser"]);
   $_GET["newsletterarchive"] = intval($_GET["newsletterarchive"]);
-  $_QJlJ0 = "SELECT * FROM $_Q8f1L WHERE id=".$_GET["nauser"];
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
+  $_QLfol = "SELECT * FROM $_I18lo WHERE id=" . $_GET["nauser"];
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
     print $commonmsgNewsletterArchiveNotFound;
     exit;
   }
-  $_ICQQo = mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_j661I = mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
 
-  if($_ICQQo["UserType"] != "Admin") {
+  if($_j661I["UserType"] != "Admin") {
     print $commonmsgNewsletterArchiveNotFound;
     exit;
   }
 
-  $INTERFACE_LANGUAGE = $_ICQQo["Language"];
+  $INTERFACE_LANGUAGE = $_j661I["Language"];
 
-  _OP0D0($_ICQQo);
-  _OP0AF($_ICQQo["id"]);
-  _OP10J($INTERFACE_LANGUAGE);
-  _LQLRQ($INTERFACE_LANGUAGE);
-  $_6OliC = ScriptBaseURL."show_na.php";
-  $_6o0C0 = "na=$_GET[na]&newsletterarchive=$_GET[newsletterarchive]&nauser=$_GET[nauser]";
+  _LR8AP($_j661I);
+  _LRRFJ($_j661I["id"]);
+  _LRPQ6($INTERFACE_LANGUAGE);
+  _JQRLR($INTERFACE_LANGUAGE);
+  $_8Iltt = ScriptBaseURL . "show_na.php";
+//$_8Iltt = "http://localhost:8080/show_na.php";
+  $_8Ill6 = "na=$_GET[na]&newsletterarchive=$_GET[newsletterarchive]&nauser=$_GET[nauser]";
+  $_8Iltt .= "?" . $_8Ill6;
 
-  $_Q6QiO = "'%d.%m.%Y %H:%i:%s'";
-  $_If0Ql = "'%d.%m.%Y'";
+  $_QLo60 = "'%d.%m.%Y %H:%i:%s'";
+  $_j01CJ = "'%d.%m.%Y'";
   if($INTERFACE_LANGUAGE != "de") {
-     $_Q6QiO = "'%Y-%m-%d %H:%i:%s'";
-     $_If0Ql = "'%Y-%m-%d'";
+     $_QLo60 = "'%Y-%m-%d %H:%i:%s'";
+     $_j01CJ = "'%Y-%m-%d'";
   }
 
   // count it
-  $_QJlJ0 = "UPDATE $_IC1lt SET OpeningsCount=OpeningsCount + 1 WHERE id=".$_GET["newsletterarchive"]." AND UniqueID="._OPQLR($_GET["na"]);
-  mysql_query($_QJlJ0, $_Q61I1);
+  $_QLfol = "UPDATE $_j6JfL SET OpeningsCount=OpeningsCount + 1 WHERE id=".$_GET["newsletterarchive"]." AND UniqueID="._LRAFO($_GET["na"]);
+  mysql_query($_QLfol, $_QLttI);
 
-  $_QJlJ0 = "SELECT *, UNIX_TIMESTAMP(CreateDate) AS CreateDateUnixTime FROM $_IC1lt WHERE id=".$_GET["newsletterarchive"]." AND UniqueID="._OPQLR($_GET["na"]);
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
+  $_QLfol = "SELECT *, UNIX_TIMESTAMP(CreateDate) AS CreateDateUnixTime FROM $_j6JfL WHERE id=".$_GET["newsletterarchive"]." AND UniqueID="._LRAFO($_GET["na"]);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
     print $commonmsgNewsletterArchiveNotFound;
     exit;
   }
-  $_6o161 = mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_8j0O6 = mysql_fetch_assoc($_QL8i1);
+  $_8j0O6["InfoBarSupportedTranslationLanguages"] = @unserialize($_8j0O6["InfoBarSupportedTranslationLanguages"]);
+  $_8j0O6["InfoBarLinksArray"] = @unserialize($_8j0O6["InfoBarLinksArray"]);
+  mysql_free_result($_QL8i1);
 
-  $_IJjll = InstallPath."na/de";
-  if(!empty($_6o161["TemplatesPath"]))
-     $_IJjll = $_6o161["TemplatesPath"];
-  $_IJjll = _OBLDR($_IJjll);
+  $_ILI1C = InstallPath . "na";
+  if(!empty($_8j0O6["TemplatesPath"]))
+     $_ILI1C = $_8j0O6["TemplatesPath"];
+  $_ILI1C = _LPC1C($_ILI1C);
 
   # campaigns_id
-  $_QJlJ0 = "SELECT campaigns_id FROM $_6o161[CampaignToNATableName]";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
+  $_QLfol = "SELECT campaigns_id FROM $_8j0O6[CampaignToNATableName]";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
     print $commonmsgNewsletterArchiveNoCampaignsFound;
     exit;
   }
-  $_6QLo6 = array();
-  while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-    $_QJlJ0 = "SELECT CurrentSendTableName, ArchiveTableName FROM $_Q6jOo WHERE id=$_Q6Q1C[campaigns_id]";
-    $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-    if(!$_Q8Oj8 || mysql_num_rows($_Q8Oj8) == 0) continue;
-    $_Q8OiJ = mysql_fetch_assoc($_Q8Oj8);
-    mysql_free_result($_Q8Oj8);
-    $_6QLo6[$_Q6Q1C["campaigns_id"]] = array("CurrentSendTableName" => $_Q8OiJ["CurrentSendTableName"], "ArchiveTableName" => $_Q8OiJ["ArchiveTableName"]);
+  $_ftjjC = array();
+  while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+    $_QLfol = "SELECT CurrentSendTableName, ArchiveTableName FROM $_QLi60 WHERE id=$_QLO0f[campaigns_id]";
+    $_I1O6j = mysql_query($_QLfol, $_QLttI);
+    if(!$_I1O6j || mysql_num_rows($_I1O6j) == 0) continue;
+    $_I1OfI = mysql_fetch_assoc($_I1O6j);
+    mysql_free_result($_I1O6j);
+    $_ftjjC[$_QLO0f["campaigns_id"]] = array("CurrentSendTableName" => $_I1OfI["CurrentSendTableName"], "ArchiveTableName" => $_I1OfI["ArchiveTableName"]);
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
   if(isset($_GET["showRSS"]) ) {
-    _LOP06();
+    _JL0LP();
     exit;
   }
 
-  if(isset($_GET["selectedYear"]) && isset($_GET["showEntry"]) && isset($_GET["showContent"]) ) {
-    _LOLLO($_GET["selectedYear"], $_GET["showEntry"]);
+  if(isset($_GET["selectedYear"]) && !isset($_GET["showEntry"]) )
+    $_GET["showEntry"] = 0;
+
+  if( isset($_GET["selectedYear"]) && isset($_GET["showEntry"]) && !isset($_GET["attachmentsIndex"]) ) {
+    _JOA8L(intval($_GET["selectedYear"]), intval($_GET["showEntry"]));
     exit;
   }
-
-  SetHTMLHeaders($_Q6QQL);
-
-  if(isset($_GET["selectedYear"]) && isset($_GET["showEntry"]) ) {
-    _LOOEQ($_GET["selectedYear"], $_GET["showEntry"]);
+  
+  if( isset($_GET["selectedYear"]) && isset($_GET["showEntry"]) && isset($_GET["attachmentsIndex"]) ) {
+    _JOACJ(intval($_GET["selectedYear"]), intval($_GET["showEntry"]), intval($_GET["attachmentsIndex"]));
     exit;
   }
-
-  if(isset($_GET["selectedYear"]) ) {
-    _LOOPB($_GET["selectedYear"]);
-    exit;
-  }
-
-  _LOQFF();
-
-  function _LOQFF() {
-    global $_IJjll, $_6o161;
-
-    $_QJCJi = join("", file($_IJjll."na_start.htm"));
-
-    $_QJCJi = str_replace('<!--STARTPAGETITLE//-->', $_6o161["StartPageTitle"], $_QJCJi);
-    $_QJCJi = str_replace('<!--STARTPAGEHEADLINE//-->', $_6o161["StartPageHeadline"], $_QJCJi);
-    $_QJCJi = str_replace('<!--YEARLABEL//-->', $_6o161["YearsLabel"], $_QJCJi);
-    $_QJCJi = str_replace('<!--TEXTBEHINDYEARS//-->', $_6o161["TextBehindYears"], $_QJCJi);
-
-    $_6o1O0 = "";
-    if($_6o161["ShowImpressum"]){
-      $_6o1O0 = $_6o161["ImpressumText"];
-      if(!$_6o161["ImpressumIsHTML"])
-         $_6o1O0 = str_replace("\n", "<br />", $_6o1O0);
-    }
-
-    $_QJCJi = str_replace('<!--IMPRESSUM//-->', $_6o1O0, $_QJCJi);
-
-    $_QJCJi = _LOJQJ($_QJCJi);
-
-    if($_6o161["LinkToSWM"])
-      $_QJCJi = str_ireplace('</body>', '<span style="font-size: 8pt">Powered by <a href="PRODUCTURL" target="_blank">PRODUCTAPPNAME</a></span>'.'</body>', $_QJCJi);
-
-    print _LORBR($_QJCJi);
-  }
-
-function _LOOPB($selectedYear) {
-  global $_IJjll, $_6o161, $_6OliC, $_6o0C0, $_Q6QQL;
-
-  $_QJCJi = join("", file($_IJjll."na_year.htm"));
-
-
-  //
-  $_QJCJi = str_replace('<!--HEADLINEFORSELECTEDYEAR//-->', _LO6OF($selectedYear), $_QJCJi);
-  $_QJCJi = str_replace('<!--YEARLABEL//-->', $_6o161["YearsLabel"], $_QJCJi);
-  $_QJCJi = str_replace('<!--LINKLABELTOMAINARCHIVEPAGE//-->', $_6o161["LinkLabelToMainArchive"], $_QJCJi);
-  $_6o1O0 = "";
-  if($_6o161["ShowImpressum"]){
-    $_6o1O0 = $_6o161["ImpressumText"];
-    if(!$_6o161["ImpressumIsHTML"])
-       $_6o1O0 = str_replace("\n", "<br />", $_6o1O0);
-  }
-  $_QJCJi = str_replace('<!--IMPRESSUM//-->', $_6o1O0, $_QJCJi);
-
-  $_QJCJi = _LOJQJ($_QJCJi);
-
-  $_QJCJi = str_replace('"na_start"', '"'.$_6OliC."?".$_6o0C0.'"', $_QJCJi);
-
-  //
-  $_6oQ8Q = array();
-  _LO6QF($selectedYear, $_6oQ8Q);
-
-  $_Qf1t6 = _OP81D($_QJCJi, "<!--NLENTRY_BEGIN//-->", "<!--NLENTRY_END//-->");
-
-  $_Q8otJ = _LO81C();
-
-  $_6o161["PlaceHolderReplacements"] = @unserialize($_6o161["PlaceHolderReplacements"]);
-  if($_6o161["PlaceHolderReplacements"] === false)
-    $_6o161["PlaceHolderReplacements"] = array();
-
-  if(count($_6o161["PlaceHolderReplacements"]) > 0) {
-
-     foreach($_6o161["PlaceHolderReplacements"] as $key => $_Q6ClO){
-         $_Q8otJ[$_Q6ClO["fieldname"]] = $_Q6ClO["value"];
-     }
-
-  }
-
-  $_Q6ICj = "";
-  $_Q6llo = 0;
-  # sort creates new keys
-  foreach($_6oQ8Q as $key => $_Q6ClO) {
-   $_6oQif = $_Q6ClO;
-   $_Q66jQ = $_Qf1t6;
-   $_Q66jQ = str_replace('<!--NEWSLETTERENTRYTEXT//-->', _LO6LP($_6oQif["StartSendDateTimeFormated"], $_6oQif["AYear"], $_6oQif["AMonth"], $_6oQif["ADay"]), $_Q66jQ);
-   $_I6016 = _L1ERL($_Q8otJ, 0, $_6oQif["MailSubject"], $_Q6QQL, false, array());
-   $_Q66jQ = str_replace('<!--NEWSLETTERENTRYTITLE//-->', $_I6016, $_Q66jQ);
-
-   //
-   $_Q66jQ = str_replace('"na_day"', '"'.$_6OliC.'?showEntry='.$_Q6llo.'&selectedYear='.$selectedYear."&".$_6o0C0.'"', $_Q66jQ);
-
-   $_Q6ICj .= $_Q66jQ;
-   $_Q6llo++;
-  }
-
-  $_QJCJi = _OPR6L($_QJCJi, "<!--NLENTRY_BEGIN//-->", "<!--NLENTRY_END//-->", $_Q6ICj);
-
-  if($_6o161["LinkToSWM"])
-    $_QJCJi = str_ireplace('</body>', '<span style="font-size: 8pt">Powered by <a href="PRODUCTURL" target="_blank">PRODUCTAPPNAME</a></span>'.'</body>', $_QJCJi);
-
-  print _LORBR($_QJCJi);
-}
-
-function _LOOEQ($selectedYear, $showEntry) {
-  global $_IJjll, $_6o161, $_6OliC, $_6o0C0, $commonmsgNewsletterArchiveEntryNotFound;
-  global $commonmsgNewsletterArchiveNoFramesError, $commonmsgNewsletterArchiveNoText, $_Q6QQL;
-
-  $_QJCJi = join("", file($_IJjll."na_day.htm"));
-
-  $_6oQ8Q = array();
-  _LO6QF($selectedYear, $_6oQ8Q);
-
-  $_6oIoL = "";
-  if ( ($showEntry < 0) || ($showEntry > count($_6oQ8Q) - 1) )  {
-    $_6oIoL = $commonmsgNewsletterArchiveNoText;
-  }
-  $_Q6llo = 0;
-  # sort creates new keys
-  foreach($_6oQ8Q as $key => $_Q6ClO) {
-    if($_Q6llo == $showEntry){
-      $_6oQif = $_Q6ClO;
-      break;
-    }
-    $_Q6llo++;
-  }
-  if(!isset($_6oQif)){
-    print $commonmsgNewsletterArchiveEntryNotFound;
-    exit;
-  }
-
-  $_QJCJi = str_replace('<!--NEWSLETTERENTRYTEXT//-->', _LO6LP($_6oQif["StartSendDateTimeFormated"], $_6oQif["AYear"], $_6oQif["AMonth"], $_6oQif["ADay"]), $_QJCJi);
-
-
-  $_Q8otJ = _LO81C();
-  $_6o161["PlaceHolderReplacements"] = @unserialize($_6o161["PlaceHolderReplacements"]);
-  if($_6o161["PlaceHolderReplacements"] === false)
-    $_6o161["PlaceHolderReplacements"] = array();
-
-  if(count($_6o161["PlaceHolderReplacements"]) > 0) {
-
-     foreach($_6o161["PlaceHolderReplacements"] as $key => $_Q6ClO){
-         $_Q8otJ[$_Q6ClO["fieldname"]] = $_Q6ClO["value"];
-     }
-
-  }
-
-  $_I6016 = _L1ERL($_Q8otJ, 0, $_6oQif["MailSubject"], $_Q6QQL, false, array());
-
-  $_QJCJi = str_replace('<!--NEWSLETTERENTRYTITLE//-->', $_I6016, $_QJCJi);
-
-  $_QJCJi = str_replace('<!--YEARLABEL//-->', $_6o161["YearsLabel"], $_QJCJi);
-  $_QJCJi = str_replace('<!--LINKLABELTOMAINARCHIVEPAGE//-->', $_6o161["LinkLabelToMainArchive"], $_QJCJi);
-
-  $_6o1O0 = "";
-  if($_6o161["ShowImpressum"]){
-    $_6o1O0 = $_6o161["ImpressumText"];
-    if(!$_6o161["ImpressumIsHTML"])
-       $_6o1O0 = str_replace("\n", "<br />", $_6o1O0);
-  }
-
-  $_QJCJi = str_replace('<!--IMPRESSUM//-->', $_6o1O0, $_QJCJi);
-  $_QJCJi = str_replace('<!--LINKLABELPREV//-->', $_6o161["LinkLabelPrev"], $_QJCJi);
-  $_QJCJi = str_replace('<!--LINKLABELNEXT//-->', $_6o161["LinkLabelNext"], $_QJCJi);
-  $_QJCJi = str_replace('<!--HEADLINEFORPRINTING//-->', $_6o161["PrintingLabel"], $_QJCJi);
-  $_QJCJi = str_replace('<!--HEADLINEFORSELECTEDYEAR//-->', _LO6OF($selectedYear), $_QJCJi);
-
-  if(!$_6o161["SortOrderNewToOld"]) {
-    $_Q6llo = $showEntry - 1;
-    if($_Q6llo < 0) $_Q6llo = 0;
-    $_QJCJi = str_replace('"na_day_prev"', '"'.$_6OliC.'?showEntry='.$_Q6llo.'&selectedYear='.$selectedYear."&$_6o0C0".'"' , $_QJCJi);
-
-    if($showEntry <= 0) {
-      $_QJCJi = _OP6PQ($_QJCJi, "<!--LINKLABELPREV_IF_NOT_FIRST_BEGIN//-->", "<!--LINKLABELPREV_IF_NOT_FIRST_END//-->");
-    } else {
-      $_QJCJi = _OP6PQ($_QJCJi, "<!--LINKLABELPREV_IF_FIRST_BEGIN//-->", "<!--LINKLABELPREV_IF_FIRST_END//-->");
-    }
-
-    $_Q6llo = $showEntry + 1;
-    if($_Q6llo > count($_6oQ8Q) - 1) $_Q6llo = count($_6oQ8Q) - 1;
-    $_QJCJi = str_replace('"na_day_next"', '"'.$_6OliC.'?showEntry='.$_Q6llo.'&selectedYear='.$selectedYear."&$_6o0C0".'"' , $_QJCJi);
-
-    if($showEntry >= count($_6oQ8Q) - 1) {
-      $_QJCJi = _OP6PQ($_QJCJi, "<!--LINKLABELNEXT_IF_NOT_LAST_BEGIN//-->", "<!--LINKLABELNEXT_IF_NOT_LAST_END//-->");
-    } else {
-      $_QJCJi = _OP6PQ($_QJCJi, "<!--LINKLABELNEXT_IF_LAST_BEGIN//-->", "<!--LINKLABELNEXT_IF_LAST_END//-->");
-    }
-  } else {
-
-    $_Q6llo = $showEntry - 1;
-    if($_Q6llo < 0) $_Q6llo = 0;
-    $_QJCJi = str_replace('"na_day_next"', '"'.$_6OliC.'?showEntry='.$_Q6llo.'&selectedYear='.$selectedYear."&$_6o0C0".'"' , $_QJCJi);
-
-    if($showEntry <= 0) {
-      $_QJCJi = _OP6PQ($_QJCJi, "<!--LINKLABELNEXT_IF_NOT_LAST_BEGIN//-->", "<!--LINKLABELNEXT_IF_NOT_LAST_END//-->");
-    } else {
-      $_QJCJi = _OP6PQ($_QJCJi, "<!--LINKLABELNEXT_IF_LAST_BEGIN//-->", "<!--LINKLABELNEXT_IF_LAST_END//-->");
-    }
-
-    $_Q6llo = $showEntry + 1;
-    if($_Q6llo > count($_6oQ8Q) - 1) $_Q6llo = count($_6oQ8Q) - 1;
-    $_QJCJi = str_replace('"na_day_prev"', '"'.$_6OliC.'?showEntry='.$_Q6llo.'&selectedYear='.$selectedYear."&$_6o0C0".'"' , $_QJCJi);
-
-    if($showEntry >= count($_6oQ8Q) - 1) {
-      $_QJCJi = _OP6PQ($_QJCJi, "<!--LINKLABELPREV_IF_NOT_FIRST_BEGIN//-->", "<!--LINKLABELPREV_IF_NOT_FIRST_END//-->");
-    } else {
-      $_QJCJi = _OP6PQ($_QJCJi, "<!--LINKLABELPREV_IF_FIRST_BEGIN//-->", "<!--LINKLABELPREV_IF_FIRST_END//-->");
-    }
-
-  }
-
-  $_QJCJi = str_replace('"na_start"', '"'.$_6OliC."?$_6o0C0".'"', $_QJCJi);
-
-  $_QJCJi = str_replace('"na_year_selected"', '"'.$_6OliC."?selectedYear=".$selectedYear."&$_6o0C0".'"', $_QJCJi);
-
-  $_QJCJi = str_replace('<!--NEWSLETTERTEXT//-->', $commonmsgNewsletterArchiveNoFramesError, $_QJCJi);
-  $_QJCJi = str_replace('<!--LABELSHOWNEWSLETTERWITHOUTFRAMESTEXT//-->', $_6o161["ShowNewsletterWithoutFramesText"], $_QJCJi);
-
-
-  if($_6oIoL != $commonmsgNewsletterArchiveNoText ) {
-       $_QJCJi = str_replace('[NEWSLETTERCONTENTLINK]', $_6OliC.'?showEntry='.$showEntry.'&selectedYear='.$selectedYear."&showContent=".rand(1, 1024)."&".$_6o0C0, $_QJCJi);
-     }
-     else
-     $_QJCJi = str_replace('[NEWSLETTERCONTENTLINK]', "", $_QJCJi);
-
-//
-
-  if($_6o161["LinkToSWM"])
-    $_QJCJi = str_ireplace('</body>', '<span style="font-size: 8pt">Powered by <a href="PRODUCTURL" target="_blank">PRODUCTAPPNAME</a></span>'.'</body>', $_QJCJi);
-
-  print _LORBR($_QJCJi);
-
-}
-
-function _LOLLO($selectedYear, $showEntry) {
-  global $_6o161, $_6OliC, $_6o0C0, $commonmsgNewsletterArchiveEntryNotFound;
-  global $commonmsgNewsletterArchiveNoText, $_Q6QQL;
-
-
-  $_6oQ8Q = array();
-  _LO6QF($selectedYear, $_6oQ8Q);
-
-  $_6oIoL = "";
-  if ( ($showEntry < 0) || ($showEntry > count($_6oQ8Q) - 1) )  {
-    $_6oIoL = $commonmsgNewsletterArchiveNoText;
-  }
-  $_Q6llo = 0;
-  # sort creates new keys
-  foreach($_6oQ8Q as $key => $_Q6ClO) {
-    if($_Q6llo == $showEntry){
-      $_6oQif = $_Q6ClO;
-      break;
-    }
-    $_Q6llo++;
-  }
-  if(!isset($_6oQif)){
-    print $commonmsgNewsletterArchiveEntryNotFound;
-    exit;
-  }
-
-  $_Q8otJ = _LO81C();
-
-  $_6o161["PlaceHolderReplacements"] = @unserialize($_6o161["PlaceHolderReplacements"]);
-  if($_6o161["PlaceHolderReplacements"] === false)
-    $_6o161["PlaceHolderReplacements"] = array();
-
-  if(count($_6o161["PlaceHolderReplacements"]) > 0) {
-
-     foreach($_6o161["PlaceHolderReplacements"] as $key => $_Q6ClO){
-         $_Q8otJ[$_Q6ClO["fieldname"]] = $_Q6ClO["value"];
-     }
-
-  }
-
-  $_I6016 = $_6oQif["MailSubject"];
-  $_I6016 = _L1ERL($_Q8otJ, 0, $_I6016, $_Q6QQL, false, array());
-
-  // Social media links
-  $_Q8otJ['AltBrowserLink_SME'] = $_6OliC."?showEntry=$showEntry&selectedYear=$selectedYear"."&$_6o0C0";
-  $_Q8otJ['AltBrowserLink_SME_URLEncoded'] = urlencode($_Q8otJ['AltBrowserLink_SME']);
-  $_Q8otJ['Mail_Subject_ISO88591'] = ConvertString($_Q6QQL, "ISO-8859-1", $_I6016, false);
-  $_Q8otJ['Mail_Subject_UTF8'] = $_I6016;
-  $_Q8otJ['Mail_Subject_ISO88591_URLEncoded'] = urlencode($_Q8otJ['Mail_Subject_ISO88591']);
-  $_Q8otJ['Mail_Subject_UTF8_URLEncoded'] = urlencode($_Q8otJ['Mail_Subject_UTF8']);
-  // Social media links /
-
-
-  if($_6oQif["MailFormat"] == 'PlainText')
-    $_6oIoL = $_6oQif["MailPlainText"];
-  if($_6oQif["MailFormat"] != 'PlainText') {
-    $_6oIoL = $_6oQif["MailHTMLText"];
-    $_6oIoL = _OB8O0("<title>", "</title>", $_6oIoL, $_I6016);
-  }
-  $_6oIoL = _L1ERL($_Q8otJ, 0, $_6oIoL, $_Q6QQL, $_6oQif["MailFormat"] != 'PlainText', array());
-
-  $_6oIoL = str_replace('"'.$_6oQif["MailEncoding"].'"', '"'.$_Q6QQL.'"', $_6oIoL);
-
-  if( $_6oQif["MailFormat"] == 'PlainText' ) {
-    $_Q8otJ = @file(_O68QF()."blank.htm");
-    if($_Q8otJ)
-      $_QJCJi = join("", $_Q8otJ);
+  
+
+  _JOPC6();
+
+  function _JOPC6() {
+    global $_ILI1C, $_8j0O6, $_QLo06;
+
+    $_QLJfI = join("", file($_ILI1C . "na_start.htm"));
+
+    $_8j1fC = $_QLo06;
+    
+    $_QLJfI = _L8OF8($_QLJfI, "<na_infobarcssjs>");
+    $_QLJfI = _L8L0C($_QLJfI, "/" . "*STARTPAGE*" . "/", "/" . "*STARTPAGE/" . "*" . "/"); //Obfuscator problem with comments in string
+    $_QLJfI = str_replace("<!--MUST BE FIRST STYLE!-->", "", $_QLJfI);
+    $_QLJfI = str_replace("/" . "*DEMO*" . "/", "", $_QLJfI);
+    
+    $_QLJfI = _L80DF($_QLJfI, "<NAENTRIESBLOCK>");
+    $_QLJfI = _L8OF8($_QLJfI, "<INFOBAR>");
+    $_QLJfI = _L80DF($_QLJfI, "<ATTACHMENTSBLOCK>");
+    
+    $_QLJfI = _L81BJ($_QLJfI, "<STARTPAGETITLE>", "", $_8j0O6["StartPageTitle"]);
+
+    if(!empty($_8j0O6["StartPageLogo"])){
+        $_I016j = _L81DB($_QLJfI, "<STARTPAGELOGO>");
+        $_I016j = str_replace("[URL]", $_8j0O6["StartPageLogo"], $_I016j);
+        $_QLJfI = _L81BJ($_QLJfI, "<STARTPAGELOGO>", "", $_I016j);
+        $_QLJfI = str_replace("[STARTPAGEHEADLINE]", $_8j0O6["StartPageHeadline"], $_QLJfI);
+        $_QLJfI = _L80DF($_QLJfI, "<STARTPAGEHEADLINE>");
+      }
       else
-      $_QJCJi = join("", file(InstallPath._O68QF()."blank.htm"));
+        $_QLJfI = _L80DF($_QLJfI, "<STARTPAGELOGO>");
+    $_QLJfI = _L81BJ($_QLJfI, "<STARTPAGEHEADLINE>", "", $_8j0O6["StartPageHeadline"]);
+    
+    $_QLJfI = _L81BJ($_QLJfI, "<STARTPAGESUBHEADLINE1>", "", $_8j0O6["StartPageSubHeadline1"]);
+    $_QLJfI = _L81BJ($_QLJfI, "<STARTPAGESUBHEADLINE2>", "", $_8j0O6["StartPageSubHeadline2"]);
+    
+    $_jfLj1 = new TAltBrowserLinkInfoBarLinkType(); // < PHP 5.3
+    foreach($_8j0O6["InfoBarLinksArray"] as $key => $_QltJO){
+       $_jfCoo = $_8j0O6["InfoBarLinksArray"][$key];
+       if($_jfCoo->LinkType == $_jfLj1->abtSubscribe){
+         break;
+       }  
+    }     
+    
+    if($_8j0O6["StartPageShowSubscribeLink"] && $_jfCoo->LinkType == $_jfLj1->abtSubscribe){
+        $_I016j = _L81DB($_QLJfI, "<STARTPAGESHOWSUBSCRIBELINK>");
+        $_I016j = str_replace("[URL]", $_jfCoo->URL, $_I016j);
+        $_I016j = str_replace("[TITLE]", $_jfCoo->Title, $_I016j);
+        $_I016j = str_replace("[LINKTEXT]", $_jfCoo->Text, $_I016j);
+        $_QLJfI = _L81BJ($_QLJfI, "<STARTPAGESHOWSUBSCRIBELINK>", "", $_I016j);
+    }else
+       $_QLJfI = _L80DF($_QLJfI, "<STARTPAGESHOWSUBSCRIBELINK>");
+       
 
+    if($_8j0O6["ShowImpressum"]){
+        $_I016j = _L81DB($_QLJfI, "<STARTPAGESHOWIMPRESS>");
+        $_I016j = _L81BJ($_I016j, "<IMPRESSHEADLINE>", "", $_8j0O6["ImpressumHeadline"]);
 
-     if(strpos($_6oIoL, "\n") !== false)
-        $_II1Ot = explode("\n", $_6oIoL);
-        else
-        $_II1Ot = explode("\r", $_6oIoL);
+        $_j80JC = "";
+        $_j80JC = unhtmlentities($_8j0O6["ImpressumText"], $_QLo06); // sanitize.inc.php htmlspecialchars()
+        if(!$_8j0O6["ImpressumIsHTML"])
+          $_j80JC = str_replace("\n", "<br />", $_j80JC);
 
-     $_6oIoL = str_replace("<body>", "<body>".join("<br />", $_II1Ot), $_QJCJi);
-     $_6oIoL = _OB8O0("<title>", "</title>", $_6oIoL, $_6oQif["MailSubject"]);
-     $_6oIoL = str_replace("noindex,nofollow", "index,follow", $_6oIoL);
-     $_6oIoL = str_replace("no-cache", "cache", $_6oIoL);
+        $_I016j = _L81BJ($_I016j, "<IMPRESS>", "", $_j80JC);
+        $_QLJfI = _L81BJ($_QLJfI, "<STARTPAGESHOWIMPRESS>", "", $_I016j);
+    }else
+      $_QLJfI = _L80DF($_QLJfI, "<STARTPAGESHOWIMPRESS>");
+      
+      
+    $lang = _LA0BA($_QLJfI);
+    if($lang == "")
+      $lang = $_8j0O6["InfoBarSrcLanguage"];
+       
+    if($_8j0O6["LinkToSWM"]){
+        $_QLJfI = _L8OF8($_QLJfI, '<SuperMailerLink>');
+        if($lang == "de")
+          $_QLJfI = _L80DF($_QLJfI, "<SuperMailerLink_en>");
+          else
+          $_QLJfI = _L80DF($_QLJfI, "<SuperMailerLink_de>");
+      }
+      else
+      $_QLJfI = _L80DF($_QLJfI, '<SuperMailerLink>');
+    
+
+    $_QLJfI = _JOBBR($_QLJfI, $lang, $_8j1fC);
+
+    $_QLJfI = _JOCLD($_QLJfI, $lang, $_8j1fC, -1, -1, array());
+
+    $_QLJfI = _JOCEB($_QLJfI, $_8j1fC);
+    
+    $_QLJfI = _L81BJ($_QLJfI, "<spacer>", "", "");
+
+    SetHTMLHeaders($_8j1fC, false);
+
+    print _JOF11($_QLJfI, false, $_8j1fC);
   }
 
-  SetHTMLHeaders($_Q6QQL);
-  print _LORBR($_6oIoL, false, $_6o161["RemoveMailToLinks"]);
-}
+   function _JOA8L($selectedYear, $showEntry){
+     global $_ILI1C, $_8Iltt, $_8j0O6, $_IC18i, $_QLo06, $_IIlfi;
 
-function _LOJQJ($_QJCJi, $_JjOC0 = "") {
-  global $_6QLo6, $_6o161, $_6OliC, $_6o0C0;
+     $_8j1fC = $_QLo06;
+     
+     if($showEntry < 0)
+       $showEntry = 0;
 
-  $_6ojOi = array();
-  _LO61O($_6ojOi);
-
-  $_Qf1t6 = _OP81D($_QJCJi, "<!--YEARS_BEGIN//-->", "<!--YEARS_END//-->");
-
-  if ($_Qf1t6 == "")
-    return $_QJCJi;
-
-  $_Q6ICj = "";
-  for($_Q6llo=0; $_Q6llo<count($_6ojOi); $_Q6llo++) {
-   if($_JjOC0 == $_6ojOi[$_Q6llo]) continue;
-
-   $_Q66jQ = str_replace('<!--YEARNUMBER//-->', $_6ojOi[$_Q6llo], $_Qf1t6);
-   $_Q66jQ = str_replace('"na_year"', '"'.$_6OliC."?selectedYear=".$_6ojOi[$_Q6llo]."&$_6o0C0".'"', $_Q66jQ);
-   $_Q66jQ = str_replace('"na_start"', '"'.$_6OliC."?$_6o0C0".'"', $_Q66jQ);
-   $_Q6ICj .= $_Q66jQ;
-  }
-
-  $_QJCJi = _OPR6L($_QJCJi, "<!--YEARS_BEGIN//-->", "<!--YEARS_END//-->", $_Q6ICj);
-
-  return $_QJCJi;
-
-}
-
-
-function _LO61O(&$_6ojOi) {
-  global $_6QLo6, $_Q61I1;
-
-  reset($_6QLo6);
-  foreach($_6QLo6 as $key => $_Q6ClO) {
-    $_QJlJ0 = "SELECT DISTINCT YEAR(StartSendDateTime) As AYear FROM $_Q6ClO[CurrentSendTableName] ORDER BY AYear DESC";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    while($_Q6Q1C = mysql_fetch_row($_Q60l1)) {
-       if(!in_array($_Q6Q1C[0], $_6ojOi))
-          $_6ojOi[] = $_Q6Q1C[0];
-    }
-    mysql_free_result($_Q60l1);
-  }
-  rsort($_6ojOi, SORT_NUMERIC);
-}
-
-function _LO6QF($_6ojio, &$_6oQ8Q) {
-  global $_6QLo6, $_If0Ql, $_Q6QiO, $_6o161, $_Q61I1;
-
-  $_6ojio = intval($_6ojio);
-  reset($_6QLo6);
-  foreach($_6QLo6 as $key => $_Q6ClO) {
-    $_QJlJ0 = "SELECT *, DATE_FORMAT(StartSendDateTime, $_If0Ql) AS StartSendDateTimeFormated, UNIX_TIMESTAMP(StartSendDateTime) AS StartSendDateTimeUNIXTIME, YEAR(StartSendDateTime) As AYear, MONTH(StartSendDateTime) As AMonth, DAYOFMONTH(StartSendDateTime) As ADay FROM $_Q6ClO[CurrentSendTableName] LEFT JOIN $_Q6ClO[ArchiveTableName] ON $_Q6ClO[ArchiveTableName].SendStat_id=$_Q6ClO[CurrentSendTableName].id WHERE YEAR(StartSendDateTime)=$_6ojio";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      $_Q6Q1C["Campaigns_id"] = $key;
-      $_6oQ8Q[$_Q6Q1C["StartSendDateTime"]] = $_Q6Q1C;
-    }
-    mysql_free_result($_Q60l1);
-  }
-  if($_6o161["SortOrderNewToOld"])
-    krsort($_6oQ8Q);
-    else
-    ksort($_6oQ8Q);
-}
-
-function _LO6OF($selectedYear) {
-  global $_IJjll, $_6o161;
-  $_QJCJi = $_6o161["YearsHeaderlineSelect"];
-  $_QJCJi = str_ireplace('[NewsletterYear]', $selectedYear, $_QJCJi);
-  return $_QJCJi;
-}
-
-//
-function _LO6LP($Date, $_6ojio, $_6oJCO, $_6o6tO) {
-  global $_IJjll, $_6o161;
-  $_QJCJi = $_6o161["NewsletterEntryText"];
-  $_QJCJi = str_ireplace('[NewsletterYear]', $_6ojio, $_QJCJi);
-  $_QJCJi = str_ireplace('[NewsletterMonth]', $_6oJCO, $_QJCJi);
-  $_QJCJi = str_ireplace('[NewsletterDay]', $_6o6tO, $_QJCJi);
-  $_QJCJi = str_ireplace('[NewsletterDate]', $Date, $_QJCJi);
-  $_QJCJi = str_ireplace('[NewsletterWeekNumber]', date("W", mktime(0, 0, 0, $_6oJCO, $_6o6tO, $_6ojio) ), $_QJCJi);
-  $_QJCJi = str_ireplace('[NewsletterDayName]', date("l", mktime(0, 0, 0, $_6oJCO, $_6o6tO, $_6ojio) ), $_QJCJi);
-  return $_QJCJi;
-}
-
-function _LO6D0($_ILCOl, $_ILi66, $_I6016) {
-    $_6o6o8 = strpos($_I6016, $_ILCOl);
-    if($_6o6o8 !== false) {
-        $_6of68 = substr($_I6016,0,$_6o6o8);
-        $_6ofoQ = substr($_I6016, $_6o6o8 + strlen($_ILCOl));
-        return $_6of68.$_ILi66.$_6ofoQ;
-    } else {
-        return $_I6016;
-    }
-}
-
-function _LORBR($_Q6ICj, $_6o8j8 = true, $_6ot1Q = false) {
- global $_6o161, $_Q6JJJ;
-
- $_Q6ICj = _OP6PQ($_Q6ICj, "[AltBrowserLink_begin]", "[AltBrowserLink_end]");
- $_Q6ICj = _OP6PQ($_Q6ICj, "<!--AltBrowserLink_begin//-->", "<!--AltBrowserLink_end//-->");
-
- if(!empty($_6o161["HeadDescription"]))
-   $_Q6ICj = _LO6D0("</head>", '<meta name="description" content="'.$_6o161["HeadDescription"].'">'.$_Q6JJJ.'</head>', $_Q6ICj);
-
- if(!empty($_6o161["HeadKeywords"]))
-   $_Q6ICj = _LO6D0("</head>", '<meta name="keywords" content="'.$_6o161["HeadKeywords"].'">'.$_Q6JJJ.'</head>', $_Q6ICj);
-
- if(!empty($_6o161["HeadAutor"])){
-   $_Q6ICj = _LO6D0("</head>", '<meta name="author" content="'.$_6o161["HeadAutor"].'">'.$_Q6JJJ.'</head>', $_Q6ICj);
-   $_Q6ICj = _LO6D0("</head>", '<meta name="copyright" content="'.$_6o161["HeadAutor"].'">'.$_Q6JJJ.'</head>', $_Q6ICj);
- }
-
- _LJ81E($_Q6ICj);
-
- //
-
- if($_6o8j8) {
-
-   if(!$_6o161["UserDefinedColorsAndFonts"])
-     $_Q6ICj = _LO6D0("</head>", '<link rel="stylesheet" type="text/css" href="css/na.css" />'.$_Q6JJJ.'</head>', $_Q6ICj);
-     else{
-
-       $_j8Li0 = "";
-
-       $_II1Ot =  explode(",", $_6o161["FontName"]);
-       for($_Q6llo=0; $_Q6llo<count($_II1Ot); $_Q6llo++) {
-           $_II1Ot[$_Q6llo] = trim($_II1Ot[$_Q6llo]);
-           if(strpos($_II1Ot[$_Q6llo], " ") !== false)
-              $_II1Ot[$_Q6llo] = "'" . $_II1Ot[$_Q6llo] . "'";
+     _JOELE($selectedYear, $_8jIfj, true);
+     if ($showEntry > count($_8jIfj) - 1){
+       if(count($_8jIfj))
+         $showEntry = count($_8jIfj) - 1;
+         else{
+           _JOPC6();
+           return;
          }
-
-       $_j8Li0 .= 'body         { ';
-       if ($_6o161["FontName"] != '')
-          $_j8Li0 .= 'font-family: '. join(', ', $_II1Ot);
-
-       $_j8Li0 .= '; font-size: ' . $_6o161["FontSize"] . ';' . $_Q6JJJ;
-       $_j8Li0 .= '    color: ' . $_6o161["FontColor"] . '; font-weight: ';
-
-       if ($_6o161["FontStyle"] == "normal")
-          $_j8Li0 .= 'normal';
-          else
-          if ($_6o161["FontStyle"] == "bold")
-            $_j8Li0 .= 'bold';
-          else
-          if ($_6o161["FontStyle"] == "italic")
-            $_j8Li0 .= 'italic';
-
-
-       $_j8Li0 .= '; background-color: ' . $_6o161["BackgroundColor"] . ' } ' . $_Q6JJJ;
-
-       $_j8Li0 .= sprintf ('a {color:%s;}' . $_Q6JJJ . 'a:link {color:%s;}' . $_Q6JJJ . 'a:active {color:%s;}' . $_Q6JJJ . 'a:hover {color:%s;}' . $_Q6JJJ . 'a:visited {color:%s;}' . $_Q6JJJ,
-                $_6o161["link"],
-                $_6o161["link"],
-                $_6o161["alink"],
-                $_6o161["alink"],
-                $_6o161["vlink"]
-
-              );
-
-
-       $_j8Li0 .= 'h1           { font-size: ' . $_6o161["H1FontSize"] . '; }' . $_Q6JJJ;
-
-
-       $_j8Li0 .= '.years       { ';
-
-       $_II1Ot =  explode(",", $_6o161["NavFontName"]);
-       for($_Q6llo=0; $_Q6llo<count($_II1Ot); $_Q6llo++) {
-           $_II1Ot[$_Q6llo] = trim($_II1Ot[$_Q6llo]);
-           if(strpos($_II1Ot[$_Q6llo], " ") !== false)
-              $_II1Ot[$_Q6llo] = "'" . $_II1Ot[$_Q6llo] . "'";
-         }
-
-
-       if ($_6o161["NavFontName"] != '')
-          $_j8Li0 .= 'font-family: '. join(', ', $_II1Ot);
-
-       $_j8Li0 .= '; font-size: ' . $_6o161["NavFontSize"] . ';' . $_Q6JJJ;
-       $_j8Li0 .= '    color: ' . $_6o161["NavFontColor"] . '; font-weight: ';
-
-       if ($_6o161["NavFontStyle"] == "normal")
-          $_j8Li0 .= 'normal';
-          else
-          if ($_6o161["NavFontStyle"] == "bold")
-            $_j8Li0 .= 'bold';
-          else
-          if ($_6o161["NavFontStyle"] == "italic")
-            $_j8Li0 .= 'italic';
-
-       $_j8Li0 .= '; } ' . $_Q6JJJ;
-
-       $_j8Li0 .= '.nlentry     { font-size: ' . $_6o161["EntryFontSize"] . '; }' . $_Q6JJJ;
-       $_j8Li0 .= 'table.bg     { background-color: ' .$_6o161["NavBackgroundColor"] . ' }' . $_Q6JJJ;
-
-       $_j8Li0 = '<style type="text/css">'.$_Q6JJJ."<!--".$_Q6JJJ.$_j8Li0.'//-->'.$_Q6JJJ.'</style>';
-       $_Q6ICj = _LO6D0("</head>", $_j8Li0.$_Q6JJJ.'</head>', $_Q6ICj);
      }
+
+     $_8jj0l = $_8jIfj[$showEntry];
+
+     $_I1OoI = _JOFDR();
+
+     if(!is_array($_8j0O6["PlaceHolderReplacements"])){
+       $_8j0O6["PlaceHolderReplacements"] = @unserialize($_8j0O6["PlaceHolderReplacements"]);
+       if($_8j0O6["PlaceHolderReplacements"] === false)
+         $_8j0O6["PlaceHolderReplacements"] = array();
+     }  
+
+     if(count($_8j0O6["PlaceHolderReplacements"]) > 0) {
+
+        foreach($_8j0O6["PlaceHolderReplacements"] as $key => $_QltJO){
+            $_I1OoI[$_QltJO["fieldname"]] = $_QltJO["value"];
+        }
+
+     }
+
+     $_ILi8o = $_8jj0l["MailSubject"];
+     $_ILi8o = _J1EBE($_I1OoI, 0, $_ILi8o, $_8j1fC, false, array());
+     
+     // Social media links
+     $_I1OoI['AltBrowserLink_SME'] = $_8Iltt . "&showEntry=$showEntry&selectedYear=$selectedYear";
+     $_I1OoI['AltBrowserLink_SME_URLEncoded'] = urlencode($_I1OoI['AltBrowserLink_SME']);
+     $_I1OoI['Mail_Subject_ISO88591'] = ConvertString($_8j1fC, "ISO-8859-1", $_ILi8o, false);
+     $_I1OoI['Mail_Subject_UTF8'] = ConvertString($_8j1fC, 'utf-8', $_ILi8o, false);
+     $_I1OoI['Mail_Subject_ISO88591_URLEncoded'] = urlencode($_I1OoI['Mail_Subject_ISO88591']);
+     $_I1OoI['Mail_Subject_UTF8_URLEncoded'] = urlencode($_I1OoI['Mail_Subject_UTF8']);
+     // Social media links /
+     
+      if($_8jj0l["MailFormat"] == 'PlainText')
+        $_8jjOI = $_8jj0l["MailPlainText"];
+      if($_8jj0l["MailFormat"] != 'PlainText') {
+        $_8jjOI = $_8jj0l["MailHTMLText"];
+      }
+
+      $_8jjOI = _J1EBE($_I1OoI, 0, $_8jjOI, $_8j1fC, $_8jj0l["MailFormat"] != 'PlainText', array());
+
+      if( $_8jj0l["MailFormat"] == 'PlainText' ) {
+        $_QLJfI = $_IC18i;
+        
+         if(strpos($_8jjOI, "\n") !== false)
+            $_IoLOO = explode("\n", $_8jjOI);
+            else
+            $_IoLOO = explode("\r", $_8jjOI);
+
+         $_8jjOI = str_replace("<body>", "<body>".join("<br />", $_IoLOO), $_QLJfI);
+      }
+
+     $_8jjOI = _LPFQD("<title>", "</title>", $_8jjOI, htmlspecialchars($_ILi8o, ENT_COMPAT, $_8j1fC));
+     
+     //ever set charset
+     $_8jjOI = SetHTMLCharSet($_8jjOI, $_8j1fC);
+
+     $_8jJ0C = join("", file($_ILI1C . "na_start.htm"));
+     $_8jJ0C = str_replace("<!--MUST BE FIRST STYLE!-->", "", $_8jJ0C);
+     $_8jJ0C = _L81DB($_8jJ0C, "<na_infobarcssjs>");
+     $_8jJ0C = _L80DF($_8jJ0C, "/" . "*STARTPAGE*" . "/", "/" . "*STARTPAGE/" . "*" . "/"); //Obfuscator problem with comments in string
+     $_8jJ0C = str_replace("/" . "*DEMO*" . "/", "", $_8jJ0C);
+     $_8jJ0C = _LDL8B($_8jJ0C);
+
+     if(stripos($_8jjOI, "</head>") !== false)
+         $_8jjOI = str_ireplace("</head>", $_8jJ0C . "</head>", $_8jjOI);
+         else
+         $_8jjOI = $_8jJ0C . $_8jjOI;
+     if(stripos($_8jjOI, "<!DOCTYPE html>") === false)
+         $_8jjOI = "<!DOCTYPE html>" . $_8jjOI;
+
+     $_QLJfI = join("", file($_ILI1C . "na_start.htm"));
+     $_j8toO = _L81DB($_QLJfI, "<INFOBAR>");
+     $_QLJfI = null;
+
+     $lang = _LA0BA($_8jjOI);
+     if($lang == "")
+       $lang = $_8j0O6["InfoBarSrcLanguage"];
+
+     $_j8toO = _JOBBR($_j8toO, $lang);
+    
+     //Attachments
+     if($_8jj0l["Attachments"] != ""){
+       $_8jj0l["Attachments"] = @unserialize($_8jj0l["Attachments"]);
+       if($_8jj0l["Attachments"] === false)
+         $_8jj0l["Attachments"] = array();
+     }else
+       $_8jj0l["Attachments"] = array();
+       
+     if(count($_8jj0l["Attachments"]) && _L81DB($_j8toO, "<ATTACHMENTSBLOCK>") != ""){
+       $_IoLOO = _L81DB($_j8toO, "<ATTACHMENTSBLOCK>");
+       $_j8OLI = _L81DB($_IoLOO, "<ATTACHMENTBLOCK>");
+       $_j8otC = "";
+      
+       for($_I016j=0; $_I016j<count($_8jj0l["Attachments"]); $_I016j++){
+         $_8jj0l["Attachments"][$_I016j] = CheckFileNameForUTF8($_8jj0l["Attachments"][$_I016j]);
+         if(!file_exists($_IIlfi . $_8jj0l["Attachments"][$_I016j])) continue;
+         $_j8otC .= $_j8OLI;
+         
+         if($_8j1fC == "utf-8")
+           $_8j60f = htmlspecialchars(utf8_encode($_8jj0l["Attachments"][$_I016j]), ENT_COMPAT, $_8j1fC);
+           else
+           $_8j60f = htmlspecialchars($_8jj0l["Attachments"][$_I016j], ENT_COMPAT, $_8j1fC);
+         
+         $_j8otC = str_replace("[ATTACHMENTSTITLE]", $_8j60f, $_j8otC);
+         $_j8otC = str_replace("[ATTACHMENTSFILENAME]", $_8j60f, $_j8otC);
+         $_j8otC = str_replace("[NASCRIPTURL]", $_8Iltt, $_j8otC);
+         $_j8otC = str_replace("[NAENTRYINDEX]", $showEntry, $_j8otC);
+         $_j8otC = str_replace("[NAYEAR]", $selectedYear, $_j8otC);
+         $_j8otC = str_replace("[NAATTACHMENTSINDEX]", $_I016j . "&rand=" . rand(0, 65535), $_j8otC);
+       } 
+       $_IoLOO = _L81BJ($_IoLOO, "<ATTACHMENTBLOCK>", "", $_j8otC);
+       $_j8toO = _L81BJ($_j8toO, "<ATTACHMENTSBLOCK>", "", $_IoLOO);
+       
+       $_8jjOI = str_ireplace("</body>", $_8j0O6["InfoBarSpacer"] . "</body>", $_8jjOI);
+       
+     } else{ 
+       $_j8toO = _L80DF($_j8toO, "<ATTACHMENTSBLOCK>");
+     }   
+     //Attachments /
+     
+     
+     $_j8toO = _L81BJ($_j8toO, "<spacer>", "", $_8j0O6["InfoBarSpacer"]);
+
+     $_j8toO = _JOCLD($_j8toO, $lang, $_8j1fC, $selectedYear, $showEntry, $_8jIfj);
+
+     if (stripos($_8jjOI, "<body") !== false){
+        $_j8oLj = substr($_8jjOI, 0, stripos($_8jjOI, "<body") + strlen("<body"));
+        $_j8C8I = substr($_8jjOI, stripos($_8jjOI, "<body") +  strlen("<body"));
+        $_j8oLj .= substr($_j8C8I, 0, strpos($_j8C8I, ">") + 1);
+        $_j8C8I = substr($_j8C8I, strpos($_j8C8I, ">") + 1);
+        $_j8C8I = $_j8toO . $_j8C8I;
+        $_8jjOI = $_j8oLj.$_j8C8I;
+     }
+
+
+     SetHTMLHeaders($_8j1fC, false);
+      
+     print _JOF11($_8jjOI, $_8j0O6["RemoveMailToLinks"], $_8j1fC);
+   }
+  
+   function _JOACJ($selectedYear, $showEntry, $attachmentsIndex){
+     global $_jfOJj;
+     
+     if($showEntry < 0)
+       $showEntry = 0;
+     if($attachmentsIndex < 0)  
+       $attachmentsIndex = 0;
+
+     _JOELE($selectedYear, $_8jIfj, true);
+     if ($showEntry > count($_8jIfj) - 1){
+       _JOPC6();
+       return;
+     }
+
+     $_8jj0l = $_8jIfj[$showEntry];
+
+     if($_8jj0l["Attachments"] != ""){
+       $_8jj0l["Attachments"] = @unserialize($_8jj0l["Attachments"]);
+       if($_8jj0l["Attachments"] === false)
+         $_8jj0l["Attachments"] = array();
+     }else
+       $_8jj0l["Attachments"] = array();
+       
+     if(count($_8jj0l["Attachments"])){
+       if($attachmentsIndex > count($_8jj0l["Attachments"]) - 1){
+         _JOPC6();
+         return;
+       } 
+       
+       $_jfO0t = "Location: " . $_jfOJj . "file/" . utf8_encode( CheckFileNameForUTF8( $_8jj0l["Attachments"][$attachmentsIndex] ) );
+       
+       header("Content-Type: text/html; charset=utf-8");
+       header($_jfO0t, true, 301);
+       die;
+     }else  
+       _JOPC6();
    }
 
- if($_6ot1Q) {
-   $_QOLIl = array();
-   _OBAF1($_Q6ICj, $_QOLIl);
-   for($_Q6llo=0; $_Q6llo<count($_QOLIl); $_Q6llo++)
-      $_Q6ICj = str_replace($_QOLIl[$_Q6llo], "mailto:noemail", $_Q6ICj);
+   function _LQOLL($_QLoli, $_8jfIQ, $_jfCoo, $_8jfL8=false){
+     $_ILJjL = _L81DB($_QLoli, $_8jfIQ);
+     $_ILJjL = str_replace('[URL]', $_jfCoo->URL, $_ILJjL);
+     $_ILJjL = str_replace('[TITLE]', $_jfCoo->Title, $_ILJjL);
+     $_ILJjL = str_replace('[LINKTEXT]',  $_jfCoo->Text, $_ILJjL);
+     if(!$_8jfL8)
+       return _L81BJ($_QLoli, $_8jfIQ, "", $_ILJjL);
+       else
+       return _L8Q6B($_QLoli, $_8jfIQ, "", $_ILJjL);
+   }
+
+   function _LDL8B($_QLoli){
+    global $_8j0O6;
+    $_jfLO0 = _L81DB($_QLoli, "<style>");
+    
+    $_j816L = _LBLDQ();
+    foreach($_j816L as $_j8QJ6 => $_QltJO){
+      break;
+    }
+    
+    $_j8QJ8 = explode("\n", $_jfLO0);
+    for($_Qli6J=0;$_Qli6J<count($_j8QJ8); $_Qli6J++){
+      $_j8QJ8[$_Qli6J] = rtrim($_j8QJ8[$_Qli6J]);
+      $_j8Qto = strpos($_j8QJ8[$_Qli6J], '/*' . $_j8QJ6 );
+      if( $_j8Qto !== false && strpos($_j8QJ8[$_Qli6J], '*/') !== false ){
+        
+        $_j8IjI = substr($_j8QJ8[$_Qli6J], $_j8Qto);
+        $_j8IjI = substr($_j8IjI, strpos($_j8IjI, ' '));
+        $_j8IjI = trim( substr($_j8IjI, 0, strpos($_j8IjI, '*/') ) );
+        
+        $_j8Ioj = strpos($_j8QJ8[$_Qli6J], '/*' . $_8j0O6["InfoBarSchemeColorName"] );
+        if( $_j8Ioj !== false && strpos($_j8QJ8[$_Qli6J], '*/') !== false ){
+          $_j8j08 = substr($_j8QJ8[$_Qli6J], $_j8Ioj);
+          $_j8j08 = substr($_j8j08, strpos($_j8j08, ' '));
+          $_j8j08 = trim( substr($_j8j08, 0, strpos($_j8j08, '*/') ) );
+        }else{
+         // ever black
+         $_j8j08 = $_j8IjI;
+        }
+        
+        // remove all commented styles
+        $_j8QJ8[$_Qli6J] = substr($_j8QJ8[$_Qli6J], 0, strpos($_j8QJ8[$_Qli6J], '/*') - 1 );
+        $_j8QJ8[$_Qli6J] = str_replace($_j8IjI, $_j8j08, $_j8QJ8[$_Qli6J]);
+        
+      }
+    }
+    
+    $_jfLO0 = join("\r\n", $_j8QJ8);
+    $_j8QJ8 = null;
+    $_QLoli = _L81BJ($_QLoli, "<style>", "", "<style>" . $_jfLO0 . "</style>", true);
+    $_jfLO0 = null;
+    $_QLoli = _L80DF($_QLoli, "<!--COLORSCHEME", "/COLORSCHEME-->");
+    return $_QLoli;
+   }
+   
+   function _JOBBR($_QLoli, $_8j8Oi = "de", $_8j1fC="utf-8"){
+      global $_8Iltt;
+      global $_ILI1C, $_8j0O6;
+
+      $_8j1fC = strtolower($_8j1fC);
+
+      $_QLoli = _LDL8B($_QLoli);
+      
+
+      $_jfLj1 = new TAltBrowserLinkInfoBarLinkType(); // < PHP 5.3
+      $_j8J81 = "<SOCIALLINK>" . _L81DB($_QLoli, "<SOCIALLINK>") . "</SOCIALLINK>";
+      $_8j8i8 = "";
+      foreach($_8j0O6["InfoBarLinksArray"] as $key => $_jfCoo){
+
+        // Build entities
+         if($_8j1fC != "utf-8"){
+            $_jfCoo->Title = UTF8ToEntities( $_jfCoo->Title );
+            $_jfCoo->Text = UTF8ToEntities( $_jfCoo->Text );
+         }     
+
+         switch($_jfCoo->LinkType){
+            case $_jfLj1->abtSubscribe: 
+                          if($_jfCoo->Checked)
+                             $_QLoli = _LQOLL($_QLoli, "<SUBSCRIBELINK>", $_jfCoo);
+                             else
+                             $_QLoli = _L80DF($_QLoli, "<SUBSCRIBELINK>");
+                          break;
+            case $_jfLj1->abtUnsubscribe: 
+                          $_QLoli = _L80DF($_QLoli, "<UNSUBSCRIBELINK>");
+                          break;
+            case $_jfLj1->abtFacebook: 
+                          if($_jfCoo->Checked){
+                            $_8j8i8 .= $_j8J81; 
+                            $_8j8i8 = _LQOLL($_8j8i8, "<SOCIALLINK>", $_jfCoo);
+                          }
+                          break;
+            case $_jfLj1->abtTwitter: 
+                          if($_jfCoo->Checked){
+                            $_8j8i8 .= $_j8J81; 
+                            $_8j8i8 = _LQOLL($_8j8i8, "<SOCIALLINK>", $_jfCoo);
+                          }
+                          break;
+            case $_jfLj1->abtArchieve: 
+                          $_QLoli = _L80DF($_QLoli, "<ARCHIEVELINK>");
+                          break;
+            case $_jfLj1->abtRSS: 
+                          if($_jfCoo->Checked){
+                            $_jfCoo->URL = $_8Iltt . "&showRSS";
+                            $_QLoli = _LQOLL($_QLoli, "<RSSFEEDLINK>", $_jfCoo);
+                          }else 
+                            $_QLoli = _L80DF($_QLoli, "<RSSFEEDLINK>");
+                          break;
+            case $_jfLj1->abtTranslate: 
+                           if($_jfCoo->Checked){
+                             $_j8tiJ = _L8QJA($_QLoli, '<TRANSLATE_ITEM>', '</TRANSLATE_ITEM>');
+                             $_j8OOQ = '';
+                             for($_QliOt=0; $_QliOt<count($_8j0O6["InfoBarSupportedTranslationLanguages"]); $_QliOt++){
+                               $_j8OOC = $_8j0O6["InfoBarSupportedTranslationLanguages"][$_QliOt];
+                               if($_8j8Oi == $_j8OOC["code"]) continue;
+                               
+                               if($_8j1fC == "utf-8")
+                                  $_j8Oit = $_j8OOC["Name"];
+                                  else
+                                  $_j8Oit = UTF8ToEntities($_j8OOC["Name"]);
+                                 
+                               $_j8OOQ .= $_j8tiJ;
+                               $_j8OOQ = str_replace('[TITLE]', $_j8Oit, $_j8OOQ);
+                               $_j8OOQ = str_replace('[LINKTEXT]', $_j8Oit, $_j8OOQ);
+                               $_j8OOQ = str_replace('[LANGUAGE]', $_j8OOC["code"], $_j8OOQ);
+                               $_j8OOQ = str_replace('[SRCLANGUAGE]', $_8j8Oi, $_j8OOQ);
+                             }
+
+                             $_QLoli = str_replace('<TRANSLATE_ITEMS />', $_j8OOQ, $_QLoli);
+
+                             $_QLoli = _LQOLL($_QLoli, "<TRANSLATE_BLOCK>", $_jfCoo);
+                           }else{
+                             $_QLoli = _L80DF($_QLoli, "<TRANSLATE_BLOCK>");  
+                           }
+                          break;
+            case $_jfLj1->abtHome: 
+                          if($_jfCoo->Checked){
+                            $_jfCoo->URL = $_8Iltt;
+                            $_QLoli = _LQOLL($_QLoli, "<HOMELINK>", $_jfCoo);
+                          }else 
+                            $_QLoli = _L80DF($_QLoli, "<HOMELINK>");
+                          break;
+            case $_jfLj1->abtAttachments:                 
+                         if($_jfCoo->Checked){
+                           $_QLoli = _LQOLL($_QLoli, "<ATTACHMENTSBLOCK>", $_jfCoo, true);
+                         }else{
+                           $_QLoli = _L80DF($_QLoli, "<ATTACHMENTSBLOCK>"); 
+                         }
+                         
+                         break;
+         }  
+      }
+      $_QLoli = _L81BJ($_QLoli, "<SOCIALLINK>", "", $_8j8i8);
+
+
+      return $_QLoli;
+   }
+  
+   function _JOCLD($_j8toO, $lang, $_8j1fC, $selectedYear, $showEntry, $_8jIfj){
+     global $_8Iltt;
+     global $_8j0O6, $_QLo06;
+
+
+     $_I016j = _L81DB($_j8toO, "<NAYEARSBLOCK>");
+     $_8jtOO = array();
+     _JODEJ($_8jtOO);
+
+     if($selectedYear == -1 && $showEntry == -1 && !count($_8jtOO)){
+       return _L80DF($_j8toO, "<NAYEARSBLOCK>");
+     }
+
+     if($selectedYear == -1 && $showEntry == -1){
+       $selectedYear = $_8jtOO[0];
+     }
+
+     $_8jOIt = _L81DB($_I016j, "<NAYEAR_ITEM>");
+     $_I016j = _L80DF($_I016j, "<NAYEAR_ITEM>");
+
+     if($_8j0O6["ShowSelectedEntryFirst"]){
+       $_66Lfi = $_8jOIt;
+       $_66Lfi = str_replace("[NAYEARPrefix]", $_8j0O6["YearsPrefix"], $_66Lfi);
+       $_66Lfi = str_replace("[NAYEAR]", $selectedYear, $_66Lfi);
+       $_66Lfi = str_replace("[NASCRIPTURL]", $_8Iltt, $_66Lfi);
+       if( $showEntry > -1 ) // not on StartPage
+          $_66Lfi = str_replace('class="Year"', 'class="selectedYear"', $_66Lfi);
+     }else
+      $_66Lfi = "";
+
+     for($_Qli6J=0; $_Qli6J<count($_8jtOO); $_Qli6J++){
+       if($_8j0O6["ShowSelectedEntryFirst"] && $_8jtOO[$_Qli6J] == $selectedYear) continue;
+       $_8jOJL = $_8jOIt;
+       $_8jOJL = str_replace("[NAYEARPrefix]", $_8j0O6["YearsPrefix"], $_8jOJL);
+       $_8jOJL = str_replace("[NAYEAR]", $_8jtOO[$_Qli6J], $_8jOJL);
+       $_8jOJL = str_replace("[NASCRIPTURL]", $_8Iltt, $_8jOJL);
+       if(!$_8j0O6["ShowSelectedEntryFirst"] && $_8jtOO[$_Qli6J] == $selectedYear)
+         $_8jOJL = str_replace('class="Year"', 'class="selectedYear"', $_8jOJL);
+       $_66Lfi .= $_8jOJL;
+     }
+
+     $_I016j = str_replace("<NAYEAR_ITEMS />", $_66Lfi, $_I016j);
+
+     $_I016j = str_replace("[NAYEARPrefix]", $_8j0O6["YearsPrefix"], $_I016j);
+     $_I016j = str_replace("[NAYEAR]", $selectedYear, $_I016j);
+
+     $_j8toO = _L81BJ($_j8toO, "<NAYEARSBLOCK>", "", $_I016j);
+
+     //
+
+     if($showEntry == -1){ // StartPage
+       return $_j8toO;
+     }
+
+     $_I016j = _L81DB($_j8toO, "<NAENTRIESBLOCK>");
+     $_8jo0J = _L81DB($_I016j, "<NA_ITEM>");
+     $_I016j = _L80DF($_I016j, "<NA_ITEM>");
+
+
+     if(!isset($_8jIfj) || !count($_8jIfj))
+        _JOELE($selectedYear, $_8jIfj, true);
+
+     $_8jj0l = $_8jIfj[$showEntry];
+
+     $_I016j = _JOD1E($_I016j, $selectedYear, $showEntry, $_8jj0l, $_8j1fC);
+
+     if($_8j0O6["ShowSelectedEntryFirst"]){
+       $_66Lfi = _JOD1E($_8jo0J, $selectedYear, $showEntry, $_8jj0l, $_8j1fC);
+       $_66Lfi = str_replace('class="Entry"', 'class="selectedEntry"', $_66Lfi);
+     }else
+       $_66Lfi = "";
+
+
+     for($_Qli6J=0; $_Qli6J<count($_8jIfj); $_Qli6J++){
+       if($_8j0O6["ShowSelectedEntryFirst"] && $_Qli6J == $showEntry) continue;
+       $_8jOJL = $_8jo0J;
+       $_8jj0l = $_8jIfj[$_Qli6J];
+       $_8jOJL = _JOD1E($_8jOJL, $selectedYear, $_Qli6J, $_8jj0l, $_8j1fC);
+       if(!$_8j0O6["ShowSelectedEntryFirst"] && $_Qli6J == $showEntry)
+         $_8jOJL = str_replace('class="Entry"', 'class="selectedEntry"', $_8jOJL);
+       $_66Lfi .= $_8jOJL;
+     }
+
+     $_I016j = str_replace("<NA_ITEMS />", $_66Lfi, $_I016j);
+
+
+     $_j8toO = _L81BJ($_j8toO, "<NAENTRIESBLOCK>", "", $_I016j);
+
+     return $_j8toO;
+   }
+  
+   function _JOCEB($_QLoli, $_8j1fC){
+     global $_8j0O6;
+     
+     $_ftICi = $_8j0O6["MaxLatestEntriesOnStartPage"];
+
+     if($_ftICi < 1)
+       $_ftICi = 3;
+
+     $_8jtOO = array();
+     _JODEJ($_8jtOO);
+     if(count($_8jtOO) == 0)
+       return _L80DF($_QLoli, "<STARTPAGELATESTENTRIESBLOCK>");
+
+     $_8jojf = array();
+
+     for($_Qli6J=0; $_Qli6J<count($_8jtOO) && count($_8jojf) < $_ftICi; $_Qli6J++){
+       _JOELE($_8jtOO[$_Qli6J], $_8jIfj, true);
+       for($_QliOt=0; $_QliOt<count($_8jIfj) && count($_8jojf) < $_ftICi; $_QliOt++)
+         $_8jojf[] = array("Year" => $_8jtOO[$_Qli6J], "EntryIndex" => $_QliOt, "Entry" => $_8jIfj[$_QliOt]);
+     }
+
+     $_I016j = _L81DB($_QLoli, "<STARTPAGELATESTENTRIESBLOCK>");
+     $_jJjQi = _L81DB($_I016j, "<LATESTENTRIESB_ITEM>");
+     $_68tQ1 = "";
+     for($_Qli6J=0; $_Qli6J<count($_8jojf); $_Qli6J++){
+       $_68tQ1 .= $_jJjQi;
+
+       $_8jj0l = $_8jojf[$_Qli6J]["Entry"];
+
+       $_68tQ1 = _JOD1E($_68tQ1, $_8jojf[$_Qli6J]["Year"], $_8jojf[$_Qli6J]["EntryIndex"], $_8jj0l, $_8j1fC);
+     }
+
+     $_I016j = _L80DF($_I016j, "<LATESTENTRIESB_ITEM>");
+     $_I016j = str_replace("<LATESTENTRIESB_ITEMS />", $_68tQ1, $_I016j);
+
+     $_QLoli = _L81BJ($_QLoli, "<STARTPAGELATESTENTRIESBLOCK>", "", $_I016j);
+
+     return $_QLoli;
+   }
+
+   function _JOD1E($_8jofO, $_8jotO, $_8jCjj, $_8jj0l, $_8j1fC) {
+      global $_8Iltt, $ShortDateFormat;
+      global $_8j0O6, $_QLo06;
+
+      $Date = date($ShortDateFormat, $_8jj0l["StartSendDateTimeUNIXTIME"]);
+      $_ILi8o = $_8jj0l["MailSubject"];
+
+      $_I1OoI = _JOFDR();
+
+      if(!is_array($_8j0O6["PlaceHolderReplacements"])){
+        $_8j0O6["PlaceHolderReplacements"] = @unserialize($_8j0O6["PlaceHolderReplacements"]);
+        if($_8j0O6["PlaceHolderReplacements"] === false)
+          $_8j0O6["PlaceHolderReplacements"] = array();
+      }  
+
+      if(count($_8j0O6["PlaceHolderReplacements"]) > 0) {
+
+         foreach($_8j0O6["PlaceHolderReplacements"] as $key => $_QltJO){
+             $_I1OoI[$_QltJO["fieldname"]] = $_QltJO["value"];
+         }
+
+      }
+
+      $_ILi8o = $_8jj0l["MailSubject"];
+      $_ILi8o = _J1EBE($_I1OoI, 0, $_ILi8o, $_8j1fC, false, array());
+      $_ILi8o = htmlspecialchars($_ILi8o, ENT_COMPAT, $_8j1fC);
+
+      $_8jofO = str_replace("[NASCRIPTURL]", $_8Iltt, $_8jofO);
+
+      $_8jofO = str_replace("[NAENTRYINDEX]", $_8jCjj, $_8jofO);
+      $_8jofO = str_replace("[NAYEAR]", $_8jotO, $_8jofO);
+      $_8jofO = str_replace("[NAENTRYPrefix]", UTF8ToEntities( $_8j0O6["NewsletterEntryPrefix"] ), $_8jofO);
+      $_8jofO = str_replace("[NAENTRYDATE]", $Date, $_8jofO);
+      $_8jofO = str_replace("[NAENTRYSUBJECT]", $_ILi8o, $_8jofO);
+
+      return $_8jofO;
+    }
+  
+function _JODEJ(&$_8jtOO) {
+  global $_ftjjC, $_QLttI, $_8j0O6;
+
+  if(!is_array($_8jtOO))
+    $_8jtOO = array();
+  
+  reset($_ftjjC);
+  foreach($_ftjjC as $_J0LQQ => $_QltJO) {
+    if(!is_int($_J0LQQ) || !is_array($_QltJO)) continue;
+    $_QLfol = "SELECT DISTINCT YEAR(StartSendDateTime) As AYear FROM $_QltJO[CurrentSendTableName] WHERE `Campaigns_id`=$_J0LQQ ORDER BY AYear DESC";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    while($_QLO0f = mysql_fetch_row($_QL8i1)) {
+       if(!in_array($_QLO0f[0], $_8jtOO))
+          $_8jtOO[] = $_QLO0f[0];
+    }
+    mysql_free_result($_QL8i1);
+  }
+  if($_8j0O6["SortOrderNewToOld"])
+    rsort($_8jtOO, SORT_NUMERIC);
+    else
+    sort($_8jtOO, SORT_NUMERIC);
+}
+
+function _JOELE($_8ji06, &$_8jIfj, $_8jit1 = false) {
+  global $_ftjjC, $_j01CJ, $_QLo60, $_8j0O6, $_QLttI;
+
+  $_8ji06 = intval($_8ji06);
+  reset($_ftjjC);
+  foreach($_ftjjC as $_J0LQQ => $_QltJO) {
+    if(!is_int($_J0LQQ) || !is_array($_QltJO)) continue; // for newer PHP versions or a bug in PHP, added SubjectGenerator is enumerated, but should not 
+    $_QLfol = "SELECT *, DATE_FORMAT(StartSendDateTime, $_j01CJ) AS StartSendDateTimeFormated, UNIX_TIMESTAMP(StartSendDateTime) AS StartSendDateTimeUNIXTIME, YEAR(StartSendDateTime) As AYear, MONTH(StartSendDateTime) As AMonth, DAYOFMONTH(StartSendDateTime) As ADay FROM $_QltJO[CurrentSendTableName] LEFT JOIN $_QltJO[ArchiveTableName] ON $_QltJO[ArchiveTableName].SendStat_id=$_QltJO[CurrentSendTableName].id WHERE `Campaigns_id`=$_J0LQQ AND YEAR(StartSendDateTime)=$_8ji06";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      $_QLO0f["Campaigns_id"] = $_J0LQQ;
+      if( !isset($_ftjjC["SubjectGenerator"])  )
+        $_ftjjC["SubjectGenerator"] = new SubjectGenerator($_QLO0f["MailSubject"]);
+        else
+        $_ftjjC["SubjectGenerator"]->_LECC8($_QLO0f["MailSubject"], true);
+      $_QLO0f["MailSubject"] = $_ftjjC["SubjectGenerator"]->_LEEPA(-1); // first entry
+      $_8jIfj[$_QLO0f["StartSendDateTime"]] = $_QLO0f;
+    }
+    mysql_free_result($_QL8i1);
+  }
+  if($_8j0O6["SortOrderNewToOld"])
+    krsort($_8jIfj);
+    else
+    ksort($_8jIfj);
+  if($_8jit1){
+    $_ffo11 = array();
+    foreach($_8jIfj as $key => $_QltJO) {
+      $_ffo11[] = $_QltJO;
+    }
+    $_8jIfj = $_ffo11;
+  }
+}
+
+function _JOF11($_QLoli, $_8jLJ6 = false, $_8j1fC = "utf-8") {
+ global $_8j0O6, $_QLl1Q;
+
+ $_QLoli = _L80DF($_QLoli, "[AltBrowserLink_begin]", "[AltBrowserLink_end]");
+ $_QLoli = _L80DF($_QLoli, "<!--AltBrowserLink_begin//-->", "<!--AltBrowserLink_end//-->");
+
+ if(!empty($_8j0O6["HeadDescription"]))
+   $_QLoli = _LRFCO("</head>", '<meta name="description" content="'.$_8j0O6["HeadDescription"].'">'.$_QLl1Q.'</head>', $_QLoli);
+
+ if(!empty($_8j0O6["HeadKeywords"]))
+   $_QLoli = _LRFCO("</head>", '<meta name="keywords" content="'.$_8j0O6["HeadKeywords"].'">'.$_QLl1Q.'</head>', $_QLoli);
+
+ if(!empty($_8j0O6["HeadAutor"])){
+   $_QLoli = _LRFCO("</head>", '<meta name="author" content="'.$_8j0O6["HeadAutor"].'">'.$_QLl1Q.'</head>', $_QLoli);
+   $_QLoli = _LRFCO("</head>", '<meta name="copyright" content="'.$_8j0O6["HeadAutor"].'">'.$_QLl1Q.'</head>', $_QLoli);
+ }
+ 
+ if($_8jLJ6) {
+   $_IjQI8 = array();
+   _LAO86($_QLoli, $_IjQI8);
+   for($_Qli6J=0; $_Qli6J<count($_IjQI8); $_Qli6J++)
+      $_QLoli = str_replace($_IjQI8[$_Qli6J], "mailto:noemail", $_QLoli);
  }
 
 
- return $_Q6ICj;
+ return $_QLoli;
 }
 
-function _LO81C() {
-  global $_Qofjo, $INTERFACE_LANGUAGE, $_IIQI8, $_III0L, $_jQt18, $_Ij18l, $_I88i8, $_I8tjl, $_QOifL, $_Q61I1;
+function _JOFDR() {
+  global $_Ij8oL, $INTERFACE_LANGUAGE, $_Iol8t, $_IolCJ, $_jlJ1o, $_ICiQ1, $_jQ68I, $_jQf81, $_Ij08l, $_QLttI;
   #### normal placeholders
-  $_QJlJ0 = "SELECT fieldname FROM $_Qofjo WHERE language='$INTERFACE_LANGUAGE' AND fieldname <> 'u_EMailFormat'";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_Q8otJ=array();
-  while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-   $_Q8otJ[$_Q6Q1C["fieldname"]] = "";
+  $_QLfol = "SELECT fieldname FROM $_Ij8oL WHERE language='$INTERFACE_LANGUAGE' AND fieldname <> 'u_EMailFormat'";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_I1OoI=array();
+  while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+   $_I1OoI[$_QLO0f["fieldname"]] = "";
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
   # defaults
-  foreach ($_IIQI8 as $key => $_Q6ClO)
-   $_Q8otJ[$key] = "";
+  foreach ($_Iol8t as $key => $_QltJO)
+   $_I1OoI[$key] = "";
 
   // functions
-  $_QJlJ0 = "SELECT Name FROM $_I88i8 ORDER BY Name";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-   $_Q8otJ[$_Q6Q1C["Name"]] = "";
+  $_QLfol = "SELECT Name FROM $_jQ68I ORDER BY Name";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+   $_I1OoI[$_QLO0f["Name"]] = "";
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
   // textblocks
-  $_QJlJ0 = "SELECT Name FROM $_I8tjl ORDER BY Name";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-   $_Q8otJ[$_Q6Q1C["Name"]] = "";
+  $_QLfol = "SELECT Name FROM $_jQf81 ORDER BY Name";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+   $_I1OoI[$_QLO0f["Name"]] = "";
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
   #### special newsletter unsubscribe placeholders
-  $_Ij0oj = array_merge($_III0L, $_jQt18, $_Ij18l, $_QOifL);
-  reset($_Ij0oj);
-  foreach ($_Ij0oj as $key => $_Q6ClO)
-    $_Q8otJ[$key] = "";
+  $_ICCIo = array_merge($_IolCJ, $_jlJ1o, $_ICiQ1, $_Ij08l);
+  reset($_ICCIo);
+  foreach ($_ICCIo as $key => $_QltJO)
+    $_I1OoI[$key] = "";
 
-  $_Q8otJ["MembersAge"] = "";
+  $_I1OoI["MembersAge"] = "";
 
-  return $_Q8otJ;
+  return $_I1OoI;
 }
 
-function _LOP06(){
- global $_6o161, $_Q6JJJ, $INTERFACE_LANGUAGE, $_6OliC, $_6o0C0, $_Q6QQL;
+function _JL0LP(){
+ global $_8j0O6, $_QLl1Q, $INTERFACE_LANGUAGE, $_8Iltt, $_QLo06, $_IIlfi;
 
- if(!$_6o161["rssshowAll"]){
-   $_6oQ8Q = array();
-   _LO6QF(date("Y"), $_6oQ8Q);
+ if(!$_8j0O6["rssshowAll"]){
+   $_8jIfj = array();
+   if(!count($_8jIfj))
+   _JOELE(date("Y"), $_8jIfj);
+     _JOELE(date("Y") - 1, $_8jIfj);
  } else{
-   $_6ojOi = array();
-   _LO61O($_6ojOi);
-   $_6oQ8Q = array();
-   for($_Q6llo=0; $_Q6llo<count($_6ojOi); $_Q6llo++) {
-     $_6oQif = array();
-     _LO6QF($_6ojOi[$_Q6llo], $_6oQif);
-     $_QL8Q8 = 0;
-     foreach($_6oQif as $key => $_Q6ClO) {
-       $_Q6ClO["internalSortId"] = $_QL8Q8;
-       $_QL8Q8++;
-       $_6oQif[$key] = $_Q6ClO;
+   $_8jtOO = array();
+   _JODEJ($_8jtOO);
+   $_8jIfj = array();
+   for($_Qli6J=0; $_Qli6J<count($_8jtOO); $_Qli6J++) {
+     $_8jj0l = array();
+     _JOELE($_8jtOO[$_Qli6J], $_8jj0l);
+     $_Ift08 = 0;
+     foreach($_8jj0l as $key => $_QltJO) {
+       $_QltJO["internalSortId"] = $_Ift08;
+       $_Ift08++;
+       $_8jj0l[$key] = $_QltJO;
      }
 
-     $_6oQ8Q = array_merge($_6oQ8Q, $_6oQif);
+     $_8jIfj = array_merge($_8jIfj, $_8jj0l);
    }
  }
 
- $_Q8otJ = @file(_O68QF()."rsstemplate.xml");
- if($_Q8otJ)
-   $_QJCJi = join("", $_Q8otJ);
+ $_I1OoI = @file(_LOC8P()."rsstemplate.xml");
+ if($_I1OoI)
+   $_QLJfI = join("", $_I1OoI);
    else
-   $_QJCJi = join("", file(InstallPath._O68QF()."rsstemplate.xml"));
+   $_QLJfI = join("", file(InstallPath._LOC8P()."rsstemplate.xml"));
 
- $_6otOI = "<item>"._OP81D($_QJCJi, "<item>", "</item>")."</item>";
- $_QJCJi = _OPR6L($_QJCJi, "<item>", "</item>", "<!--RSSFEED-->");
+ $_JlQio = "<item>"._L81DB($_QLJfI, "<item>", "</item>")."</item>";
+ $_QLJfI = _L81BJ($_QLJfI, "<item>", "</item>", "<!--RSSFEED-->");
 
- $_QJCJi = _OP8CP($_QJCJi, "<title>", "</title>", "<![CDATA[".$_6o161["rssTitle"]."]]>");
- $_QJCJi = _OP8CP($_QJCJi, "<link>", "</link>", "<![CDATA[". $_6o161["rssLinkURL"]."]]>" );
- $_QJCJi = _OP8CP($_QJCJi, "<description>", "</description>", "<![CDATA[".$_6o161["rssDescription"]."]]>");
- $_QJCJi = _OP8CP($_QJCJi, "<language>", "</language>", "$INTERFACE_LANGUAGE");
- $_QJCJi = _OP8CP($_QJCJi, "<copyright>", "</copyright>", "<![CDATA[".$_6o161["rssCopyright"]."]]>");
- $_QJCJi = _OP8CP($_QJCJi, "<pubDate>", "</pubDate>", date("r", $_6o161["CreateDateUnixTime"]));
+ $_QLJfI = _L8Q6J($_QLJfI, "<title>", "</title>", "<![CDATA[".$_8j0O6["rssTitle"]."]]>");
+ $_QLJfI = _L8Q6J($_QLJfI, "<link>", "</link>", "<![CDATA[". $_8j0O6["rssLinkURL"]."]]>" );
+ $_QLJfI = _L8Q6J($_QLJfI, "<description>", "</description>", "<![CDATA[".$_8j0O6["rssDescription"]."]]>");
+ $_QLJfI = _L8Q6J($_QLJfI, "<language>", "</language>", "$INTERFACE_LANGUAGE");
+ $_QLJfI = _L8Q6J($_QLJfI, "<copyright>", "</copyright>", "<![CDATA[".$_8j0O6["rssCopyright"]."]]>");
+ $_QLJfI = _L8Q6J($_QLJfI, "<pubDate>", "</pubDate>", date("r", $_8j0O6["CreateDateUnixTime"]));
 
- $_Q8otJ = _LO81C();
+ $_I1OoI = _JOFDR();
 
- $_6o161["PlaceHolderReplacements"] = @unserialize($_6o161["PlaceHolderReplacements"]);
- if($_6o161["PlaceHolderReplacements"] === false)
-   $_6o161["PlaceHolderReplacements"] = array();
+ if(!is_array($_8j0O6["PlaceHolderReplacements"])){
+   $_8j0O6["PlaceHolderReplacements"] = @unserialize($_8j0O6["PlaceHolderReplacements"]);
+   if($_8j0O6["PlaceHolderReplacements"] === false)
+     $_8j0O6["PlaceHolderReplacements"] = array();
+ }  
 
- if(count($_6o161["PlaceHolderReplacements"]) > 0) {
+ if(count($_8j0O6["PlaceHolderReplacements"]) > 0) {
 
-    foreach($_6o161["PlaceHolderReplacements"] as $key => $_Q6ClO){
-        $_Q8otJ[$_Q6ClO["fieldname"]] = $_Q6ClO["value"];
+    foreach($_8j0O6["PlaceHolderReplacements"] as $key => $_QltJO){
+        $_I1OoI[$_QltJO["fieldname"]] = $_QltJO["value"];
     }
 
  }
 
 
- $_6oO6j = "";
+ $_jQ0OL = "";
  # sort creates new keys
- $_QL8Q8 = 0;
- foreach($_6oQ8Q as $key => $_Q6ClO) {
-   $_6oQif = $_Q6ClO;
-   if(isset($_Q6ClO["internalSortId"]))
-     $_QL8Q8 = $_Q6ClO["internalSortId"];
-   $_Q66jQ = $_6otOI;
+ $_Ift08 = 0;
+ foreach($_8jIfj as $key => $_QltJO) {
+   $_8jj0l = $_QltJO;
+   if(isset($_QltJO["internalSortId"]))
+     $_Ift08 = $_QltJO["internalSortId"];
 
-   $_I6016 = $_6oQif["MailSubject"];
+   if($_8jj0l["Attachments"] != ""){
+     $_8jj0l["Attachments"] = @unserialize($_8jj0l["Attachments"]);
+     if($_8jj0l["Attachments"] === false)
+       $_8jj0l["Attachments"] = array();
+   }else
+     $_8jj0l["Attachments"] = array();
 
-   if($_6oQif["MailFormat"] == 'PlainText')
-     $_6oIoL = $_6oQif["MailPlainText"];
-   if($_6oQif["MailFormat"] != 'PlainText') {
-     $_6oIoL = $_6oQif["MailHTMLText"];
-     $_6oIoL = _OP6PQ($_6oIoL, "<style", "</style>"); // CSS in RSS not allowed
-     $_6oIoL = _OB8O0("<title>", "</title>", $_6oIoL, $_I6016);
+   // problems FTP upload rsstemplate.xml, it can be CRLF, CR or LF
+   if(_L81DB($_JlQio, "<enclosure", "/>" . $_QLl1Q) != "")
+     $_8jl06 = $_QLl1Q;
+     else
+     if(_L81DB($_JlQio, "<enclosure", "/>" . "\n") != "")
+        $_8jl06 = "\n";
+        else
+         $_8jl06 = "\r";
 
-     $_jitLI = array();
-     GetInlineFiles($_6oIoL, $_jitLI, true);
-     for($_Q6llo=0; $_Q6llo< count($_jitLI); $_Q6llo++) {
-       if(!@file_exists($_jitLI[$_Q6llo])) {
-         $_QCoLj = _OBLCO(WebsiteURL).$_jitLI[$_Q6llo];
-         $_6oIoL = str_replace($_jitLI[$_Q6llo], $_QCoLj, $_6oIoL);
+   if(!count($_8jj0l["Attachments"])){ 
+     $_Ql0fO = _L80DF($_JlQio, "<enclosure", "/>" . $_8jl06);
+   }
+   else{
+     $_8jlt6 = "<enclosure" . _L81DB($_JlQio, "<enclosure", "/>". $_8jl06) . "/>" . $_8jl06;
+     $_Ql0fO = _L81BJ($_JlQio, "<enclosure", "/>", chr(255) . "ENCLOSURE" . chr(255));
+   }  
+   
+   $_ILi8o = $_8jj0l["MailSubject"];
+
+   if($_8jj0l["MailFormat"] == 'PlainText')
+     $_8jjOI = $_8jj0l["MailPlainText"];
+   if($_8jj0l["MailFormat"] != 'PlainText') {
+     $_8jjOI = $_8jj0l["MailHTMLText"];
+     $_8jjOI = _L80DF($_8jjOI, "<style", "</style>"); // CSS in RSS not allowed
+     $_8jjOI = _LPFQD("<title>", "</title>", $_8jjOI, $_ILi8o);
+
+     $_JiI11 = array();
+     GetInlineFiles($_8jjOI, $_JiI11, true);
+     for($_Qli6J=0; $_Qli6J< count($_JiI11); $_Qli6J++) {
+       if(!@file_exists($_JiI11[$_Qli6J])) {
+         $_IJL6o = _LPBCC(WebsiteURL).$_JiI11[$_Qli6J];
+         $_8jjOI = str_replace($_JiI11[$_Qli6J], $_IJL6o, $_8jjOI);
        }
      }
 
    }
-   $_I6016 = $_6oQif["MailSubject"];
-   $_I6016 = _L1ERL($_Q8otJ, 0, $_I6016, $_Q6QQL, false, array());
+   $_ILi8o = $_8jj0l["MailSubject"];
+   $_ILi8o = _J1EBE($_I1OoI, 0, $_ILi8o, $_QLo06, false, array());
 
    // Social media links
-   $_Q8otJ['AltBrowserLink_SME'] = $_6OliC.""."?$_6o0C0&showRSS=1";
-   $_Q8otJ['AltBrowserLink_SME_URLEncoded'] = urlencode($_Q8otJ['AltBrowserLink_SME']);
-   $_Q8otJ['Mail_Subject_ISO88591'] = ConvertString($_Q6QQL, "ISO-8859-1", $_I6016, false);
-   $_Q8otJ['Mail_Subject_UTF8'] = $_I6016;
-   $_Q8otJ['Mail_Subject_ISO88591_URLEncoded'] = urlencode($_Q8otJ['Mail_Subject_ISO88591']);
-   $_Q8otJ['Mail_Subject_UTF8_URLEncoded'] = urlencode($_Q8otJ['Mail_Subject_UTF8']);
+   $_I1OoI['AltBrowserLink_SME'] = $_8Iltt.""."&showRSS=1";
+   $_I1OoI['AltBrowserLink_SME_URLEncoded'] = urlencode($_I1OoI['AltBrowserLink_SME']);
+   $_I1OoI['Mail_Subject_ISO88591'] = ConvertString($_QLo06, "ISO-8859-1", $_ILi8o, false);
+   $_I1OoI['Mail_Subject_UTF8'] = $_ILi8o;
+   $_I1OoI['Mail_Subject_ISO88591_URLEncoded'] = urlencode($_I1OoI['Mail_Subject_ISO88591']);
+   $_I1OoI['Mail_Subject_UTF8_URLEncoded'] = urlencode($_I1OoI['Mail_Subject_UTF8']);
    // Social media links /
 
-   $_6oIoL = _L1ERL($_Q8otJ, 0, $_6oIoL, $_Q6QQL, $_6oQif["MailFormat"] != 'PlainText', array());
+   $_8jjOI = _J1EBE($_I1OoI, 0, $_8jjOI, $_QLo06, $_8jj0l["MailFormat"] != 'PlainText', array());
 
-   $_6oIoL = str_replace('"'.$_6oQif["MailEncoding"].'"', '"'.$_Q6QQL.'"', $_6oIoL);
+   $_8jjOI = str_replace('"'.$_8jj0l["MailEncoding"].'"', '"'.$_QLo06.'"', $_8jjOI);
 
-   $_Q66jQ = _OP8CP($_Q66jQ, "<title>", "</title>", "<![CDATA[".$_I6016."]]>");
-   $_Q66jQ = _OP8CP($_Q66jQ, "<link>", "</link>", "<![CDATA[".$_6OliC.'?showEntry='.$_QL8Q8.'&selectedYear='.$_Q6ClO["AYear"]."&showContent=".rand(1, 1024)."&".$_6o0C0."]]>" );
-   $_Q66jQ = _OP8CP($_Q66jQ, '<guid isPermaLink="false">', "</guid>", md5($_6oQif["StartSendDateTimeUNIXTIME"]));
-   $_Q66jQ = _OP8CP($_Q66jQ, "<pubDate>", "</pubDate>", date("r", $_6oQif["StartSendDateTimeUNIXTIME"]));
-   $_Q66jQ = _OP8CP($_Q66jQ, "<description>", "</description>", "<![CDATA[".$_6oIoL."]]>" );
-   $_6oO6j .= $_Q6JJJ.$_Q66jQ;
-   $_QL8Q8++;
+   $_Ql0fO = _L8Q6J($_Ql0fO, "<title>", "</title>", "<![CDATA[".htmlspecialchars($_ILi8o, ENT_COMPAT, $_QLo06)."]]>");
+   $_Ql0fO = _L8Q6J($_Ql0fO, "<link>", "</link>", "<![CDATA[" . $_8Iltt . '&showEntry=' . $_Ift08 . '&selectedYear=' . $_QltJO["AYear"] . "&showContent=".rand(1, 1024) . "]]>" );
+   $_Ql0fO = _L8Q6J($_Ql0fO, '<guid isPermaLink="false">', "</guid>", md5($_8jj0l["StartSendDateTimeUNIXTIME"]));
+   $_Ql0fO = _L8Q6J($_Ql0fO, "<pubDate>", "</pubDate>", date("r", $_8jj0l["StartSendDateTimeUNIXTIME"]));
+   $_Ql0fO = _L8Q6J($_Ql0fO, "<description>", "</description>", "<![CDATA[".$_8jjOI."]]>" );
+   $_Ql0fO = _L8Q6J($_Ql0fO, "<description>", "</description>", "<![CDATA[".$_8jjOI."]]>" );
+   
+   $_8jlLL = "";
+   for($_I016j=0; $_I016j<count($_8jj0l["Attachments"]); $_I016j++){
+     if(!file_exists($_IIlfi . $_8jj0l["Attachments"][$_I016j])) continue;
+     $_8jlLL .= $_8jlt6;
+     $URL = str_replace("&", "&amp;", $_8Iltt . '&showEntry=' . $_Ift08 . '&selectedYear=' . $_QltJO["AYear"] . "&attachmentsIndex=" . $_I016j);
+     $_8jlLL = str_replace("ENCLOSUREURL", $URL, $_8jlLL);
+     $_8jlLL = str_replace("ENCLOSURESIZE", @filesize($_IIlfi . $_8jj0l["Attachments"][$_I016j]), $_8jlLL);
+     $_8J0OJ = @mime_content_type($_IIlfi . $_8jj0l["Attachments"][$_I016j]);
+     if($_8J0OJ === false)
+       $_8J0OJ = _LALJ6($_8jj0l["Attachments"][$_I016j]);
+     $_8jlLL = str_replace("ENCLOSURETYPE", $_8J0OJ, $_8jlLL);
+   }
+   $_Ql0fO = str_replace(chr(255) . "ENCLOSURE" . chr(255), $_8jlLL, $_Ql0fO);
+   
+   $_jQ0OL .= $_QLl1Q.$_Ql0fO;
+   $_Ift08++;
  }
- $_QJCJi = str_replace("<!--RSSFEED-->", $_6oO6j, $_QJCJi);
+ $_QLJfI = str_replace("<!--RSSFEED-->", $_jQ0OL, $_QLJfI);
 
- $_QJCJi = _OP6PQ($_QJCJi, "[AltBrowserLink_begin]", "[AltBrowserLink_end]");
- $_QJCJi = _OP6PQ($_QJCJi, "<!--AltBrowserLink_begin//-->", "<!--AltBrowserLink_end//-->");
+ $_QLJfI = _L80DF($_QLJfI, "[AltBrowserLink_begin]", "[AltBrowserLink_end]");
+ $_QLJfI = _L80DF($_QLJfI, "<!--AltBrowserLink_begin//-->", "<!--AltBrowserLink_end//-->");
 
  // Prevent the browser from caching the result.
  // Date in the past
@@ -810,8 +1033,8 @@ function _LOP06(){
  @header('Pragma: no-cache') ;
 
  // Set the response format.
- @header( 'Content-Type: text/xml; charset='.$_Q6QQL ) ;
- print $_QJCJi;
+ @header( 'Content-Type: text/xml; charset='.$_QLo06 ) ;
+ print $_QLJfI;
 }
 
 ?>

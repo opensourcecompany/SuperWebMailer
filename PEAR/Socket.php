@@ -19,7 +19,7 @@
 //
 // $Id: Socket.php,v 1.38 2008/02/15 18:24:17 chagenbu Exp $
 
-require_once 'PEAR/PEAR_.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'PEAR_.php';
 
 define('NET_SOCKET_READ',  1);
 define('NET_SOCKET_WRITE', 2);
@@ -134,6 +134,7 @@ class Net_Socket extends PEAR {
                                      'verify_peer_name' => false,  // don't verify cert
                                      'CN_match' => false,
                                      'peer_name' => false,
+                                     'allow_self_signed' => true,
                                      'timeout' => $timeout ? $timeout : 60
                                      )
                       );
@@ -189,6 +190,7 @@ class Net_Socket extends PEAR {
                                      'verify_peer_name' => false,  // don't verify cert
                                      'CN_match' => false,
                                      'peer_name' => false,
+                                     'allow_self_signed' => true,
                                      'timeout' => $timeout ? $timeout : 60
                                      )
                       );
@@ -209,11 +211,15 @@ class Net_Socket extends PEAR {
         }
 
         if (!$fp) {
-            if ($errno == 0 && isset($php_errormsg)) {
-                $errstr = $php_errormsg;
+            if(function_exists("error_get_last"))
+              $errstr = " ".join(" ", error_get_last());
+            else{
+              if ($errno == 0 && isset($php_errormsg)) {
+                  $errstr = $php_errormsg;
+              }
+              if($errstr == "" && isset($php_errormsg) )
+                 $errstr = $php_errormsg;
             }
-            if($errstr == "" && isset($php_errormsg) )
-               $errstr = $php_errormsg;
             @ini_set('track_errors', $old_track_errors);
             return $this->raiseError($errstr, $errno);
         }

@@ -70,6 +70,24 @@ definieren, dann klicken Sie einfach auf &quot;Speichern und Weiter &gt;&quot;.<
       Vergleichszeichenkette das Datum im Format JJJJ-MM-TT (J=Jahr, M=Monat,
       T=Tag) eingegeben werden, ansonsten ist der Vergleich fehlerhaft oder es
       führt zu einem SQL-Fehler.</p>
+      <p><b>Spezielle Datumsfunktionen</b></p>
+      <p>Als Vergleichszeichenkette können folgende MySQL-Datumsfunktionen
+      verwendet werden:</p>
+      <p>NOW(), CURRENT_DATE(), CURDATE(), CURRENT_TIME(), CURTIME(),
+      TIMESTAMP(, ADDDATE(, <br>
+      ADDTIME(, DATE(, DATEDIFF(, DATE_ADD(, DATE_SUB(, DAY(, DAYOFMONTH(,
+      DAYOFWEEK(, DAYOFYEAR(, <br>
+      HOUR(, LAST_DAY(, MINUTE(, MONTH(, QUARTER(, SECOND(, TIME(, WEEK(,
+      WEEKDAY(, WEEKOFYEAR(, YEAR(, YEARWEEK(</p>
+      <p>Intern wird ein direkter Zeichenkettenvergleich vorgenommen, es ist
+      daher wichtig die Funktionen so zu schreiben, die Klammer <b>direkt</b> an
+      die Datums-/Zeit-Funktion. Wird keine Funktion erkannt, dann wird der Text
+      als Vergleichszeichenkette angesehen. </p>
+      <p>Ist die Syntax falsch, wird ein MySQL-Fehler bei &quot;Schätzung der
+      Empfängerzahl&quot; ausgegeben. Gleichzeitig können Sie auf &quot;SQL
+      anzeigen / nicht anzeigen&quot; klicken, um die SQL-Anweisung zu sehen.</p>
+      <p>Informationen zu den Datumsfunktionen finden Sie in der MySQL-Hilfe.</p>
+      <p>&nbsp;</p>
       <p>&nbsp;</td>
   </tr>
   <tr valign="top">
@@ -113,7 +131,7 @@ definieren, dann klicken Sie einfach auf &quot;Speichern und Weiter &gt;&quot;.<
 <p>Sollten Sie das E-Mailing ein zweites Mal mit modifizierten Text z.B. zum
 Nachfassen versenden wollen, dann können Sie die Verwendung einer der Aktionen
 aktivieren. Es ist ebenfalls möglich ein anderes versendetes E-Mailing zu
-verwenden, welches die gleiche Empfängerliste verwendet. </p>
+verwenden, welches die gleiche Empfängerliste verwendet.</p>
 <p>Hinweis: Die Verwendung dieser Aktionen führt zu einer höheren
 Serverbelastung, diese macht sich besonders bei hohen Empfängerzahlen
 bemerkbar. Sollten Sie ein anderes E-Mailing verwenden, dann erhöht sich die

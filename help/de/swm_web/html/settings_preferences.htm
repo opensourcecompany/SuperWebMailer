@@ -132,6 +132,34 @@ Optionen/Einstellungen</title>
       <p>&nbsp;</td>
   </tr>
   <tr valign="top">
+    <td width="28%">&quot;Booster&quot; verwenden</td>
+    <td width="72%">Aktivieren Sie diese Option, um die Anzahl zu versendender
+      E-Mails mehrfach versenden zu lassen, dies jedoch nur wenn sich
+      vorbereitete E-Mails in der Ausgangswarteschlange befinden. Der Versand
+      wird erst beendet, wenn die eingestellte maximale Script-Laufzeit
+      (max_excecution_time in der php.ini oder Konfiguration der Webpräsenz)
+      erreicht ist oder das Script durch den Server beendet wird.
+      <p><u>Hinweise für eine höhere Versandgeschwindigkeit</u></p>
+      <ul>
+        <li>Eine höhere Versandgeschwindigkeit kann zu einer höheren Erkennung
+          als Spam oder Blacklistung des Servers führen!</li>
+        <li>Bei einem E-Mailing oder Responder sollte die Anzahl
+          vorzubereitender E-Mails stark erhöht werden, z.B. von Standard 200
+          auf 1000.</li>
+        <li>Die maximale Laufzeit von PHP-Scripten sollte stark erhöht werden,
+          Standard ist für PHP 30 Sekunden. Ebenfalls kann es notwendig sein
+          die <a href="mtaedit.htm#fastcgi">FastCGI-Einstellungen anzupassen</a>,
+          so dass länger Scripte ausgeführt werden dürfen.</li>
+        <li>Bei jedem E-Mailing und Responder finden Sie unter dem
+          E-Mail-Betreff die Option &quot;Cache für E-Mail-Versand
+          verwenden&quot;, diese sollte immer aktiviert werden, außer es sollen
+          in jeder E-Mail andere Bilder versendet werden.</li>
+        <li>Bei einer hohen Anzahl E-Mail-Empfänger kann sich der <a href="mtaedit.htm">multi-threaded
+          Versand</a> lohnen.</li>
+      </ul>
+      <p>&nbsp;</td>
+  </tr>
+  <tr valign="top">
     <td width="28%">Reihenfolge des Versands aus Ausgangswarteschlange</td>
     <td width="72%">Geben Sie an nach welchem Prinzip die E-Mails aus der
       Ausgangswarteschlange versendet werden sollen.<br>
@@ -147,12 +175,17 @@ Optionen/Einstellungen</title>
       ECG-Liste befinden.</td>
     <td width="72%">NUR FÜR ÖSTERREICH
       <p>Aktivieren Sie diese Einstellung, damit die E-Mail-Adressen vor dem
-      E-Mail-Versand auf Vorhandensein in der ECG-Liste geprüft werden.</p>
+      E-Mail-Versand auf Vorhandensein in der ECG-Liste geprüft werden. Es ist
+	  nicht empfehlenswert diese Option zu aktivieren, da die Prüfung der
+	  E-Mail-Adressen den E-Mail-Versand enorm verzögert und eine höhere
+	  Serverlast erzeugt. Es sollten vor dem E-Mail-Versand die Empfänger aus
+	  der Empfängerliste entfernt werden, die sich in der ECG-Liste befinden,
+	  Menü Empfänger - Empfänger anhand der Blocklisten aus Empfängerliste
+	  entfernen.</p>
       <p><b>Hinweis:</b></p>
-      <p>In das Unterverzeichnis <b>ECG</b> muss die aktuelle Hash-Datei mit dem
-      Dateinamen ecg-liste.hash gespeichert werden. Informationen zu dieser
-      Datei und der Möglichkeit sich diese selbst zusenden zu lassen finden Sie
-      unter <a href="http://www.rtr.at/de/tk/NutzenECG">http://www.rtr.at/de/tk/NutzenECG</a>
+      <p>Es muss in der Datei userdefined.inc.php die Konstante ECG_APIKEY
+	  aktiviert und ein API-Key angegeben werden. Informationen zum Erhalt des
+	  API-Keys finden Sie unter <a href="http://www.rtr.at/de/tk/NutzenECG">http://www.rtr.at/de/tk/NutzenECG</a>
       .</p>
       <p>&nbsp;</td>
   </tr>

@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2015 Mirko Boeer                         #
+#               Copyright © 2007 - 2022 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -36,116 +36,128 @@ class api_Recipients extends api_base {
   * field u_EMail MUST have a valid value e.g. $apiData["u_EMail"] = "email@address.com";
   * all date values must be specified in MySQL format yyyy-mm-dd hh:mm:ss
   * set apiUseDoubleOptIn false to set new recipient as subscribed in list, else recipient will get an email with confirmation link
+  * set apiFormId greater 0 to use text for DoubleOptIn of this form
   *
   * @param int $apiMailingListId
   * @param array $apiData
   * @param array $apiarrayGroupsIds
   * @param boolean $apiUseDoubleOptIn
+  * @param int $apiFormId
   * @return int
   * @access public
   */
- function api_createRecipient($apiMailingListId, $apiData, $apiarrayGroupsIds, $apiUseDoubleOptIn) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType, $_Qofjo, $_QLo0Q, $_Q880O;
-   global $resourcestrings, $INTERFACE_LANGUAGE, $commonmsgHTMLFormNotFound;
+ function api_createRecipient($apiMailingListId, $apiData, $apiarrayGroupsIds, $apiUseDoubleOptIn, $apiFormId) {
+   global $_QLttI, $_QL88I, $UserId, $UserType, $_Ij8oL, $_Ifi1J, $_I1tQf;
+   global $resourcestrings, $INTERFACE_LANGUAGE, $commonmsgHTMLFormNotFound, $_QLo06;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    if(!is_array($apiarrayGroupsIds))
      $apiarrayGroupsIds = array($apiarrayGroupsIds);
    $apiMailingListId = intval($apiMailingListId);
+   $apiFormId = intval($apiFormId);
 
-   $_QJlJ0 = "SELECT * FROM $_Q60QL WHERE (users_id=$UserId) AND id=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QLCLl = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   foreach($apiData as $key => $_QltJO)
+      if(is_string($_QltJO))
+        $apiData[$key] = rtrim( str_replace("&amp;", "&",  _LC6CP( htmlspecialchars($_QltJO, ENT_COMPAT, $_QLo06, false) ) ) );
+
+   $_QLfol = "SELECT * FROM $_QL88I WHERE (users_id=$UserId) AND id=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_IfilO = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   if(!isset($apiData["u_EMail"]) || !_OPAOJ($apiData["u_EMail"]))
+   if(!isset($apiData["u_EMail"]) || !_L8JEL($apiData["u_EMail"]))
      return $this->api_Error("u_EMail must contain a valid email address.");
-
-   if($_QLCLl["SubscriptionType"] != "DoubleOptIn" && $apiUseDoubleOptIn) # this is an SingleOptIn list
+     else
+     $apiData["u_EMail"] = _L86JE($apiData["u_EMail"]);
+     
+   if($_IfilO["SubscriptionType"] != "DoubleOptIn" && $apiUseDoubleOptIn) # this is an SingleOptIn list
      $apiUseDoubleOptIn = false;
 
    if(!$apiUseDoubleOptIn)
-     $_QJlJ0 = "INSERT INTO $_QLCLl[MaillistTableName] SET SubscriptionStatus='Subscribed', DateOfSubscription=NOW(), DateOfOptInConfirmation=NOW(), IPOnSubscription='API', u_EMail="._OPQLR($apiData["u_EMail"]);
+     $_QLfol = "INSERT INTO $_IfilO[MaillistTableName] SET SubscriptionStatus='Subscribed', DateOfSubscription=NOW(), DateOfOptInConfirmation=NOW(), IPOnSubscription='API', u_EMail="._LRAFO($apiData["u_EMail"]);
      else
-     $_QJlJ0 = "INSERT INTO $_QLCLl[MaillistTableName] SET SubscriptionStatus='OptInConfirmationPending', DateOfSubscription=NOW(), IPOnSubscription='API', u_EMail="._OPQLR($apiData["u_EMail"]);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if(!$_Q60l1)
+     $_QLfol = "INSERT INTO $_IfilO[MaillistTableName] SET SubscriptionStatus='OptInConfirmationPending', DateOfSubscription=NOW(), IPOnSubscription='API', u_EMail="._LRAFO($apiData["u_EMail"]);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if(!$_QL8i1)
      return $this->api_Error("Can't add recipient, possibly exists.");
 
-   $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-   $_Q6Q1C=mysql_fetch_row($_Q60l1);
-   $_QLitI = $_Q6Q1C[0];
-   mysql_free_result($_Q60l1);
+   $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+   $_QLO0f=mysql_fetch_row($_QL8i1);
+   $_IfLJj = $_QLO0f[0];
+   mysql_free_result($_QL8i1);
 
-   if(!$_QLitI)
+   if(!$_IfLJj)
      return $this->api_Error("Can't add recipient, database error.");
 
    if(!$apiUseDoubleOptIn)
-     $_QJlJ0 = "INSERT INTO `$_QLCLl[StatisticsTableName]` SET ActionDate=NOW(), Action='Subscribed', Member_id=$_QLitI";
+     $_QLfol = "INSERT INTO `$_IfilO[StatisticsTableName]` SET ActionDate=NOW(), Action='Subscribed', Member_id=$_IfLJj";
      else
-     $_QJlJ0 = "INSERT INTO `$_QLCLl[StatisticsTableName]` SET ActionDate=NOW(), Action='OptInConfirmationPending', Member_id=$_QLitI";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
+     $_QLfol = "INSERT INTO `$_IfilO[StatisticsTableName]` SET ActionDate=NOW(), Action='OptInConfirmationPending', Member_id=$_IfLJj";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
 
-   $_QLLjo = array();
-   $_QJlJ0 = "SELECT `fieldname` FROM $_Qofjo WHERE `language`="._OPQLR($INTERFACE_LANGUAGE);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      if(!empty($apiData[$_Q6Q1C["fieldname"]]))
-        $_QLLjo[] = "`".$_Q6Q1C["fieldname"]."`"."="._OPQLR($apiData[$_Q6Q1C["fieldname"]]);
+   $_Iflj0 = array();
+   $_QLfol = "SELECT `fieldname` FROM $_Ij8oL WHERE `language`="._LRAFO($INTERFACE_LANGUAGE);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      if(!empty($apiData[$_QLO0f["fieldname"]]))
+        $_Iflj0[] = "`".$_QLO0f["fieldname"]."`"."="._LRAFO( $apiData[$_QLO0f["fieldname"]] );
    }
-   mysql_free_result($_Q60l1);
 
-   $_QJlJ0 = "UPDATE $_QLCLl[MaillistTableName] SET ".join(", ", $_QLLjo)." WHERE id=$_QLitI";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoOQO = $this->api_ShowSQLError($_QJlJ0); if($_QoOQO) return $_QoOQO;
-   if(!$_Q60l1)
-     return $this->api_Error("Error saving recipients data for new recipient $_QLitI.");
+   mysql_free_result($_QL8i1);
+
+   $_QLfol = "UPDATE $_IfilO[MaillistTableName] SET ".join(", ", $_Iflj0)." WHERE id=$_IfLJj";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijoj6 = $this->api_ShowSQLError($_QLfol); if($_Ijoj6) return $_Ijoj6;
+   if(!$_QL8i1)
+     return $this->api_Error("Error saving recipients data for new recipient $_IfLJj.");
 
    reset($apiarrayGroupsIds);
-   foreach($apiarrayGroupsIds as $key => $_Q6ClO){
-     $_QJlJ0 = "SELECT COUNT(id) FROM $_QLCLl[GroupsTableName] WHERE id=$_Q6ClO";
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     $_Q6Q1C = mysql_fetch_row($_Q60l1);
-     if($_Q6Q1C[0] == 0)
+   foreach($apiarrayGroupsIds as $key => $_QltJO){
+     $_QLfol = "SELECT COUNT(id) FROM $_IfilO[GroupsTableName] WHERE id=$_QltJO";
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     $_QLO0f = mysql_fetch_row($_QL8i1);
+     if($_QLO0f[0] == 0)
        unset($apiarrayGroupsIds[$key]);
-     @mysql_free_result($_Q60l1);
+     @mysql_free_result($_QL8i1);
    }
 
    if(count($apiarrayGroupsIds))
-     _L1QPQ(array($_QLitI), $_QLCLl["MailListToGroupsTableName"], $apiarrayGroupsIds, false);
+     _J1J0O(array($_IfLJj), $_IfilO["MailListToGroupsTableName"], $apiarrayGroupsIds, false);
 
    if($apiUseDoubleOptIn){
+      if($apiFormId > 0)
+        $_IfilO["forms_id"] = $apiFormId;
 
-      $_QJlJ0 = "SELECT $_QLCLl[FormsTableName].*, $_QLo0Q.*, $_Q880O.Theme FROM $_QLCLl[FormsTableName] LEFT JOIN $_QLo0Q ON $_QLo0Q.id=$_QLCLl[FormsTableName].messages_id LEFT JOIN $_Q880O ON $_Q880O.id=$_QLCLl[FormsTableName].ThemesId WHERE $_QLCLl[FormsTableName].id=$_QLCLl[forms_id]";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      if(!$_Q60l1 || mysql_num_rows($_Q60l1) == 0) {
+      $_QLfol = "SELECT $_IfilO[FormsTableName].*, $_Ifi1J.*, $_I1tQf.Theme FROM $_IfilO[FormsTableName] LEFT JOIN $_Ifi1J ON $_Ifi1J.id=$_IfilO[FormsTableName].messages_id LEFT JOIN $_I1tQf ON $_I1tQf.id=$_IfilO[FormsTableName].ThemesId WHERE $_IfilO[FormsTableName].id=$_IfilO[forms_id]";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      if(!$_QL8i1 || mysql_num_rows($_QL8i1) == 0) {
         return $this->api_Error($commonmsgHTMLFormNotFound);
       }
-      $_QLl1Q = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
+      $_IflO6 = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
 
       // we need this for confirmation string
-      $_QLl1Q["MailingListId"] = $apiMailingListId;
-      $_QLl1Q["FormId"] = $_QLCLl["forms_id"];
+      $_IflO6["MailingListId"] = $apiMailingListId;
+      $_IflO6["FormId"] = $_IfilO["forms_id"];
       // External Scripts
-      $_QLl1Q["ExternalSubscriptionScript"] = $_QLCLl["ExternalSubscriptionScript"];
-      $_QLl1Q["ExternalUnsubscriptionScript"] = $_QLCLl["ExternalUnsubscriptionScript"];
-      $_QLl1Q["ExternalEditScript"] = $_QLCLl["ExternalEditScript"];
+      $_IflO6["ExternalSubscriptionScript"] = $_IfilO["ExternalSubscriptionScript"];
+      $_IflO6["ExternalUnsubscriptionScript"] = $_IfilO["ExternalUnsubscriptionScript"];
+      $_IflO6["ExternalEditScript"] = $_IfilO["ExternalEditScript"];
 
-      $_QJlJ0 = "SELECT * FROM $_Q60QL WHERE id=$apiMailingListId";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Ql00j = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
+      $_QLfol = "SELECT * FROM $_QL88I WHERE id=$apiMailingListId";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      $_I80Jo = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
 
       $rid = "";
 
-      if( !_L0RLJ("subscribeconfirm", $_QLitI, $_Ql00j, $_QLl1Q, $errors, $_Ql1O8, $rid) )
-        return $this->api_Error("Error while sending Opt-In email: ".join("", $_Ql1O8) );
+      if( !_J0LAA("subscribeconfirm", $_IfLJj, $_I80Jo, $_IflO6, $errors, $_I816i, $rid) )
+        return $this->api_Error("Error while sending Opt-In email: ".join("", $_I816i) );
    }
 
-   return $_QLitI;
+   return $_IfLJj;
  }
 
  /**
@@ -162,43 +174,49 @@ class api_Recipients extends api_base {
   * @access public
  */
  function api_editRecipient($apiMailingListId, $apiRecipientId, $apiData) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType, $_Qofjo;
-   global $resourcestrings, $INTERFACE_LANGUAGE;
+   global $_QLttI, $_QL88I, $UserId, $UserType, $_Ij8oL;
+   global $resourcestrings, $INTERFACE_LANGUAGE, $_QLo06;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
    $apiRecipientId = intval($apiRecipientId);
 
-   $_QJlJ0 = "SELECT MaillistTableName, StatisticsTableName, GroupsTableName, MailListToGroupsTableName FROM `$_Q60QL` WHERE (users_id=$UserId) AND id=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QLCLl = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   foreach($apiData as $key => $_QltJO)
+      if(is_string($_QltJO))
+        $apiData[$key] = rtrim( str_replace("&amp;", "&", _LC6CP (htmlspecialchars($_QltJO, ENT_COMPAT, $_QLo06, false)) ) );
+
+   $_QLfol = "SELECT MaillistTableName, StatisticsTableName, GroupsTableName, MailListToGroupsTableName FROM `$_QL88I` WHERE (users_id=$UserId) AND id=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_IfilO = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   if(isset($apiData["u_EMail"]) && !_OPAOJ($apiData["u_EMail"]))
+   if(isset($apiData["u_EMail"]) && !_L8JEL($apiData["u_EMail"]))
      return $this->api_Error("u_EMail must contain a valid email address.");
+   $apiData["u_EMail"] = _L86JE($apiData["u_EMail"]);
 
 
-   $_QLLjo = array();
-   $_QJlJ0 = "SELECT `fieldname` FROM $_Qofjo WHERE `language`="._OPQLR($INTERFACE_LANGUAGE);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      if(isset($apiData[$_Q6Q1C["fieldname"]]))
-        $_QLLjo[] = "`".$_Q6Q1C["fieldname"]."`"."="._OPQLR($apiData[$_Q6Q1C["fieldname"]]);
+   $_Iflj0 = array();
+   $_QLfol = "SELECT `fieldname` FROM $_Ij8oL WHERE `language`="._LRAFO($INTERFACE_LANGUAGE);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      if(isset($apiData[$_QLO0f["fieldname"]]))
+        $_Iflj0[] = "`".$_QLO0f["fieldname"]."`"."="._LRAFO($apiData[$_QLO0f["fieldname"]]);
    }
-   mysql_free_result($_Q60l1);
+   mysql_free_result($_QL8i1);
 
-   $_QJlJ0 = "UPDATE $_QLCLl[MaillistTableName] SET ".join(", ", $_QLLjo)." WHERE id=$apiRecipientId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoOQO = $this->api_ShowSQLError($_QJlJ0); if($_QoOQO) return $_QoOQO;
-   if(!$_Q60l1)
+   $_QLfol = "UPDATE $_IfilO[MaillistTableName] SET ".join(", ", $_Iflj0)." WHERE id=$apiRecipientId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijoj6 = $this->api_ShowSQLError($_QLfol); if($_Ijoj6) return $_Ijoj6;
+   if(!$_QL8i1)
      return $this->api_Error("Error saving recipients data for recipient $apiRecipientId.");
    return true;
  }
 
  /**
   * get id of recipient in mailing list from given email address
+  * for more than one recipients with same email address use api_getRecipientIdAsArrayFromEMailAddress
   *
   * @param int $apiMailingListId
   * @param string $apiRecipientsEMailAddress
@@ -206,28 +224,104 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_getRecipientIdFromEMailAddress($apiMailingListId, $apiRecipientsEMailAddress) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    global $resourcestrings, $INTERFACE_LANGUAGE;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
 
-   $_QJlJ0 = "SELECT MaillistTableName FROM `$_Q60QL` WHERE (users_id=$UserId) AND id=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QLCLl = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT MaillistTableName FROM `$_QL88I` WHERE (users_id=$UserId) AND id=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_IfilO = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   $_QJlJ0 = "SELECT id FROM `$_QLCLl[MaillistTableName]` WHERE `u_EMail`="._OPQLR($apiRecipientsEMailAddress);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoOQO = $this->api_ShowSQLError($_QJlJ0); if($_QoOQO) return $_QoOQO;
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     return $_Q6Q1C["id"];
+   $_QLfol = "SELECT id FROM `$_IfilO[MaillistTableName]` WHERE `u_EMail`="._LRAFO(_L86JE($apiRecipientsEMailAddress));
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijoj6 = $this->api_ShowSQLError($_QLfol); if($_Ijoj6) return $_Ijoj6;
+   if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     return $_QLO0f["id"];
    } else
      return $this->api_Error("Recipient not found.");
  }
 
+ /**
+  * get ids of recipient in mailing list from given email address
+  *
+  * @param int $apiMailingListId
+  * @param string $apiRecipientsEMailAddress
+  * @return array
+  * @access public
+  */
+ function api_getRecipientIdAsArrayFromEMailAddress($apiMailingListId, $apiRecipientsEMailAddress) {
+   global $_QLttI, $_QL88I, $UserId, $UserType;
+   global $resourcestrings, $INTERFACE_LANGUAGE;
+   if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
+
+   $apiMailingListId = intval($apiMailingListId);
+
+   $_QLfol = "SELECT MaillistTableName FROM `$_QL88I` WHERE (users_id=$UserId) AND id=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_IfilO = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
+   } else
+    return $this->api_Error("Mailing list not found.");
+
+   $_QLfol = "SELECT id FROM `$_IfilO[MaillistTableName]` WHERE `u_EMail`="._LRAFO(_L86JE($apiRecipientsEMailAddress));
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijoj6 = $this->api_ShowSQLError($_QLfol); if($_Ijoj6) return $_Ijoj6;
+   
+   if($_QL8i1 && mysql_num_rows($_QL8i1) > 0){
+     $_I1OoI = array();
+     while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+       $_I1OoI[] = $_QLO0f["id"];
+     }
+     mysql_free_result($_QL8i1); 
+     return $_I1OoI;
+   }
+   if($_QL8i1)
+     mysql_free_result($_QL8i1); 
+  
+   return $this->api_Error("Recipient not found.");
+ }
+ 
+ function _internal_initRecipientsData($apiMailingListId, &$_Iflj0){
+   global $_QLttI, $_QL88I, $UserId, $_Ij8oL;
+   global $INTERFACE_LANGUAGE;
+ 
+   $_QLfol = "SELECT `MaillistTableName`, `MailLogTableName`, `forms_id`, `GroupsTableName`, `MailListToGroupsTableName` FROM `$_QL88I` WHERE `users_id`=$UserId AND `id`=" . intval($apiMailingListId);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_IfilO = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
+   } else
+    return FALSE;
+
+   $_Iflj0 = array();
+   // normally hidden fields
+   $_Iflj0[] = "`IsActive`";
+   $_Iflj0[] = "`SubscriptionStatus`";
+   $_Iflj0[] = "`DateOfSubscription`";
+   $_Iflj0[] = "`DateOfOptInConfirmation`";
+   $_Iflj0[] = "`DateOfUnsubscription`";
+   $_Iflj0[] = "`IPOnSubscription`";
+   $_Iflj0[] = "`IPOnUnsubscription`";
+   $_Iflj0[] = "`IdentString`";
+   $_Iflj0[] = "`LastEMailSent`";
+   $_Iflj0[] = "`BounceStatus`";
+   $_Iflj0[] = "`SoftbounceCount`";
+   $_Iflj0[] = "`HardbounceCount`";
+   $_Iflj0[] = "`LastChangeDate`";
+
+   $_QLfol = "SELECT `fieldname` FROM `$_Ij8oL` WHERE `language`="._LRAFO($INTERFACE_LANGUAGE);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   while($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+      $_Iflj0[] = "`".$_QLO0f["fieldname"]."`";
+   }
+   mysql_free_result($_QL8i1);
+   return $_IfilO;
+ }
+ 
  /**
   * get recipient data of one recipient
   * return recipient data as associative array
@@ -239,70 +333,43 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_getRecipient($apiMailingListId, $apiRecipientId) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType, $_Qofjo;
-   global $resourcestrings, $INTERFACE_LANGUAGE;
+   global $_QLttI, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
    $apiRecipientId = intval($apiRecipientId);
 
-   $_QJlJ0 = "SELECT `MaillistTableName`, `MailLogTableName`, `forms_id`, `GroupsTableName`, `MailListToGroupsTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QLCLl = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
-   } else
-    return $this->api_Error("Mailing list not found.");
+   $_IfilO = $this->_internal_initRecipientsData($apiMailingListId, $_Iflj0);
+   if($_IfilO === false)
+     return $this->api_Error("Mailing list not found.");
 
-   $_QLLjo = array();
-   // normally hidden fields
-   $_QLLjo[] = "`IsActive`";
-   $_QLLjo[] = "`SubscriptionStatus`";
-   $_QLLjo[] = "`DateOfSubscription`";
-   $_QLLjo[] = "`DateOfOptInConfirmation`";
-   $_QLLjo[] = "`DateOfUnsubscription`";
-   $_QLLjo[] = "`IPOnSubscription`";
-   $_QLLjo[] = "`IPOnUnsubscription`";
-   $_QLLjo[] = "`IdentString`";
-   $_QLLjo[] = "`LastEMailSent`";
-   $_QLLjo[] = "`BounceStatus`";
-   $_QLLjo[] = "`SoftbounceCount`";
-   $_QLLjo[] = "`HardbounceCount`";
-   $_QLLjo[] = "`LastChangeDate`";
+   $_QLfol = "SELECT id, ".join(", ", $_Iflj0)." FROM `$_IfilO[MaillistTableName]` WHERE id=$apiRecipientId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijoj6 = $this->api_ShowSQLError($_QLfol); if($_Ijoj6) return $_Ijoj6;
+   if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     if(empty($_QLO0f["IdentString"]))
+       $_QLO0f["IdentString"] = _LPQ8Q($_QLO0f["IdentString"], $apiRecipientId, $apiMailingListId, $_IfilO["forms_id"], $_IfilO["MaillistTableName"]);
 
-   $_QJlJ0 = "SELECT `fieldname` FROM `$_Qofjo` WHERE `language`="._OPQLR($INTERFACE_LANGUAGE);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      $_QLLjo[] = "`".$_Q6Q1C["fieldname"]."`";
-   }
-   mysql_free_result($_Q60l1);
-
-
-   $_QJlJ0 = "SELECT id, ".join(", ", $_QLLjo)." FROM `$_QLCLl[MaillistTableName]` WHERE id=$apiRecipientId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoOQO = $this->api_ShowSQLError($_QJlJ0); if($_QoOQO) return $_QoOQO;
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     if(empty($_Q6Q1C["IdentString"]))
-       $_Q6Q1C["IdentString"] = _OA81R($_Q6Q1C["IdentString"], $apiRecipientId, $apiMailingListId, $_QLCLl["forms_id"], $_QLCLl["MaillistTableName"]);
-
-     $_QJlJ0 = "SELECT `MailLog` FROM `$_QLCLl[MailLogTableName]` WHERE `Member_id`=$apiRecipientId";
-     $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-     if( $_Q8Oj8 && $_Q8OiJ = mysql_fetch_assoc($_Q8Oj8) ) {
-       $_Q6Q1C["SentMailsSubject"] = $_Q8OiJ['MailLog'];
-       mysql_free_result($_Q8Oj8);
+     $_QLfol = "SELECT `MailLog` FROM `$_IfilO[MailLogTableName]` WHERE `Member_id`=$apiRecipientId";
+     $_I1O6j = mysql_query($_QLfol, $_QLttI);
+     if( $_I1O6j && $_I1OfI = mysql_fetch_assoc($_I1O6j) ) {
+       $_QLO0f["SentMailsSubject"] = $_I1OfI['MailLog'];
+       mysql_free_result($_I1O6j);
      } else {
-       $_Q6Q1C["SentMailsSubject"] = "";
+       $_QLO0f["SentMailsSubject"] = "";
      }
 
-     $_QJlJ0 = "SELECT `$_QLCLl[GroupsTableName]`.`id` FROM `$_QLCLl[MailListToGroupsTableName]` LEFT JOIN `$_QLCLl[GroupsTableName]` ON `groups_id`=`id` WHERE `Member_id`=$apiRecipientId";
-     $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-     $_Q6Q1C["Groups"] = array();
-     while($_Q8OiJ = mysql_fetch_row($_Q8Oj8)) {
-       $_Q6Q1C["Groups"][] = $_Q8OiJ[0];
+     $_QLfol = "SELECT `$_IfilO[GroupsTableName]`.`id` FROM `$_IfilO[MailListToGroupsTableName]` LEFT JOIN `$_IfilO[GroupsTableName]` ON `groups_id`=`id` WHERE `Member_id`=$apiRecipientId";
+     $_I1O6j = mysql_query($_QLfol, $_QLttI);
+     $_QLO0f["Groups"] = array();
+     while($_I1OfI = mysql_fetch_row($_I1O6j)) {
+       $_QLO0f["Groups"][] = $_I1OfI[0];
      }
-     mysql_free_result($_Q8Oj8);
+     mysql_free_result($_I1O6j);
 
-     mysql_free_result($_Q60l1);
-     return $_Q6Q1C;
+     mysql_free_result($_QL8i1);
+     
+     return _LC806($_QLO0f);
    } else
      return $this->api_Error("Recipient not found.");
  }
@@ -318,63 +385,101 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_listRecipients($apiMailingListId, $apiStart, $apiCount) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType, $_Qofjo;
-   global $resourcestrings, $INTERFACE_LANGUAGE;
+   global $_QLttI, $UserType;
+
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
 
-   $_QJlJ0 = "SELECT `MaillistTableName`, `MailLogTableName`, `forms_id` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QLCLl = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
-   } else
-    return $this->api_Error("Mailing list not found.");
+   $_IfilO = $this->_internal_initRecipientsData($apiMailingListId, $_Iflj0);
+   if($_IfilO === false)
+     return $this->api_Error("Mailing list not found.");
 
-   $_QLLjo = array();
-   // normally hidden fields
-   $_QLLjo[] = "`IsActive`";
-   $_QLLjo[] = "`SubscriptionStatus`";
-   $_QLLjo[] = "`DateOfSubscription`";
-   $_QLLjo[] = "`DateOfOptInConfirmation`";
-   $_QLLjo[] = "`DateOfUnsubscription`";
-   $_QLLjo[] = "`IPOnSubscription`";
-   $_QLLjo[] = "`IPOnUnsubscription`";
-   $_QLLjo[] = "`IdentString`";
-   $_QLLjo[] = "`LastEMailSent`";
-   $_QLLjo[] = "`BounceStatus`";
-   $_QLLjo[] = "`SoftbounceCount`";
-   $_QLLjo[] = "`HardbounceCount`";
-   $_QLLjo[] = "`LastChangeDate`";
+   $_QLfol = "SELECT id, ".join(", ", $_Iflj0)." FROM `$_IfilO[MaillistTableName]` LIMIT $apiStart, $apiCount";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijoj6 = $this->api_ShowSQLError($_QLfol); if($_Ijoj6) return $_Ijoj6;
+   $_I81t8 = array();
+   while($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     if(empty($_QLO0f["IdentString"]))
+       $_QLO0f["IdentString"] = _LPQ8Q($_QLO0f["IdentString"], $_QLO0f["id"], $apiMailingListId, $_IfilO["forms_id"], $_IfilO["MaillistTableName"]);
 
-   $_QJlJ0 = "SELECT `fieldname` FROM `$_Qofjo` WHERE `language`="._OPQLR($INTERFACE_LANGUAGE);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-      $_QLLjo[] = "`".$_Q6Q1C["fieldname"]."`";
-   }
-   mysql_free_result($_Q60l1);
-
-
-   $_QJlJ0 = "SELECT id, ".join(", ", $_QLLjo)." FROM `$_QLCLl[MaillistTableName]` LIMIT $apiStart, $apiCount";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoOQO = $this->api_ShowSQLError($_QJlJ0); if($_QoOQO) return $_QoOQO;
-   $_QlQJQ = array();
-   while($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     if(empty($_Q6Q1C["IdentString"]))
-       $_Q6Q1C["IdentString"] = _OA81R($_Q6Q1C["IdentString"], $_Q6Q1C["id"], $apiMailingListId, $_QLCLl["forms_id"], $_QLCLl["MaillistTableName"]);
-
-     $_QJlJ0 = "SELECT `MailLog` FROM `$_QLCLl[MailLogTableName]` WHERE `Member_id`=$_Q6Q1C[id]";
-     $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-     if( $_Q8Oj8 && $_Q8OiJ = mysql_fetch_assoc($_Q8Oj8) ) {
-       $_Q6Q1C["SentMailsSubject"] = $_Q8OiJ['MailLog'];
-       mysql_free_result($_Q8Oj8);
+     $_QLfol = "SELECT `MailLog` FROM `$_IfilO[MailLogTableName]` WHERE `Member_id`=$_QLO0f[id]";
+     $_I1O6j = mysql_query($_QLfol, $_QLttI);
+     if( $_I1O6j && $_I1OfI = mysql_fetch_assoc($_I1O6j) ) {
+       $_QLO0f["SentMailsSubject"] = $_I1OfI['MailLog'];
+       mysql_free_result($_I1O6j);
      } else {
-       $_Q6Q1C["SentMailsSubject"] = "";
+       $_QLO0f["SentMailsSubject"] = "";
      }
 
-     $_QlQJQ[] = $_Q6Q1C;
+     $_I81t8[] = _LC806($_QLO0f);
    }
-   return $_QlQJQ;
+   return $_I81t8;
+ }
+
+ /**
+  * finds all recipients filtered by apiFilter as associative array, use apiStart and apiCount to limit data and prevent script timeouts
+  * apiFilter is an associative array of fieldname and find value or array of find values, use % in find value to do a LIKE search
+  * use api_getRecipientsFieldnames to get all fieldnames
+  *
+  * @param int $apiMailingListId
+  * @param int $apiStart
+  * @param int $apiCount
+  * @param array $apiFilter
+  * @param bool $apiFilterAsOR
+  * @return array
+  * @access public
+  */
+ function api_findRecipients($apiMailingListId, $apiStart, $apiCount, $apiFilter, $apiFilterAsOR) {
+   global $_QLttI, $UserType;
+
+   if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
+
+   $apiMailingListId = intval($apiMailingListId);
+
+   $_IfilO = $this->_internal_initRecipientsData($apiMailingListId, $_Iflj0);
+   if($_IfilO === false)
+     return $this->api_Error("Mailing list not found.");
+   
+   $_QLlO6 = array();
+   foreach($apiFilter as $key => $_I8Qlf){
+     if(!in_arrayi("`" . $key . "`", $_Iflj0))
+      return $this->api_Error("field '$key' not found.");
+     if(!is_array($_I8Qlf)){
+       $_I8Qlf = array($_I8Qlf);
+     }
+     foreach($_I8Qlf as $_Qli6J => $_QltJO)
+       $_QLlO6[] = "`$key`" . ( strpos($_QltJO, "%") === false ? "=" : " LIKE " ) . _LRAFO($_QltJO);  
+   }
+
+   if(count($_QLlO6))
+     $_QLlO6 = " WHERE " . join( (!$apiFilterAsOR ? ' AND ' : ' OR '), $_QLlO6);
+     else
+     $_QLlO6 = "";
+   
+   $_QLfol = "SELECT id, ".join(", ", $_Iflj0)." FROM `$_IfilO[MaillistTableName]` $_QLlO6 LIMIT $apiStart, $apiCount";
+
+   #return $_QLfol;
+
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijoj6 = $this->api_ShowSQLError($_QLfol); if($_Ijoj6) return $_Ijoj6;
+   $_I81t8 = array();
+   while($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     if(empty($_QLO0f["IdentString"]))
+       $_QLO0f["IdentString"] = _LPQ8Q($_QLO0f["IdentString"], $_QLO0f["id"], $apiMailingListId, $_IfilO["forms_id"], $_IfilO["MaillistTableName"]);
+
+     $_QLfol = "SELECT `MailLog` FROM `$_IfilO[MailLogTableName]` WHERE `Member_id`=$_QLO0f[id]";
+     $_I1O6j = mysql_query($_QLfol, $_QLttI);
+     if( $_I1O6j && $_I1OfI = mysql_fetch_assoc($_I1O6j) ) {
+       $_QLO0f["SentMailsSubject"] = $_I1OfI['MailLog'];
+       mysql_free_result($_I1O6j);
+     } else {
+       $_QLO0f["SentMailsSubject"] = "";
+     }
+
+     $_I81t8[] = _LC806($_QLO0f);
+   }
+   return $_I81t8;
  }
 
  /**
@@ -387,48 +492,47 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_countRecipients($apiMailingListId, $apiFilter) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType, $_Qofjo;
-   global $resourcestrings, $INTERFACE_LANGUAGE;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
 
-   $_QJlJ0 = "SELECT MaillistTableName FROM $_Q60QL WHERE (users_id=$UserId) AND id=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QLCLl = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT MaillistTableName FROM $_QL88I WHERE (users_id=$UserId) AND id=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_IfilO = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   $_QJlJ0 = "SELECT COUNT(id) FROM $_QLCLl[MaillistTableName]";
+   $_QLfol = "SELECT COUNT(id) FROM $_IfilO[MaillistTableName]";
    if(empty($apiFilter) || $apiFilter == "All")
     ;
     else
     if($apiFilter == "ActiveOnly")
-      $_QJlJ0 .= " WHERE IsActive=1";
+      $_QLfol .= " WHERE IsActive=1";
       else
       if($apiFilter == "BounceNone")
-         $_QJlJ0 .= " WHERE BounceStatus=''";
+         $_QLfol .= " WHERE BounceStatus=''";
          else
          if($apiFilter == "PermanentlyBounced")
-            $_QJlJ0 .= " WHERE BounceStatus='PermanentlyBounced'";
+            $_QLfol .= " WHERE BounceStatus='PermanentlyBounced'";
             else
             if($apiFilter == "TemporarilyBounced")
-               $_QJlJ0 .= " WHERE BounceStatus='TemporarilyBounced'";
+               $_QLfol .= " WHERE BounceStatus='TemporarilyBounced'";
             else
             if($apiFilter == "OptInConfirmationPending")
-               $_QJlJ0 .= " WHERE SubscriptionStatus='OptInConfirmationPending'";
+               $_QLfol .= " WHERE SubscriptionStatus='OptInConfirmationPending'";
             else
             if($apiFilter == "Subscribed")
-               $_QJlJ0 .= " WHERE SubscriptionStatus='Subscribed'";
+               $_QLfol .= " WHERE SubscriptionStatus='Subscribed'";
             else
             if($apiFilter == "OptOutConfirmationPending")
-               $_QJlJ0 .= " WHERE SubscriptionStatus='OptOutConfirmationPending'";
+               $_QLfol .= " WHERE SubscriptionStatus='OptOutConfirmationPending'";
 
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_QoOQO = $this->api_ShowSQLError($_QJlJ0); if($_QoOQO) return $_QoOQO;
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_row($_Q60l1)){
-     return $_Q6Q1C[0];
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_Ijoj6 = $this->api_ShowSQLError($_QLfol); if($_Ijoj6) return $_Ijoj6;
+   if($_QL8i1 && $_QLO0f = mysql_fetch_row($_QL8i1)){
+     return $_QLO0f[0];
    }
    return 0;
  }
@@ -442,8 +546,8 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_removeRecipient($apiMailingListId, $apiRecipientIds) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
-   global $_QlQC8, $_QlIf6, $_QLI68, $MailingListId, $_QljIQ, $_Qljli;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
+   global $_I8I6o, $_I8jjj, $_IfJ66, $MailingListId, $_I8jLt, $_I8Jti;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
@@ -452,24 +556,24 @@ class api_Recipients extends api_base {
      $apiRecipientIds = array($apiRecipientIds);
    }
 
-   $_QJlJ0 = "SELECT id, MaillistTableName, StatisticsTableName, MailListToGroupsTableName, MailLogTableName, EditTableName FROM $_Q60QL WHERE (users_id=$UserId) AND id=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT id, MaillistTableName, StatisticsTableName, MailListToGroupsTableName, MailLogTableName, EditTableName FROM $_QL88I WHERE (users_id=$UserId) AND id=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   $_QlQC8 = $_Q6Q1C["MaillistTableName"];
-   $_QlIf6 = $_Q6Q1C["StatisticsTableName"];
-   $_QLI68 = $_Q6Q1C["MailListToGroupsTableName"];
-   $MailingListId  = $_Q6Q1C["id"];
-   $_QljIQ = $_Q6Q1C["MailLogTableName"];
-   $_Qljli = $_Q6Q1C["EditTableName"];
+   $_I8I6o = $_QLO0f["MaillistTableName"];
+   $_I8jjj = $_QLO0f["StatisticsTableName"];
+   $_IfJ66 = $_QLO0f["MailListToGroupsTableName"];
+   $MailingListId  = $_QLO0f["id"];
+   $_I8jLt = $_QLO0f["MailLogTableName"];
+   $_I8Jti = $_QLO0f["EditTableName"];
 
-   $_QtIiC = array();
-   _L10CL($apiRecipientIds, $_QtIiC);
+   $_IQ0Cj = array();
+   _J1OQP($apiRecipientIds, $_IQ0Cj);
 
-   return count($_QtIiC) == 0 ? true : false;
+   return count($_IQ0Cj) == 0 ? true : false;
  }
 
  /**
@@ -484,7 +588,7 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_assignRecipientsToGroups($apiMailingListId, $apiRecipientIds, $apiGroupIds, $apiRemoveCurrentGroupsAssignment = true) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
@@ -497,14 +601,14 @@ class api_Recipients extends api_base {
      $apiGroupIds = array($apiGroupIds);
    }
 
-   $_QJlJ0 = "SELECT `MailListToGroupsTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `MailListToGroupsTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   _L1QPQ($apiRecipientIds, $_Q6Q1C["MailListToGroupsTableName"], $apiGroupIds, !$apiRemoveCurrentGroupsAssignment);
+   _J1J0O($apiRecipientIds, $_QLO0f["MailListToGroupsTableName"], $apiGroupIds, !$apiRemoveCurrentGroupsAssignment);
    return true;
  }
 
@@ -519,7 +623,7 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_removeRecipientsFromGroups($apiMailingListId, $apiRecipientIds, $apiGroupIds) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
@@ -532,14 +636,14 @@ class api_Recipients extends api_base {
      $apiGroupIds = array($apiGroupIds);
    }
 
-   $_QJlJ0 = "SELECT `MailListToGroupsTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `MailListToGroupsTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   _L1OR1($apiRecipientIds, $apiMailingListId, $_Q6Q1C["MailListToGroupsTableName"], $apiGroupIds);
+   _J1JJL($apiRecipientIds, $apiMailingListId, $_QLO0f["MailListToGroupsTableName"], $apiGroupIds);
    return true;
  }
 
@@ -552,26 +656,26 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_resetBounceStateOfRecipient($apiMailingListId, $apiRecipientId) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
-   global $_QlQC8, $_QlIf6;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
+   global $_I8I6o, $_I8jjj;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
    $apiRecipientId = intval($apiRecipientId);
 
-   $_QJlJ0 = "SELECT `MaillistTableName`, `StatisticsTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QLCLl = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `MaillistTableName`, `StatisticsTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_IfilO = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   $_QlQC8 = $_QLCLl["MaillistTableName"];
-   $_QlIf6 = $_QLCLl["StatisticsTableName"];
-   $_QtIiC = array();
-   _L1J0J($apiRecipientId, $_QtIiC);
+   $_I8I6o = $_IfilO["MaillistTableName"];
+   $_I8jjj = $_IfilO["StatisticsTableName"];
+   $_IQ0Cj = array();
+   _J16F0($apiRecipientId, $_IQ0Cj);
 
-   return count($_QtIiC) == 0 ? true: false;
+   return count($_IQ0Cj) == 0 ? true: false;
  }
 
  /**
@@ -584,8 +688,8 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_activateOrdeactivateRecipient($apiMailingListId, $apiRecipientIds, $apiSetActive) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
-   global $_QlQC8, $_QlIf6;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
+   global $_I8I6o, $_I8jjj;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
@@ -594,20 +698,20 @@ class api_Recipients extends api_base {
      $apiRecipientIds = array($apiRecipientIds);
    }
 
-   $_QJlJ0 = "SELECT `MaillistTableName`, `StatisticsTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QLCLl = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `MaillistTableName`, `StatisticsTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_IfilO = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   $_QlQC8 = $_QLCLl["MaillistTableName"];
-   $_QlIf6 = $_QLCLl["StatisticsTableName"];
+   $_I8I6o = $_IfilO["MaillistTableName"];
+   $_I8jjj = $_IfilO["StatisticsTableName"];
 
-   $_QtIiC = array();
-   _L1J66($apiSetActive, $apiRecipientIds, $_QtIiC);
+   $_IQ0Cj = array();
+   _J1RD0($apiSetActive, $apiRecipientIds, $_IQ0Cj);
 
-   return count($_QtIiC) == 0 ? true: false;
+   return count($_IQ0Cj) == 0 ? true: false;
  }
 
  /**
@@ -619,25 +723,25 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_isRecipientInLocalBlocklist($apiMailingListId, $apiRecipientId) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
    $apiRecipientId = intval($apiRecipientId);
 
-   $_QJlJ0 = "SELECT `LocalBlocklistTableName`, `MaillistTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `LocalBlocklistTableName`, `MaillistTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   $_QJlJ0 = "SELECT COUNT(`$_Q6Q1C[MaillistTableName]`.`id`) FROM `$_Q6Q1C[MaillistTableName]` LEFT JOIN `$_Q6Q1C[LocalBlocklistTableName]` ON `$_Q6Q1C[LocalBlocklistTableName]`.`u_EMail`=`$_Q6Q1C[MaillistTableName]`.`u_EMail` WHERE `$_Q6Q1C[MaillistTableName]`.id=$apiRecipientId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_Q6Q1C = mysql_fetch_row($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT COUNT(`$_QLO0f[MaillistTableName]`.`id`) FROM `$_QLO0f[MaillistTableName]` LEFT JOIN `$_QLO0f[LocalBlocklistTableName]` ON `$_QLO0f[LocalBlocklistTableName]`.`u_EMail`=`$_QLO0f[MaillistTableName]`.`u_EMail` WHERE `$_QLO0f[MaillistTableName]`.id=$apiRecipientId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_QLO0f = mysql_fetch_row($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   return $_Q6Q1C[0] == 0 ? false : true;
+   return $_QLO0f[0] == 0 ? false : true;
  }
 
  /**
@@ -649,27 +753,27 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_isRecipientInLocalDomainBlocklist($apiMailingListId, $apiRecipientId) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
    $apiRecipientId = intval($apiRecipientId);
 
-   $_QJlJ0 = "SELECT `LocalDomainBlocklistTableName`, `MaillistTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QlftL = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `LocalDomainBlocklistTableName`, `MaillistTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_I8fol = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   $_QJlJ0 = "SELECT `u_EMail` FROM `$_QlftL[MaillistTableName]` WHERE `id`=".intval($apiRecipientId);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_row($_Q60l1)) {
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `u_EMail` FROM `$_I8fol[MaillistTableName]` WHERE `id`=".intval($apiRecipientId);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_row($_QL8i1)) {
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Recipient not found.");
 
-   return _L1RDP($_Q6Q1C[0], $apiMailingListId, $_QlftL["LocalDomainBlocklistTableName"]);
+   return _J1P6D($_QLO0f[0], $apiMailingListId, $_I8fol["LocalDomainBlocklistTableName"]);
  }
 
  /**
@@ -681,26 +785,26 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_isRecipientInGlobalBlocklist($apiMailingListId, $apiRecipientId) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
 
-   $_QJlJ0 = "SELECT `MaillistTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `MaillistTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   $_QJlJ0 = "SELECT `u_EMail` FROM `$_Q6Q1C[MaillistTableName]` WHERE `id`=".intval($apiRecipientId);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_row($_Q60l1)) {
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `u_EMail` FROM `$_QLO0f[MaillistTableName]` WHERE `id`=".intval($apiRecipientId);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_row($_QL8i1)) {
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Recipient not found.");
 
-   return _L0FRD($_Q6Q1C[0]);
+   return _J18DA($_QLO0f[0]);
  }
 
  /**
@@ -712,26 +816,26 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_isRecipientInGlobalDomainBlocklist($apiMailingListId, $apiRecipientId) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
 
-   $_QJlJ0 = "SELECT `MaillistTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `MaillistTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   $_QJlJ0 = "SELECT `u_EMail` FROM `$_Q6Q1C[MaillistTableName]` WHERE `id`=".intval($apiRecipientId);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_row($_Q60l1)) {
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `u_EMail` FROM `$_QLO0f[MaillistTableName]` WHERE `id`=".intval($apiRecipientId);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_row($_QL8i1)) {
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Recipient not found.");
 
-   return _L1ROL($_Q6Q1C[0]);
+   return _J1PQO($_QLO0f[0]);
  }
 
  /**
@@ -743,26 +847,26 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_isRecipientInECGList($apiMailingListId, $apiRecipientId) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
 
-   $_QJlJ0 = "SELECT `MaillistTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `MaillistTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   $_QJlJ0 = "SELECT `u_EMail` FROM `$_Q6Q1C[MaillistTableName]` WHERE `id`=$apiRecipientId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_row($_Q60l1)) {
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `u_EMail` FROM `$_QLO0f[MaillistTableName]` WHERE `id`=$apiRecipientId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_row($_QL8i1)) {
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Recipient not found.");
 
-   return _OC0DR($_Q6Q1C[0]);
+   return _L6AJP($_QLO0f[0]);
  }
 
 //
@@ -775,24 +879,24 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_isEMailInLocalBlocklist($apiMailingListId, $apiEMail) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
 
-   $_QJlJ0 = "SELECT `LocalBlocklistTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `LocalBlocklistTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   $_QJlJ0 = "SELECT COUNT(u_EMail) FROM `$_Q6Q1C[LocalBlocklistTableName]` WHERE u_EMail="._OPQLR($apiEMail);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   $_Q6Q1C = mysql_fetch_row($_Q60l1);
-   mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT COUNT(u_EMail) FROM `$_QLO0f[LocalBlocklistTableName]` WHERE u_EMail="._LRAFO( _L86JE($apiEMail) );
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   $_QLO0f = mysql_fetch_row($_QL8i1);
+   mysql_free_result($_QL8i1);
 
-   return $_Q6Q1C[0] == 0 ? false : true;
+   return $_QLO0f[0] == 0 ? false : true;
  }
 
  /**
@@ -804,20 +908,20 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_isEMailInLocalDomainBlocklist($apiMailingListId, $apiEMail) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
 
-   $_QJlJ0 = "SELECT `LocalDomainBlocklistTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `LocalDomainBlocklistTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
 
-   return _L1RDP($apiEMail, $apiMailingListId, $_Q6Q1C["LocalDomainBlocklistTableName"]);
+   return _J1P6D( _L86JE($apiEMail), $apiMailingListId, $_QLO0f["LocalDomainBlocklistTableName"]);
  }
 
  /**
@@ -828,10 +932,10 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_isEMailInGlobalBlocklist($apiEMail) {
-   global $_Q61I1, $UserId, $UserType;
+   global $_QLttI, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
-   return _L0FRD($apiEMail);
+   return _J18DA(_L86JE($apiEMail));
  }
 
  /**
@@ -842,10 +946,10 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_isEMailInGlobalDomainBlocklist($apiEMail) {
-   global $_Q61I1, $UserId, $UserType;
+   global $_QLttI, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
-   return _L1ROL($apiEMail);
+   return _J1PQO(_L86JE($apiEMail));
  }
 
  /**
@@ -859,7 +963,7 @@ class api_Recipients extends api_base {
    global $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
-   return _OC0DR($apiEMail);
+   return _L6AJP(_L86JE($apiEMail));
  }
 
  /**
@@ -871,7 +975,7 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_addRecipientToGlobalBlocklist($apiMailingListId, $apiRecipientId) {
-   global $_Q61I1, $_Q60QL, $_Ql8C0, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $_I8tfQ, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
@@ -880,14 +984,14 @@ class api_Recipients extends api_base {
      $apiRecipientId = array($apiRecipientId);
    }
 
-   $_QJlJ0 = "SELECT `MaillistTableName`, `StatisticsTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QLCLl = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `MaillistTableName`, `StatisticsTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_IfilO = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   _L11PQ($apiRecipientId, $_Ql8C0, $_QLCLl["MaillistTableName"], $_QLCLl["StatisticsTableName"]);
+   _J1LOQ($apiRecipientId, $_I8tfQ, $_IfilO["MaillistTableName"], $_IfilO["StatisticsTableName"]);
 
    return true;
  }
@@ -901,7 +1005,7 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_addRecipientToLocalBlocklist($apiMailingListId, $apiRecipientId) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
@@ -910,14 +1014,14 @@ class api_Recipients extends api_base {
      $apiRecipientId = array($apiRecipientId);
    }
 
-   $_QJlJ0 = "SELECT `MaillistTableName`, `LocalBlocklistTableName`, `StatisticsTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QLCLl = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `MaillistTableName`, `LocalBlocklistTableName`, `StatisticsTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_IfilO = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   _L11PQ($apiRecipientId, $_QLCLl["LocalBlocklistTableName"], $_QLCLl["MaillistTableName"], $_QLCLl["StatisticsTableName"]);
+   _J1LOQ($apiRecipientId, $_IfilO["LocalBlocklistTableName"], $_IfilO["MaillistTableName"], $_IfilO["StatisticsTableName"]);
 
    return true;
  }
@@ -930,12 +1034,12 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_addEMailToGlobalBlocklist($apiEMail) {
-   global $_Q61I1, $_Ql8C0, $UserId, $UserType;
+   global $_QLttI, $_I8tfQ, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
-   $_QJlJ0 = "INSERT IGNORE INTO `$_Ql8C0` SET `u_EMail`="._OPQLR($apiEMail);
-   mysql_query($_QJlJ0, $_Q61I1);
-   return mysql_affected_rows($_Q61I1) > 0 ? true : false;
+   $_QLfol = "INSERT IGNORE INTO `$_I8tfQ` SET `u_EMail`="._LRAFO(_L86JE($apiEMail));
+   mysql_query($_QLfol, $_QLttI);
+   return mysql_affected_rows($_QLttI) > 0 ? true : false;
  }
 
  /**
@@ -946,12 +1050,12 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_removeEMailFromGlobalBlocklist($apiEMail) {
-   global $_Q61I1, $_Ql8C0, $UserId, $UserType;
+   global $_QLttI, $_I8tfQ, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
-   $_QJlJ0 = "DELETE FROM `$_Ql8C0` WHERE `u_EMail`="._OPQLR($apiEMail);
-   mysql_query($_QJlJ0, $_Q61I1);
-   return mysql_affected_rows($_Q61I1) > 0 ? true : false;
+   $_QLfol = "DELETE FROM `$_I8tfQ` WHERE `u_EMail`="._LRAFO(_L86JE($apiEMail));
+   mysql_query($_QLfol, $_QLttI);
+   return mysql_affected_rows($_QLttI) > 0 ? true : false;
  }
 
  /**
@@ -962,18 +1066,18 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_addDomainToGlobalDomainBlocklist($apiDomain) {
-   global $_Q61I1, $_Qlt66, $UserId, $UserType;
+   global $_QLttI, $_I8OoJ, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
-   $apiDomain = trim($apiDomain);
-   $_Q6i6i = strpos($apiDomain, '@');
-   if($_Q6i6i !== false)
-      $apiDomain = substr($apiDomain, $_Q6i6i + 1);
+   $apiDomain = _L86JE(trim($apiDomain));
+   $_QlOjt = strpos($apiDomain, '@');
+   if($_QlOjt !== false)
+      $apiDomain = substr($apiDomain, $_QlOjt + 1);
    if(empty($apiDomain)) return $this->api_Error("Invalid domain.");
 
-   $_QJlJ0 = "INSERT IGNORE INTO `$_Qlt66` SET `Domainname`="._OPQLR($apiDomain);
-   mysql_query($_QJlJ0, $_Q61I1);
-   return mysql_affected_rows($_Q61I1) > 0 ? true : false;
+   $_QLfol = "INSERT IGNORE INTO `$_I8OoJ` SET `Domainname`="._LRAFO($apiDomain);
+   mysql_query($_QLfol, $_QLttI);
+   return mysql_affected_rows($_QLttI) > 0 ? true : false;
  }
 
  /**
@@ -984,17 +1088,17 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_removeDomainFromGlobalDomainBlocklist($apiDomain) {
-   global $_Q61I1, $_Qlt66, $UserId, $UserType;
+   global $_QLttI, $_I8OoJ, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
-   $apiDomain = trim($apiDomain);
-   $_Q6i6i = strpos($apiDomain, '@');
-   if($_Q6i6i !== false)
-      $apiDomain = substr($apiDomain, $_Q6i6i + 1);
+   $apiDomain = _L86JE(trim($apiDomain));
+   $_QlOjt = strpos($apiDomain, '@');
+   if($_QlOjt !== false)
+      $apiDomain = substr($apiDomain, $_QlOjt + 1);
 
-   $_QJlJ0 = "DELETE FROM `$_Qlt66` WHERE `Domainname`="._OPQLR($apiDomain);
-   mysql_query($_QJlJ0, $_Q61I1);
-   return mysql_affected_rows($_Q61I1) > 0 ? true : false;
+   $_QLfol = "DELETE FROM `$_I8OoJ` WHERE `Domainname`="._LRAFO($apiDomain);
+   mysql_query($_QLfol, $_QLttI);
+   return mysql_affected_rows($_QLttI) > 0 ? true : false;
  }
 
  /**
@@ -1006,28 +1110,28 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_addEMailToLocalBlocklist($apiMailingListId, $apiEMail) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
 
-   $_QJlJ0 = "SELECT `MaillistTableName`, `LocalBlocklistTableName`, `StatisticsTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QLCLl = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `MaillistTableName`, `LocalBlocklistTableName`, `StatisticsTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_IfilO = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   $_QJlJ0 = "SELECT `id` FROM `$_QLCLl[MaillistTableName]` WHERE `u_EMail`="._OPQLR($apiEMail);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `id` FROM `$_IfilO[MaillistTableName]` WHERE `u_EMail`="._LRAFO(_L86JE($apiEMail));
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Recipient not found.");
 
-   $_QltCO = array($_Q6Q1C["id"]);
+   $_I8oIJ = array($_QLO0f["id"]);
 
-   return _L11PQ($_QltCO, $_QLCLl['LocalBlocklistTableName'], $_QLCLl['MaillistTableName'], $_QLCLl['StatisticsTableName']);
+   return _J1LOQ($_I8oIJ, $_IfilO['LocalBlocklistTableName'], $_IfilO['MaillistTableName'], $_IfilO['StatisticsTableName']);
  }
 
  /**
@@ -1039,37 +1143,38 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_removeEMailFromLocalBlocklist($apiMailingListId, $apiEMail) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
 
-   $_QJlJ0 = "SELECT `MaillistTableName`, `LocalBlocklistTableName`, `StatisticsTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QLCLl = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `MaillistTableName`, `LocalBlocklistTableName`, `StatisticsTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_IfilO = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   $_QJlJ0 = "SELECT `id` FROM `$_QLCLl[MaillistTableName]` WHERE `u_EMail`="._OPQLR($apiEMail);
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-     mysql_free_result($_Q60l1);
+   $apiEMail = _L86JE($apiEMail);
+   $_QLfol = "SELECT `id` FROM `$_IfilO[MaillistTableName]` WHERE `u_EMail`="._LRAFO($apiEMail);
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+     mysql_free_result($_QL8i1);
    } else
-    if(isset($_Q6Q1C))
-      unset($_Q6Q1C);
+    if(isset($_QLO0f))
+      unset($_QLO0f);
 
 
-   $_QJlJ0 = "DELETE FROM `$_QLCLl[LocalBlocklistTableName]` WHERE `u_EMail`="._OPQLR($apiEMail);
-   mysql_query($_QJlJ0, $_Q61I1);
+   $_QLfol = "DELETE FROM `$_IfilO[LocalBlocklistTableName]` WHERE `u_EMail`="._LRAFO($apiEMail);
+   mysql_query($_QLfol, $_QLttI);
 
-   $_Q8COf = mysql_affected_rows($_Q61I1) > 0;
+   $_I1o8o = mysql_affected_rows($_QLttI) > 0;
 
-   if($_Q8COf && isset($_Q6Q1C) && isset($_Q6Q1C["id"])){
-     $_QJlJ0 = "DELETE FROM `$_QLCLl[StatisticsTableName]` WHERE `Member_id`=".$_Q6Q1C["id"]." AND `Action`='BlackListed'";
-     mysql_query($_QJlJ0, $_Q61I1);
+   if($_I1o8o && isset($_QLO0f) && isset($_QLO0f["id"])){
+     $_QLfol = "DELETE FROM `$_IfilO[StatisticsTableName]` WHERE `Member_id`=".$_QLO0f["id"]." AND `Action`='BlackListed'";
+     mysql_query($_QLfol, $_QLttI);
    }
-   return $_Q8COf;
+   return $_I1o8o;
  }
 
  /**
@@ -1081,28 +1186,28 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_addDomainToLocalDomainBlocklist($apiMailingListId, $apiDomain) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
 
-   $apiDomain = trim($apiDomain);
-   $_Q6i6i = strpos($apiDomain, '@');
-   if($_Q6i6i !== false)
-      $apiDomain = substr($apiDomain, $_Q6i6i + 1);
+   $apiDomain = _L86JE(trim($apiDomain));
+   $_QlOjt = strpos($apiDomain, '@');
+   if($_QlOjt !== false)
+      $apiDomain = substr($apiDomain, $_QlOjt + 1);
    if(empty($apiDomain)) return $this->api_Error("Invalid domain.");
 
-   $_QJlJ0 = "SELECT `LocalDomainBlocklistTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QLCLl = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `LocalDomainBlocklistTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_IfilO = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
 
-   $_QJlJ0 = "INSERT IGNORE INTO `$_QLCLl[LocalDomainBlocklistTableName]` SET `Domainname`="._OPQLR($apiDomain);
-   mysql_query($_QJlJ0, $_Q61I1);
-   return mysql_affected_rows($_Q61I1) > 0 ? true : false;
+   $_QLfol = "INSERT IGNORE INTO `$_IfilO[LocalDomainBlocklistTableName]` SET `Domainname`="._LRAFO($apiDomain);
+   mysql_query($_QLfol, $_QLttI);
+   return mysql_affected_rows($_QLttI) > 0 ? true : false;
 
  }
 
@@ -1115,25 +1220,25 @@ class api_Recipients extends api_base {
   * @access public
   */
  function api_removeDomainFromLocalDomainBlocklist($apiMailingListId, $apiDomain) {
-   global $_Q61I1, $_Q60QL, $UserId, $UserType;
+   global $_QLttI, $_QL88I, $UserId, $UserType;
    if($UserType != "Admin") return $this->api_Error("Only admins can use this function.");
 
    $apiMailingListId = intval($apiMailingListId);
-   $apiDomain = trim($apiDomain);
-   $_Q6i6i = strpos($apiDomain, '@');
-   if($_Q6i6i !== false)
-      $apiDomain = substr($apiDomain, $_Q6i6i + 1);
+   $apiDomain = _L86JE(trim($apiDomain));
+   $_QlOjt = strpos($apiDomain, '@');
+   if($_QlOjt !== false)
+      $apiDomain = substr($apiDomain, $_QlOjt + 1);
 
-   $_QJlJ0 = "SELECT `LocalDomainBlocklistTableName` FROM `$_Q60QL` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
-   $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-   if($_Q60l1 && $_QLCLl = mysql_fetch_assoc($_Q60l1)){
-     mysql_free_result($_Q60l1);
+   $_QLfol = "SELECT `LocalDomainBlocklistTableName` FROM `$_QL88I` WHERE (`users_id`=$UserId) AND `id`=$apiMailingListId";
+   $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+   if($_QL8i1 && $_IfilO = mysql_fetch_assoc($_QL8i1)){
+     mysql_free_result($_QL8i1);
    } else
     return $this->api_Error("Mailing list not found.");
 
-   $_QJlJ0 = "DELETE FROM `$_QLCLl[LocalDomainBlocklistTableName]` WHERE `Domainname`="._OPQLR($apiDomain);
-   mysql_query($_QJlJ0, $_Q61I1);
-   return mysql_affected_rows($_Q61I1) > 0 ? true : false;
+   $_QLfol = "DELETE FROM `$_IfilO[LocalDomainBlocklistTableName]` WHERE `Domainname`="._LRAFO($apiDomain);
+   mysql_query($_QLfol, $_QLttI);
+   return mysql_affected_rows($_QLttI) > 0 ? true : false;
  }
 
 }

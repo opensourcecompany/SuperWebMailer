@@ -28,7 +28,7 @@
 
     function ConfirmDeleteOutQueueItemEvent(value) {
       if(value)
-        document.getElementById('OutQueueForm').submit();
+        $('#OutQueueForm').submit();
         else {
           document.getElementById('OneOutQueueAction').value = "";
           document.getElementById('OneOutQueueId').value = "";
@@ -38,7 +38,7 @@
 
     function ConfirmListActionEvent(value) {
       if(value)
-        document.getElementById('OutQueueForm').submit();
+        $('#OutQueueForm').submit();
     }
 
     function ConfirmListAction() {
@@ -123,7 +123,7 @@
   			<td class="NoWrapAlignRight"><LIST:LastSending></LIST:LastSending></td>
   			<td>&nbsp;</td>
   			<td>
-      			<a href="#" onclick="var date = new Date();var nocache = date.getTime() / 1000;oWindow=window.open('./browseoutqueue.php?nocache=' + nocache + '&Result_id=', 'OutqueueViewEntryWnd','width=720,height=480,scrollbars=yes,status=no,toolbar=no,resizable=no,location=no,modal=yes'); oWindow.focus(); return false;"><img src="images/properties.gif" width="16" height="16" name="ViewOutQueueItemProperties" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Zeigt Eigenschaften des Eintrags.');return false" /></a>
+      			<a href="#" onclick="var date = new Date();var nocache = date.getTime() / 1000; ShowModalDialog('./browseoutqueue.php?nocache=' + nocache + '&Result_id=', 720, 480); return false;"><img src="images/properties.gif" width="16" height="16" name="ViewOutQueueItemProperties" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'Zeigt Eigenschaften des Eintrags.');return false" /></a>
          &nbsp;
   			    <input type="image" src="images/delete.gif" width="16" height="16" name="DeleteOutQueueItem" onclick="SetListId(this, 'OutQueueForm'); MessageBox('Best&auml;tigung', 'M&ouml;chten Sie wirklich diesen Eintrag dauerhaft l&ouml;schen?', 3, 320, 120, 'ConfirmDeleteOutQueueItemEvent'); return false;" alt="" style="cursor:pointer;" class="normalimage" onmouseout="hideTooltip()" onmouseover="showTooltip(event,'L&ouml;scht den Eintrag dauerhaft.');return false" />
 		    </td>
@@ -161,7 +161,7 @@
          			  Seite:&nbsp;
         </td>
         <td style="text-align:right; width:1%; white-space:nowrap; ">
-         			  <select name="OutQueuePageSelected" id="OutQueuePageSelected" size="1" style="min-width:30pt ! important;" onchange="document.OutQueueForm.submit()">
+         			  <select name="OutQueuePageSelected" id="OutQueuePageSelected" size="1" style="min-width:30pt ! important;" onchange="$('#OutQueueForm').submit();">
                 <OPTION:PAGES>
                 <option>1</option>
                 </OPTION:PAGES>
@@ -183,6 +183,7 @@
   CheckboxClicked();
   ShowItem('ListActionSubmitBtn', (document.getElementById('OutQueueActions').selectedIndex != 0) && ( document.getElementById('OutQueueActions').disabled == false ) ) ;
   DisableItem('OutQueueActions', GetCheckedCount('OutQueueIDs[]', 'OutQueueForm') > 0 );
+  InsertLoadingStatusOnSubmit();
   //AUTO_SCRIPT_CODE_PLACEHOLDER//
 //-->
 </script>

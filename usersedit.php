@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2019 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -26,41 +26,41 @@
   include_once("templates.inc.php");
 
   // Boolean fields of form
-  $_I01C0 = Array ();
-  _OA61D($_Q8f1L, $_I01C0, array("IsActive", "TermsOfUseAccepted", "Reference"));
+  $_ItI0o = Array ();
+  _L8FCO($_I18lo, $_ItI0o, array("IsActive", "TermsOfUseAccepted", "Reference"));
 
-  $_I01lt = Array ();
+  $_ItIti = Array ();
 
   $errors = array();
-  $_QlLfl = 0;
+  $_I8l8o = 0;
 
   if(isset($_POST['OwnAccount'])){
     $_POST['UserId'] = $UserId;
   }
 
   if(isset($_POST['UserId'])) // Formular speichern?
-    $_QlLfl = intval($_POST['UserId']);
+    $_I8l8o = intval($_POST['UserId']);
   else
     if ( isset($_POST['OneUserId']) )
-       $_QlLfl = intval($_POST['OneUserId']);
+       $_I8l8o = intval($_POST['OneUserId']);
 
   if($OwnerUserId != 0 && !isset($_POST['OwnAccount'])) {
-    $_QJojf = _OBOOC($UserId);
-    if($_QlLfl == 0 && !$_QJojf["PrivilegeUserCreate"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if($_I8l8o == 0 && !$_QLJJ6["PrivilegeUserCreate"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
-    if($_QlLfl != 0 && !$_QJojf["PrivilegeUserEdit"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    if($_I8l8o != 0 && !$_QLJJ6["PrivilegeUserEdit"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
 
-  $_I0600 = "";
+  $_Itfj8 = "";
 
   if(isset($_POST['UserEditBtn'])) { // Formular speichern?
 
@@ -68,27 +68,48 @@
        if(empty($_POST["ProductLogoURL"]))
          $_POST["ProductLogoURL"] = "";
 
+    if(isset($_POST['OwnAccount']) && isset($_POST["Username"]))
+      unset($_POST["Username"]);
+
     // Pflichtfelder pruefen
-    if ( $_QlLfl == 0 && ((!isset($_POST['Username'])) || (trim($_POST['Username']) == "")) )
+    if ( $_I8l8o == 0 && ((!isset($_POST['Username'])) || (trim($_POST['Username']) == "")) )
       $errors[] = 'Username';
       else
-       if($_QlLfl == 0)
-          if( !preg_match("/^[a-zA-Z0-9_]{3,}$/", $_POST["Username"]) ) {
+       if($_I8l8o == 0)
+          if( !preg_match("/^[a-zA-Z0-9_@]{3,}$/", $_POST["Username"]) ) {
             $errors[] = "Username";
-            $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090003"];
+            $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090003"];
           }
 
+    if($_I8l8o != 0 && !isset($_POST['OwnAccount'])){
+       if( !isset($_POST["Username"]) || !preg_match("/^[a-zA-Z0-9_@]{3,}$/", $_POST["Username"]) ) {
+         $errors[] = "Username";
+         $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090003"];
+       }
+
+       if($_POST["Username"] != $_POST["ShowUsername"]){
+
+         $_QLfol = "SELECT COUNT(id) FROM $_I18lo WHERE Username="._LRAFO($_POST["Username"]);
+         $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+         $_QLO0f = mysql_fetch_row($_QL8i1);
+         mysql_free_result($_QL8i1);
+         if($_QLO0f[0]){
+           $errors[] = "Username";
+           $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000104"];
+         }
+       }
+    }
 
     if ( (!isset($_POST['Password'])) || (trim($_POST['Password']) == "") )
       $errors[] = 'Password';
 
-    if($_QlLfl == 0) { // only new users
+    if($_I8l8o == 0) { // only new users
        if ( (!isset($_POST['PasswordAgain'])) || (trim($_POST['PasswordAgain']) == "") )
          $errors[] = 'PasswordAgain';
 
        if(count($errors) == 0) {
          if(trim($_POST["Password"]) != trim($_POST["PasswordAgain"])) {
-           $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090001"];
+           $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090001"];
            $errors[] = "Password";
            $errors[] = "PasswordAgain";
          }
@@ -96,7 +117,7 @@
 
        if(count($errors) == 0) {
          if(trim($_POST["Password"]) == "*PASSWORDSET*" ) {
-           $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["090001"];
+           $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["090001"];
            $errors[] = "Password";
            $errors[] = "PasswordAgain";
          }
@@ -104,7 +125,7 @@
 
     }
 
-    if ( (!isset($_POST['EMail'])) || (trim($_POST['EMail']) == "") || !_OPAOJ($_POST['EMail']) )
+    if ( (!isset($_POST['EMail'])) || (trim($_POST['EMail']) == "") || !_L8JLR($_POST['EMail']) )
       $errors[] = 'EMail';
 
     if(($UserType == "SuperAdmin" || $UserType == "Admin")) {
@@ -137,21 +158,21 @@
       }
 
     } else {
-      $_QJlJ0 = "SELECT * FROM $_Q8f1L WHERE id=$UserId";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
-      $_POST["Language"] = $_Q6Q1C["Language"];
-      $_POST["ThemesId"] = $_Q6Q1C["ThemesId"];
-      $_POST["SHOW_LOGGEDINUSER"] = $_Q6Q1C["SHOW_LOGGEDINUSER"];
-      $_POST["SHOW_SUPPORTLINKS"] = $_Q6Q1C["SHOW_SUPPORTLINKS"];
-      $_POST["SHOW_SHOWCOPYRIGHT"] = $_Q6Q1C["SHOW_SHOWCOPYRIGHT"];
-      $_POST["SHOW_PRODUCTVERSION"] = $_Q6Q1C["SHOW_PRODUCTVERSION"];
-      $_POST["SHOW_TOOLTIPS"] = $_Q6Q1C["SHOW_TOOLTIPS"];
-      $_POST["ProductLogoURL"] = $_Q6Q1C["ProductLogoURL"];
-      $_POST["LimitSubUnsubScripts"] = $_Q6Q1C["LimitSubUnsubScripts"];
-      $_POST["LimitSubUnsubScriptsLimitedRequests"] = $_Q6Q1C["LimitSubUnsubScriptsLimitedRequests"];
-      $_POST["LimitSubUnsubScriptsLimitedRequestsInterval"] = $_Q6Q1C["LimitSubUnsubScriptsLimitedRequestsInterval"];
+      $_QLfol = "SELECT * FROM $_I18lo WHERE id=$UserId";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      $_QLO0f = mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
+      $_POST["Language"] = $_QLO0f["Language"];
+      $_POST["ThemesId"] = $_QLO0f["ThemesId"];
+      $_POST["SHOW_LOGGEDINUSER"] = $_QLO0f["SHOW_LOGGEDINUSER"];
+      $_POST["SHOW_SUPPORTLINKS"] = $_QLO0f["SHOW_SUPPORTLINKS"];
+      $_POST["SHOW_SHOWCOPYRIGHT"] = $_QLO0f["SHOW_SHOWCOPYRIGHT"];
+      $_POST["SHOW_PRODUCTVERSION"] = $_QLO0f["SHOW_PRODUCTVERSION"];
+      $_POST["SHOW_TOOLTIPS"] = $_QLO0f["SHOW_TOOLTIPS"];
+      $_POST["ProductLogoURL"] = $_QLO0f["ProductLogoURL"];
+      $_POST["LimitSubUnsubScripts"] = $_QLO0f["LimitSubUnsubScripts"];
+      $_POST["LimitSubUnsubScriptsLimitedRequests"] = $_QLO0f["LimitSubUnsubScriptsLimitedRequests"];
+      $_POST["LimitSubUnsubScriptsLimitedRequestsInterval"] = $_QLO0f["LimitSubUnsubScriptsLimitedRequestsInterval"];
     }
 
     if(!isset($_POST['OwnAccount']))
@@ -167,476 +188,538 @@
       }
     }
 
-    if(count($errors) == 0 && $_QlLfl == 0) {
+    if(count($errors) == 0 && $_I8l8o == 0) {
 
-      $_QJlJ0 = "SELECT COUNT(*) FROM $_Q8f1L WHERE Username="._OPQLR(trim($_POST['Username']));
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      $_Q6Q1C = mysql_fetch_row($_Q60l1);
-      if($_Q6Q1C[0] > 0) {
-        $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000104"];
+      $_QLfol = "SELECT COUNT(*) FROM $_I18lo WHERE Username="._LRAFO(trim($_POST['Username']));
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      $_QLO0f = mysql_fetch_row($_QL8i1);
+      if($_QLO0f[0] > 0) {
+        $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000104"];
         $errors[] = 'Username';
       }
-      mysql_free_result($_Q60l1);
+      mysql_free_result($_QL8i1);
     }
 
     if(count($errors) > 0) {
-       if($_I0600 == "")
-         $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000103"];
+       if($_Itfj8 == "")
+         $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000103"];
 
       }
       else {
-        $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000021"];
+        $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000021"];
 
-        $_II1Ot = $_POST;
+        $_IoLOO = $_POST;
 
         // only SuperAdmin set all privileges
         if( $UserType == "SuperAdmin" )
-          for($_Q6llo=0; $_Q6llo<count($_I01C0); $_Q6llo++) {
-            if( strpos($_I01C0[$_Q6llo], "Privilege") !== false && !isset($_II1Ot[$_I01C0[$_Q6llo]]) )
-               $_II1Ot[$_I01C0[$_Q6llo]] = 1;
+          for($_Qli6J=0; $_Qli6J<count($_ItI0o); $_Qli6J++) {
+            if( strpos($_ItI0o[$_Qli6J], "Privilege") !== false && !isset($_IoLOO[$_ItI0o[$_Qli6J]]) )
+               $_IoLOO[$_ItI0o[$_Qli6J]] = 1;
           }
 
         // own account can't change own rights
         if(isset($_POST['OwnAccount'])) {
-          $_jQjOO = array();
-          for($_Q6llo=0; $_Q6llo<count($_I01C0); $_Q6llo++)
-            if(strpos($_I01C0[$_Q6llo], "Privilege") === false) {
-              $_jQjOO[] = $_I01C0[$_Q6llo];
+          $_jl0Ii = array();
+          for($_Qli6J=0; $_Qli6J<count($_ItI0o); $_Qli6J++)
+            if(strpos($_ItI0o[$_Qli6J], "Privilege") === false) {
+              $_jl0Ii[] = $_ItI0o[$_Qli6J];
             }
 
-          unset($_I01C0);
-          $_I01C0 = array();
-          for($_Q6llo=0; $_Q6llo<count($_jQjOO); $_Q6llo++)
-             $_I01C0[] = $_jQjOO[$_Q6llo];
+          unset($_ItI0o);
+          $_ItI0o = array();
+          for($_Qli6J=0; $_Qli6J<count($_jl0Ii); $_Qli6J++)
+             $_ItI0o[] = $_jl0Ii[$_Qli6J];
         }
 
-        $_Ql1O8 = array();
+        $_I816i = array();
         if(!defined("DEMO")) {
-            if(isset($_II1Ot["Password"]) && $_II1Ot["Password"] == "*PASSWORDSET*")
-               unset($_II1Ot["Password"]);
-            if(isset($_II1Ot["apikey"]))
-              unset($_II1Ot["apikey"]);
-            _L6O1Q($_QlLfl, $_II1Ot, $_Ql1O8);
+            if(isset($_IoLOO["Password"]) && $_IoLOO["Password"] == "*PASSWORDSET*")
+               unset($_IoLOO["Password"]);
+            if(isset($_IoLOO["apikey"]))
+              unset($_IoLOO["apikey"]);
 
+            $_QLfol = "SELECT `AuthType` FROM `$_JQ00O` LIMIT 0,1";
+            $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+            $_I1jfC = mysql_fetch_assoc($_QL8i1);
+            mysql_free_result($_QL8i1);
+
+            if( isset($_IoLOO["Password"]) && $_I8l8o && $_I1jfC["AuthType"] == "ldap" ){
+              if( $UserType !== "SuperAdmin" && isset($_POST['OwnAccount']) ){
+                $_Itfj8 .= " " .$resourcestrings[$INTERFACE_LANGUAGE]["PasswordChangeHasNoEffect"];
+              }
+              else
+                if( $UserType == "Admin" ){
+                  $_Itfj8 .= " " .$resourcestrings[$INTERFACE_LANGUAGE]["PasswordChangeHasNoEffect"];
+                }
+            }
+
+            _J6RFL($_I8l8o, $_IoLOO, $_I816i);
+
+            if($_I8l8o !== 0 && !isset($_POST['OwnAccount']) && $_I1jfC["AuthType"] == "db2fa" && !version_compare(PHP_VERSION, "7.1.0", "<") && isset($_POST["2FAResetSecret"])){
+              $_QLfol = "UPDATE `$_I18lo` SET `2FASecret`='' WHERE `id`=$_I8l8o"; 
+              mysql_query($_QLfol, $_QLttI);
+              unset($_POST["2FAResetSecret"]);
+            }  
+            
             if(isset($_POST['OwnAccount'])) {
-               $_QJlJ0 = "SELECT $_Q8f1L.*, $_Q880O.Theme, $_Q880O.id As ThemesId FROM $_Q8f1L LEFT JOIN $_Q880O ON $_Q880O.id=$_Q8f1L.ThemesId WHERE $_Q8f1L.id=$UserId";
-               $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-               $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-               mysql_free_result($_Q60l1);
-               $_SESSION["Language"] = $_Q6Q1C["Language"];
-               $_SESSION["Theme"] = $_Q6Q1C["Theme"];
-               $_SESSION["ThemesId"] = $_Q6Q1C["ThemesId"];
-               $_SESSION["SHOW_LOGGEDINUSER"] = $_Q6Q1C["SHOW_LOGGEDINUSER"];
-               $_SESSION["SHOW_SUPPORTLINKS"] = $_Q6Q1C["SHOW_SUPPORTLINKS"];
-               $_SESSION["SHOW_SHOWCOPYRIGHT"] = $_Q6Q1C["SHOW_SHOWCOPYRIGHT"];
-               $_SESSION["SHOW_PRODUCTVERSION"] = $_Q6Q1C["SHOW_PRODUCTVERSION"];
-               $_SESSION["SHOW_TOOLTIPS"] = $_Q6Q1C["SHOW_TOOLTIPS"];
-               if($_Q6Q1C["ProductLogoURL"] != "")
-                 $_SESSION["ProductLogoURL"] = $_Q6Q1C["ProductLogoURL"];
+               $_QLfol = "SELECT $_I18lo.*, $_I1tQf.Theme, $_I1tQf.id As ThemesId FROM $_I18lo LEFT JOIN $_I1tQf ON $_I1tQf.id=$_I18lo.ThemesId WHERE $_I18lo.id=$UserId";
+               $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+               $_QLO0f = mysql_fetch_assoc($_QL8i1);
+               mysql_free_result($_QL8i1);
+               $_SESSION["Language"] = $_QLO0f["Language"];
+               $_SESSION["Theme"] = $_QLO0f["Theme"];
+               $_SESSION["ThemesId"] = $_QLO0f["ThemesId"];
+               $_SESSION["SHOW_LOGGEDINUSER"] = $_QLO0f["SHOW_LOGGEDINUSER"];
+               $_SESSION["SHOW_SUPPORTLINKS"] = $_QLO0f["SHOW_SUPPORTLINKS"];
+               $_SESSION["SHOW_SHOWCOPYRIGHT"] = $_QLO0f["SHOW_SHOWCOPYRIGHT"];
+               $_SESSION["SHOW_PRODUCTVERSION"] = $_QLO0f["SHOW_PRODUCTVERSION"];
+               $_SESSION["SHOW_TOOLTIPS"] = $_QLO0f["SHOW_TOOLTIPS"];
+               if($_QLO0f["ProductLogoURL"] != "")
+                 $_SESSION["ProductLogoURL"] = $_QLO0f["ProductLogoURL"];
                LoadUserSettings();
             }
 
           }
           else {
-            $_Ql1O8[] = "DEMO VERSION";
-            $_I0600 = "";
+            $_I816i[] = "DEMO VERSION";
+            $_Itfj8 = "";
           }
-        if(count($_Ql1O8) > 0)
-           $_I0600 .= "<br />".join("<br />", $_Ql1O8);
-        if($_QlLfl != 0) {
-           $_POST["UserId"] = $_QlLfl;
-           if(isset($_II1Ot["Username"]))
-             $_POST["ShowUsername"] = $_II1Ot["Username"];
+        if(count($_I816i) > 0)
+           $_Itfj8 .= "<br />".join("<br />", $_I816i);
+        if($_I8l8o != 0) {
+           $_POST["UserId"] = $_I8l8o;
+           if(isset($_IoLOO["Username"]))
+             $_POST["ShowUsername"] = $_IoLOO["Username"];
         }
       }
 
   }
 
   if(!isset($_POST['OwnAccount']))
-     $_QJCJi = $resourcestrings[$INTERFACE_LANGUAGE]["000100"];
+     $_QLJfI = $resourcestrings[$INTERFACE_LANGUAGE]["000100"];
      else
-     $_QJCJi = $resourcestrings[$INTERFACE_LANGUAGE]["000107"];
+     $_QLJfI = $resourcestrings[$INTERFACE_LANGUAGE]["000107"];
 
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_QJCJi, $_I0600, 'useredit', 'usersedit_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_QLJfI, $_Itfj8, 'useredit', 'usersedit_snipped.htm');
 
   // UserType
-  $_Q6ICj = "";
+  $_QLoli = "";
   if($UserType == "SuperAdmin")
-     $_Q6ICj .= '<option value="Admin">'.$resourcestrings[$INTERFACE_LANGUAGE]["Admin"].'</option>'.$_Q6JJJ;
+     $_QLoli .= '<option value="Admin">'.$resourcestrings[$INTERFACE_LANGUAGE]["Admin"].'</option>'.$_QLl1Q;
      else {
-       $_Q6ICj .= '<option value="User">'.$resourcestrings[$INTERFACE_LANGUAGE]["User"].'</option>'.$_Q6JJJ;
+       $_QLoli .= '<option value="User">'.$resourcestrings[$INTERFACE_LANGUAGE]["User"].'</option>'.$_QLl1Q;
      }
-  $_QJCJi = _OPR6L($_QJCJi, '<SHOW:USERTYPE>', '</SHOW:USERTYPE>', $_Q6ICj);
+  $_QLJfI = _L81BJ($_QLJfI, '<SHOW:USERTYPE>', '</SHOW:USERTYPE>', $_QLoli);
   // *************
 
   // Language
-  $_QJlJ0 = "SELECT * FROM $_Qo6Qo";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_Q6ICj = "";
-  while($_Q6Q1C  = mysql_fetch_assoc($_Q60l1)) {
-     if($_Q6Q1C["Language"] != "de") {
+  $_QLfol = "SELECT * FROM $_Ijf8l";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_QLoli = "";
+  while($_QLO0f  = mysql_fetch_assoc($_QL8i1)) {
+     if($_QLO0f["Language"] != "de") {
 
-       $_QCoLj = DefaultPath.TemplatesPath."/";
+       $_IJL6o = DefaultPath.TemplatesPath."/";
 
        if(isset($INTERFACE_STYLE) && $INTERFACE_STYLE != "")
-         $_QCoLj .= $INTERFACE_STYLE."/";
-       $_QCoLj .= $_Q6Q1C["Language"]."/";
+         $_IJL6o .= $INTERFACE_STYLE."/";
+       $_IJL6o .= $_QLO0f["Language"]."/";
 
-       $_Q8otJ = @file($_QCoLj."main.htm");
-       if(!$_Q8otJ) continue;
+       $_I1OoI = @file($_IJL6o."main.htm");
+       if(!$_I1OoI) continue;
 
      }
-     $_Q6ICj .= '<option value="'.$_Q6Q1C["Language"].'">'.$_Q6Q1C["Text"].'</option>'.$_Q6JJJ;
+     $_QLoli .= '<option value="'.$_QLO0f["Language"].'">'.$_QLO0f["Text"].'</option>'.$_QLl1Q;
   }
-  $_QJCJi = _OPR6L($_QJCJi, '<SHOW:LANGUAGE>', '</SHOW:LANGUAGE>', $_Q6ICj);
-  mysql_free_result($_Q60l1);
+  $_QLJfI = _L81BJ($_QLJfI, '<SHOW:LANGUAGE>', '</SHOW:LANGUAGE>', $_QLoli);
+  mysql_free_result($_QL8i1);
   // *************
 
   // Themes
-  $_QJlJ0 = "SELECT * FROM $_Q880O";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_Q6ICj = "";
-  while($_Q6Q1C  = mysql_fetch_assoc($_Q60l1)) {
-     $_Q6ICj .= '<option value="'.$_Q6Q1C["id"].'">'.$_Q6Q1C["Text"].'</option>'.$_Q6JJJ;
+  $_QLfol = "SELECT * FROM $_I1tQf";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_QLoli = "";
+  while($_QLO0f  = mysql_fetch_assoc($_QL8i1)) {
+     $_QLoli .= '<option value="'.$_QLO0f["id"].'">'.$_QLO0f["Text"].'</option>'.$_QLl1Q;
   }
-  $_QJCJi = _OPR6L($_QJCJi, '<SHOW:THEMES>', '</SHOW:THEMES>', $_Q6ICj);
-  mysql_free_result($_Q60l1);
+  $_QLJfI = _L81BJ($_QLJfI, '<SHOW:THEMES>', '</SHOW:THEMES>', $_QLoli);
+  mysql_free_result($_QL8i1);
   // *************
 
-  _LJ81E($_QJCJi);
+  _JJCCF($_QLJfI);
 
   # User laden
   if(isset($_POST['UserEditBtn'])) { // Formular speichern?
-    $_6OftJ = $_POST;
-    if(isset($_6OftJ["ShowUsername"]) && $_6OftJ["ShowUsername"] != "")
-       $_6OftJ["Username"] = $_6OftJ["ShowUsername"];
+    $_8IfOt = $_POST;
+    if(isset($_8IfOt["ShowUsername"]) && $_8IfOt["ShowUsername"] != "")
+       $_8IfOt["Username"] = $_8IfOt["ShowUsername"];
 
      if(isset($_POST['OwnAccount'])) {
-       $_QJlJ0= "SELECT `apikey`, `AccountType`, `AccountTypeLimitedMailCountLimited`, `AccountTypeLimitedCurrentMonth`, `AccountTypeLimitedCurrentMailCount`, MONTH(NOW()) AS CurrentMonth FROM $_Q8f1L WHERE id=$_QlLfl";
-       $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-       _OAL8F($_QJlJ0);
-       $_Q6Q1C=mysql_fetch_assoc($_Q60l1);
-       mysql_free_result($_Q60l1);
+       $_QLfol= "SELECT `apikey`, `AccountType`, `AccountTypeLimitedMailCountLimited`, `AccountTypeLimitedCurrentMonth`, `AccountTypeLimitedCurrentMailCount`, MONTH(NOW()) AS CurrentMonth FROM $_I18lo WHERE id=$_I8l8o";
+       $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+       _L8D88($_QLfol);
+       $_QLO0f=mysql_fetch_assoc($_QL8i1);
+       mysql_free_result($_QL8i1);
 
-       $_6OftJ = array_merge($_6OftJ, $_Q6Q1C);
+       $_8IfOt = array_merge($_8IfOt, $_QLO0f);
      } else{
-       $_QJlJ0= "SELECT `apikey` FROM $_Q8f1L WHERE id=$_QlLfl";
-       $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-       _OAL8F($_QJlJ0);
-       $_Q6Q1C=mysql_fetch_assoc($_Q60l1);
-       mysql_free_result($_Q60l1);
+       $_QLfol= "SELECT `apikey` FROM $_I18lo WHERE id=$_I8l8o";
+       $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+       _L8D88($_QLfol);
+       $_QLO0f=mysql_fetch_assoc($_QL8i1);
+       mysql_free_result($_QL8i1);
 
-       if(is_array($_Q6Q1C))
-          $_6OftJ = array_merge($_6OftJ, $_Q6Q1C);
+       if(is_array($_QLO0f))
+          $_8IfOt = array_merge($_8IfOt, $_QLO0f);
      }
 
-     if(isset($_6OftJ["Password"]) && count($errors) == 0)
-        $_6OftJ["Password"] = "*PASSWORDSET*";
+     if(isset($_8IfOt["Password"]) && count($errors) == 0)
+        $_8IfOt["Password"] = "*PASSWORDSET*";
 
   } else {
-    if($_QlLfl > 0) {
-      $_QJlJ0= "SELECT *, MONTH(NOW()) AS CurrentMonth FROM $_Q8f1L WHERE id=$_QlLfl";
-      $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-      _OAL8F($_QJlJ0);
-      $_6OftJ=mysql_fetch_assoc($_Q60l1);
-      mysql_free_result($_Q60l1);
+    if($_I8l8o > 0) {
+      $_QLfol= "SELECT *, MONTH(NOW()) AS CurrentMonth FROM $_I18lo WHERE id=$_I8l8o";
+      $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+      _L8D88($_QLfol);
+      $_8IfOt=mysql_fetch_assoc($_QL8i1);
+      mysql_free_result($_QL8i1);
 
       // own account can't change own rights
       if(isset($_POST['OwnAccount'])) {
-        $_jQjOO = array();
-        for($_Q6llo=0; $_Q6llo<count($_I01C0); $_Q6llo++)
-          if(strpos($_I01C0[$_Q6llo], "Privilege") === false) {
-            $_jQjOO[] = $_I01C0[$_Q6llo];
+        $_jl0Ii = array();
+        for($_Qli6J=0; $_Qli6J<count($_ItI0o); $_Qli6J++)
+          if(strpos($_ItI0o[$_Qli6J], "Privilege") === false) {
+            $_jl0Ii[] = $_ItI0o[$_Qli6J];
           }
 
-        unset($_I01C0);
-        $_I01C0 = array();
-        for($_Q6llo=0; $_Q6llo<count($_jQjOO); $_Q6llo++)
-           $_I01C0[] = $_jQjOO[$_Q6llo];
-        $_6OftJ["OwnAccount"] = 1;
+        unset($_ItI0o);
+        $_ItI0o = array();
+        for($_Qli6J=0; $_Qli6J<count($_jl0Ii); $_Qli6J++)
+           $_ItI0o[] = $_jl0Ii[$_Qli6J];
+        $_8IfOt["OwnAccount"] = 1;
       }
 
 
-      for($_Q6llo=0; $_Q6llo<count($_I01C0); $_Q6llo++)
-        if(isset($_6OftJ[$_I01C0[$_Q6llo]]) && $_6OftJ[$_I01C0[$_Q6llo]] == 0)
-           unset($_6OftJ[$_I01C0[$_Q6llo]]);
+      for($_Qli6J=0; $_Qli6J<count($_ItI0o); $_Qli6J++)
+        if(isset($_8IfOt[$_ItI0o[$_Qli6J]]) && $_8IfOt[$_ItI0o[$_Qli6J]] == 0)
+           unset($_8IfOt[$_ItI0o[$_Qli6J]]);
 
-      $_6OftJ["UserId"] = $_6OftJ["id"];
-      $_6OftJ["ShowUsername"] = $_6OftJ["Username"];
-      $_6OftJ["Password"] = "*PASSWORDSET*";
+      $_8IfOt["UserId"] = $_8IfOt["id"];
+      $_8IfOt["ShowUsername"] = $_8IfOt["Username"];
+      $_8IfOt["Password"] = "*PASSWORDSET*";
 
     } else {
-      $_6OftJ = array();
-      for($_Q6llo=0; $_Q6llo<count($_I01C0); $_Q6llo++)
-        $_6OftJ[$_I01C0[$_Q6llo]] = 1;
+      $_8IfOt = array();
+      for($_Qli6J=0; $_Qli6J<count($_ItI0o); $_Qli6J++)
+        $_8IfOt[$_ItI0o[$_Qli6J]] = 1;
       if($UserType == "SuperAdmin")
-        $_6OftJ["UserType"] = "Admin";
+        $_8IfOt["UserType"] = "Admin";
       else
-        $_6OftJ["UserType"] = "User";
-      $_6OftJ["AccountType"] = "Unlimited";
-      $_6OftJ["LimitSubUnsubScripts"] = "Limited";
-      $_6OftJ["LimitSubUnsubScriptsLimitedRequests"] = "10";
+        $_8IfOt["UserType"] = "User";
+      $_8IfOt["AccountType"] = "Unlimited";
+      $_8IfOt["LimitSubUnsubScripts"] = "Limited";
+      $_8IfOt["LimitSubUnsubScriptsLimitedRequests"] = "10";
     }
   }
 
   // default Limit
-  if(!isset($_6OftJ["AccountTypeLimitedMailCountLimited"]))
-    $_6OftJ["AccountTypeLimitedMailCountLimited"] = 1000;
+  if(!isset($_8IfOt["AccountTypeLimitedMailCountLimited"]))
+    $_8IfOt["AccountTypeLimitedMailCountLimited"] = 1000;
 
-  if($_QlLfl == 0) { // only new users
-    $_QJCJi = str_replace("<IS:NEWUSER>", "", $_QJCJi);
-    $_QJCJi = str_replace("</IS:NEWUSER>", "", $_QJCJi);
+  if($_I8l8o == 0) { // only new users
+    $_QLJfI = str_replace("<IS:NEWUSER>", "", $_QLJfI);
+    $_QLJfI = str_replace("</IS:NEWUSER>", "", $_QLJfI);
   } else {
-    $_QJCJi = _OPR6L($_QJCJi, '<IS:NEWUSER>', '</IS:NEWUSER>', '');
+    $_QLJfI = _L81BJ($_QLJfI, '<IS:NEWUSER>', '</IS:NEWUSER>', '');
   }
 
-  if(empty($_6OftJ["apikey"]))
-    $_6OftJ["apikey"] = $resourcestrings[$INTERFACE_LANGUAGE]["NA"];
-  $_QJCJi = _OPR6L($_QJCJi, '<apikey>', '</apikey>', $_6OftJ["apikey"]);
+  if(empty($_8IfOt["apikey"]))
+    $_8IfOt["apikey"] = $resourcestrings[$INTERFACE_LANGUAGE]["NA"];
+  $_QLJfI = _L81BJ($_QLJfI, '<apikey>', '</apikey>', $_8IfOt["apikey"]);
 
   if($UserType == "SuperAdmin" && isset($_POST['OwnAccount'])){
-    $_QJCJi = _OPR6L($_QJCJi, '<SHOW:LIMITS>', '</SHOW:LIMITS>', '');
-    $_QJCJi = _OPR6L($_QJCJi, '<IS:NOTSUPERADMINOWNACCOUNT>', '</IS:NOTSUPERADMINOWNACCOUNT>', '');
+    $_QLJfI = _L81BJ($_QLJfI, '<SHOW:LIMITS>', '</SHOW:LIMITS>', '');
+    $_QLJfI = _L81BJ($_QLJfI, '<IS:NOTSUPERADMINOWNACCOUNT>', '</IS:NOTSUPERADMINOWNACCOUNT>', '');
   } else {
-    if(isset($_6OftJ["UserType"]) && $_6OftJ["UserType"] == "User")
-      $_QJCJi = _OPR6L($_QJCJi, '<IS:NOTSUPERADMINOWNACCOUNT>', '</IS:NOTSUPERADMINOWNACCOUNT>', '');
+    if(isset($_8IfOt["UserType"]) && $_8IfOt["UserType"] == "User")
+      $_QLJfI = _L81BJ($_QLJfI, '<IS:NOTSUPERADMINOWNACCOUNT>', '</IS:NOTSUPERADMINOWNACCOUNT>', '');
     else{
-      $_QJCJi = str_replace("<IS:NOTSUPERADMINOWNACCOUNT>", "", $_QJCJi);
-      $_QJCJi = str_replace("</IS:NOTSUPERADMINOWNACCOUNT>", "", $_QJCJi);
+      $_QLJfI = str_replace("<IS:NOTSUPERADMINOWNACCOUNT>", "", $_QLJfI);
+      $_QLJfI = str_replace("</IS:NOTSUPERADMINOWNACCOUNT>", "", $_QLJfI);
     }
   }
 
   if($UserType == "Admin" && isset($_POST['OwnAccount'])){
-     if($_6OftJ["AccountType"] == "Unlimited") {
-        $_QJCJi = _OPR6L($_QJCJi, "<AccountType:Limited>", "</AccountType:Limited>", "");
-        $_QJCJi = _OPR6L($_QJCJi, "<AccountType:Payed>", "</AccountType:Payed>", "");
-        $_QJCJi = str_replace("<AccountType:Unlimited>", "", $_QJCJi);
-        $_QJCJi = str_replace("</AccountType:Unlimited>", "", $_QJCJi);
+     if($_8IfOt["AccountType"] == "Unlimited") {
+        $_QLJfI = _L81BJ($_QLJfI, "<AccountType:Limited>", "</AccountType:Limited>", "");
+        $_QLJfI = _L81BJ($_QLJfI, "<AccountType:Payed>", "</AccountType:Payed>", "");
+        $_QLJfI = str_replace("<AccountType:Unlimited>", "", $_QLJfI);
+        $_QLJfI = str_replace("</AccountType:Unlimited>", "", $_QLJfI);
      } else
-     if($_6OftJ["AccountType"] == "Limited") {
-        $_QJCJi = _OPR6L($_QJCJi, "<AccountType:Unlimited>", "</AccountType:Unlimited>", "");
-        $_QJCJi = _OPR6L($_QJCJi, "<AccountType:Payed>", "</AccountType:Payed>", "");
-        $_QJCJi = str_replace("<AccountType:Limited>", "", $_QJCJi);
-        $_QJCJi = str_replace("</AccountType:Limited>", "", $_QJCJi);
+     if($_8IfOt["AccountType"] == "Limited") {
+        $_QLJfI = _L81BJ($_QLJfI, "<AccountType:Unlimited>", "</AccountType:Unlimited>", "");
+        $_QLJfI = _L81BJ($_QLJfI, "<AccountType:Payed>", "</AccountType:Payed>", "");
+        $_QLJfI = str_replace("<AccountType:Limited>", "", $_QLJfI);
+        $_QLJfI = str_replace("</AccountType:Limited>", "", $_QLJfI);
 
-        $_QJCJi = _OPR6L($_QJCJi, "<AccountTypeLimitedMailCountLimited>", "</AccountTypeLimitedMailCountLimited>", $_6OftJ["AccountTypeLimitedMailCountLimited"]);
-        $_QllO8 = $_6OftJ["AccountTypeLimitedCurrentMailCount"];
-        if($_6OftJ["CurrentMonth"] != $_6OftJ["AccountTypeLimitedCurrentMonth"])
-          $_QllO8 = 0;
-        $_QJCJi = _OPR6L($_QJCJi, "<AccountTypeLimitedCurrentMailCount>", "</AccountTypeLimitedCurrentMailCount>", $_QllO8);
+        $_QLJfI = _L81BJ($_QLJfI, "<AccountTypeLimitedMailCountLimited>", "</AccountTypeLimitedMailCountLimited>", $_8IfOt["AccountTypeLimitedMailCountLimited"]);
+        $_I016j = $_8IfOt["AccountTypeLimitedCurrentMailCount"];
+        if($_8IfOt["CurrentMonth"] != $_8IfOt["AccountTypeLimitedCurrentMonth"])
+          $_I016j = 0;
+        $_QLJfI = _L81BJ($_QLJfI, "<AccountTypeLimitedCurrentMailCount>", "</AccountTypeLimitedCurrentMailCount>", $_I016j);
      } else
-     if($_6OftJ["AccountType"] == "Payed") {
-        $_QJCJi = _OPR6L($_QJCJi, "<AccountType:Unlimited>", "</AccountType:Unlimited>", "");
-        $_QJCJi = _OPR6L($_QJCJi, "<AccountType:Limited>", "</AccountType:Limited>", "");
-        $_QJCJi = str_replace("<AccountType:Payed>", "", $_QJCJi);
-        $_QJCJi = str_replace("</AccountType:Payed>", "", $_QJCJi);
+     if($_8IfOt["AccountType"] == "Payed") {
+        $_QLJfI = _L81BJ($_QLJfI, "<AccountType:Unlimited>", "</AccountType:Unlimited>", "");
+        $_QLJfI = _L81BJ($_QLJfI, "<AccountType:Limited>", "</AccountType:Limited>", "");
+        $_QLJfI = str_replace("<AccountType:Payed>", "", $_QLJfI);
+        $_QLJfI = str_replace("</AccountType:Payed>", "", $_QLJfI);
 
 
      }
 
   } else
     if($UserType == "User")
-      $_QJCJi = _OPR6L($_QJCJi, "<ISUSER:ADMIN>", "</ISUSER:ADMIN>", "");
+      $_QLJfI = _L81BJ($_QLJfI, "<ISUSER:ADMIN>", "</ISUSER:ADMIN>", "");
 
 
-  $_QJCJi = str_replace("<SHOW:LIMITS>", "", $_QJCJi);
-  $_QJCJi = str_replace("</SHOW:LIMITS>", "", $_QJCJi);
+  $_QLJfI = str_replace("<SHOW:LIMITS>", "", $_QLJfI);
+  $_QLJfI = str_replace("</SHOW:LIMITS>", "", $_QLJfI);
 
-  if(!isset($_6OftJ["LimitSubUnsubScriptsLimitedRequests"]))
-    $_6OftJ["LimitSubUnsubScriptsLimitedRequests"] = 10;
+  if(!isset($_8IfOt["LimitSubUnsubScriptsLimitedRequests"]))
+    $_8IfOt["LimitSubUnsubScriptsLimitedRequests"] = 10;
 
-  $_QJCJi = _OPFJA($errors, $_6OftJ, $_QJCJi);
+  $_QLJfI = _L8AOB($errors, $_8IfOt, $_QLJfI);
 
-  $_II6C6 = "";
-  $_QJCJi = str_replace('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_II6C6, $_QJCJi);
+  $_ICI0L = "";
+  $_QLJfI = str_replace('//AUTO_SCRIPT_CODE_PLACEHOLDER//', $_ICI0L, $_QLJfI);
 
   if($UserType == "SuperAdmin" || isset($_POST['OwnAccount']) || (defined("SWM") && ($OwnerOwnerUserId <= 65 || $OwnerOwnerUserId == 90) ) ) {
-     $_QJCJi = _OPR6L($_QJCJi, "<USER_RIGHTS>", "</USER_RIGHTS>", "");
+     $_QLJfI = _L81BJ($_QLJfI, "<USER_RIGHTS>", "</USER_RIGHTS>", "");
   } else {
-     $_QJCJi = str_replace("<USER_RIGHTS>", "", $_QJCJi);
-     $_QJCJi = str_replace("</USER_RIGHTS>", "", $_QJCJi);
+     $_QLJfI = str_replace("<USER_RIGHTS>", "", $_QLJfI);
+     $_QLJfI = str_replace("</USER_RIGHTS>", "", $_QLJfI);
 
 
-     $_QfoQo = _OP81D($_QJCJi, "<CopyPermissionsFromUsers_items>", "</CopyPermissionsFromUsers_items>");
-     $_Q66jQ = "";
+     $_I0Clj = _L81DB($_QLJfI, "<CopyPermissionsFromUsers_items>", "</CopyPermissionsFromUsers_items>");
+     $_Ql0fO = "";
 
      if($OwnerUserId == 0) // ist es ein Admin?
-        $_j0j6C = $UserId;
+        $_joLCQ = $UserId;
         else
-        $_j0j6C = $OwnerUserId;
+        $_joLCQ = $OwnerUserId;
 
-     $_QJlJ0 = "SELECT DISTINCT `id`, `Username` FROM `$_Q8f1L` LEFT JOIN `$_QLtQO` ON `$_QLtQO`.`users_id`= `id` WHERE `owner_id` = $_j0j6C AND `id`<>$_QlLfl AND `UserType`='User'";
+     $_QLfol = "SELECT DISTINCT `id`, `Username` FROM `$_I18lo` LEFT JOIN `$_IfOtC` ON `$_IfOtC`.`users_id`= `id` WHERE `owner_id` = $_joLCQ AND `id`<>$_I8l8o AND `UserType`='User'";
 
-     $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-     while($_Q6Q1C = mysql_fetch_assoc($_Q60l1)){
-       $_Q66jQ .= $_QfoQo;
-       $_Q66jQ = _OPR6L($_Q66jQ, '<CopyPermissionsFromUsers_id>', '</CopyPermissionsFromUsers_id>', $_Q6Q1C["id"]);
-       $_Q66jQ = _OPR6L($_Q66jQ, '<CopyPermissionsFromUsers_name>', '</CopyPermissionsFromUsers_name>', $_Q6Q1C["Username"]);
+     $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+     while($_QLO0f = mysql_fetch_assoc($_QL8i1)){
+       $_Ql0fO .= $_I0Clj;
+       $_Ql0fO = _L81BJ($_Ql0fO, '<CopyPermissionsFromUsers_id>', '</CopyPermissionsFromUsers_id>', $_QLO0f["id"]);
+       $_Ql0fO = _L81BJ($_Ql0fO, '<CopyPermissionsFromUsers_name>', '</CopyPermissionsFromUsers_name>', $_QLO0f["Username"]);
      }
-     mysql_free_result($_Q60l1);
-     if(empty($_Q66jQ))
-       $_QJCJi = _OP6PQ($_QJCJi, '<CopyPermissionsFromUsers_table>', '</CopyPermissionsFromUsers_table>');
+     mysql_free_result($_QL8i1);
+     if(empty($_Ql0fO))
+       $_QLJfI = _L80DF($_QLJfI, '<CopyPermissionsFromUsers_table>', '</CopyPermissionsFromUsers_table>');
        else {
-        $_Q66jQ = $_QfoQo.$_Q66jQ;
-        $_Q66jQ = _OPR6L($_Q66jQ, '<CopyPermissionsFromUsers_id>', '</CopyPermissionsFromUsers_id>', "0");
-        $_Q66jQ = _OPR6L($_Q66jQ, '<CopyPermissionsFromUsers_name>', '</CopyPermissionsFromUsers_name>', "--");
-        $_QJCJi = _OPR6L($_QJCJi, "<CopyPermissionsFromUsers_items>", "</CopyPermissionsFromUsers_items>", $_Q66jQ);
+        $_Ql0fO = $_I0Clj.$_Ql0fO;
+        $_Ql0fO = _L81BJ($_Ql0fO, '<CopyPermissionsFromUsers_id>', '</CopyPermissionsFromUsers_id>', "0");
+        $_Ql0fO = _L81BJ($_Ql0fO, '<CopyPermissionsFromUsers_name>', '</CopyPermissionsFromUsers_name>', "--");
+        $_QLJfI = _L81BJ($_QLJfI, "<CopyPermissionsFromUsers_items>", "</CopyPermissionsFromUsers_items>", $_Ql0fO);
        }
   }
 
   if(isset($_POST['OwnAccount'])) {
-      $_QJCJi = _OPR6L($_QJCJi, '<ISNOT:OWNACCOUNT>', '</ISNOT:OWNACCOUNT>', '');
-      $_QJCJi = str_replace("<IS:OWNACCOUNT>", "", $_QJCJi);
-      $_QJCJi = str_replace("</IS:OWNACCOUNT>", "", $_QJCJi);
+      $_QLJfI = _L81BJ($_QLJfI, '<ISNOT:OWNACCOUNT>', '</ISNOT:OWNACCOUNT>', '');
+      $_QLJfI = str_replace("<IS:OWNACCOUNT>", "", $_QLJfI);
+      $_QLJfI = str_replace("</IS:OWNACCOUNT>", "", $_QLJfI);
       if( $UserType != "SuperAdmin" ) {
-         $_Q6ICj = substr($_QJCJi, strpos($_QJCJi, '<div class="PageContainer">'));
-         $_IIf8o = substr($_QJCJi, 0, strpos($_QJCJi, '<div class="PageContainer">') - 1);
-         $_Q6ICj = _LJ6RJ($_Q6ICj, "browseusers.php");
-         $_QJCJi = $_IIf8o.$_Q6ICj;
+         $_QLoli = substr($_QLJfI, strpos($_QLJfI, '<div class="PageContainer">'));
+         $_ICIIQ = substr($_QLJfI, 0, strpos($_QLJfI, '<div class="PageContainer">') - 1);
+         $_QLoli = _JJC0E($_QLoli, "browseusers.php");
+         $_QLJfI = $_ICIIQ.$_QLoli;
       }
     }
     else {
-     $_QJCJi = str_replace("<ISNOT:OWNACCOUNT>", "", $_QJCJi);
-     $_QJCJi = str_replace("</ISNOT:OWNACCOUNT>", "", $_QJCJi);
-     $_QJCJi = _OPR6L($_QJCJi, '<IS:OWNACCOUNT>', '</IS:OWNACCOUNT>', '');
+     $_QLJfI = str_replace("<ISNOT:OWNACCOUNT>", "", $_QLJfI);
+     $_QLJfI = str_replace("</ISNOT:OWNACCOUNT>", "", $_QLJfI);
+     $_QLJfI = _L81BJ($_QLJfI, '<IS:OWNACCOUNT>', '</IS:OWNACCOUNT>', '');
     }
 
   if(!($UserType == "SuperAdmin" || $UserType == "Admin")) {
-    $_QJCJi = _OP6PQ($_QJCJi, "<IS:NOTUSER>", "</IS:NOTUSER>");
+    $_QLJfI = _L80DF($_QLJfI, "<IS:NOTUSER>", "</IS:NOTUSER>");
 
-    $_QJlJ0 = "SELECT * FROM $_Q8f1L WHERE id=$UserId";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT * FROM $_I18lo WHERE id=$UserId";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_QLO0f = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
 
-    reset($_Q6Q1C);
-    foreach($_Q6Q1C as $key => $_Q6ClO) {
-      if(strpos($key, "Privilege") !== false && $_Q6ClO == 0) {
-         $_QJCJi = _LJ6B1($_QJCJi, $key);
+    reset($_QLO0f);
+    foreach($_QLO0f as $key => $_QltJO) {
+      if(strpos($key, "Privilege") !== false && $_QltJO == 0) {
+         $_QLJfI = _JJC1E($_QLJfI, $key);
       }
     }
 
 
   } else {
-     $_QJCJi = str_replace("<IS:NOTUSER>", "", $_QJCJi);
-     $_QJCJi = str_replace("</IS:NOTUSER>", "", $_QJCJi);
+     $_QLJfI = str_replace("<IS:NOTUSER>", "", $_QLJfI);
+     $_QLJfI = str_replace("</IS:NOTUSER>", "", $_QLJfI);
   }
 
-  $_QJCJi = str_replace("<ISUSER:ADMIN>", "", $_QJCJi);
-  $_QJCJi = str_replace("</ISUSER:ADMIN>", "", $_QJCJi);
+  $_QLJfI = str_replace("<ISUSER:ADMIN>", "", $_QLJfI);
+  $_QLJfI = str_replace("</ISUSER:ADMIN>", "", $_QLJfI);
 
   if((!empty($_POST["UserType"]) && $_POST["UserType"] == "User"))
-    $_QJCJi = _OPR6L($_QJCJi, "<SHOW:API>", "</SHOW:API>", "");
+    $_QLJfI = _L81BJ($_QLJfI, "<SHOW:API>", "</SHOW:API>", "");
 
   if( ($UserType == "Admin") && !isset($_POST['OwnAccount']))
-    $_QJCJi = _OPR6L($_QJCJi, "<SHOW:API>", "</SHOW:API>", "");
+    $_QLJfI = _L81BJ($_QLJfI, "<SHOW:API>", "</SHOW:API>", "");
 
   if(defined("SML") && $OwnerOwnerUserId == 0x41){
-    $_QJCJi = _OPR6L($_QJCJi, "<IS:BASIC>", "</IS:BASIC>", "");
-  }
-
-  print $_QJCJi;
-
+    $_QLJfI = _L81BJ($_QLJfI, "<IS:NOT_SML_BASIC>", "</IS:NOT_SML_BASIC>", "");
+  }else
+    $_QLJfI = _L8OF8($_QLJfI, "<IS:NOT_SML_BASIC>");
 
 
-  function _L6O1Q(&$_QlLfl, $_Qi8If, &$_Ql1O8) {
-    global $_Q8f1L, $_QLtQO, $_I01C0, $_I01lt;
-    global $OwnerUserId, $OwnerOwnerUserId, $UserId, $UserType, $_f0jOC;
-    global $resourcestrings, $INTERFACE_LANGUAGE, $_Q61I1;
+  if($_I8l8o !== 0 && !isset($_POST['OwnAccount']) && !version_compare(PHP_VERSION, "7.1.0", "<")){  
+    $_QLfol = "SELECT * FROM `$_JQ00O` LIMIT 0,1";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    $_I1jfC = mysql_fetch_assoc($_QL8i1);
+    mysql_free_result($_QL8i1);
+    if($_I1jfC["AuthType"] !== "db2fa")
+      $_QLJfI = _L80DF($_QLJfI, "<IS2F>", "</IS2F>");
+      else{
+        include_once("login_page.inc.php");
+        
+        $_QLfol = "SELECT * FROM $_I18lo WHERE id=$_I8l8o";
+        $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+        $_j661I = mysql_fetch_assoc($_QL8i1);
+        mysql_free_result($_QL8i1);
+        
+        if($_j661I["2FASecret"] == ""){
+          $_QLJfI = _L80DF($_QLJfI, "<IS2F:SECRETSET>", "</IS2F:SECRETSET>");
+          $_QLJfI = _L8OF8($_QLJfI, "<IS2F:NOTSECRETSET>");
+        }else{
+          $_QLJfI = _L8OF8($_QLJfI, "<IS2F:SECRETSET>");
+          $_QLJfI = _L80DF($_QLJfI, "<IS2F:NOTSECRETSET>", "</IS2F:NOTSECRETSET>");
+          $_6l8I6 = new _2FA();
+          $_QLJfI = str_replace("%SECRET%", $_6l8I6->_LDERB($_j661I), $_QLJfI);
+          $_QLJfI = str_replace("%QRCODEURL%", $_6l8I6->_LDF60($_j661I), $_QLJfI);
+        }   
+        
+      }
+  }else{
+    $_QLJfI = _L80DF($_QLJfI, "<IS2F>", "</IS2F>");
+  }  
 
-    $_QLLjo = array();
-    $_QJlJ0 = "SHOW COLUMNS FROM `$_Q8f1L`";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if (!$_Q60l1) {
-        _OAL8F($_QJlJ0);
+  print $_QLJfI;
+
+
+
+  function _J6RFL(&$_I8l8o, $_I6tLJ, &$_I816i) {
+    global $_I18lo, $_IfOtC, $_ItI0o, $_ItIti;
+    global $OwnerUserId, $OwnerOwnerUserId, $UserId, $UserType, $_8OQO8;
+    global $resourcestrings, $INTERFACE_LANGUAGE, $_QLttI;
+
+    if(isset($_I6tLJ["2FASecret"]))
+      unset($_I6tLJ["2FASecret"]);
+    
+    $_Iflj0 = array();
+    $_QLfol = "SHOW COLUMNS FROM `$_I18lo`";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if (!$_QL8i1) {
+        _L8D88($_QLfol);
         exit;
     }
-    if (mysql_num_rows($_Q60l1) > 0) {
-        while ($_Q6Q1C = mysql_fetch_assoc($_Q60l1)) {
-           foreach ($_Q6Q1C as $key => $_Q6ClO) {
+    if (mysql_num_rows($_QL8i1) > 0) {
+        while ($_QLO0f = mysql_fetch_assoc($_QL8i1)) {
+           foreach ($_QLO0f as $key => $_QltJO) {
               if($key == "Field") {
-                 $_QLLjo[] = $_Q6ClO;
+                 $_Iflj0[] = $_QltJO;
                  break;
               }
            }
         }
-        mysql_free_result($_Q60l1);
+        mysql_free_result($_QL8i1);
     }
 
     // new entry?
-    $_fjf6J = false;
-    if($_QlLfl == 0) {
+    $_8L68l = false;
+    if($_I8l8o == 0) {
       if($UserType == "SuperAdmin") {
         include_once("superadmin.inc.php");
         // it creates admin and tables
-        $_QlLfl = _LLEQD(trim($_Qi8If["Username"]), "Admin", $INTERFACE_LANGUAGE);
-        if(isset($_f0jOC)) {
-          $_Ql1O8 = array_merge($_Ql1O8, $_f0jOC );
+        $_I8l8o = _JJQOE(trim($_I6tLJ["Username"]), "Admin", $INTERFACE_LANGUAGE);
+        if(isset($_8OQO8)) {
+          $_I816i = array_merge($_I816i, $_8OQO8 );
         }
 
       }
       else {
-           $_QJlJ0 = "INSERT INTO `$_Q8f1L` (`Username`) VALUES("._OPQLR(trim($_Qi8If["Username"])).")";
-           mysql_query($_QJlJ0, $_Q61I1);
-           _OAL8F($_QJlJ0);
+           $_QLfol = "INSERT INTO `$_I18lo` (`Username`) VALUES("._LRAFO(trim($_I6tLJ["Username"])).")";
+           mysql_query($_QLfol, $_QLttI);
+           _L8D88($_QLfol);
 
-           $_Q60l1= mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-           $_Q6Q1C=mysql_fetch_array($_Q60l1);
-           $_QlLfl = $_Q6Q1C[0];
-           mysql_free_result($_Q60l1);
+           $_QL8i1= mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+           $_QLO0f=mysql_fetch_array($_QL8i1);
+           $_I8l8o = $_QLO0f[0];
+           mysql_free_result($_QL8i1);
         }
-      $_fjf6J = true;
+      $_8L68l = true;
     }
 
 
-    $_QJlJ0 = "UPDATE `$_Q8f1L` SET ";
-    $_I1l61 = array();
-    for($_Q6llo=0; $_Q6llo<count($_QLLjo); $_Q6llo++) {
-      $key = $_QLLjo[$_Q6llo];
+    $_QLfol = "UPDATE `$_I18lo` SET ";
+    $_Io01j = array();
+    for($_Qli6J=0; $_Qli6J<count($_Iflj0); $_Qli6J++) {
+      $key = $_Iflj0[$_Qli6J];
       if(defined("SWM"))
-        if( ($OwnerOwnerUserId <= 65 || $OwnerOwnerUserId == 90) && strpos($key, "Privilege") !== false) continue;
-      if ( isset($_Qi8If[$_QLLjo[$_Q6llo]]) ) {
-        if(in_array($key, $_I01C0))
-          if( $_Qi8If[$key] == "1" || intval($_Qi8If[$key]) == 0 )
-             $_I1l61[] = "`$key`=1";
+        if( ($OwnerOwnerUserId <= 0x41 || $OwnerOwnerUserId == 0x5A) && strpos($key, "Privilege") !== false) continue;
+      if ( isset($_I6tLJ[$_Iflj0[$_Qli6J]]) ) {
+        if(in_array($key, $_ItI0o))
+          if( $_I6tLJ[$key] == "1" || intval($_I6tLJ[$key]) == 0 )
+             $_Io01j[] = "`$key`=1";
              else
               ;
         else {
           if($key != "Password")
-            $_I1l61[] = "`$key`="._OPQLR(trim($_Qi8If[$key]) );
+            $_Io01j[] = "`$key`="._LRAFO(trim($_I6tLJ[$key]) );
             else {
-              $_QlLOL = _OC1CF();
-              $_I1l61[] = "`$key`=CONCAT("._OPQLR($_QlLOL).", PASSWORD("._OPQLR($_QlLOL.trim($_Qi8If[$key]) ).") )";
+              $_I8li6 = _LAPE1();
+              $_It0IQ = version_compare(_LBL0A(), '8.0.11') >= 0;
+              if(!$_It0IQ)
+                 $_Io01j[] = "`$key`=CONCAT("._LRAFO($_I8li6).", PASSWORD("._LRAFO($_I8li6.trim($_I6tLJ[$key]) ).") )";
+                 else
+                 $_Io01j[] = "`$key`=CONCAT("._LRAFO($_I8li6).", SHA2("._LRAFO($_I8li6.trim($_I6tLJ[$key]) ).", 224) )";
             }
         }
       } else {
-         if(in_array($key, $_I01C0)) {
-           $key = $_QLLjo[$_Q6llo];
-           $_I1l61[] = "`$key`=0";
+         if(in_array($key, $_ItI0o)) {
+           $key = $_Iflj0[$_Qli6J];
+           $_Io01j[] = "`$key`=0";
          } else {
-           if(in_array($key, $_I01lt)) {
-             $key = $_QLLjo[$_Q6llo];
-             $_I1l61[] = "`$key`=0";
+           if(in_array($key, $_ItIti)) {
+             $key = $_Iflj0[$_Qli6J];
+             $_Io01j[] = "`$key`=0";
            }
          }
       }
     }
 
-    $_QJlJ0 .= join(", ", $_I1l61);
-    $_QJlJ0 .= " WHERE id=$_QlLfl";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    if (!$_Q60l1) {
-        _OAL8F($_QJlJ0);
+    $_QLfol .= join(", ", $_Io01j);
+    $_QLfol .= " WHERE id=$_I8l8o";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    if (!$_QL8i1) {
+        _L8D88($_QLfol);
         exit;
     }
 
-    if($_fjf6J  && $UserType != "SuperAdmin") {
+    if($_8L68l  && $UserType != "SuperAdmin") {
       if($OwnerUserId == 0) // Admin?
-         $_j0j6C = $UserId;
+         $_joLCQ = $UserId;
          else
-         $_j0j6C = $OwnerUserId;
-      $_QJlJ0 = "INSERT INTO `$_QLtQO` SET `users_id`=$_QlLfl, `owner_id`=$_j0j6C";
-      mysql_query($_QJlJ0, $_Q61I1);
+         $_joLCQ = $OwnerUserId;
+      $_QLfol = "INSERT INTO `$_IfOtC` SET `users_id`=$_I8l8o, `owner_id`=$_joLCQ";
+      mysql_query($_QLfol, $_QLttI);
     }
 
   }

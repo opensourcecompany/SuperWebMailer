@@ -127,6 +127,19 @@ class Mail_mail extends Mail {
           $rp = str_replace(">", "", $rp);
           $this->_params = "-f".$rp;
           unset($headers['Return-Path']);
+        }else if(empty($this->_params)){
+          if(!empty($headers['Return-Path'])){
+            $from = $headers['Return-Path'];
+            unset($headers['Return-Path']);
+            }
+            else
+            $from = $headers['From'];
+          $p = strpos($from, "<");
+          if($p !== false){
+            $from = substr($from, $p + 1);
+            $from = substr($from, 0, strpos($from, ">"));
+            $this->_params = "-f" . $from;
+          }
         }
 
         // Flatten the headers out.
@@ -150,10 +163,13 @@ class Mail_mail extends Mail {
         // PEAR_Error object and return it instead of the boolean result.
         if ($result === false) {
             $errorText = "";
-            if(isset($php_errormsg))
-              $errorText = " ".$php_errormsg;
+            if(function_exists("error_get_last"))
+              $errorText = " ".join(" ", error_get_last());
+            else
+              if(isset($php_errormsg))
+                $errorText = " ".$php_errormsg;
             @ini_set('track_errors', $old_track_errors);
-            $result = PEARraiseError('mail() returned failure'.$errorText);
+            $result = PEARraiseError('mail() returned failure' . $errorText);
         }
         @ini_set('track_errors', $old_track_errors);
 

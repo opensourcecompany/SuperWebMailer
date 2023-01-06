@@ -45,7 +45,7 @@ class Net_DNS_RR_SOA extends Net_DNS_RR
 
     /* }}} */
     /* class constructor - RR(&$rro, $data, $offset = '') {{{ */
-    function __construct(&$rro, $data, $offset = '')
+    function __construct($rro, $data, $offset = '')
     {
         $this->name = $rro->name;
         $this->type = $rro->type;
@@ -70,10 +70,10 @@ class Net_DNS_RR_SOA extends Net_DNS_RR
                 $this->minimum = $a['soavals5'];
             }
         } else {
-            if (ereg("([^ \t]+)[ \t]+([^ \t]+)[ \t]+([0-9]+)[^ \t]+([0-9]+)[^ \t]+([0-9]+)[^ \t]+([0-9]+)[^ \t]*$", $string, $regs))
+            if (preg_match("/([^ \t]+)[ \t]+([^ \t]+)[ \t]+([0-9]+)[^ \t]+([0-9]+)[^ \t]+([0-9]+)[^ \t]+([0-9]+)[^ \t]*$/", $string, $regs))
             {
-                $this->mname = ereg_replace('(.*)\.$', '\\1', $regs[1]);
-                $this->rname = ereg_replace('(.*)\.$', '\\1', $regs[2]);
+                $this->mname = preg_replace('/(.*)\.$/', '\\1', $regs[1]);
+                $this->rname = preg_replace('/(.*)\.$/', '\\1', $regs[2]);
                 $this->serial = $regs[3];
                 $this->refresh = $regs[4];
                 $this->retry = $regs[5];
@@ -83,7 +83,7 @@ class Net_DNS_RR_SOA extends Net_DNS_RR
         }
     }
 
-    function Net_DNS_RR_SOA(&$rro, $data, $offset = '')
+    function Net_DNS_RR_SOA($rro, $data, $offset = '')
     {
       self::__construct($rro, $data, $offset);
     }

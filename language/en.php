@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2021 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -24,7 +24,7 @@
 
 
    $language_strings_en  =         array(
-                                        "000000" => "",
+                                        "000000" => "Too many invalid login attempts in  last 5 minutes. In next 5 minutes all login attempts will be blocked.",
                                         "000001" => "Fehler beim MySQL-Zugriff / Error while connecting to MySQL database",
                                         "000002" => "Fehler beim Verwenden der Datenbank / Error while selecting database",
                                         "000003" => "Sitzung abgelaufen / Session expired",
@@ -127,8 +127,8 @@
                                         "000102" => "There are errors while removing:<br />",
                                         "000103" => "There are errors please check the values in red highlighted fields.",
                                         "000104" => "There is always an user with same username please specify an other username.",
-                                        "000105" => "Not removeable, because the user owns recipients lists.",
-                                        "000106" => "Not removeable, because the user owns other users.",
+                                        "000105" => "Not removeable, because user owns %d recipients lists.",
+                                        "000106" => "Not removeable, because user owns %d other users.",
                                         "000107" => "Edit own account",
 
                                         "000110" => "Edit functions",
@@ -500,6 +500,9 @@
                                         "002606" => "This distribution list",
                                         "002607" => "You must select an inbox server/email account.",
 
+                                        "002608" => "Mailing list %s for this distribution list must have a Return-Path-Address for bounce handling.",
+                                        "002609" => "%s can't be used for acting as real mailing list server, use SMTP or sendmail.",
+
                                         "002610" => "Not editable, sending in progress",
                                         "002611" => "Not editable, sending in progress",
 
@@ -542,7 +545,9 @@
                                         "002711" => "Reasons were removed.",
                                         "002712" => "There are errors while removing:<br />",
                                         "002715" => "Edit reason %s",
-                                        "002716" => "Unsubscripe reason must contain a text.",
+                                        "002716" => "Unsubscribe reason must contain a text.",
+
+                                        "003000" => "Login history of last %days",
 
                                         "090000" => "Create Super Administrator",
                                         "090001" => "Password and Passwort repetition not correct.",
@@ -578,10 +583,17 @@
                                         "090213" => "Script install.php exists furthermore on your webspace. Please delete the script.",
                                         "090214" => "Script upgrade.php and/or install.php exists furthermore on your webspace. Please delete the script(s).",
 
+                                        "090300" => "Online update PRODUCTAPPNAME - Welcome",
+                                        "090301" => "Online update PRODUCTAPPNAME - Download",
+                                        "090302" => "Online update PRODUCTAPPNAME - Installation",
+
                                         "999997" => "<b>Limited public Demo</b>, you can send <b>test emails</b> only sending of mass emails are simulated. Don't upload personal data these can be viewed by other testers.",
                                         "999998" => "<b>Evaluation version</b>, <b>one mailinglist</b> per admin user can be created and sending of <b>test emails</b> are possible.",
                                         "999999" => "Evaluation version, one mailinglist per admin user can be created only.",
 
+                                        "OK" => "OK",
+                                        "YES_U"  => "Yes",
+                                        "NO_U"  => "No",
                                         "YES"  => "yes",
                                         "NO"  => "no",
                                         "CLOSE"  => "Close",
@@ -609,6 +621,7 @@
                                         "PortionOfVotes" => "Portion of votes",
                                         "ClickRate" => "Click rate",
                                         "Subject" => "Subject",
+                                        "VariantsOfSubject" => "Variants of email subject",
                                         "Clicks" => "Clicks",
                                         "LinkDescription" => "Link/Description",
                                         "Top10" => "Top 10",
@@ -647,6 +660,8 @@
                                         "DistribListSendingInProgress" => "Sending of emails is in progress.",
                                         "DistribListSendingDone" => "Sent",
 
+                                        "DistribListsEMailSizeLimit" => "Mailing list [DISTRIBLISTNAME], email exceeds defined size limit",
+                                        
                                         "RcptsColumnsChanged" => "All changes where saved. Reload recipients list to view changes.",
 
                                         "ALLOW_URL_FOPEN_OFF" => "allow_url_fopen is disabled in file php.ini. http:// or https:// request are not possible.",
@@ -708,10 +723,12 @@
                                         "MailSendSent" => "sent",
                                         "MailSendFailed" => "sent failed",
                                         "MailSendPossiblySent" => "possibly sent",
+                                        "MailSendHardbounced" => "Undeliverable",
 
                                         "undefined" => "undefined",
                                         "man"  => "male",
                                         "woman"  => "female",
+                                        "diverse"  => "diverse",
 
                                         "IF" => "IF",
                                         "ELSE" => "ELSE",
@@ -746,12 +763,14 @@
 
                                         "CantSaveFile" => "Can't save file %s. SAFE_MODE problems?",
                                         "CantOpenFile" => "Can't open file %s. SAFE_MODE problems?",
+                                        "CantWriteToDirectory" => "Can't write to directory %s.",
 
                                         "AdminNotifySubjectOnSubscribe" => "Subscription to recipients list  '%s'",
                                         "AdminNotifySubjectOnUnubscribe" => "Unsubscription of recipients list '%s'",
                                         "AdminNotifySubjectOnEdit" => "Edit of recipient in recipients list '%s'",
                                         "AdminNotifyBody" => "Recipient data:",
                                         "AdminNotifyEMailOld" => "Email address old",
+                                        "AdminNotifyRecipientsGroups" => "Recipients groups:",
 
                                         "EntryCount" => "&nbsp;(%RECIPIENTCOUNT%&nbsp;Entries)",
                                         "RecipientCount" => "&nbsp;(%RECIPIENTCOUNT%&nbsp;Recipients)",
@@ -779,6 +798,8 @@
                                         'DateOfSubscription' => 'Date of subscription',
                                         'DateOfOptInConfirmation' => 'Date of confirmation',
                                         'IPOnSubscription' => 'IP on subscription',
+                                        'EMail_LocalPart' => 'Email local part',
+                                        'EMail_DomainPart' => 'Email domain',
                                         'OrgMailSubject' => 'Org. email subject',
                                         'MembersAge' => 'Age of member',
                                         'LastEMailSent' => 'Date of last email sending',
@@ -788,6 +809,7 @@
                                         'DistribListsDescription' => 'Description of distribution list',
                                         'MailingListName' => 'Name of mailing list',
                                         'DistribSenderEMailAddress' => 'Sender of email',
+                                        'INBOXEMailAddress' => 'Inbox email address',
                                         'DistribListsSubject' => 'Subject of email',
                                         'DistribListsConfirmationLink' => 'Confirmation link',
 
@@ -795,11 +817,11 @@
 
                                         "DefaultSubscribeSubject" => "Your subscription",
                                         "DefaultSubscribePlainMail" => "Hi, \r\n\r\nthank you for subscribing to our newsletter list. \r\n\r\nTo complete your subscription please click on following link: \r\n\r\n[SubscribeConfirmationLink] \r\n\r\nDo you want to reject newsletter subscription click on following link: \r\n\r\n[SubscribeRejectLink] \r\n\r\n\r\nYours,",
-                                        "DefaultSubscribeHTMLMail" => '<html><head><title></title></head><body><div style="font-size: 10pt; font-family: Verdana">Hi,<p>thank you for subscribing to our newsletter list. To complete your subscription please click on following link:</p><p><a href="[SubscribeConfirmationLink]">[SubscribeConfirmationLink]</a>.</p><p>Do you want to reject newsletter subscription click on following link:</p><p><a href="[SubscribeRejectLink]">[SubscribeRejectLink]</a>.</p><p>Yours,</p></div></body></html>',
+                                        "DefaultSubscribeHTMLMail" => '<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><title></title><meta http-equiv="X-UA-Compatible" content="IE=edge"></head><body><div style="font-size: 10pt; font-family: Verdana">Hi,<p>thank you for subscribing to our newsletter list. To complete your subscription please click on following link:</p><p><a href="[SubscribeConfirmationLink]">[SubscribeConfirmationLink]</a>.</p><p>Do you want to reject newsletter subscription click on following link:</p><p><a href="[SubscribeRejectLink]">[SubscribeRejectLink]</a>.</p><p>Yours,</p></div></body></html>',
 
                                         "DefaultUnsubscribeSubject" => "Your unsubscription",
                                         "DefaultUnsubscribePlainMail" => "Hi,  \r\n\r\nwe have received your newsletter unsubscription. To complete newsletter unsubscription please click on following link: \r\n\r\n[UnsubscribeConfirmationLink].  \r\n\r\nYou don\'t want to be removed from our newsletter list than click on following link \r\n\r\n[UnsubscribeRejectLink]. \r\n\r\nYours,",
-                                        "DefaultUnsubscribeHTMLMail" => '<html><head><title></title></head><body><div style="font-size: 10pt; font-family: Verdana">Hi,<p>we have received your newsletter unsubscription. To complete newsletter unsubscription please click on following link: <a href="[UnsubscribeConfirmationLink]">[UnsubscribeConfirmationLink]</a>.</p><p>You don\'t want to be removed from our newsletter list than click on following link <a href="[UnsubscribeRejectLink]">[UnsubscribeRejectLink]</a>.</p><p>Yours,</p></div></body></html>',
+                                        "DefaultUnsubscribeHTMLMail" => '<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><title></title><meta http-equiv="X-UA-Compatible" content="IE=edge"></head><body><div style="font-size: 10pt; font-family: Verdana">Hi,<p>we have received your newsletter unsubscription. To complete newsletter unsubscription please click on following link: <a href="[UnsubscribeConfirmationLink]">[UnsubscribeConfirmationLink]</a>.</p><p>You don\'t want to be removed from our newsletter list than click on following link <a href="[UnsubscribeRejectLink]">[UnsubscribeRejectLink]</a>.</p><p>Yours,</p></div></body></html>',
 
                                         "DefaultUnsSubscribeLinkHTML" => '<p>You don\'t want to get the newsletter in the future than click on .<a href="%s">following link to unsubscribe</a>.</p>',
                                         "DefaultUnsSubscribeLinkTEXT" => "You don't want to get the newsletter in the future than click on following link %s.",
@@ -809,10 +831,12 @@
 
                                         "DefaultEditSubject" => "Your changes of subscription data",
                                         "DefaultEditPlainMail" => "Hi, \r\n\r\nthank you for changing your subscription data. \r\n\r\nPlease confirm your changes by clicking on following link: \r\n\r\n[EditConfirmationLink] \r\n\r\nDo you don\'t want to save changes than click on this link \r\n\r\n[EditRejectLink] \r\n\r\n\r\nYours,",
-                                        "DefaultEditHTMLMail" => '<html><head><title></title></head><body><div style="font-size: 10pt; font-family: Verdana">Hi,<p>thank you for changing your subscription data. Please confirm your changes by clicking on following link:</p><p><a href="[EditConfirmationLink]">[EditConfirmationLink]</a>.</p><p>Do you don\'t want to save changes than click on this link</p><p><a href="[EditRejectLink]">[EditRejectLink]</a>.</p><p>Yours,</p></div></body></html>',
+                                        "DefaultEditHTMLMail" => '<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><title></title><meta http-equiv="X-UA-Compatible" content="IE=edge"></head><body><div style="font-size: 10pt; font-family: Verdana">Hi,<p>thank you for changing your subscription data. Please confirm your changes by clicking on following link:</p><p><a href="[EditConfirmationLink]">[EditConfirmationLink]</a>.</p><p>Do you don\'t want to save changes than click on this link</p><p><a href="[EditRejectLink]">[EditRejectLink]</a>.</p><p>Yours,</p></div></body></html>',
 
                                         "DefaultCaptchaText" => "Enter the word shown in next field (Spam protection)*",
                                         "DefaultReCaptchaText" => "",
+
+                                        "DefaultGroupsDescriptionLabel" => "Subscribing to following groups",
 
                                         "CronOptInOptOutExpirationCheck" => "Checking Opt-In/Opt-Out expiration",
                                         "CronCronLogCleanUp" => "Removing old CronJob log entries",
@@ -870,14 +894,14 @@
                                         "PBarLoadingText" => "Please wait. The chart is loading...",
 
                                         "UpdateAvailableSubject" => 'New version available',
-                                        "UpdateAvailable" => '<img src="images/icon_information.gif" width="24" height="24" align="left" alt="Update" />&nbsp;It\'s an update for PRODUCTAPPNAME available. New version: %NEWVERSION%, %NEWVERSIONDATE%<br />&nbsp;To download the new version visit <a href="PRODUCTURL" target="_blank">PRODUCTURL</a>.',
+                                        "UpdateAvailable" => '<img src="images/icon_information.gif" width="24" height="24" align="left" alt="Update" />&nbsp;It\'s an update for PRODUCTAPPNAME available. New version: %NEWVERSION%, %NEWVERSIONDATE%<br />&nbsp;To download new version open <a href="onlineupdate.php">Online update</a> or visit <a href="PRODUCTURL" target="_blank">PRODUCTURL</a>.',
 
                                         "TrackingIPBlocking" => '(IP blocking activated)',
                                         "MailingListPermissionsError" => 'You have no permissions to browse recipients in this recipients list.',
 
                                         "PermissionsError" => 'You have no permissions to use this function.',
 
-                                        "GeoLiteCityDatMissing" => 'File geoip/GeoLiteCity.dat or geoip/GeoLite2-City.mmdb requires PHP 5.3.1 was not found or can\'t be opened. You can download file at http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz or http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz and unzip it to geoip directory.',
+                                        "GeoLiteCityDatMissing" => 'File geoip/GeoLiteCity.dat or geoip/GeoLite2-City.mmdb requires PHP 5.3.1 was not found or can\'t be opened. You can download database GeoLite2-City, Format GeoIP2 Binary at website https://www.maxmind.com/en/account/login and unzip it to geoip directory. Subscribe to GeoLite2 account https://www.maxmind.com/en/geolite2/signup.',
 
                                         "GeoConfirmedSubscribtions" => 'Confirmed subscribtions',
                                         "GeoOwnStation" => "Own station",
@@ -898,6 +922,7 @@
                                         "ExportOptHardbounceCount" => "Count of hard bounces",
                                         "ExportOptHistoryOfSendEMails" => "History of sent email",
                                         "ExportOptGroupsRelations" => "Groups relationship of recipient",
+                                        "ExportOptPrivacyPolicyAccepted" => "Acceptance of privacy policy",
 
                                         "ImportErrorDuplicateEntry" => "Email address '%s' always exists in list.",
                                         "ImportErrorEMailAddressIncorrect" => "Email address '%s' is syntactly incorrect.",
@@ -911,16 +936,12 @@
 
                                         "rsNAStartPageTitle" => "Newsletter archive start page",
                                         "rsNAStartPageHeadline" => "Newsletter archive Sample Ltd.",
-                                        "rsNAYearsLabel" => "Year:",
-                                        "rsNATextBehindYears" => "Click on a year to see the newsletters of the year.",
-                                        "rsNAYearsHeaderlineSelect" => "Newsletter archive [NewsletterYear]",
-                                        "rsNANewsletterEntryText" => "Newsletter at [NewsletterDate]",
-                                        "rsNALinkLabelToMainArchive" => "Newsletter archive - Main page",
-                                        "rsNALinkLabelPrev" => "Previous",
-                                        "rsNALinkLabelNext" => "Next",
-                                        "rsNAImpressumText" => "<p><b>Impress</b></p>\n<p>Sample Ltd.<br>\nSample Street 11</p>\n<p><b>12345 Sample town</b></p>\n<p>Email: sample@sample.com</p>\n<p>http://www.sample.com</p>\n<p>Phone: 0123123456<br>\nFax: 0123/123457</p>\n<p>\nVAT: 123456789<br>\nCEO: Sample CEO</p>\n",
-                                        "rsNAShowNewsletterWithoutFramesText" => "Show newsletter without frames",
-                                        "rsNAPrintingLabel" => "Print",
+                                        "rsNAStartPageSubHeadline1" => "Newsletter archive",
+                                        "rsNAStartPageSubHeadline2" => "Sample Ltd.",
+                                        "rsNAYearsPrefix" => "Year",
+                                        "rsNANewsletterEntryPrefix" => "Published",
+                                        "rsNAImpressumText" => "<p>Sample Ltd.<br>\nSample Street 11</p>\n<p><b>12345 Sample town</b></p>\n<p>Email: sample@sample.com</p>\n<p>http://www.sample.com</p>\n<p>Phone: 0123123456<br>\nFax: 0123/123457</p>\n<p>\nVAT: 123456789<br>\nCEO: Sample CEO</p>\n",
+                                        "rsNAImpressumHeadline" => "Impress",
 
                                         "WinnerTypeWinnerOpens" => "based on number of recipients who opened the email",
                                         "WinnerTypeWinnerClicks" => "based on number of recipients who clicked on links in email",
@@ -937,6 +958,7 @@
                                         "SaveAsPNGFile" => "Save as PNG file",
                                         "SaveAsJPEGFile" => "Save as JPEG file",
                                         "ChartOptions" => "Options",
+                                        "Print" => "Drucken",
 
                                         "CantLoadCert" => "Can't load certificate.",
                                         "GoogleDeveloperPublicKeyMissing" => "Google API key was not specified at options therefore GoogleMaps can't be used.",
@@ -947,6 +969,59 @@
 
                                         "SampleUnsubscripeReasons" => "I receive the newsletter too often.;I find topics of newsletters not interesting.;newsletter is not displayed correctly.;other reasons",
 
+                                        "IPEWizardSaveError" => "HTML code of wizard was'nt submitted and couldn't be saved, it is irrevocably lost. Probably limit of PHP variables post_max_size, max_input_vars or memory_limit was exceeded.",
+
+                                        "CaptchaImageMakerError" => "CaptchaImageMaker was not found, you must download file http://www.superwebmailer.de/pub/captcha_image_maker.zip, unzip it, upload it to directory captcha.",
+
+                                        "ConfirmUnsubscribeFromAllMailListsTitle" => "Unsubscribe &amp; Remove",
+
+                                        "ConfirmUnsubscribeFromAllMailLists" => "Do you really want to unsubscribe? All personal data will be removed.",
+
+                                        "WarningCronTasksInSecondsInterval" => "To executing tasks on interval of seconds check the help.",
+
+                                        "DefaultPrivacyPolicyURLText" => '<br />Mit Angabe meiner Daten und Absenden der Anmeldung erkl&auml;re ich mich einverstanden, den hier bestellten Newsletter per E-Mail zu erhalten. Meine Daten werden nicht an Dritte weitergegeben. Dieses Einverst&auml;ndnis kann ich jederzeit widerrufen. Weitere ausf&uuml;hrliche Informationen in der<br /><a href="[PrivacyPolicyURL]" target="_blank" style="font-size: inherit;">Datenschutzerkl&auml;rung</a><br /><br />',
+
+                                        "NoLoginAuthVariant" => "There is no authentification variant, you can''t login.",
+                                        "NoLDAPExtension" => "LDAP extension is not activated in your PHP configuration, you can''t login.",
+                                        "LDAPAuthFailed" => "Authentification failed.",
+                                        "LDAPAuthNoDBAdminUser" => "No responsible admin user found, login not possible.",
+                                        "LDAPCantCreateNewUser" => "Can't create new user, login not possible.",
+                                        "ChangeAuthSettings" => "Change authentification settings",
+                                        "PasswordChangeHasNoEffect" => "Changing of password has no effect, because authenticating via LDAP is enabled.",
+
+                                        "2FAVerificationCodeIncorrect" => "Entered one time password are incorrect.",
+                                        "2FAReloginAsSuperAdmin" => "Log out <b>now</b> for security reasons and log in as SuperAdmin user to save Secret / Seed in your Google Authenticator app.",
+
+                                        "rsInfoBarSubscribeCaption" => "Subscribe",
+                                        "rsInfoBarSubscribeHint" => "Subscribe to newsletter",
+                                        "rsInfoBarUnsubscribeCaption" => "Umsubscribe",
+                                        "rsInfoBarUnsubscribeHint" => "Unsubscribe from newsletter",
+                                        "rsInfoBarFacebookCaption" => "Facebook",
+                                        "rsInfoBarFacebookHint" => "Share on Facebook",
+                                        "rsInfoBarTwitterCaption" => "Twitter",
+                                        "rsInfoBarTwitterHint" => "Share on Twitter",
+                                        "rsInfoBarTranslateCaption" => "Translate",
+                                        "rsInfoBarTranslateHint" => "Translate page",
+                                        "rsInfoBarNewsletterArchieveCaption" => "Newsletter archive",
+                                        "rsInfoBarNewsletterArchieveText" => "Archive",
+                                        "rsInfoBarNewsletterArchieveHint" => "Show newsletter archive",
+                                        "rsInfoBarRSSCaption" => "RSS Feed",
+                                        "rsInfoBarRSSHint" => "Newsletter archive as RSS Feed",
+                                        "rsMenu" => "Menu",
+                                        "rsDefault" => 'Default',
+                                        "rsInfoBarHomeLinkText" => '&#8962;',
+                                        "rsInfoBarHomeCaption" => 'Home',
+                                        "rsInfoBarHomeHint" => 'Newsletter archive home',
+                                        "rsInfoBarYearsCaption" => 'Years',
+                                        "rsInfoBarEntriesCaption" => 'Entries',
+                                        "rsInfoBarAttachmentsLinkText" => 'Attachments',
+                                        "rsInfoBarAttachmentsCaption" => 'Attachments',
+                                        "rsInfoBarAttachmentsHint" => 'Attachments of newsletter',
+                                        "rsNASampleSubject" => 'Sample mail subject',
+                                        "rsNASampleAttachment" => 'Beispiel Anhang',
+
+                                        "DomainAlignmentError" => "Domain Alignment Error: Domain of sender email address '%s' should be equal with domain of Return-Path email address '%s', otherwise email can be recognized as junk.",
+                                        
                                         "iso-8859-2" => "Croat., Polish, Ruman., Slovak, Slovene, Czech, Hungar. (iso-8859-2)",
                                         "iso-8859-3" => "Esperanto, Galizien, Maltese, Turkish (iso-8859-3)",
                                         "iso-8859-4" => "Estonian, Latvian, Lithuanian (iso-8859-4)",

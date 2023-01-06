@@ -41,6 +41,7 @@
 	"size": "Size",
 	"name": "Name",
 	"could_not_retrieve_folder": "Could not retrieve folder contents.",
+ "noelementsfound": "Folder is empty.",
 	"yes": "Yes",
 	"no": "No",
 	"upload": "Upload",
@@ -62,17 +63,16 @@
  "ERROR_CANTOPENSRCFILE": "Can't open file %s",
  "ERROR_CANTSAVEDSTFILE": "Can't save file %s",
 
- "changeimagesizeh1" : "Resize image",
- "newimagesizeh1": "New size",
-
  "fileName": "File",
  "ok": "OK",
- "imgcurrentsize": "Current size:",
 
  "pixel": "Pixel",
  "lockimagedim": "Preserve ratio",
- "width": "Width",
- "height": "Height",
- "resizeimage": "Resize"
+ "resizeimage": "Resize",
+
+ "reload": "Reload image",
+
+ "BackBtnWarnText": "Please use menu elements and hyperlinks on interface for navigation, not Previous/Next buttons in your browser.",
+ "webserver_error": "Image can't be loaded, e.g. to many connections to webserver or webserver overloaded."
 
 }

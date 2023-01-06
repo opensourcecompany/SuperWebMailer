@@ -43,7 +43,7 @@
 * @package Auth_SASL
 */
 
-require_once('PEAR/SASL/Common.php');
+require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Common.php');
 
 class Auth_SASL_Plain extends Auth_SASL_Common
 {

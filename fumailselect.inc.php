@@ -26,46 +26,46 @@
   include_once("sessioncheck.inc.php");
   include_once("templates.inc.php");
 
-  if(!isset($_I0600))
-    $_I0600 = "";
+  if(!isset($_Itfj8))
+    $_Itfj8 = "";
 
-  $_IiQl1 = $_QCLCI;
+  $_jfJJ0 = $_I616t;
 
-  if(!isset($_J16QO))
-    $_J16QO = $ResponderId;
-  $_J16QO = intval($_J16QO);
+  if(!isset($_6QJI0))
+    $_6QJI0 = $ResponderId;
+  $_6QJI0 = intval($_6QJI0);
 
-  $_QJlJ0 = "SELECT Name, FUMailsTableName FROM $_IiQl1 WHERE id=$_J16QO";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-  $Name = $_Q6Q1C["Name"];
-  mysql_free_result($_Q60l1);
-  if($_Q6Q1C["FUMailsTableName"] == "") exit;
+  $_QLfol = "SELECT Name, FUMailsTableName FROM $_jfJJ0 WHERE id=$_6QJI0";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_QLO0f = mysql_fetch_assoc($_QL8i1);
+  $Name = $_QLO0f["Name"];
+  mysql_free_result($_QL8i1);
+  if($_QLO0f["FUMailsTableName"] == "") exit;
 
-  $_QJlJ0 = "SELECT id, Name FROM $_Q6Q1C[FUMailsTableName] ORDER BY Name";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
+  $_QLfol = "SELECT id, Name FROM $_QLO0f[FUMailsTableName] ORDER BY Name";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
 
-  if(mysql_num_rows($_Q60l1) != 1) {
-    $_jjQIo = "";
-    while($_Q6Q1C=mysql_fetch_array($_Q60l1)) {
-      $_jjQIo .= '<option value="'.$_Q6Q1C["id"].'">'.$_Q6Q1C["Name"].'</option>'.$_Q6JJJ;
+  if(mysql_num_rows($_QL8i1) != 1) {
+    $_J0iof = "";
+    while($_QLO0f=mysql_fetch_array($_QL8i1)) {
+      $_J0iof .= '<option value="'.$_QLO0f["id"].'">'.$_QLO0f["Name"].'</option>'.$_QLl1Q;
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $_I0600, "", 'DISABLED', 'fumailselect_snipped.htm');
-    $_QJCJi = str_replace('name="ResponderType"', 'name="ResponderType" value="'.$ResponderType.'"', $_QJCJi);
-    $_QJCJi = str_replace('name="ResponderId"', 'name="ResponderId" value="'.$_J16QO.'"', $_QJCJi);
-    $_QJCJi = _OPR6L($_QJCJi, "<SHOW:FUMAILS>", "</SHOW:FUMAILS>", $_jjQIo);
-    $_QJCJi = _OPR6L($_QJCJi, "<ResponderName>", "</ResponderName>", $Name);
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $_Itfj8, "", 'DISABLED', 'fumailselect_snipped.htm');
+    $_QLJfI = str_replace('name="ResponderType"', 'name="ResponderType" value="'.$ResponderType.'"', $_QLJfI);
+    $_QLJfI = str_replace('name="ResponderId"', 'name="ResponderId" value="'.$_6QJI0.'"', $_QLJfI);
+    $_QLJfI = _L81BJ($_QLJfI, "<SHOW:FUMAILS>", "</SHOW:FUMAILS>", $_J0iof);
+    $_QLJfI = _L81BJ($_QLJfI, "<ResponderName>", "</ResponderName>", $Name);
 
 
-    print $_QJCJi;
+    print $_QLJfI;
   } else {
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    $_POST['FUMailId'] = $_Q6Q1C["id"];
-    mysql_free_result($_Q60l1);
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    $_POST['FUMailId'] = $_QLO0f["id"];
+    mysql_free_result($_QL8i1);
   }
 
 ?>

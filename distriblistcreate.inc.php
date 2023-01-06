@@ -22,173 +22,173 @@
 #                                                                           #
 #############################################################################
 
- function _O8QBA($_jiiOJ, $_jiLIo, $_I0o0o, $_IQIio, $_Qo0oi = true){
-  global $_Q61I1, $OwnerOwnerUserId, $_Q60QL, $_QoOft, $_Qofoi, $UserId, $_QolLi, $INTERFACE_LANGUAGE, $resourcestrings;
+ function _L61FQ($_Ji8J1, $_JitjO, $_IttOL, $_Iojfi, $_IjIfQ = true){
+  global $_QLttI, $OwnerOwnerUserId, $_QL88I, $_IjC0Q, $_Ijt0i, $UserId, $_IjljI, $INTERFACE_LANGUAGE, $resourcestrings;
 
-  $_QJlJ0 = "SELECT COUNT(`id`) FROM `$_QolLi`";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_Qt1OL = mysql_fetch_row($_Q60l1);
-  $_QC0jO = $_Qt1OL[0];
-  mysql_free_result($_Q60l1);
-  if(!$_QC0jO)
-    $_Qo0oi = 0;
-  if(empty($_Qo0oi))
-    $_Qo0oi = 0;
+  $_QLfol = "SELECT COUNT(`id`) FROM `$_IjljI`";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_I1ltJ = mysql_fetch_row($_QL8i1);
+  $_Ijli6 = $_I1ltJ[0];
+  mysql_free_result($_QL8i1);
+  if(!$_Ijli6)
+    $_IjIfQ = 0;
+  if(empty($_IjIfQ))
+    $_IjIfQ = 0;
 
-  $_QJlJ0 = "SELECT `SenderFromName`, `SenderFromAddress`, `ReplyToEMailAddress`, `ReturnPathEMailAddress`, `FormsTableName` FROM `$_Q60QL` WHERE id=$_I0o0o";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_Qt1OL = mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_QLfol = "SELECT `SenderFromName`, `SenderFromAddress`, `ReplyToEMailAddress`, `ReturnPathEMailAddress`, `FormsTableName` FROM `$_QL88I` WHERE id=$_IttOL";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_I1ltJ = mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
 
-  $_QJlJ0 = "SELECT `id` FROM `$_Qt1OL[FormsTableName]` ORDER BY `IsDefault` DESC";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  if(!$_QlftL = mysql_fetch_assoc($_Q60l1))
-    $_QlftL["id"] = 1;
-  unset($_Qt1OL["FormsTableName"]);
-  mysql_free_result($_Q60l1);
+  $_QLfol = "SELECT `id` FROM `$_I1ltJ[FormsTableName]` ORDER BY `IsDefault` DESC";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  if(!$_I8fol = mysql_fetch_assoc($_QL8i1))
+    $_I8fol["id"] = 1;
+  unset($_I1ltJ["FormsTableName"]);
+  mysql_free_result($_QL8i1);
 
-  $_jiLi6 = TablePrefix._OA0LA($_jiiOJ);
-  $_j0fti = _OALO0($_jiLi6."_sendstate");
-  $_j080i = _OALO0($_jiLi6."_currentusedmtas");
-  $_j08fl = _OALO0($_jiLi6."_statistics");
-  $_Q6t6j = _OALO0($_jiLi6."_groups");
-  $_j0t0o = _OALO0($_jiLi6."_nogroups");
-  $_j0tio = _OALO0($_jiLi6."_mtas");
-#  $ML_C_RefTableName = _OALO0($_jiLi6."_mref");
-  $_IjILj = _OALO0($_jiLi6."_links");
-  $_IjjJC = _OALO0($_jiLi6."_topenings");
-  $_IjjJi = _OALO0($_jiLi6."_tropenings");
-  $_Ijj6J = _OALO0($_jiLi6."_tlinks");
-  $_IjJ0J = _OALO0($_jiLi6."_trlinks");
-  $_IjJQO = _OALO0($_jiLi6."_useragents");
-  $_Ij61o = _OALO0($_jiLi6."_oss");
+  $_JiOQ0 = TablePrefix._L8A8P($_Ji8J1);
+  $_jClC1 = _L8D00($_JiOQ0."_sendstate");
+  $_ji0I0 = _L8D00($_JiOQ0."_currentusedmtas");
+  $_ji080 = _L8D00($_JiOQ0."_statistics");
+  $_QljJi = _L8D00($_JiOQ0."_groups");
+  $_ji0oi = _L8D00($_JiOQ0."_nogroups");
+  $_ji10i = _L8D00($_JiOQ0."_mtas");
+#  $ML_C_RefTableName = _L8D00($_JiOQ0."_mref");
+  $_Ii01O = _L8D00($_JiOQ0."_links");
+  $_Ii0jf = _L8D00($_JiOQ0."_topenings");
+  $_Ii0lf = _L8D00($_JiOQ0."_tropenings");
+  $_Ii1i8 = _L8D00($_JiOQ0."_tlinks");
+  $_IiQjL = _L8D00($_JiOQ0."_trlinks");
+  $_IiQJi = _L8D00($_JiOQ0."_useragents");
+  $_IiIQ6 = _L8D00($_JiOQ0."_oss");
 
   if(defined("SWM"))
     if($OwnerOwnerUserId == 0x5A) return 0;
   if(defined("SML"))
     if($OwnerOwnerUserId == 0x41) return 0;
 
-  $_QJlJ0 = "INSERT INTO `$_QoOft` SET CreateDate=NOW(), `forms_id`=$_QlftL[id], IsActive=$_Qo0oi, Creator_users_id=$UserId, Name="._OPQLR($_jiiOJ).", Description="._OPQLR($_jiLIo).", maillists_id=".$_I0o0o.", inboxes_id=$_IQIio";
+  $_QLfol = "INSERT INTO `$_IjC0Q` SET CreateDate=NOW(), `forms_id`=$_I8fol[id], IsActive=$_IjIfQ, Creator_users_id=$UserId, Name="._LRAFO($_Ji8J1).", Description="._LRAFO($_JitjO).", maillists_id=".$_IttOL.", inboxes_id=$_Iojfi";
 
-  reset($_Qt1OL);
-  foreach($_Qt1OL as $key => $_Q6ClO) {
-    $_QJlJ0 .= ", `$key`="._OPQLR($_Q6ClO);
+  reset($_I1ltJ);
+  foreach($_I1ltJ as $key => $_QltJO) {
+    $_QLfol .= ", `$key`="._LRAFO($_QltJO);
   }
 
-  $_QJlJ0 .= ",
+  $_QLfol .= ",
 
-      `CurrentSendTableName` ="._OPQLR($_j0fti).", "."
-      `CurrentUsedMTAsTableName` ="._OPQLR($_j080i).", "."
-      `RStatisticsTableName` ="._OPQLR($_j08fl).", "."
-      `GroupsTableName`="._OPQLR($_Q6t6j).", "."
-      `NotInGroupsTableName`="._OPQLR($_j0t0o).", "."
-      `MTAsTableName`="._OPQLR($_j0tio).", "."
-      `LinksTableName`="._OPQLR($_IjILj).", "."
-      `TrackingOpeningsTableName`="._OPQLR($_IjjJC).", "."
-      `TrackingOpeningsByRecipientTableName`="._OPQLR($_IjjJi).", "."
-      `TrackingLinksTableName`="._OPQLR($_Ijj6J).", "."
-      `TrackingLinksByRecipientTableName`="._OPQLR($_IjJ0J).", "."
-      `TrackingUserAgentsTableName`="._OPQLR($_IjJQO).", "."
-      `TrackingOSsTableName`="._OPQLR($_Ij61o)
+      `CurrentSendTableName` ="._LRAFO($_jClC1).", "."
+      `CurrentUsedMTAsTableName` ="._LRAFO($_ji0I0).", "."
+      `RStatisticsTableName` ="._LRAFO($_ji080).", "."
+      `GroupsTableName`="._LRAFO($_QljJi).", "."
+      `NotInGroupsTableName`="._LRAFO($_ji0oi).", "."
+      `MTAsTableName`="._LRAFO($_ji10i).", "."
+      `LinksTableName`="._LRAFO($_Ii01O).", "."
+      `TrackingOpeningsTableName`="._LRAFO($_Ii0jf).", "."
+      `TrackingOpeningsByRecipientTableName`="._LRAFO($_Ii0lf).", "."
+      `TrackingLinksTableName`="._LRAFO($_Ii1i8).", "."
+      `TrackingLinksByRecipientTableName`="._LRAFO($_IiQjL).", "."
+      `TrackingUserAgentsTableName`="._LRAFO($_IiQJi).", "."
+      `TrackingOSsTableName`="._LRAFO($_IiIQ6)
       ;
-#      `ML_C_RefTableName`="._OPQLR($ML_C_RefTableName).", "."
+#      `ML_C_RefTableName`="._LRAFO($ML_C_RefTableName).", "."
 
-  mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
+  mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
 
-  $_Q60l1 = mysql_query("SELECT LAST_INSERT_ID()", $_Q61I1);
-  $_Q6Q1C = mysql_fetch_row($_Q60l1);
-  $_jiLLL = $_Q6Q1C[0];
-  mysql_free_result($_Q60l1);
+  $_QL8i1 = mysql_query("SELECT LAST_INSERT_ID()", $_QLttI);
+  $_QLO0f = mysql_fetch_row($_QL8i1);
+  $_Jio1C = $_QLO0f[0];
+  mysql_free_result($_QL8i1);
 
-  $_QJlJ0 = "UPDATE `$_QoOft` SET ";
+  $_QLfol = "UPDATE `$_IjC0Q` SET ";
 
-  $_QJlJ0 .= "`DistribListConfirmationLinkMailSubject`="._OPQLR(($resourcestrings[$INTERFACE_LANGUAGE]["002680"]));
-  $_IfO8i = join("", file(_O68QF()."distriblist_confirm.txt"));
-  if(!IsUtf8String($_IfO8i))
-    $_IfO8i = utf8_encode($_IfO8i);
-  $_QJlJ0 .= ", `DistribListConfirmationLinkMailPlainText`="._OPQLR($_IfO8i);
+  $_QLfol .= "`DistribListConfirmationLinkMailSubject`="._LRAFO(($resourcestrings[$INTERFACE_LANGUAGE]["002680"]));
+  $_j1IQL = join("", file(_LOC8P()."distriblist_confirm.txt"));
+  if(!IsUtf8String($_j1IQL))
+    $_j1IQL = utf8_encode($_j1IQL);
+  $_QLfol .= ", `DistribListConfirmationLinkMailPlainText`="._LRAFO($_j1IQL);
 
-  $_QJlJ0 .= ", `DistribListSenderInfoMailSubject`="._OPQLR(($resourcestrings[$INTERFACE_LANGUAGE]["002680"]));
-  $_IfO8i = join("", file(_O68QF()."distriblist_sender_info.txt"));
-  if(!IsUtf8String($_IfO8i))
-    $_IfO8i = utf8_encode($_IfO8i);
-  $_QJlJ0 .= ", `DistribListSenderInfoMailPlainText`="._OPQLR($_IfO8i);
+  $_QLfol .= ", `DistribListSenderInfoMailSubject`="._LRAFO(($resourcestrings[$INTERFACE_LANGUAGE]["002680"]));
+  $_j1IQL = join("", file(_LOC8P()."distriblist_sender_info.txt"));
+  if(!IsUtf8String($_j1IQL))
+    $_j1IQL = utf8_encode($_j1IQL);
+  $_QLfol .= ", `DistribListSenderInfoMailPlainText`="._LRAFO($_j1IQL);
 
-  $_QJlJ0 .= ", `DistribListSenderInfoConfirmMailSubject`="._OPQLR(($resourcestrings[$INTERFACE_LANGUAGE]["002680"]));
-  $_IfO8i = join("", file(_O68QF()."distriblist_sender_confirm.txt"));
-  if(!IsUtf8String($_IfO8i))
-    $_IfO8i = utf8_encode($_IfO8i);
-  $_QJlJ0 .= ", `DistribListSenderInfoConfirmMailPlainText`="._OPQLR($_IfO8i);
+  $_QLfol .= ", `DistribListSenderInfoConfirmMailSubject`="._LRAFO(($resourcestrings[$INTERFACE_LANGUAGE]["002680"]));
+  $_j1IQL = join("", file(_LOC8P()."distriblist_sender_confirm.txt"));
+  if(!IsUtf8String($_j1IQL))
+    $_j1IQL = utf8_encode($_j1IQL);
+  $_QLfol .= ", `DistribListSenderInfoConfirmMailPlainText`="._LRAFO($_j1IQL);
 
-  $_QJlJ0 .= " WHERE `id`=$_jiLLL";
+  $_QLfol .= " WHERE `id`=$_Jio1C";
 
-  mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
+  mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
 
-  $_Ij6Io = join("", file(_O68A8()."distriblist.sql"));
-  $_Ij6Io = str_replace('`TABLE_CURRENT_SENDTABLE`', $_j0fti, $_Ij6Io);
-  $_Ij6Io = str_replace('`TABLE_CURRENT_USED_MTAS`', $_j080i, $_Ij6Io);
-  $_Ij6Io = str_replace('`TABLE_C_STATISTICS`', $_j08fl, $_Ij6Io);
-  $_Ij6Io = str_replace('`TABLE_GROUPS`', $_Q6t6j, $_Ij6Io);
-  $_Ij6Io = str_replace('`TABLE_NOTINGROUPS`', $_j0t0o, $_Ij6Io);
-  $_Ij6Io = str_replace('`TABLE_MTAS`', $_j0tio, $_Ij6Io);
-#  $_Ij6Io = str_replace('`TABLE_MAILLISTTOCAMPAIGN`', $ML_C_RefTableName, $_Ij6Io);
-  $_Ij6Io = str_replace('`TABLE_DISTRIBLISTLINKS`', $_IjILj, $_Ij6Io);
-  $_Ij6Io = str_replace('`TABLE_DISTRIBLISTTRACKINGOPENINGS`', $_IjjJC, $_Ij6Io);
-  $_Ij6Io = str_replace('`TABLE_DISTRIBLISTTRACKINGOPENINGSBYRECIPIENT`', $_IjjJi, $_Ij6Io);
-  $_Ij6Io = str_replace('`TABLE_DISTRIBLISTTRACKINGLINKS`', $_Ijj6J, $_Ij6Io);
-  $_Ij6Io = str_replace('`TABLE_DISTRIBLISTTRACKINGLINKSBYRECIPIENT`', $_IjJ0J, $_Ij6Io);
-  $_Ij6Io = str_replace('`TABLE_DISTRIBLISTTRACKINGUSERAGENTS`', $_IjJQO, $_Ij6Io);
-  $_Ij6Io = str_replace('`TABLE_DISTRIBLISTTRACKINGOSS`', $_Ij61o, $_Ij6Io);
+  $_IiIlQ = join("", file(_LOCFC()."distriblist.sql"));
+  $_IiIlQ = str_replace('`TABLE_CURRENT_SENDTABLE`', $_jClC1, $_IiIlQ);
+  $_IiIlQ = str_replace('`TABLE_CURRENT_USED_MTAS`', $_ji0I0, $_IiIlQ);
+  $_IiIlQ = str_replace('`TABLE_C_STATISTICS`', $_ji080, $_IiIlQ);
+  $_IiIlQ = str_replace('`TABLE_GROUPS`', $_QljJi, $_IiIlQ);
+  $_IiIlQ = str_replace('`TABLE_NOTINGROUPS`', $_ji0oi, $_IiIlQ);
+  $_IiIlQ = str_replace('`TABLE_MTAS`', $_ji10i, $_IiIlQ);
+#  $_IiIlQ = str_replace('`TABLE_MAILLISTTOCAMPAIGN`', $ML_C_RefTableName, $_IiIlQ);
+  $_IiIlQ = str_replace('`TABLE_DISTRIBLISTLINKS`', $_Ii01O, $_IiIlQ);
+  $_IiIlQ = str_replace('`TABLE_DISTRIBLISTTRACKINGOPENINGS`', $_Ii0jf, $_IiIlQ);
+  $_IiIlQ = str_replace('`TABLE_DISTRIBLISTTRACKINGOPENINGSBYRECIPIENT`', $_Ii0lf, $_IiIlQ);
+  $_IiIlQ = str_replace('`TABLE_DISTRIBLISTTRACKINGLINKS`', $_Ii1i8, $_IiIlQ);
+  $_IiIlQ = str_replace('`TABLE_DISTRIBLISTTRACKINGLINKSBYRECIPIENT`', $_IiQjL, $_IiIlQ);
+  $_IiIlQ = str_replace('`TABLE_DISTRIBLISTTRACKINGUSERAGENTS`', $_IiQJi, $_IiIlQ);
+  $_IiIlQ = str_replace('`TABLE_DISTRIBLISTTRACKINGOSS`', $_IiIQ6, $_IiIlQ);
 
 
-  $_Ij6il = explode(";", $_Ij6Io);
+  $_IijLl = explode(";", $_IiIlQ);
 
-  for($_Q6llo=0; $_Q6llo<count($_Ij6il); $_Q6llo++) {
-    if(trim($_Ij6il[$_Q6llo]) == "") continue;
-    $_Q60l1 = mysql_query($_Ij6il[$_Q6llo]." CHARSET=utf8", $_Q61I1);
-    if(!$_Q60l1)
-      $_Q60l1 = mysql_query($_Ij6il[$_Q6llo], $_Q61I1);
-    _OAL8F($_Ij6il[$_Q6llo]);
+  for($_Qli6J=0; $_Qli6J<count($_IijLl); $_Qli6J++) {
+    if(trim($_IijLl[$_Qli6J]) == "") continue;
+    $_QL8i1 = mysql_query($_IijLl[$_Qli6J]." CHARSET=" . DefaultMySQLEncoding, $_QLttI);
+    if(!$_QL8i1)
+      $_QL8i1 = mysql_query($_IijLl[$_Qli6J], $_QLttI);
+    _L8D88($_IijLl[$_Qli6J]);
   }
 
   // MTA from Mailinglist
-  $_j0O0O = 0;
-  $_QJlJ0 = "SELECT `MTAsTableName` FROM $_Q60QL WHERE id=$_I0o0o";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_Q6Q1C = mysql_fetch_assoc($_Q60l1);
-  mysql_free_result($_Q60l1);
+  $_jiQjI = 0;
+  $_QLfol = "SELECT `MTAsTableName` FROM $_QL88I WHERE id=$_IttOL";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_QLO0f = mysql_fetch_assoc($_QL8i1);
+  mysql_free_result($_QL8i1);
 
-  $_QJlJ0 = "SELECT `mtas_id` FROM $_Q6Q1C[MTAsTableName] ORDER BY sortorder LIMIT 0, 1";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  if($_Q6Q1C = mysql_fetch_assoc($_Q60l1))
-     $_j0O0O = $_Q6Q1C["mtas_id"];
-  mysql_free_result($_Q60l1);
+  $_QLfol = "SELECT `mtas_id` FROM $_QLO0f[MTAsTableName] ORDER BY sortorder LIMIT 0, 1";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  if($_QLO0f = mysql_fetch_assoc($_QL8i1))
+     $_jiQjI = $_QLO0f["mtas_id"];
+  mysql_free_result($_QL8i1);
 
 
   // MTA setzen
-  if($_j0O0O == 0) {
-    $_QJlJ0 = "SELECT id FROM $_Qofoi WHERE IsDefault <> 0";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_Q6Q1C = mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
+  if($_jiQjI == 0) {
+    $_QLfol = "SELECT id FROM $_Ijt0i WHERE IsDefault <> 0";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_QLO0f = mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
 
-    $_QJlJ0 = "INSERT INTO `$_j0tio` SET mtas_id=$_Q6Q1C[id], sortorder=0";
-    mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
+    $_QLfol = "INSERT INTO `$_ji10i` SET mtas_id=$_QLO0f[id], sortorder=0";
+    mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
   } else {
-    $_QJlJ0 = "INSERT INTO `$_j0tio` SET mtas_id=$_j0O0O, sortorder=0";
-    mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
+    $_QLfol = "INSERT INTO `$_ji10i` SET mtas_id=$_jiQjI, sortorder=0";
+    mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
   }
 
 
 
-  return $_jiLLL;
+  return $_Jio1C;
  }
 
 ?>

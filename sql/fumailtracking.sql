@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS `TABLE_FUMAILLINKS` (
   `id` int(11) NOT NULL auto_increment,
   `IsActive` tinyint(1) NOT NULL default '1',
-  `Link` varchar(255) default NULL,
+  `Link` text NOT NULL,
   `Description` varchar(255) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `Link` (`Link`)
+  KEY `Link` (`Link`(255))
 );
 
 CREATE TABLE IF NOT EXISTS `TABLE_FUMAILTRACKINGOPENINGS` (

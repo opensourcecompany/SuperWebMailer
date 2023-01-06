@@ -16,8 +16,14 @@
 <meta name="MS-HKWD" content="Lesebestätigung">
 <meta name="MS-HKWD" content="Cc Empfänger">
 <meta name="MS-HKWD" content="BCc Empfänger">
-<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - E-Mailing/Newsletter ändern,Newsletter ändern,HTML Newsletter ändern,Text Newsletter ändern,HTML E-Mailing ändern,Text E-Mailing ändern,Versand,Lesebestätigung,Cc Empfänger,BCc Empfänger E-Mailing/Newsletter ändern</title>
-<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,E-Mailing/Newsletter ändern,Newsletter ändern,HTML Newsletter ändern,Text Newsletter ändern,HTML E-Mailing ändern,Text E-Mailing ändern,Versand,Lesebestätigung,Cc Empfänger,BCc Empfänger"><meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - E-Mailing/Newsletter ändern,Newsletter ändern,HTML Newsletter ändern,Text Newsletter ändern,HTML E-Mailing ändern,Text E-Mailing ändern,Versand,Lesebestätigung,Cc Empfänger,BCc Empfänger E-Mailing/Newsletter ändern E-Mailing/Newsletter ändern,Newsletter ändern,HTML Newsletter ändern,Text Newsletter ändern,HTML E-Mailing ändern,Text E-Mailing ändern,Versand,Lesebestätigung,Cc Empfänger,BCc Empfänger"><meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
+<title>PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer -
+E-Mailing/Newsletter ändern,Newsletter ändern,HTML Newsletter ändern,Text
+Newsletter ändern,HTML E-Mailing ändern,Text E-Mailing
+ändern,Versand,Lesebestätigung,Cc Empfänger,BCc Empfänger
+E-Mailing/Newsletter ändern</title>
+<meta name="keywords" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer,E-Mailing/Newsletter ändern,Newsletter ändern,HTML Newsletter ändern,Text Newsletter ändern,HTML E-Mailing ändern,Text E-Mailing ändern,Versand,Lesebestätigung,Cc Empfänger,BCc Empfänger">
+<meta name="description" content="PHP Newsletter Software und E-Mail-Marketing Software SuperWebMailer - E-Mailing/Newsletter ändern,Newsletter ändern,HTML Newsletter ändern,Text Newsletter ändern,HTML E-Mailing ändern,Text E-Mailing ändern,Versand,Lesebestätigung,Cc Empfänger,BCc Empfänger E-Mailing/Newsletter ändern E-Mailing/Newsletter ändern,Newsletter ändern,HTML Newsletter ändern,Text Newsletter ändern,HTML E-Mailing ändern,Text E-Mailing ändern,Versand,Lesebestätigung,Cc Empfänger,BCc Empfänger">
+<meta name="page-topic" content="PHP Newsletter Software Dienstleistung">
 <meta name="page-type" content="PHP Newsletter Software Download">
 <meta name="publisher" content="Mirko Boeer">
 <meta name="revisit-after" content="10 days">
@@ -27,8 +33,9 @@
 <meta http-equiv="content-language" content="de">
 <meta name="copyright" content="Mirko Boeer">
 <script LANGUAGE="JavaScript" SRC="jscript.js"></script>
-<link rel="canonical" href="http://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/campaignedit5.htm">
-<meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<link rel="canonical" href="https://newsletter-software-php-script.superwebmailer.de/help/de/swm_web/html/campaignedit5.htm">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
 
 <body>
 
@@ -95,6 +102,18 @@ E-Mail-Adress-Angaben verändert werden&quot; aktiviert ist.</p>
       dieses Header-Felds eine Schaltfläche &quot;Abmelden&quot; oder einen
       Link für die direkte Abmeldung vom Newsletter-Verteiler oberhalb der
       E-Mail an.
+      <p>Wurde bei der jeweiligen <a href="mtaedit.htm">Versandvariante</a> das
+      Hinzufügen einer DKIM/Domainkey-Signatur aktiviert, dann wird zusätzlich
+      der List-Unsubscribe-Post-Header hinzugefügt. Soll der
+      List-Unsubscribe-Post-Header immer hinzugefügt werden, weil der
+      Postausgangsserver automatisch eine DKIM/Domainkey-Signatur für jede
+      ausgehende E-Mail hinzufügt, dann kann in der Datei userdefined.inc.php
+      die Konstante define(&quot;ListUnsubscribePostOnNoDKIMSignature&quot;, 1);
+      angegeben bzw. das Kommentar-Zeichen vor der Konstante in der Datei
+      userdefined.inc.php entfernt werden.<br>
+      Siehe dazu auch:<br>
+      <a href="https://tools.ietf.org/html/rfc8058" target="_blank">Signaling
+      One-Click Functionality for List Email Headers</a></p>
       <p>&nbsp;</td>
   </tr>
   <tr valign="top">
@@ -123,6 +142,15 @@ E-Mail-Adress-Angaben verändert werden&quot; aktiviert ist.</p>
       </ul>
       <p>&nbsp;</p>
     </td>
+  </tr>
+  <tr valign="top">
+    <td width="28%" valign="top">Pause während des Live-Versands im Browser</td>
+    <td width="72%">Diese Option steht nur zur Verfügung, wenn &quot;E-Mailing
+      sofort live versenden&quot; gewählt wurde.
+      <p>Geben Sie eine Pause in Sekunden nach Versand der angegebenen Anzahl
+      E-Mails an. Es gehen erfolgreiche und fehlgeschlagene Übermittlungen in
+      die Zählung der Anzahl E-Mails ein.</p>
+      <p>&nbsp;</td>
   </tr>
 </table>
 <p>&nbsp;</p>

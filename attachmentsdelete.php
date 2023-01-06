@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2018 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -29,38 +29,38 @@
   if( !isset($_GET["form"]) || !isset($_GET["formElement1"]) || !isset($_GET["files"]) )
     exit;
 
-  $_QJCJi = join("", file(_O68QF()."attachmentsdelete.htm"));
+  $_QLJfI = _JJAQE("attachmentsdelete.htm");
 
-  $_QJCJi = str_replace ("myBasePath=''", "myBasePath='".BasePath."'", $_QJCJi);
+  $_QLJfI = str_replace ("myBasePath=''", "myBasePath='".BasePath."'", $_QLJfI);
 
-  $_QJCJi = str_replace ("'FORMNAME'", "'$_GET[form]'", $_QJCJi);
-  $_QJCJi = str_replace ("FORM1FIELD", "$_GET[formElement1]", $_QJCJi);
+  $_QLJfI = str_replace ("'FORMNAME'", "'$_GET[form]'", $_QLJfI);
+  $_QLJfI = str_replace ("FORM1FIELD", "$_GET[formElement1]", $_QLJfI);
   if(isset($_GET["formElement2"]))
-     $_QJCJi = str_replace ("FORM2FIELD", "$_GET[formElement2]", $_QJCJi);
+     $_QLJfI = str_replace ("FORM2FIELD", "$_GET[formElement2]", $_QLJfI);
 
-  $_QJCJi = str_replace ('name="cmbRemoverUrl"', 'value="'.BasePath.'ckeditor/filemanager/connectors/php/remove_file.php"', $_QJCJi);
+  $_QLJfI = str_replace ('name="cmbRemoverUrl"', 'value="'.BasePath.'ckeditor/filemanager/connectors/php/remove_file.php"', $_QLJfI);
 
-  $_Q6LIL = explode(";", $_GET["files"]);
+  $_QlooO = explode(";", $_GET["files"]);
   if(trim($_GET["files"]) != "") {
-      for($_Q6llo=0; $_Q6llo<count($_Q6LIL); $_Q6llo++) {
-        if(!IsUTF8string($_Q6LIL[$_Q6llo]) )
-          $_Q6LIL[$_Q6llo] = utf8_encode($_Q6LIL[$_Q6llo]);
-        if(strpos($_Q6LIL[$_Q6llo], "/") !== false)
-           $_Q6LIL[$_Q6llo] = substr($_Q6LIL[$_Q6llo], strpos_reverse($_Q6LIL[$_Q6llo], "/"));
-        if(strpos($_Q6LIL[$_Q6llo], "\\") !== false)
-           $_Q6LIL[$_Q6llo] = substr($_Q6LIL[$_Q6llo], strpos_reverse($_Q6LIL[$_Q6llo], "\\"));
+      for($_Qli6J=0; $_Qli6J<count($_QlooO); $_Qli6J++) {
+        if(!IsUTF8string($_QlooO[$_Qli6J]) )
+          $_QlooO[$_Qli6J] = utf8_encode($_QlooO[$_Qli6J]);
+        if(strpos($_QlooO[$_Qli6J], "/") !== false)
+           $_QlooO[$_Qli6J] = substr($_QlooO[$_Qli6J], strpos_reverse($_QlooO[$_Qli6J], "/"));
+        if(strpos($_QlooO[$_Qli6J], "\\") !== false)
+           $_QlooO[$_Qli6J] = substr($_QlooO[$_Qli6J], strpos_reverse($_QlooO[$_Qli6J], "\\"));
       }
-      $_QJCJi = _OPR6L($_QJCJi, '<SHOW:FILENAME>', '</SHOW:FILENAME>', join("<br />", $_Q6LIL));
+      $_QLJfI = _L81BJ($_QLJfI, '<SHOW:FILENAME>', '</SHOW:FILENAME>', join("<br />", $_QlooO));
     }
     else
-    $_QJCJi = _OPR6L($_QJCJi, '<SHOW:FILENAME>', '</SHOW:FILENAME>', $resourcestrings[$INTERFACE_LANGUAGE]["000094"]);
+    $_QLJfI = _L81BJ($_QLJfI, '<SHOW:FILENAME>', '</SHOW:FILENAME>', $resourcestrings[$INTERFACE_LANGUAGE]["000094"]);
 
-  $_QllO8 = join(";", $_Q6LIL);
-  $_QJCJi = str_replace ('name="files"', 'name="files" value="'.$_QllO8.'"', $_QJCJi);
+  $_I016j = join(";", $_QlooO);
+  $_QLJfI = str_replace ('name="files"', 'name="files" value="'.$_I016j.'"', $_QLJfI);
 
 
-  SetHTMLHeaders($_Q6QQL);
+  SetHTMLHeaders($_QLo06);
 
-  print $_QJCJi;
+  print $_QLJfI;
 
 ?>

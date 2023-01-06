@@ -77,6 +77,53 @@
 
          </fieldset>
 
+         <--IF:BREAK-->
+         <input type="hidden" name="SUMEMailsSent" />
+         <input type="hidden" name="LastEMailBreakCount" />
+         <input type="hidden" name="LiveSendingBreakTime" id="LiveSendingBreakTime" />
+         <input type="hidden" id="CancelBreak" value="0" />
+         <fieldset>
+           <legend>Pause des E-Mail-Versands</legend>
+           <br />
+           <table class="FormTable">
+             <tbody>
+               <tr>
+                 <td>
+                   <img src="images/loading.gif" alt="Waiting" border="0" />&nbsp;Der E-Mail-Versand wird f&uuml;r <span id="CurrentBreakTime" style="font-weight: bolder">30</span> Sekunden pausiert.
+                 </td>
+               </tr>
+               <tr>
+                 <td>
+                   <br />
+                   <input type="button" value="Pause &uuml;berspringen" onclick="document.getElementById('CancelBreak').value=1;" />
+                 </td>
+               </tr>
+             </tbody>
+           </table>
+
+           <br />
+
+         </fieldset>
+         <script language="JavaScript">
+         <!--
+           var LiveSendingBreakTime = parseInt(document.getElementById("LiveSendingBreakTime").value) + 1;
+
+           function delay(){
+             LiveSendingBreakTime--;
+             document.getElementById("CurrentBreakTime").innerText = LiveSendingBreakTime;
+
+             if(LiveSendingBreakTime > 0 && parseInt(document.getElementById("CancelBreak").value) == 0)
+                window.setTimeout(delay, 1000);
+                else
+                document.CampaignSendForm.submit();
+           }
+
+           delay();
+
+         //-->
+         </script>
+         <--/IF:BREAK-->
+
 
          <script language="JavaScript">
          <!--
@@ -175,5 +222,8 @@
            setTimeout("SubmitForm()", 10);
          //-->
          </script>
+
+         <input type="hidden" name="SUMEMailsSent" />
+         <input type="hidden" name="LastEMailBreakCount" />
       </form>
 

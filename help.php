@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2013 Mirko Boeer                         #
+#               Copyright © 2007 - 2020 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -23,22 +23,28 @@
 #############################################################################
 
  include_once("config.inc.php");
- include_once("sessioncheck.inc.php");
 
- $_JfQlO = "";
+ $_6tlQJ = "";
  if(isset($_GET["helpTopic"]))
-   $_JfQlO = $_GET["helpTopic"];
+   $_6tlQJ = $_GET["helpTopic"];
    else
     if(isset($_POST["helpTopic"]))
-      $_JfQlO = $_POST["helpTopic"];
- $_JfQlO = str_replace("/", "", $_JfQlO);
- $_JfQlO = str_replace("\\", "", $_JfQlO);
- $_JfQlO = str_replace(".", "", $_JfQlO);
+      $_6tlQJ = $_POST["helpTopic"];
+ $_6tlQJ = str_replace("/", "", $_6tlQJ);
+ $_6tlQJ = str_replace("\\", "", $_6tlQJ);
+ $_6tlQJ = str_replace(".", "", $_6tlQJ);
+ $_6tlQJ = str_replace("´", "", $_6tlQJ);
+ $_6tlQJ = str_replace("`", "", $_6tlQJ);
+ $_6tlQJ = str_replace("(", "", $_6tlQJ);
+ $_6tlQJ = str_replace("'", "", $_6tlQJ);
 
- $_JfI1L = ScriptBaseURL."help/".$INTERFACE_LANGUAGE;
- if($_JfQlO != ""){
-   header("Location: $_JfI1L"."/swm_web/html/".$_JfQlO.".htm");
+ $_6tl8I = ScriptBaseURL."help/".$INTERFACE_LANGUAGE;
+ if($_6tlQJ != ""){
+   if(defined("SWM"))
+     header("Location: $_6tl8I"."/swm_web/html/".$_6tlQJ.".htm");
+     else
+     header("Location: $_6tl8I"."/sml_web/html/".$_6tlQJ.".htm");
  } else
-   header("Location: $_JfI1L"."/index.htm");
+   header("Location: $_6tl8I"."/index.htm");
 
 ?>

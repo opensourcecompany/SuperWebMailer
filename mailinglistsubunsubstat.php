@@ -1,7 +1,7 @@
 <?php
 #############################################################################
 #                SuperMailingList / SuperWebMailer                          #
-#               Copyright © 2007 - 2017 Mirko Boeer                         #
+#               Copyright © 2007 - 2019 Mirko Boeer                         #
 #                    Alle Rechte vorbehalten.                               #
 #                http://www.supermailinglist.de/                            #
 #                http://www.superwebmailer.de/                              #
@@ -28,11 +28,11 @@
   include_once("geolocation.inc.php");
 
   if($OwnerUserId != 0) {
-    $_QJojf = _OBOOC($UserId);
-    if(!$_QJojf["PrivilegeMLSubUnsubStatBrowse"]) {
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-      print $_QJCJi;
+    $_QLJJ6 = _LPALQ($UserId);
+    if(!$_QLJJ6["PrivilegeMLSubUnsubStatBrowse"]) {
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+      print $_QLJfI;
       exit;
     }
   }
@@ -49,7 +49,7 @@
 
   if(isset($_GET["showsubunsubstat"]) ) {
      if (!isset($_POST["OneMailingListId"]) && !isset($_GET["MailingListId"]) ) {
-       $_I0600 = $resourcestrings[$INTERFACE_LANGUAGE]["000024"];
+       $_Itfj8 = $resourcestrings[$INTERFACE_LANGUAGE]["000024"];
        include_once("mailinglistselect.inc.php");
        if (!isset($_POST["OneMailingListId"]) )
           exit;
@@ -59,444 +59,445 @@
   }
   $_POST["OneMailingListId"] = intval($_POST["OneMailingListId"]);
 
-  if(!_OCJCC($_POST["OneMailingListId"])){
-    $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-    $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
-    print $_QJCJi;
+  if(!_LAEJL($_POST["OneMailingListId"])){
+    $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+    $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["PermissionsError"]);
+    print $_QLJfI;
     exit;
   }
 
   // **** get maillist table names
-  $_QJlJ0 = "SELECT Name, MaillistTableName, LocalBlocklistTableName, FormsTableName, StatisticsTableName, GroupsTableName, MailListToGroupsTableName, ReasonsForUnsubscripeTableName, ReasonsForUnsubscripeStatisticsTableName FROM $_Q60QL";
+  $_QLfol = "SELECT Name, MaillistTableName, LocalBlocklistTableName, FormsTableName, StatisticsTableName, GroupsTableName, MailListToGroupsTableName, ReasonsForUnsubscripeTableName, ReasonsForUnsubscripeStatisticsTableName FROM $_QL88I";
   if($OwnerUserId == 0) // ist es ein Admin?
-     $_QJlJ0 .= " WHERE (users_id=$UserId) AND ($_Q60QL.id=".intval($_POST["OneMailingListId"]).")";
+     $_QLfol .= " WHERE (users_id=$UserId) AND ($_QL88I.id=".intval($_POST["OneMailingListId"]).")";
      else {
-      $_QJlJ0 .= " LEFT JOIN $_Q6fio ON $_Q60QL.id=$_Q6fio.maillists_id WHERE (".$_Q6fio.".users_id=$UserId) AND ($_Q60QL.users_id=$OwnerUserId) AND ($_Q60QL.id=".intval($_POST["OneMailingListId"]).")";
+      $_QLfol .= " LEFT JOIN $_QlQot ON $_QL88I.id=$_QlQot.maillists_id WHERE (".$_QlQot.".users_id=$UserId) AND ($_QL88I.users_id=$OwnerUserId) AND ($_QL88I.id=".intval($_POST["OneMailingListId"]).")";
      }
 
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  if($_Q60l1 && mysql_num_rows($_Q60l1) == 1) {
-    $_Q6Q1C=mysql_fetch_array($_Q60l1);
-    mysql_free_result($_Q60l1);
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  if($_QL8i1 && mysql_num_rows($_QL8i1) == 1) {
+    $_QLO0f=mysql_fetch_array($_QL8i1);
+    mysql_free_result($_QL8i1);
   } else{
-      $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
-      $_QJCJi = _OPR6L($_QJCJi, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["MailingListPermissionsError"]);
-      print $_QJCJi;
+      $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, "", "", 'DISABLED', 'common_error_page.htm');
+      $_QLJfI = _L81BJ($_QLJfI, "<TEXT:ERROR>", "</TEXT:ERROR>", $resourcestrings[$INTERFACE_LANGUAGE]["MailingListPermissionsError"]);
+      print $_QLJfI;
       exit;
   }
   // **** get maillist table names END
 
-  $_QJCJi = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000024"]." - ".$_Q6Q1C["Name"], "", 'mailinglistsubunsubstat', 'mailinglistsubunsubstat_snipped.htm');
+  $_QLJfI = GetMainTemplate(true, $UserType, $Username, true, $resourcestrings[$INTERFACE_LANGUAGE]["000024"]." - ".$_QLO0f["Name"], "", 'mailinglistsubunsubstat', 'mailinglistsubunsubstat_snipped.htm');
 
-  $_j6Qlo = new _OCB1C('./geoip/');
-  if($_j6Qlo->GeoLiteCityExists || $_j6Qlo->GeoLiteCity2Exists){
-    $_QJCJi = _OP6PQ($_QJCJi, "<GeoLiteCityDatMissing>", "</GeoLiteCityDatMissing>");
+  $_JIfIj = new _LBPJO('./geoip/');
+  if($_JIfIj->GeoLiteCityExists || $_JIfIj->GeoLiteCity2Exists){
+    $_QLJfI = _L80DF($_QLJfI, "<GeoLiteCityDatMissing>", "</GeoLiteCityDatMissing>");
   } else {
-    $_QJCJi = _OPR6L($_QJCJi, "<GeoLiteCityDatMissing>", "</GeoLiteCityDatMissing>", "<b>".$resourcestrings[$INTERFACE_LANGUAGE]["GeoLiteCityDatMissing"]."</b>");
+    $_QLJfI = _L81BJ($_QLJfI, "<GeoLiteCityDatMissing>", "</GeoLiteCityDatMissing>", "<b>".$resourcestrings[$INTERFACE_LANGUAGE]["GeoLiteCityDatMissing"]."</b>");
   }
 
-  $_JlIfj = _LQDLR("GoogleDeveloperPublicKey", "");
-  if(empty($_JlIfj)){
-     $_QJCJi = _OPR6L($_QJCJi, "<GoogleDeveloperPublicKeyMissing>", "</GoogleDeveloperPublicKeyMissing>", "<b>".$resourcestrings[$INTERFACE_LANGUAGE]["GoogleDeveloperPublicKeyMissing"]."</b>");
-     $_QJCJi = _OP6PQ($_QJCJi, "<GoogleMaps>", "</GoogleMaps>");
-     $_QJCJi = str_replace("<NoGoogleMaps>", "", $_QJCJi);
-     $_QJCJi = str_replace("</NoGoogleMaps>", "", $_QJCJi);
+  $_fJ8l0 = _JOLQE("GoogleDeveloperPublicKey", "");
+  if(empty($_fJ8l0)){
+     $_QLJfI = _L81BJ($_QLJfI, "<GoogleDeveloperPublicKeyMissing>", "</GoogleDeveloperPublicKeyMissing>", "<b>".$resourcestrings[$INTERFACE_LANGUAGE]["GoogleDeveloperPublicKeyMissing"]."</b>");
+     $_QLJfI = _L80DF($_QLJfI, "<GoogleMaps>", "</GoogleMaps>");
+     $_QLJfI = str_replace("<NoGoogleMaps>", "", $_QLJfI);
+     $_QLJfI = str_replace("</NoGoogleMaps>", "", $_QLJfI);
   } else{
-    $_QJCJi = _OP6PQ($_QJCJi, "<GoogleDeveloperPublicKeyMissing>", "</GoogleDeveloperPublicKeyMissing>");
-    $_QJCJi = str_replace("<GoogleDeveloperPublicKey>", $_JlIfj, $_QJCJi);
-    $_QJCJi = str_replace("&lt;GoogleDeveloperPublicKey&gt;", $_JlIfj, $_QJCJi);
-    $_QJCJi = str_replace("<GoogleMaps>", "", $_QJCJi);
-    $_QJCJi = str_replace("</GoogleMaps>", "", $_QJCJi);
-    $_QJCJi = _OP6PQ($_QJCJi, "<NoGoogleMaps>", "</NoGoogleMaps>");
+    $_QLJfI = _L80DF($_QLJfI, "<GoogleDeveloperPublicKeyMissing>", "</GoogleDeveloperPublicKeyMissing>");
+    $_QLJfI = str_replace("<GoogleDeveloperPublicKey>", $_fJ8l0, $_QLJfI);
+    $_QLJfI = str_replace("&lt;GoogleDeveloperPublicKey&gt;", $_fJ8l0, $_QLJfI);
+    $_QLJfI = str_replace("<GoogleMaps>", "", $_QLJfI);
+    $_QLJfI = str_replace("</GoogleMaps>", "", $_QLJfI);
+    $_QLJfI = _L80DF($_QLJfI, "<NoGoogleMaps>", "</NoGoogleMaps>");
     if(stripos(ScriptBaseURL, 'https:') !== false)
-      $_QJCJi = str_replace('http://maps.googleapis.com', 'https://maps.googleapis.com', $_QJCJi);
+      $_QLJfI = str_replace('http://maps.googleapis.com', 'https://maps.googleapis.com', $_QLJfI);
   }
 
   // language
-  $_QJCJi = str_replace('ChangeLanguageCode("de");', 'ChangeLanguageCode("'.$INTERFACE_LANGUAGE.'");', $_QJCJi);
+  $_QLJfI = str_replace('ChangeLanguageCode("de");', 'ChangeLanguageCode("'.$INTERFACE_LANGUAGE.'");', $_QLJfI);
   // use ever yyyy-mm-dd
-  $_If0Ql = "'%d.%m.%Y'";
-  $_Jlj0J = "'%Y-%m-%d'";
+  $_j01CJ = "'%d.%m.%Y'";
+  $_fJtjj = "'%Y-%m-%d'";
   if($INTERFACE_LANGUAGE != "de") {
-     $_QJCJi = str_replace("'dd.mm.yyyy'", "'yyyy-mm-dd'", $_QJCJi);
-     $_If0Ql = "'%Y-%m-%d'";
+     $_QLJfI = str_replace("'dd.mm.yyyy'", "'yyyy-mm-dd'", $_QLJfI);
+     $_j01CJ = "'%Y-%m-%d'";
   }
 
   if( !isset($_POST["startdate"]) || !isset($_POST["enddate"]) ) {
-    $_QJlJ0 = "SELECT DATE_FORMAT(NOW(), $_If0Ql), DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 7 DAY), $_If0Ql)";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    $_jC18j = mysql_fetch_row($_Q60l1);
-    mysql_free_result($_Q60l1);
+    $_QLfol = "SELECT DATE_FORMAT(NOW(), $_j01CJ), DATE_FORMAT(DATE_SUB(NOW(), INTERVAL 7 DAY), $_j01CJ)";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    $_Joi6C = mysql_fetch_row($_QL8i1);
+    mysql_free_result($_QL8i1);
 
     if ( !isset($_POST["startdate"]) )
-       $_POST["startdate"] = $_jC18j[1];
+       $_POST["startdate"] = $_Joi6C[1];
     if ( !isset($_POST["enddate"]) )
-       $_POST["enddate"] = $_jC18j[0];
+       $_POST["enddate"] = $_Joi6C[0];
   }
 
-  $_QJCJi = str_replace('name="startdate"', 'name="startdate" value="'.$_POST["startdate"].'"', $_QJCJi);
-  $_QJCJi = str_replace('name="enddate"', 'name="enddate" value="'.$_POST["enddate"].'"', $_QJCJi);
-  $_QJCJi = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$_POST["OneMailingListId"].'"', $_QJCJi);
+  $_QLJfI = str_replace('name="startdate"', 'name="startdate" value="'.$_POST["startdate"].'"', $_QLJfI);
+  $_QLJfI = str_replace('name="enddate"', 'name="enddate" value="'.$_POST["enddate"].'"', $_QLJfI);
+  $_QLJfI = str_replace('name="OneMailingListId"', 'name="OneMailingListId" value="'.$_POST["OneMailingListId"].'"', $_QLJfI);
 
   // *********** Period statistics
-  $_jC1lo = "";
-  $_jCQ0I = "";
+  $_JoiCQ = "";
+  $_JoL0L = "";
 
   if($INTERFACE_LANGUAGE != "de") {
-    $_jC1lo = $_POST["startdate"];
-    $_jCQ0I = $_POST["enddate"];
+    $_JoiCQ = $_POST["startdate"];
+    $_JoL0L = $_POST["enddate"];
   } else {
-    $_Q8otJ = explode('.', $_POST["startdate"]);
-    $_jC1lo = $_Q8otJ[2]."-".$_Q8otJ[1]."-".$_Q8otJ[0];
-    $_Q8otJ = explode('.', $_POST["enddate"]);
-    $_jCQ0I = $_Q8otJ[2]."-".$_Q8otJ[1]."-".$_Q8otJ[0];
+    $_I1OoI = explode('.', $_POST["startdate"]);
+    $_JoiCQ = $_I1OoI[2]."-".$_I1OoI[1]."-".$_I1OoI[0];
+    $_I1OoI = explode('.', $_POST["enddate"]);
+    $_JoL0L = $_I1OoI[2]."-".$_I1OoI[1]."-".$_I1OoI[0];
   }
 
-  $_Jljo8 = $_jC1lo;
-  $_JljC6 = $_jCQ0I;
-  $_jC1lo .= " 00:00:00";
-  $_jCQ0I .= " 23:59:59";
-  $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[StatisticsTableName] WHERE (ActionDate >= "._OPQLR($_jC1lo).") AND (ActionDate <= "._OPQLR($_jCQ0I).")";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:ACTIVITIES>', '</LIST:ACTIVITIES>', $_QL8Q8[0]);
+  $_fJOtf = $_JoiCQ;
+  $_fJoJ1 = $_JoL0L;
+  $_JoiCQ .= " 00:00:00";
+  $_JoL0L .= " 23:59:59";
+  $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[StatisticsTableName] WHERE (ActionDate >= "._LRAFO($_JoiCQ).") AND (ActionDate <= "._LRAFO($_JoL0L).")";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:ACTIVITIES>', '</LIST:ACTIVITIES>', $_Ift08[0]);
 
 
-  $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[StatisticsTableName] WHERE (ActionDate >= "._OPQLR($_jC1lo).") AND (ActionDate <= "._OPQLR($_jCQ0I).") AND (Action='Subscribed')";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:PCONFIRMEDSUBSCRIBTIONS>', '</LIST:PCONFIRMEDSUBSCRIBTIONS>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[StatisticsTableName] WHERE (ActionDate >= "._LRAFO($_JoiCQ).") AND (ActionDate <= "._LRAFO($_JoL0L).") AND (Action='Subscribed')";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:PCONFIRMEDSUBSCRIBTIONS>', '</LIST:PCONFIRMEDSUBSCRIBTIONS>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[StatisticsTableName] WHERE (ActionDate >= "._OPQLR($_jC1lo).") AND (ActionDate <= "._OPQLR($_jCQ0I).") AND (Action='Unsubscribed')";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:PUNSUBSCRIBED>', '</LIST:PUNSUBSCRIBED>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[StatisticsTableName] WHERE (ActionDate >= "._LRAFO($_JoiCQ).") AND (ActionDate <= "._LRAFO($_JoL0L).") AND (Action='Unsubscribed')";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:PUNSUBSCRIBED>', '</LIST:PUNSUBSCRIBED>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[StatisticsTableName] WHERE (ActionDate >= "._OPQLR($_jC1lo).") AND (ActionDate <= "._OPQLR($_jCQ0I).") AND (Action='OptInConfirmationPending')";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:PUNCONFIRMEDSUBSCRIBTIONS>', '</LIST:PUNCONFIRMEDSUBSCRIBTIONS>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[StatisticsTableName] WHERE (ActionDate >= "._LRAFO($_JoiCQ).") AND (ActionDate <= "._LRAFO($_JoL0L).") AND (Action='OptInConfirmationPending')";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:PUNCONFIRMEDSUBSCRIBTIONS>', '</LIST:PUNCONFIRMEDSUBSCRIBTIONS>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[StatisticsTableName] WHERE (ActionDate >= "._OPQLR($_jC1lo).") AND (ActionDate <= "._OPQLR($_jCQ0I).") AND (Action='OptOutConfirmationPending')";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:PUNCONFIRMEDUNSUBSCRIBTIONS>', '</LIST:PUNCONFIRMEDUNSUBSCRIBTIONS>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[StatisticsTableName] WHERE (ActionDate >= "._LRAFO($_JoiCQ).") AND (ActionDate <= "._LRAFO($_JoL0L).") AND (Action='OptOutConfirmationPending')";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:PUNCONFIRMEDUNSUBSCRIBTIONS>', '</LIST:PUNCONFIRMEDUNSUBSCRIBTIONS>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[StatisticsTableName] WHERE (ActionDate >= "._OPQLR($_jC1lo).") AND (ActionDate <= "._OPQLR($_jCQ0I).") AND (Action='BlackListed')";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:PRECIPIENTSINBLACKLIST>', '</LIST:PRECIPIENTSINBLACKLIST>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[StatisticsTableName] WHERE (ActionDate >= "._LRAFO($_JoiCQ).") AND (ActionDate <= "._LRAFO($_JoL0L).") AND (Action='BlackListed')";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:PRECIPIENTSINBLACKLIST>', '</LIST:PRECIPIENTSINBLACKLIST>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[StatisticsTableName] WHERE (ActionDate >= "._OPQLR($_jC1lo).") AND (ActionDate <= "._OPQLR($_jCQ0I).") AND (Action='Activated')";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:PACTIVATED>', '</LIST:PACTIVATED>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[StatisticsTableName] WHERE (ActionDate >= "._LRAFO($_JoiCQ).") AND (ActionDate <= "._LRAFO($_JoL0L).") AND (Action='Activated')";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:PACTIVATED>', '</LIST:PACTIVATED>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[StatisticsTableName] WHERE (ActionDate >= "._OPQLR($_jC1lo).") AND (ActionDate <= "._OPQLR($_jCQ0I).") AND (Action='Deactivated')";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:PDEACTIVATED>', '</LIST:PDEACTIVATED>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[StatisticsTableName] WHERE (ActionDate >= "._LRAFO($_JoiCQ).") AND (ActionDate <= "._LRAFO($_JoL0L).") AND (Action='Deactivated')";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:PDEACTIVATED>', '</LIST:PDEACTIVATED>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[StatisticsTableName] WHERE (ActionDate >= "._OPQLR($_jC1lo).") AND (ActionDate <= "._OPQLR($_jCQ0I).") AND (Action='Bounced')";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:PBOUNCES>', '</LIST:PBOUNCES>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[StatisticsTableName] WHERE (ActionDate >= "._LRAFO($_JoiCQ).") AND (ActionDate <= "._LRAFO($_JoL0L).") AND (Action='Bounced')";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:PBOUNCES>', '</LIST:PBOUNCES>', $_Ift08[0]);
 
   // *********** Period statistics END
 
   // *********** Total statistics
 
-  $_QJlJ0 = "SELECT COUNT(*) AS Total FROM $_Q6Q1C[MaillistTableName]";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:TOTAL>', '</LIST:TOTAL>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) AS Total FROM $_QLO0f[MaillistTableName]";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:TOTAL>', '</LIST:TOTAL>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) AS CONFIRMEDSUBSCRIBTIONS FROM $_Q6Q1C[MaillistTableName] WHERE SubscriptionStatus='Subscribed' AND IsActive=1";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:CONFIRMEDSUBSCRIBTIONS>', '</LIST:CONFIRMEDSUBSCRIBTIONS>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) AS CONFIRMEDSUBSCRIBTIONS FROM $_QLO0f[MaillistTableName] WHERE SubscriptionStatus='Subscribed' AND IsActive=1";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:CONFIRMEDSUBSCRIBTIONS>', '</LIST:CONFIRMEDSUBSCRIBTIONS>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) AS CONFIRMEDSUBSCRIBTIONS FROM $_Q6Q1C[MaillistTableName] WHERE SubscriptionStatus='Subscribed' AND IsActive=0";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:CONFIRMEDSUBSCRIBTIONSINACTIVE>', '</LIST:CONFIRMEDSUBSCRIBTIONSINACTIVE>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) AS CONFIRMEDSUBSCRIBTIONS FROM $_QLO0f[MaillistTableName] WHERE SubscriptionStatus='Subscribed' AND IsActive=0";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:CONFIRMEDSUBSCRIBTIONSINACTIVE>', '</LIST:CONFIRMEDSUBSCRIBTIONSINACTIVE>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) AS UNCONFIRMEDSUBSCRIBTIONS FROM $_Q6Q1C[MaillistTableName] WHERE SubscriptionStatus='OptInConfirmationPending'";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:UNCONFIRMEDSUBSCRIBTIONS>', '</LIST:UNCONFIRMEDSUBSCRIBTIONS>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) AS UNCONFIRMEDSUBSCRIBTIONS FROM $_QLO0f[MaillistTableName] WHERE SubscriptionStatus='OptInConfirmationPending'";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:UNCONFIRMEDSUBSCRIBTIONS>', '</LIST:UNCONFIRMEDSUBSCRIBTIONS>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) AS UNCONFIRMEDUNSUBSCRIBTIONS FROM $_Q6Q1C[MaillistTableName] WHERE SubscriptionStatus='OptOutConfirmationPending'";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:UNCONFIRMEDUNSUBSCRIBTIONS>', '</LIST:UNCONFIRMEDUNSUBSCRIBTIONS>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) AS UNCONFIRMEDUNSUBSCRIBTIONS FROM $_QLO0f[MaillistTableName] WHERE SubscriptionStatus='OptOutConfirmationPending'";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:UNCONFIRMEDUNSUBSCRIBTIONS>', '</LIST:UNCONFIRMEDUNSUBSCRIBTIONS>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[LocalBlocklistTableName]";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:RECIPIENTSINBLACKLIST>', '</LIST:RECIPIENTSINBLACKLIST>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[LocalBlocklistTableName]";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:RECIPIENTSINBLACKLIST>', '</LIST:RECIPIENTSINBLACKLIST>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) AS BOUNCES FROM $_Q6Q1C[MaillistTableName] WHERE BounceStatus='PermanentlyBounced' AND IsActive=1";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:BOUNCEDACTIVE>', '</LIST:BOUNCEDACTIVE>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) AS BOUNCES FROM $_QLO0f[MaillistTableName] WHERE BounceStatus='PermanentlyBounced' AND IsActive=1";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:BOUNCEDACTIVE>', '</LIST:BOUNCEDACTIVE>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) AS BOUNCES FROM $_Q6Q1C[MaillistTableName] WHERE BounceStatus='PermanentlyBounced' AND IsActive=0";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:BOUNCEDINACTIVE>', '</LIST:BOUNCEDINACTIVE>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) AS BOUNCES FROM $_QLO0f[MaillistTableName] WHERE BounceStatus='PermanentlyBounced' AND IsActive=0";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:BOUNCEDINACTIVE>', '</LIST:BOUNCEDINACTIVE>', $_Ift08[0]);
 
-  $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[GroupsTableName]";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  $_QL8Q8=mysql_fetch_array($_Q60l1);
-  mysql_free_result($_Q60l1);
-  $_QJCJi = _OPR6L($_QJCJi, '<LIST:GROUPSCOUNT>', '</LIST:GROUPSCOUNT>', $_QL8Q8[0]);
+  $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[GroupsTableName]";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  $_Ift08=mysql_fetch_array($_QL8i1);
+  mysql_free_result($_QL8i1);
+  $_QLJfI = _L81BJ($_QLJfI, '<LIST:GROUPSCOUNT>', '</LIST:GROUPSCOUNT>', $_Ift08[0]);
 
-  if($_QL8Q8[0] > 0) {
-    $_QfoQo = _OP81D($_QJCJi, '<LIST:RECIPIENTSINGROUPS>', '</LIST:RECIPIENTSINGROUPS>');
-    $_Q66jQ = "";
-    $_QJlJ0 = "SELECT * FROM $_Q6Q1C[GroupsTableName] ORDER BY Name";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    while($_ji0L6 = mysql_fetch_assoc($_Q60l1)) {
-       $_Q66jQ .= $_QfoQo;
-       $_Q66jQ = _OPR6L($_Q66jQ, '<LIST:GROUPNAME>', '</LIST:GROUPNAME>', $_ji0L6["Name"]);
-       $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[MaillistTableName] LEFT JOIN $_Q6Q1C[MailListToGroupsTableName] ON $_Q6Q1C[MaillistTableName].id=$_Q6Q1C[MailListToGroupsTableName].`Member_id` WHERE $_Q6Q1C[MailListToGroupsTableName].`groups_id`=$_ji0L6[id]";
-       $_ItlJl = mysql_query($_QJlJ0, $_Q61I1);
-       _OAL8F($_QJlJ0);
-       $_QL8Q8=mysql_fetch_array($_ItlJl);
-       mysql_free_result($_ItlJl);
-       $_Q66jQ = _OPR6L($_Q66jQ, '<LIST:GROUPRCOUNT>', '</LIST:GROUPRCOUNT>', $_QL8Q8[0]);
+  if($_Ift08[0] > 0) {
+    $_I0Clj = _L81DB($_QLJfI, '<LIST:RECIPIENTSINGROUPS>', '</LIST:RECIPIENTSINGROUPS>');
+    $_Ql0fO = "";
+    $_QLfol = "SELECT * FROM $_QLO0f[GroupsTableName] ORDER BY Name";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    while($_JCC81 = mysql_fetch_assoc($_QL8i1)) {
+       $_Ql0fO .= $_I0Clj;
+       $_Ql0fO = _L81BJ($_Ql0fO, '<LIST:GROUPNAME>', '</LIST:GROUPNAME>', $_JCC81["Name"]);
+       $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[MaillistTableName] LEFT JOIN $_QLO0f[MailListToGroupsTableName] ON $_QLO0f[MaillistTableName].id=$_QLO0f[MailListToGroupsTableName].`Member_id` WHERE $_QLO0f[MailListToGroupsTableName].`groups_id`=$_JCC81[id]";
+       $_jjJfo = mysql_query($_QLfol, $_QLttI);
+       _L8D88($_QLfol);
+       $_Ift08=mysql_fetch_array($_jjJfo);
+       mysql_free_result($_jjJfo);
+       $_Ql0fO = _L81BJ($_Ql0fO, '<LIST:GROUPRCOUNT>', '</LIST:GROUPRCOUNT>', $_Ift08[0]);
     }
-    mysql_free_result($_Q60l1);
-    $_QJCJi = _OPR6L($_QJCJi, '<LIST:RECIPIENTSINGROUPS>', '</LIST:RECIPIENTSINGROUPS>', $_Q66jQ);
-    $_QJCJi = str_replace("<IF:GROUPS>", "", $_QJCJi);
-    $_QJCJi = str_replace("</IF:GROUPS>", "", $_QJCJi);
+    mysql_free_result($_QL8i1);
+    $_QLJfI = _L81BJ($_QLJfI, '<LIST:RECIPIENTSINGROUPS>', '</LIST:RECIPIENTSINGROUPS>', $_Ql0fO);
+    $_QLJfI = str_replace("<IF:GROUPS>", "", $_QLJfI);
+    $_QLJfI = str_replace("</IF:GROUPS>", "", $_QLJfI);
   } else
-    $_QJCJi = _OPR6L($_QJCJi, '<IF:GROUPS>', '</IF:GROUPS>', "");
+    $_QLJfI = _L81BJ($_QLJfI, '<IF:GROUPS>', '</IF:GROUPS>', "");
 
 
   // *********** Total statistics END
 
   // ********* Growth of list
-  $_JlJQo = array();
+  $_fJC0t = array();
 
-  $_Q6llo=0;
+  $_Qli6J=0;
   while (true) {
-    $_QJlJ0 = "SELECT DATE_SUB("._OPQLR($_JljC6).", INTERVAL $_Q6llo DAY) AS `fdate`, DATE_FORMAT(DATE_SUB("._OPQLR($_JljC6).", INTERVAL $_Q6llo DAY), $_If0Ql) AS `ADate`";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    _OAL8F($_QJlJ0);
-    if($_Q8OiJ = mysql_fetch_assoc($_Q60l1))
-      $_JlJQo[$_Q8OiJ["ADate"]] = array('SubscribeCount' => 0, 'UnsubscribeCount' => 0, 'ActivityCount' => 0);
+    $_QLfol = "SELECT DATE_SUB("._LRAFO($_fJoJ1).", INTERVAL $_Qli6J DAY) AS `fdate`, DATE_FORMAT(DATE_SUB("._LRAFO($_fJoJ1).", INTERVAL $_Qli6J DAY), $_j01CJ) AS `ADate`";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    _L8D88($_QLfol);
+    if($_I1OfI = mysql_fetch_assoc($_QL8i1))
+      $_fJC0t[$_I1OfI["ADate"]] = array('SubscribeCount' => 0, 'UnsubscribeCount' => 0, 'ActivityCount' => 0);
       else
       break;
-    mysql_free_result($_Q60l1);
-    $_Q6llo++;
-    if($_Jljo8 == $_Q8OiJ["fdate"])
+    mysql_free_result($_QL8i1);
+    $_Qli6J++;
+    if($_fJOtf == $_I1OfI["fdate"])
       break;
   }
 
-  $_QJlJ0 = "SELECT DATE_FORMAT(`ActionDate`, $_If0Ql) AS `ADate`, Count(`Action`) AS `ACount` FROM `$_Q6Q1C[StatisticsTableName]` WHERE (ActionDate >= "._OPQLR($_jC1lo).") AND (ActionDate <= "._OPQLR($_jCQ0I).") AND `Action`='Subscribed' GROUP BY ActionDate";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  while($_Q8OiJ = mysql_fetch_assoc($_Q60l1)){
-    if($_Q8OiJ["ADate"] == "") continue;
-    $_JlJQo[$_Q8OiJ["ADate"]]['SubscribeCount'] += $_Q8OiJ["ACount"];
-    $_JlJQo[$_Q8OiJ["ADate"]]['ActivityCount'] += $_Q8OiJ["ACount"];//$_JlJQo[$_Q8OiJ["ADate"]]['SubscribeCount'];
+  $_QLfol = "SELECT DATE_FORMAT(`ActionDate`, $_j01CJ) AS `ADate`, Count(`Action`) AS `ACount` FROM `$_QLO0f[StatisticsTableName]` WHERE (ActionDate >= "._LRAFO($_JoiCQ).") AND (ActionDate <= "._LRAFO($_JoL0L).") AND `Action`='Subscribed' GROUP BY ActionDate";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  while($_I1OfI = mysql_fetch_assoc($_QL8i1)){
+    if($_I1OfI["ADate"] == "") continue;
+    $_fJC0t[$_I1OfI["ADate"]]['SubscribeCount'] += $_I1OfI["ACount"];
+    $_fJC0t[$_I1OfI["ADate"]]['ActivityCount'] += $_I1OfI["ACount"];//$_fJC0t[$_I1OfI["ADate"]]['SubscribeCount'];
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
-  $_QJlJ0 = "SELECT DATE_FORMAT(`ActionDate`, $_If0Ql) AS `ADate`, Count(`Action`) AS `ACount` FROM `$_Q6Q1C[StatisticsTableName]` WHERE (ActionDate >= "._OPQLR($_jC1lo).") AND (ActionDate <= "._OPQLR($_jCQ0I).") AND `Action`='Unsubscribed' GROUP BY ActionDate";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
-  while($_Q8OiJ = mysql_fetch_assoc($_Q60l1)){
-    if($_Q8OiJ["ADate"] == "") continue;
-    $_JlJQo[$_Q8OiJ["ADate"]]['UnsubscribeCount'] += $_Q8OiJ["ACount"];
+  $_QLfol = "SELECT DATE_FORMAT(`ActionDate`, $_j01CJ) AS `ADate`, Count(`Action`) AS `ACount` FROM `$_QLO0f[StatisticsTableName]` WHERE (ActionDate >= "._LRAFO($_JoiCQ).") AND (ActionDate <= "._LRAFO($_JoL0L).") AND `Action`='Unsubscribed' GROUP BY ActionDate";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
+  while($_I1OfI = mysql_fetch_assoc($_QL8i1)){
+    if($_I1OfI["ADate"] == "") continue;
+    $_fJC0t[$_I1OfI["ADate"]]['UnsubscribeCount'] += $_I1OfI["ACount"];
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
-  end($_JlJQo);
-  $_JlJC0 = array();
+  end($_fJC0t);
+  $_fJCtJ = array();
   while ( true ) {
-      $_Q6ClO = current($_JlJQo);
+      $_QltJO = current($_fJC0t);
 
-      if(isset($_JlJC0["growth"])) {
-         $_Q6ClO["ActivityCount"] += $_JlJC0["ActivityCount"];
+      if(isset($_fJCtJ["growth"])) {
+         $_QltJO["ActivityCount"] += $_fJCtJ["ActivityCount"];
          // http://www.rmoser.ch/downloads/kennziff.pdf
-         if($_Q6ClO["SubscribeCount"] == 0 && $_Q6ClO["UnsubscribeCount"] == 0)
-          $_Q6ClO["growth"] = 0;
+         if($_QltJO["SubscribeCount"] == 0 && $_QltJO["UnsubscribeCount"] == 0)
+          $_QltJO["growth"] = 0;
           else
-          $_Q6ClO["growth"] = ($_Q6ClO["ActivityCount"] - $_Q6ClO["UnsubscribeCount"] - $_JlJC0["ActivityCount"] - $_JlJC0["UnsubscribeCount"]) / (($_JlJC0["ActivityCount"] - $_JlJC0["UnsubscribeCount"])<>0 ? ($_JlJC0["ActivityCount"] - $_JlJC0["UnsubscribeCount"]) : 1);
+          $_QltJO["growth"] = ($_QltJO["ActivityCount"] - $_QltJO["UnsubscribeCount"] - $_fJCtJ["ActivityCount"] - $_fJCtJ["UnsubscribeCount"]) / (($_fJCtJ["ActivityCount"] - $_fJCtJ["UnsubscribeCount"])<>0 ? ($_fJCtJ["ActivityCount"] - $_fJCtJ["UnsubscribeCount"]) : 1);
          }
          else
-         $_Q6ClO["growth"] = $resourcestrings[$INTERFACE_LANGUAGE]["NA"];
-      $_JlJC0 = $_Q6ClO;
-      $key = key($_JlJQo);
-      $_JlJQo[$key] = $_Q6ClO;
-      if(prev($_JlJQo) === false)
+         $_QltJO["growth"] = $resourcestrings[$INTERFACE_LANGUAGE]["NA"];
+      $_fJCtJ = $_QltJO;
+      $key = key($_fJC0t);
+      $_fJC0t[$key] = $_QltJO;
+      if(prev($_fJC0t) === false)
         break;
   }
 
-  $_IIJi1 = _OP81D($_QJCJi, "<growth_entry>", "</growth_entry>");
-  $_Q6ICj = "";
-  reset($_JlJQo);
-  $_Jl6jO = 0;
-  $_Jlf1t = 0;
-  $_Jlfi1 = 0;
-  $_Jl811 = 0;
-  foreach($_JlJQo as $key => $_Q6ClO){
-    $_Q66jQ = $_IIJi1;
-    $_Q66jQ = _OPR6L($_Q66jQ, "<Date>", "</Date>", $key);
-    $_Q66jQ = _OPR6L($_Q66jQ, "<SubscribeCount>", "</SubscribeCount>", $_Q6ClO["SubscribeCount"]);
-    $_Q66jQ = _OPR6L($_Q66jQ, "<UnsubscribeCount>", "</UnsubscribeCount>", $_Q6ClO["UnsubscribeCount"]);
-    $_Q66jQ = _OPR6L($_Q66jQ, "<ActivityCount>", "</ActivityCount>", $_Q6ClO["ActivityCount"]);
-    $_IOOit = '<img src="images/trend_none.gif" />';
-    if($_Q6ClO["growth"] > 0)
-       $_IOOit = '<img src="images/trend_up.gif" />';
-    if($_Q6ClO["growth"] < 0)
-       $_IOOit = '<img src="images/trend_down.gif" />';
+  $_IC1C6 = _L81DB($_QLJfI, "<growth_entry>", "</growth_entry>");
+  $_QLoli = "";
+  reset($_fJC0t);
+  $_fJiIC = 0;
+  $_fJitC = 0;
+  $_fJL18 = 0;
+  $_fJl0t = 0;
+  foreach($_fJC0t as $key => $_QltJO){
+    $_Ql0fO = $_IC1C6;
+    $_Ql0fO = _L81BJ($_Ql0fO, "<Date>", "</Date>", $key);
+    $_Ql0fO = _L81BJ($_Ql0fO, "<SubscribeCount>", "</SubscribeCount>", $_QltJO["SubscribeCount"]);
+    $_Ql0fO = _L81BJ($_Ql0fO, "<UnsubscribeCount>", "</UnsubscribeCount>", $_QltJO["UnsubscribeCount"]);
+    $_Ql0fO = _L81BJ($_Ql0fO, "<ActivityCount>", "</ActivityCount>", $_QltJO["ActivityCount"]);
+    $_jjllL = '<img src="images/trend_none.gif" />';
+    if($_QltJO["growth"] > 0)
+       $_jjllL = '<img src="images/trend_up.gif" />';
+    if($_QltJO["growth"] < 0)
+       $_jjllL = '<img src="images/trend_down.gif" />';
 
-    $_Jl8i8 = "";
-    if($_Q6ClO["SubscribeCount"] - $_Q6ClO["UnsubscribeCount"] > 0)
-      $_Jl8i8 = "+";
+    $_fJlOQ = "";
+    if($_QltJO["SubscribeCount"] - $_QltJO["UnsubscribeCount"] > 0)
+      $_fJlOQ = "+";
 
 
-    $_Q66jQ = _OPR6L($_Q66jQ, "<GrowthValue>", "</GrowthValue>", sprintf("$_Jl8i8%d", $_Q6ClO["SubscribeCount"] - $_Q6ClO["UnsubscribeCount"]));
-    if((string)$_Q6ClO["growth"] == $resourcestrings[$INTERFACE_LANGUAGE]["NA"])
-     $_Q66jQ = _OPR6L($_Q66jQ, "<Growth>", "</Growth>", "(".$_Q6ClO["growth"].")");
+    $_Ql0fO = _L81BJ($_Ql0fO, "<GrowthValue>", "</GrowthValue>", sprintf("$_fJlOQ%d", $_QltJO["SubscribeCount"] - $_QltJO["UnsubscribeCount"]));
+    if((string)$_QltJO["growth"] == $resourcestrings[$INTERFACE_LANGUAGE]["NA"])
+     $_Ql0fO = _L81BJ($_Ql0fO, "<Growth>", "</Growth>", "(".$_QltJO["growth"].")");
     else
-     $_Q66jQ = _OPR6L($_Q66jQ, "<Growth>", "</Growth>", "(".sprintf("%3.2f%%", $_Q6ClO["growth"] * 100).")");
-    $_Q66jQ = _OPR6L($_Q66jQ, "<GrowthImage>", "</GrowthImage>", $_IOOit);
-    $_Q6ICj .= $_Q66jQ;
-    $_Jl6jO += $_Q6ClO["SubscribeCount"];
-    $_Jlf1t += $_Q6ClO["UnsubscribeCount"];
-    $_Jlfi1 += $_Q6ClO["growth"];
-    $_Jl811++;
+     $_Ql0fO = _L81BJ($_Ql0fO, "<Growth>", "</Growth>", "(".sprintf("%3.2f%%", $_QltJO["growth"] * 100).")");
+    $_Ql0fO = _L81BJ($_Ql0fO, "<GrowthImage>", "</GrowthImage>", $_jjllL);
+    $_QLoli .= $_Ql0fO;
+    $_fJiIC += $_QltJO["SubscribeCount"];
+    $_fJitC += $_QltJO["UnsubscribeCount"];
+    if($_QltJO["growth"] != $resourcestrings[$INTERFACE_LANGUAGE]["NA"])
+      $_fJL18 += $_QltJO["growth"];
+    $_fJl0t++;
   }
-  $_QJCJi = _OPR6L($_QJCJi, "<growth_entry>", "</growth_entry>", $_Q6ICj);
-  $_QJCJi = _OPR6L($_QJCJi, "<SumSubscribeCount>", "</SumSubscribeCount>", $_Jl6jO);
-  $_QJCJi = _OPR6L($_QJCJi, "<SumUnsubscribeCount>", "</SumUnsubscribeCount>", $_Jlf1t);
-  $_QJCJi = _OPR6L($_QJCJi, "<SumGrowth>", "</SumGrowth>", sprintf("%3.2f%%", ($_Jlfi1 / $_Jl811) * 100));
-  $_IOOit = '<img src="images/trend_none.gif" />';
-  if($_Jlfi1 / $_Jl811 > 0)
-     $_IOOit = '<img src="images/trend_up.gif" />';
-  if($_Jlfi1 / $_Jl811 < 0)
-     $_IOOit = '<img src="images/trend_down.gif" />';
-  $_QJCJi = _OPR6L($_QJCJi, "<GrowthImage>", "</GrowthImage>", $_IOOit);
+  $_QLJfI = _L81BJ($_QLJfI, "<growth_entry>", "</growth_entry>", $_QLoli);
+  $_QLJfI = _L81BJ($_QLJfI, "<SumSubscribeCount>", "</SumSubscribeCount>", $_fJiIC);
+  $_QLJfI = _L81BJ($_QLJfI, "<SumUnsubscribeCount>", "</SumUnsubscribeCount>", $_fJitC);
+  $_QLJfI = _L81BJ($_QLJfI, "<SumGrowth>", "</SumGrowth>", sprintf("%3.2f%%", ($_fJL18 / $_fJl0t) * 100));
+  $_jjllL = '<img src="images/trend_none.gif" />';
+  if($_fJL18 / $_fJl0t > 0)
+     $_jjllL = '<img src="images/trend_up.gif" />';
+  if($_fJL18 / $_fJl0t < 0)
+     $_jjllL = '<img src="images/trend_down.gif" />';
+  $_QLJfI = _L81BJ($_QLJfI, "<GrowthImage>", "</GrowthImage>", $_jjllL);
 
   // ********* Growth of list END
 
   // ********* RFUSurvey
 
   // all forms_ids
-  $_QJlJ0 = "SELECT id FROM $_Q6Q1C[FormsTableName] WHERE RequestReasonForUnsubscription > 0";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  $_Jl8Ll = array();
-  while($_QlftL = mysql_fetch_assoc($_Q60l1))
-    $_Jl8Ll = $_QlftL["id"];
-  mysql_free_result($_Q60l1);
+  $_QLfol = "SELECT id FROM $_QLO0f[FormsTableName] WHERE RequestReasonForUnsubscription > 0";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  $_f6018 = array();
+  while($_I8fol = mysql_fetch_assoc($_QL8i1))
+    $_f6018[] = $_I8fol["id"];
+  mysql_free_result($_QL8i1);
 
-  $_Jljo8 = $_jC1lo;
-  $_JljC6 = $_jCQ0I;
-  $_jC1lo .= " 00:00:00";
-  $_jCQ0I .= " 23:59:59";
+  $_fJOtf = $_JoiCQ;
+  $_fJoJ1 = $_JoL0L;
+  $_JoiCQ .= " 00:00:00";
+  $_JoL0L .= " 23:59:59";
 
-  $_Jltjj = array();
-  $_JltLC = array();
-  for($_Q6llo=0; $_Q6llo < count($_Jl8Ll); $_Q6llo++){
+  $_f610l = array();
+  $_f61jC = array();
+  for($_Qli6J=0; $_Qli6J < count($_f6018); $_Qli6J++){
 
-    $_QJlJ0 = "SELECT `id`, `Reason`, `ReasonType` FROM $_Q6Q1C[ReasonsForUnsubscripeTableName] WHERE forms_id=$_Jl8Ll[$_Q6llo] ORDER BY sort_order";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    while($_Q8OiJ = mysql_fetch_assoc($_Q60l1)){
-       $_QJlJ0 = "SELECT COUNT(*) FROM $_Q6Q1C[ReasonsForUnsubscripeStatisticsTableName] WHERE (ReasonsForUnsubscripe_id=$_Q8OiJ[id]) AND (VoteDate >= "._OPQLR($_jC1lo).") AND (VoteDate <= "._OPQLR($_jCQ0I).")";
-       $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-       _OAL8F($_QJlJ0);
-       $_QL8Q8 = mysql_fetch_array($_Q8Oj8);
-       mysql_free_result($_Q8Oj8);
-       if($_QL8Q8[0]){
-         $_Jltjj[] = array("count" => $_QL8Q8[0], "Reason" => $_Q8OiJ["Reason"]);
+    $_QLfol = "SELECT `id`, `Reason`, `ReasonType` FROM $_QLO0f[ReasonsForUnsubscripeTableName] WHERE forms_id=$_f6018[$_Qli6J] ORDER BY sort_order";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    while($_I1OfI = mysql_fetch_assoc($_QL8i1)){
+       $_QLfol = "SELECT COUNT(*) FROM $_QLO0f[ReasonsForUnsubscripeStatisticsTableName] WHERE (ReasonsForUnsubscripe_id=$_I1OfI[id]) AND (VoteDate >= "._LRAFO($_JoiCQ).") AND (VoteDate <= "._LRAFO($_JoL0L).")";
+       $_I1O6j = mysql_query($_QLfol, $_QLttI);
+       _L8D88($_QLfol);
+       $_Ift08 = mysql_fetch_array($_I1O6j);
+       mysql_free_result($_I1O6j);
+       if($_Ift08[0]){
+         $_f610l[] = array("count" => $_Ift08[0], "Reason" => $_I1OfI["Reason"]);
        }
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
-    $_QJlJ0 = "SELECT `id`, `Reason` FROM $_Q6Q1C[ReasonsForUnsubscripeTableName] WHERE forms_id=$_Jl8Ll[$_Q6llo] AND ReasonType='Text' ORDER BY sort_order";
-    $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-    while($_Q8OiJ = mysql_fetch_assoc($_Q60l1)){
-       $_QJlJ0 = "SELECT `ReasonText` FROM $_Q6Q1C[ReasonsForUnsubscripeStatisticsTableName] WHERE (ReasonsForUnsubscripe_id=$_Q8OiJ[id]) AND (VoteDate >= "._OPQLR($_jC1lo).") AND (VoteDate <= "._OPQLR($_jCQ0I).")";
-       $_Q8Oj8 = mysql_query($_QJlJ0, $_Q61I1);
-       _OAL8F($_QJlJ0);
-       $_JlOOC = array();
-       while($_QL8Q8 = mysql_fetch_assoc($_Q8Oj8)){
-         $_JlOOC[] = $_QL8Q8["ReasonText"];
+    $_QLfol = "SELECT `id`, `Reason` FROM $_QLO0f[ReasonsForUnsubscripeTableName] WHERE forms_id=$_f6018[$_Qli6J] AND ReasonType='Text' ORDER BY sort_order";
+    $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+    while($_I1OfI = mysql_fetch_assoc($_QL8i1)){
+       $_QLfol = "SELECT `ReasonText` FROM $_QLO0f[ReasonsForUnsubscripeStatisticsTableName] WHERE (ReasonsForUnsubscripe_id=$_I1OfI[id]) AND (VoteDate >= "._LRAFO($_JoiCQ).") AND (VoteDate <= "._LRAFO($_JoL0L).")";
+       $_I1O6j = mysql_query($_QLfol, $_QLttI);
+       _L8D88($_QLfol);
+       $_f61ot = array();
+       while($_Ift08 = mysql_fetch_assoc($_I1O6j)){
+         $_f61ot[] = $_Ift08["ReasonText"];
        }
-       mysql_free_result($_Q8Oj8);
-       if(count($_JlOOC)){
-         $_JltLC[] = array("Reason" => $_Q8OiJ["Reason"], "ReasonTexts" => $_JlOOC);
+       mysql_free_result($_I1O6j);
+       if(count($_f61ot)){
+         $_f61jC[] = array("Reason" => $_I1OfI["Reason"], "ReasonTexts" => $_f61ot);
        }
     }
-    mysql_free_result($_Q60l1);
+    mysql_free_result($_QL8i1);
 
   }
 
-  $_Jlo18 = _OP81D($_QJCJi, "<LIST:REASONHEADROW>", "</LIST:REASONHEADROW>");
-  $_IIJi1 = _OP81D($_QJCJi, "<LIST:REASONROW>", "</LIST:REASONROW>");
-  $_Q6ICj = "";
-  $_JlooC = "";
-  for($_Q6llo=0; $_Q6llo<count($_JltLC); $_Q6llo++){
-    if($_JlooC != $_JltLC[$_Q6llo]["Reason"]){
-       $_JlooC = $_JltLC[$_Q6llo]["Reason"];
-       $_Q6ICj .= _OPR6L($_Jlo18, "<LIST:REASONLABEL>", "</LIST:REASONLABEL>", $_JlooC);
+  $_f6Q0J = _L81DB($_QLJfI, "<LIST:REASONHEADROW>", "</LIST:REASONHEADROW>");
+  $_IC1C6 = _L81DB($_QLJfI, "<LIST:REASONROW>", "</LIST:REASONROW>");
+  $_QLoli = "";
+  $_f6Qjt = "";
+  for($_Qli6J=0; $_Qli6J<count($_f61jC); $_Qli6J++){
+    if($_f6Qjt != $_f61jC[$_Qli6J]["Reason"]){
+       $_f6Qjt = $_f61jC[$_Qli6J]["Reason"];
+       $_QLoli .= _L81BJ($_f6Q0J, "<LIST:REASONLABEL>", "</LIST:REASONLABEL>", $_f6Qjt);
     }
-    for($_Qf0Ct=0; $_Qf0Ct<count($_JltLC[$_Q6llo]["ReasonTexts"]); $_Qf0Ct++){
-       $_Q6ICj .= _OPR6L($_IIJi1, "<LIST:REASONTEXT>", "</LIST:REASONTEXT>", $_JltLC[$_Q6llo]["ReasonTexts"][$_Qf0Ct]);
+    for($_QliOt=0; $_QliOt<count($_f61jC[$_Qli6J]["ReasonTexts"]); $_QliOt++){
+       $_QLoli .= _L81BJ($_IC1C6, "<LIST:REASONTEXT>", "</LIST:REASONTEXT>", $_f61jC[$_Qli6J]["ReasonTexts"][$_QliOt]);
     }
   }
 
-  $_QJCJi = _OPR6L($_QJCJi, "<LIST:REASONHEADROW>", "</LIST:REASONHEADROW>", "");
-  $_QJCJi = _OPR6L($_QJCJi, "<LIST:REASONROW>", "</LIST:REASONROW>", $_Q6ICj);
+  $_QLJfI = _L81BJ($_QLJfI, "<LIST:REASONHEADROW>", "</LIST:REASONHEADROW>", "");
+  $_QLJfI = _L81BJ($_QLJfI, "<LIST:REASONROW>", "</LIST:REASONROW>", $_QLoli);
 
   // ********* RFUSurvey END
 
 
-  $_QJCJi = str_replace("mailinglistsubunsubstat_geo.php", "mailinglistsubunsubstat_geo.php?MailingListId=$_POST[OneMailingListId]&startdate=". urlencode($_jC1lo)."&enddate=".urlencode($_jCQ0I), $_QJCJi);
-  $_QJCJi = str_replace("mailinglistsubunsubstat_iframe_geo.php", "mailinglistsubunsubstat_iframe_geo.php?MailingListId=$_POST[OneMailingListId]&startdate=". urlencode($_jC1lo)."&enddate=".urlencode($_jCQ0I)."&Card=world", $_QJCJi);
+  $_QLJfI = str_replace("mailinglistsubunsubstat_geo.php", "mailinglistsubunsubstat_geo.php?MailingListId=$_POST[OneMailingListId]&startdate=". urlencode($_JoiCQ)."&enddate=".urlencode($_JoL0L), $_QLJfI);
+  $_QLJfI = str_replace("mailinglistsubunsubstat_iframe_geo.php", "mailinglistsubunsubstat_iframe_geo.php?MailingListId=$_POST[OneMailingListId]&startdate=". urlencode($_JoiCQ)."&enddate=".urlencode($_JoL0L)."&Card=world", $_QLJfI);
 
   // CHART
 
@@ -504,153 +505,153 @@
 
   // addCultureInfo
   include_once("chartcultureinfo.inc.php");
-  $_QJCJi = addCultureInfo($_QJCJi);
+  $_QLJfI = addCultureInfo($_QLJfI);
   // addCultureInfo /
 
-  $_QJCJi = str_replace("CHARTTOP10TITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Top10"]." ".$resourcestrings[$INTERFACE_LANGUAGE]["000360"], $_Q6QQL), $_QJCJi);
+  $_QLJfI = str_replace("CHARTTOP10TITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Top10"]." ".$resourcestrings[$INTERFACE_LANGUAGE]["000360"], $_QLo06), $_QLJfI);
 
-  $_jCfit = array();
-  $_QJlJ0 = "SELECT count(id) AS DomainCount, SUBSTRING_INDEX(u_EMail, '@', -1) AS Domain FROM $_Q6Q1C[MaillistTableName] GROUP BY Domain ORDER BY DomainCount DESC LIMIT 10";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  while ($_Q8OiJ = mysql_fetch_array($_Q60l1)){
-    $_jC6IQ = array("indexLabel" => $_Q8OiJ["Domain"].", {y}", "y" => $_Q8OiJ["DomainCount"], "toolTipContent" => $_Q8OiJ["Domain"].", {y}");
-    $_jCfit[] = $_jC6IQ;
+  $_JCQoQ = array();
+  $_QLfol = "SELECT count(id) AS DomainCount, SUBSTRING_INDEX(u_EMail, '@', -1) AS Domain FROM $_QLO0f[MaillistTableName] GROUP BY Domain ORDER BY DomainCount DESC LIMIT 10";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  while ($_I1OfI = mysql_fetch_array($_QL8i1)){
+    $_JC0jO = array("indexLabel" => $_I1OfI["Domain"].", {y}", "y" => $_I1OfI["DomainCount"], "toolTipContent" => $_I1OfI["Domain"].", {y}");
+    $_JCQoQ[] = $_JC0jO;
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
-  $_QJCJi = str_replace("/* CHARTTOP10_DATA */", _OCR88($_jCfit, JSON_NUMERIC_CHECK), $_QJCJi);
+  $_QLJfI = str_replace("/* CHARTTOP10_DATA */", _LAFFB($_JCQoQ, JSON_NUMERIC_CHECK), $_QLJfI);
 
   //////
 
   # Set chart attributes
-  $_QJCJi = str_replace("SUBUNSUBCHARTTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000027"]." $_POST[startdate] - $_POST[enddate]", $_Q6QQL), $_QJCJi);
-  $_QJCJi = str_replace("SUBUNSUBCHARTAXISXTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Date"], $_Q6QQL), $_QJCJi);
-  $_QJCJi = str_replace("SUBUNSUBCHARTAXISYTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Quantity"], $_Q6QQL), $_QJCJi);
+  $_QLJfI = str_replace("SUBUNSUBCHARTTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000027"]." $_POST[startdate] - $_POST[enddate]", $_QLo06), $_QLJfI);
+  $_QLJfI = str_replace("SUBUNSUBCHARTAXISXTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Date"], $_QLo06), $_QLJfI);
+  $_QLJfI = str_replace("SUBUNSUBCHARTAXISYTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["Quantity"], $_QLo06), $_QLJfI);
 
-  $_II1Ot = array();
+  $_IoLOO = array();
 
   // get dates
-  $_QJlJ0 = "SELECT COUNT(ActionDate) AS Counter, DATE_FORMAT(ActionDate, $_If0Ql) AS ADate, DATE_FORMAT(ActionDate, $_Jlj0J) AS ActionDateOnlyDate,  Action FROM $_Q6Q1C[StatisticsTableName] WHERE (Action='OptInConfirmationPending' OR Action='Subscribed' OR Action='Unsubscribed' OR Action='OptOutConfirmationPending' OR Action='Bounced') AND (ActionDate >= "._OPQLR($_jC1lo).") AND (ActionDate <= "._OPQLR($_jCQ0I).") GROUP BY Action, ActionDateOnlyDate ORDER BY ActionDate ASC, Action";
-  $_Q60l1 = mysql_query($_QJlJ0, $_Q61I1);
-  _OAL8F($_QJlJ0);
+  $_QLfol = "SELECT COUNT(ActionDate) AS Counter, DATE_FORMAT(ActionDate, $_j01CJ) AS ADate, DATE_FORMAT(ActionDate, $_fJtjj) AS ActionDateOnlyDate,  Action FROM $_QLO0f[StatisticsTableName] WHERE (Action='OptInConfirmationPending' OR Action='Subscribed' OR Action='Unsubscribed' OR Action='OptOutConfirmationPending' OR Action='Bounced') AND (ActionDate >= "._LRAFO($_JoiCQ).") AND (ActionDate <= "._LRAFO($_JoL0L).") GROUP BY Action, ActionDateOnlyDate ORDER BY ActionDate ASC, Action";
+  $_QL8i1 = mysql_query($_QLfol, $_QLttI);
+  _L8D88($_QLfol);
 
-  if($_Q60l1 && mysql_num_rows($_Q60l1) > 0 ) {
-    while ($_I1COO = mysql_fetch_array($_Q60l1) ) {
-      if (! isset($_II1Ot[$_I1COO["ADate"]]) )
-         $_II1Ot[$_I1COO["ADate"]] = array (0, 0, 0, 0, 0);
+  if($_QL8i1 && mysql_num_rows($_QL8i1) > 0 ) {
+    while ($_IOLJ1 = mysql_fetch_array($_QL8i1) ) {
+      if (! isset($_IoLOO[$_IOLJ1["ADate"]]) )
+         $_IoLOO[$_IOLJ1["ADate"]] = array (0, 0, 0, 0, 0);
     }
 
-    mysql_data_seek($_Q60l1, 0);
-    while ($_I1COO = mysql_fetch_array($_Q60l1) ) {
-        if($_I1COO["Action"] == 'OptInConfirmationPending')
-           $_II1Ot[$_I1COO["ADate"]][0] += $_I1COO["Counter"];
-        if($_I1COO["Action"] == 'Subscribed')
-           $_II1Ot[$_I1COO["ADate"]][1] += $_I1COO["Counter"];
-        if($_I1COO["Action"] == 'OptOutConfirmationPending')
-           $_II1Ot[$_I1COO["ADate"]][2] += $_I1COO["Counter"];
-        if($_I1COO["Action"] == 'Unsubscribed')
-           $_II1Ot[$_I1COO["ADate"]][3] += $_I1COO["Counter"];
-        if($_I1COO["Action"] == 'Bounced')
-           $_II1Ot[$_I1COO["ADate"]][4] += $_I1COO["Counter"];
+    mysql_data_seek($_QL8i1, 0);
+    while ($_IOLJ1 = mysql_fetch_array($_QL8i1) ) {
+        if($_IOLJ1["Action"] == 'OptInConfirmationPending')
+           $_IoLOO[$_IOLJ1["ADate"]][0] += $_IOLJ1["Counter"];
+        if($_IOLJ1["Action"] == 'Subscribed')
+           $_IoLOO[$_IOLJ1["ADate"]][1] += $_IOLJ1["Counter"];
+        if($_IOLJ1["Action"] == 'OptOutConfirmationPending')
+           $_IoLOO[$_IOLJ1["ADate"]][2] += $_IOLJ1["Counter"];
+        if($_IOLJ1["Action"] == 'Unsubscribed')
+           $_IoLOO[$_IOLJ1["ADate"]][3] += $_IOLJ1["Counter"];
+        if($_IOLJ1["Action"] == 'Bounced')
+           $_IoLOO[$_IOLJ1["ADate"]][4] += $_IOLJ1["Counter"];
     }
   }
-  mysql_free_result($_Q60l1);
+  mysql_free_result($_QL8i1);
 
-  $_jCQOI = array();
-  $_jCI6f = array();
-  $_jCIi0 = array();
-  $_jCjOI = array();
-  $_jCJj8 = array();
+  $_JoL18 = array();
+  $_JoL66 = array();
+  $_JolJl = array();
+  $_JoltO = array();
+  $_JolOQ = array();
 
-  $_jC6QL = 0;
-  reset($_II1Ot);
-  foreach ($_II1Ot as $key => $_Q6ClO) {
+  $_JolCi = 0;
+  reset($_IoLOO);
+  foreach ($_IoLOO as $key => $_QltJO) {
 
-    $_jC6IQ = array("label" => $key , "y" => $_Q6ClO[0]);
-    $_jCQOI[] = $_jC6IQ;
-    if($_Q6ClO[0] > $_jC6QL)
-      $_jC6QL = $_Q6ClO[0];
+    $_JC0jO = array("label" => $key , "y" => $_QltJO[0]);
+    $_JoL18[] = $_JC0jO;
+    if($_QltJO[0] > $_JolCi)
+      $_JolCi = $_QltJO[0];
 
-    $_jC6IQ = array("label" => $key , "y" => $_Q6ClO[1]);
-    $_jCI6f[] = $_jC6IQ;
-    if($_Q6ClO[1] > $_jC6QL)
-      $_jC6QL = $_Q6ClO[1];
+    $_JC0jO = array("label" => $key , "y" => $_QltJO[1]);
+    $_JoL66[] = $_JC0jO;
+    if($_QltJO[1] > $_JolCi)
+      $_JolCi = $_QltJO[1];
 
-    $_jC6IQ = array("label" => $key , "y" => $_Q6ClO[2]);
-    $_jCIi0[] = $_jC6IQ;
-    if($_Q6ClO[2] > $_jC6QL)
-      $_jC6QL = $_Q6ClO[2];
+    $_JC0jO = array("label" => $key , "y" => $_QltJO[2]);
+    $_JolJl[] = $_JC0jO;
+    if($_QltJO[2] > $_JolCi)
+      $_JolCi = $_QltJO[2];
 
-    $_jC6IQ = array("label" => $key , "y" => $_Q6ClO[3]);
-    $_jCjOI[] = $_jC6IQ;
-    if($_Q6ClO[3] > $_jC6QL)
-      $_jC6QL = $_Q6ClO[3];
+    $_JC0jO = array("label" => $key , "y" => $_QltJO[3]);
+    $_JoltO[] = $_JC0jO;
+    if($_QltJO[3] > $_JolCi)
+      $_JolCi = $_QltJO[3];
 
-    $_jC6IQ = array("label" => $key , "y" => $_Q6ClO[4]);
-    $_jCJj8[] = $_jC6IQ;
-    if($_Q6ClO[4] > $_jC6QL)
-      $_jC6QL = $_Q6ClO[4];
+    $_JC0jO = array("label" => $key , "y" => $_QltJO[4]);
+    $_JolOQ[] = $_JC0jO;
+    if($_QltJO[4] > $_JolCi)
+      $_JolCi = $_QltJO[4];
   }
 
-  $_Qf1i1 = array();
+  $_I0QjQ = array();
 
   // Hack for CanvasJS it gives endless loop in browser without data
-  if(count($_jCQOI) == 0){
-    $_jC6IQ = array("label" => $_POST["enddate"], "y" => 0);
-    $_jCQOI[] = $_jC6IQ;
-    $_jCI6f[] = $_jC6IQ;
-    $_jCIi0[] = $_jC6IQ;
-    $_jCjOI[] = $_jC6IQ;
-    $_jCJj8[] = $_jC6IQ;
+  if(count($_JoL18) == 0){
+    $_JC0jO = array("label" => $_POST["enddate"], "y" => 0);
+    $_JoL18[] = $_JC0jO;
+    $_JoL66[] = $_JC0jO;
+    $_JolJl[] = $_JC0jO;
+    $_JoltO[] = $_JC0jO;
+    $_JolOQ[] = $_JC0jO;
   }
 
-  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000180"], $_Q6QQL), "showInLegend" => true, "dataPoints" => $_jCQOI);
-  $_Qf1i1[] = $entry;
+  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000180"], $_QLo06), "showInLegend" => true, "dataPoints" => $_JoL18);
+  $_I0QjQ[] = $entry;
 
-  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000025"], $_Q6QQL), "showInLegend" => true, "dataPoints" => $_jCI6f);
-  $_Qf1i1[] = $entry;
+  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000025"], $_QLo06), "showInLegend" => true, "dataPoints" => $_JoL66);
+  $_I0QjQ[] = $entry;
 
-  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000181"], $_Q6QQL), "showInLegend" => true, "dataPoints" => $_jCIi0);
-  $_Qf1i1[] = $entry;
+  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000181"], $_QLo06), "showInLegend" => true, "dataPoints" => $_JolJl);
+  $_I0QjQ[] = $entry;
 
-  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000026"], $_Q6QQL), "showInLegend" => true, "dataPoints" => $_jCjOI);
-  $_Qf1i1[] = $entry;
+  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000026"], $_QLo06), "showInLegend" => true, "dataPoints" => $_JoltO);
+  $_I0QjQ[] = $entry;
 
-  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000169"], $_Q6QQL), "showInLegend" => true, "dataPoints" => $_jCJj8);
-  $_Qf1i1[] = $entry;
+  $entry = array("type" => "column", "name" => unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["000169"], $_QLo06), "showInLegend" => true, "dataPoints" => $_JolOQ);
+  $_I0QjQ[] = $entry;
 
-  $_QJCJi = str_replace("/* SUBUNSUBCHART_DATA */", _OCR88($_Qf1i1, JSON_NUMERIC_CHECK), $_QJCJi);
+  $_QLJfI = str_replace("/* SUBUNSUBCHART_DATA */", _LAFFB($_I0QjQ, JSON_NUMERIC_CHECK), $_QLJfI);
 
-  if($_jC6QL < 10){
+  if($_JolCi < 10){
      // set interval 1
-     $_QJCJi = str_replace("/*SUBUNSUBCHARTINTERVAL", "", $_QJCJi);
-     $_QJCJi = str_replace("SUBUNSUBCHARTINTERVAL*/", "", $_QJCJi);
+     $_QLJfI = str_replace("/*SUBUNSUBCHARTINTERVAL", "", $_QLJfI);
+     $_QLJfI = str_replace("SUBUNSUBCHARTINTERVAL*/", "", $_QLJfI);
   }
 
   // RFUSURVEY
 
   # Set chart attributes
-  $_QJCJi = str_replace("CHARTRFUSURVEYTITLE", unhtmlentities( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000361"], $_Q6Q1C["Name"]), $_Q6QQL), $_QJCJi);
-  $_QJCJi = str_replace("CHARTRFUSURVEYAXISXTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["PortionOfVotes"], $_Q6QQL), $_QJCJi);
-  $_QJCJi = str_replace("CHARTRFUSURVEYAXISYTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["CountOfVotes"], $_Q6QQL), $_QJCJi);
+  $_QLJfI = str_replace("CHARTRFUSURVEYTITLE", unhtmlentities( sprintf($resourcestrings[$INTERFACE_LANGUAGE]["000361"], $_QLO0f["Name"]), $_QLo06), $_QLJfI);
+  $_QLJfI = str_replace("CHARTRFUSURVEYAXISXTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["PortionOfVotes"], $_QLo06), $_QLJfI);
+  $_QLJfI = str_replace("CHARTRFUSURVEYAXISYTITLE", unhtmlentities($resourcestrings[$INTERFACE_LANGUAGE]["CountOfVotes"], $_QLo06), $_QLJfI);
 
-  $_jCfit = array();
-  $_Q6llo = 1;
+  $_JCQoQ = array();
+  $_Qli6J = 1;
 
-  $_JlolO = 0;
-  foreach ($_Jltjj as $key => $_Q6ClO) {
-     $_JlolO += $_Q6ClO["count"];
+  $_f6Qt8 = 0;
+  foreach ($_f610l as $key => $_QltJO) {
+     $_f6Qt8 += $_QltJO["count"];
   }
 
-  foreach ($_Jltjj as $key => $_Q6ClO) {
-    $_jC6IQ = array("label" => Round($_Q6ClO["count"] * 100 / $_JlolO) . '%', "y" => $_Q6ClO["count"], "indexLabel" => $_Q6ClO["Reason"], "indexLabelFontSize" => "14", "indexLabelFontColor" => "black", "indexLabelPlacement" => "outside",
+  foreach ($_f610l as $key => $_QltJO) {
+    $_JC0jO = array("label" => Round($_QltJO["count"] * 100 / $_f6Qt8) . '%', "y" => $_QltJO["count"], "indexLabel" => $_QltJO["Reason"], "indexLabelFontSize" => "14", "indexLabelFontColor" => "black", "indexLabelPlacement" => "outside",
                    "toolTipContent" => "<span style='\"'background-color: white;'\"'><strong>{indexLabel}: </strong></span><span style='\"'color:black '\"'><strong>{y}</strong></span>");
-    $_jCfit[] = $_jC6IQ;
+    $_JCQoQ[] = $_JC0jO;
 
-    if(++$_Q6llo > 20) break;
+    if(++$_Qli6J > 20) break;
   }
 
-  $_QJCJi = str_replace("/* CHARTRFUSURVEY_DATA */", _OCR88($_jCfit, JSON_NUMERIC_CHECK), $_QJCJi);
+  $_QLJfI = str_replace("/* CHARTRFUSURVEY_DATA */", _LAFFB($_JCQoQ, JSON_NUMERIC_CHECK), $_QLJfI);
 
-  print $_QJCJi;
+  print $_QLJfI;
 ?>
